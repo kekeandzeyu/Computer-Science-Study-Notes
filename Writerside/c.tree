@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE instance-profile
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
+
+<instance-profile id="c"
+                 name="Computer-Science-Study-Notes"
+                  start-page="Data-Structures-and-Algorithms-1.md">
+
+    <toc-element topic="Data-Structures-and-Algorithms-1.md"/>
+    <toc-element topic="Data-Structures-and-Algorithms-2.md"/>
+    <toc-element topic="C++-Programming.md"/>
+    <toc-element topic="Python-Programming.md"/>
+    <toc-element topic="Operating-System.md"/>
+    <toc-element topic="Machine-Structures.md"/>
+</instance-profile>
