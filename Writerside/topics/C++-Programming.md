@@ -449,4 +449,11 @@ hierarchy.</p>
 </list>
 </tip>
 
+#### 3.2 Interface Inheritance
+
+<p><format color = "Chartreuse">Interface Inheritance: </format></p>
+<p>Specifying the capabilities of a subclass using the 
+<code>implements</code> keyword is known as 
+<format style = "underline, bold">interface inheritance</format>.</p>
+
 ## &#8547; Modern C++
