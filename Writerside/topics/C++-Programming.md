@@ -449,11 +449,95 @@ hierarchy.</p>
 </list>
 </tip>
 
-#### 3.2 Interface Inheritance
+#### 3.2 Types of Inheritance (Java)
 
+<list type = "alpha-lower">
+
+<li>
 <p><format color = "Chartreuse">Interface Inheritance: </format></p>
 <p>Specifying the capabilities of a subclass using the 
 <code>implements</code> keyword is known as 
 <format style = "underline, bold">interface inheritance</format>.</p>
+
+<list type = "bullet">
+<li>
+<p><format color = "Chartreuse">Interface:</format> The list of all 
+method signatures.</p>
+</li>
+<li>
+<p><format color = "Chartreuse">Inheritance:</format> The subclass 
+"inherits" the interface from a superclass.</p>
+</li>
+<li>
+<p>Specifies what the subclass can do, but not how.</p>
+</li>
+<li>
+<p>Subclasses <format style = "underline">must</format> override all
+of these methods, will fail to compile otherwise!</p>
+</li>
+</list>
+</li>
+
+<li>
+<p><format color = "Chartreuse">Implementation Inheritance:</format> 
+Subclasses can inherit signatures AND implementation.</p>
+</li>
+
+</list>
+
+Java
+
+```Java
+interface Animal {
+    default void makeSound() {
+        System.out.println("Generic animal sound");
+    }
+
+    void eat(); 
+}
+
+class Dog implements Animal {
+    @Override
+    public void eat() {
+        System.out.println("Dog is eating");
+    }
+}
+
+class Cat implements Animal {
+    @Override
+    public void eat() {
+        System.out.println("Cat is eating");
+    }
+
+    @Override
+    public void makeSound() {
+        System.out.println("Meow!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog myDog = new Dog();
+        Cat myCat = new Cat();
+
+        myDog.makeSound(); // Output: Generic animal sound (using default)
+        myDog.eat();      // Output: Dog is eating
+
+        myCat.makeSound(); // Output: Meow! (overridden)
+        myCat.eat();      // Output: Cat is eating
+    }
+}
+```
+
+<table style = "header-row">
+<tr><td>Compile-time Type</td><td>Run-time Type</td></tr>
+<tr><td>Static type, specified at <format style = "bold">declaration
+</format></td><td>Dynamic type, specified at <format style = "bold">
+instantiation</format></td></tr>
+<tr><td>Never changes</td><td>Equal to the type of object being pointed
+at</td></tr>
+</table>
+
+
 
 ## &#8547; Modern C++
