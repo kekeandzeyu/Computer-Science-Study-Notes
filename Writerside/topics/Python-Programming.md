@@ -244,16 +244,13 @@ for key in list(dict.keys()):
 </li>
 </list>
 
+## 2 Higher-Order Function
 
+<p><format color = "Chartreuse">Higher-order function:</format> 
+A function that takes a function as an argument value or returns
+a function as a return value.</p>
 
-## 2 Higher-Order Functions
-
-<p>Definition:</p>
-
-<p><format color = "DodgerBlue">Higher-order functions</format>: Functions 
-that manipulate functions are called higher-order functions</p>
-
-### 2.1 Higher-Order Functions (Functions as Arguments)
+### 2.1 Higher-Order Function (Functions as Arguments)
 
 ```Python
 def summation(n, term):
@@ -299,8 +296,8 @@ result = apply_twice(square, 2)
 <p>This is the environment frame for the code above.</p>
 </note>
 
-<img src = "../images_python/2-1-1.png" alt = "Environments for Higher-Order Functions" 
-height = "450"/>
+<img src = "../images_python/2-1-1.png" alt = "Environments for Higher
+-Order Functions"/>
 
 ### 2.2 Nested Definitions (Functions as Returned Values)
 
@@ -339,7 +336,8 @@ height = "450"/>
 <p>No "return" keyword!</p>
 </li>
 <li>
-<p>Lambda expressions are not common in Python, but important in general.</p>
+<p>Lambda expressions are not common in Python, but important in 
+general.</p>
 </li>
 <li>
 <p>Lambda expressions in Python cannot contain statements at all!</p>
@@ -405,3 +403,65 @@ def add(x, y):
 
 s = curry2(add)(1)(2)
 ```
+
+## 3 Recursion
+
+<p><format color = "Chartreuse">Recursive Function:</format> 
+A function is called <format style = "italic">recursive</format> 
+if the body of that function calls itself, either directly or 
+indirectly.</p>
+
+### 3.1 Self-Reference: Return by its own name
+
+```Python
+def print_all(x):
+    print(x)
+    return print_all
+    
+print_all(1)(3)(5)
+```
+
+<img src = "../images_python/3-1-1.png" alt = "environment diagram"/>
+
+```Python
+def print_sums(x):
+    print(x)
+    def next_sum(y):
+        return print_sums(x + y)
+    return next_sum
+    
+print_sums(1)(3)(5)
+```
+
+<img src = "../images_python/3-1-2.png" alt = "environment diagram"/>
+
+### 3.2 Recursion & Environment Diagrams
+
+<p>Example 1: </p>
+
+```Python
+def split(n):
+    return n // 10, n % 10
+    
+def sum_digits(n):
+    # Base Cases
+    if n < 10:
+        return n
+    else:
+        all_but_last, last = split(n)
+        return sum_digits(all_but_last) + last
+```
+
+<p>Example 2: </p>
+
+```Python
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n - 1)
+```
+
+<img src = "../images_python/3-2-1.png" alt = "environment diagram"/>
+
+### 3.3 Iteration & Recursion

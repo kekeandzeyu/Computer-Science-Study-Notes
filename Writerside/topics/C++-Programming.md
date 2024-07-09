@@ -99,7 +99,7 @@ bin (read as binary).</p>
 </li>
 </list>
 
-##### 2.2.1 Output Stringstreams
+<format color = "Aqua">2.2.1 Output Stringstreams</format>
 
 ```C++
 std::ostringstream oss("Ito-En Green Tea");
@@ -112,7 +112,7 @@ oss << "16.9 Ounces";
 std::cout << oss.str() << std::endl; // Ito-En Green Tea16.9 Ounces
 ```
 
-##### 2.2.2 Input Stringstreams
+<format color = "Aqua">2.2.2 Input Stringstreams</format>
 
 <warning>
 <p>Types matter! Stream stops reading at any whitespace or any invalid
@@ -131,24 +131,27 @@ std::string unit;
 iss >> amount >> unit; // amount = 16, unit = ".9"
 ```
 
-##### 1.2.3 State Bits
+<format color = "Aqua">2.2.3 State Bits</format>
 
 <list>
 <li>
-<p>Good bit - ready for read/write. (Nothing unusal, on when other bits
-are off)</p>
+<p><format color = "BlanchedAlmond">Good bit</format> - ready for read
+/write. (Nothing unusal, on when other bits are off)</p>
 </li>
 <li>
-<p>Fail bit - previous operation failed, all future operations frozen.
-(Type mismatch, file can't be opened, seekg failed)</p>
+<p><format color = "BlanchedAlmond">Fail bit</format> - previous 
+operation failed, all future operations frozen. (Type mismatch, file 
+can't be opened, seekg failed)</p>
 </li>
 <li>
-<p>EOF bit - previous operation reached the end of buffer content.
-(Reached the end of buffer)</p>
+<p><format color = "BlanchedAlmond">EOF bit</format> - previous 
+operation reached the end of buffer content (reached the end of buffer).
+</p>
 </li>
 <li>
-<p>Bad bit - external error, like irrecoverable.(e.g. the file you are 
-reading from suddenly is deleted)</p>
+<p><format color = "BlanchedAlmond">Bad bit</format> - external error,
+like irrecoverable.(e.g. the file you are reading from suddenly is 
+deleted)</p>
 </li>
 </list>
 
@@ -166,7 +169,7 @@ std::cout << (iss.eof() ? "EOF" : "Not EOF") << std::endl;
 // There also exist iss.good(), iss.fail() & iss.bad()
 ```
 
-#### 1.3 cin and cout
+#### 2.3 cin and cout
 
 <list type = "bullet">
 <li>
@@ -195,9 +198,9 @@ the token with each &gt;&gt; operation.</p>
 </li>
 </list>
 
-### 2 Modern C++ Types
+### 3 Modern C++ Types
 
-#### 2.1 auto
+#### 3.1 auto
 
 <list type = "bullet">
 <li>
@@ -222,7 +225,7 @@ class. Example:</p>
 <p>Auto discards const and references!</p>
 </warning>
 
-#### 2.2 Pair/Tuple
+#### 3.2 Pair/Tuple
 
 <note>
 <p>Remember to include &lt; utility &gt; and &lt; tuple &gt;</p>
@@ -242,7 +245,7 @@ class. Example:</p>
     const auto& [c, d, e] = values; // c = 4, d = 4, e = "hi"
 ```
 
-#### 2.3 Conversions
+#### 3.3 Conversions
 
 ```C++
 int v1 = static_cast<double>(3.14);
@@ -254,7 +257,7 @@ const int v3 = 3;
 int* v4 = const_cast<int*> (&v3);
 ```
 
-#### 2.4 initializer_list
+#### 3.4 initializer_list
 
 <p><format color = "DodgerBlue">Definition</format>: An initializer 
 list is a lightweight vector that can be used as a parameter.</p>
@@ -308,7 +311,97 @@ std::vector<int> v2{3, 10} // v2 = {3, 10}
 
 ## &#8545; Standard Template Library (STL)
 
+### 4 Containers
 
+#### 4.1 Sequence Containers
+
+<p><format color = "Chartreuse">Sequence Containers:</format> Containers
+which provide access to sequences of elements.</p>
+
+<list type = "bullet">
+<li>
+<p><code>std::vector&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>std::deque&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>std::array&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>std::list&lt;T&gt;</code></p>
+</li>
+<li>
+<p><code>std::forward_list&lt;T&gt;</code></p>
+</li>
+</list>
+
+<format color = "Aqua">4.1.1 Vector</format>
+
+<p><format color = "Chartreuse">Vector:</format> An array with 
+changeable size.</p>
+
+<table style = "both">
+<tr><td></td><td><code>vec[index]</code></td><td><code>vec.at(index)
+</code></td></tr>
+<tr><td>Bounds Checking</td><td>No</td><td>Yes</td></tr>
+<tr><td>Speed</td><td>Fast</td><td>Slow</td></tr>
+</table>
+
+<warning>
+<p>If you write your program <format color = "GreenYellow">correctly
+</format>, bounds checking will just <format color = "OrangeRed">slow
+</format> you down.</p>
+</warning>
+
+<p><format color = "DodgerBlue">Advantages:</format> </p>
+
+<list>
+<li>
+<p>Fast, lightweight & intuitive.</p>
+</li>
+<li>
+<p>Grow efficiently <format color = "GreenYellow">in one direction
+</format>.</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Disadvantages:</format> </p>
+
+<list>
+<li>
+<p>cannot push_front!</p>
+</li>
+</list>
+
+<format color = "Aqua">4.1.2 Deque</format>
+
+<p><format color = "Chartreuse">Deque:</format> A deque is a doubly 
+ended queue.</p>
+
+<p><format color = "DodgerBlue">Implementation:</format> </p>
+<p>Instead of storing all elements in a single contiguous block, deque 
+internally manages a collection of fixed-size arrays called "chunks" 
+or "buffers."</p>
+<p>Deque maintains a dynamic array (usually a small array or a 
+tree-like structure) called a "map" or "central index". This map stores
+pointers to the beginning of each chunk.</p>
+
+<p><format color = "DodgerBlue">Advantages:</format> </p>
+
+<list>
+<li>
+<p>Can push_front!</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Disadvantages:</format> </p>
+
+<list>
+<li>
+<p>For other operations, vector outperform deque.</p>
+</li>
+</list>
 
 ## &#8546; Object-Oriented Programming
 
