@@ -6,14 +6,16 @@
 
 ### 1 C & C++ Introduction
 
+#### 1.1 Basic Information
+
 <p><format color = "DodgerBlue">Properties: </format></p>
 
 <list type = "bullet">
 <li>
-<p>C++ is a <format color = "OrangeRed">compiled</format> language.</p>
+<p>C/C++ is a <format color = "OrangeRed">compiled</format> language.</p>
 </li>
 <li>
-<p>C++ <format style = "italic">compilers</format> map C++ programs
+<p>C/C++ <format style = "italic">compilers</format> map C/C++ programs
 into architecture-specific machine code (string of 0s and 1s).</p>
 <list type = "bullet">
 <li>
@@ -70,6 +72,116 @@ on each new system.</p>
 <li>
 <p>Instead of "Edit -> Run [repeat]" cycle, "Edit -> Compile -> Run
 [repeat]" iteration cycle can be slow.</p>
+</li>
+</list>
+
+#### 1.2 C Memory Layout
+
+<p>Program's <format color = "OrangeRed" style = "italic">address space
+</format> contains 4 regions: </p>
+<list>
+<li>
+<p><format color = "BlanchedAlmond">Stack:</format> local variables,
+grow downwards.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Heap:</format> space requested via
+<code>malloc()</code> and used with pointers; resizes dynamically, 
+grow upward.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Static Data:</format> global or
+static variables, does not grow or shrink.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Code:</format> loaded when program 
+starts, does not change.</p>
+</li>
+</list>
+
+<img src = "../images_c/1-2.png" alt = "C Memory Layout"/>
+
+<p><format color = "DodgerBlue">Storage:</format> </p>
+
+<list>
+<li>
+<p><format color = "BlanchedAlmond">Declared outside a function:
+</format> Static Data</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Declared inside a function:
+</format> Stack</p>
+<list type = "bullet">
+<li>
+<p><code>main()</code> is a function.</p>
+</li>
+<li>
+<p>freed when function returns.</p>
+</li>
+</list>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Dynamically allocated (i.e., 
+<code>malloc</code>, <code>calloc</code> & <code>realloc</code>):
+</format> Heap.</p>
+</li>
+</list>
+
+<p><format color = "Aqua" style = "bold">1.2.1 Stack</format></p>
+
+<list type = "bullet">
+<li>
+<p>A stack frame includes: </p>
+<list type = "bullet">
+<li>
+<p>Location of caller function</p>
+</li>
+<li>
+<p>Function arguments</p>
+</li>
+<li>
+<p>Space for local variables</p>
+</li>
+</list>
+</li>
+<li>
+<p>Stack pointer (SP) tells where lowest (current) stack frame is.</p>
+</li>
+<li>
+<p>When procedure ends, stack pointer is moved back (but data remains
+(<format color = "OrangeRed">garbage!</format>)); frees memory for 
+future stack frames;</p>
+</li>
+</list>
+
+<p><format color = "Aqua" style = "bold">1.2.2 Static Data</format></p>
+
+<list type = "bullet">
+<li>
+<p>Place for variables that persist, and data doesn't subject to 
+comings and goings like function calls, e.g. string literals,
+global variables.</p>
+</li>
+<li>
+<p>String literal example: <code>char * str = “hi”</code>.</p>
+</li>
+<li>
+<p>Size does not change, but sometimes data can be writable.</p>
+</li>
+</list>
+
+<warning>
+<p>String literals cannot change!</p>
+</warning>
+
+<p><format color = "Aqua" style = "bold">1.2.3 Code</format></p>
+
+<list type = "bullet">
+<li>
+<p>Copy of your code goes here, C code becomes data too!</p>
+</li>
+<li>
+<p>Does (should) not change, typically read-only.</p>
 </li>
 </list>
 
