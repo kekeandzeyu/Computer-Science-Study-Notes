@@ -1,3 +1,0 @@
-# Machine Structures
-
-Start typing here...
