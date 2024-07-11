@@ -439,7 +439,7 @@ only <math>i ^ {th}</math> chain.</p>
 </li>
 </list>
 
-
+<img src = "../images_data/12-2-1.png" alt = "Separate Chaining"/>
 
 * Number of probes for search/insert/delete is proportional to N/M.
 
