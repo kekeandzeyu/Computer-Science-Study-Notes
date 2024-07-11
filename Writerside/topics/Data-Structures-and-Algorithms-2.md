@@ -424,17 +424,17 @@ table (index is a function of the key).</p>
 <p><format color = "DodgerBlue">Hash function</format>: Method for 
 computing array index from key.</p>
 <p>Issues:</p>
-    <list type = "alpha-lower">
-    <li>
-    <p><format color = "DodgerBlue">Equality test</format>: Method 
-    for checking whether two keys are equal.</p>
-    </li>
-    <li>
-    <p><format color = "DodgerBlue">Collision resolution</format>: 
-    Algorithm and data structure to handle two keys that hash to the 
-    same array index.</p>
-    </li>
-    </list>
+<list type = "alpha-lower">
+<li>
+<p><format color = "DodgerBlue">Equality test</format>: Method 
+for checking whether two keys are equal.</p>
+</li>
+<li>
+<p><format color = "DodgerBlue">Collision resolution</format>: 
+Algorithm and data structure to handle two keys that hash to the 
+same array index.</p>
+</li>
+</list>
 </li>
 <li>
 <p><format color = "DodgerBlue">Hash code</format>: An int between 
@@ -485,11 +485,13 @@ only <math>i ^ {th}</math> chain.</p>
 
 <list>
 <li>
-<p>Number of probes for search/insert/delete is proportional to N/M.
+<p>Number of probes for search/insert/delete is proportional to 
+<math>\frac {N}{M}</math>.
 </p>
 </li>
 <li>
-<p>Typical choice: M ~ N/5 (constant operations)</p>
+<p>Typical choice: <math>M \sim \frac {N}{5}</math> (constant 
+operations)</p>
 </li>
 </list>
 
@@ -586,46 +588,45 @@ private:
 
 #### 12.3.1 Analysis of Linear Probing
 
-Under uniform hashing assumption, the average numbers of probes in
-a linear probing hash table of size M that contains N = &alpha;M
-keys is:
+<p><format color = "Chartreuse">Open addressing:</format> When a new
+key collides, find next empty slot, and put it there.</p>
 
-* Search hit:
+<list type = "alpha-lower">
+<li>
+<p><format color = "BlanchedAlmond">Hash:</format> Map key to integer 
+<math>i</math> between <math>0</math> and <math>M - 1</math>.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Search:</format> Search table 
+index <math>i</math>; if occupied but no match, try <math>i+1</math>,
+<math>i+2</math>, etc..</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Insert:</format> Put at table
+index <math>i</math> if free; if not try <math>i+1</math>, <math>i+2
+</math>, etc.</p>
+</li>
+</list>
 
-```tex
-\sim \frac{1}{2} \left(1 + \frac{1}{1 - \alpha}\right)
-```
+<p>Under uniform hashing assumption, the average numbers of probes in
+a linear probing hash table of size M that contains <math>N = \alpha M
+</math> keys is:</p>
 
-* Search miss / insert:
+<list type = "bullet">
+<li>
+<p><format color = "BlanchedAlmond">Search hit:</format> <math>\sim
+\frac{1}{2} \left(1 + \frac{1}{1 - \alpha}\right)</math></p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Search miss / insert:</format> 
+<math>\sim \frac{1}{2} \left(1 + \frac{1}{(1 - \alpha)^2}\right)
+</math></p>
+</li>
+</list>
 
-```tex
-\sim \frac{1}{2} \left(1 + \frac{1}{(1 - \alpha)^2}\right)
-```
-
-#### 12.3.2 Knuth's Parking Problem
-
-Cars arrive at a one-way street with M parking spaces. Each driver
-tries to park in their own space i: If space i is taken, try i + 1,
-i + 2, etc. What is the mean displacement of the car?
-
-Half-full: With <em>M</em>/2 cars, mean displacement is ~3/2.
-
-Full: With <em>M</em> cars, mean displacement is
-
-```tex
-\sim \sqrt{\frac{\pi M}{8}}
-```
-
-> Search, insert and delete (under uniform hashing assumption):
->
-> * Worst case: `lgN`
->
-> * Average case: `3-5`
->
-{style = "tip"}
+Java
 
 ```Java
-/* Java Implementation (simplified) */
 public class LinearProbingHashST<Key, Value> {
     private final int M = 30001;
     private final Key[] keys = (Key[]) new Object[M];
@@ -659,8 +660,9 @@ public class LinearProbingHashST<Key, Value> {
 }
 ```
 
+Java (Princeton)
+
 ```Java
-/* Java Implementation (Princeton) */
 public class LinearProbingHashST<Key, Value> {
 
     // must be a power of 2
@@ -881,7 +883,25 @@ public:
 };
 ```
 
+#### 12.3.2 Knuth's Parking Problem
 
+<p>Cars arrive at a one-way street with <math>M</math> parking spaces. 
+Each driver tries to park in their own space <math>i</math>: If space
+<math>i</math> is taken, try <math>i + 1</math>, <math>i + 2</math>, 
+etc. What is the mean displacement of the car?</p>
+
+<list type = "bullet">
+<li>
+<p><format color = "BlanchedAlmond">Half-full:</format> With 
+<math>\frac {M}{2}</math> cars, mean displacement is <math>
+\sim \frac {3}{2}</math>.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Full:</format> With 
+<math>M</math> cars, mean displacement is <math>\sim \sqrt{\frac
+{\pi M}{8}}</math>.</p>
+</li>
+</list>
 
 ## 13 Symbol Table Applications
 
