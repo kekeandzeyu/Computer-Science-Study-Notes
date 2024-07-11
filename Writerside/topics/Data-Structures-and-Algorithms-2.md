@@ -979,9 +979,101 @@ recur).</p>
 </li>
 </list>
 
-#### 12.3.5 Separate Chainingg vs. Linear Probing
+#### 12.3.5 Separate Chaining vs. Linear Probing
 
 <p><format color = "DodgerBlue">Separate Chaining</format></p>
+
+<list type = "bullet">
+<li>
+<p>Easier to implement delete.</p>
+</li>
+<li>
+<p>Performance degrades gracefully.</p>
+</li>
+<li>
+<p>Clustering less sensitive to poorly-designed hash function.</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Linear Probing</format></p>
+
+<list type = "bullet">
+<li>
+<p>Less wasted space.</p>
+</li>
+<li>
+<p>Better cache performance.</p>
+</li>
+</list>
+
+### 12.4 Hash Table vs. Balanced Search Tree
+
+<p><format color = "DodgerBlue">Hash Table</format></p>
+
+<list type = "bullet">
+<li>
+<p>Simpler to code.</p>
+</li>
+<li>
+<p>No effective alternative for unordered keys.</p>
+</li>
+<li>
+<p>Faster for simple keys (a few arithmetic ops versus <math>log N
+</math> compares).</p>
+</li>
+<li>
+<p>Better system support in Java for strings (e.g., cached hash 
+code).</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Balanced Search Tree</format></p>
+
+<list type = "bullet">  
+<li>
+<p>Stronger performance guarantee.</p>
+</li>
+<li>
+<p>Support for ordered ST operations.</p>
+</li>
+<li>
+<p>Easier to implement <code>compareTo()</code> correctly than 
+<code>equals()</code> and <code>hashCode()</code>.</p>
+</li>
+</list>
+
+<p>Java systems includes both.</p>
+
+<list type = "bullet">
+<li>
+<p><format color = "Chartreuse">Red-black BSTs:</format> 
+<code>java.util.TreeMap</code>, <code>java.util.TreeSet</code>.</p>
+</li>
+<li>
+<p><format color = "Chartreuse">Hash tables:</format> 
+<code>java.util.HashMap</code>, <code>java.util.IdentityHashMap</code>
+.</p>
+</li>
+</list>
+
+<p>C++ STL includes both.</p>
+
+<list type = "bullet">
+<li>
+<p><format color = "Chartreuse">Red-black BSTs:</format> 
+<code>std::set</code>, <code>std::map</code>.</p>
+</li>
+<li>
+<p><format color = "Chartreuse">Hash tables:</format> 
+<code>std::unordered_map</code>, <code>std::unordered_set</code>
+.</p>
+</li>
+</list>
+
+<warning>
+<p>Python uses hash tables to implement dictionaries, but no built
+-in red-black BST!</p>
+</warning>
 
 ## 13 Symbol Table Applications
 
