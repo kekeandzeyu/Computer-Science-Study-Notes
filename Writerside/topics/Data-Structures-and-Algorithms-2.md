@@ -1,5 +1,582 @@
 # Data Structures and Algorithms 2
 
+## 13 Symbol Table Applications
+
+### 13.1 Sets
+
+<p><format color = "DodgerBlue">Mathematical Set</format>: 
+A collection of distinct keys.</p>
+
+#### 13.1.1 Sets in Java
+
+<list type = "decimal">
+
+<li>
+<p><code>HashSet</code></p>
+<list type = "alpha-lower">
+<li>
+<p><format color = "DarkViolet">Implementation</format>: Uses a hash 
+table (specifically, a <code>HashMap</code> internally) for storage.</p>
+</li>
+<li>
+<p><format color = "Lime">Features</format>: </p>
+<list type = "bullet">
+<li>
+<p>Efficient for adding, removing, and checking for the existence of 
+elements (average <math>O(1)</math> time complexity).</p>
+</li>
+<li>
+<p>Does not maintain insertion order.</p>
+</li>
+<li>
+<p>Allows a single null element.</p>
+</li>
+</list>
+</li>
+</list>
+</li>
+
+<li>
+<p><code>LinkedHashSet</code></p>
+<list type = "alpha-lower">
+<li>
+<p><format color = "DarkViolet">Implementation</format>: Extends 
+<code>HashSet</code> and maintains a doubly linked list to preserve
+the order of element insertion.</p>
+</li>
+<li>
+<p><format color = "Lime">Features</format>: </p>
+<list type = "bullet">
+<li>
+<p>Elements are iterated in the order they were added.</p>
+</li>
+<li>
+<p>Slightly slower than <code>HashSet</code> due to the linked list 
+overhead.</p>
+</li>
+</list>
+</li>
+</list>
+</li>
+
+<li>
+<p><code>TreeSet</code></p>
+<list type = "alpha-lower">
+<li>
+<p><format color = "DarkViolet">Implementation</format>: Uses a 
+red-black tree (a self-balancing binary search tree).</p>
+</li>
+<li>
+<p><format color = "Lime">Features</format>: </p>
+<list type = "bullet">
+<li>
+<p>Elements are stored in sorted order (natural order or using a 
+<code>Comparator</code> provided during set creation).</p>
+</li>
+<li>
+<p>Provides efficient retrieval of elements in a sorted range.</p>
+</li>
+<li>
+<p>Slower than <code>HashSet</code> and <code>LinkedHashSet</code> 
+for insertion and removal operations (logarithmic time complexity).</p>
+</li>
+<li>
+<p>Does not allow <code>null</code> elements by default.</p>
+</li>
+</list>
+</li>
+</list>
+</li>
+</list>
+
+Java
+
+```Java
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class SetExample {
+    public static void main(String[] args) {
+        // HashSet - No order guarantee
+        Set<String> hashSet = new HashSet<>();
+        hashSet.add("Apple");
+        hashSet.add("Banana");
+        hashSet.add("Orange");
+        System.out.println("HashSet: " + hashSet); // Output may vary in order
+
+        // LinkedHashSet - Maintains insertion order
+        Set<String> linkedHashSet = new LinkedHashSet<>();
+        linkedHashSet.add("Apple");
+        linkedHashSet.add("Banana");
+        linkedHashSet.add("Orange");
+        System.out.println("LinkedHashSet: " + linkedHashSet); // Output: [Apple, Banana, Orange]
+
+        // TreeSet - Sorted order
+        Set<String> treeSet = new TreeSet<>();
+        treeSet.add("Orange");
+        treeSet.add("Apple");
+        treeSet.add("Banana");
+        System.out.println("TreeSet: " + treeSet); // Output: [Apple, Banana, Orange]
+    }
+}
+```
+
+<note>Implementation of <code>TreeSet</code>: Remove "value" from any
+ST implementation.</note>
+
+#### 13.1.2 Sets in C++
+
+<list type = "decimal">
+<li>
+<p><code>std::set</code> | <code>std::multiset</code></p>
+<list type = "alpha-lower">
+<li>
+<p><format color = "DarkViolet">Implementation</format>: Usually 
+implemented as a self-balancing binary search tree (often a 
+red-black tree).</p>
+</li>
+<li>
+<p><format color = "Lime">Features</format>: </p>
+<list type = "bullet">
+<li>
+<p>Elements are stored in sorted order (by default, using 
+<code>std::less</code>, which is the less-than operator &lt;)</p>
+</li>
+<li>
+<p>Most operations like insertion, search, deletion, etc., have a 
+time complexity of <math>O(log n)</math>, where <math>n</math> is 
+the number of elements, making it efficient for larger datasets.</p>
+</li>
+</list>
+</li>
+</list>
+</li>
+
+<li>
+<p><code>std::unordered_set</code> | <code>std::unordered_multiset</code></p>
+<list type = "alpha-lower">
+<li>
+<p><format color = "DarkViolet">Implementation</format>: Using a hash table, 
+which prioritizes fast average-case performance for operations 
+like insertion, search, and deletion over maintaining a specific 
+order.</p>
+</li>
+<li>
+<p><format color = "Lime">Features</format>: </p>
+<list type = "bullet">
+<li>
+<p>Offers O(1) average-case time complexity for insertion, 
+search, and deletion operations. </p>
+</li>
+</list>
+</li>
+</list>
+</li>
+</list>
+
+C++
+
+```C++
+#include <iostream>
+#include <set>
+
+int main() {
+    std::set<int> uniqueNumbers;
+
+    uniqueNumbers.insert(3);
+    uniqueNumbers.insert(1);
+    uniqueNumbers.insert(4);
+    uniqueNumbers.insert(1); // Duplicate, won't be added
+
+    std::cout << "Elements in the set: ";
+    for (int num : uniqueNumbers) {
+        std::cout << num << " ";
+    } // Output: 1 3 4 
+
+    return 0;
+}
+```
+
+#### 13.1.3 Sets in Python
+
+<p>For this part, please refer to 
+<a href = "Python-Programming.md" anchor = "sets" 
+summary = "How to use sets in Python">Sets in Python Programming</a></p>
+
+### 13.2 Dictionary Clients
+
+<note><p>This is the use of built-in dictionaries.</p></note>
+
+Java
+
+```Java
+import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, Integer> map = new HashMap<>();
+
+        map.put("Alice", 25);
+        map.put("Bob", 30);
+        map.put("Charlie", 35);
+
+        int age = map.get("Alice");
+        System.out.println("Alice's age: " + age);
+        boolean exists = map.containsKey("Bob");
+        System.out.println("Is Bob in the map? " + exists);
+        map.remove("Charlie");
+        System.out.println(map);
+    }
+}
+```
+
+C++ (map -> Red-Black Trees)
+
+```C++
+#include <iostream>
+#include <map>
+
+int main() {
+    std::map<std::string, int> myMap;
+    myMap["apple"] = 1;
+    myMap["banana"] = 2;
+    myMap["cherry"] = 3;
+    std::cout << "The value associated with key 'apple' is: " << myMap["apple"] << std::endl;
+    for (const auto& pair : myMap) {
+        std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
+    }
+    return 0;
+}
+```
+
+C++ (unordered map -> Hash Tables)
+
+```C++
+#include <iostream>
+#include <unordered_map>
+
+int main() {
+    std::unordered_map<std::string, int> myMap;
+    myMap["apple"] = 1;
+    myMap["banana"] = 2;
+    myMap["cherry"] = 3;
+    std::cout << "The value associated with key 'apple' is: " << myMap["apple"] << std::endl;
+    for (const auto& pair : myMap) {
+        std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
+    }
+    return 0;
+}
+```
+
+<p>For dictionaries in Python, refer to
+<a href = "Python-Programming.md" anchor = "dictionaries" summary
+= "How to use dictionaries in Python">Python Programming</a>.</p>
+
+Python
+
+```Python
+person = {
+    "name": "John",
+    "age": 30,
+    "city": "New York"
+}
+print(person["name"]) 
+```
+
+### 13.3 Indexing Clients
+
+Java
+
+```Java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeMap;
+
+public class InvertedIndexJava {
+
+    // Data structure to represent a document
+    static class Document {
+        int id;
+        String content;
+
+        Document(int id, String content) {
+            this.id = id;
+            this.content = content;
+        }
+    }
+
+    // Function to build an inverted index using TreeMap (Red-Black Tree)
+    static TreeMap<String, List<Integer>> buildInvertedIndex(List<Document> documents) {
+        TreeMap<String, List<Integer>> index = new TreeMap<>();
+
+        for (Document doc : documents) {
+            String[] words = doc.content.toLowerCase().split("\\s+"); // Tokenize into words
+            for (String word : words) {
+                index.computeIfAbsent(word, k -> new ArrayList<>()).add(doc.id); 
+            }
+        }
+
+        return index;
+    }
+
+    public static void main(String[] args) {
+        List<Document> documents = Arrays.asList(
+                new Document(1, "The quick brown fox jumps over the lazy dog"),
+                new Document(2, "A lazy cat sleeps all day long"),
+                new Document(3, "The quick rabbit jumps over the fence")
+        );
+
+        TreeMap<String, List<Integer>> invertedIndex = buildInvertedIndex(documents);
+
+        // Example query: Find documents containing the word "jumps"
+        String searchTerm = "jumps";
+        if (invertedIndex.containsKey(searchTerm)) {
+            System.out.println("Documents containing '" + searchTerm + "': " + invertedIndex.get(searchTerm));
+        } else {
+            System.out.println("No documents found containing '" + searchTerm + "'");
+        }
+    }
+}
+```
+
+C++
+
+```C++
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+
+using namespace std;
+
+// Data structure to represent a document
+struct Document {
+    int id;
+    string content;
+};
+
+// Function to build an inverted index using a map (Red-Black Tree)
+map<string, vector<int>> buildInvertedIndex(const vector<Document>& documents) {
+    map<string, vector<int>> index;
+
+    for (const Document& doc : documents) {
+        // Tokenize the document content (split into words) - simplify for brevity
+        string word; 
+        for (char c : doc.content){
+            if (isspace(c)){
+                if (!word.empty()){ // Avoid adding empty words
+                    index[word].push_back(doc.id);
+                    word.clear();
+                }
+            }
+            else {
+                word += c;
+            }
+        }
+        if (!word.empty()){ // Add the last word
+            index[word].push_back(doc.id);
+        }
+    }
+
+    return index;
+}
+
+int main() {
+    vector<Document> documents = {
+        {1, "The quick brown fox jumps over the lazy dog"},
+        {2, "A lazy cat sleeps all day long"},
+        {3, "The quick rabbit jumps over the fence"}
+    };
+
+    map<string, vector<int>> invertedIndex = buildInvertedIndex(documents);
+
+    // Example query: Find documents containing the word "jumps"
+    string searchTerm = "jumps";
+    if (invertedIndex.find(searchTerm) != invertedIndex.end()) {
+        cout << "Documents containing '" << searchTerm << "': ";
+        for (int docId : invertedIndex[searchTerm]) {
+            cout << docId << " ";
+        }
+        cout << endl;
+    } else {
+        cout << "No documents found containing '" << searchTerm << "'" << endl;
+    }
+
+    return 0;
+}
+```
+
+### 13.4 Sparse Vectors
+
+Java
+
+```Java
+import java.util.HashMap;
+import java.util.Map;
+
+public class SparseMatrixVectorMultiplication {
+
+    public static class SparseMatrix {
+        private int rows;
+        private int cols;
+        private Map<String, Double> data;
+
+        public SparseMatrix(int rows, int cols) {
+            this.rows = rows;
+            this.cols = cols;
+            this.data = new HashMap<>();
+        }
+
+        // Method to set a non-zero element in the matrix
+        public void set(int row, int col, double value) {
+            if (row < 0 || row >= rows || col < 0 || col >= cols) {
+                throw new IllegalArgumentException("Invalid row or column index");
+            }
+            if (value != 0) {
+                data.put(getKey(row, col), value);
+            }
+        }
+
+        // Method to get an element from the matrix (returns 0 if not present)
+        public double get(int row, int col) {
+            if (row < 0 || row >= rows || col < 0 || col >= cols) {
+                throw new IllegalArgumentException("Invalid row or column index");
+            }
+            return data.getOrDefault(getKey(row, col), 0.0);
+        }
+
+        // Helper method to generate key for the HashMap
+        private String getKey(int row, int col) {
+            return row + "," + col;
+        }
+
+        // Method to perform matrix-vector multiplication
+        public double[] multiply(double[] vector) {
+            if (vector.length != cols) {
+                throw new IllegalArgumentException("Vector size mismatch");
+            }
+
+            double[] result = new double[rows];
+            for (String key : data.keySet()) {
+                String[] indices = key.split(",");
+                int row = Integer.parseInt(indices[0]);
+                int col = Integer.parseInt(indices[1]);
+                result[row] += data.get(key) * vector[col];
+            }
+            return result;
+        }
+    }
+}
+```
+
+C++
+
+```C++
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+
+using namespace std;
+
+// Pair struct to store row and column indices
+struct RowCol {
+    int row;
+    int col;
+
+    // Hash function for unordered_map
+    size_t operator()(const RowCol& rc) const {
+        return hash<int>()(rc.row) ^ hash<int>()(rc.col);
+    }
+
+    // Equality comparison for unordered_map
+    bool operator==(const RowCol& other) const {
+        return row == other.row && col == other.col;
+    }
+};
+
+class SparseMatrix {
+private:
+    int rows;
+    int cols;
+    unordered_map<RowCol, double> data; // Symbol table (hash map)
+
+public:
+    SparseMatrix(int rows, int cols) : rows(rows), cols(cols) {}
+
+    // Set a non-zero element in the matrix
+    void set(int row, int col, double value) {
+        if (row < 0 || row >= rows || col < 0 || col >= cols) {
+            throw out_of_range("Invalid row or column index");
+        }
+        if (value != 0) {
+            data[{row, col}] = value; // Using RowCol struct as key
+        }
+    }
+
+    // Get an element from the matrix (returns 0 if not present)
+    double get(int row, int col) const {
+        if (row < 0 || row >= rows || col < 0 || col >= cols) {
+            throw out_of_range("Invalid row or column index");
+        }
+        return data.count({row, col}) ? data.at({row, col}) : 0.0; 
+    }
+
+    // Matrix-vector multiplication
+    vector<double> multiply(const vector<double>& vec) const {
+        if (vec.size() != cols) {
+            throw invalid_argument("Vector size mismatch");
+        }
+
+        vector<double> result(rows, 0.0); // Initialize result vector with zeros
+        for (const auto& entry : data) {
+            int row = entry.first.row;
+            int col = entry.first.col;
+            result[row] += entry.second * vec[col];
+        }
+        return result;
+    }
+};
+```
+
+Python
+
+```Python
+class SparseMatrix:
+    def __init__(self, rows, cols):
+        self.rows = rows
+        self.cols = cols
+        self.data = {}  # Using a dictionary as a symbol table
+
+    def set(self, row, col, value):
+        if row < 0 or row >= self.rows or col < 0 or col >= self.cols:
+            raise ValueError("Invalid row or column index")
+        if value != 0:
+            self.data[(row, col)] = value
+
+    def get(self, row, col):
+        if row < 0 or row >= self.rows or col < 0 or col >= self.cols:
+            raise ValueError("Invalid row or column index")
+        return self.data.get((row, col), 0)  # Return 0 if not found
+
+    def multiply(self, vector):
+        if len(vector) != self.cols:
+            raise ValueError("Vector size mismatch")
+
+        result = [0] * self.rows
+        for (row, col), value in self.data.items():
+            result[row] += value * vector[col]
+        return result
+```
+
+<tip>
+<p>What is the running time of multiplying the <math>n \times n</math> matirx
+<math>A</math> with a dense vector <math>x</math> 
+of length <math>n</math> ? => <math>n</math></p>
+</tip>
+
 ## 14 Undirected Graphs
 
 ### 14.1 Introduction to Graphs
