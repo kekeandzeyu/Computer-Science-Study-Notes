@@ -1,3 +1,5 @@
+<show-structure for="chapter" depth="3"></show-structure>
+
 # Data Structures and Algorithms 2
 
 ## 11 Geometric Applications of BSTs
@@ -936,6 +938,50 @@ etc. What is the mean displacement of the car?</p>
 <p>More difficult to implement delete.</p>
 </li>
 </list>
+
+<p><format color = "BlanchedAlmond">Insert:</format> Use the <math>
+1 ^{st}</math> hash function to calculate index. If there is a 
+collision, use <math>2 ^ {nd}</math> hash value for "step size" for
+probing until an empty slot is found. (=> <math>(h1(key) + i * h2(key))
+\% size</math>) </p>
+
+#### 12.3.3 Variant 2 - Quadratic Probing
+
+<p><format color = "BlanchedAlmond">Insert:</format> Use the hash 
+function to calculate index. If there is a collision, probe the 
+index using the following probing sequence: </p>
+
+<list type = "bullet">
+<li>
+<p><format color = "Chartreuse">index 1:</format> 
+<math>(h(key) + 1 ^ {2}) % tableSize</math></p>
+</li>
+<li>
+<p><format color = "Chartreuse">index 2:</format> 
+<math>(h(key) + 2 ^ {2}) % tableSize</math></p>
+</li>
+<li>
+<p><format color = "Chartreuse">index 3:</format> 
+<math>(h(key) + 3 ^ {2}) % tableSize</math></p>
+</li>
+</list>
+
+#### 12.3.4 Variant 3 - Cuckoo Hashing
+
+<list type = "bullet">
+<li>
+<p>Hash key to two positions; insert key into either position; if 
+occupied, reinsert displaced key into its alternative position (and
+recur).</p>
+</li>
+<li>
+<p>Constant worst case time for search.</p>
+</li>
+</list>
+
+#### 12.3.5 Separate Chainingg vs. Linear Probing
+
+<p><format color = "DodgerBlue">Separate Chaining</format></p>
 
 ## 13 Symbol Table Applications
 
