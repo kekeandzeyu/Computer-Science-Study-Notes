@@ -24,7 +24,7 @@ protection, isolation, and sharing of resources.</p>
 </li>
 </list>
 
-### 1.1 Operating System as Illusionist
+### 1.1 Operating System as Illusionist - Provide clean, easy-to-use abstractions of physical resources
 
 <img src = "../images_system/1-2.png" alt = "Operating System as Illusionist"/>
 
@@ -64,3 +64,6 @@ open sockets, etc.</p>
 <p>OS provides each running program with its own process.</p>
 </li>
 </list>
+
+### 1.2 Operating System as Referee - Manage protection, isolation, and sharing of resources
+
