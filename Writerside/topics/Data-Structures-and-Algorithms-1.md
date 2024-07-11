@@ -5767,6 +5767,53 @@ large.</p>
 <p><format color = "DodgerBlue">Properties:</format> Running time
 per step is <math>N \log N</math>.</p>
 
+### 11.5 Rectangle Intersection
+
+<p><format color = "DodgerBlue">Sweep-line Algorithm</format>: </p>
+
+<list type = "bullet">
+<li>
+<p><math>x</math>-coordinates of left and right endpoints define 
+events.</p>
+</li>
+<li>
+<p>Maintain set of rectangles that intersect the sweep line in an 
+interval search tree (using <math>y</math>-intervals of rectangle).</p>
+</li>
+<li>
+<p>Left endpoint: interval search for <math>y</math>-interval of 
+rectangle; insert <math>y</math>-interval.</p>
+</li>
+<li>
+<p>Right endpoint: remove <math>y</math>-interval.</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Property:</format> Sweep line 
+algorithm takes time proportional to <math>N \log N + R \log N</math> 
+to find <math>R</math> intersections among a set of <math>N</math> 
+rectangles.</p>
+
+<p>Proof: </p>
+<list type = "bullet">
+<li>
+<p>Put <math>x</math>-coordinates on a PQ (or sort) => 
+<math>N \log N</math></p>
+</li>
+<li>
+<p>Insert <math>y</math>-intervals into ST => <math>N \log N</math>
+</p>
+</li>
+<li>
+<p>Delete <math>y</math>-intervals from ST => <math>N \log N</math>
+</p>
+</li>
+<li>
+<p>Interval searches for y-intervals => <math>N \log N + R \log N
+</math></p>
+</li>
+</list>
+
 ## 12 Hash Tables
 
 ### 12.1 Hash Tables
