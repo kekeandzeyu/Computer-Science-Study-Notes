@@ -464,7 +464,9 @@ public final class StringTest {
 }
 ```
 
-### 12.2 Separate Chaining (Collision Solution &#8544;)
+### 12.2 Collision Solution &#8544; - Separate Chaining & Variant
+
+#### 12.2.1 Separate Chaining
 
 <list type = "alpha-lower">
 <li>
@@ -584,9 +586,21 @@ private:
 };
 ```
 
-### 12.3 Linear Probing (Collision Solution &#8545;)
+#### 12.2.2 Variant - Two-Probe Hashing
 
-#### 12.3.1 Analysis of Linear Probing
+<list type = "bullet">
+<li>
+<p>Hash to two positions, insert key in shorter of the two chains.</p>
+</li>
+<li>
+<p>Reduces expected length of the longest chain to <math>\log \log N
+</math>.</p>
+</li>
+</list>
+
+### 12.3 Collision Solution &#8545; - Open Addressing
+
+#### 12.3.1 Linear Probing
 
 <p><format color = "Chartreuse">Open addressing:</format> When a new
 key collides, find next empty slot, and put it there.</p>
@@ -753,7 +767,7 @@ public class LinearProbingHashST<Key, Value> {
         n++;
     }
 
-    //Returns the value associated with the specified key.
+    // Returns the value associated with the specified key.
     public Value get(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
         for (int i = hash(key); keys[i] != null; i = (i + 1) % m)
@@ -824,6 +838,8 @@ public class LinearProbingHashST<Key, Value> {
 }
 ```
 
+C++
+
 ```C++
 #include <vector>
 #include <optional>
@@ -883,7 +899,7 @@ public:
 };
 ```
 
-#### 12.3.2 Knuth's Parking Problem
+<p><format color = "Aqua">Knuth's Parking Problem</format></p>
 
 <p>Cars arrive at a one-way street with <math>M</math> parking spaces. 
 Each driver tries to park in their own space <math>i</math>: If space
@@ -900,6 +916,24 @@ etc. What is the mean displacement of the car?</p>
 <p><format color = "BlanchedAlmond">Full:</format> With 
 <math>M</math> cars, mean displacement is <math>\sim \sqrt{\frac
 {\pi M}{8}}</math>.</p>
+</li>
+</list>
+
+#### 12.3.2 Varaint 1 - Double Hashing
+
+<list type = "bullet">
+<li>
+<p>Use linear probing, but skip a variable amount, not just 
+1 each time.</p>
+</li>
+<li>
+<p>Effectively eliminates clustering.</p>
+</li>
+<li>
+<p>Can allow table to become nearly full.</p>
+</li>
+<li>
+<p>More difficult to implement delete.</p>
 </li>
 </list>
 
