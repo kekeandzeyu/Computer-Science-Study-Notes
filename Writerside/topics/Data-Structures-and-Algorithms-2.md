@@ -371,6 +371,48 @@ rectangles.</p>
 
 ## 12 Hash Tables
 
+<table style = "none">
+<tr><td rowspan = "2">implementation</td><td colspan="3">worst-case 
+cost (after <math>N</math> inserts)</td><td colspan = "3">
+average case (after <math>N</math> random inserts)</td>
+<td rowspan = "2">ordered iteration?</td><td rowspan = "2">
+key interface</td></tr>
+<tr><td>search</td><td>insert</td><td>delete</td><td>search hit</td>
+<td>insert</td><td>delete</td></tr>
+<tr><td>sequential search (unordered list)</td><td><math>N</math></td>
+<td><math>N</math></td><td><math>N</math></td><td><math>
+\frac {N}{2}</math></td><td><math>N</math></td><td><math>N</math>
+</td><td>no</td><td><code>equals()</code></td></tr>
+<tr><td>binary search (ordered list)</td><td><math>\lg N</math></td>
+<td><math>N</math></td><td><math>N</math></td><td><math>
+\lg N</math></td><td><math>\frac {N}{2}</math></td>
+<td><math>\frac {N}{2}</math></td><td>yes</td>
+<td><code>compareTo()</code></td></tr>
+<tr><td>BST</td><td><math>N</math></td><td><math>N</math></td>
+<td><math>N</math></td><td><math>1.39 \log N</math></td>
+<td><math>1.39 \log N</math></td><td>?</td><td>yes</td>
+<td><code>compareTo()</code></td></tr>
+<tr><td>2-3 tree</td><td><math>c \log N</math></td>
+<td><math>c \log N</math></td><td><math>c \log N</math></td>
+<td><math>c \log N</math></td><td><math>c \log N</math></td>
+<td><math>c \log N</math></td><td>yes</td><td><code>compareTo()</code></td></tr>
+<tr><td>red-black BST</td><td><math>2 \log N</math></td>
+<td><math>2 \log N</math></td><td><math>2 \log N</math></td>
+<td><math>1.00 \lg N</math></td><td><math>1.00 \lg N</math></td>
+<td><math>1.00 \lg N</math></td><td>yes</td><td><code>compareTo()
+</code></td></tr>
+<tr><td>separate chaining</td><td><math>\log N</math></td>
+<td><math>\log N</math></td><td><math>\log N</math></td>
+<td><math>3-5</math></td><td><math>3-5</math></td>
+<td><math>3-5</math></td><td>no</td><td><code>equals
+</code><code>hashCode()</code></td></tr>
+<tr><td>linear probing</td><td><math>\log N</math></td>
+<td><math>\log N</math></td><td><math>\log N</math></td>
+<td><math>3-5</math></td><td><math>3-5</math></td>
+<td><math>3-5</math></td><td>no</td><td><code>equals
+</code><code>hashCode()</code></td></tr>
+</table>
+
 ### 12.1 Hash Tables
 
 <list type = "decimal">
@@ -404,9 +446,9 @@ between 0 and M-1 (for use of array index).</p>
 </li>
 </list>
 
-> This is Horner's method to hash strings.
->
-{style = "note"}
+<note>
+<p>This is Horner's method to hash strings.</p>
+</note>
 
 ```Java
 public final class StringTest {
@@ -441,17 +483,17 @@ only <math>i ^ {th}</math> chain.</p>
 
 <img src = "../images_data/12-2-1.png" alt = "Separate Chaining"/>
 
-* Number of probes for search/insert/delete is proportional to N/M.
+<list>
+<li>
+<p>Number of probes for search/insert/delete is proportional to N/M.
+</p>
+</li>
+<li>
+<p>Typical choice: M ~ N/5 (constant operations)</p>
+</li>
+</list>
 
-* Typical choice: M ~ N/5 (constant operations)
-
-> Search, insert and delete (under uniform hashing assumption):
->
-> * Worst case: `lgN`
->
-> * Average case: `3-5`
->
-{style = "tip"}
+Java
 
 ```Java
 public class SeparateChainingHashST {
