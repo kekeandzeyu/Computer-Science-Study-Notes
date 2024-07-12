@@ -524,3 +524,40 @@ be passed as arguments.</p></td>
 </tr>
 </table>
 
+### 3.4 Mutual Recursion
+
+<p><format color = "Chartreuse">Luhn Algorithm</format> - Used to 
+verify credit card numbers.</p>
+
+<list type = "decimal">
+<li>
+<p>From the rightmost digit, which is the check digit, moving left, 
+double the value of every second digit; if product of this doubling 
+operation is greater than 9 (e.g., <math>7 \times 2 = 14</math>), 
+then sum the digits of the products (e.g., 10: <math>1 + 0 = 1</math>, 
+14: <math>1 + 4 = 5</math>).</p>
+</li>
+<li>
+<p>Take the sum of all the digits. The Luhn sum of a valid credit 
+card number is a multiple of 10.</p>
+</li>
+</list>
+
+<img src = "../images_python/3-4-1.png" alt = "Luhn Algorithm"/>
+
+```Python
+def luhn_sum(n):
+    if n < 10:
+        return n
+    else:
+        all_but_last, last = split(n)
+        return luhn_sum_double(all_but_last) + last
+        
+def luhn_sum_double(n):
+    all_but_last, last = split(n)
+    luhn_digit = sum_digits(2 * last)
+    if n < 10:
+        return luhn_digit
+    else:
+        return luhn_sum(all_but_last) + luhn_digit
+```
