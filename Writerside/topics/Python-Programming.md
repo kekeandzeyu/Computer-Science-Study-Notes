@@ -452,6 +452,9 @@ def sum_digits(n):
         return sum_digits(all_but_last) + last
 ```
 
+<img src = "../images_python/3-2-1.png" alt = "environment diagram 
+for example 1"/>
+
 <p>Example 2: </p>
 
 ```Python
@@ -462,7 +465,8 @@ def fact(n):
         return n * fact(n - 1)
 ```
 
-<img src = "../images_python/3-2-1.png" alt = "environment diagram"/>
+<img src = "../images_python/3-2-2.png" alt = "environment diagram 
+for example 2"/>
 
 ### 3.3 Iteration & Recursion
 
@@ -519,3 +523,4 @@ be passed as arguments.</p></td>
 </p></td>
 </tr>
 </table>
+
