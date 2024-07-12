@@ -248,7 +248,7 @@ Sort the <math>N</math> (distinct) numbers.
 </step>
 <step>
 For each pair of numbers <code>a[i]</code> and <code>a[j]</code>,
-<format color = "Red">binary search</format> for 
+<format color = "OrangeRed">binary search</format> for 
 <code>-(a[i] + a[j])</code>.
 </step>
 </procedure>
@@ -267,9 +267,19 @@ Step 2: <math>N ^ {2} \log N</math> with binary search.
 ### 1.4 Theory of Algorithms
 
 <table>
-<tr><td>notion</td><td>provides</td><td>example</td>
-<td>shorthand for</td><td>used to</td></tr>
-<tr><td><format color = "Red">Big Theta</format></td>
+<tr><td>Notion</td><td>Formal Definition</td><td>Provides</td><td>Example</td>
+<td>Shorthand for</td><td>Used to</td></tr>
+<tr><td><format color = "OrangeRed">Big Theta</format></td>
+<td>
+<code-block lang = "tex">
+R(N) \in \Theta (f(N))
+</code-block>
+<p>means there are positive constants <math>k_1</math> and <math>k_2
+</math> such that</p>
+<code-block lang = "tex">
+k_1 f(N) \leq R(N) \leq k_2 f(N)
+</code-block>
+</td>
 <td>asymptotic order of growth</td><td><math>\Theta (N ^ {2})</math></td>
 <td><code-block lang = "tex">
 \begin{align*}
@@ -278,7 +288,17 @@ Step 2: <math>N ^ {2} \log N</math> with binary search.
 &5 N ^ {2} + 22 N \log N + 3 N \\
 \end{align*}
 </code-block></td><td>classify algorithms</td></tr>
-<tr><td><format color = "Red">Big Oh</format></td>
+<tr><td><format color = "OrangeRed">Big Oh</format></td>
+<td>
+<code-block lang = "tex">
+R(N) \in O(f(N))
+</code-block>
+<p>means there is a positive constant <math>k_2
+</math> such that</p>
+<code-block lang = "tex">
+R(N) \leq k_2 f(N)
+</code-block>
+</td>
 <td><math>\Theta (N ^ {2})</math> and smaller</td><td><math>O(N ^ {2})</math></td>
 <td><code-block lang = "tex">
 \begin{align*}
@@ -287,7 +307,16 @@ Step 2: <math>N ^ {2} \log N</math> with binary search.
 &22 N \log N + 3 N \\
 \end{align*}
 </code-block></td><td>develop upper bounds</td></tr>
-<tr><td><format color = "Red">Big Omega</format></td>
+<tr><td><format color = "OrangeRed">Big Omega</format></td>
+<td>
+<code-block lang = "tex">
+R(N) \in \Omega (f(N))
+</code-block>
+<p>means there is a positive constant <math>k_1</math> such that</p>
+<code-block lang = "tex">
+k_1 f(N) \leq R(N)
+</code-block>
+</td>
 <td><math>\Theta (N ^ {2})</math> and larger</td><td><math>\Omega (N ^ {2})</math></td>
 <td><code-block lang = "tex">
 \begin{align*}
@@ -1000,10 +1029,10 @@ Separate interface from implementation.
 * Implementation can't know details of client needs =>
   many client can re-use the same implementation.
 
-* <format color = "Red">Design</format>: creates modular, reusable 
+* <format color = "OrangeRed">Design</format>: creates modular, reusable 
   libraries.
 
-* <format color = "Red">Performance</format>: use optimized 
+* <format color = "OrangeRed">Performance</format>: use optimized 
   implementation where it matters.
 
 #### 4.1.1 Built-in Stacks
@@ -1241,7 +1270,7 @@ represent a stack with <math>N</math> items.
 
 <table style = "header-row">
 <tr><td>Linked-List Implementation</td><td>Resizing-Array Implementation</td></tr>
-<tr><td>Every operation takes constant time in the <format color = "Red">worst case.</format></td><td>Every operation takes constant <format color = "Red">amortized</format> time.</td></tr>
+<tr><td>Every operation takes constant time in the <format color = "OrangeRed">worst case.</format></td><td>Every operation takes constant <format color = "OrangeRed">amortized</format> time.</td></tr>
 <tr><td>Uses extra time and space to deal with the links.</td><td>Less wasted space.</td></tr>
 </table>
 
@@ -1997,7 +2026,7 @@ def insertion_sort(arr):
 <procedure title = "Basic Plan of Shell Sort">
 <step>
     Move entries more than one position at a time 
-    by <format color = "Red"><math>h</math>-sorting</format> the array.
+    by <format color = "OrangeRed"><math>h</math>-sorting</format> the array.
 </step>
 <step>
     <math>h</math>-sort the array: Insertion sort, with stride <math>h</math>.
@@ -2184,7 +2213,7 @@ Proposition:
 <li>
     <p>Space complexity: <math>O(N)</math>.</p>
     <tip>
-    <p>Def: A sorting algorithm is <format color = "Red"> in-place</format> 
+    <p>Def: A sorting algorithm is <format color = "OrangeRed"> in-place</format> 
     if it uses ≤ <math>c log N</math> extra memory.</p>
     <p>Example: Bubble sort, Insertion sort, Selection sort, Shellsort,
     Quicksort.</p>
@@ -2233,7 +2262,7 @@ Proposition:
     Divide the array into two halves.
 </step>
 <step>
-    <format color = "Red">Recursively</format> sort each half.
+    <format color = "OrangeRed">Recursively</format> sort each half.
 </step>
 <step>
     Merge two halves.
@@ -2508,9 +2537,9 @@ Def:
   algorithms for solving a particular problem <math>X</math>.
 * Model of computation: Allowable operations.
 * Cost model: Operation count(s).
-* Upper bound: Cost guarantee provided by <format color = "Red">some</format>
+* Upper bound: Cost guarantee provided by <format color = "OrangeRed">some</format>
   algorithm for <math>X</math>.
-* Lower bound: Proven limit on cost guarantee of <format color = "Red">all</format>
+* Lower bound: Proven limit on cost guarantee of <format color = "OrangeRed">all</format>
   algorithms for <math>X</math>.
 * Optimal algorithm: Algorithm with best possible cost guarantee for <math>X</math>.
 
@@ -2520,7 +2549,7 @@ Example: sorting
 * Cost model: # compares.
 * Upper bound: ~ <math>NlgN</math> from mergesort.
 * Lower bound: ~ <math>NlgN</math>.
-* <format color = "Red">Optimal algorithm = mergesort</format>.
+* <format color = "OrangeRed">Optimal algorithm = mergesort</format>.
 
 Proposition: Any compare-based sorting algorithm must use at least
 <math>lg(N!) \sim NlgN</math> compares in the worst case.
@@ -2529,14 +2558,14 @@ Proof:
 
 * Assume array consists of <math>N</math> distinct values
   <math>a_{1}</math> through <math>a_{N}</math>.
-* Worst case dictated by <format color = "Red">height</format> <em>h</em>
+* Worst case dictated by <format color = "OrangeRed">height</format> <em>h</em>
   of decision tree.
 * Binary tree of height <math>h</math> has at most <math>2^h</math> leaves.
 * <math>N!</math> different orderings => at least <math>N!</math> leaves.
 
 ### 6.4 Stability
 
-A <format color = "Red">stable</format> sort preserves the relative
+A <format color = "OrangeRed">stable</format> sort preserves the relative
 order of items with equal keys.
 
 Methods:
@@ -2635,7 +2664,7 @@ Proposition:
                 39% more compares than mergesort.
             </li>
             <li>
-                <format color = "Red">But</format> faster than mergesort in
+                <format color = "OrangeRed">But</format> faster than mergesort in
                 practice because of less data movement.
             </li>
         </list>
@@ -2655,7 +2684,7 @@ Proposition:
         Caveat emptor:
         <list type = "bullet">
             <li>
-                Many textbook implementations go <format color = "Red">quadratic</format>
+                Many textbook implementations go <format color = "OrangeRed">quadratic</format>
                 if array:
                 <list type = "bullet">
                     <li>
@@ -2673,10 +2702,10 @@ Proposition:
 
 <procedure title = "Basic Plan for Quicksort">
 <step>
-    <format color = "Red">Shuffle</format> the array.
+    <format color = "OrangeRed">Shuffle</format> the array.
 </step>
 <step>
-    <format color = "Red">Partition</format> so that, for some <math>j</math>:
+    <format color = "OrangeRed">Partition</format> so that, for some <math>j</math>:
     <list>
         <li>
             Entry <code>a[j]</code> is in place;
@@ -2690,7 +2719,7 @@ Proposition:
     </list>
 </step>
 <step>
-    <format color = "Red">Sort</format> each piece recursively.
+    <format color = "OrangeRed">Sort</format> each piece recursively.
 </step>
 </procedure>
 
@@ -2789,7 +2818,7 @@ find the <math>k ^ {th}</math> largest.</p>
     Partition array so that entry <code>a[j]</code> is in place.
 </step>
 <step>
-    Repeat in <format color = "Red">one</format> subarray, depending 
+    Repeat in <format color = "OrangeRed">one</format> subarray, depending 
     on <math>j</math>; finished when <math>j</math> equals <math>k</math>.
 </step>
 </procedure>
@@ -2889,7 +2918,7 @@ def find_kth_smallest(nums, k):
 
 * Mergesort with duplicate keys: Always between
   <math>\frac {1}{2} NlgN</math>and <math>NlgN</math> compares.
-* Quicksort with duplicate keys: Algorithm goes <format color = "Red">quadratic</format>
+* Quicksort with duplicate keys: Algorithm goes <format color = "OrangeRed">quadratic</format>
   unless partitioning stops on equal keys.
 * Goal: Partitioning array into 3 parts so that:
     * Entries between <math>lt</math> and <math>gt</math> equal to partitioning item <math>v</math>.
@@ -3456,7 +3485,7 @@ abstraction.</p>
 <p>Insert a value with a specified key.</p>
 </li>
 <li>
-<p>Given a key, <format color = "Red">search</format> for the 
+<p>Given a key, <format color = "OrangeRed">search</format> for the 
 corresponding value.</p>
 </li>
 </list>
@@ -3504,8 +3533,8 @@ array of key-value pairs.</p>
 
 ### 9.2 Binary Search Trees
 
-<p>Def: A BST is a <format color = "Red">binary tree</format> in 
-<format color = "Red">symmetric order.</format></p>
+<p>Def: A BST is a <format color = "OrangeRed">binary tree</format> in 
+<format color = "OrangeRed">symmetric order.</format></p>
 
 <p>A <format color = "Dodgerblue">binary tree</format> is either:</p>
 <list type = "bullet">
@@ -3553,7 +3582,7 @@ Key not in tree => add new node
 </procedure>
 
 <p>Proposition: If <math>N</math> distinct keys are inserted into a BST
-in <format color = "Red">random order</format>, the expected number 
+in <format color = "OrangeRed">random order</format>, the expected number 
 of compares for a search/insert is <math>\sim 2 \ln N</math>.
 </p>
 
@@ -4168,7 +4197,7 @@ root to null link has same length.</p>
 <p>Between 18 and 30 for a billion nodes.</p>
 </li>
 <li>
-<p>Guaranteed <format color = "Red">logarithmic</format> performance
+<p>Guaranteed <format color = "OrangeRed">logarithmic</format> performance
 for search and insert.</p>
 </li>
 </list>
@@ -4288,15 +4317,15 @@ at the bottom"/>
 
 <procedure title = "Insertion for Red-Black BSTs" type = "choices">
 <step>
-<p>Right child red, left child black: <format color = "Red">rotate 
+<p>Right child red, left child black: <format color = "OrangeRed">rotate 
 left</format>.</p>
 </step>
 <step>
-<p>Left child, left-left grandchild red: <format color = "Red">rotate
+<p>Left child, left-left grandchild red: <format color = "OrangeRed">rotate
 right</format>.</p>
 </step>
 <step>
-<p>Both children red: <format color = "Red">flip colors</format>.</p>
+<p>Both children red: <format color = "OrangeRed">flip colors</format>.</p>
 </step>
 </procedure>
 

@@ -5,7 +5,7 @@
 ## 11 Geometric Applications of BSTs
 
 <p><format color = "DodgerBlue">Topic</format>: Intersections among 
-<format color = "Red">geometric objects</format>.</p>
+<format color = "OrangeRed">geometric objects</format>.</p>
 
 <p><format color = "DodgerBlue">Applications</format>: CAD, games, 
 movies, virtual reality, databases...</p>
@@ -14,16 +14,16 @@ movies, virtual reality, databases...</p>
 
 <list type = "bullet">
 <li>
-<p><format color = "Red">Range search</format>: find all key between
+<p><format color = "OrangeRed">Range search</format>: find all key between
 <math>k_{1}</math> and <math>k_{2}</math>.</p>
 </li>
 <li>
-<p><format color = "Red">Range count</format>: # of keys between
+<p><format color = "OrangeRed">Range count</format>: # of keys between
 <math>k_{1}</math> and <math>k_{2}</math>.</p>
 </li>
 <li>Geometric interpretation: Keys are point on a 
-<format color = "Red">line</format>; find/count points in a given 
-<format color = "Red">1d interval</format>.</li>
+<format color = "OrangeRed">line</format>; find/count points in a given 
+<format color = "OrangeRed">1d interval</format>.</li>
 </list>
 
 <procedure title = "1d range count">
@@ -1658,8 +1658,8 @@ of length <math>n</math> ? => <math>n</math></p>
 
 <list type="decimal">
 <li>
-<p>Graph: Set of <format color = "Red">vertices</format> connected
-pairwise by <format color = "Red">edges</format>.</p>
+<p>Graph: Set of <format color = "OrangeRed">vertices</format> connected
+pairwise by <format color = "OrangeRed">edges</format>.</p>
 </li>
 <li>
 <p>Path: Sequence of vertices connected by edges.</p>
@@ -1668,7 +1668,7 @@ pairwise by <format color = "Red">edges</format>.</p>
 <p>Cycle: Path whose first and last vertices are the same.</p>
 </li>
 <li>
-<p>Two vertices are <format color = "Red">connected</format> if
+<p>Two vertices are <format color = "OrangeRed">connected</format> if
 there is a path between them.</p>
 </li>
 </list>
@@ -1705,7 +1705,7 @@ In practice: use adjacency-lists representation.
 Algorithms based on iterating over vertices adjacent to <math>v</math>.
 </li>
 <li>
-Real-world graphs tend to be <format color = "Red">sparse</format>.
+Real-world graphs tend to be <format color = "OrangeRed">sparse</format>.
 (huge number of vertices, small average vertex degree).
 </li>
 </list>
@@ -2640,9 +2640,9 @@ int main() {
 Def:
 
 * Strongly Connected Components (SCC): Vertices `v` and `w` are
-  <format color = "red">strongly connected</format> if there is a 
+  <format color = "OrangeRed">strongly connected</format> if there is a 
   directed path from `v` to `w` and a directed path from `w` to `v`.
-* A <format color = "red">strong component</format> is a maximal
+* A <format color = "OrangeRed">strong component</format> is a maximal
   subset of strongly-connected vertices.
 
 > `v` is strongly connected to `v`.
@@ -2654,9 +2654,9 @@ Def:
 ### 16.1 Introduction to MSTs
 
 * Def: Given an undirected graph G with positive edge weights,
-  (connected), a <format color = "red">spanning tree</format> of G
-  is both a <format color = "Red">tree</format> (connected and
-  acyclic) and <format color = "Red">spanning</format> (includes
+  (connected), a <format color = "OrangeRed">spanning tree</format> of G
+  is both a <format color = "OrangeRed">tree</format> (connected and
+  acyclic) and <format color = "OrangeRed">spanning</format> (includes
   all of the vertices).
 
 <img src="../images_data/16-1-1.png" alt="Alt text" width="450"/>
@@ -2683,9 +2683,9 @@ Def:
 >
 {style = "note"}
 
-* Def: A <format color = "red">cut</format> in a graph is a partition
+* Def: A <format color = "OrangeRed">cut</format> in a graph is a partition
   of its vertices into two (nonempty) sets.
-* Def: A <format color = "red">crossing edge</format> is an edge that
+* Def: A <format color = "OrangeRed">crossing edge</format> is an edge that
   connects a vertex in one set with a vertex in the other.
 * Cut property: Given any cut in a graph, the crossing edge of min
   weight is in the MST.
@@ -3646,17 +3646,17 @@ Explanantion for k = lps&#91;k - 1&#93; in computePrefix:
   The current prefix (also the suffix, without considering <em>C</em>)
   is "ABA".
 
-  <format color = "Red">ABA</format> BA
+  <format color = "OrangeRed">ABA</format> BA
 
-  AB<format color = "Red">ABA</format>
+  AB<format color = "OrangeRed">ABA</format>
 
 * Since <em>C</em> is a mismatch for pattern&#91;3&#93; = <em>B</em>,
   we need to first find the longest prefix in "ABA" that is also
   a suffix.
 
-  <format color = "Red">ABA</format><format color = "Aqua">B</format> AC
+  <format color = "OrangeRed">ABA</format><format color = "Aqua">B</format> AC
 
-  AB<format color = "Red">ABA</format><format color = "Aqua">C</format>
+  AB<format color = "OrangeRed">ABA</format><format color = "Aqua">C</format>
 
 * The longest prefix and suffix in <em>ABA</em> is <em>A</em>,
   which is given by lps&#91;q - 1&#93; = lps&#91;2&#93; = 1.
@@ -3665,9 +3665,9 @@ Explanantion for k = lps&#91;k - 1&#93; in computePrefix:
   the character behind the pattern&#91;1&#93; = <em>B</em>,
   which is not.
 
-  <format color = "Red">A</format><format color = "Aqua">B</format> ABAC
+  <format color = "OrangeRed">A</format><format color = "Aqua">B</format> ABAC
 
-  ABAB<format color = "Red">A</format><format color = "Aqua">C</format>
+  ABAB<format color = "OrangeRed">A</format><format color = "Aqua">C</format>
 
 * The longest prefix and suffix in "A" is "", k = 0, lps&#91;5&#93; = 0.
 

@@ -289,7 +289,7 @@ std::cout << (iss.eof() ? "EOF" : "Not EOF") << std::endl;
 reaches EOF, past the last token in the buffer.</p>
 </li>
 <li>
-<p>The position pointer skips whitespace <format color = "Red">after</format> 
+<p>The position pointer skips whitespace <format colo = "OrangeRed">after</format> 
 the token with each &gt;&gt; operation.</p>
 </li>
 <li>
