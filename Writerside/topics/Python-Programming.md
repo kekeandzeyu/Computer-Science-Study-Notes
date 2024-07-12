@@ -465,3 +465,57 @@ def fact(n):
 <img src = "../images_python/3-2-1.png" alt = "environment diagram"/>
 
 ### 3.3 Iteration & Recursion
+
+<warning>
+<p>Iteration is a special case of recursion!</p>
+</warning>
+
+<table style = "both">
+<tr><td></td><td>Iteration</td><td>Recursion</td></tr>
+<tr><td>Sample Implementation</td>
+<td><p>Using while: </p>
+<code-block lang = "python">
+def fact_iter(n):
+    total, k = 1, 1
+    while k &lt;= n:
+        total, k = total * k, k + 1
+    return total
+</code-block>
+</td>
+<td>
+<p>Using recursion: </p>
+<code-block lang = "python">
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n - 1)
+</code-block>
+</td></tr>
+<tr>
+<td>Math</td><td>
+<code-block lang = "tex">
+n! = \prod_{\substack{k = 1}} ^ {\substack{n}} k
+</code-block>
+</td>
+<td>
+<code-block lang = "tex">
+n! = 
+\left\{
+\begin{array}{ll}
+1 & \text{if } n = 0 \\
+n \cdot (n - 1)! & \text{otherwise} \\
+\end{array}
+\right.
+</code-block>
+</td>
+</tr>
+<tr><td><p>Conversion</p><p>(to another)</p></td>
+<td><p>More formulaic: </p>
+<p>The <format style = "italic">state</format> of an iteration can
+be passed as arguments.</p></td>
+<td><p>Can be tricky: </p>
+<p>Find out what state must be maintained by the iterative function.
+</p></td>
+</tr>
+</table>
