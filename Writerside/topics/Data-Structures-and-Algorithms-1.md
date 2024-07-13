@@ -1413,7 +1413,7 @@ print(q.empty())
 <step>
     Link the new node to the end of the list.
 </step>
-<img src = "../images_data/4-2-2.png" alt = "Queue enqueue" width = "450" style = "inline"/>
+<img src = "../images_data/4-2-2.png" alt = "Queue enqueue" style = "inline"/>
 </procedure>
 
 > This is the implementation of queues.
@@ -3628,17 +3628,17 @@ otherwise, it is the key at the root.
 <step>
 <p>Update subtree counts.</p>
 </step>
-<img src = "../images_data/9-2-1.png" alt = "Delete the minimum" width = "240" style = "inline"/>
+<img src = "../images_data/9-2-1.png" alt = "Delete the minimum" style = "inline"/>
 </procedure>
 
 <procedure title = "Basic Plan for Habbard Deletion" type = "choices">
 <step>
 <p>0 children: Delete <math>t</math> by setting parent link to null.</p>
-<img src = "../images_data/9-2-2.png" alt = "Habbard Deletion 0 children" width = "450" style = "inline"/>
+<img src = "../images_data/9-2-2.png" alt = "Habbard Deletion 0 children" style = "inline"/>
 </step>
 <step>
 <p>1 child: Delete <math>t</math> by replacing parent link.</p>
-<img src = "../images_data/9-2-3.png" alt = "Habbard Deletion 1 child" width = "450" style = "inline"/>
+<img src = "../images_data/9-2-3.png" alt = "Habbard Deletion 1 child" style = "inline"/>
 </step>
 <step>
 <p>2 children:</p>
@@ -3653,7 +3653,7 @@ otherwise, it is the key at the root.
 <p>Put <math>x</math> in <math>t</math>'s spot.</p>
 </li>
 </list>
-<img src = "../images_data/9-2-4.png" alt = "Habbard Deletion 2 children" width = "450" style = "inline"/>
+<img src = "../images_data/9-2-4.png" alt = "Habbard Deletion 2 children" style = "inline"/>
 </step>
 </procedure>
 
@@ -4088,6 +4088,60 @@ class BST:
             return self._min(x.left)
 ```
 
+### 9.3 Traversal
+
+<p>To traverse binary trees with depth-first search, execute the 
+following three operations in a certain order: </p>
+
+<list type = "bullet">
+<li>
+<p><format color = "BlanchedAlmond">N:</format> Visit the current node.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">L:</format> Recursively traverse the 
+current node's left subtree.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">R:</format> Recursively traverse the 
+current node's right subtree.</p>
+</li>
+</list>
+
+<p>Three types of traversal: </p>
+
+<list type = "alpha-lower">
+<li>
+<p><format color = "Red">Pre-order</format> => NLR</p>
+</li>
+<li>
+<p><format color = "Green">Post-order</format> => LRN</p>
+</li>
+<li>
+<p><format color = "Blue">In-order</format> => LNR</p>
+</li>
+</list>
+
+<img src = "../images_data/9-3-1.png" alt = "Traversal"/>
+
+<p>Depth-first traversal (dotted path) of a binary tree:</p>
+<list type = "alpha-lower">
+<li>
+<p><format color = "Red">Pre-order</format> <format style = "italic">
+(node visited at position red)</format>:</p>
+<p>F, B, A, D, C, E, G, I, H;</p>
+</li>
+<li>
+<p><format color = "Green">In-order</format> <format style = "italic">
+(node visited at position green)</format>:</p>
+<p>A, B, C, D, E, F, G, H, I;</p>
+</li>
+<li>
+<p><format color = "Blue">Post-order</format> <format style = "italic">
+(node visited at position blue)</format>:</p>
+<p>A, C, E, D, B, H, I, G, F.</p>
+</li>
+</list>
+
 ## 10 Balanced Search Trees
 
 <table style = "none">
@@ -4137,7 +4191,7 @@ key interface</td></tr>
 </li>
 </list>
 
-<p><img src = "../images_data/10-1-1.png" alt = "2-3 Tree" width = "450"/></p>
+<p><img src = "../images_data/10-1-1.png" alt = "2-3 Tree"/></p>
 
 <procedure title = "Basic Plan for Searching in 2-3 Tree">
 <step>
@@ -5463,7 +5517,7 @@ nodes.</p>
 <p>Internal nodes contain copies of keys to guide search.</p>
 </li>
 </list>
-<img src = "../images_data/10-3-1.png" alt = "B-Tree" width = "450" style="inline"/>
+<img src = "../images_data/10-3-1.png" alt = "B-Tree" style="inline"/>
 </li>
 <li>
 <p>Proposition: </p>
@@ -5517,7 +5571,7 @@ INGRES, SQL, PostgreSQL.</p>
     <step>
         <p>Follow associated link (recursively).</p>
     </step>
-<img src = "../images_data/10-3-2.png" alt = "Search in B-Tree" width = "450" />
+<img src = "../images_data/10-3-2.png" alt = "Search in B-Tree"/>
 </procedure>
 
 <procedure title = "Insert in B-Tree">
@@ -5531,5 +5585,5 @@ INGRES, SQL, PostgreSQL.</p>
         <p>Split nodes with <math>M</math> key-link pairs on the way up
         the tree.</p>
     </step>
-<img src = "../images_data/10-3-3.png" alt = "Insert in B-Tree" width = "450" />
+<img src = "../images_data/10-3-3.png" alt = "Insert in B-Tree"/>
 </procedure>

@@ -17,3 +17,4 @@ dispersion of relative knowledge. If someone's original work is used but not men
 4. CS61C: Great Ideas in Computer Architecture (UC Berkeley) by Instructors Stephan Kaminsky, Sean Farhat, Jenny Song, and the rest of CS61C staff.
 5. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz and the rest of CS162 staff.
 6. By Aeroid - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=137790829.
+7. https://en.wikipedia.org/wiki/Tree_traversal.
