@@ -2,8 +2,8 @@
 <!DOCTYPE instance-profile
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
-<instance-profile id="c"
-                 name="Computer-Science-Study-Notes"
+<instance-profile id="hi"
+                 name="Notes"
                   start-page="Data-Structures-and-Algorithms-1.md">
 
     <toc-element topic="Data-Structures-and-Algorithms-1.md"/>

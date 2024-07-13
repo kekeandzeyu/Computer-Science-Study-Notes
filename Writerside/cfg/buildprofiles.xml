@@ -8,5 +8,11 @@
             <noindex-content>false</noindex-content>
         </variables>
     </build-profile>
+    <build-profile instance="hi">
+        <variables>
+            <noindex-content>false</noindex-content>
+            <primary-color>strawberry</primary-color>
+        </variables>
+    </build-profile>
 
 </buildprofiles>
