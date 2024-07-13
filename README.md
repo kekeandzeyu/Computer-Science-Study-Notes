@@ -2,14 +2,11 @@
 
 ## 1 Intention & Background
 
-When I decided to learn computer science myself, I met with difficulties at first. Now this note is still under construction, and I hope this can be helpful to other people who
-have the same experience with me.
+When I decided to learn computer science myself, I met with difficulties at first. Now this note is still under construction, and I hope this can be helpful to other people who have the same experience with me.
 
 ## 2 References
 
-For this part, I'd like to express my sincere gratitude to all the professors and TAs listed below, whose lectures really help me along my learning process. I also refer to
-some other websites and books. It took me a long time before I realized the importance of mentioning the references, and giving credit to those who make contributions to the 
-dispersion of relative knowledge. If someone's original work is used bu
+For this part, I'd like to express my sincere gratitude to all the professors and TAs listed below, whose lectures really help me along my learning process. I also refer to some other websites and books. It took me a long time before I realized the importance of mentioning the references, and giving credit to those who make contributions to the dispersion of relative knowledge. If someone's original work is used bu
 
 Topic 1: Data Structures and Algorithms
 
