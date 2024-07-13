@@ -1656,16 +1656,21 @@ of length <math>n</math> ? => <math>n</math></p>
 
 ### 14.1 Introduction to Graphs
 
-<list type="decimal">
+<p><format color = "DodgerBlue">Terminology:</format> </p>
+
+<list type = "alpha-lower">
 <li>
-<p>Graph: Set of <format color = "OrangeRed">vertices</format> connected
-pairwise by <format color = "OrangeRed">edges</format>.</p>
+<p><format color = "Chartreuse">Graph:</format> Set of 
+<format color = "OrangeRed">vertices</format> connected pairwise by 
+<format color = "OrangeRed">edges</format>.</p>
 </li>
 <li>
-<p>Path: Sequence of vertices connected by edges.</p>
+<p><format color = "Chartreuse">Path:</format> Sequence of vertices 
+connected by edges.</p>
 </li>
 <li>
-<p>Cycle: Path whose first and last vertices are the same.</p>
+<p><format color = "Chartreuse">Cycle:</format> Path whose first and 
+last vertices are the same.</p>
 </li>
 <li>
 <p>Two vertices are <format color = "OrangeRed">connected</format> if
@@ -1673,40 +1678,39 @@ there is a path between them.</p>
 </li>
 </list>
 
-<img src="../images_data/14-1-1.png" alt="Undirected graph" width="450"/>
+<img src="../images_data/14-1-1.png" alt = "undirected graph"/>
 
 ### 14.2 Graph API
 
-<p>Vertex (Application): convert between names and integers with symbol
-table.</p>
+<p><format color = "DodgerBlue">Representation Types:</format> </p>
 
-Representation Type:
-
-<list type = "decimal">
+<list type = "alpha-lower">
 <li>
-<p>Set-of-edges graph representation: Maintain a list of the edges.
-(linked list or array).</p>
+<p><format color = "BlanchedAlmond">Set-of-edges graph representation: 
+</format> Maintain a list of the edges (linked list or array).</p>
 </li>
 <li>
-<p>Adjacency-matrix graph representation: Maintain a two-dimensional
-<math>V</math> by <math>V</math> boolean array. For each edge 
+<p><format color = "BlanchedAlmond">Adjacency-matrix graph 
+representation:</format> Maintain a two-dimensional
+<math>V</math> by <math>V</math> boolean array; for each edge 
 <math>v-w</math> in the graph: <code>adj[v][w] = adj[w][v] = true</code>.</p>
 </li>
 <li>
-<p>Adjacency-list graph representation: Maintain vertex-indexed array
-of lists.</p>
+<p><format color = "BlanchedAlmond">Adjacency-list graph 
+representation:</format> Maintain vertex-indexed array of lists.</p>
 </li>
 </list>
 
-In practice: use adjacency-lists representation.
+<p>In practice: use adjacency-lists representation.</p>
 
 <list type = "bullet">
 <li>
-Algorithms based on iterating over vertices adjacent to <math>v</math>.
+<p>Algorithms based on iterating over vertices adjacent to <math>v
+</math>.</p>
 </li>
 <li>
-Real-world graphs tend to be <format color = "OrangeRed">sparse</format>.
-(huge number of vertices, small average vertex degree).
+<p>Real-world graphs tend to be <format color = "OrangeRed">sparse
+</format> (huge number of vertices, small average vertex degree).</p>
 </li>
 </list>
 
