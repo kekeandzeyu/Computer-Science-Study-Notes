@@ -34,7 +34,7 @@ starts, does not change.</p>
 </li>
 </list>
 
-<img src = "../images_architecture/1-2.png" alt = "C Memory Layout"/>
+<img src = "../images_architecture/1-1.png" alt = "C Memory Layout"/>
 
 <p><format color = "DodgerBlue">Storage:</format> </p>
 
@@ -127,8 +127,14 @@ global variables.</p>
 <list type = "bullet">
 <li>
 <p>The size of an address (and thus, the size of a pointer) in bytes
-depends on architecture.</p>
+depends on architecture. For 64-bit system, the size of an address is 8 
+bytes, and the system has <math>2 ^ {64}</math> possible addresses.</p>
+</li>
+<li>
+<p>If a machine is <format style = "bold">byte-addressed</format>, 
+then each of its addresses points to a unique <format style = "bold">
+byte</format>.</p>
 </li>
 </list>
 
-<img src = "../images_architecture/1-3.png" alt = "Endianness"/>
+<img src = "../images_architecture/1-2.png" alt = "Endianness"/>
