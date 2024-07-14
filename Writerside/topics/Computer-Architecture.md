@@ -122,4 +122,13 @@ global variables.</p>
 
 #### 2.4 Addressing & Endianness
 
+<p><format color = "DodgerBlue">Addresses:</format> </p>
+
+<list type = "bullet">
+<li>
+<p>The size of an address (and thus, the size of a pointer) in bytes
+depends on architecture.</p>
+</li>
+</list>
+
 <img src = "../images_architecture/1-3.png" alt = "Endianness"/>
