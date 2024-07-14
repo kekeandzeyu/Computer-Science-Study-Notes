@@ -137,4 +137,17 @@ byte</format>.</p>
 </li>
 </list>
 
+<p><format color = "DodgerBlue">Endianness:</format> </p>
+
 <img src = "../images_architecture/1-2.png" alt = "Endianness"/>
+
+<list type = "bullet">
+<li>
+<p><format color = "Chartreuse">Big Endian:</format> Descending 
+numerical significance with ascending memory addresses.</p>
+</li>
+<li>
+<p><format color = "Chartreuse">Little Endian:</format> Ascending 
+numerical significance with ascending memory addresses.</p>
+</li>
+</list>
