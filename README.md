@@ -1,5 +1,7 @@
 # Computer Science Study Notes
 
+![Favicon](Writerside/images/photo.png)
+
 > *We are all lost stars, trying to light up the dark.*
 
 ## 1 Intention & Background
