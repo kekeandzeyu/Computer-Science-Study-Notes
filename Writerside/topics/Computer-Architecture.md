@@ -163,3 +163,19 @@ numerical significance with ascending memory addresses.</p>
 <p>Dynamically allocated memory goes on the 
 <format color = "OrangeRed">Heap</format>, more permanent and 
 persistent than Stack.</p>
+
+<list type = "alpha-lower">
+<li>
+<p><format color = "BlanchedAlmond">malloc(n)</format></p>
+<list type = "bullet">
+<li>
+<p>Allocates a continuous block of <format style = "bold, italic">
+n bytes</format> of uninitialized memory (contains garbage!)</p>
+</li>
+<li>
+<p>Returns a pointer to the beginning of an allocated block; NULL 
+indicates failed request (check for this!)</p>
+</li>
+</list>
+</li>
+</list>
