@@ -151,3 +151,15 @@ numerical significance with ascending memory addresses.</p>
 numerical significance with ascending memory addresses.</p>
 </li>
 </list>
+
+<warning>
+<p>Endianess ONLY APPLIES to values that occupy multiple bytes.</p>
+<p>Endianness refers to STORAGE IN MEMORY NOT number representation.
+</p>
+</warning>
+
+#### 2.5 Heap
+
+<p>Dynamically allocated memory goes on the 
+<format color = "OrangeRed">Heap</format>, more permanent and 
+persistent than Stack.</p>
