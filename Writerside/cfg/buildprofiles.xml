@@ -12,6 +12,7 @@
         <variables>
             <noindex-content>false</noindex-content>
             <primary-color>strawberry</primary-color>
+            <custom-favicons>photo.png</custom-favicons>
         </variables>
     </build-profile>
 
