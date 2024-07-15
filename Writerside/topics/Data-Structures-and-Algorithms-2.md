@@ -1813,6 +1813,26 @@ through a graph.</p>
 </li>
 </list>
 
+<procedure title = "Depth-First Search">
+<step>
+<p>Mark vertex <math>v</math> as visited.</p>
+</step>
+<step>
+<p>Recursively visit all the unmarked vertices adjacent to <math>v
+</math>.</p>
+</step>
+</procedure>
+
+<p><format color = "DodgerBlue">Properties:</format> </p>
+
+<list type = "bullet">
+<li>
+<p></p>
+</li>
+</list>
+
+Java
+
 ```Java
 import java.util.*;
 
@@ -1881,6 +1901,8 @@ public class DepthFirstSearch {
     }
 }
 ```
+
+C++
 
 ```C++
 #include <vector>

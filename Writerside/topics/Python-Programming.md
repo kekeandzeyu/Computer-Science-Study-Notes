@@ -110,10 +110,17 @@ s = {1, 2, 3}
 s = set()
 ```
 
-Set cannot contain unhashable type aka mutable type.
+<p>Set cannot contain unhashable type aka mutable type.</p>
 
-* Hashable type: int, float, string, tuple, bool.
-* Unhashable type: list, set, dict.
+<list type = "bullet">
+<li>
+<p><format color = "BlanchedAlmond">Hashable type:</format> int, float, 
+string, tuple, bool.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Unhashable type:</format> list, set, 
+dict.</p>
+</li>
 
 ```Python
 s = {1, 2, 3, []} # TypeError: unhashable type: 'list'
