@@ -121,6 +121,7 @@ string, tuple, bool.</p>
 <p><format color = "BlanchedAlmond">Unhashable type:</format> list, set, 
 dict.</p>
 </li>
+</list>
 
 ```Python
 s = {1, 2, 3, []} # TypeError: unhashable type: 'list'
