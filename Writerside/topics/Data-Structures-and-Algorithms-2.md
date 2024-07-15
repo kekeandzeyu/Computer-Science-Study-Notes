@@ -1799,6 +1799,20 @@ class Graph:
 
 ### 14.3 Depth-First Search
 
+<p><format color = "DodgerBlue">Goal:</format> Systematically search
+through a graph.</p>
+
+<p><format color = "DodgerBlue">Typical applications:</format> </p>
+
+<list type = "bullet">
+<li>
+<p>Find all vertices connected to a given source vertex.</p>
+</li>
+<li>
+<p>Find a path between two vertices.</p>
+</li>
+</list>
+
 ```Java
 import java.util.*;
 

@@ -5587,3 +5587,46 @@ INGRES, SQL, PostgreSQL.</p>
     </step>
 <img src = "../images_data/10-3-3.png" alt = "Insert in B-Tree"/>
 </procedure>
+
+### 10.4 AVL Trees
+
+<p>AVL trees maintain <format style = "bold">height-balance</format> 
+(also called the <format style = "bold">AVL Property</format>).</p>
+
+<list type = "alpha-lower">
+<li>
+<p><format color = "Chartreuse">Skew of a node:</format> The height of
+of its right subtree minus that of its left subtree.</p>
+
+<p>A node is height-blanced if <math>\text {skew} \in \{-1, 0, 1\}
+</math>.</p>
+
+<p><format color = "DodgerBlue">Properties:</format> A binary tree 
+with height-balanced nodes has height <math>h = O(\log n)</math>.</p>
+
+<p>Proof: </p>
+
+<code-block lang = "tex" style = "inline">
+\begin{align}
+F(0) = 1, F(1) = 2, F(h) &= 1 + F(h - 1) + F(h - 2) \\
+&\geq 2F(h - 2) \\
+F(h) \geq 2 ^ {\frac {h}{2}}
+\end{align}
+</code-block>
+</li>
+<li>
+<p>Suppose adding or removing leaf from a height-balanced tree results
+in imbalance, skews still have magnitude <math>\leq 2</math>.</p>
+
+<p><format color = "BlanchedAlmond">Case 1:</format> skew of F is 0 
+or <format color = "BlanchedAlmond">Case 2:</format> skew of F is 1
+</p>
+<p>=> Perform a left rotation on B.</p>
+<img src = "../images_data/10-4-1.png" alt = "Balancing AVL Trees"/>
+
+<p><format color = "BlanchedAlmond">Case 3:</format> skew of F is −1
+</p>
+<p>Perform a right rotation on F, then a left rotation on B</p>
+<img src = "../images_data/10-4-2.png" alt = "Balancing AVL Trees"/>
+</li>
+</list>
