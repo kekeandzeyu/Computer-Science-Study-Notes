@@ -1827,7 +1827,13 @@ through a graph.</p>
 
 <list type = "bullet">
 <li>
-<p></p>
+<p>DFS marks all vertices connected to <math>s</math> in time 
+proportional to the sum of their degrees.</p>
+</li>
+<li>
+<p>After DFS, can find vertices connected to <math>s</math> in 
+constant time and can find a path to s (if one exists) in time 
+proportional to its length.</p>
 </li>
 </list>
 
@@ -1977,6 +1983,8 @@ private:
     int s;
 };
 ```
+
+Python
 
 ```Python
 class Graph:

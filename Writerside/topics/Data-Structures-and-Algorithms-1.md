@@ -8,29 +8,29 @@
 
 #### 1.1.1 Data Storage Structures
 
-<list type = "decimal">
+<list type = "alpha-lower">
 <li>
-Sequential Storage Structure
+<format color = "BlanchedAlmond">Sequential Storage Structure</format>
     <list type = "bullet">
-    <li>Linear list</li>
-    <li>Array</li>
-    <li>Vector</li>
+    <li><p>Linear list</p></li>
+    <li><p>Array</p></li>
+    <li><p>Vector</p></li>
     </list>
 </li>
 <li>
-Linked Storage Structure
+<format color = "BlanchedAlmond">Linked Storage Structure</format>
     <list type = "bullet">
     <li>Linked list</li>
     </list>
 </li>
 <li>
-Index Storage Structure
+<format color = "BlanchedAlmond">Index Storage Structure</format>
     <list>
     <li>B-Tree/B+-Tree</li>
     </list>
 </li>
 <li>
-Hashing Storage Structure
+<format color = "BlanchedAlmond">Hashing Storage Structure</format>
     <list>
     <li>Hash table</li>
     </list>
@@ -48,20 +48,23 @@ Hashing Storage Structure
 
 ### 1.2 Mathematical Models
 
-Simplifications:
+<p><format color = "DodgerBlue">Simplifications:</format> </p>
 
 <list type = "decimal">
 <li>
-<p><format color = "DodgerBlue">Cost Model</format>: Use some basic 
-operations as a proxy for running time.</p>
+<p><format color = "BlanchedAlmond">Cost Model</format>: Use some 
+basic operations as a proxy for running time.</p>
 <table>
 <tr><td>Operation</td><td>Frequency</td></tr>
-<tr><td>variable declaration</td><td><math>N + 2</math></td></tr>
-<tr><td>assignment statement</td><td><math>N + 2</math></td></tr>
-<tr><td>less than compare</td><td><math>\frac {(N + 1)(N + 2)} {2}</math></td></tr>
-<tr><td>equal to compare</td><td><math>\frac {N(N - 1)} {2}</math></td></tr>
-<tr><td>array access</td><td><math>N(N - 1)</math></td></tr>
-<tr><td>increment</td><td><math>\frac {N(N - 1)} {2}</math> to <math>N(N - 1)</math></td></tr>
+<tr><td>Variable declaration</td><td><math>N + 2</math></td></tr>
+<tr><td>Assignment statement</td><td><math>N + 2</math></td></tr>
+<tr><td>Less than compare</td><td><math>\frac {(N + 1)(N + 2)} {2}
+</math></td></tr>
+<tr><td>Equal to compare</td><td><math>\frac {N(N - 1)} {2}</math>
+</td></tr>
+<tr><td>Array access</td><td><math>N(N - 1)</math></td></tr>
+<tr><td>Increment</td><td><math>\frac {N(N - 1)} {2}</math> to <math>
+N(N - 1)</math></td></tr>
 </table>
 </li>
 <li>
@@ -90,8 +93,8 @@ operations as a proxy for running time.</p>
 #### 1.3.1 Common Classifications
 
 <table>
-<tr><td>order of growth</td><td>name</td><td>typical code 
-framework</td><td>decription</td><td>example</td><td>T(2N)/T(N)</td>
+<tr><td>Order of growth</td><td>Name</td><td>Typical code 
+Framework</td><td>Decription</td><td>Example</td><td>T(2N)/T(N)</td>
 </tr>
 <tr><td><math>1</math></td><td>constant</td>
 <td><code-block lang = "C++">a = b + c;</code-block></td>
@@ -127,18 +130,16 @@ for (int i = 0; i &lt; N; i++)
 <td>8</td></tr>
 <tr><td><math>2 ^ {N}</math></td><td>exponential</td>
 <td>see combinational search lecture</td><td>exhaustive search</td>
-<td>chekc all subsets</td><td>T(N)</td></tr>
+<td>check all subsets</td><td>T(N)</td></tr>
 </table>
 
 #### 1.3.2 Binary Search
 
-<p>Proposition: Binary search uses at most &le; <math>1 + \log N</math>  
-to search in a sorted array of size <math>N</math>.
-</p>
+<p><format color = "DodgerBlue">Properties:</format> Binary search 
+uses at most &le; <math>1 + \log N</math> to search in a sorted array
+of size <math>N</math>.</p>
 
-<p>
-Proof skectch:
-</p>
+<p><format color = "DodgerBlue">Proof skectch:</format> </p>
 
 <p>
 <math>T (N) = </math> number of compares to binary search in a sorted 
@@ -233,14 +234,15 @@ def binary_search(arr, x):
 
 #### 1.3.3 3-Sum
 
-<p>Leetcode 15: 3Sum</p>
+<p><a href = "https://leetcode.com/problems/3sum/description/" 
+summary = "Leetcode 15: 3Sum">Leetcode 15: 3Sum</a></p>
 
-<p>
-Given an integer array nums, return all the triplets 
+<p><format color = "DodgerBlue">Description:</format> </p>
+
+<p>Given an integer array nums, return all the triplets 
 <code>[nums[i], nums[j], nums[k]]</code> such that 
 <code>i != j</code>, <code>i != k</code>, and <code>j != k</code>, 
-and <code>nums[i] + nums[j] + nums[k] == 0</code>.
-</p>
+and <code>nums[i] + nums[j] + nums[k] == 0</code>.</p>
 
 <procedure title = "Basic Plan for 3-Sum">
 <step>
@@ -286,6 +288,7 @@ k_1 f(N) \leq R(N) \leq k_2 f(N)
 &\frac {N ^ {2}}{2} \\
 &10 N ^ {2} \\
 &5 N ^ {2} + 22 N \log N + 3 N \\
+\text {...}
 \end{align*}
 </code-block></td><td>classify algorithms</td></tr>
 <tr><td><format color = "OrangeRed">Big Oh</format></td>
@@ -305,6 +308,7 @@ R(N) \leq k_2 f(N)
 &10 N ^ {2} \\
 &100 N \\
 &22 N \log N + 3 N \\
+\text {...}
 \end{align*}
 </code-block></td><td>develop upper bounds</td></tr>
 <tr><td><format color = "OrangeRed">Big Omega</format></td>
@@ -323,6 +327,7 @@ k_1 f(N) \leq R(N)
 &\frac {N ^ {2}}{2} \\
 &N ^ {5} \\
 &N ^ {3} + 22 N \log N + 3 N \\
+\text {...}
 \end{align*}
 </code-block></td><td>develop lower bounds</td></tr>
 </table>
@@ -553,9 +558,9 @@ class LinkedList:
 
 ### 2.2 Doubly Linked Lists
 
-> This is the use of built-in doubly linked lists.
->
-{style = "note"}
+<note>
+<p>This is the use of built-in doubly linked lists.</p>
+</note>
 
 Java
 
@@ -598,9 +603,9 @@ int main() {
 }
 ```
 
-> This is the implementation of doubly linked lists.
->
-{style = "note"}
+<note>
+<p>This is the implementation of doubly linked lists.</p>
+</note>
 
 Java
 
@@ -805,75 +810,109 @@ class DoublyLinkedList:
 
 ### 3.1 Quick Find (Eager Approach)
 
-* parent[i] is the root of <math>i</math>, <math>p</math> and
-  <math>q</math> are connected if and only if they have the same 
-  parent[i].
+<list type = "bullet">
+<li>
+<p><code>parent[i]</code> is the root of <math>i</math>, <math>p
+</math> and <math>q</math> are connected if and only if they have the
+same <code>parent[i]</code>.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Find:</format> Check if <math>p
+</math> and <math>q</math> have the same <code>parent[i]</code>.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Union:</format> To merge 
+components containing <math>p</math> and <math>q</math>, change all 
+entries whose id equals <code>parent[p]</code> to <code>parent[q]
+</code>.</p>
+</li>
+</list>
 
-* Find: Check if <math>p</math> and <math>q</math> have the same
-  parent[i].
-
-* Union: To merge components containing <math>p</math> and <math>q</math>,
-  change all entries whose id equals parent[p] to parent[q].
-
-> Defect:
->
-> * Union too expensive (<math>N</math> array accesses).
->
-> * Trees are flat, but too expensive to keep them flat.
->
-{style = "note"}
+<note>
+<p><format color = "DodgerBlue">Defect:</format> </p>
+<list type = "bullet">
+<li>
+<p>Union too expensive (<math>N</math> array accesses).</p>
+</li>
+<li>
+<p>Trees are flat, but too expensive to keep them flat.</p>
+</li>
+</list>
+</note>
 
 ### 3.2 Quick Union (Lazy Approach)
 
-* parent[i] is the parent of <math>i</math>, root of <math>i</math> is \
-  parent[parent[...[i]]] (keep going until it doesn't change).
+<list>
+<li>
+<p>parent[i] is the parent of <math>i</math>, root of <math>i</math> 
+is <br/>parent[parent[...[i]]] (keep going until it doesn't change).
+</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Find:</format> Check if <math>p
+</math> and <math>q</math> have the same root.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Union:</format> To merge 
+components containing <math>p</math> and <math>q</math>, set the 
+parent of <math>p</math>'s root to the parent of <math>q</math>'s 
+root.</p>
+</li>
+</list>
 
-* Find: Check if <math>p</math> and <math>q</math> have the same root.
-
-* Union: To merge components containing <math>p</math> and <math>q</math>,
-  set the parent of <math>p</math>'s root to the parent of <math>q</math>'s root.
-
-> Defect:
->
-> * Trees can get tall.
->
-> * Find too expensive (could be <math>N</math> array accesses).
->
-{style = "note"}
+<note>
+<p><format color = "DodgerBlue">Defect:</format> </p>
+<list type = "bullet">
+<li>
+<p>Trees can get tall.</p>
+</li>
+<li>
+<p>Find too expensive (could be <math>N</math> array accesses).</p>
+</li>
+</list>
+</note>
 
 ### 3.3 Quick Union
 
-Two Improvements: Weighting and Path Compression (WQUPC).
+<p>Two Improvements: Weighting and Path Compression (WQUPC).</p>
 
 <procedure title = "Weighted quick-union" type="choices">
 <step>
-    Modify quick-union to avoid tall trees.
+<p>Modify quick-union to avoid tall trees.</p>
 </step>
 <step>
-    Keep track of size of each tree (number of objects).
+<p>Keep track of size of each tree (number of objects).</p>
 </step>
 <step>
-    Balance by linking root of smaller tree to root of larger tree.
+<p>Balance by linking root of smaller tree to root of larger tree.
+</p>
 </step>
 </procedure>
 
 <procedure title = "Path compression" type="choices">
 <step>
-    Just after computing the root of <math>p</math>, set the parent of each 
-    examined node to point to that root.
+<p>Just after computing the root of <math>p</math>, set the parent of 
+each examined node to point to that root.</p>
 </step>
 </procedure>
 
-* rank[i] is the size of the tree rooted at <math>i</math>.
-
-* Proposition: Starting from an empty data structure, any sequence of <em>M</em>
-  union-find operations on <math>N</math> objects
-  makes &le; <math>c(N + M lg* N)</math> array accesses.
-
-* In theory, WQUPC is not linear; in practice, it is.
-
-* Application: Percoloation, games, dynamic connectivity, least common
-  ancestor, Kruskal's minimum spanning tree algorithm, etc.
+<list>
+<li>
+<p><code>rank[i]</code> is the size of the tree rooted at <math>i</math>.</p>
+</li>
+<li>
+<p>Property: Starting from an empty data structure, any sequence of 
+<math>M</math> union-find operations on <math>N</math> objects
+makes <math>\leq c(N + M lg* N)</math> array accesses.</p>
+</li>
+<li>
+<p>In theory, WQUPC is not linear; in practice, it is.</p>
+</li>
+<li>
+<p>Application: Percoloation, games, dynamic connectivity, least 
+common ancestor, Kruskal's minimum spanning tree algorithm, etc.</p>
+</li>
+</list>
 
 Java
 
@@ -1011,35 +1050,51 @@ class UnionFind:
 
 ### 4.1 Stacks
 
-Def:
+<p><format color = "DodgerBlue">Defintion:</format> </p>
 
-* Client: program using operations defined in interface.
+<list>
+<li>
+<p><format color = "Chartreuse">Client:</format> program using 
+operations defined in interface.</p>
+</li>
+<li>
+<p><format color = "Chartreuse">Implementation:</format> actual code 
+implementing operations.</p>
+</li>
+<li>
+<p><format color = "Chartreuse">Interface:</format> description of 
+data types, basic operations.</p>
+</li>
+</list>
 
-* Implementation: actual code implementing operations.
+<p>Separate interface from implementation.</p>
 
-* Interface: description of data types, basic operations.
+<p><format color = "DodgerBlue">Benefits</format>: </p>
 
-Separate interface from implementation.
+<list>
+<li>
+<p>Clients can't know details of implementation =&gt;
+client has many implementation from which to choose.</p>
+</li>
+<li>
+<p>Implementation can't know details of client needs =&gt;
+many clients can re-use the same implementation.</p>
+</li>
+<li>
+<p><format color = "OrangeRed">Design</format>: creates modular,
+reusable libraries.</p>
+</li>
+<li>
+<p><format color = "OrangeRed">Performance</format>: use optimized
+implementation where it matters.</p>
+</li>
+</list>
 
-<format color = "DodgerBlue">Benefits</format>:
+#### 4.1.1 Built-In Stacks
 
-* Clients can't know details of implementation =>
-  client has many implementation from which to choose.
-
-* Implementation can't know details of client needs =>
-  many client can re-use the same implementation.
-
-* <format color = "OrangeRed">Design</format>: creates modular, reusable 
-  libraries.
-
-* <format color = "OrangeRed">Performance</format>: use optimized 
-  implementation where it matters.
-
-#### 4.1.1 Built-in Stacks
-
-> This is the use of built-in stacks.
->
-{style = "note"}
+<note>
+<p>This is the use of built-in stacks.</p>
+</note>
 
 Java
 
@@ -1119,7 +1174,8 @@ print(len(stack) == 0)
 <step>
     Return saved item.
 </step>
-<img src="../images_data/4-1-1.png" alt="Stack pop" width="450" style = "inline"/>
+<img src = "../images_data/4-1-1.png" alt = "Stack pop" 
+style = "inline"/>
 </procedure>
 
 <procedure title = "Stack push">
@@ -1132,20 +1188,27 @@ print(len(stack) == 0)
 <step>
     Set the instance variables in the new node.
 </step>
-<img src="../images_data/4-1-2.png" alt="Stack push" width="450" style = "inline"/>
+<img src = "../images_data/4-1-2.png" alt = "Stack push" 
+style = "inline"/>
 </procedure>
 
-Proposition:
+<p><format color = "DodgerBlue">Properties:</format> </p>
 
-* Every operation takes constant time in the worst case.
+<list>
+<li>
+<p>Every operation takes constant time in the worst case.</p>
+</li>
+<li>
+<p>A stack with <math>N</math> items uses <math>\sim 40N</math> bytes
+.</p>
+</li>
+</list>
 
-* A stack with <math>N</math> items uses <math>\sim 40N</math> bytes.
+<img src = "../images_data/4-1-3.png" alt = "Stroage Structure"/>
 
-<img src="../images_data/4-1-3.png" alt="Alt text" width="450"/>
-
-> This is the linked-list implementation of stacks.
->
-{style = "note"}
+<note>
+<p>This is the linked-list implementation of stacks.</p>
+</note>
 
 Java
 
@@ -1261,17 +1324,28 @@ class Stack:
 
 #### 4.1.3 Resizing-Array Implementation
 
-Proposition: Uses between <math>\sim 8N</math> and <math>\sim 32N</math> bytes to
-represent a stack with <math>N</math> items.
+<p><format color = "DodgerBlue">Property:</format> Uses between 
+<math>\sim 8N</math> and <math>\sim 32N</math> bytes to
+represent a stack with <math>N</math> items.</p>
 
-* <math>\sim 8N</math> when full.
-
-* <math>\sim 32N</math> when one-quarter full.
+<list type = "bullet">
+<li>
+<p><math>\sim 8N</math> when full.</p>
+</li>
+<li>
+<p><math>\sim 32N</math> when one-quarter full.</p>
+</li>
+</list>
 
 <table style = "header-row">
-<tr><td>Linked-List Implementation</td><td>Resizing-Array Implementation</td></tr>
-<tr><td>Every operation takes constant time in the <format color = "OrangeRed">worst case.</format></td><td>Every operation takes constant <format color = "OrangeRed">amortized</format> time.</td></tr>
-<tr><td>Uses extra time and space to deal with the links.</td><td>Less wasted space.</td></tr>
+<tr><td>Linked-List Implementation</td><td>Resizing-Array 
+Implementation</td></tr>
+<tr><td>Every operation takes constant time in the <format 
+color = "OrangeRed">worst case.</format></td><td>Every operation 
+takes constant <format color = "OrangeRed">amortized</format> time.
+</td></tr>
+<tr><td>Uses extra time and space to deal with the links.</td>
+<td>Less wasted space.</td></tr>
 </table>
 
 > This is the resizing-array implementation of stacks.
@@ -1844,7 +1918,7 @@ public class Bag<Item> implements Iterable<Item> {
 </step>
 </procedure>
 
-Proposition:
+Property:
 
 * Use <math>\frac {N^{2}} {2}</math> compares and <math>N</math> exchanges.
 
@@ -1935,7 +2009,7 @@ def selection_sort(arr):
 </step>
 </procedure>
 
-Proposition:
+Property:
 
 <list>
 <li>
@@ -2046,7 +2120,7 @@ Increment Sequence:
 </li>
 </list>
 
-Proposition:
+Property:
 
 * With the <math>3x+1</math> increments, the worst-case number of compares
   is <math>O(N^{\frac{3}{2}})</math>.
@@ -2204,7 +2278,7 @@ def knuth_shuffle(array):
 
 ### 6.1 Mergesort
 
-Proposition:
+Property:
 
 <list>
 <li>
@@ -2551,7 +2625,7 @@ Example: sorting
 * Lower bound: ~ <math>NlgN</math>.
 * <format color = "OrangeRed">Optimal algorithm = mergesort</format>.
 
-Proposition: Any compare-based sorting algorithm must use at least
+Property: Any compare-based sorting algorithm must use at least
 <math>lg(N!) \sim NlgN</math> compares in the worst case.
 
 Proof:
@@ -2583,7 +2657,7 @@ Unstable sort: Selection sort, shellsort, quicksort, heapsort, etc.
 
 ### 7.1 Quicksort
 
-Proposition:
+Property:
 
 <list>
 <li>
@@ -2936,7 +3010,7 @@ sorting algorithm must use at least
 compares in the worst case. (linear when only a constant number
 of distinctive keys)
 
-Proposition: Quicksort with 3-way partitioning is entropy-optimal.
+Property: Quicksort with 3-way partitioning is entropy-optimal.
 
 <procedure title = "Dijkstra 3-way Partitioning">
 <step>
@@ -3068,7 +3142,7 @@ balanced, except for bottom level.</p>
 <li>
 <p><format color = "Dodgerblue">Binary heap</format>: Array representation of
 a heap-ordered complete binary tree.</p>
-<p>Propositions:</p>
+<p>Properties:</p>
     <list type = "bullet">
     <li>
     <p>Key in nodes.</p>
@@ -3581,7 +3655,7 @@ Key not in tree => add new node
 </step>
 </procedure>
 
-<p>Proposition: If <math>N</math> distinct keys are inserted into a BST
+<p>Property: If <math>N</math> distinct keys are inserted into a BST
 in <format color = "OrangeRed">random order</format>, the expected number 
 of compares for a search/insert is <math>\sim 2 \ln N</math>.
 </p>
@@ -4229,7 +4303,7 @@ key interface</td></tr>
 </step>
 </procedure>
 
-<p>Propositions: </p>
+<p>Properties: </p>
 
 <list type = "bullet">
 <li>
@@ -5520,7 +5594,7 @@ nodes.</p>
 <img src = "../images_data/10-3-1.png" alt = "B-Tree" style="inline"/>
 </li>
 <li>
-<p>Proposition: </p>
+<p>Property: </p>
 
 <p>A search or an insertion in a B-tree of order 
 <math>M</math> with <math>N</math> keys requires between 
