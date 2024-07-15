@@ -4,19 +4,21 @@
 
 > *We are all lost stars, trying to light up the dark.*
 
+中文版请移步[这里](README_zh_CN.md)。
+
 ## 1 Intention & Background
 
-I myself is not a computer science major, but I really wants to learn it and in the future, maybe accomplish something innovative. However, when I decided to learn it, I suddenly found it hard to get the proper resources and learn systematically. Thanks to one of the senior student I know who recommended me with the [cs-self-learning repository](https://csdiy.wiki/), I finally got the right path to take.
+When I was admitted in Physics Department of Peking University, I found myself not intersted in my major at all. During the period of exploring myself, I realized I was keen on computer science. So I stepped on a journey to learn relative courses by myself, hoping that one day I may also make a little contribution to this aspect. However, when I decided to learn it, I suddenly found it hard to get the proper resources and learn systematically. Thanks to one of the senior student I know who recommended me with the [cs-self-learning repository](https://csdiy.wiki/), I finally got the right path to take.
 
-One day when I was studying, I suddenly thought:"Hey, wouldn't it be nice to integrate all the course notes I've taken and publish it, so that maybe others may refer to this when they are studying computer science?" Now this note is still under construction. It may not be that accurate and perfect, but hopefully I could help more people get over the difficulties that come along.
+One day when I was studying, I suddenly thought:"Hey, wouldn't it be nice to integrate all the course notes I've taken and publish it, so that maybe others may refer to this when they are studying computer science?" That is what this note comes from. Now this note is being published to my website. It is still under construction. It may not be that accurate and perfect, but hopefully I could help more people get over the difficulties that come along.
 
 ## 2 References
 
-For this part, I'd like to give credit to all the authors, professors, TAs and so forth, who make great contributions to the dispersion of relative knowledge. The following list may not be complete. If someone's original work is misused, please contact me via email, thanks :)
+If someone's original work is used but not mentioned, or being misused, either way please contact me via email, thanks :)
 
-### Topic 1: Data Structures and Algorithms I & II
+### Topic 1: Data Structures and Algorithms &#8544; & &#8545;
 
-1. Algorithms I & II (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
+1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
 
 2. By Aeroid - Own work, CC BY-SA 4.0, <https://commons.wikimedia.org/w/index.php?curid=137790829>.
 
@@ -32,7 +34,7 @@ For this part, I'd like to give credit to all the authors, professors, TAs and s
 
 2. CS61B: Data Structures and Algorithms (UC Berkeley) by Professor Josh Hug and the rest of CS61B staff.
 
-> Note: CS61B is partly used for the Object-Oriented part.
+> Note: Content of CS61B is partly used for the Object-Oriented part.
 
 ### Topic 3: Python Programming
 
@@ -48,8 +50,8 @@ For this part, I'd like to give credit to all the authors, professors, TAs and s
 
 ## 3 Acknowledgements
 
-Above all, I'd like to express my sincere gratitude to all those professors and TAs who gave wonderful lectures, projects, labs, etc., and made them public to everyone. From those professors above, I indeed learned profoundly.
+Above all, I'd like to express my sincere gratitude to all those professors and TAs in the list above who gave wonderful lectures, projects, labs, etc., and made them public to everyone. From those professors above, I indeed learned profoundly.
 
-In addition, I'd like to express thanks to all those teachers and senior students who help me during my learning process, especially those who contribute to the cs self learning repository above.
+In addition, I'd like to express thanks to all those teachers and senior students who help me during my learning process.
 
 Lastly, I'd like to reserve this part for my mother. For all these years, she has dedicated her life to nurture me. We have experiencd all those ups and downs together; it is incredibly hard to raise me under so much hard circumstances, and she has sacrificed all of herself to bring me up. During all this process of learning computer science myself, she always have my back, no matter what difficullties I encounter. This repository is certainly not even a little success, but I want to accredit everything I achieve to her sacrifice and hard work, without which I cannot accomplish anything.
