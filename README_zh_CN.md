@@ -4,41 +4,43 @@
 
 > *我们都是迷失在璀璨梦境中的繁星，不顾一切只为点亮黑暗。*
 
-For English version please check [here](README.md).
+For English version please check [here](README.md)
 
 ## 1 目的及背景
 
-当我进入北大的物理学院学习以后，我发现我对自己所学的专业并不感兴趣。在学习与探索的过程中，我惊喜地发现自己对计算机科学兴趣浓厚。于是，我开始自学计算机相关课程，希望以后能在相关领域有所作为。然而立志容易成志难。在我的自学路上，遇到了许多令自己感到迷茫的问题，踌躇不前的我开始怀疑自己是否具备自学能力，也担忧自己能否自学成功。
+当我进入北大的物理学院学习以后，我发现对自己所学的专业兴趣不高。在学习与探索的过程中，我惊喜地发现自己对计算机科学兴趣浓厚。于是，我开始自学计算机相关课程，希望以后能在相关领域有所作为。然而，立志容易成志难。在自学的道路上，我遇到了许多令自己感到迷茫的问题。踌躇不前的我开始怀疑自己是否具备自学能力，也担忧自己能否自学成功。
 
-万幸的是，我及时向自己的一位信科老师求助。老师向我推荐两位学长，一位学长向我讲述自己在学术研究上的成功之路，另一位学长向我推荐了CS自学指南。老师和学长用自己的无私点燃我心中希望之光，我开始了自学之路。
+万幸的是，我及时向自己的一位信科老师求助，老师热情的向我指点迷津，又向我推荐两位特别优秀的学长，让他们向我传授自己如何取得成功的经历。一位学长向我讲述自己在学术研究取得成功的秘诀，另一位学长向我推荐了CS自学指南。老师和学长用他们的倾囊相助，点燃我心中希望之光，我开始了自己的漫漫自学之路。
 
-学习中，我记录自己所学的每一个章节的学习笔记。随着笔记内容的不断增多，我突发奇想：“如果能把我所有自学的笔记整合起来，发布在自己的网页上，帮助像自己一样曾经止步不前、需要帮助的同行者，该有多好！”于是，这份笔记就幸运地诞生了，它也许并不向您期许的那样精准完美，但我会竭尽全力使这份笔记内容日渐完美。
+学习中，我详细地记录了学习笔记。随着笔记内容的不断增多，我突发奇想：“如果能把我所有自学的笔记整合起来，发布在自己的网页上，帮助像自己一样曾经止步不前的同行者，该有多好！”于是，这份笔记就幸运地诞生了，它也许并不向您期许的那样精准完美，但我会竭尽全力使这份笔记内容日渐完美。
 
 ## 2 使用建议
 
-1. 本笔记的作者非计算机科学专业学生，笔记中难免有错误与疏漏，请您谅解。
+1. 本笔记的作者非计算机科学专业学生，笔记中难免有错误与疏漏，请您多多包涵！
 
-2. 本文使用部分维基百科的图片，出于知识产权考虑并未对其进行修改，但是其中部分图片没有背景，在夜间模式下阅读效果可能不佳。笔记默认为夜间模式，建议您点击右上角最左侧按钮切换至日间模式。
+2. 本文中部分的图片来自维基百科，出于版权考虑并未对其进行修改，但是其中部分图片没有背景，在夜间模式下阅读效果可能不佳。笔记默认为夜间模式，建议您点击搜索栏左侧的按钮切换至日间模式。
 
-3. 本笔记在最终结束后会发布pdf版本，您将在release部分看到。
+3. 本笔记在最终结束后会发布pdf文档，您将在release部分看到。
 
 4. 感谢您的阅读！欢迎各位朋友通过邮箱与我交流。
 
 ## 3 参考列表
 
-以下列表是我在完成这份笔记时所参考的内容。如果有作者的原创作品被使用却未被声明，或者被错误使用，请通过邮件与我联系，谢谢。
+以下列表是我在完成这份笔记时所参考的内容。如果有作者的原创作品被使用却未被声明，或者被错误使用，请通过邮件与我联系删除，谢谢。
 
 ### Topic 1: 数据结构与算法 &#8544; & &#8545;
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
 
-2. By Aeroid - Own work, CC BY-SA 4.0, <https://commons.wikimedia.org/w/index.php?curid=137790829>.
+2. MIT 6.006: Introduction to Algorithms (MIT) by Professor Erik Demaine,  Justin Solomonm, Dr. Jason Ku (Spring 2020).
 
-3. <https://en.wikipedia.org/wiki/Tree_traversal>.
+3. By Aeroid - Own work, CC BY-SA 4.0, <https://commons.wikimedia.org/w/index.php?curid=137790829>.
 
-4. By The original uploader was Jasampler at Spanish Wikipedia. - Transferred from es.wikipedia to Commons., Public Domain, <https://commons.wikimedia.org/w/index.php?curid=1755344>.
+4. <https://en.wikipedia.org/wiki/Tree_traversal>.
 
-5. <https://en.wikipedia.org/wiki/Catalan_number>.
+5. By The original uploader was Jasampler at Spanish Wikipedia. - Transferred from es.wikipedia to Commons., Public Domain, <https://commons.wikimedia.org/w/index.php?curid=1755344>.
+
+6. <https://en.wikipedia.org/wiki/Catalan_number>.
 
 ### Topic 2: C++编程
 
@@ -60,10 +62,16 @@ For English version please check [here](README.md).
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz and the rest of CS162 staff.
 
-## 4 致谢
+## 4 许可证
 
-首先，我要向以上列表中所有教授、助教等表示感谢，感谢他们将自己渊博的知识无私地传授给我们这些初学者，也感谢他们将学习资料面向公众开放，这些都让我受益匪浅、终生难忘。
+本笔记遵循[MIT License](License)。
 
-其次，我要向在自学过程中给予我帮助的师长、学长表示感谢。
+引用的其他作者的原创内容遵循原作者的许可证。
+
+## 5 致谢
+
+首先，我要向以上列表中所有教授、助教等表示感谢，感谢他们将自己渊博的知识无私地传授给我们这些初学者，也感谢他们将学习资料面向公众开放，这些宝贵的知识让我受益匪浅、终生难忘。
+
+其次，我要向在自学过程中给予我帮助的师长和学长们表示感谢。
 
 最后，我想把这部分留给我的母亲。感谢她数十年如一日倾尽心血养育我，为我不辞辛劳地默默的付出。在我自学计算机科学过程中，无论我遇到多么大的困难，她都在背后默默的支持我、鼓励我。这个小小的项目显然不能称作为一种“成功”，但是我想把我所有的小成就都归功于她。感谢她一直以来的陪伴与支持！

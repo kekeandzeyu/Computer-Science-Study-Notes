@@ -4,29 +4,43 @@
 
 > *We are all lost stars, trying to light up the dark.*
 
-中文版请移步[这里](README_zh_CN.md)。
+中文版请移步[这里](README_zh_CN.md)
 
 ## 1 Intention & Background
 
-When I was admitted in Physics Department of Peking University, I found myself not intersted in my major at all. During the period of exploring myself, I realized I was keen on computer science. So I stepped on a journey to learn relative courses by myself, hoping that one day I may also make a little contribution to this aspect. However, when I decided to learn it, I suddenly found it hard to get the proper resources and learn systematically. Thanks to one of the senior student I know who recommended me with the [cs-self-learning repository](https://csdiy.wiki/), I finally got the right path to take.
+When I began to study in the Physics Department of Peking University, I found myself not intersted in my major at all. During the period of exploring and learning, I was really surprised to realize I was keen on computer science. So I stepped on a journey to learn relative courses by myself, hoping that one day I may also make some contribution to this aspect. However, it's easier said than done. I met with tons of bewildering problems during this process, which made me doubt whether I really could learn by myself, and whether I could eventually succeed.
 
-One day when I was studying, I suddenly thought:"Hey, wouldn't it be nice to integrate all the course notes I've taken and publish it, so that maybe others may refer to this when they are studying computer science?" That is what this note comes from. Now this note is being published to my website. It is still under construction. It may not be that accurate and perfect, but hopefully I could help more people get over the difficulties that come along.
+Thankfully, I turned to one of my CS teacher for help, who helped me with ardor and recommended me with two seniors. One told me the secret to his success in his research area; another introduced me with the cs-self-learning repository. Both the teacher and those two seniors fueled the light of hope with their selflessness. I began to study by myself again.
 
-## 2 References
+I took down notes carefully when studying. With the the content of my notes getting more and more, I suddenly thought:"Hey, wouldn't it be nice to integrate all the course notes I've taken and publish them on my website, so that others may refer to this when they are stuck like me?" That is how this note comes with luck. It may not be that accurate and perfect as you wish, but I will try my best to make it better.
 
-If someone's original work is used but not mentioned, or being misused, either way please contact me via email, thanks :)
+## 2 Advice
+
+1. The author of the notes is not an EECS student, and some errors and mistakes cannot be avoided. Sorry for any inconvenience it might cause.
+
+2. Some of the pictures in the notes come from Wikipedia. Out of consideration of copyright, I didn't modify the pictures. However, some of them do not have background, which cannot be seen clearly in the dark theme. The notes are in the dark theme by default; it is highly recommended that you turned into light mode by clicking the button on the left side of the search bar.
+
+3. The notes will be released in the form of pdf article. You will see it in the release part.
+
+4. Thank you for your reading! Everyone is welcome to discuss with me via email.
+
+## 3 References
+
+If someone's original work is used but not mentioned, or being misused, either way please contact me via email for deletion, thanks.
 
 ### Topic 1: Data Structures and Algorithms &#8544; & &#8545;
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
 
-2. By Aeroid - Own work, CC BY-SA 4.0, <https://commons.wikimedia.org/w/index.php?curid=137790829>.
+2. MIT 6.006: Introduction to Algorithms (MIT) by Professor Erik Demaine,  Justin Solomonm, Dr. Jason Ku (Spring 2020).
 
-3. <https://en.wikipedia.org/wiki/Tree_traversal>.
+3. By Aeroid - Own work, CC BY-SA 4.0, <https://commons.wikimedia.org/w/index.php?curid=137790829>.
 
-4. By The original uploader was Jasampler at Spanish Wikipedia. - Transferred from es.wikipedia to Commons., Public Domain, <https://commons.wikimedia.org/w/index.php?curid=1755344>.
+4. <https://en.wikipedia.org/wiki/Tree_traversal>.
 
-5. <https://en.wikipedia.org/wiki/Catalan_number>.
+5. By The original uploader was Jasampler at Spanish Wikipedia. - Transferred from es.wikipedia to Commons., Public Domain, <https://commons.wikimedia.org/w/index.php?curid=1755344>.
+
+6. <https://en.wikipedia.org/wiki/Catalan_number>.
 
 ### Topic 2: C++ Programming
 
@@ -48,10 +62,16 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz and the rest of CS162 staff.
 
-## 3 Acknowledgements
+## 4 License
 
-Above all, I'd like to express my sincere gratitude to all those professors and TAs in the list above who gave wonderful lectures, projects, labs, etc., and made them public to everyone. From those professors above, I indeed learned profoundly.
+The notes are under MIT License.
 
-In addition, I'd like to express thanks to all those teachers and senior students who help me during my learning process.
+All the references in the notes are under the original licenses.
 
-Lastly, I'd like to reserve this part for my mother. For all these years, she has dedicated her life to nurture me. We have experiencd all those ups and downs together; it is incredibly hard to raise me under so much hard circumstances, and she has sacrificed all of herself to bring me up. During all this process of learning computer science myself, she always have my back, no matter what difficullties I encounter. This repository is certainly not even a little success, but I want to accredit everything I achieve to her sacrifice and hard work, without which I cannot accomplish anything.
+## 5 Acknowledgements
+
+Above all, I'd like to express my sincere gratitude to all those professors and TAs in the list above, who selflessly imparting his profound knowledge to us beginners, and made those learning resources public to everyone. The valuable knowledge has benefited me a lot and will be unforgettable for my whole life.
+
+In addition, I'd like to express thanks to all those teachers and seniors who help me during my self-learning process.
+
+Lastly, I'd like to reserve this part for my mother. For all these years, she has dedicated her life to nurture me, and . We have experiencd all those ups and downs together; it is incredibly hard to raise me under so much hard circumstances, and she has sacrificed all of herself to bring me up. During all this process of learning computer science myself, she always have my back, no matter what difficullties I encounter. This repository is certainly not even a little success, but I want to accredit everything I achieve to her sacrifice and hard work, without which I cannot accomplish anything.
