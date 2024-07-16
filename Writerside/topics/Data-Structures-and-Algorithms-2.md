@@ -1738,10 +1738,13 @@ public class UndirectedGraph {
         adjacencyList.get(source).add(destination);
         adjacencyList.get(destination).add(source);
     }
-    
-    public boolean hasEdge(int source, int destination) {
-        return adjacencyList.get(source).contains(destination) ||
-               adjacencyList.get(destination).contains(source);
+
+    public int getNumVertices() {
+        return numVertices;
+    }
+
+    public List<List<Integer>> getAdjacencyList() {
+        return adjacencyList;
     }
 
     public void printGraph() {
@@ -1759,6 +1762,8 @@ public class UndirectedGraph {
 C++
 
 ```C++
+# pragma once
+
 #include <iostream>
 #include <vector>
 #include <list>
@@ -1785,6 +1790,13 @@ public:
                                    });
     }
 
+    [[nodiscard]] int getNumVertices() const {
+        return numVertices;
+    }
+
+    [[nodiscard]] const std::vector<std::list<int>>& getAdjacencyList() const {
+        return adjacencyList;
+    }
 
     void printGraph() const {
         for (int i = 0; i < numVertices; ++i) {
@@ -1864,70 +1876,56 @@ proportional to its length.</p>
 Java
 
 ```Java
-import java.util.*;
+import java.util.Stack;
 
-public class Graph {
-    private final int V;
-    private final List<Integer>[] adj;
+class DepthFirstSearch {
+    private final boolean[] marked;
+    private final int[] edgeTo;
 
-    public Graph(int V) {
-        this.V = V;
-        adj = (List<Integer>[]) new List[V];
-        for (int v = 0; v < V; v++) {
-            adj[v] = new ArrayList<Integer>();
-        }
+    public DepthFirstSearch(UndirectedGraph graph, int source) {
+        this.marked = new boolean[graph.getNumVertices()];
+        this.edgeTo = new int[graph.getNumVertices()];
+        dfs(graph, source); // Start DFS from the given source
     }
 
-    public int V() {
-        return V;
-    }
+    private void dfs(UndirectedGraph graph, int source) {
+        Stack<Integer> stack = new Stack<>();
+        marked[source] = true;
+        stack.push(source);
 
-    public void addEdge(int v, int w) {
-        adj[v].add(w);
-        adj[w].add(v);
-    }
+        while (!stack.isEmpty()) {
+            int v = stack.pop();
+            System.out.print(v + " ");
 
-    public Iterable<Integer> adj(int v) {
-        return adj[v];
-    }
-}
-
-import java.util.*;
-
-public class DepthFirstSearch {
-    private final boolean[] marked;   // marked[v] = is there an s-v path?
-    private final int[] edgeTo;      // edgeTo[v] = last edge on s-v path
-    private final int s;       // source vertex
-
-    public DepthFirstSearch(Graph G, int s) {
-        this.s = s;
-        edgeTo = new int[G.V()];
-        marked = new boolean[G.V()];
-        dfs(G, s);
-    }
-
-    // depth first search from v
-    private void dfs(Graph G, int v) {
-        marked[v] = true;
-        for (int w : G.adj(v)) {
-            if (!marked[w]) {
-                edgeTo[w] = v;
-                dfs(G, w);
+            for (int w : graph.getAdjacencyList().get(v)) {
+                if (!marked[w]) {
+                    marked[w] = true;
+                    edgeTo[w] = v;
+                    stack.push(w);
+                }
             }
         }
     }
 
-    public boolean hasPathTo(int v) {
-        return marked[v];
-    }
-
-    public Iterable<Integer> pathTo(int v) {
-        if (!hasPathTo(v)) return null;
-        Stack<Integer> path = new Stack<Integer>();
-        for (int x = v; x != s; x = edgeTo[x])
+    public void printPathTo(int v) {
+        if (!marked[v]) {
+            System.out.println("No path from source to " + v);
+            return;
+        }
+        Stack<Integer> path = new Stack<>();
+        for (int x = v; x != 0; x = edgeTo[x]) {
             path.push(x);
-        path.push(s);
-        return path;
+        }
+        path.push(0); 
+
+        System.out.print("Path: ");
+        while (!path.isEmpty()) {
+            System.out.print(path.pop());
+            if (!path.isEmpty()) {
+                System.out.print(" -> ");
+            }
+        }
+        System.out.println();
     }
 }
 ```
@@ -1935,120 +1933,114 @@ public class DepthFirstSearch {
 C++
 
 ```C++
+#include <iostream>
 #include <vector>
 #include <list>
-#include <iostream>
 #include <stack>
+#include "UndirectedGraph.h"
 
-class Graph {
-public:
-    Graph(int V) : V(V), adj(V) {}
-
-    void addEdge(int v, int w) {
-        adj[v].push_back(w);
-        adj[w].push_back(v);
-    }
-
-    const std::list<int>& getAdj(int v) const {
-        return adj[v];
-    }
-
-    int getV() const {
-        return V;
-    }
-
+class DepthFirstSearch {
 private:
-    int V;
-    std::vector<std::list<int>> adj;
+    std::vector<bool> marked;
+    std::vector<int> edgeTo;
+
+public:
+    DepthFirstSearch(const UndirectedGraph& graph, int source);
+    void dfs(const UndirectedGraph& graph, int source);
+    [[nodiscard]] bool hasPathTo(int v) const;
+    void printPathTo(int v) const;
 };
 
-class DFS {
-public:
-    DFS(const Graph& G, int s) : marked(G.getV(), false), edgeTo(G.getV()), s(s) {
-        dfs(G, s);
-    }
+DepthFirstSearch::DepthFirstSearch(const UndirectedGraph& graph, const int source) :
+    marked(graph.getNumVertices(), false), edgeTo(graph.getNumVertices(), -1) {
+    dfs(graph, source);
+}
 
-    bool hasPathTo(int v) const {
-        return marked[v];
-    }
+void DepthFirstSearch::dfs(const UndirectedGraph& graph, const int source) {
+    std::stack<int> stack;
+    marked[source] = true;
+    stack.push(source);
 
-    void pathTo(int v) const {
-        if (!hasPathTo(v)) {
-            std::cout << "No path from " << s << " to " << v << std::endl;
-            return;
-        }
+    while (!stack.empty()) {
+        const int v = stack.top();
+        stack.pop();
+        std::cout << v << " ";
 
-        std::stack<int> path;
-        for (int x = v; x != s; x = edgeTo[x]) {
-            path.push(x);
-        }
-        path.push(s);
-
-        while (!path.empty()) {
-            std::cout << path.top() << " ";
-            path.pop();
-        }
-        std::cout << std::endl;
-    }
-
-private:
-    void dfs(const Graph& G, int v) {
-        marked[v] = true;
-        for (int w : G.getAdj(v)) {
+        for (int w : graph.getAdjacencyList()[v]) {
             if (!marked[w]) {
+                marked[w] = true;
                 edgeTo[w] = v;
-                dfs(G, w);
+                stack.push(w);
             }
         }
     }
+}
 
-    std::vector<bool> marked;
-    std::vector<int> edgeTo;
-    int s;
-};
+bool DepthFirstSearch::hasPathTo(const int v) const {
+    return marked[v];
+}
+
+void DepthFirstSearch::printPathTo(const int v) const {
+    if (!hasPathTo(v)) {
+        std::cout << "No path from source to " << v << std::endl;
+        return;
+    }
+    std::stack<int> path;
+    for (int x = v; x != 0; x = edgeTo[x]) {
+        path.push(x);
+    }
+    path.push(0);
+
+    std::cout << "Path: ";
+    while (!path.empty()) {
+        std::cout << path.top();
+        path.pop();
+        if (!path.empty()) {
+            std::cout << " -> ";
+        }
+    }
+    std::cout << std::endl;
+}
 ```
 
 Python
 
 ```Python
-class Graph:
-    def __init__(self, num_of_vertices):
-        self.num_of_vertices = num_of_vertices
-        self.adjacency_list = [[] for _ in range(num_of_vertices)]
-        self.visited = [False] * num_of_vertices
-        self.edge_to = [0] * num_of_vertices
+from UndirectedGraph import UndirectedGraph
 
-    def add_edge(self, v1, v2):
-        self.adjacency_list[v1].append(v2)
-        self.adjacency_list[v2].append(v1)  # Because it's an undirected graph
 
-    def dfs(self, v):
-        self.visited[v] = True
-        for w in self.adjacency_list[v]:
-            if not self.visited[w]:
-                self.dfs(w)
+class DepthFirstSearch:
+    def __init__(self, graph, source):
+        self.marked = [False] * graph.num_vertices
+        self.edge_to = [-1] * graph.num_vertices
+        self.source = source
+        self.dfs(graph, source)
+
+    def dfs(self, graph, v):
+        self.marked[v] = True
+        print(v, end=" ")
+        for w in graph.adjacency_list[v]:
+            if not self.marked[w]:
                 self.edge_to[w] = v
+                self.dfs(graph, w)
 
-    def hasPathTo(self, v):
-        return self.visited[v]
+    def has_path_to(self, v):
+        return self.marked[v]
 
-    def pathTo(self, v):
-        if not self.hasPathTo(v):
-            return None
+    def print_path_to(self, v):
+        if not self.has_path_to(v):
+            print(f"No path from {self.source} to {v}")
+            return
+
         path = []
         x = v
-        while x != 0:
+        while x != self.source:
             path.append(x)
             x = self.edge_to[x]
-        path.append(0)
-        return path[::-1]  # Reverse the list to get the path from the root
+        path.append(self.source)
+        path.reverse()
 
-    def print_graph(self):
-        for i in range(self.num_of_vertices):
-            print(i, end=" -> ")
-            for j in self.adjacency_list[i]:
-                print(j, end=" -> ")
-            print()
+        print("Path:", " -> ".join(map(str, path)))
 ```
 
 ### 14.4 Breadth-First Search
