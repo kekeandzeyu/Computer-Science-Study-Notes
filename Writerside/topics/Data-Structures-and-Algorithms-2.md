@@ -1717,29 +1717,41 @@ representation:</format> Maintain vertex-indexed array of lists.</p>
 Java
 
 ```Java
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Graph {
-    private final int V;
-    private final LinkedList<Integer>[] adj;
+public class UndirectedGraph {
 
-    // Constructor
-    public Graph(int v) {
-        V = v;
-        adj = new LinkedList[v];
-        for (int i=0; i<v; ++i)
-            adj[i] = new LinkedList();
+    private final int numVertices;
+    private final List<List<Integer>> adjacencyList;
+
+    public UndirectedGraph(int numVertices) {
+        this.numVertices = numVertices;
+        adjacencyList = new ArrayList<>(numVertices);
+        for (int i = 0; i < numVertices; i++) {
+            adjacencyList.add(new LinkedList<>());
+        }
     }
 
-    // Method to add an edge into the graph
-    public void addEdge(int v, int w) {
-        adj[v].add(w);
-        adj[w].add(v);  // Since it's an undirected graph
+    public void addEdge(int source, int destination) {
+        adjacencyList.get(source).add(destination);
+        adjacencyList.get(destination).add(source);
+    }
+    
+    public boolean hasEdge(int source, int destination) {
+        return adjacencyList.get(source).contains(destination) ||
+               adjacencyList.get(destination).contains(source);
     }
 
-    // Method to check if an edge exists
-    public boolean hasEdge(int v, int w) {
-        return adj[v].contains(w);
+    public void printGraph() {
+        for (int i = 0; i < numVertices; i++) {
+            System.out.print("Vertex " + i + ":");
+            for (Integer vertex : adjacencyList.get(i)) {
+                System.out.print(" -> " + vertex);
+            }
+            System.out.println();
+        }
     }
 }
 ```
@@ -1749,28 +1761,37 @@ C++
 ```C++
 #include <iostream>
 #include <vector>
+#include <list>
+#include <algorithm>
 
-class Graph {
+class UndirectedGraph {
 private:
     int numVertices;
-    std::vector<int>* adjLists;
+    std::vector<std::list<int>> adjacencyList;
 
 public:
-    Graph(int vertices) {
-        numVertices = vertices;
-        adjLists = new std::vector<int>[vertices];
+    explicit UndirectedGraph(const int& numVertices) : 
+    numVertices(numVertices), adjacencyList(numVertices) {}
+
+    void addEdge(const int& source, const int& destination) {
+        adjacencyList[source].push_back(destination);
+        adjacencyList[destination].push_back(source);
     }
 
-    void addEdge(int src, int dest) {
-        adjLists[src].push_back(dest);
-        adjLists[dest].push_back(src); // For undirected graph
+    [[nodiscard]] bool hasEdge(const int& source, const int& destination) const {
+        return std::ranges::any_of(adjacencyList[source],
+                                   [&destination](const int& neighbor) {
+                                       return neighbor == destination;
+                                   });
     }
 
-    void printGraph() {
-        for(int v = 0; v < numVertices; v++) {
-            std::cout << "Adjacency list of vertex " << v << "\n head ";
-            for(auto x : adjLists[v])
-                std::cout << "-> " << x;
+
+    void printGraph() const {
+        for (int i = 0; i < numVertices; ++i) {
+            std::cout << "Vertex " << i << ":";
+            for (const int& neighbor : adjacencyList[i]) {
+                std::cout << " -> " << neighbor;
+            }
             std::cout << std::endl;
         }
     }
@@ -1780,20 +1801,23 @@ public:
 Python
 
 ```Python
-class Graph:
-    def __init__(self, num_of_vertices):
-        self.num_of_vertices = num_of_vertices
-        self.adjacency_list = [[] for _ in range(num_of_vertices)]
+class UndirectedGraph:
+    def __init__(self, num_vertices):
+        self.num_vertices = num_vertices
+        self.adjacency_list = [[] for _ in range(num_vertices)]
 
-    def add_edge(self, v1, v2):
-        self.adjacency_list[v1].append(v2)
-        self.adjacency_list[v2].append(v1)  # Because it's an undirected graph
+    def add_edge(self, source, destination):
+        self.adjacency_list[source].append(destination)
+        self.adjacency_list[destination].append(source)
+
+    def has_edge(self, source, destination):
+        return any(neighbor == destination for neighbor in self.adjacency_list[source])
 
     def print_graph(self):
-        for i in range(self.num_of_vertices):
-            print(i, end=" -> ")
-            for j in self.adjacency_list[i]:
-                print(j, end=" -> ")
+        for i in range(self.num_vertices):
+            print(f"Vertex {i}:", end="")
+            for neighbor in self.adjacency_list[i]:
+                print(f" -> {neighbor}", end="")
             print()
 ```
 
@@ -2028,6 +2052,42 @@ class Graph:
 ```
 
 ### 14.4 Breadth-First Search
+
+<procedure title = "Breadth-First Search">
+<step>
+<p>Put s onto a FIFO queue, and mark s as visited.</p>
+</step>
+<step>
+<p>Repeat until the queue is empty.</p>
+</step>
+<step>
+<p>Remove the least recently added vertex v.</p>
+</step>
+<step>
+<p>Add each of v's unvisited neighbors to the queue, and mark them as 
+visited.</p>
+</step>
+</procedure>
+
+<p><format color = "DodgerBlue">Property:</format> </p>
+
+<p>BFS computes shortest paths (fewest number of edges) from s to 
+all other vertices in a graph in time proportional to <math>E + V
+</math>.</p>
+
+<list type = "bullet">
+<li>
+<p><format color = "BlanchedAlmond">Depth-first search:</format> put
+unvisited vertices on <format color = "OrangeRed">stack</format>.</p>
+</li>
+<li>
+<p><format color = "BlanchedAlmond">Breadth-first search:</format> 
+put unvisited vertices on <format color = "OrangeRed">queue</format>
+.</p>
+</li>
+</list>
+
+C++
 
 ```C++
 #include <vector>
