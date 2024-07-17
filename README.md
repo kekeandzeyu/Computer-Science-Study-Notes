@@ -6,6 +6,8 @@
 
 中文版请移步[这里](README_zh_CN.md)
 
+Visit [here](https://kekeandzeyu.github.io/Computer-Science-Study-Notes/) for the notes.
+
 ## 1 Intention & Background
 
 When I began to study in the Physics Department of Peking University, I found myself not intersted in my major at all. During the period of exploring and learning, I was really surprised to realize I was keen on computer science. So I stepped on a journey to learn relative courses by myself, hoping that one day I may also make some contribution to this aspect. However, it's easier said than done. I met with tons of bewildering problems during this process, which made me doubt whether I really could learn by myself, and whether I could eventually succeed.
