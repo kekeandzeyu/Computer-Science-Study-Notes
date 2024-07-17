@@ -3,7 +3,7 @@
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
 <instance-profile id="hi"
-                 name="Notes"
+                 name="Computer Science Study Notes"
                   start-page="Cover.md">
 
     <toc-element topic="Cover.md"/>
