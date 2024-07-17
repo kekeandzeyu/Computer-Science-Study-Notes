@@ -11,7 +11,7 @@ permissions:
 
 env:
   INSTANCE: 'Writerside/hi'
-  ARTIFACT: 'webNotesHI2-all.zip'
+  ARTIFACT: 'webHelpHI2-all.zip'
   DOCKER_VERSION: '241.18775'
 
 jobs:
