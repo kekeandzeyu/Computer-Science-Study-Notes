@@ -13,7 +13,14 @@
             <primary-color>strawberry</primary-color>
             <custom-favicons>photo.png</custom-favicons>
             <noindex-content>false</noindex-content>
+            <header-logo>photo.png</header-logo>
         </variables>
     </build-profile>
+    <footer>
+        <copyright>2024 Zeyu Li</copyright>
+        <social type="email" href="kekeandzeyu.gmail.com"/>
+        <link href="https://github.com/kekeandzeyu/Computer-Science-Study-Notes">
+            Repository in Github</link>
+    </footer>
 
 </buildprofiles>
