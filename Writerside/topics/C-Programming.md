@@ -36,14 +36,14 @@ instructions, CPU will directly interprets and runs.</p>
 
 <list>
 <li>
-<p><format color = "BlanchedAlmond">Excellent run-time performance: 
+<p><format color = "Fuchsia">Excellent run-time performance: 
 </format></p>
 <p>Generally much faster than Python or Java for comparable code because
 it <format color = "OrangeRed">optimizes for the given architecture
 </format>.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Fair compilation time: 
+<p><format color = "Fuchsia">Fair compilation time: 
 </format></p>
 <p>Enhancements in compilation procedure (Makefiles) allow us to
 <format color = "OrangeRed">recompile only the modified files</format>
@@ -135,21 +135,21 @@ iss >> amount >> unit; // amount = 16, unit = ".9"
 
 <list>
 <li>
-<p><format color = "BlanchedAlmond">Good bit</format> - ready for read
+<p><format color = "Fuchsia">Good bit</format> - ready for read
 /write. (Nothing unusal, on when other bits are off)</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Fail bit</format> - previous 
+<p><format color = "Fuchsia">Fail bit</format> - previous 
 operation failed, all future operations frozen. (Type mismatch, file 
 can't be opened, seekg failed)</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">EOF bit</format> - previous 
+<p><format color = "Fuchsia">EOF bit</format> - previous 
 operation reached the end of buffer content (reached the end of buffer).
 </p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Bad bit</format> - external error,
+<p><format color = "Fuchsia">Bad bit</format> - external error,
 like irrecoverable.(e.g. the file you are reading from suddenly is 
 deleted)</p>
 </li>
@@ -530,12 +530,12 @@ public class Main {
 <p><format color = "DodgerBlue">Reasons:</format> </p>
 <list type = "bullet">
 <li>
-<p><format color = "BlanchedAlmond">Protect against typos:</format> If 
+<p><format color = "Fuchsia">Protect against typos:</format> If 
 you say <code>@Override</code>, but the method isn't actually overriding 
 anything, you will get a compile error.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Reminder:</format> Reminds programmer
+<p><format color = "Fuchsia">Reminder:</format> Reminds programmer
 that method definition came from somewhere higher up in the inheritance
 hierarchy.</p>
 </li>

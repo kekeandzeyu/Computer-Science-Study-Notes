@@ -16,20 +16,20 @@ C++ programming</a> for more details.</p>
 </format> contains 4 regions: </p>
 <list>
 <li>
-<p><format color = "BlanchedAlmond">Stack:</format> local variables,
+<p><format color = "Fuchsia">Stack:</format> local variables,
 grow downwards.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Heap:</format> space requested via
+<p><format color = "Fuchsia">Heap:</format> space requested via
 <code>malloc()</code> and used with pointers; resizes dynamically, 
 grow upward.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Static Data:</format> global or
+<p><format color = "Fuchsia">Static Data:</format> global or
 static variables, does not grow or shrink.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Code:</format> loaded when program 
+<p><format color = "Fuchsia">Code:</format> loaded when program 
 starts, does not change.</p>
 </li>
 </list>
@@ -40,11 +40,11 @@ starts, does not change.</p>
 
 <list>
 <li>
-<p><format color = "BlanchedAlmond">Declared outside a function:
+<p><format color = "Fuchsia">Declared outside a function:
 </format> Static Data</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Declared inside a function:
+<p><format color = "Fuchsia">Declared inside a function:
 </format> Stack</p>
 <list type = "bullet">
 <li>
@@ -56,7 +56,7 @@ starts, does not change.</p>
 </list>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Dynamically allocated (i.e., 
+<p><format color = "Fuchsia">Dynamically allocated (i.e., 
 <code>malloc</code>, <code>calloc</code> & <code>realloc</code>):
 </format> Heap.</p>
 </li>
@@ -166,7 +166,7 @@ persistent than Stack.</p>
 
 <list type = "alpha-lower">
 <li>
-<p><format color = "BlanchedAlmond">malloc(n)</format></p>
+<p><format color = "Fuchsia">malloc(n)</format></p>
 <list type = "bullet">
 <li>
 <p>Allocates a continuous block of <format style = "bold, italic">

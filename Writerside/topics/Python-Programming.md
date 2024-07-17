@@ -114,11 +114,11 @@ s = set()
 
 <list type = "bullet">
 <li>
-<p><format color = "BlanchedAlmond">Hashable type:</format> int, float, 
+<p><format color = "Fuchsia">Hashable type:</format> int, float, 
 string, tuple, bool.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Unhashable type:</format> list, set, 
+<p><format color = "Fuchsia">Unhashable type:</format> list, set, 
 dict.</p>
 </li>
 </list>

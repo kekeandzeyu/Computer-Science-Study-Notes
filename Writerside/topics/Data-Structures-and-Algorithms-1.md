@@ -10,7 +10,7 @@
 
 <list type = "alpha-lower">
 <li>
-<format color = "BlanchedAlmond">Sequential Storage Structure</format>
+<format color = "Fuchsia">Sequential Storage Structure</format>
     <list type = "bullet">
     <li><p>Linear list</p></li>
     <li><p>Array</p></li>
@@ -18,19 +18,19 @@
     </list>
 </li>
 <li>
-<format color = "BlanchedAlmond">Linked Storage Structure</format>
+<format color = "Fuchsia">Linked Storage Structure</format>
     <list type = "bullet">
     <li>Linked list</li>
     </list>
 </li>
 <li>
-<format color = "BlanchedAlmond">Index Storage Structure</format>
+<format color = "Fuchsia">Index Storage Structure</format>
     <list>
     <li>B-Tree/B+-Tree</li>
     </list>
 </li>
 <li>
-<format color = "BlanchedAlmond">Hashing Storage Structure</format>
+<format color = "Fuchsia">Hashing Storage Structure</format>
     <list>
     <li>Hash table</li>
     </list>
@@ -52,7 +52,7 @@
 
 <list type = "decimal">
 <li>
-<p><format color = "BlanchedAlmond">Cost Model</format>: Use some 
+<p><format color = "Fuchsia">Cost Model</format>: Use some 
 basic operations as a proxy for running time.</p>
 <table>
 <tr><td>Operation</td><td>Frequency</td></tr>
@@ -817,11 +817,11 @@ class DoublyLinkedList:
 same <code>parent[i]</code>.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Find:</format> Check if <math>p
+<p><format color = "Fuchsia">Find:</format> Check if <math>p
 </math> and <math>q</math> have the same <code>parent[i]</code>.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Union:</format> To merge 
+<p><format color = "Fuchsia">Union:</format> To merge 
 components containing <math>p</math> and <math>q</math>, change all 
 entries whose id equals <code>parent[p]</code> to <code>parent[q]
 </code>.</p>
@@ -849,11 +849,11 @@ is <br/>parent[parent[...[i]]] (keep going until it doesn't change).
 </p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Find:</format> Check if <math>p
+<p><format color = "Fuchsia">Find:</format> Check if <math>p
 </math> and <math>q</math> have the same root.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Union:</format> To merge 
+<p><format color = "Fuchsia">Union:</format> To merge 
 components containing <math>p</math> and <math>q</math>, set the 
 parent of <math>p</math>'s root to the parent of <math>q</math>'s 
 root.</p>
@@ -4169,14 +4169,14 @@ following three operations in a certain order: </p>
 
 <list type = "bullet">
 <li>
-<p><format color = "BlanchedAlmond">N:</format> Visit the current node.</p>
+<p><format color = "Fuchsia">N:</format> Visit the current node.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">L:</format> Recursively traverse the 
+<p><format color = "Fuchsia">L:</format> Recursively traverse the 
 current node's left subtree.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">R:</format> Recursively traverse the 
+<p><format color = "Fuchsia">R:</format> Recursively traverse the 
 current node's right subtree.</p>
 </li>
 </list>
@@ -5692,13 +5692,13 @@ F(h) \geq 2 ^ {\frac {h}{2}}
 <p>Suppose adding or removing leaf from a height-balanced tree results
 in imbalance, skews still have magnitude <math>\leq 2</math>.</p>
 
-<p><format color = "BlanchedAlmond">Case 1:</format> skew of F is 0 
-or <format color = "BlanchedAlmond">Case 2:</format> skew of F is 1
+<p><format color = "Fuchsia">Case 1:</format> skew of F is 0 
+or <format color = "Fuchsia">Case 2:</format> skew of F is 1
 </p>
 <p>=> Perform a left rotation on B.</p>
 <img src = "../images_data/10-4-1.png" alt = "Balancing AVL Trees"/>
 
-<p><format color = "BlanchedAlmond">Case 3:</format> skew of F is −1
+<p><format color = "Fuchsia">Case 3:</format> skew of F is −1
 </p>
 <p>Perform a right rotation on F, then a left rotation on B</p>
 <img src = "../images_data/10-4-2.png" alt = "Balancing AVL Trees"/>

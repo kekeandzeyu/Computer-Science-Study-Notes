@@ -472,15 +472,15 @@ public final class StringTest {
 
 <list type = "alpha-lower">
 <li>
-<p><format color = "BlanchedAlmond">Hash:</format> map key to integer
+<p><format color = "Fuchsia">Hash:</format> map key to integer
 <math>i</math> between <math>0</math> and <math>M - 1</math>.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Insert:</format> put at front of
+<p><format color = "Fuchsia">Insert:</format> put at front of
 <math>i ^ {th}</math> chain (if not already there).</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Search:</format> need to search 
+<p><format color = "Fuchsia">Search:</format> need to search 
 only <math>i ^ {th}</math> chain.</p>
 </li>
 </list>
@@ -609,16 +609,16 @@ key collides, find next empty slot, and put it there.</p>
 
 <list type = "alpha-lower">
 <li>
-<p><format color = "BlanchedAlmond">Hash:</format> Map key to integer 
+<p><format color = "Fuchsia">Hash:</format> Map key to integer 
 <math>i</math> between <math>0</math> and <math>M - 1</math>.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Search:</format> Search table 
+<p><format color = "Fuchsia">Search:</format> Search table 
 index <math>i</math>; if occupied but no match, try <math>i+1</math>,
 <math>i+2</math>, etc..</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Insert:</format> Put at table
+<p><format color = "Fuchsia">Insert:</format> Put at table
 index <math>i</math> if free; if not try <math>i+1</math>, <math>i+2
 </math>, etc.</p>
 </li>
@@ -630,11 +630,11 @@ a linear probing hash table of size M that contains <math>N = \alpha M
 
 <list type = "bullet">
 <li>
-<p><format color = "BlanchedAlmond">Search hit:</format> <math>\sim
+<p><format color = "Fuchsia">Search hit:</format> <math>\sim
 \frac{1}{2} \left(1 + \frac{1}{1 - \alpha}\right)</math></p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Search miss / insert:</format> 
+<p><format color = "Fuchsia">Search miss / insert:</format> 
 <math>\sim \frac{1}{2} \left(1 + \frac{1}{(1 - \alpha)^2}\right)
 </math></p>
 </li>
@@ -910,12 +910,12 @@ etc. What is the mean displacement of the car?</p>
 
 <list type = "bullet">
 <li>
-<p><format color = "BlanchedAlmond">Half-full:</format> With 
+<p><format color = "Fuchsia">Half-full:</format> With 
 <math>\frac {M}{2}</math> cars, mean displacement is <math>
 \sim \frac {3}{2}</math>.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Full:</format> With 
+<p><format color = "Fuchsia">Full:</format> With 
 <math>M</math> cars, mean displacement is <math>\sim \sqrt{\frac
 {\pi M}{8}}</math>.</p>
 </li>
@@ -939,7 +939,7 @@ etc. What is the mean displacement of the car?</p>
 </li>
 </list>
 
-<p><format color = "BlanchedAlmond">Insert:</format> Use the <math>
+<p><format color = "Fuchsia">Insert:</format> Use the <math>
 1 ^{st}</math> hash function to calculate index. If there is a 
 collision, use <math>2 ^ {nd}</math> hash value for "step size" for
 probing until an empty slot is found. (=> <math>(h1(key) + i * h2(key))
@@ -947,7 +947,7 @@ probing until an empty slot is found. (=> <math>(h1(key) + i * h2(key))
 
 #### 12.3.3 Variant 2 - Quadratic Probing
 
-<p><format color = "BlanchedAlmond">Insert:</format> Use the hash 
+<p><format color = "Fuchsia">Insert:</format> Use the hash 
 function to calculate index. If there is a collision, probe the 
 index using the following probing sequence: </p>
 
@@ -1686,17 +1686,17 @@ there is a path between them.</p>
 
 <list type = "alpha-lower">
 <li>
-<p><format color = "BlanchedAlmond">Set-of-edges graph representation: 
+<p><format color = "Fuchsia">Set-of-edges graph representation: 
 </format> Maintain a list of the edges (linked list or array).</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Adjacency-matrix graph 
+<p><format color = "Fuchsia">Adjacency-matrix graph 
 representation:</format> Maintain a two-dimensional
 <math>V</math> by <math>V</math> boolean array; for each edge 
 <math>v-w</math> in the graph: <code>adj[v][w] = adj[w][v] = true</code>.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Adjacency-list graph 
+<p><format color = "Fuchsia">Adjacency-list graph 
 representation:</format> Maintain vertex-indexed array of lists.</p>
 </li>
 </list>
@@ -2069,11 +2069,11 @@ all other vertices in a graph in time proportional to <math>E + V
 
 <list type = "bullet">
 <li>
-<p><format color = "BlanchedAlmond">Depth-first search:</format> put
+<p><format color = "Fuchsia">Depth-first search:</format> put
 unvisited vertices on <format color = "OrangeRed">stack</format>.</p>
 </li>
 <li>
-<p><format color = "BlanchedAlmond">Breadth-first search:</format> 
+<p><format color = "Fuchsia">Breadth-first search:</format> 
 put unvisited vertices on <format color = "OrangeRed">queue</format>
 .</p>
 </li>
