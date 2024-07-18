@@ -1813,24 +1813,36 @@ public:
 Python
 
 ```Python
-class UndirectedGraph:
-    def __init__(self, num_vertices):
-        self.num_vertices = num_vertices
-        self.adjacency_list = [[] for _ in range(num_vertices)]
+class ConnectedComponents:
+    def __init__(self, graph):
+        self.count = 0
+        self.id = [i for i in range(graph.num_vertices)]  
+        
+        for i in range(graph.num_vertices):
+            if self.id[i] == i:  
+                self.dfs(graph, i)
+                self.count += 1
 
-    def add_edge(self, source, destination):
-        self.adjacency_list[source].append(destination)
-        self.adjacency_list[destination].append(source)
+    def dfs(self, graph, v):
+        self.id[v] = self.count
+        for w in graph.adjacency_list[v]:
+            if self.id[w] == w: 
+                self.dfs(graph, w)
 
-    def has_edge(self, source, destination):
-        return any(neighbor == destination for neighbor in self.adjacency_list[source])
+    def is_connected(self, v, w):
+        return self.id[v] == self.id[w]
 
-    def print_graph(self):
-        for i in range(self.num_vertices):
-            print(f"Vertex {i}:", end="")
-            for neighbor in self.adjacency_list[i]:
-                print(f" -> {neighbor}", end="")
-            print()
+    def get_count(self):
+        return self.count
+
+    def print_components(self):
+        print(f"Number of connected components: {self.count}")
+        components = [[] for _ in range(self.count)]
+        for i in range(len(self.id)):
+            components[self.id[i]].append(i)
+
+        for i in range(self.count):
+            print(f"Component {i}: {components[i]}")
 ```
 
 ### 14.3 Depth-First Search
@@ -1905,6 +1917,10 @@ class DepthFirstSearch {
                 }
             }
         }
+    }
+    
+    public void hasPathTo(int v) {
+        return marked[v];
     }
 
     public void printPathTo(int v) {
@@ -2167,147 +2183,136 @@ bool Graph::isPathExists(int dest) {
 
 ### 14.5 Connected Components
 
+Java
+
 ```Java
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Graph {
-    private final int V;   // No. of vertices
-    private final LinkedList<Integer>[] adj; //Adjacency Lists
+public class ConnectedComponents {
 
-    // Constructor
-    Graph(int v) {
-        V = v;
-        adj = new LinkedList[v];
-        for (int i=0; i<v; ++i)
-            adj[i] = new LinkedList();
-    }
+    private final int[] id;
+    private int count; 
 
-    // Function to add an edge into the graph
-    void addEdge(int v,int w) {
-        adj[v].add(w);
-        adj[w].add(v);
-    }
-
-    // A function used by isConnected and numberOfConnectedComponents
-    void DFSUtil(int v, boolean[] visited) {
-        // Mark the current node as visited
-        visited[v] = true;
-
-        // Recur for all the vertices adjacent to this vertex
-        for (int n : adj[v]) {
-            if (!visited[n])
-                DFSUtil(n, visited);
+    public ConnectedComponents(UndirectedGraph graph) {
+        int numVertices = graph.getNumVertices();
+        id = new int[numVertices];
+        count = 0;
+        
+        for (int i = 0; i < numVertices; i++) {
+            id[i] = i;
         }
-    }
-
-    // A function used by connectedComponents
-    void DFSUtilPrint(int v, boolean[] visited) {
-        // Mark the current node as visited and print it
-        visited[v] = true;
-        System.out.print(v + " ");
-
-        // Recur for all the vertices adjacent to this vertex
-        for (int n : adj[v]) {
-            if (!visited[n])
-                DFSUtilPrint(n, visited);
-        }
-    }
-
-    // prints all connected components
-    void connectedComponents() {
-        // Mark all the vertices as not visited
-        boolean[] visited = new boolean[V];
-        for (int v = 0; v < V; ++v) {
-            if (!visited[v]) {
-                // print all reachable vertices from v
-                DFSUtilPrint(v, visited);
-                System.out.println();
+        
+        for (int i = 0; i < numVertices; i++) {
+            if (id[i] == i) { 
+                dfs(graph, i);
+                count++;
             }
         }
     }
 
-    // returns true if two vertices are connected
-    boolean isConnected(int v, int w) {
-        boolean[] visited = new boolean[V];
-        DFSUtil(v, visited);
-        return visited[w];
+    private void dfs(UndirectedGraph graph, int v) {
+        id[v] = count;
+        for (int w : graph.getAdjacencyList().get(v)) {
+            if (id[w] == w) {
+                dfs(graph, w);
+            }
+        }
+    }
+
+    public boolean isConnected(int v, int w) {
+        return id[v] == id[w];
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void printComponents() {
+        System.out.println("Number of connected components: " + count);
+        List<List<Integer>> components = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            components.add(new ArrayList<>());
+        }
+        for (int i = 0; i < id.length; i++) {
+            components.get(id[i]).add(i);
+        }
+        for (int i = 0; i < count; i++) {
+            System.out.println("Component " + i + ": " + components.get(i));
+        }
     }
 }
 ```
 
+C++
+
 ```C++
-#include <iostream>
+#ifndef CONNECTEDCOMPONENTS_H  
+#define CONNECTEDCOMPONENTS_H
+#endif  
+
 #include <vector>
+#include "UndirectedGraph.h"
 
-class Graph {
+class ConnectedComponents {
 private:
-    int V; // No. of vertices
-    std::vector<int> *adj; // Pointer to an array containing adjacency lists
+    std::vector<int> id;
+    int count;
 
-    void DFS(int v, bool visited[]) {
-        // Mark the current node as visited
-        visited[v] = true;
-
-        // Recur for all the vertices adjacent to this vertex
-        for (int & i : adj[v])
-            if (!visited[i])
-                DFS(i, visited);
-    }
-
-    void DFSWithPrint(int v, bool visited[]) {
-        // Mark the current node as visited and print it
-        visited[v] = true;
-        std::cout << v << " ";
-
-        // Recur for all the vertices adjacent to this vertex
-        for (int & i : adj[v])
-            if (!visited[i])
-                DFSWithPrint(i, visited);
+    void dfs(const UndirectedGraph& graph, int v) {
+        id[v] = count;
+        for (const int& w : graph.getAdjacencyList()[v]) {
+            if (id[w] == w) { 
+                dfs(graph, w);
+            }
+        }
     }
 
 public:
-    explicit Graph(int V) {
-        this->V = V;
-        adj = new std::vector<int>[V];
-    }
+    explicit ConnectedComponents(const UndirectedGraph& graph) : count(0) {
+        const int numVertices = graph.getNumVertices();
+        id.resize(numVertices);
 
-    void addEdge(int v, int w) {
-        adj[v].push_back(w);
-        adj[w].push_back(v); // The graph is undirected
-    }
+        for (int i = 0; i < numVertices; ++i) {
+            id[i] = i; 
+        }
 
-    bool isConnected(int v, int w) {
-        // Mark all the vertices as not visited
-        bool *visited = new bool[V];
-        for (int i = 0; i < V; i++)
-            visited[i] = false;
-
-        // Start DFS traversal from v
-        DFS(v, visited);
-
-        // If w is visited during the DFS, v and w are connected
-        bool connection = visited[w];
-        delete[] visited;
-        return connection;
-    }
-
-    void connectedComponents() {
-        // Mark all the vertices as not visited
-        bool *visited = new bool[V];
-        for (int v = 0; v < V; v++)
-            visited[v] = false;
-
-        for (int v = 0; v < V; v++) {
-            if (!visited[v]) {
-                // Print all reachable vertices from v
-                DFSWithPrint(v, visited);
-                std::cout << "\n";
+        for (int i = 0; i < numVertices; ++i) {
+            if (id[i] == i) {
+                dfs(graph, i);
+                ++count;
             }
         }
-        delete[] visited;
+    }
+
+    [[nodiscard]] bool isConnected(int v, int w) const {
+        return id[v] == id[w];
+    }
+
+    [[nodiscard]] int getCount() const {
+        return count;
+    }
+
+    void printComponents() const {
+        std::cout << "Number of connected components: " << count << std::endl;
+
+        std::vector<std::vector<int>> components(count);
+        for (int i = 0; i < id.size(); ++i) {
+            components[id[i]].push_back(i);
+        }
+
+        for (int i = 0; i < count; ++i) {
+            std::cout << "Component " << i << ": ";
+            for (const int& vertex : components[i]) {
+                std::cout << vertex << " ";
+            }
+            std::cout << std::endl;
+        }
     }
 };
 ```
+
+Python
 
 ```Python
 class Graph:

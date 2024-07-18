@@ -166,16 +166,36 @@ persistent than Stack.</p>
 
 <list type = "alpha-lower">
 <li>
-<p><format color = "Fuchsia">malloc(n)</format></p>
-<list type = "bullet">
-<li>
-<p>Allocates a continuous block of <format style = "bold, italic">
-n bytes</format> of uninitialized memory (contains garbage!)</p>
+    <p><format color = "Fuchsia">malloc(n)</format></p>
+    <list type = "bullet">
+    <li>
+    <p>Allocates a continuous block of <format style = "bold, italic">
+    n bytes</format> of uninitialized memory (contains garbage!)</p>
+    </li>
+    <li>
+    <p>Returns a pointer to the beginning of an allocated block; NULL 
+    indicates failed request (check for this!)</p>
+    </li>
+    </list>
 </li>
 <li>
-<p>Returns a pointer to the beginning of an allocated block; NULL 
-indicates failed request (check for this!)</p>
-</li>
-</list>
+<p><format color = "Fuchsia">calloc(n, size)</format></p>
+    <list type = "bullet">
+    <li>
+    <p><code>void* calloc(size_t nmemb, size_t size)</code></p>
+    </li>
+    <li>
+    <p>nmemb is the number of the members</p>
+    </li>
+    <li>
+    <p>size is the size of each member</p>
+    </li>
+    <li>
+    <p>Example for allocating space for 5 integers.</p>
+    <code-block lang = "C++">
+    int *p = (int*)calloc(5, sizeof(int));
+    </code-block>
+    </li>
+    </list>
 </li>
 </list>
