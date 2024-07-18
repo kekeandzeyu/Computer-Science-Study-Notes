@@ -99,7 +99,7 @@ bin (read as binary).</p>
 </li>
 </list>
 
-<format color = "Aqua">2.2.1 Output Stringstreams</format>
+##### 2.2.1 Output Stringstreams
 
 ```C++
 std::ostringstream oss("Ito-En Green Tea");
@@ -112,7 +112,7 @@ oss << "16.9 Ounces";
 std::cout << oss.str() << std::endl; // Ito-En Green Tea16.9 Ounces
 ```
 
-<format color = "Aqua">2.2.2 Input Stringstreams</format>
+##### 2.2.2 Input Stringstreams
 
 <warning>
 <p>Types matter! Stream stops reading at any whitespace or any invalid
@@ -131,7 +131,7 @@ std::string unit;
 iss >> amount >> unit; // amount = 16, unit = ".9"
 ```
 
-<format color = "Aqua">2.2.3 State Bits</format>
+##### 2.2.3 State Bits
 
 <list>
 <li>
@@ -340,7 +340,7 @@ which provide access to sequences of elements.</p>
 </li>
 </list>
 
-<format color = "Aqua">4.1.1 Vector</format>
+##### 4.1.1 Vector
 
 <p><format color = "Chartreuse">Vector:</format> An array with 
 changeable size.</p>
@@ -378,7 +378,7 @@ changeable size.</p>
 </li>
 </list>
 
-<format color = "Aqua">4.1.2 Deque</format>
+##### 4.1.2 Deque
 
 <p><format color = "Chartreuse">Deque:</format> A deque is a doubly 
 ended queue.</p>
@@ -483,7 +483,81 @@ currently pointed to:</format> </p>
 </li>
 </list>
 
+<p><format color = "DodgerBlue">Map Iterators:</format> </p>
 
+```C++
+    map<int, int> m;
+    map<int, int>::iterator i = m.begin();
+    map<int, int>::iterator end = m.end();
+    while (i != end) {
+        cout << (*i).first << " " << (*i).second << endl;
+        i++;
+    }
+```
+
+```mermaid
+stateDiagram
+    direction LR
+    Random_Access --> Bidirectional
+    Bidirectional --> Forward
+    Forward --> Input
+    Forward --> Output
+```
+
+##### 4.4.1 Input Iterators
+
+<p>For sequential, single-pass input.</p>
+
+<p>Read only, i.e. can only be dereferenced on <format color = 
+"OrangeRed">right</format> side of expression.</p>
+
+```C++
+vector<int>::iterator iter = myVector.begin();
+int val = *iter;
+```
+
+##### 4.4.2 Output Iterators
+
+<p>For sequential, single-pass output.</p>
+
+<p>Read only, i.e. can only be dereferenced on <format color = 
+"OrangeRed">left</format> side of expression.</p>
+
+```C++
+vector<int>::iterator iter = myVector.begin();
+*iter = 5;
+```
+
+##### 4.4.3 Forward Iterators
+
+<p>Combines input and output, plus can make multiple passes.</p>
+
+<p>Can read from and write to (if not const iterator).</p>
+
+```C++
+// multiple passes
+vector<int>::iterator iter1 = myVector.begin();
+vector<int>::iterator iter2 = myVector.begin();
+iter1++;
+iter2++;
+if (iter1 == iter2) { cout << "Equal" << endl; } // Equal
+```
+
+##### 4.4.4 Bidirectional Iterators
+
+<p>Same as forward iterators, plus can go backwards with the decrement
+operator (--).</p>
+
+<p><format color = "DodgerBlue">Use cases:</format> <code>std::map
+</code>, <code>std::set</code>, <code>std::list</code></p>
+
+##### 4.4.5 Random Access Iterators
+
+<p>Same as bidirectional iterators, plus can be implemented or 
+decremented by arbitrary amounts using + and -.</p>
+
+<p><format color = "DodgerBlue">Use cases:</format> <code>std::vector
+</code>, <code>std::deque</code>, <code>std::string</code></p>
 
 ## &#8546; Object-Oriented Programming
 
