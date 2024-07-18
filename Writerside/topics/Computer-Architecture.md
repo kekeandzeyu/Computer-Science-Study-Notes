@@ -2,6 +2,19 @@
 
 # Computer Architecture
 
+```mermaid
+stateDiagram-v2
+    State1: Higher-Level Language Program (e.g. C)
+    State1 --> State2: Compiler
+    State2: Assembly Language Program (e.g. RISC-V)
+    State2 --> State3: Assembler
+    State3: Machine Language Program (e.g. RISC-V)
+    State3 --> State4: Machine Interpretation
+    State4: Hardware Architecture Description (e.g. block diagrams)
+    State4 --> State5: Architecture Implementation
+    State5: Logic Circuit Description (Circuit Schematic Diagrams)
+```
+
 ## &#8544; C Programming
 
 ### 1 Introduction to C
@@ -176,6 +189,17 @@ persistent than Stack.</p>
     <p>Returns a pointer to the beginning of an allocated block; NULL 
     indicates failed request (check for this!)</p>
     </li>
+    <li>
+    <p><code>int *p = (int *) malloc(n * sizeof(int))</code></p>
+    </li>
+    <li>
+    <p><code>sizeof()</code> makes code more portable.</p>
+    </li>
+    <li>
+    <p><code>malloc()</code> returns <code>void *</code>; typecast
+    will help you catch coding errors when pointer types don't match.
+    </p>
+    </li>
     </list>
 </li>
 <li>
@@ -195,6 +219,114 @@ persistent than Stack.</p>
     <code-block lang = "C++">
     int *p = (int*)calloc(5, sizeof(int));
     </code-block>
+    </li>
+    </list>
+</li>
+<li>
+<p><format color = "Fuchsia">realloc()</format></p>
+    <list type = "bullet">
+    <li>
+    <p>Use it when you need more or less memory in an array.</p>
+    </li>
+    <li>
+    <p><code>void *realloc(void *ptr, size_t size)</code></p>
+    </li>
+    <li>
+    <p>Takes in a ptr that has been the return of malloc/calloc/realloc
+    and a new size.</p>
+    </li>
+    <li>
+    <p>Returns a pointer with now size space (or NULL) and copies any 
+    content from ptr.</p>
+    </li>
+    <li>
+    <p>Realloc can move or keep the address same, so DO NOT rely on old
+    ptr values.</p>
+    </li>
+    </list>
+</li>
+<li>
+<p><format color = "Fuchsia">free()</format></p>
+    <list type = "bullet">
+    <li>
+    <p>Release memory on the heap: Pass the pointer p to the 
+    beginning of allocated block; releases the whole block.</p>
+    </li>
+    <li>
+    <p>p must be the address <format style = "italic">originally
+    </format> returned by m/c/realloc(), otherwise throws system 
+    exception.</p>
+    </li>
+    <li>
+    <p>Don't call <code>free()</code> on a block that has already been
+    released or on NULL.</p>
+    </li>
+    <li>
+    <p>Make sure you don't lose the original address.</p>
+    </li>
+    </list>
+</li>
+</list>
+
+## &#8545; Assembly Language
+
+### 3 Introduction to Assembly Language
+
+<p><format color = "Chartreuse">Assembly:</format> (also known as 
+Assembly language, ASM) A low-level programming language where the 
+program instructions match a particular architecture's operations.
+</p>
+
+<p><format color = "DodgerBlue">Properties:</format> </p>
+
+<list type = "bullet">
+<li>
+<p>Splits a program into many small instructions that each do one 
+single part of the process.</p>
+</li>
+<li>
+<p>Each architecture will have a different set of operations that it 
+supports (although there are similarities).</p>
+</li>
+<li>
+<p>Assembly is not <format style = "italic">portable</format> to other
+architectures.</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Complex/Reduced Instruction Set 
+Computing</format></p>
+
+<list type = "alpha-lower">
+<li>
+<p>Early trend - add more and more instructions to do elaborate 
+operations</p>
+<p><format color = "Fuchsia">Complex Instruction Set Computing (CISC)
+</format></p>
+    <list type = "bullet">
+    <li>
+    <p>Difficult to learn and comprehend language</p>
+    </li>
+    <li>
+    <p>Less work for the compiler</p>
+    </li>
+    <li>
+    <p>Complicated hardware runs more slowly</p>
+    </li>
+    </list>
+</li>
+<li>
+<p>Opposite philosophy later began to dominate</p>
+<p><format color = "Fuchsia">Reduced Instruction Set Computing (RISC)
+</format></p>
+    <list type = "bullet">
+    <li>
+    <p>Simple (and smaller) instruction set makes it easier to build 
+    fast hardware.</p>
+    </li>
+    <li>
+    <p>Let software do the complicated operations by composing simpler 
+    ones.</p>
     </li>
     </list>
 </li>
