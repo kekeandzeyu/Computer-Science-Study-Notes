@@ -2,7 +2,7 @@
 
 # Python Programming
 
-## 1 Basic Data Types
+## 1 Basic Python Knowledge
 
 ### 1.1 String
 
@@ -206,10 +206,11 @@ for key in list(dict.keys()):
 
 <list type = "decimal">
 <li>
-<p>ASCII: 1 bytes, 8 bits.</p>
+<p><format color = "Fuchsia">ASCII:</format> 1 bytes, 8 bits.</p>
 </li>
 <li>
-<p>ANSI: A standard. 2 bytes, 16 bits.</p>
+<p><format color = "Fuchsia">ANSI:</format> A standard. 2 bytes, 16 
+bits.</p>
 <list type = "bullet">
 <li>
 <p>Mainland China: GB2312 => GBK (Windows).</p>
@@ -223,7 +224,7 @@ for key in list(dict.keys()):
 </list>
 </li>
 <li>
-<p>Unicode.</p>
+<p><format color = "Fuchsia">Unicode:</format> </p>
 <list type = "bullet">
 <li>
 <p>UCS-2: 2 bytes, 16 bits.</p>
@@ -234,13 +235,14 @@ for key in list(dict.keys()):
 </list>
 </li>
 <li>
-<p>UTF: All the same as UNicode, except that the length is changeable.</p>
+<p><format color = "Fuchsia">UTF:</format> All the same as Unicode, 
+except that the length is changeable.</p>
 <list type = "bullet">
 <li>
 <p>English: 1 byte, 8 bits.</p>
 </li>
 <li>
-<p>SOme of European languages: 2 bytes, 16 bits.</p>
+<p>Some of European languages: 2 bytes, 16 bits.</p>
 </li>
 <li>
 <p>Chinese: 3 bytes, 24 bits.</p>
@@ -248,9 +250,16 @@ for key in list(dict.keys()):
 </list>
 </li>
 <li>
-<p>UTF-16: Shortest length is 16 bits.</p>
+<p><format color = "Fuchsia">UTF-16:</format> Shortest length is 16 
+bits.</p>
 </li>
 </list>
+
+### 1.7 Logical Operators
+
+<p>Priority: </p>
+
+<p>() => not => and => or</p>
 
 ## 2 Higher-Order Function
 
@@ -569,3 +578,5 @@ def luhn_sum_double(n):
     else:
         return luhn_sum(all_but_last) + luhn_digit
 ```
+
+## 4 Tree Recursion
