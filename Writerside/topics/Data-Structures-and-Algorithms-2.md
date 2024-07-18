@@ -2399,7 +2399,7 @@ graph is a cycle (not necessarily simple) that uses every edge in the
 graph exactly one. Design a linear-time algorithm to determine whether 
 a graph has an Euler cycle, and if so, find one.</p>
 <p><format color = "SkyBlue">A:</format> use depth-first search and 
-piece together the cycles you discover.
+piece together the cycles you discover.</p>
 </li>
 </list>
 
