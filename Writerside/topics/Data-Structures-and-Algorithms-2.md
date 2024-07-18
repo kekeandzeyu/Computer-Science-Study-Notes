@@ -2389,7 +2389,7 @@ a stack in breadth-first search.</p>
     "italic">Center</format>: design a linear-time algorithm to find
     the center of the graph.</p>
     <p><format color = "SkyBlue">A:</format> consider vertices on the 
-    longest path.
+    longest path.</p>
     </li>
     </list>
 </li>
