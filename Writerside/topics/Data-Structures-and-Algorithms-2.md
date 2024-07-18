@@ -2183,6 +2183,19 @@ bool Graph::isPathExists(int dest) {
 
 ### 14.5 Connected Components
 
+<p><format color = "Chartreuse">Connected Components:</format> A 
+connected component is maximal set of connected vertices.</p>
+
+<procedure title = "Find all Connected Components">
+<step>
+<p>Mark vertex <math>v</math> as visited.</p>
+</step>
+<step>
+<p>Recursively visit all the unmarked vertices adjacent to <math>v
+</math>.</p>
+</step>
+</procedure>
+
 Java
 
 ```Java
@@ -2349,6 +2362,46 @@ class Graph:
                 return True
         return False
 ```
+
+### 14.6 Important Questions
+
+<list type = "decimal">
+<li>
+<p><format color = "PaleGoldenRod">Q:</format> Implement depth-first 
+search in an undirected graph without using recursion.</p>
+<p><format color = "SkyBlue">A:</format> Simply replace a queue with
+a stack in breadth-first search.</p>
+</li>
+<li>
+<p>Given a connected graph with no cycles</p>
+    <list type = "bullet">
+    <li>
+    <p><format color = "PaleGoldenRod">Q:</format> <format style = 
+    "italic">Diameter</format>: design a linear-time algorithm to find
+    the longest simple path in the graph.</p>
+    <p><format color = "SkyBlue">A:</format> to compute the diameter,
+    pick a vertex <math>s</math>; run BFS from <math>s</math>; then 
+    run BFS again from the vertex that is furthest from <math>s</math>
+    .</p>
+    </li>
+    <li>
+    <p><format color = "PaleGoldenRod">Q:</format> <format style =
+    "italic">Center</format>: design a linear-time algorithm to find
+    the center of the graph.</p>
+    <p><format color = "SkyBlue">A:</format> consider vertices on the 
+    longest path.
+    </li>
+    </list>
+</li>
+<li>
+<p><format color = "PaleGoldenRod">Q:</format> An Euler cycle in a 
+graph is a cycle (not necessarily simple) that uses every edge in the
+graph exactly one. Design a linear-time algorithm to determine whether 
+a graph has an Euler cycle, and if so, find one.</p>
+<p><format color = "SkyBlue">A:</format> use depth-first search and 
+piece together the cycles you discover.
+</li>
+</list>
 
 ## 15 Directed Graphs
 
