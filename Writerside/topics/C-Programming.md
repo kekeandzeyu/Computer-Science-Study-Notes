@@ -200,7 +200,7 @@ the token with each &gt;&gt; operation.</p>
 
 ### 3 Modern C++ Types
 
-#### 3.1 auto
+#### 3.1 Auto
 
 <list type = "bullet">
 <li>
@@ -227,11 +227,15 @@ class. Example:</p>
 
 #### 3.2 Pair/Tuple
 
+<p>A pair is simply two objects bundled together.</p>
+
 <note>
 <p>Remember to include &lt; utility &gt; and &lt; tuple &gt;</p>
 </note>
 
 ```C++
+    std::pair<double, int> price(3.4, 5);
+
     // make_pair/tuple (C++ 11) automatically deduces the type!
     auto prices = std::make_pair(3.4, 5);
     auto values = std::make_tuple(3, 4, "hi");
@@ -402,6 +406,84 @@ pointers to the beginning of each chunk.</p>
 <p>For other operations, vector outperform deque.</p>
 </li>
 </list>
+
+#### 4.2 Container Adapters
+
+<list type = "alpha-lower">
+<li>
+<p><format color = "Fuchsia">Stacks:</format> </p>
+    <list type = "bullet">
+    <li>
+    <p>The standard containers <code>std::vector</code>, <code>
+    std::deque</code>, <code>std::list</code> satisfy these 
+    requirements.</p>
+    </li>
+    <li>
+    <p>Just limit the functionality of a vector/deque to only allow
+    <code>push_back</code> and <code>pop_back</code>.</p>
+    </li>
+    </list>
+</li>
+<li>
+<p><format color = "Fuchsia">Queues:</format> </p>
+    <list type = "bullet">
+    <li>
+    <p>The standard containers <code>std::deque</code> and <code>
+    std::list</code> satisfy these requirements.</p>
+    </li>
+    <li>
+    <p>Just limit the functionality of a deque to only allow <code>
+    push_back</code> and <code>pop_front</code>.</p>
+    </li>
+    </list>
+</li>
+</list>
+
+#### 4.3 Associative Containers
+
+<p><format color = "Chartreuse">Associative containers:</format> Data is
+accessed using the <format color = "OrangeRed">key</format> instead of
+index.</p>
+
+```plantuml
+@startmindmap
+* Class Templates
+**: Based on ordering property of keys
+ Keys need to be comparable using < operator;
+*** std::map<T1, T2>
+*** std::set<T>
+**: Based on hash function
+ You need to define how the key can be hashed;
+*** std::unordered_map<T1, T2>
+*** std::unordered_set<T>
+@endmindmap
+```
+
+#### 4.4 Iterators
+
+<p><format color = "DodgerBlue">Four iterator operations:</format> </p>
+
+<list type = "bullet">
+<li>
+<p><format color = "Fuchsia">Create iterator:</format> </p>
+<p><code>std::set&lt;int&gt;::iterator iter = mySet.begin()</code></p>
+</li>
+<li>
+<p><format color = "Fuchsia">Dereference iterator to read value 
+currently pointed to:</format> </p>
+<p><code>int val = *iter</code></p>
+</li>
+<li>
+<p><format color = "Fuchsia">Advance iterator:</format> </p>
+<p><code>iter++</code>; or <code>++iter</code></p>
+</li>
+<li>
+<p><format color = "Fuchsia">Compare against another iterator</format> 
+(especially <code>.end()</code> iterator)</p>
+</li>
+</list>
+
+
 
 ## &#8546; Object-Oriented Programming
 
