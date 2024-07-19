@@ -559,6 +559,10 @@ decremented by arbitrary amounts using + and -.</p>
 <p><format color = "DodgerBlue">Use cases:</format> <code>std::vector
 </code>, <code>std::deque</code>, <code>std::string</code></p>
 
+### 5 Templates
+
+
+
 ## &#8546; Object-Oriented Programming
 
 ### 3. Inheritance
