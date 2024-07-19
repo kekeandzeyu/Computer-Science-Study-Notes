@@ -2410,77 +2410,130 @@ piece together the cycles you discover.</p>
 <p>Directed graph: Set of vertices connected pairwise by <format color
 = "red">directed edges</format>.</p>
 
-<img src="../images_data/15-1-1.png" alt="Directed graph" width="450"/>
+<img src = "../images_data/15-1-1.png" alt = "Directed graph"/>
 
 ### 15.2 Directed Graph API
 
 Java
 
 ```Java
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DirectedGraph {
-    private int vertices; // Number of vertices
-    private final LinkedList<Integer>[] adj; // Array of lists for adjacency list representation
 
-    // Constructor
-    DirectedGraph(int v) {
-        vertices = v;
-        adj = new LinkedList[v];
-        for (int i = 0; i < v; i++)
-            adj[i] = new LinkedList();
+    private final int numVertices;
+    private int numEdges;
+    private final Map<Integer, List<Integer>> adjacencyList;
+
+    public DirectedGraph(int numVertices) {
+        this.numVertices = numVertices;
+        this.numEdges = 0;
+        this.adjacencyList = new HashMap<>();
+        for (int i = 0; i < numVertices; i++) {
+            adjacencyList.put(i, new ArrayList<>());
+        }
     }
 
-    // Function to add an edge into the graph
-    void addEdge(int v, int w) {
-        adj[v].add(w); // Add w to v's list.
+    public void addEdge(int source, int destination) {
+        adjacencyList.get(source).add(destination);
+        numEdges++;
+    }
+
+    public int getNumVertices() {
+        return numVertices;
+    }
+
+    public int getNumEdges() {
+        return numEdges;
+    }
+
+    public void printGraph() {
+        for (int v = 0; v < numVertices; v++) {
+            System.out.print("Adjacency list of vertex " + v + " : ");
+            for (Integer neighbor : adjacencyList.get(v)) {
+                System.out.print(neighbor + " ");
+            }
+            System.out.println();
+        }
     }
 }
 ```
 
+C++
+
 ```C++
 #include <iostream>
-#include <list>
-#include <map>
+#include <vector>
+#include <unordered_map>
 
-class Graph {
+class DirectedGraphAdjacencyList {
 private:
-    std::map<int, std::list<int>> adjList;
+    int numVertices;
+    int numEdges;
+    std::unordered_map<int, std::vector<int>> adjacencyList;
 
 public:
-    void addEdge(int v, int w) {
-        adjList[v].push_back(w); // Add w to v’s list.
+    explicit DirectedGraphAdjacencyList(const int numVertices) {
+        this->numVertices = numVertices;
+        this->numEdges = 0;
+        for (int i = 0; i < numVertices; ++i) {
+            adjacencyList[i] = std::vector<int>();
+        }
     }
 
-    void printGraph() {
-        for(const auto& i: adjList) {
-            std::cout << i.first << " -> ";
-            for(auto j: i.second)
-                std::cout << j << " ";
+    void addEdge(const int source, const int destination) {
+        adjacencyList[source].push_back(destination);
+        numEdges++;
+    }
+
+    int getNumVertices() const {
+        return numVertices;
+    }
+
+    int getNumEdges() const {
+        return numEdges;
+    }
+
+    void printGraph() const {
+        for (int v = 0; v < numVertices; ++v) {
+            std::cout << "Adjacency list of vertex " << v << " : ";
+            for (const int neighbor : adjacencyList.at(v)) {
+                std::cout << neighbor << " ";
+            }
             std::cout << std::endl;
         }
     }
 };
 ```
 
+Python
+
 ```Python
-class DirectedGraph:
-    def __init__(self):
-        self.graph = {}
+class DirectedGraphAdjacencyList:
+    def __init__(self, num_vertices):
+        self.num_vertices = num_vertices
+        self.num_edges = 0
+        self.adjacency_list = {i: [] for i in range(num_vertices)}
 
-    def add_vertex(self, vertex):
-        if vertex not in self.graph:
-            self.graph[vertex] = []
+    def add_edge(self, source, destination):
+        self.adjacency_list[source].append(destination)
+        self.num_edges += 1
 
-    def add_edge(self, from_vertex, to_vertex):
-        if from_vertex in self.graph:
-            self.graph[from_vertex].append(to_vertex)
-        else:
-            self.graph[from_vertex] = [to_vertex]
+    def get_num_vertices(self):
+        return self.num_vertices
 
-    def display(self):
-        for vertex, edges in self.graph.items():
-            print(vertex, '->', ' '.join([str(edge) for edge in edges]))
+    def get_num_edges(self):
+        return self.num_edges
+
+    def print_graph(self):
+        for v in range(self.num_vertices):
+            print(f"Adjacency list of vertex {v} : ", end="")
+            for neighbor in self.adjacency_list[v]:
+                print(f"{neighbor} ", end="")
+            print()
 ```
 
 ### 15.3 Directed Graph Search
