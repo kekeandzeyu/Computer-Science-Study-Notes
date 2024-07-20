@@ -47,7 +47,7 @@ starts, does not change.</p>
 </li>
 </list>
 
-<img src = "../images_architecture/1-1.png" alt = "C Memory Layout"/>
+<img src = "../images_architecture/2-1-1.png" alt = "C Memory Layout"/>
 
 <p><format color = "DodgerBlue">Storage:</format> </p>
 
@@ -152,7 +152,7 @@ byte</format>.</p>
 
 <p><format color = "DodgerBlue">Endianness:</format> </p>
 
-<img src = "../images_architecture/1-2.png" alt = "Endianness"/>
+<img src = "../images_architecture/2-4-1.png" alt = "Endianness"/>
 
 <list type = "bullet">
 <li>
@@ -272,6 +272,8 @@ persistent than Stack.</p>
 
 ### 3 Introduction to Assembly Language
 
+#### 3.1 Assembly Language
+
 <p><format color = "Chartreuse">Assembly:</format> (also known as 
 Assembly language, ASM) A low-level programming language where the 
 program instructions match a particular architecture's operations.
@@ -331,3 +333,74 @@ operations</p>
     </list>
 </li>
 </list>
+
+<p><format color = "DodgerBlue">Code:</format> </p>
+
+<p>op dst, src1, src2</p>
+
+<list type = "bullet">
+<li>
+<p><code>op</code>: operation name ("operator")</p>
+</li>
+<li>
+<p><code>dst</code>: register getting result ("destination")</p>
+</li>
+<li>
+<p><code>src1</code>: first register for operation ("source 1")</p>
+</li>
+<li>
+<p><code>src2</code>: second register for operation ("source 2")</p>
+</li>
+</list>
+
+#### 3.2 Registers
+
+<p>Assembly uses registers to store values. Registers are: </p>
+
+<list type = "bullet">
+<li>
+<p>Small memories of a fixed size.</p>
+</li>
+<li>
+<p>Can be read or written.</p>
+</li>
+<li>
+<p>Limited in number.</p>
+</li>
+<li>
+<p>Very fast and low power to access.</p>
+</li>
+</list>
+
+<table style = "both">
+<tr><td></td><td>Registers</td><td>Memory</td></tr>
+<tr><td>Speed</td><td>Fast</td><td>Slow</td></tr>
+<tr><td>Size</td><td><p>Small</p><p>e.g., 32 registers * 32 bit = 
+128 bytes</p></td><td><p>Big</p><p>4-32 GB</p></td></tr>
+<tr><td>Connection</td><td colspan = "2"><p>More variables than 
+registers?</p><p>Keep most frequently used in registers and move the 
+rest to memory</p></td></tr>
+</table>
+
+<img src = "../images_architecture/3-2-1.png" alt = "Registers"/>
+
+<warning>
+<p>Some important notes about registers: </p>
+<list type = "bullet">
+<li>
+<p>Register denoted by 'x' can be referenced by number (x0 - x31) or 
+by name.</p>
+</li>
+<li>
+<p>Registers have no type.</p>
+</li>
+<li>
+<p>Register zero (x0 or zero) always has the value 0 and cannot be 
+changed! Any instruction writing to x0 has no effect!</p>
+</li>
+<li>
+<p>In high-level languages, number of variables limited only by 
+available memory.</p>
+</li>
+</list>
+</warning>
