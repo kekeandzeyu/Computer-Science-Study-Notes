@@ -152,6 +152,19 @@ print(s1.difference(s2)) # {1, 2}
 
 ### 1.5 Dictionary {id = "dictionaries"}
 
+<note>
+<p>Some important notes: </p>
+<list type = "bullet">
+<li>
+<p>A key of a dictionary cannot be a list or a dictionary (or any 
+mutable type).</p>
+</li>
+<li>
+<p>Two keys cannnot be equal.</p>
+</li>
+</list>
+</note>
+
 ```Python
 dic = {1: "I", 2: "have", 3: "a", 4: "dream!"}
 ```
