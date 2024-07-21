@@ -1759,15 +1759,15 @@ public class UndirectedGraph {
 }
 ```
 
-C++
+C++ (UndirectedGraph.h)
 
 ```C++
-# pragma once
+#ifndef UNDIRECTEDGRAPH_H
+#define UNDIRECTEDGRAPH_H
+#pragma once
 
-#include <iostream>
 #include <vector>
 #include <list>
-#include <algorithm>
 
 class UndirectedGraph {
 private:
@@ -1775,74 +1775,83 @@ private:
     std::vector<std::list<int>> adjacencyList;
 
 public:
-    explicit UndirectedGraph(const int& numVertices) : 
+    explicit UndirectedGraph(const int& numVertices);
+    void addEdge(const int& source, const int& destination);
+    [[nodiscard]] bool hasEdge(const int& source, const int& destination) const;
+    [[nodiscard]] int getNumVertices() const;
+    [[nodiscard]] const std::vector<std::list<int>>& getAdjacencyList() const;
+    void printGraph() const;
+};
+
+#endif //UNDIRECTEDGRAPH_H
+```
+
+C++ (UndirectedGraph.cpp)
+
+```C++
+#include "UndirectedGraph.h"
+#include <iostream>
+#include <algorithm>
+
+UndirectedGraph::UndirectedGraph(const int& numVertices) :
     numVertices(numVertices), adjacencyList(numVertices) {}
 
-    void addEdge(const int& source, const int& destination) {
-        adjacencyList[source].push_back(destination);
-        adjacencyList[destination].push_back(source);
-    }
+void UndirectedGraph::addEdge(const int& source, const int& destination) {
+    adjacencyList[source].push_back(destination);
+    adjacencyList[destination].push_back(source);
+}
 
-    [[nodiscard]] bool hasEdge(const int& source, const int& destination) const {
-        return std::ranges::any_of(adjacencyList[source],
-                                   [&destination](const int& neighbor) {
-                                       return neighbor == destination;
-                                   });
-    }
+bool UndirectedGraph::hasEdge(const int& source, const int& destination) const {
+    return std::ranges::any_of(adjacencyList[source],
+                               [&destination](const int& neighbor) {
+                                   return neighbor == destination;
+                               });
+}
 
-    [[nodiscard]] int getNumVertices() const {
-        return numVertices;
-    }
 
-    [[nodiscard]] const std::vector<std::list<int>>& getAdjacencyList() const {
-        return adjacencyList;
-    }
+int UndirectedGraph::getNumVertices() const {
+    return numVertices;
+}
 
-    void printGraph() const {
-        for (int i = 0; i < numVertices; ++i) {
-            std::cout << "Vertex " << i << ":";
-            for (const int& neighbor : adjacencyList[i]) {
-                std::cout << " -> " << neighbor;
-            }
-            std::cout << std::endl;
+const std::vector<std::list<int>>& UndirectedGraph::getAdjacencyList() const {
+    return adjacencyList;
+}
+
+void UndirectedGraph::printGraph() const {
+    for (int i = 0; i < numVertices; ++i) {
+        std::cout << "Vertex " << i << ":";
+        for (const int& neighbor : adjacencyList[i]) {
+            std::cout << " -> " << neighbor;
         }
+        std::cout << std::endl;
     }
-};
+}
 ```
 
 Python
 
 ```Python
-class ConnectedComponents:
-    def __init__(self, graph):
-        self.count = 0
-        self.id = [i for i in range(graph.num_vertices)]  
-        
-        for i in range(graph.num_vertices):
-            if self.id[i] == i:  
-                self.dfs(graph, i)
-                self.count += 1
+class UndirectedGraph:
+    def __init__(self, num_vertices):
+        self.num_vertices = num_vertices
+        self.adjacency_list = [[] for _ in range(num_vertices)]
 
-    def dfs(self, graph, v):
-        self.id[v] = self.count
-        for w in graph.adjacency_list[v]:
-            if self.id[w] == w: 
-                self.dfs(graph, w)
+    def add_edge(self, source, destination):
+        self.adjacency_list[source].append(destination)
+        self.adjacency_list[destination].append(source)
 
-    def is_connected(self, v, w):
-        return self.id[v] == self.id[w]
+    def get_num_vertices(self):
+        return self.num_vertices
 
-    def get_count(self):
-        return self.count
+    def get_adjacency_list(self):
+        return self.adjacency_list
 
-    def print_components(self):
-        print(f"Number of connected components: {self.count}")
-        components = [[] for _ in range(self.count)]
-        for i in range(len(self.id)):
-            components[self.id[i]].append(i)
-
-        for i in range(self.count):
-            print(f"Component {i}: {components[i]}")
+    def print_graph(self):
+        for i in range(self.num_vertices):
+            print(f"Vertex {i}:", end="")
+            for vertex in self.adjacency_list[i]:
+                print(f" -> {vertex}", end="")
+            print()
 ```
 
 ### 14.3 Depth-First Search
@@ -1949,22 +1958,27 @@ class DepthFirstSearch {
 C++ (DepthFirstSearch.h)
 
 ```C++
+#ifndef DEPTHFIRSTSEARCH_H
+#define DEPTHFIRSTSEARCH_H
 #pragma once
 
 #include <vector>
-#include "UndirectedGraph.h" 
+#include "UndirectedGraph.h"
 
 class DepthFirstSearch {
 private:
+    const UndirectedGraph& graph;
     std::vector<bool> marked;
     std::vector<int> edgeTo;
 
 public:
     DepthFirstSearch(const UndirectedGraph& graph, int source);
-    void dfs(const UndirectedGraph& graph, int source);
+    void dfs(int v);
     [[nodiscard]] bool hasPathTo(int v) const;
     void printPathTo(int v) const;
 };
+
+#endif //DEPTHFIRSTSEARCH_H
 ```
 
 C++ (DepthFirstSearch.cpp)
@@ -1975,27 +1989,28 @@ C++ (DepthFirstSearch.cpp)
 #include <stack>
 
 DepthFirstSearch::DepthFirstSearch(const UndirectedGraph& graph, const int source) :
-    marked(graph.getNumVertices(), false), 
-    edgeTo(graph.getNumVertices(), -1) 
+    graph(graph),
+    marked(graph.getNumVertices(), false),
+    edgeTo(graph.getNumVertices(), -1)
 {
-    dfs(graph, source);
+    dfs(source);
 }
 
-void DepthFirstSearch::dfs(const UndirectedGraph& graph, const int source) {
+void DepthFirstSearch::dfs(const int v) {
     std::stack<int> stack;
-    marked[source] = true;
-    stack.push(source);
+    marked[v] = true;
+    stack.push(v);
 
     while (!stack.empty()) {
-        int v = stack.top();
+        const int current = stack.top();
         stack.pop();
-        std::cout << v << " "; 
+        std::cout << current << " ";
 
-        for (int w : graph.getAdjacencyList()[v]) { // Access using getAdjacencyList
-            if (!marked[w]) {
-                marked[w] = true;
-                edgeTo[w] = v;
-                stack.push(w);
+        for (int neighbor : this->graph.getAdjacencyList()[current]) {
+            if (!marked[neighbor]) {
+                marked[neighbor] = true;
+                edgeTo[neighbor] = current;
+                stack.push(neighbor);
             }
         }
     }
@@ -2011,10 +2026,10 @@ void DepthFirstSearch::printPathTo(const int v) const {
         return;
     }
     std::stack<int> path;
-    for (int x = v; x != 0; x = edgeTo[x]) {
+    for (int x = v; x != edgeTo[v]; x = edgeTo[x]) {
         path.push(x);
     }
-    path.push(0); 
+    path.push(edgeTo[v]);
 
     std::cout << "Path: ";
     while (!path.empty()) {
@@ -2035,37 +2050,40 @@ from UndirectedGraph import UndirectedGraph
 
 
 class DepthFirstSearch:
-    def __init__(self, graph, source):
-        self.marked = [False] * graph.num_vertices
-        self.edge_to = [-1] * graph.num_vertices
-        self.source = source
+    def __init__(self, graph: UndirectedGraph, source: int):
+        self.marked = [False] * graph.get_num_vertices()
+        self.edge_to = [None] * graph.get_num_vertices()
         self.dfs(graph, source)
 
-    def dfs(self, graph, v):
-        self.marked[v] = True
-        print(v, end=" ")
-        for w in graph.adjacency_list[v]:
-            if not self.marked[w]:
-                self.edge_to[w] = v
-                self.dfs(graph, w)
+    def dfs(self, graph, source):
+        stack = [source]
+        self.marked[source] = True
+
+        while stack:
+            v = stack.pop()
+            print(v, end=" ")
+
+            for w in graph.get_adjacency_list()[v]:
+                if not self.marked[w]:
+                    self.marked[w] = True
+                    self.edge_to[w] = v
+                    stack.append(w)
 
     def has_path_to(self, v):
         return self.marked[v]
 
     def print_path_to(self, v):
-        if not self.has_path_to(v):
-            print(f"No path from {self.source} to {v}")
+        if not self.marked[v]:
+            print(f"No path from source to {v}")
             return
 
         path = []
         x = v
-        while x != self.source:
+        while x is not None:
             path.append(x)
             x = self.edge_to[x]
-        path.append(self.source)
-        path.reverse()
 
-        print("Path:", " -> ".join(map(str, path)))
+        print("Path:", " -> ".join(map(str, path[::-1])))
 ```
 
 ### 14.4 Breadth-First Search
@@ -2104,90 +2122,199 @@ put unvisited vertices on <format color = "OrangeRed">queue</format>
 </li>
 </list>
 
-C++
+Java
+
+```Java
+import java.util.ArrayDeque;
+import java.util.List;
+import java.util.Queue;
+
+public class BreadthFirstSearch {
+    private boolean[] marked;
+    private int[] edgeTo;
+    private int[] distanceTo;
+
+    public void bfs(UndirectedGraph graph, int startVertex) {
+        marked = new boolean[graph.getNumVertices()];
+        edgeTo = new int[graph.getNumVertices()];
+        distanceTo = new int[graph.getNumVertices()];
+
+        Queue<Integer> queue = new ArrayDeque<>();
+
+        marked[startVertex] = true;
+        distanceTo[startVertex] = 0;
+        queue.offer(startVertex);
+
+        while (!queue.isEmpty()) {
+            int currentVertex = queue.poll();
+
+            List<List<Integer>> adjList = graph.getAdjacencyList();
+            for (int adjacentVertex : adjList.get(currentVertex)) {
+                if (!marked[adjacentVertex]) {
+                    marked[adjacentVertex] = true;
+                    edgeTo[adjacentVertex] = currentVertex;
+                    distanceTo[adjacentVertex] = distanceTo[currentVertex] + 1; // Update distance
+                    queue.offer(adjacentVertex);
+                }
+            }
+        }
+    }
+
+    public int getDistance(int destination) {
+        if (!marked[destination]) { 
+            return -1; 
+        }
+        return distanceTo[destination];
+    }
+
+    public void printPath(int start, int end) {
+        if (start == end) {
+            System.out.print(start);
+            return;
+        }
+
+        if (edgeTo[end] == 0) {
+            System.out.print("No path exists");
+            return;
+        }
+
+        printPath(start, edgeTo[end]);
+        System.out.print(" -> " + end);
+    }
+}
+```
+
+C++ (BreadthFirstSearch.h)
 
 ```C++
-#include <vector>
-#include <queue>
-#include <iostream>
-#include <algorithm>
+#ifndef BREADTHFIRSTSEARCH_H
+#define BREADTHFIRSTSEARCH_H
+#pragma once
 
-class Graph {
-    int V; // No. of vertices
-    std::vector<int> *adj; // Pointer to an array containing adjacency lists
-    std::vector<bool> visited;
-    std::vector<int> distance;
-    std::vector<int> parent;
-    int source{}; // Source vertex for BFS
+#include "UndirectedGraph.h"
+#include <vector>
+
+class BreadthFirstSearch {
+private:
+    const UndirectedGraph& graph;
+    int startVertex;
+    std::vector<bool> marked;
+    std::vector<int> edgeTo;
+    std::vector<int> distanceTo;
 
 public:
-    explicit Graph(int V); // Constructor
-    void addEdge(int v, int w); // function to add an edge to graph
-    void initializeBFS(int s); // Initialize BFS
-    void performBFS(); // Perform BFS
-    std::vector<int> getPath(int dest); // Get the shortest path from source to dest
-    int getDistance(int dest); // Get the number of edges from source to dest
-    bool isPathExists(int dest); // Check if there is a path from source to dest
+    BreadthFirstSearch(const UndirectedGraph& graph, int startVertex);
+    void bfs();
+    [[nodiscard]] int getDistance(int destination) const;
+    void printPath(int destination) const;
 };
 
-Graph::Graph(int V) {
-    this->V = V;
-    adj = new std::vector<int>[V];
-}
+#endif //BREADTHFIRSTSEARCH_H
+```
 
-void Graph::addEdge(int v, int w) {
-    adj[v].push_back(w); // Add w to v’s list.
-}
+C++ (BreadthFirstSearch.cpp)
 
-void Graph::initializeBFS(int s) {
-    visited = std::vector<bool>(V, false);
-    distance = std::vector<int>(V, -1);
-    parent = std::vector<int>(V, -1);
-    source = s; // Store the source vertex
-    visited[source] = true;
-    distance[source] = 0;
-    performBFS();
-}
+```C++
+#include "BreadthFirstSearch.h"
+#include <iostream>
+#include <queue>
 
-void Graph::performBFS() {
+BreadthFirstSearch::BreadthFirstSearch(const UndirectedGraph& graph, const int startVertex) :
+    graph(graph), startVertex(startVertex),
+    marked(graph.getNumVertices(), false),
+    edgeTo(graph.getNumVertices(), -1),
+    distanceTo(graph.getNumVertices(), 0) {}
+
+void BreadthFirstSearch::bfs() {
     std::queue<int> queue;
-    queue.push(source); // Use the source vertex
+    marked[startVertex] = true;
+    queue.push(startVertex);
 
-    while(!queue.empty()) {
-        int s = queue.front();
+    while (!queue.empty()) {
+        const int currentVertex = queue.front();
         queue.pop();
 
-        for(auto i = adj[s].begin(); i != adj[s].end(); ++i) {
-            if (!visited[*i]) {
-                queue.push(*i);
-                visited[*i] = true;
-                distance[*i] = distance[s] + 1;
-                parent[*i] = s;
+        for (const int& neighbor : graph.getAdjacencyList()[currentVertex]) {
+            if (!marked[neighbor]) {
+                marked[neighbor] = true;
+                edgeTo[neighbor] = currentVertex;
+                distanceTo[neighbor] = distanceTo[currentVertex] + 1;
+                queue.push(neighbor);
             }
         }
     }
 }
 
-std::vector<int> Graph::getPath(int dest) {
-    std::vector<int> path;
-    if (!visited[dest]) {
-        return path;
+int BreadthFirstSearch::getDistance(const int destination) const {
+    if (!marked[destination]) {
+        return -1;
+    }
+    return distanceTo[destination];
+}
+
+void BreadthFirstSearch::printPath(const int destination) const {
+    if (startVertex == destination) {
+        std::cout << startVertex;
+        return;
     }
 
-    for (int v = dest; v != -1; v = parent[v])
-        path.push_back(v);
+    if (edgeTo[destination] == -1) {
+        std::cout << "No path exists";
+        return;
+    }
 
-    std::reverse(path.begin(), path.end());
-    return path;
+    printPath(edgeTo[destination]);
+    std::cout << " -> " << destination;
 }
+```
 
-int Graph::getDistance(int dest) {
-    return distance[dest];
-}
+Python
 
-bool Graph::isPathExists(int dest) {
-    return visited[dest];
-}
+```Python
+from collections import deque
+from UndirectedGraph import UndirectedGraph
+import sys
+
+
+class BreadthFirstSearch:
+    def __init__(self, graph: UndirectedGraph, start_vertex: int):
+        self.marked = [False] * graph.get_num_vertices()
+        self.edge_to = [None] * graph.get_num_vertices()
+        self.distance_to = [sys.maxsize] * graph.get_num_vertices()
+
+        self.bfs(graph, start_vertex)
+
+    def bfs(self, graph: UndirectedGraph, start_vertex: int):
+        queue = deque([start_vertex])
+        self.marked[start_vertex] = True
+        self.distance_to[start_vertex] = 0
+
+        while queue:
+            current_vertex = queue.popleft()
+
+            for adjacent_vertex in graph.get_adjacency_list()[current_vertex]:
+                if not self.marked[adjacent_vertex]:
+                    self.marked[adjacent_vertex] = True
+                    self.edge_to[adjacent_vertex] = current_vertex
+                    self.distance_to[adjacent_vertex] = self.distance_to[current_vertex] + 1
+                    queue.append(adjacent_vertex)
+
+    def get_distance(self, destination: int) -> int:
+        if not self.marked[destination]:
+            return -1
+        return self.distance_to[destination]
+
+    def print_path(self, start: int, end: int):
+        if start == end:
+            print(start, end="")
+            return
+
+        if self.edge_to[end] is None:
+            print("No path exists")
+            return
+
+        self.print_path(start, self.edge_to[end])
+        print(f" -> {end}", end="")
 ```
 
 ### 14.5 Connected Components
@@ -2352,39 +2479,40 @@ void ConnectedComponents::printComponents() const {
 Python
 
 ```Python
-class Graph:
+from UndirectedGraph import UndirectedGraph  
 
-    def __init__(self, vertices):
-        self.V = vertices
-        self.adj = [[] for _ in range(vertices)]
 
-    def addEdge(self, v, w):
-        self.adj[v].append(w)
-        self.adj[w].append(v)
+class ConnectedComponents:
+    def __init__(self, graph: UndirectedGraph):
+        self.id = list(range(graph.get_num_vertices()))  
+        self.count = 0
 
-    def DFS(self, temp, v, visited):
-        visited[v] = True
-        temp.append(v)
-        for i in self.adj[v]:
-            if not visited[i]:
-                temp = self.DFS(temp, i, visited)
-        return temp
+        for i in range(graph.get_num_vertices()):
+            if self.id[i] == i:  
+                self.dfs(graph, i)
+                self.count += 1
 
-    def connectedComponents(self):
-        visited = [False] * self.V
-        cc = []
-        for v in range(self.V):
-            if not visited[v]:
-                temp = []
-                cc.append(self.DFS(temp, v, visited))
-        return cc
+    def dfs(self, graph: UndirectedGraph, v: int):
+        self.id[v] = self.count
+        for w in graph.get_adjacency_list()[v]:
+            if self.id[w] == w:
+                self.dfs(graph, w)
 
-    def areConnected(self, v, w):
-        cc = self.connectedComponents()
-        for component in cc:
-            if v in component and w in component:
-                return True
-        return False
+    def is_connected(self, v: int, w: int) -> bool:
+        return self.id[v] == self.id[w]
+
+    def get_count(self) -> int:
+        return self.count
+
+    def print_components(self):
+        print("Number of connected components:", self.count)
+        components = [[] for _ in range(self.count)]
+
+        for i in range(len(self.id)):
+            components[self.id[i]].append(i)
+
+        for i, component in enumerate(components):
+            print(f"Component {i}: {component}")
 ```
 
 ### 14.6 Important Questions
@@ -2555,7 +2683,7 @@ const std::vector<std::vector<int>>& DirectedGraph::getAdjacencyList() const {
 Python
 
 ```Python
-class DirectedGraphAdjacencyList:
+class DirectedGraph:
     def __init__(self, num_vertices):
         self.num_vertices = num_vertices
         self.num_edges = 0
