@@ -1808,7 +1808,6 @@ bool UndirectedGraph::hasEdge(const int& source, const int& destination) const {
                                });
 }
 
-
 int UndirectedGraph::getNumVertices() const {
     return numVertices;
 }
@@ -1899,14 +1898,14 @@ Java
 ```Java
 import java.util.Stack;
 
-class DepthFirstSearch {
+public class DepthFirstSearch {
     private final boolean[] marked;
     private final int[] edgeTo;
 
     public DepthFirstSearch(UndirectedGraph graph, int source) {
         this.marked = new boolean[graph.getNumVertices()];
         this.edgeTo = new int[graph.getNumVertices()];
-        dfs(graph, source); // Start DFS from the given source
+        dfs(graph, source);
     }
 
     private void dfs(UndirectedGraph graph, int source) {
@@ -2619,64 +2618,67 @@ public class DirectedGraph {
 C++ (DirectedGraph.h)
 
 ```C++
-#ifndef DIRECTEDGRAPHADJACENCYLIST_H
-#define DIRECTEDGRAPHADJACENCYLIST_H
+#ifndef DIRECTEDGRAPH_H
+#define DIRECTEDGRAPH_H
+#pragma once
 
-#include <iostream>
 #include <vector>
+#include <list>
 
 class DirectedGraph {
 private:
     int numVertices;
-    int numEdges;
-    std::vector<std::vector<int>> adjacencyList;
+    std::vector<std::list<int>> adjacencyList;
 
 public:
-    explicit DirectedGraph(int numVertices);
-    void addEdge(int source, int destination);
-
+    explicit DirectedGraph(const int& numVertices);
+    void addEdge(const int& source, const int& destination);
+    [[nodiscard]] bool hasEdge(const int& source, const int& destination) const;
     [[nodiscard]] int getNumVertices() const;
-    [[nodiscard]] int getNumEdges() const;
+    [[nodiscard]] const std::vector<std::list<int>>& getAdjacencyList() const;
     void printGraph() const;
-    [[nodiscard]] const std::vector<std::vector<int>>& getAdjacencyList() const;
 };
 
-inline DirectedGraph::DirectedGraph(const int numVertices) :
-        numVertices(numVertices), numEdges(0), adjacencyList(numVertices) {}
-
-inline void DirectedGraph::addEdge(const int source, const int destination) {
-    adjacencyList[source].push_back(destination);
-    numEdges++;
-}
-
-#endif 
+#endif //DIRECTEDGRAPH_H
 ```
 
 C++ (DirectedGraph.cpp)
 
 ```C++
 #include "DirectedGraph.h"
+#include <iostream>
+#include <algorithm>
+
+DirectedGraph::DirectedGraph(const int& numVertices) :
+    numVertices(numVertices), adjacencyList(numVertices) {}
+
+void DirectedGraph::addEdge(const int& source, const int& destination) {
+    adjacencyList[source].push_back(destination);
+}
+
+bool DirectedGraph::hasEdge(const int& source, const int& destination) const {
+    return std::ranges::any_of(adjacencyList[source],
+                               [&destination](const int& neighbor) {
+                                   return neighbor == destination;
+                               });
+}
 
 int DirectedGraph::getNumVertices() const {
     return numVertices;
 }
 
-int DirectedGraph::getNumEdges() const {
-    return numEdges;
+const std::vector<std::list<int>>& DirectedGraph::getAdjacencyList() const {
+    return adjacencyList;
 }
 
 void DirectedGraph::printGraph() const {
-    for (int v = 0; v < numVertices; ++v) {
-        std::cout << "Adjacency list of vertex " << v << " : ";
-        for (const int neighbor : adjacencyList[v]) {
-            std::cout << neighbor << " ";
+    for (int i = 0; i < numVertices; ++i) {
+        std::cout << "Vertex " << i << ":";
+        for (const int& neighbor : adjacencyList[i]) {
+            std::cout << " -> " << neighbor;
         }
         std::cout << std::endl;
     }
-}
-
-const std::vector<std::vector<int>>& DirectedGraph::getAdjacencyList() const {
-    return adjacencyList;
 }
 ```
 
@@ -2707,7 +2709,7 @@ class DirectedGraph:
             print()
 ```
 
-### 15.3 Directed Graph Search
+### 15.3 Digraph Search
 
 #### 15.3.1 Depth-First Search for Digraph
 
@@ -2723,7 +2725,7 @@ Java
 ```Java
 import java.util.Stack;
 
-class DirectedDepthFirstSearch {
+public class DirectedDepthFirstSearch {
     private final boolean[] marked;
     private final int[] edgeTo;
 
@@ -2733,14 +2735,21 @@ class DirectedDepthFirstSearch {
         dfs(graph, source);
     }
 
-    private void dfs(DirectedGraph graph, int v) {
-        marked[v] = true;
-        System.out.print(v + " ");
+    private void dfs(DirectedGraph graph, int source) {
+        Stack<Integer> stack = new Stack<>();
+        marked[source] = true;
+        stack.push(source);
 
-        for (int w : graph.getAdjacencyList().get(v)) {
-            if (!marked[w]) {
-                edgeTo[w] = v;
-                dfs(graph, w);
+        while (!stack.isEmpty()) {
+            int v = stack.pop();
+            System.out.print(v + " ");
+
+            for (int w : graph.getAdjacencyList().get(v)) {
+                if (!marked[w]) {
+                    marked[w] = true;
+                    edgeTo[w] = v;
+                    stack.push(w);
+                }
             }
         }
     }
@@ -2750,7 +2759,7 @@ class DirectedDepthFirstSearch {
     }
 
     public void printPathTo(int v) {
-        if (!hasPathTo(v)) {
+        if (!marked[v]) {
             System.out.println("No path from source to " + v);
             return;
         }
@@ -2772,9 +2781,11 @@ class DirectedDepthFirstSearch {
 }
 ```
 
-C++ (DepthFirstSearch.h)
+C++ (DirectedDepthFirstSearch.h)
 
 ```C++
+#ifndef DIRECTEDDEPTHFIRSTSEARCH_H
+#define DIRECTEDDEPTHFIRSTSEARCH_H
 #pragma once
 
 #include <vector>
@@ -2782,41 +2793,51 @@ C++ (DepthFirstSearch.h)
 
 class DirectedDepthFirstSearch {
 private:
+    const DirectedGraph& graph;
     std::vector<bool> marked;
     std::vector<int> edgeTo;
-    int source;
 
 public:
     DirectedDepthFirstSearch(const DirectedGraph& graph, int source);
-    void dfs(const DirectedGraph& graph, int v);
+    void dfs(int v);
     [[nodiscard]] bool hasPathTo(int v) const;
     void printPathTo(int v) const;
 };
+
+#endif //DIRECTEDDEPTHFIRSTSEARCH_H
 ```
 
-C++ (DepthFirstSearch.cpp)
+C++ (DirectedDepthFirstSearch.cpp)
 
 ```C++
-#include "DepthFirstSearch.h"
+#include "DirectedDepthFirstSearch.h"
 #include <iostream>
 #include <stack>
 
-DirectedDepthFirstSearch::DirectedDepthFirstSearch(const DirectedGraph& graph, const int source)
-    : marked(graph.getNumVertices(), false),
-      edgeTo(graph.getNumVertices(), -1),
-      source(source)
+DirectedDepthFirstSearch::DirectedDepthFirstSearch(const DirectedGraph& graph, const int source) :
+    graph(graph),
+    marked(graph.getNumVertices(), false),
+    edgeTo(graph.getNumVertices(), -1)
 {
-    dfs(graph, source);
+    dfs(source);
 }
 
-void DirectedDepthFirstSearch::dfs(const DirectedGraph& graph, const int v) {
+void DirectedDepthFirstSearch::dfs(const int v) {
+    std::stack<int> stack;
     marked[v] = true;
-    std::cout << v << " ";
+    stack.push(v);
 
-    for (const int w : graph.getAdjacencyList()[v]) {
-        if (!marked[w]) {
-            edgeTo[w] = v;
-            dfs(graph, w);
+    while (!stack.empty()) {
+        const int current = stack.top();
+        stack.pop();
+        std::cout << current << " ";
+
+        for (int neighbor : this->graph.getAdjacencyList()[current]) {
+            if (!marked[neighbor]) {
+                marked[neighbor] = true;
+                edgeTo[neighbor] = current;
+                stack.push(neighbor);
+            }
         }
     }
 }
@@ -2827,15 +2848,14 @@ bool DirectedDepthFirstSearch::hasPathTo(const int v) const {
 
 void DirectedDepthFirstSearch::printPathTo(const int v) const {
     if (!hasPathTo(v)) {
-        std::cout << "No path from " << source << " to " << v << std::endl;
+        std::cout << "No path from source to " << v << std::endl;
         return;
     }
-
     std::stack<int> path;
-    for (int x = v; x != source; x = edgeTo[x]) {
+    for (int x = v; x != edgeTo[v]; x = edgeTo[x]) {
         path.push(x);
     }
-    path.push(source);
+    path.push(edgeTo[v]);
 
     std::cout << "Path: ";
     while (!path.empty()) {
@@ -2852,100 +2872,264 @@ void DirectedDepthFirstSearch::printPathTo(const int v) const {
 Python
 
 ```Python
+from DirectedGraph import DirectedGraph
+
+
 class DirectedDepthFirstSearch:
-    def __init__(self, graph, source):
+    def __init__(self, graph: DirectedGraph, source: int):
         self.marked = [False] * graph.get_num_vertices()
         self.edge_to = [None] * graph.get_num_vertices()
         self.dfs(graph, source)
 
-    def dfs(self, graph, v):
-        self.marked[v] = True
-        print(v, end=" ")
+    def dfs(self, graph, source):
+        stack = [source]
+        self.marked[source] = True
 
-        for w in graph.adjacency_list[v]:
-            if not self.marked[w]:
-                self.edge_to[w] = v
-                self.dfs(graph, w)
+        while stack:
+            v = stack.pop()
+            print(v, end=" ")
+
+            for w in graph.get_adjacency_list()[v]:
+                if not self.marked[w]:
+                    self.marked[w] = True
+                    self.edge_to[w] = v
+                    stack.append(w)
 
     def has_path_to(self, v):
         return self.marked[v]
 
     def print_path_to(self, v):
-        if not self.has_path_to(v):
-            print("No path from source to", v)
+        if not self.marked[v]:
+            print(f"No path from source to {v}")
             return
 
         path = []
         x = v
-        while x is not None:  # In Python, we check for None instead of 0
+        while x is not None:
             path.append(x)
             x = self.edge_to[x]
 
-        print("Path:", " -> ".join(str(node) for node in reversed(path)))
+        print("Path:", " -> ".join(map(str, path[::-1])))
 ```
 
 #### 15.3.2 Breadth-First Search for Digraph
 
-> This is the implementation of the breadth-first search in directed
-> graphs.
->
-{style = "note"}
+<note>
+<p>Every undirected graph is a digraph (with edges in both 
+directions).</p>
+<p>BFS is a <format color = "OrangeRed">digraph</format> algorithm, 
+same method as for undirected graphs!</p>
+</note>
+
+<p><format color = "DodgerBlue">Reachability application:</format> 
+</p>
+
+<list type = "bullet">
+<li>
+<p>Program control-flow analysis</p>
+</li>
+<li>
+<p>Mark-sweep garbage collector: if ao object is unreachable, it is 
+garbage.</p> 
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Application:</format> </p>
+
+<list type = "bullet">
+<li>
+<p>Web crawler</p>
+</li>
+</list>
+
+Java
 
 ```Java
-import java.util.*;
+ivate boolean[] marked;
+    private int[] edgeTo;
+    private int[] distanceTo;
 
-public class BreadthFirstPaths {
-    private static final int INFINITY = Integer.MAX_VALUE;
-    private final boolean[] marked;
-    private final int[] edgeTo;
-    private final int[] distTo;
+    public void bfs(UndirectedGraph graph, int startVertex) {
+        marked = new boolean[graph.getNumVertices()];
+        edgeTo = new int[graph.getNumVertices()];
+        distanceTo = new int[graph.getNumVertices()];
 
-    public BreadthFirstPaths(Graph G, int s) {
-        marked = new boolean[G.V()];
-        distTo = new int[G.V()];
-        edgeTo = new int[G.V()];
-        bfs(G, s);
-    }
+        Queue<Integer> queue = new ArrayDeque<>();
 
-    private void bfs(Graph G, int s) {
-        Queue<Integer> q = new LinkedList<>();
-        for (int v = 0; v < G.V(); v++)
-            distTo[v] = INFINITY;
-        distTo[s] = 0;
-        marked[s] = true;
-        q.add(s);
+        marked[startVertex] = true;
+        distanceTo[startVertex] = 0;
+        queue.offer(startVertex);
 
-        while (!q.isEmpty()) {
-            int v = q.poll();
-            for (int w : G.adj(v)) {
-                if (!marked[w]) {
-                    edgeTo[w] = v;
-                    distTo[w] = distTo[v] + 1;
-                    marked[w] = true;
-                    q.add(w);
+        while (!queue.isEmpty()) {
+            int currentVertex = queue.poll();
+
+            List<List<Integer>> adjList = graph.getAdjacencyList();
+            for (int adjacentVertex : adjList.get(currentVertex)) {
+                if (!marked[adjacentVertex]) {
+                    marked[adjacentVertex] = true;
+                    edgeTo[adjacentVertex] = currentVertex;
+                    distanceTo[adjacentVertex] = distanceTo[currentVertex] + 1; // Update distance
+                    queue.offer(adjacentVertex);
                 }
             }
         }
     }
 
-    public boolean hasPathTo(int v) {
-        return marked[v];
+    public int getDistance(int destination) {
+        if (!marked[destination]) { 
+            return -1; 
+        }
+        return distanceTo[destination];
     }
 
-    public int distTo(int v) {
-        return distTo[v];
-    }
+    public void printPath(int start, int end) {
+        if (start == end) {
+            System.out.print(start);
+            return;
+        }
 
-    public Iterable<Integer> pathTo(int v) {
-        if (!hasPathTo(v)) return null;
-        Stack<Integer> path = new Stack<>();
-        int x;
-        for (x = v; distTo[x] != 0; x = edgeTo[x])
-            path.push(x);
-        path.push(x);
-        return path;
+        if (edgeTo[end] == 0) {
+            System.out.print("No path exists");
+            return;
+        }
+
+        printPath(start, edgeTo[end]);
+        System.out.print(" -> " + end);
     }
 }
+```
+
+C++ (BreadthFirstSearch.h)
+
+```C++
+#ifndef BREADTHFIRSTSEARCH_H
+#define BREADTHFIRSTSEARCH_H
+#pragma once
+
+#include "UndirectedGraph.h"
+#include <vector>
+
+class BreadthFirstSearch {
+private:
+    const UndirectedGraph& graph;
+    int startVertex;
+    std::vector<bool> marked;
+    std::vector<int> edgeTo;
+    std::vector<int> distanceTo;
+
+public:
+    BreadthFirstSearch(const UndirectedGraph& graph, int startVertex);
+    void bfs();
+    [[nodiscard]] int getDistance(int destination) const;
+    void printPath(int destination) const;
+};
+
+#endif //BREADTHFIRSTSEARCH_H
+```
+
+C++ (BreadthFirstSearch.cpp)
+
+```C++
+#include "BreadthFirstSearch.h"
+#include <iostream>
+#include <queue>
+
+BreadthFirstSearch::BreadthFirstSearch(const UndirectedGraph& graph, const int startVertex) :
+    graph(graph), startVertex(startVertex),
+    marked(graph.getNumVertices(), false),
+    edgeTo(graph.getNumVertices(), -1),
+    distanceTo(graph.getNumVertices(), 0) {}
+
+void BreadthFirstSearch::bfs() {
+    std::queue<int> queue;
+    marked[startVertex] = true;
+    queue.push(startVertex);
+
+    while (!queue.empty()) {
+        const int currentVertex = queue.front();
+        queue.pop();
+
+        for (const int& neighbor : graph.getAdjacencyList()[currentVertex]) {
+            if (!marked[neighbor]) {
+                marked[neighbor] = true;
+                edgeTo[neighbor] = currentVertex;
+                distanceTo[neighbor] = distanceTo[currentVertex] + 1;
+                queue.push(neighbor);
+            }
+        }
+    }
+}
+
+int BreadthFirstSearch::getDistance(const int destination) const {
+    if (!marked[destination]) {
+        return -1;
+    }
+    return distanceTo[destination];
+}
+
+void BreadthFirstSearch::printPath(const int destination) const {
+    if (startVertex == destination) {
+        std::cout << startVertex;
+        return;
+    }
+
+    if (edgeTo[destination] == -1) {
+        std::cout << "No path exists";
+        return;
+    }
+
+    printPath(edgeTo[destination]);
+    std::cout << " -> " << destination;
+}
+```
+
+Python
+
+```Python
+from collections import deque
+from DirectedGraph import DirectedGraph
+import sys
+
+
+class BreadthFirstSearch:
+    def __init__(self, graph: DirectedGraph, start_vertex: int):
+        self.marked = [False] * graph.get_num_vertices()
+        self.edge_to = [None] * graph.get_num_vertices()
+        self.distance_to = [sys.maxsize] * graph.get_num_vertices()
+
+        self.bfs(graph, start_vertex)
+
+    def bfs(self, graph: UndirectedGraph, start_vertex: int):
+        queue = deque([start_vertex])
+        self.marked[start_vertex] = True
+        self.distance_to[start_vertex] = 0
+
+        while queue:
+            current_vertex = queue.popleft()
+
+            for adjacent_vertex in graph.get_adjacency_list()[current_vertex]:
+                if not self.marked[adjacent_vertex]:
+                    self.marked[adjacent_vertex] = True
+                    self.edge_to[adjacent_vertex] = current_vertex
+                    self.distance_to[adjacent_vertex] = self.distance_to[current_vertex] + 1
+                    queue.append(adjacent_vertex)
+
+    def get_distance(self, destination: int) -> int:
+        if not self.marked[destination]:
+            return -1
+        return self.distance_to[destination]
+
+    def print_path(self, start: int, end: int):
+        if start == end:
+            print(start, end="")
+            return
+
+        if self.edge_to[end] is None:
+            print("No path exists")
+            return
+
+        self.print_path(start, self.edge_to[end])
+        print(f" -> {end}", end="")
 ```
 
 ### 15.4 Topological Sort
