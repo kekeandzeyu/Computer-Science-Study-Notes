@@ -561,7 +561,69 @@ decremented by arbitrary amounts using + and -.</p>
 
 ### 5 Templates
 
+#### 5.1 Template Functions
 
+```C++
+template <typename T>
+std::pair<T, T> my_minmax(T a, T b) {
+    if (a < b) return {a, b};
+    else return {b, a};
+}
+```
+
+<p>The following code: </p>
+
+```C++
+my_minmax(cout, cout);
+```
+
+<p><format color = "Fuchsia">Semantic error:</format> you can’t call 
+operator &lt; on two streams.</p>
+
+<p><format color = "Fuchsia">Conceptual error:</format> you can’t 
+find the min or max of two streams.</p>
+
+<p>The compiler deduces the types and literally replaces the types.
+Compiler will produce semantic errors, not conceptual error.</p>
+
+```C++
+template <typename Collection, typename DataType>
+int countOccurences(const Collection& list, DataType val) {
+    int count = 0;
+    for (size_t i = 0; i < list.size(); ++i) {
+        if (list[i] == val) ++count;
+    }
+    return count;
+}
+```
+
+<p>Problem lies in indexing <code>list[i]</code>.</p>
+
+```C++
+template <typename Collection, typename DataType>
+int countOccurences(const Collection& list, DataType val) {
+    int count = 0;
+    for (auto iter = list.begin(); iter != list.end(); ++iter) {
+        if (*iter == val) ++count;
+    }
+    return count;
+}
+```
+
+<p>Or: </p>
+
+```C++
+template <typename Collection, typename DataType>
+int countOccurences(const Collection& collection, const DataType& val) {
+    int count = 0;
+    for (const auto& element : collection) {
+        if (element == val) {
+            ++count;
+        }
+    }
+    return count;
+}
+```
 
 ## &#8546; Object-Oriented Programming
 
