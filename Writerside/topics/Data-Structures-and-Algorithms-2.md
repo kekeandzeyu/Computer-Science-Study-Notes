@@ -3134,64 +3134,218 @@ class BreadthFirstSearch:
 
 ### 15.4 Topological Sort
 
-DAG: Directed Acyclic Graph
+<p><format color = "Chartreuse">DAG:</format> Directed <format color
+= "OrangeRed">Acyclic</format> Graph.</p>
 
-Topological sort: Redraw DAG so all edges point upwards.
+<p><format color = "Chartreuse">Topological sort:</format> Redraw DAG
+so all edges point upwards.</p>
+
+<p><format color = "DodgerBlue">Property:</format> A digraph has a
+topological order iff no directed cycle.</p>
+
+<p><format color = "DodgerBlue">Application:</format> Precedence 
+scheduling, cycle inheritance, spreadsheet recalculation, etc.</p>
+
+#### 15.4.1 Algorithm &#8544; - Depth-First Search
+
+<procedure title = "Topological Sort with DFS">
+<step>
+<p>Run depth-first search.</p>
+</step>
+<step>
+<p>Return vertices in reverse postorder.</p>
+</step>
+</procedure>
 
 Java
 
 ```Java
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
-class Graph {
-    private final int V;   // No. of vertices
-    private final LinkedList<Integer>[] adj; // Adjacency List
+public class TopologicalSort {
+    private final DirectedGraph graph;
+    private final boolean[] visited;
+    private final Stack<Integer> postorder;
 
-    //Constructor
-    Graph(int v) {
-        V = v;
-        adj = new LinkedList[v];
-        for (int i=0; i<v; ++i)
-            adj[i] = new LinkedList();
+    public TopologicalSort(DirectedGraph graph) {
+        this.graph = graph;
+        this.visited = new boolean[graph.getNumVertices()];
+        this.postorder = new Stack<>();
     }
 
-    // Function to add an edge into the graph
-    void addEdge(int v,int w) { adj[v].add(w); }
+    public List<Integer> topologicalSort() {
+        for (int v = 0; v < graph.getNumVertices(); v++) {
+            if (!visited[v]) {
+                dfs(v);
+            }
+        }
+        List<Integer> sortedVertices = new ArrayList<>();
+        while (!postorder.isEmpty()) {
+            sortedVertices.add(postorder.pop());
+        }
+        return sortedVertices;
+    }
 
-    // A recursive function used by topologicalSort
-    void topologicalSortUtil(int v, boolean visited[], Stack stack) {
-        // Mark the current node as visited.
+    private void dfs(int v) {
         visited[v] = true;
-        Integer i;
+        for (Integer neighbor : graph.getAdjacencyList().get(v)) {
+            if (!visited[neighbor]) {
+                dfs(neighbor);
+            }
+        }
+        postorder.push(v);
+    }
+}
+```
 
-        // Recur for all the vertices adjacent to this vertex
-        for (Integer integer : adj[v]) {
-            i = integer;
-            if (!visited[i])
-                topologicalSortUtil(i, visited, stack);
+C++ (TopologicalSort.h)
+
+```C++
+#ifndef TOPOLOGICALSORT_H
+#define TOPOLOGICALSORT_H
+#pragma once
+
+#include "DirectedGraph.h"
+#include <vector>
+#include <stack>
+
+class TopologicalSort {
+private:
+    const DirectedGraph& graph;
+    std::vector<bool> visited;
+    std::stack<int> postorder;
+
+    void dfs(int v);
+
+public:
+    explicit TopologicalSort(const DirectedGraph& graph);
+    std::vector<int> topologicalSort();
+};
+
+#endif //TOPOLOGICALSORT_H
+```
+
+C++ (TopologicalSort.cpp)
+
+```C++
+#include "TopologicalSort.h"
+
+TopologicalSort::TopologicalSort(const DirectedGraph &graph) :
+    graph(graph), visited(graph.getNumVertices(), false) {}
+
+void TopologicalSort::dfs(const int v) {
+    visited[v] = true;
+    for (const int& neighbor : graph.getAdjacencyList()[v]) {
+        if (!visited[neighbor]) {
+            dfs(neighbor);
+        }
+    }
+    postorder.push(v);
+}
+
+std::vector<int> TopologicalSort::topologicalSort() {
+    for (int v = 0; v < graph.getNumVertices(); ++v) {
+        if (!visited[v]) {
+            dfs(v);
+        }
+    }
+
+    std::vector<int> sortedVertices;
+    while (!postorder.empty()) {
+        sortedVertices.push_back(postorder.top());
+        postorder.pop();
+    }
+    return sortedVertices;
+}
+```
+
+Python
+
+```Python
+class TopologicalSort:
+    def __init__(self, graph):
+        self.graph = graph  # Store the DirectedGraph object
+        self.visited = [False] * self.graph.get_num_vertices()
+        self.postorder = []
+
+    def topological_sort(self):
+        for v in range(self.graph.get_num_vertices()):
+            if not self.visited[v]:
+                self.dfs(v)
+        return self.postorder[::-1]
+
+    def dfs(self, v):
+        self.visited[v] = True
+        # Access adjacency list from the DirectedGraph object
+        for neighbor in self.graph.adjacency_list[v]:
+            if not self.visited[neighbor]:
+                self.dfs(neighbor)
+        self.postorder.append(v) 
+```
+
+#### 15.4.2 Algorithm &#8545; - Kahn's Algorithm
+
+<procedure title = "Topological Sort with Kahn's Algorithm">
+<step>
+<p>Calculate in-degrees.</p>
+</step>
+<step>
+<p>Find nodes with in-degree 0.</p>
+</step>
+<step>
+<p>Process nodes in topological order, and decrement in-degree of
+neighbors.</p>
+</step>
+</procedure>
+
+Java
+
+```Java
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class TopologicalSort {
+
+    public static List<Integer> topologicalSort(DirectedGraph graph) {
+        int numVertices = graph.getNumVertices();
+        List<List<Integer>> adjList = graph.getAdjacencyList();
+
+        int[] inDegree = new int[numVertices];
+        for (int u = 0; u < numVertices; u++) {
+            for (int v : adjList.get(u)) {
+                inDegree[v]++;
+            }
         }
 
-        // Push current vertex to stack which stores result
-        stack.push(new Integer(v));
-    }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numVertices; i++) {
+            if (inDegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
 
-    // The function to do Topological Sort. It uses recursive topologicalSortUtil()
-    void topologicalSort() {
-        Stack stack = new Stack();
+        List<Integer> sortedOrder = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            sortedOrder.add(u);
 
-        // Mark all the vertices as not visited
-        boolean visited[] = new boolean[V];
-        for (int i = 0; i < V; i++)
-            visited[i] = false;
+            for (int v : adjList.get(u)) {
+                if (--inDegree[v] == 0) {
+                    queue.offer(v);
+                }
+            }
+        }
 
-        // Call the recursive helper function to store Topological Sort starting from all vertices one by one
-        for (int i = 0; i < V; i++)
-            if (visited[i] == false)
-                topologicalSortUtil(i, visited, stack);
+        if (sortedOrder.size() != numVertices) {
+            System.err.println("Error: Graph contains a cycle!");
+            return new ArrayList<>();
+        }
 
-        // Print contents of stack
-        while (stack.empty()==false)
-            System.out.print(stack.pop() + " ");
+        return sortedOrder;
     }
 }
 ```
@@ -3199,67 +3353,313 @@ class Graph {
 C++
 
 ```C++
+#include "DirectedGraph.h"
 #include <iostream>
-#include <vector>
 #include <queue>
+#include <vector>
 
-using namespace std;
+std::vector<int> topologicalSort(const DirectedGraph& graph) {
+    const int numVertices = graph.getNumVertices();
+    std::vector<int> inDegree(numVertices, 0);
+    std::vector<int> sortedOrder;
+    std::queue<int> queue;
 
-int main() {
-    int vectices_number, edges_number;
-    cin >> vectices_number >> edges_number;
-
-    vector<vector<int>> edges(vectices_number);
-    vector<int> indegree(vectices_number, 0), topo_order;
-
-    for (int i = 0; i < edges_number; ++i) {
-        int a, b;
-        cin >> a >> b;
-        edges[a].push_back(b);
-        ++indegree[b];
-    }
-
-    queue<int> q;
-    for (int i = 0; i < vectices_number; ++i) {
-        if (indegree[i] == 0) {
-            q.push(i);
+    for (int u = 0; u < numVertices; ++u) {
+        for (const int& v : graph.getAdjacencyList()[u]) {
+            inDegree[v]++;
         }
     }
 
-    while (!q.empty()) {
-        int node = q.front();
-        q.pop(); // remove the node from the queue
-        topo_order.push_back(node);
+    for (int i = 0; i < numVertices; ++i) {
+        if (inDegree[i] == 0) {
+            queue.push(i);
+        }
+    }
 
-        for (int next : edges[node]) {
-            if (--indegree[next] == 0) {
-                q.push(next);
+    while (!queue.empty()) {
+        int u = queue.front();
+        queue.pop();
+        sortedOrder.push_back(u);
+
+        for (const int& v : graph.getAdjacencyList()[u]) {
+            if (--inDegree[v] == 0) {
+                queue.push(v);
             }
         }
     }
 
-    for (int i : topo_order) {
-        cout << i << " ";
+    // Check for cycles!
+    if (sortedOrder.size() != numVertices) {
+        std::cerr << "Error: Graph contains a cycle!" << std::endl;
+        return {};
     }
-    cout << endl;
 
-    return 0;
+    return sortedOrder;
 }
+```
+
+Python
+
+```Python
+def topological_sort(graph):
+    num_vertices = graph.get_num_vertices()
+    in_degree = [0] * num_vertices
+    sorted_order = []
+    queue = []
+
+    for u in range(num_vertices):
+        for v in graph.adjacency_list[u]:
+            in_degree[v] += 1
+
+    for i in range(num_vertices):
+        if in_degree[i] == 0:
+            queue.append(i)
+
+    while queue:
+        u = queue.pop(0)
+        sorted_order.append(u)
+
+        for v in graph.adjacency_list[u]:
+            in_degree[v] -= 1
+            if in_degree[v] == 0:
+                queue.append(v)
+
+    if len(sorted_order) != num_vertices:
+        return None  
+
+    return sorted_order
 ```
 
 ### 15.5 Strong Components
 
-Def:
+<table style = "both">
+<tr><td></td><td>Connected Components</td><td>Strongly-Connected
+Components</td></tr>
+<tr><td>Definition</td><td><math>v</math> and <math>w</math> are
+<format color = "OrangeRed">connected</format> if there is a path
+between <math>v</math> and <math>w</math></td><td><math>v</math> and
+<math>w</math> are <format color = "OrangeRed">stringly connected
+</format> if there is a directed path from <math>v</math> to 
+<math>w</math> and a directed graph from <math>w</math> to <math>v
+</math></td></tr>
+<tr><td>Implementation</td><td>DFS</td><td>DFS & Reverse DFS</td></tr>
+<tr><td>Detail</td><td><img src = "../images_data/15-5-1.png" 
+alt = "Connected Components"/></td><td><img src = 
+"../images_data/15-5-2.png" alt = "Strongly-Connected Components"/>
+</td></tr>
+</table>
 
-* Strongly Connected Components (SCC): Vertices `v` and `w` are
-  <format color = "OrangeRed">strongly connected</format> if there is a 
-  directed path from `v` to `w` and a directed path from `w` to `v`.
-* A <format color = "OrangeRed">strong component</format> is a maximal
-  subset of strongly-connected vertices.
+<procedure title = "Strongly-Connected Components">
+<step>
+<p>Computer topological order (reverse postorder) in kernel DAG.</p>
+</step>
+<step>
+<p>Run DFS, considering vertices in reverse topological order.</p>
+</step>
+</procedure>
 
-> `v` is strongly connected to `v`.
->
-{style = "note"}
+Java
+
+```Java
+import java.util.Stack;
+
+public class StronglyConnectedComponents {
+
+    private final DirectedGraph graph;
+    private boolean[] visited;
+    private final Stack<Integer> stack;
+    private int sccCount;
+
+    public StronglyConnectedComponents(DirectedGraph graph) {
+        this.graph = graph;
+        this.visited = new boolean[graph.getNumVertices()];
+        this.stack = new Stack<>();
+        this.sccCount = 0;
+    }
+
+    public void findStronglyConnectedComponents() {
+        for (int i = 0; i < graph.getNumVertices(); i++) {
+            if (!visited[i]) {
+                dfsFirst(i);
+            }
+        }
+
+        DirectedGraph transposedGraph = transposeGraph();
+
+        visited = new boolean[graph.getNumVertices()];
+        while (!stack.isEmpty()) {
+            int vertex = stack.pop();
+            if (!visited[vertex]) {
+                sccCount++;
+                System.out.print("SCC " + sccCount + ": ");
+                dfsSecond(transposedGraph, vertex);
+                System.out.println();
+            }
+        }
+    }
+
+    private void dfsFirst(int vertex) {
+        visited[vertex] = true;
+        for (int neighbor : graph.getAdjacencyList().get(vertex)) {
+            if (!visited[neighbor]) {
+                dfsFirst(neighbor);
+            }
+        }
+        stack.push(vertex);
+    }
+
+    private void dfsSecond(DirectedGraph transposedGraph, int vertex) {
+        visited[vertex] = true;
+        System.out.print(vertex + " ");
+        for (int neighbor : transposedGraph.getAdjacencyList().get(vertex)) {
+            if (!visited[neighbor]) {
+                dfsSecond(transposedGraph, neighbor);
+            }
+        }
+    }
+
+    private DirectedGraph transposeGraph() {
+        DirectedGraph transposedGraph = new DirectedGraph(graph.getNumVertices());
+        for (int i = 0; i < graph.getNumVertices(); i++) {
+            for (int neighbor : graph.getAdjacencyList().get(i)) {
+                transposedGraph.addEdge(neighbor, i);
+            }
+        }
+        return transposedGraph;
+    }
+}
+```
+
+C++ (StronglyConnectedComponents.h)
+
+```C++
+#ifndef STRONGLYCONNECTEDCOMPONENTS_H
+#define STRONGLYCONNECTEDCOMPONENTS_H
+#pragma once
+
+#include "DirectedGraph.h"
+#include <vector>
+#include <stack>
+
+class StronglyConnectedComponents {
+private:
+    const DirectedGraph& graph;
+    std::vector<bool> visited;
+    std::stack<int> finishingStack;
+    int sccCount;
+
+    void dfsFirst(int vertex);
+    void dfsSecond(const DirectedGraph& transposedGraph, int vertex);
+
+public:
+    explicit StronglyConnectedComponents(const DirectedGraph& graph);
+    void findStronglyConnectedComponents();
+};
+
+#endif //STRONGLYCONNECTEDCOMPONENTS_H
+```
+
+C++ (StronglyConnectedComponents.cpp)
+
+```C++
+#include "StronglyConnectedComponents.h"
+#include <iostream>
+
+StronglyConnectedComponents::StronglyConnectedComponents(const DirectedGraph& graph) :
+    graph(graph), visited(graph.getNumVertices(), false), sccCount(0) {}
+
+void StronglyConnectedComponents::dfsFirst(int vertex) {
+    visited[vertex] = true;
+    for (const int& neighbor : graph.getAdjacencyList()[vertex]) {
+        if (!visited[neighbor]) {
+            dfsFirst(neighbor);
+        }
+    }
+    finishingStack.push(vertex);
+}
+
+void StronglyConnectedComponents::dfsSecond(const DirectedGraph& transposedGraph, int vertex) {
+    visited[vertex] = true;
+    std::cout << vertex << " ";
+    for (const int& neighbor : transposedGraph.getAdjacencyList()[vertex]) {
+        if (!visited[neighbor]) {
+            dfsSecond(transposedGraph, neighbor);
+        }
+    }
+}
+
+void StronglyConnectedComponents::findStronglyConnectedComponents() {
+    for (int i = 0; i < graph.getNumVertices(); ++i) {
+        if (!visited[i]) {
+            dfsFirst(i);
+        }
+    }
+    
+    DirectedGraph transposedGraph(graph.getNumVertices());
+    for (int i = 0; i < graph.getNumVertices(); ++i) {
+        for (const int& neighbor : graph.getAdjacencyList()[i]) {
+            transposedGraph.addEdge(neighbor, i);
+        }
+    }
+
+    visited.assign(graph.getNumVertices(), false); 
+    while (!finishingStack.empty()) {
+        int vertex = finishingStack.top();
+        finishingStack.pop();
+
+        if (!visited[vertex]) {
+            std::cout << "SCC " << ++sccCount << ": ";
+            dfsSecond(transposedGraph, vertex);
+            std::cout << std::endl;
+        }
+    }
+}
+```
+
+Python
+
+```Python
+class StronglyConnectedComponents:
+    def __init__(self, graph):
+        self.graph = graph
+        self.visited = [False] * graph.num_vertices
+        self.finishing_stack = []
+        self.scc_count = 0
+
+    def dfs_first(self, vertex):
+        self.visited[vertex] = True
+        for neighbor in self.graph.adjacency_list[vertex]:
+            if not self.visited[neighbor]:
+                self.dfs_first(neighbor)
+        self.finishing_stack.append(vertex)
+
+    def dfs_second(self, transposed_graph, vertex):
+        self.visited[vertex] = True
+        print(f"{vertex} ", end="")
+        for neighbor in transposed_graph.adjacency_list[vertex]:
+            if not self.visited[neighbor]:
+                self.dfs_second(transposed_graph, neighbor)
+
+    def find_strongly_connected_components(self):
+        # 1. DFS on original graph to get finishing times
+        for i in range(self.graph.num_vertices):
+            if not self.visited[i]:
+                self.dfs_first(i)
+
+        transposed_graph = DirectedGraph(self.graph.num_vertices)
+        for i in range(self.graph.num_vertices):
+            for neighbor in self.graph.adjacency_list[i]:
+                transposed_graph.add_edge(neighbor, i)
+
+        self.visited = [False] * self.graph.num_vertices
+        while self.finishing_stack:
+            vertex = self.finishing_stack.pop()
+            if not self.visited[vertex]:
+                self.scc_count += 1
+                print(f"SCC {self.scc_count}: ", end="")
+                self.dfs_second(transposed_graph, vertex)
+                print()
+```
 
 ## 16 Minimum Spanning Trees
 
