@@ -3665,23 +3665,31 @@ class StronglyConnectedComponents:
 
 ### 16.1 Introduction to MSTs
 
-* Def: Given an undirected graph G with positive edge weights,
-  (connected), a <format color = "OrangeRed">spanning tree</format> of G
-  is both a <format color = "OrangeRed">tree</format> (connected and
-  acyclic) and <format color = "OrangeRed">spanning</format> (includes
-  all of the vertices).
-
-<img src="../images_data/16-1-1.png" alt="Alt text" width="450"/>
-
-* Applications: Network design (communication, elctrical, hydraulic,
-  computer, road), dithering, cluster analysis, max bottleneck paths,
-  models of nature, medical image processing, real-time face
-  verification, etc.
-
-* Let <em>G</em> be a connected, edge-weighted graph with <em>V</em>
-  vertices and <em>E</em> edges. How many edges are in a minimum
-  spanning tree of <em>G</em>?
-* Answer: <em>V</em> - 1.
+<list>
+<li>
+<p><format color = "Chartreuse">Definiton:</format> Given an 
+undirected graph G with positive edge weights (connected), a 
+<format color = "OrangeRed">spanning tree</format> of G
+is both a <format color = "OrangeRed">tree</format> (connected and
+acyclic) and <format color = "OrangeRed">spanning</format> (includes
+all of the vertices).</p>
+<img src = "../images_data/16-1-1.png" alt = "MST"/>
+</li>
+<li>
+<p><format color = "DodgerBlue">Applications:</format> Network design
+(communication, elctrical, hydraulic, computer, road), dithering, 
+cluster analysis, max bottleneck paths, models of nature, medical 
+image processing, real-time face verification, etc.</p>
+</li>
+<li>
+<p>Let <math>G</math> be a connected, edge-weighted graph with 
+<math>V</math> vertices and <math>E</math> edges. How many edges are
+in a minimum spanning tree of <math>G</math> ?</p>
+</li>
+<li>
+<p>Answer: <math>V</math> - 1.></p>
+</li>
+</list>
 
 ### 16.2 Greedy Algorithm
 
@@ -3702,9 +3710,9 @@ class StronglyConnectedComponents:
 * Cut property: Given any cut in a graph, the crossing edge of min
   weight is in the MST.
 
-<img src="../images_data/16-2-1.png" alt="Alt text" width="450"/>
+<img src = "../images_data/16-2-1.png" alt = "Greedy Algorithm"/>
 
-<procedure title="Greedy MST Algorithm" id="greedy_algorithm">
+<procedure title="Greedy MST Algorithm">
     <step>
         <p>Start with all edges colored gray.</p>
     </step>
@@ -3713,7 +3721,8 @@ class StronglyConnectedComponents:
           min-weight edge black.</p>
     </step>
     <step>
-        <p>Repeat until <em>V</em> - 1 edges are colored black.</p>
+        <p>Repeat until <math>V</math> - 1 edges are colored black.
+        </p>
     </step>
 </procedure>
 
