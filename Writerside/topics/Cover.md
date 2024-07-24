@@ -2,6 +2,8 @@
 switcher-label: Language
 ---
 
+<show-structure depth = "0"></show-structure>
+
 # Cover | 封面
 
 <img src = "photo.png" alt = "Favicon"/>
