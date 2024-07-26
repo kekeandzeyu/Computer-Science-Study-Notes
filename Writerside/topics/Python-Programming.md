@@ -591,5 +591,3 @@ def luhn_sum_double(n):
     else:
         return luhn_sum(all_but_last) + luhn_digit
 ```
-
-## 4 Tree Recursion
