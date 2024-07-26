@@ -3665,54 +3665,77 @@ class StronglyConnectedComponents:
 
 ### 16.1 Introduction to MSTs
 
-<list>
+<p><format color = "Chartreuse">Spanning tree:</format> A <format 
+color = "OrangeRed">spanning tree</format> is a subgraph <math>T
+</math> that is both a <format color = "OrangeRed">tree</format> 
+(connected and acyclic) and <format color = "OrangeRed">spanning
+</format> (includes all of the vertices).</p>
+
+<img src = "../images_data/16-1-1.png" alt = "Spanning Tree"/>
+
+<p><format color = "DodgerBlue">Application:</format></p>
+
+<list type = "bullet">
 <li>
-<p><format color = "Chartreuse">Definiton:</format> Given an 
-undirected graph G with positive edge weights (connected), a 
-<format color = "OrangeRed">spanning tree</format> of G
-is both a <format color = "OrangeRed">tree</format> (connected and
-acyclic) and <format color = "OrangeRed">spanning</format> (includes
-all of the vertices).</p>
-<img src = "../images_data/16-1-1.png" alt = "MST"/>
+<p>Dithering</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Applications:</format> Network design
-(communication, elctrical, hydraulic, computer, road), dithering, 
-cluster analysis, max bottleneck paths, models of nature, medical 
-image processing, real-time face verification, etc.</p>
+<p>Cluster analysis</p>
 </li>
 <li>
-<p>Let <math>G</math> be a connected, edge-weighted graph with 
-<math>V</math> vertices and <math>E</math> edges. How many edges are
-in a minimum spanning tree of <math>G</math> ?</p>
+<p>Max bottleneck paths</p>
 </li>
 <li>
-<p>Answer: <math>V</math> - 1.></p>
+<p>Real-time face verification</p>
+</li>
+<li>
+<p>LDPC codes for error correction</p>
+</li>
+<li>
+<p>Image registration with Renyi entropy</p>
+</li>
+<li>
+<p>Find road networks in satellite and aerial imagery</p>
+</li>
+<li>
+<p>Reducing data storage in sequencing amino acids in a protein</p>
+</li>
+<li>
+<p>Model locality of particle interactions in turbulent fluid flows
+</p>
+</li>
+<li>
+<p>Autoconfig protocol for Ethernet bridging to avoid cycles in a 
+network</p>
+</li>
+<li>
+<p>Approximation algorithms for NP-hard problems (e.g., TSP, Steiner 
+tree)</p>
+</li>
+<li>
+<p>Network design (communication, electrical, hydraulic, computer, 
+road).</p>
 </li>
 </list>
 
 ### 16.2 Greedy Algorithm
 
-> Simplifying assumptions:
->
-> * Edge weights are distinct.
->
-> * Graph is connected.
->
-> Consequence: MST exists and is unique.
->
-{style = "note"}
+<p><format color = "DodgerBlue">Definition:</format> </p>
 
-* Def: A <format color = "OrangeRed">cut</format> in a graph is a partition
-  of its vertices into two (nonempty) sets.
-* Def: A <format color = "OrangeRed">crossing edge</format> is an edge that
-  connects a vertex in one set with a vertex in the other.
-* Cut property: Given any cut in a graph, the crossing edge of min
-  weight is in the MST.
+<list type = "bullet">
+<li>
+<p><format color = "Chartreuse">Cut:</format> A cut in a graph is a 
+partition of its vertices into two (nonempty) sets.</p>
+</li>
+<li>
+<p><format color = "Chartreuse">Crossing edge:</format> A crossing 
+edge connects a vertex in one set with a vertex in the other.</p>
+</li>
+</list>
 
 <img src = "../images_data/16-2-1.png" alt = "Greedy Algorithm"/>
 
-<procedure title="Greedy MST Algorithm">
+<procedure title = "Greedy Algorithm for MST">
     <step>
         <p>Start with all edges colored gray.</p>
     </step>
@@ -3721,19 +3744,71 @@ in a minimum spanning tree of <math>G</math> ?</p>
           min-weight edge black.</p>
     </step>
     <step>
-        <p>Repeat until <math>V</math> - 1 edges are colored black.
+        <p>Repeat until <math>V - 1</math> edges are colored black.
         </p>
     </step>
 </procedure>
 
-> Remove two simplifying assumptions:
->
-> 1. Edge weights are not distinct: Greedy MST algorithm still
-     >    correct if equal weights are present. (multiple MSTs)
-> 2. Graph is not connected: Compute minimum spanning forest = MST
-     >    of each component.
->
-{style = "note"}
+<p><format color = "DodgerBlue">Correctness Proof:</format> </p>
+
+<list type = "decimal">
+<li>
+<p>Given any cut, the crossing edge of min weight is in MST.</p>
+
+<p><format color = "MediumVioletRed">Proof:</format> </p>
+
+<p>Suppose min-weight crossing edge <math>e</math> is not in the 
+MST.</p>
+    <list type = "bullet">
+    <li>
+    <p>Adding <math>e</math> to the MST creates a cycle.</p>
+    </li>
+    <li>
+    <p>Some other edge <math>f</math> in cycle must be a crossing 
+    edge.</p>
+    </li>
+    <li>
+    <p>Removing <math>f</math> and adding <math>e</math> is also a
+    spanning edge.</p>
+    </li>
+    <li>
+    <p>Since weight of <math>e</math> is less than the weight of 
+    <math>f</math>, that spanning tree is lower height.</p>
+    </li>
+    <li>
+    <p>Contradiction.</p>
+    </li>
+    </list>
+<img src = "../images_data/16-2-2.png" alt = "Proof"/>
+</li>
+<li>
+<p>The greedy algorithm computes the MST.</p>
+
+<p><format color = "MediumVioletRed">Proof:</format> </p>
+    <list type = "bullet"> 
+    <li>
+    <p>Any edge colored black is in the MST (via cut property).</p>
+    </li>
+    <li>
+    <p>Fewer than <math>V - 1</math> black edges => cut with no 
+    black crossing edges. (consider cut whose vertices are one 
+    connected component)</p>
+    </li>
+    </list>
+</li>
+</list>
+
+<warning>
+<p>The proof above is under the simplifying assumptions below: </p>
+<list type = "bullet">
+<li>
+<p>Edge weights are distinct.</p>
+</li>
+<li>
+<p>Graph is connected.</p>
+</li>
+</list>
+</warning>
 
 ### 16.3 Edge-weighted Graph API
 
