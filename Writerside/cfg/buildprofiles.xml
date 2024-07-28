@@ -18,7 +18,8 @@
     </build-profile>
     <footer>
         <copyright>2024 Zeyu Li</copyright>
-        <social type="email" href="kekeandzeyu.gmail.com"/>
+        <social type="email" href="kekeandzeyu.gmail.com">Email</social>
+        <social type="twitter" href="https://x.com/kekeandzeyu">X</social>
         <link href="https://github.com/kekeandzeyu/Computer-Science-Study-Notes">
             Repository in Github</link>
     </footer>

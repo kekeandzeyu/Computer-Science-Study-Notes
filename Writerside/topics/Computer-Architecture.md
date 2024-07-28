@@ -404,3 +404,126 @@ available memory.</p>
 </li>
 </list>
 </warning>
+
+#### 3.3 RISC-&#8548; Instructions
+
+##### 3.3.1 Basic Arithmetic Instructions
+
+<note>
+<p>Assume here that the variables a, b and c are assigned to
+registers s1, s2 and s3, respectively.</p>
+</note>
+
+<p><format color = "DodgerBlue">Types:</format> </p>
+
+<list type = "bullet">
+<li>
+<p><format color = "Fuchsia">Integer Addition:</format> </p>
+    <list type = "bullet">
+    <li>
+    <p>C: a = b + c;</p>
+    </li>
+    <li>
+    <p>RISCV: add s1, s2, s3</p>
+    </li>
+    </list>
+</li>
+<li>
+<p><format color = "Fuchsia">Integer Subtraction:</format> </p>
+    <list type = "bullet">
+    <li>
+    <p>C: a = b - c;</p>
+    </li>
+    <li>
+    <p>RISCV: sub s1, s2, s3</p>
+    </li>
+    </list>
+</li>
+</list>
+
+##### 3.3.2 Immediate Instructions
+
+<p><format color = "Chartreuse">Immediates:</format> Numerical 
+constants.</p>
+
+<p><format color = "DodgerBlue">Syntax:</format> opi dst, src, imm</p>
+
+<list type = "bullet">
+<li>
+<p>Operation names end with "i", replace <math>2 ^ {\text{nd}}</math> 
+source register with an immeidate.</p>
+</li>
+<li>
+<p>Immediates can up to 12-bits in size.</p>
+</li>
+<li>
+<p>Interpreted as sign-extended two's complement.</p>
+</li>
+</list>
+
+<warning>
+<p>No <code>subi</code> instruction, since RISCV is all about reducing
+# of instructions.</p>
+</warning>
+
+##### 3.3.3 Data Transfer Instructions
+
+<p>Specialized <format color = "OrangeRed">data transfer instructions
+</format> move data between registers and memory.</p>
+
+<list type = "bullet">
+<li>
+<p><format color = "Fuchsia">Store:</format> register TO memory</p>
+</li>
+<li>
+<p><format color = "Fuchsia">Load:</format> register FROM memory</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Syntax:</format> memop reg, off (bAbbr)
+</p>
+
+<list type = "bullet">
+<li>
+<p><code>memop</code>: operation name ("operator")</p>
+</li>
+<li>
+<p><code>reg</code>: register for operation source or destination.</p>
+</li>
+<li>
+<p><code>bAbbr</code>: register with pointer to memory ("base 
+address")</p>
+</li>
+<li>
+<p><code>off</code>: Address offset (immediate) in bytes ("offset")</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Types:</format> </p>
+
+<list type = "bullet">
+<li>
+<p><format color = "Fuchsia">Load Word:</format> Takes data at 
+address <code>bAbbr+off</code> FROM memory and places it into <code>
+reg</code>.</p>
+</li>
+<li>
+<p><format color = "Fuchsia">Store Word:</format> Takes data in 
+<code>reg</code> and stores it TO memory at <code>bAbbr+off</code>.
+</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Example:</format> address of int array
+[] -> s3, value of b -> s2</p>
+
+<list type = "bullet">
+<li>
+<p>C: array[10] = array[3] + b;</p>
+</li>
+<li>
+<p>RISCV:</p>
+<p>lw    to, <format color = "OrangeRed">l2</format> (s3)   # t0 = 
+A[<format color = "OrangeRed">3</format>]</p>
+</li>
+</list>
