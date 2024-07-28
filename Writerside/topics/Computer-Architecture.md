@@ -424,7 +424,7 @@ registers s1, s2 and s3, respectively.</p>
     <p>C: a = b + c;</p>
     </li>
     <li>
-    <p>RISCV: add s1, s2, s3</p>
+    <p>RISC-Ⅴ: add s1, s2, s3</p>
     </li>
     </list>
 </li>
@@ -435,7 +435,7 @@ registers s1, s2 and s3, respectively.</p>
     <p>C: a = b - c;</p>
     </li>
     <li>
-    <p>RISCV: sub s1, s2, s3</p>
+    <p>RISC-Ⅴ: sub s1, s2, s3</p>
     </li>
     </list>
 </li>
@@ -522,8 +522,12 @@ reg</code>.</p>
 <p>C: array[10] = array[3] + b;</p>
 </li>
 <li>
-<p>RISCV:</p>
-<p>lw    to, <format color = "OrangeRed">l2</format> (s3)   # t0 = 
-A[<format color = "OrangeRed">3</format>]</p>
+<p>RISC-Ⅴ</p>
+<p>lw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t0, <format color = 
+"OrangeRed">l2</format> (s3)&nbsp;&nbsp;&nbsp;# t0 = A[<format color = "OrangeRed">3
+</format>]</p>
+<p>add&nbsp;&nbsp;&nbsp;&nbsp;t0, s2, t0&nbsp;&nbsp;&nbsp;&nbsp;# t0 = A[3] + b</p>
+<p>sw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t0, <format color = "OrangeRed">40</format> (s3)&nbsp;&nbsp;# A[<format 
+color = "OrangeRed">10</format>] = A[3] + b</p>
 </li>
 </list>
