@@ -872,7 +872,7 @@ root.</p>
 </list>
 </note>
 
-### 3.3 Quick Union
+### 3.3 Quick Union Improvements
 
 <p>Two Improvements: Weighting and Path Compression (WQUPC).</p>
 
@@ -918,8 +918,8 @@ Java
 
 ```Java
 public class UnionFind {
-    private int[] parent;
-    private int[] rank;
+    private final int[] parent;
+    private final int[] rank;
 
     public UnionFind(int size) {
         parent = new int[size];
@@ -942,7 +942,6 @@ public class UnionFind {
         int root1 = find(element1);
         int root2 = find(element2);
 
-        // Weighted quick union
         if (root1 != root2) {
             if (rank[root1] > rank[root2]) {
                 parent[root2] = root1;
@@ -953,10 +952,6 @@ public class UnionFind {
                 rank[root1] += 1;
             }
         }
-    }
-
-    public boolean connected(int element1, int element2) {
-        return find(element1) == find(element2);
     }
 }
 ```

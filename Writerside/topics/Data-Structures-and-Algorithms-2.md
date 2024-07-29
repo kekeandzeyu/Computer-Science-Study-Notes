@@ -3812,233 +3812,354 @@ MST.</p>
 
 ### 16.3 Edge-weighted Graph API
 
-> This is the implementation of weighted edge.
->
-{style = "note"}
-
-Java
+Java (Edge.java)
 
 ```Java
 public class Edge implements Comparable<Edge> {
-    private final int v;
-    private final int w;
+    private final int source;
+    private final int destination;
     private final double weight;
 
-    public Edge(int v, int w, double weight) {
-        this.v = v;
-        this.w = w;
+    public Edge(int source, int destination, double weight) {
+        this.source = source;
+        this.destination = destination;
         this.weight = weight;
     }
 
-    public double weight() {
+    public int getSource() {
+        return source;
+    }
+
+    public int getDestination() {
+        return destination;
+    }
+
+    public double getWeight() {
         return weight;
     }
 
-    public int either() {
-        return v;
-    }
-
-    public int other(int vertex) {
-        if (vertex == v) return w;
-        else if (vertex == w) return v;
-        else throw new RuntimeException("Inconsistent edge");
-    }
-
-    public int compareTo(Edge that) {
-        return Double.compare(this.weight(), that.weight());
-    }
-    
-    
+    @Override
     public String toString() {
-        return String.format("%d - %d %.5f", v, w, weight);
+        return "(" + source + " - " + destination + " : " + weight + ")";
+    }
+
+    @Override
+    public int compareTo(Edge other) {
+        return Double.compare(this.weight, other.weight);
     }
 }
 ```
 
-C++
-
-```C++
-class Edge {
-public:
-    int dest;
-    int weight;
-
-    Edge(int dest, int weight) : dest(dest), weight(weight) {}
-};
-```
-
-> This is the implementation of edge-weighted graph.
->
-{style = "note"}
-
-Java
+Java (EdgeWeightedGraph.java)
 
 ```Java
 import java.util.ArrayList;
 import java.util.List;
 
 public class EdgeWeightedGraph {
-    private final int V;
-    private final List<List<Edge>> adj;
+    private final int vertices;
+    private final List<Edge>[] adjacencyList;
 
-    public EdgeWeightedGraph(int V) {
-        this.V = V;
-        adj = new ArrayList<>(V);
-        for (int v = 0; v < V; v++) {
-            adj.add(new ArrayList<>());
+    public EdgeWeightedGraph(int vertices) {
+        this.vertices = vertices;
+        this.adjacencyList = new ArrayList[vertices];
+        for (int i = 0; i < vertices; i++) {
+            adjacencyList[i] = new ArrayList<>();
         }
     }
 
-    public void addEdge(Edge e) {
-        int v = e.either();
-        int w = e.other(v);
-        adj.get(v).add(e);
-        adj.get(w).add(e);
+    public void addEdge(int source, int destination, double weight) {
+        adjacencyList[source].add(new Edge(source, destination, weight));
+        adjacencyList[destination].add(new Edge(destination, source, weight));
     }
 
-    public Iterable<Edge> adj(int v) {
-        return adj.get(v);
+    public int getVertices() {
+        return vertices;
     }
 
-    public int V() {
-        return V;
+    public List<Edge> getAdjacencyList(int vertex) {
+        return adjacencyList[vertex];
+    }
+
+    public void printGraph() {
+        for (int i = 0; i < vertices; i++) {
+            List<Edge> edges = adjacencyList[i];
+            System.out.print("Vertex " + i + ":");
+            for (Edge edge : edges) {
+                System.out.print(" " + edge);
+            }
+            System.out.println();
+        }
     }
 }
 ```
 
-C++
+C++ (Edge.h)
 
 ```C++
-#include <vector>
-#include <list>
+#ifndef EDGE_H
+#define EDGE_H
 
-class Graph {
+class Edge {
 public:
-    int V; // No. of vertices
-    std::vector<std::list<Edge>> adj; // An array of adjacency lists
+    int source;
+    int destination;
+    double weight;
 
-    // Constructor
-    Graph(int V) : V(V), adj(V) {}
-
-    // Function to add an edge to the graph
-    void addEdge(int u, int v, int w) {
-        Edge edge(v, w);
-        adj[u].push_back(edge); // Add v to u’s list
-    }
+    Edge(int source, int destination, double weight);
 };
+
+#endif //EDGE_H
+```
+
+C++ (Edge.cpp)
+
+```C++
+#include "Edge.h"
+
+Edge::Edge(const int source, const int destination, const double weight)
+    : source(source), destination(destination), weight(weight) {}
+```
+
+C++ (EdgeWeightedGraph.h)
+
+```C++
+#ifndef EDGEWEIGHTEDGRAPH_H
+#define EDGEWEIGHTEDGRAPH_H
+
+#include "Edge.h"
+#include <vector>
+
+class EdgeWeightedGraph {
+private:
+    int vertices;
+    std::vector<std::vector<Edge>> adjacencyList; 
+
+public:
+    explicit EdgeWeightedGraph(int vertices);
+    void addEdge(int source, int destination, double weight);
+    [[nodiscard]] int getVertices() const;
+    [[nodiscard]] const std::vector<Edge>& getAdjacencyList(int vertex) const;
+    void printGraph() const;
+};
+
+#endif //EDGEWEIGHTEDGRAPH_H
+```
+
+C++ (EdgeWeightedGraph.cpp)
+
+```C++
+#include "EdgeWeightedGraph.h"
+#include <iostream>
+
+EdgeWeightedGraph::EdgeWeightedGraph(const int vertices) : vertices(vertices), adjacencyList(vertices) {}
+
+void EdgeWeightedGraph::addEdge(int source, int destination, double weight) {
+    adjacencyList[source].emplace_back(source, destination, weight);
+    adjacencyList[destination].emplace_back(destination, source, weight);
+}
+
+int EdgeWeightedGraph::getVertices() const {
+    return vertices;
+}
+
+const std::vector<Edge>& EdgeWeightedGraph::getAdjacencyList(const int vertex) const {
+    return adjacencyList[vertex];
+}
+
+void EdgeWeightedGraph::printGraph() const {
+    for (int i = 0; i < vertices; ++i) {
+        std::cout << "Vertex " << i << ":";
+        for (const Edge& edge : adjacencyList[i]) {
+            std::cout << " (" << edge.source << " - " << edge.destination << " : " << edge.weight << ")";
+        }
+        std::cout << std::endl;
+    }
+}
 ```
 
 Python
 
 ```Python
-class Graph:
-    def __init__(self, vertices):
-        self.V = vertices
-        self.graph = {}
+class Edge:
+    def __init__(self, source, destination, weight):
+        self.source = source
+        self.destination = destination
+        self.weight = weight
 
-    def add_edge(self, u, v, w):
-        if u not in self.graph:
-            self.graph[u] = [(v, w)]
-        else:
-            self.graph[u].append((v, w))
+    def __lt__(self, other):
+        return self.weight < other.weight
+
+    def __str__(self):
+        return f"({self.source} - {self.destination} : {self.weight})"
+
+
+class EdgeWeightedGraph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.adjacency_list = [[] for _ in range(vertices)]
+
+    def add_edge(self, source, destination, weight):
+        self.adjacency_list[source].append(Edge(source, destination, weight))
+        self.adjacency_list[destination].append(Edge(destination, source, weight))
+
+    def get_vertices(self):
+        return self.vertices
+
+    def get_adjacency_list(self, vertex):
+        return self.adjacency_list[vertex]
 
     def print_graph(self):
-        for node in self.graph:
-            for edge in self.graph[node]:
-                print(f"Edge: {node} -> {edge[0]}, Weight: {edge[1]}")
+        for i in range(self.vertices):
+            print(f"Vertex {i}:", end="")
+            for edge in self.adjacency_list[i]:
+                print(f" {edge}", end="")
+            print()
 ```
 
 ### 16.4 Kruskal's Algorithm
 
-Kruskal's algorithm: Consider edges in ascending order, add next
-edge to tree <em>T</em> unless doing so would create a cycle.
+<procedure title = "Kruskal's Algorithm">
+    <step>
+        <p>Consider edges in ascending order of weight.</p>
+    </step>
+    <step>
+        <p>Add next edge to tree <math>T</math> unless doing so 
+        would create a cycle.</p>
+    </step>
+</procedure>
+
+<procedure title = "Union-Find for Cycle Challenge" type = "choices">
+    <step>
+        <p>Maintain a set for each connected component in <math>T
+        </math></p>
+    </step>
+    <step>
+        <p>If <math>v</math> and <math>w</math> are in same set, 
+        then adding <math>v-w</math> would create a cycle.</p>
+    </step>
+    <step>
+        <p>To add <math>v-w</math> to <math>T</math>, merge sets 
+        containing <math>v</math> and <math>w</math>.</p>
+    </step>
+</procedure>
+
+<p><format color = "DodgerBlue">Correctness Proof:</format> </p>
+
+<p>Kruskal's Algorithm is a special case of the greedy MST algorithm.
+</p>
+
+<list type = "bullet">
+<li>
+<p>Suppose Kruskal's algorithm colors the edge <math>e = v–w</math> 
+black.</p>
+</li>
+<li>
+<p>Cut = set of vertices connected to <math>v</math> in tree <math>
+T</math>.</p>
+</li>
+<li>
+<p>No crossing edge is black.</p>
+</li>
+<li>
+<p>No crossing edge has lower weight.</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Property:</format> Kruskal's algorithm 
+computes MST in time proportional to <math>E \log E</math> (in the 
+worst case).</p>
+
+<p>Proof: </p>
+
+<table style = "header-row">
+<tr><td>Operation</td><td>Frequency</td><td>Time per op</td></tr>
+<tr><td>Build pq</td><td><math>1</math></td><td><math>E \log E
+</math></td></tr>
+<tr><td>Delete-min</td><td><math>E</math></td><td><math>\log E
+</math></td></tr>
+<tr><td>Build pq</td><td><math>V</math></td><td><math>\log* V
+</math></td></tr>
+<tr><td>Connected</td><td><math>E</math></td><td><math>\log* E
+</math></td></tr>
+</table>
+
+<note>
+<p>If edges are already sorted, order of growth is <math>E \log* V
+</math>.</p>
+</note>
 
 Java
 
 ```Java
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
 
-public class KruskalAlgorithm {
-    static class Edge implements Comparable<Edge> {
-        int src, dest, weight;
+public class KruskalsAlgorithm {
 
-        public int compareTo(Edge compareEdge) {
-            return this.weight - compareEdge.weight;
-        }
-    }
+    public static List<Edge> findMinimumSpanningTree(EdgeWeightedGraph graph) {
+        int vertices = graph.getVertices();
+        List<Edge> minimumSpanningTree = new ArrayList<>();
+        PriorityQueue<Edge> minHeap = new PriorityQueue<>(graph.getVertices());
+        UnionFind unionFind = new UnionFind(vertices);
 
-    static class Subset {
-        int parent, rank;
-    }
-
-    int V, E;
-    Edge[] edge;
-
-    KruskalAlgorithm(int v, int e) {
-        V = v;
-        E = e;
-        edge = new Edge[E];
-        for (int i = 0; i < e; ++i)
-            edge[i] = new Edge();
-    }
-
-    int find(Subset[] subsets, int i) {
-        if (subsets[i].parent != i)
-            subsets[i].parent = find(subsets, subsets[i].parent);
-
-        return subsets[i].parent;
-    }
-
-    void Union(Subset[] subsets, int x, int y) {
-        int xroot = find(subsets, x);
-        int yroot = find(subsets, y);
-
-        if (subsets[xroot].rank < subsets[yroot].rank)
-            subsets[xroot].parent = yroot;
-        else if (subsets[xroot].rank > subsets[yroot].rank)
-            subsets[yroot].parent = xroot;
-        else {
-            subsets[yroot].parent = xroot;
-            subsets[xroot].rank++;
-        }
-    }
-
-    void KruskalMST() {
-        Edge[] result = new Edge[V];
-        int e = 0;
-        int i = 0;
-        for (i = 0; i < V; ++i)
-            result[i] = new Edge();
-
-        Arrays.sort(edge);
-
-        Subset[] subsets = new Subset[V];
-        for (i = 0; i < V; ++i)
-            subsets[i] = new Subset();
-
-        for (int v = 0; v < V; ++v) {
-            subsets[v].parent = v;
-            subsets[v].rank = 0;
-        }
-
-        i = 0;
-
-        while (e < V - 1) {
-            Edge next_edge = new Edge();
-            next_edge = edge[i++];
-
-            int x = find(subsets, next_edge.src);
-            int y = find(subsets, next_edge.dest);
-
-            if (x != y) {
-                result[e++] = next_edge;
-                Union(subsets, x, y);
+        for (int i = 0; i < vertices; i++) {
+            for (Edge edge : graph.getAdjacencyList(i)) {
+                minHeap.offer(edge);
             }
         }
 
-        System.out.println("Following are the edges in " + "the constructed MST");
-        for (i = 0; i < e; ++i)
-            System.out.println(result[i].src + " -- " + result[i].dest + " == " + result[i].weight);
+        while (!minHeap.isEmpty() && minimumSpanningTree.size() < vertices - 1) {
+            Edge edge = minHeap.poll();
+            int sourceRoot = unionFind.find(edge.getSource());
+            int destinationRoot = unionFind.find(edge.getDestination());
+
+            if (sourceRoot != destinationRoot) {
+                minimumSpanningTree.add(edge);
+                unionFind.union(sourceRoot, destinationRoot);
+            }
+        }
+
+        return minimumSpanningTree;
+    }
+
+    static class UnionFind {
+        private final int[] parent;
+        private final int[] rank;
+
+        public UnionFind(int size) {
+            parent = new int[size];
+            rank = new int[size];
+
+            for (int i = 0; i < size; i++) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int find(int element) {
+            if (parent[element] != element) {
+                parent[element] = find(parent[element]); // Path compression
+            }
+            return parent[element];
+        }
+
+        public void union(int element1, int element2) {
+            int root1 = find(element1);
+            int root2 = find(element2);
+
+            if (root1 != root2) {
+                if (rank[root1] > rank[root2]) {
+                    parent[root2] = root1;
+                } else if (rank[root1] < rank[root2]) {
+                    parent[root1] = root2;
+                } else {
+                    parent[root2] = root1;
+                    rank[root1] += 1;
+                }
+            }
+        }
     }
 }
 ```
@@ -4046,135 +4167,171 @@ public class KruskalAlgorithm {
 C++
 
 ```C++
-#include <iostream>
+#include "Edge.h"
+#include "EdgeWeightedGraph.h"
 #include <vector>
-#include <algorithm>
+#include <queue>
+#include <iostream>
 
-class Edge {
-public:
-    int src, dest, weight;
-
-    Edge(int src, int dest, int weight) : src(src), dest(dest), weight(weight) {}
-};
-
-class Graph {
-public:
-    int V, E;
-    std::vector<Edge> edges;
-
-    Graph(int V, int E) : V(V), E(E) {
-        edges.reserve(E);
-    }
-
-    void addEdge(int src, int dest, int weight) {
-        Edge edge(src, dest, weight);
-        edges.push_back(edge);
-    }
-};
-
-bool compare(Edge a, Edge b) {
-    return a.weight < b.weight;
-}
-
-class DisjointSet {
+class UnionFind
+{
+private:
     std::vector<int> parent;
+    std::vector<int> rank;
+
 public:
-    DisjointSet(int n) {
-        parent.resize(n);
-        for (int i = 0; i < n; i++) {
+    explicit UnionFind(const int size) {
+        parent.resize(size);
+        rank.resize(size, 1);
+
+        for (int i = 0; i < size; i++) {
             parent[i] = i;
         }
     }
 
-    int find(int i) {
-        if (parent[i] == i) {
-            return i;
-        } else {
-            return parent[i] = find(parent[i]);
+    int find(const int element) {
+        if (parent[element] != element) {
+            parent[element] = find(parent[element]); // Path compression
         }
+        return parent[element];
     }
 
-    void union_set(int i, int j) {
-        parent[find(i)] = find(j);
+    void unionSets(const int element1, const int element2) {
+        const int root1 = find(element1);
+        int root2 = find(element2);
+
+        if (root1 != root2) {
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                rank[root1] += 1;
+            }
+        }
     }
 };
 
-std::vector<Edge> kruskal(Graph& g) {
-    std::vector<Edge> edges = g.edges;
+bool operator<(const Edge& lhs, const Edge& rhs) {
+    return lhs.weight > rhs.weight;
+}
 
-    std::sort(edges.begin(), edges.end(), compare);
+std::vector<Edge> kruskalsAlgorithm(const EdgeWeightedGraph& graph) {
+    const int vertices = graph.getVertices();
+    std::vector<Edge> minimumSpanningTree;
+    std::priority_queue<Edge> minHeap;
+    UnionFind unionFind(vertices);
 
-    DisjointSet ds(g.V);
-    std::vector<Edge> result;
-    for (auto& e : edges) {
-        if (ds.find(e.dest) != ds.find(e.src)) {
-            ds.union_set(e.dest, e.src);
-            result.push_back(e);
+    for (int i = 0; i < vertices; ++i) {
+        for (const Edge& edge : graph.getAdjacencyList(i)) {
+            minHeap.push(edge);
         }
     }
 
-    return result;
+    while (!minHeap.empty() && minimumSpanningTree.size() < vertices - 1) {
+        Edge edge = minHeap.top();
+        minHeap.pop();
+        const int sourceRoot = unionFind.find(edge.source);
+        int destinationRoot = unionFind.find(edge.destination);
+
+        if (sourceRoot != destinationRoot) {
+            minimumSpanningTree.push_back(edge);
+            unionFind.unionSets(sourceRoot, destinationRoot);
+        }
+    }
+
+    return minimumSpanningTree;
+}
+
+int main() {
+    EdgeWeightedGraph graph(4);
+    graph.addEdge(0, 1, 10);
+    graph.addEdge(0, 2, 6);
+    graph.addEdge(0, 3, 5);
+    graph.addEdge(1, 3, 15);
+    graph.addEdge(2, 3, 4);
+
+    std::vector<Edge> mst = kruskalsAlgorithm(graph);
+
+    std::cout << "Minimum Spanning Tree Edges:\n";
+    for (const Edge& edge : mst) {
+        std::cout << "(" << edge.source << " - " << edge.destination << " : " << edge.weight << ")\n";
+    }
+
+    return 0;
 }
 ```
 
 Python
 
 ```Python
-class Graph:
-    def __init__(self, vertices):
-        self.V = vertices
-        self.graph = []
+import heapq
 
-    def add_edge(self, u, v, w):
-        self.graph.append([u, v, w])
+from EdgeWeightedGraph import EdgeWeightedGraph
 
-    # find set of an element i
-    def find(self, parent, i):
-        if parent[i] == i:
-            return i
-        return self.find(parent, parent[i])
 
-    # union of two sets of x and y
-    def union(self, parent, rank, x, y):
-        xroot = self.find(parent, x)
-        yroot = self.find(parent, y)
+class UnionFind:
+    def __init__(self, size):
+        self.parent = [i for i in range(size)]
+        self.rank = [1] * size
 
-        # attach smaller rank tree under root of high rank tree
-        if rank[xroot] < rank[yroot]:
-            parent[xroot] = yroot
-        elif rank[xroot] > rank[yroot]:
-            parent[yroot] = xroot
-        else:
-            parent[yroot] = xroot
-            rank[xroot] += 1
+    def find(self, element):
+        if self.parent[element] != element:
+            self.parent[element] = self.find(self.parent[element])
+        return self.parent[element]
 
-    def kruskal(self):
-        result = []
-        i, e = 0, 0
+    def union(self, element1, element2):
+        root1 = self.find(element1)
+        root2 = self.find(element2)
+        if root1 != root2:
+            if self.rank[root1] > self.rank[root2]:
+                self.parent[root2] = root1
+            elif self.rank[root1] < self.rank[root2]:
+                self.parent[root1] = root2
+            else:
+                self.parent[root2] = root1
+                self.rank[root1] += 1
 
-        # sort all edges in non-decreasing order
-        self.graph = sorted(self.graph, key=lambda item: item[2])
 
-        parent = []
-        rank = []
+def kruskals_algorithm(graph):
+    vertices = graph.get_vertices()
+    minimum_spanning_tree = []
+    min_heap = []  # Use Python's heapq for min-heap
+    union_find = UnionFind(vertices)
 
-        for node in range(self.V):
-            parent.append(node)
-            rank.append(0)
+    for i in range(vertices):
+        for edge in graph.get_adjacency_list(i):
+            # heapq works with tuples, putting weight first for min-heap priority
+            heapq.heappush(min_heap, (edge.weight, edge))
 
-        while e < self.V - 1:
-            u, v, w = self.graph[i]
-            i += 1
-            x = self.find(parent, u)
-            y = self.find(parent, v)
+    while min_heap and len(minimum_spanning_tree) < vertices - 1:
+        weight, edge = heapq.heappop(min_heap)
+        source_root = union_find.find(edge.source)
+        destination_root = union_find.find(edge.destination)
 
-            if x != y:
-                e += 1
-                result.append([u, v, w])
-                self.union(parent, rank, x, y)
+        if source_root != destination_root:
+            minimum_spanning_tree.append(edge)
+            union_find.union(source_root, destination_root)
 
-        return result
+    return minimum_spanning_tree
 ```
+
+### 16.5 Prim's Algorithm
+
+<procedure title = "Prim's Algorithm">
+    <step>
+        <p>Start with vertex <math>0</math> and greedily grow tree 
+        <math>T</math></p>
+    </step>
+    <step>
+        <p>Add to <math>T</math> the min weight edge with exactly one 
+        endpoint in <math>T</math>.</p>
+    </step>
+    <step>
+        <p>Repeat until <math>V - 1</math> edges.</p>
+    </step>
+</procedure>
 
 ## 17 Shortest Paths
 
