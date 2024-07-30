@@ -393,6 +393,10 @@ auto lambda = [](int x, int y) {
 int result = lambda(5, 7);  // result will be 47
 ```
 
+<p>For more information on lambda functions in C++, please refer to 
+<a href = "C-Programming.md" anchor = "Lambda" summary = 
+"Lambda Functions in C++">C++ Programming</a>.</p>
+
 <p>Java</p>
 
 ```Java

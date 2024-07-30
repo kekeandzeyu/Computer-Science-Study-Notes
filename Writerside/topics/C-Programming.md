@@ -625,6 +625,407 @@ int countOccurences(const Collection& collection, const DataType& val) {
 }
 ```
 
+### 6 Functions and Algorithms
+
+#### 6.1 Lambda Functions {id = "Lambda"}
+
+```C++
+auto isLessThanLimit = [limit](auto val) -> bool {
+    return val < limit;
+};
+```
+
+<list>
+<li>
+<p><code>auto</code>: We don't know the type, ask compiler.</p>
+</li>
+<li>
+<p><code>[limit]</code>: Capture clause, gives access to outside 
+variables.</p>
+</li>
+<li>
+<p><code>(auto)</code>: Parameter list, can use auto!</p>
+</li>
+<li>
+<p><code>-> bool</code>: Return type, optional.</p>
+</li>
+</list>
+
+<p>Two types of capture clause: By reference or by value.</p>
+
+```C++
+// capture all by value, except teas is by reference 
+auto func1 = [=, &teas](parameters) -> return-value {   
+    // body 
+};
+
+// capture all by reference, except banned is by value 
+auto func2 = [&, banned](parameters) -> return-value {   
+    // body 
+};
+```
+
+<tip>
+<p><code>std::function&lt;R(Args…)&gt;</code> is a generic 
+wrapper for all things callable.</p>
+<code-block lang = "C++">
+int add(int a, int b) { 
+    return a + b; 
+}
+int main() {
+    std::function&lt;int(int, int)&gt; func; // initially empty
+    func = add; // Assign a regular function
+    std::cout &lt;&lt; func(2, 3) &lt;&lt; std::endl; // Output: 5
+    func = [](int a, int b) { return a * b; }; // Reassign a lambda
+    std::cout &lt;&lt; func(2, 3) &lt;&lt; std::endl; // Output: 6
+    return 0;
+}
+</code-block>
+<p>In this context, <code>std::function&lt;int(int, int)&gt;</code> can 
+store any callable object as long as it matches the signature.</p>
+<p><format color = "DodgerBlue">Benefit: </format></p>
+<list type = "alpha-lower">
+<li>
+<p><format color = "Fuchsia">Type Erasure for Flexibility:</format> It 
+lets you work with different callable objects through a common 
+interface. You can pass <code>std::function</code> objects to functions
+or store them in data structures without knowing the exact type of the
+underlying callable.</p>
+</li>
+<li>
+<p><format color = "Fuchsia">Enables Polymorphism with Callables:
+</format> You can have a function that accepts a std::function as a 
+parameter, allowing it to work with different lambda functions or other
+callable types at runtime.</p>
+</li>
+</list>
+</tip>
+
+<p><code>std::bind</code> adapts existing function objects to create new 
+ones with specific argument values pre-filled.</p>
+
+```C++
+int multiplyAndAdd(int a, int b, int c) {
+    return (a * b) + c;
+}
+
+int main() {
+    auto operation = std::bind(multiplyAndAdd, std::placeholders::_1, 
+                                std::placeholders::_2, 4);
+    std::cout << operation(2, 3) << std::endl; // Output: 10 ((2*3) + 4)
+}
+```
+
+<list type = "bullet">
+<li>
+<p><code>std::placeholders::_1</code> means "take the first argument 
+passed to operation".</p>
+</li>
+<li>
+<p><code>std::placeholders::_2</code> means "take the second argument 
+passed to operation".</p>
+</li>
+<li>
+<p>4 is the third argument of <code>multiplyAndAdd</code>.</p>
+</li>
+</list>
+
+<warning>
+<p>Lambdas provide a convenient and expressive way to define objects 
+that behave like functions. => Lambdas are a type of function object.
+</p>
+</warning>
+
+#### 6.2 Algorithms
+
+##### 6.2.1 std::sort
+
+<p><format color = "DodgerBlue">Syntax:</format> </p>
+
+```C++
+#include <algorithm> // Required header
+
+// 1. Basic Usage (Sorting using < operator)
+template <class RandomAccessIterator>
+void sort(RandomAccessIterator first, RandomAccessIterator last);
+
+// 2. Custom Comparison Function 
+template <class RandomAccessIterator, class Compare>
+void sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp); 
+```
+
+<p><format color = "DodgerBlue">Example usage:</format> </p>
+
+```C++
+std::vector<int> numbers = {3, 1, 4, 1, 5};
+std::sort(numbers.begin(), numbers.end()); // Sort the entire vector
+
+std::sort(numbers.begin(), numbers.end(), std::greater<int>()); // Sort in descending order
+```
+
+<p>Parameters: </p>
+
+<list type = "decimal">
+<li>
+<p>first (iterator): An iterator pointing to the beginning of the range
+you want to sort.</p>
+</li>
+<li>
+<p>last (iterator): An iterator pointing to one position past the end 
+of the range to be sorted.</p>
+</li>
+<li>
+<p>comp (comparison function) (optional): A binary function (takes two
+arguments) that defines the sorting criterion. It should return true if
+the first argument should come before the second in the sorted order,
+and false otherwise.</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Important notes:</format> </p>
+
+<list type = "bullet">
+<li>
+<p>You can sort a portion of the entire vector, array, etc.</p>
+<code-block>
+std::vector&lt;int&gt; data = {5, 2, 8, 1, 9, 3};
+std::sort(data.begin(), data.begin() + 4); // Result: data = {1, 2, 5, 8, 9, 3}
+</code-block>
+</li>
+<li>
+<p>You can overload operator &lt; to define default sorting behavior.
+</p>
+<code-block lang = "C++">
+struct Item {
+    int id;
+    std::string name;
+};
+// Stable Comparison
+bool compareByNameStable(const Item& a, const Item& b) {
+    if (a.name == b.name) {
+        return a.id &lt; b.id; // Keep original order based on 'id' if names are equal
+    }
+    return a.name &lt; b.name;
+}
+int main() {
+    std::vector&lt;Item&gt; items = {
+        {1, "Apple"},
+        {2, "Banana"},
+        {3, "Apple"} 
+    };
+    std::sort(items.begin(), items.end(), compareByNameStable);
+}
+</code-block>
+</li>
+<li>
+<p>Average case: <math>O(N \log N)</math></p>
+</li>
+</list>
+
+##### 6.2.2 std::nth_element
+
+<p><format color = "DodgerBlue">Syntax:</format> </p>
+
+```C++
+#include <algorithm>
+
+template <class RandomAccessIterator>
+void nth_element (RandomAccessIterator first, RandomAccessIterator nth, 
+                  RandomAccessIterator last);
+
+// Optional: You can provide a custom comparison function
+template <class RandomAccessIterator, class Compare>
+void nth_element (RandomAccessIterator first, RandomAccessIterator nth,
+                  RandomAccessIterator last, Compare comp);
+```
+
+<p><format color = "DodgerBlue">Example usage:</format> </p>
+
+```C++
+std::vector<int> numbers = {5, 2, 8, 1, 9, 3};
+
+std::nth_element(numbers.begin(), numbers.begin() + 2, numbers.end());
+// Output: 2 1 3 8 9 5 (The element at index 2 is now '3', 
+//          which is the 3rd smallest, but the rest are not sorted)
+```
+
+<p><format color = "DodgerBlue">Parameters:</format> </p>
+
+<list type = "decimal">
+<li>
+<p>first: Iterator to the beginning of the range.</p>
+</li>
+<li>
+<p>nth: Iterator pointing to the position you want the nth element to
+be placed in.</p>
+</li>
+<li>
+<p>last: Iterator to one past the end of the range.</p>
+</li>
+<li>
+<p>comp (optional): A binary comparison function, similar to 
+std::sort.</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Important notes:</format> </p>
+
+<list type = "bullet">
+<li>
+<p>With this, you can efficiently find the median of a dataset without
+fully sorting it, or determine the <math>k ^ {\text{th}}</math> 
+smallest or largest element.</p>
+</li>
+<li>
+<p>It sorts so <math>n ^ {\text{th}}</math> element is in correct 
+position, and all elements smaller to left, larger to right, but the 
+elements before the <math>n ^ {\text{th}}</math> element are not 
+guaranteed to be sorted among themselves, and neither are the elements
+after it.</p>
+</li>
+<li>
+<p>Average case: <math>O(N)</math></p>
+</li>
+</list>
+
+##### 6.2.3 std::stable_partition
+
+<p><format color = "DodgerBlue">Syntax:</format> </p>
+
+```C++
+#include <algorithm> // Required header
+
+template <class BidirectionalIterator, class UnaryPredicate>
+BidirectionalIterator stable_partition (BidirectionalIterator first,
+                                       BidirectionalIterator last, 
+                                       UnaryPredicate pred); 
+```
+
+<list type = "decimal">
+<li>
+<p>BidirectionalIterator: A template parameter indicating the type of 
+iterators used. These iterators must support bidirectional movement 
+(like those from std::list, std::vector, std::deque).</p>
+</li>
+<li>
+<p>first (BidirectionalIterator): An iterator to the beginning of the 
+range you want to partition.</p>
+</li>
+<li>
+<p>last (BidirectionalIterator): An iterator to one past the end of 
+the range to be partitioned.</p>
+</li>
+<li>
+<p>UnaryPredicate: A template parameter representing the type of the 
+predicate function.</p>
+</li>
+<li>
+<p>pred (UnaryPredicate): A function that takes a single argument (an 
+element from the range) and returns a bool:</p>
+</li>
+<li>
+    <list type = "bullet">
+    <li>
+    <p>true: The element satisfies the partitioning criterion.</p>
+    </li>
+    <li>
+    <p>false: The element does not satisfy the criterion.</p>
+    </li>
+    </list>
+</li>
+</list>
+
+##### 6.2.4 std::copy_if
+
+<p><format color = "DodgerBlue">Syntax:</format> </p>
+
+```C++
+#include <algorithm> // Required header
+
+template <class InputIterator, class OutputIterator, class UnaryPredicate>
+OutputIterator copy_if (InputIterator first, InputIterator last,
+                        OutputIterator result, UnaryPredicate pred);
+```
+
+<list type = "decimal">
+<li>
+<p>InputIterator: Type of iterator used for the input range.</p>
+</li>
+<li>
+<p>OutputIterator: Type of iterator used for the output range (where copied elements go).</p>
+</li>
+<li>
+<p>first (InputIterator): An iterator to the beginning of the input range.</p>
+</li>
+<li>
+<p>last (InputIterator): An iterator to one past the end of the input range.</p>
+</li>
+<li>
+<p>result (OutputIterator): An iterator to the beginning of the output range.</p>
+</li>
+<li>
+<p>UnaryPredicate: Type of the predicate function.</p>
+</li>
+<li>
+<p>pred (UnaryPredicate): A function that takes a single argument (an element from the input range) and returns:</p>
+</li>
+<li>
+    <list type = "bullet">
+    <li>
+    <p>true: Copy the element to the output range.</p>
+    </li>
+    <li>
+    <p>false: Skip the element.</p>
+    </li>
+    </list>
+</li>
+</list>
+
+##### 6.2.5 std::remove_if
+
+<p><format color = "DodgerBlue">Syntax:</format> </p>
+
+```C++
+#include <algorithm> // Required header
+
+template <class ForwardIterator, class UnaryPredicate>
+ForwardIterator remove_if (ForwardIterator first, ForwardIterator last,
+                           UnaryPredicate pred);
+```
+
+<list type = "decimal">
+<li>
+<p>ForwardIterator: Type of iterator used for the range. Must support 
+forward movement.</p>
+</li>
+<li>
+<p>first (ForwardIterator): An iterator to the beginning of the range.
+</p>
+</li>
+<li>
+<p>last (ForwardIterator): An iterator to one past the end of the range
+.</p>
+</li>
+<li>
+<p>UnaryPredicate: Type of the predicate function.</p>
+</li>
+<li>
+<p>pred (UnaryPredicate): A function that takes a single argument (an
+element from the range) and returns:</p>
+</li>
+<li>
+    <list type = "bullet">
+    <li>
+    <p>true: The element should be &quot;removed.&quot;</p>
+    </li>
+    <li>
+    <p>false: The element should be kept.</p>
+    </li>
+    </list>
+</li>
+</list>
+
+
 ## &#8546; Object-Oriented Programming
 
 ### 3. Inheritance
