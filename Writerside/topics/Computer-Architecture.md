@@ -49,7 +49,7 @@ starts, does not change.</p>
 
 <img src = "../images_architecture/2-1-1.png" alt = "C Memory Layout"/>
 
-<p><format color = "DodgerBlue">Storage:</format> </p>
+<p><format color = "BlueViolet">Storage:</format> </p>
 
 <list>
 <li>
@@ -135,7 +135,7 @@ global variables.</p>
 
 #### 2.4 Addressing & Endianness
 
-<p><format color = "DodgerBlue">Addresses:</format> </p>
+<p><format color = "BlueViolet">Addresses:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -150,17 +150,17 @@ byte</format>.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Endianness:</format> </p>
+<p><format color = "BlueViolet">Endianness:</format> </p>
 
 <img src = "../images_architecture/2-4-1.png" alt = "Endianness"/>
 
 <list type = "bullet">
 <li>
-<p><format color = "Chartreuse">Big Endian:</format> Descending 
+<p><format color = "DarkOrange">Big Endian:</format> Descending 
 numerical significance with ascending memory addresses.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Little Endian:</format> Ascending 
+<p><format color = "DarkOrange">Little Endian:</format> Ascending 
 numerical significance with ascending memory addresses.</p>
 </li>
 </list>
@@ -274,12 +274,12 @@ persistent than Stack.</p>
 
 #### 3.1 Assembly Language
 
-<p><format color = "Chartreuse">Assembly:</format> (also known as 
+<p><format color = "DarkOrange">Assembly:</format> (also known as 
 Assembly language, ASM) A low-level programming language where the 
 program instructions match a particular architecture's operations.
 </p>
 
-<p><format color = "DodgerBlue">Properties:</format> </p>
+<p><format color = "BlueViolet">Properties:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -296,7 +296,7 @@ architectures.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Complex/Reduced Instruction Set 
+<p><format color = "BlueViolet">Complex/Reduced Instruction Set 
 Computing</format></p>
 
 <list type = "alpha-lower">
@@ -334,7 +334,7 @@ operations</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Code:</format> </p>
+<p><format color = "BlueViolet">Code:</format> </p>
 
 <p>op dst, src1, src2</p>
 
@@ -414,7 +414,7 @@ available memory.</p>
 registers s1, s2 and s3, respectively.</p>
 </note>
 
-<p><format color = "DodgerBlue">Types:</format> </p>
+<p><format color = "BlueViolet">Types:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -443,10 +443,10 @@ registers s1, s2 and s3, respectively.</p>
 
 ##### 3.3.2 Immediate Instructions
 
-<p><format color = "Chartreuse">Immediates:</format> Numerical 
+<p><format color = "DarkOrange">Immediates:</format> Numerical 
 constants.</p>
 
-<p><format color = "DodgerBlue">Syntax:</format> opi dst, src, imm</p>
+<p><format color = "BlueViolet">Syntax:</format> opi dst, src, imm</p>
 
 <list type = "bullet">
 <li>
@@ -480,7 +480,7 @@ source register with an immeidate.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Syntax:</format> memop reg, off (bAbbr)
+<p><format color = "BlueViolet">Syntax:</format> memop reg, off (bAbbr)
 </p>
 
 <list type = "bullet">
@@ -499,7 +499,7 @@ address")</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Types:</format> </p>
+<p><format color = "BlueViolet">Types:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -514,7 +514,7 @@ reg</code>.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Example:</format> address of int array
+<p><format color = "BlueViolet">Example:</format> address of int array
 [] -> s3, value of b -> s2</p>
 
 <list type = "bullet">

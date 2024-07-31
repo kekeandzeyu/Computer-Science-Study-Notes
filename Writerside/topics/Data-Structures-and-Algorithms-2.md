@@ -4,21 +4,21 @@
 
 ## 11 Geometric Applications of BSTs
 
-<p><format color = "DodgerBlue">Topic</format>: Intersections among 
+<p><format color = "BlueViolet">Topic</format>: Intersections among 
 <format color = "OrangeRed">geometric objects</format>.</p>
 
-<p><format color = "DodgerBlue">Applications</format>: CAD, games, 
+<p><format color = "BlueViolet">Applications</format>: CAD, games, 
 movies, virtual reality, databases...</p>
 
 ### 11.1 1d Range Search
 
 <list type = "bullet">
 <li>
-<p><format color = "OrangeRed">Range search</format>: find all key between
+<p><format color = "DarkOrange">Range search</format>: find all key between
 <math>k_{1}</math> and <math>k_{2}</math>.</p>
 </li>
 <li>
-<p><format color = "OrangeRed">Range count</format>: # of keys between
+<p><format color = "DarkOrange">Range count</format>: # of keys between
 <math>k_{1}</math> and <math>k_{2}</math>.</p>
 </li>
 <li>Geometric interpretation: Keys are point on a 
@@ -40,12 +40,12 @@ in range).</p>
 </step>
 </procedure>
 
-<p><format color = "DodgerBlue">Proposition</format>: Running
+<p><format color = "BlueViolet">Property</format>: Running
 time proportinal to <math>R + \ log N</math></p>
 
 ### 11.2 Line Segment Intersection
 
-<p><format color = "DodgerBlue">Goal</format>: Given <math>N</math> 
+<p><format color = "IndianRed">Goal</format>: Given <math>N</math> 
 horizontal and vertical line segments, find all intersections 
 (all <math>x</math>- and <math>y</math>-coordinates are distinct.</p>
 
@@ -71,7 +71,7 @@ coordiantes from BST.</p>
 <img src = "../images_data/11-2-1.png" alt = "Line Segment 
 Intersection"/>
 
-<p><format color = "DodgerBlue">Properties</format>: The sweep-line 
+<p><format color = "LawnGreen">Properties</format>: The sweep-line 
 algorithm takes time proportional to <math>N \log N + R</math> to 
 find all <math>R</math> intersections among <math>N</math> 
 orthogonal line segments.</p>
@@ -97,9 +97,9 @@ orthogonal line segments.</p>
 
 ### 11.3 Kd-Trees
 
-<p><format color = "DodgerBlue">Goal</format>: 2d orthogonal range search.</p>
+<p><format color = "MediumVioletRed">Goal</format>: 2d orthogonal range search.</p>
 
-<p><format color = "DodgerBlue">Geometric interpretation</format>: 
+<p><format color = "MediumVioletRed">Geometric interpretation</format>: 
 Keys are point in the <format color = "OrangeRed">plane</format>;
 find/count points in a given <format color = "OrangeRed">
 <math>h-v</math> rectangle</format>.</p>
@@ -126,7 +126,7 @@ query.</p>
 </step>
 </procedure>
 
-<p><format color = "DodgerBlue">Properties: </format></p>
+<p><format color = "BlueViolet">Properties: </format></p>
 
 <list type = "bullet">
 <li>
@@ -138,10 +138,10 @@ on average.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Problems: </format></p>
+<p><format color = "BlueViolet">Problems: </format></p>
 <list type = "bullet">
 <li>
-<p><format color = "OrangeRed">Clustering</format> a well-known 
+<p><format color = "OrangeRed">Clustering</format>: a well-known 
 phenomenon in geometric data.</p>
 </li>
 <li>
@@ -154,19 +154,19 @@ phenomenon in geometric data.</p>
 
 #### 11.3.2 Space-Partitioning Trees
 
-<p><format color = "Chartreuse">Space-Partitioning Trees:</format> Use 
+<p><format color = "DarkOrange">Space-Partitioning Trees:</format> Use 
 a tree to represent a recursive subdivision of a 2d space.</p>
 
-<p><format color = "Chartreuse">2d Trees:</format> Recursively divide
+<p><format color = "DarkOrange">2d Trees:</format> Recursively divide
 space into two halfplanes.</p>
 
-<p><format color = "DodgerBlue">Applications:</format> Ray tracing,
+<p><format color = "BlueViolet">Applications:</format> Ray tracing,
 2d range search, Flight simulators, N-body simulation, Nearest
 neighbor search, Accelerate rendering in Doom, etc.</p>
 
-<format color = "Aqua">Part &#8544; 2d Trees</format> 
+##### Part &#8544; 2d Trees
 
-<p><format color = "DodgerBlue">Data Structure:</format> BST, but 
+<p><format color = "BlueViolet">Data Structure:</format> BST, but 
 alternate using <math>x</math>- and <math>y</math>- coordinates as 
 key.</p>
 
@@ -194,7 +194,7 @@ axis-aligned rectangle">
 </step>
 </procedure>
 
-<p><format color = "DodgerBlue">Properties: </format></p>
+<p><format color = "BlueViolet">Properties: </format></p>
 
 <list type = "bullet">
 <li>
@@ -223,7 +223,7 @@ point).</p>
 </step>
 </procedure>
 
-<p><format color = "DodgerBlue">Properties: </format></p>
+<p><format color = "BlueViolet">Properties: </format></p>
 
 <list type = "bullet">
 <li>
@@ -234,17 +234,17 @@ point).</p>
 </li>
 </list>
 
-<format color = "Aqua">Part &#8545; Kd Trees</format> 
+##### Part &#8545; Kd Trees
 
-<p><format color = "Chartreuse">Kd Tree:</format> Recursively 
+<p><format color = "DarkOrange">Kd Tree:</format> Recursively 
 partition <math>k</math>-dimensional space into 2 halfspaces.</p>
 
-<p><format color = "DodgerBlue">Implementation:</format> BST, but
+<p><format color = "BlueViolet">Implementation:</format> BST, but
 cycle through dimensions ala 2d trees.</p>
 
-<format color = "Aqua">Part &#8546; N-body Simulation</format>
+##### Part &#8546; N-body Simulation
 
-<format color = "DodgerBlue">Goal:</format> Simulate the motion 
+<format color = "BlueViolet">Goal:</format> Simulate the motion 
 of <math>N</math> particles, mutually affected by gravity.
 
 <procedure title = "Appel's Algorithm for N-body Simulation">
@@ -261,7 +261,7 @@ large.</p>
 </step>
 </procedure>
 
-<p><format color = "DodgerBlue">Properties:</format> Running time
+<p><format color = "BlueViolet">Properties:</format> Running time
 per step is <math>N \log N</math>.</p>
 
 ### 11.4 Interval Search Tree
@@ -326,7 +326,7 @@ that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
 
 ### 11.5 Rectangle Intersection
 
-<p><format color = "DodgerBlue">Sweep-line Algorithm</format>: </p>
+<p><format color = "BlueViolet">Sweep-line Algorithm</format>: </p>
 
 <list type = "bullet">
 <li>
@@ -346,7 +346,7 @@ rectangle; insert <math>y</math>-interval.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Property:</format> Sweep line 
+<p><format color = "BlueViolet">Property:</format> Sweep line 
 algorithm takes time proportional to <math>N \log N + R \log N</math> 
 to find <math>R</math> intersections among a set of <math>N</math> 
 rectangles.</p>
@@ -419,31 +419,31 @@ key interface</td></tr>
 
 <list type = "decimal">
 <li>
-<p><format color = "DodgerBlue">Hashing</format>: Save items in a key-indexed 
+<p><format color = "BlueViolet">Hashing</format>: Save items in a key-indexed 
 table (index is a function of the key).</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Hash function</format>: Method for 
+<p><format color = "BlueViolet">Hash function</format>: Method for 
 computing array index from key.</p>
 <p>Issues:</p>
 <list type = "alpha-lower">
 <li>
-<p><format color = "DodgerBlue">Equality test</format>: Method 
+<p><format color = "BlueViolet">Equality test</format>: Method 
 for checking whether two keys are equal.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Collision resolution</format>: 
+<p><format color = "BlueViolet">Collision resolution</format>: 
 Algorithm and data structure to handle two keys that hash to the 
 same array index.</p>
 </li>
 </list>
 </li>
 <li>
-<p><format color = "DodgerBlue">Hash code</format>: An int between 
+<p><format color = "BlueViolet">Hash code</format>: An int between 
 <math>-2^31</math> and <math>2^31-1</math>.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Hash function</format>: An int 
+<p><format color = "BlueViolet">Hash function</format>: An int 
 between 0 and M-1 (for use of array index).</p>
 </li>
 </list>
@@ -604,7 +604,7 @@ private:
 
 #### 12.3.1 Linear Probing
 
-<p><format color = "Chartreuse">Open addressing:</format> When a new
+<p><format color = "DarkOrange">Open addressing:</format> When a new
 key collides, find next empty slot, and put it there.</p>
 
 <list type = "alpha-lower">
@@ -901,7 +901,7 @@ public:
 };
 ```
 
-<p><format color = "Aqua">Knuth's Parking Problem</format></p>
+<p><format color = "BlueViolet">Knuth's Parking Problem</format></p>
 
 <p>Cars arrive at a one-way street with <math>M</math> parking spaces. 
 Each driver tries to park in their own space <math>i</math>: If space
@@ -953,15 +953,15 @@ index using the following probing sequence: </p>
 
 <list type = "bullet">
 <li>
-<p><format color = "Chartreuse">index 1:</format> 
+<p><format color = "DarkOrange">index 1:</format> 
 <math>(h(key) + 1 ^ {2}) % tableSize</math></p>
 </li>
 <li>
-<p><format color = "Chartreuse">index 2:</format> 
+<p><format color = "DarkOrange">index 2:</format> 
 <math>(h(key) + 2 ^ {2}) % tableSize</math></p>
 </li>
 <li>
-<p><format color = "Chartreuse">index 3:</format> 
+<p><format color = "DarkOrange">index 3:</format> 
 <math>(h(key) + 3 ^ {2}) % tableSize</math></p>
 </li>
 </list>
@@ -981,7 +981,7 @@ recur).</p>
 
 #### 12.3.5 Separate Chaining vs. Linear Probing
 
-<p><format color = "DodgerBlue">Separate Chaining</format></p>
+<p><format color = "BlueViolet">Separate Chaining</format></p>
 
 <list type = "bullet">
 <li>
@@ -995,7 +995,7 @@ recur).</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Linear Probing</format></p>
+<p><format color = "BlueViolet">Linear Probing</format></p>
 
 <list type = "bullet">
 <li>
@@ -1008,7 +1008,7 @@ recur).</p>
 
 ### 12.4 Hash Table vs. Balanced Search Tree
 
-<p><format color = "DodgerBlue">Hash Table</format></p>
+<p><format color = "BlueViolet">Hash Table</format></p>
 
 <list type = "bullet">
 <li>
@@ -1027,7 +1027,7 @@ code).</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Balanced Search Tree</format></p>
+<p><format color = "BlueViolet">Balanced Search Tree</format></p>
 
 <list type = "bullet">  
 <li>
@@ -1046,11 +1046,11 @@ code).</p>
 
 <list type = "bullet">
 <li>
-<p><format color = "Chartreuse">Red-black BSTs:</format> 
+<p><format color = "DarkOrange">Red-black BSTs:</format> 
 <code>java.util.TreeMap</code>, <code>java.util.TreeSet</code>.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Hash tables:</format> 
+<p><format color = "DarkOrange">Hash tables:</format> 
 <code>java.util.HashMap</code>, <code>java.util.IdentityHashMap</code>
 .</p>
 </li>
@@ -1060,11 +1060,11 @@ code).</p>
 
 <list type = "bullet">
 <li>
-<p><format color = "Chartreuse">Red-black BSTs:</format> 
+<p><format color = "DarkOrange">Red-black BSTs:</format> 
 <code>std::set</code>, <code>std::map</code>.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Hash tables:</format> 
+<p><format color = "DarkOrange">Hash tables:</format> 
 <code>std::unordered_map</code>, <code>std::unordered_set</code>
 .</p>
 </li>
@@ -1079,7 +1079,7 @@ code).</p>
 
 ### 13.1 Sets
 
-<p><format color = "DodgerBlue">Mathematical Set</format>: 
+<p><format color = "BlueViolet">Mathematical Set</format>: 
 A collection of distinct keys.</p>
 
 #### 13.1.1 Sets in Java
@@ -1656,20 +1656,20 @@ of length <math>n</math> ? => <math>n</math></p>
 
 ### 14.1 Introduction to Graphs
 
-<p><format color = "DodgerBlue">Terminology:</format> </p>
+<p><format color = "BlueViolet">Terminology:</format> </p>
 
 <list type = "alpha-lower">
 <li>
-<p><format color = "Chartreuse">Graph:</format> Set of 
+<p><format color = "DarkOrange">Graph:</format> Set of 
 <format color = "OrangeRed">vertices</format> connected pairwise by 
 <format color = "OrangeRed">edges</format>.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Path:</format> Sequence of vertices 
+<p><format color = "DarkOrange">Path:</format> Sequence of vertices 
 connected by edges.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Cycle:</format> Path whose first and 
+<p><format color = "DarkOrange">Cycle:</format> Path whose first and 
 last vertices are the same.</p>
 </li>
 <li>
@@ -1682,7 +1682,7 @@ there is a path between them.</p>
 
 ### 14.2 Graph API
 
-<p><format color = "DodgerBlue">Representation Types:</format> </p>
+<p><format color = "BlueViolet">Representation Types:</format> </p>
 
 <list type = "alpha-lower">
 <li>
@@ -1855,10 +1855,10 @@ class UndirectedGraph:
 
 ### 14.3 Depth-First Search
 
-<p><format color = "DodgerBlue">Goal:</format> Systematically search
+<p><format color = "BlueViolet">Goal:</format> Systematically search
 through a graph.</p>
 
-<p><format color = "DodgerBlue">Typical applications:</format> </p>
+<p><format color = "BlueViolet">Typical applications:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -1879,7 +1879,7 @@ through a graph.</p>
 </step>
 </procedure>
 
-<p><format color = "DodgerBlue">Properties:</format> </p>
+<p><format color = "BlueViolet">Properties:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -2103,7 +2103,7 @@ visited.</p>
 </step>
 </procedure>
 
-<p><format color = "DodgerBlue">Property:</format> </p>
+<p><format color = "BlueViolet">Property:</format> </p>
 
 <p>BFS computes shortest paths (fewest number of edges) from s to 
 all other vertices in a graph in time proportional to <math>E + V
@@ -2318,7 +2318,7 @@ class BreadthFirstSearch:
 
 ### 14.5 Connected Components
 
-<p><format color = "Chartreuse">Connected Components:</format> A 
+<p><format color = "DarkOrange">Connected Components:</format> A 
 connected component is maximal set of connected vertices.</p>
 
 <procedure title = "Find all Connected Components">
@@ -2921,7 +2921,7 @@ directions).</p>
 same method as for undirected graphs!</p>
 </note>
 
-<p><format color = "DodgerBlue">Reachability application:</format> 
+<p><format color = "BlueViolet">Reachability application:</format> 
 </p>
 
 <list type = "bullet">
@@ -2934,7 +2934,7 @@ garbage.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Application:</format> </p>
+<p><format color = "BlueViolet">Application:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -3134,16 +3134,16 @@ class BreadthFirstSearch:
 
 ### 15.4 Topological Sort
 
-<p><format color = "Chartreuse">DAG:</format> Directed <format color
+<p><format color = "DarkOrange">DAG:</format> Directed <format color
 = "OrangeRed">Acyclic</format> Graph.</p>
 
-<p><format color = "Chartreuse">Topological sort:</format> Redraw DAG
+<p><format color = "DarkOrange">Topological sort:</format> Redraw DAG
 so all edges point upwards.</p>
 
-<p><format color = "DodgerBlue">Property:</format> A digraph has a
+<p><format color = "BlueViolet">Property:</format> A digraph has a
 topological order iff no directed cycle.</p>
 
-<p><format color = "DodgerBlue">Application:</format> Precedence 
+<p><format color = "BlueViolet">Application:</format> Precedence 
 scheduling, cycle inheritance, spreadsheet recalculation, etc.</p>
 
 #### 15.4.1 Algorithm &#8544; - Depth-First Search
@@ -3665,7 +3665,7 @@ class StronglyConnectedComponents:
 
 ### 16.1 Introduction to MSTs
 
-<p><format color = "Chartreuse">Spanning tree:</format> A <format 
+<p><format color = "DarkOrange">Spanning tree:</format> A <format 
 color = "OrangeRed">spanning tree</format> is a subgraph <math>T
 </math> that is both a <format color = "OrangeRed">tree</format> 
 (connected and acyclic) and <format color = "OrangeRed">spanning
@@ -3673,7 +3673,7 @@ color = "OrangeRed">spanning tree</format> is a subgraph <math>T
 
 <img src = "../images_data/16-1-1.png" alt = "Spanning Tree"/>
 
-<p><format color = "DodgerBlue">Application:</format></p>
+<p><format color = "BlueViolet">Application:</format></p>
 
 <list type = "bullet">
 <li>
@@ -3720,15 +3720,15 @@ road).</p>
 
 ### 16.2 Greedy Algorithm
 
-<p><format color = "DodgerBlue">Definition:</format> </p>
+<p><format color = "BlueViolet">Definition:</format> </p>
 
 <list type = "bullet">
 <li>
-<p><format color = "Chartreuse">Cut:</format> A cut in a graph is a 
+<p><format color = "DarkOrange">Cut:</format> A cut in a graph is a 
 partition of its vertices into two (nonempty) sets.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Crossing edge:</format> A crossing 
+<p><format color = "DarkOrange">Crossing edge:</format> A crossing 
 edge connects a vertex in one set with a vertex in the other.</p>
 </li>
 </list>
@@ -3749,7 +3749,7 @@ edge connects a vertex in one set with a vertex in the other.</p>
     </step>
 </procedure>
 
-<p><format color = "DodgerBlue">Correctness Proof:</format> </p>
+<p><format color = "BlueViolet">Correctness Proof:</format> </p>
 
 <list type = "decimal">
 <li>
@@ -4044,7 +4044,7 @@ class EdgeWeightedGraph:
     </step>
 </procedure>
 
-<p><format color = "DodgerBlue">Correctness Proof:</format> </p>
+<p><format color = "BlueViolet">Correctness Proof:</format> </p>
 
 <p>Kruskal's Algorithm is a special case of the greedy MST algorithm.
 </p>
@@ -4066,7 +4066,7 @@ T</math>.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Property:</format> Kruskal's algorithm 
+<p><format color = "BlueViolet">Property:</format> Kruskal's algorithm 
 computes MST in time proportional to <math>E \log E</math> (in the 
 worst case).</p>
 
@@ -4557,12 +4557,12 @@ class EdgeWeightedDigraph:
 
 <list>
 <li>
-<p><format color = "DodgerBlue">Goal</format>: Find pattern of length 
+<p><format color = "BlueViolet">Goal</format>: Find pattern of length 
 <math>M</math> in text of length <math>N</math> (typically 
 <math>N</math> &gt;&gt; <math>M</math>).</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Applications</format>: Find & replace,
+<p><format color = "BlueViolet">Applications</format>: Find & replace,
 computer forensics, identify patterns indicative of spam, 
 electronic surveillance, screen scraping, etc.</p>
 </li>
@@ -4893,36 +4893,44 @@ Example: A B A B A C
 
 lps: 0 0 1 2 3 0
 
-Explanantion for k = lps&#91;k - 1&#93; in computePrefix:
+<p><format color = "BlueViolet">Explanantion for k = lps&#91;k - 1&#93; 
+in computePrefix:</format> </p>
 
-* When k reaches 3, q = 5, the position now is <em>C</em>.
-  The current prefix (also the suffix, without considering <em>C</em>)
-  is "ABA".
-
-  <format color = "OrangeRed">ABA</format> BA
-
-  AB<format color = "OrangeRed">ABA</format>
-
-* Since <em>C</em> is a mismatch for pattern&#91;3&#93; = <em>B</em>,
-  we need to first find the longest prefix in "ABA" that is also
-  a suffix.
-
-  <format color = "OrangeRed">ABA</format><format color = "Aqua">B</format> AC
-
-  AB<format color = "OrangeRed">ABA</format><format color = "Aqua">C</format>
-
-* The longest prefix and suffix in <em>ABA</em> is <em>A</em>,
-  which is given by lps&#91;q - 1&#93; = lps&#91;2&#93; = 1.
-
-* At this time, we need to try again if <em>C</em> is a match for
-  the character behind the pattern&#91;1&#93; = <em>B</em>,
-  which is not.
-
-  <format color = "OrangeRed">A</format><format color = "Aqua">B</format> ABAC
-
-  ABAB<format color = "OrangeRed">A</format><format color = "Aqua">C</format>
-
-* The longest prefix and suffix in "A" is "", k = 0, lps&#91;5&#93; = 0.
+<list type = "bullet">
+<li>
+<p>When k reaches 3, q = 5, the position now is <math>C</math>.
+The current prefix (also the suffix, without considering <math>C
+</math>) is "ABA".</p>
+<p><format color = "OrangeRed">ABA</format> BA</p>
+<p>AB <format color = "OrangeRed">ABA</format></p>
+</li>
+<li>
+<p>Since <em>C</em> is a mismatch for pattern&#91;3&#93; = <math>B
+</math>, we need to first find the longest prefix in "ABA" that is 
+also a suffix.</p>
+<p><format color = "OrangeRed">ABA</format><format color = "Gold">B
+</format> AC</p>
+<p>AB <format color = "OrangeRed">ABA</format><format color = "Gold">C
+</format></p>
+</li>
+<li>
+<p>The longest prefix and suffix in <math>ABA</math> is <math>A</math>,
+  which is given by lps&#91;q - 1&#93; = lps&#91;2&#93; = 1.</p>
+</li>
+<li>
+<p>At this time, we need to try again if <math>C</math> is a match for
+the character behind the pattern&#91;1&#93; = <math>B</math>,
+which is not.</p>
+<p><format color = "OrangeRed">A</format><format color = "Gold">B
+</format> ABAC</p>
+<p>ABAB <format color = "OrangeRed">A</format><format color = "Gold">C
+</format></p>
+</li>
+<li>
+<p>The longest prefix and suffix in "A" is "", k = 0, 
+lps&#91;5&#93; = 0.</p>
+</li>
+</list>
 
 > This is the implementation using NFA.
 >

@@ -6,7 +6,7 @@
 
 ### 1 C & C++ Introduction {id = "intro"}
 
-<p><format color = "DodgerBlue">Properties: </format></p>
+<p><format color = "BlueViolet">Properties: </format></p>
 
 <list type = "bullet">
 <li>
@@ -32,7 +32,7 @@ instructions, CPU will directly interprets and runs.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Compilation Advantages: </format></p>
+<p><format color = "BlueViolet">Compilation Advantages: </format></p>
 
 <list>
 <li>
@@ -51,7 +51,7 @@ it <format color = "OrangeRed">optimizes for the given architecture
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Compilation Advantages: </format></p>
+<p><format color = "BlueViolet">Compilation Advantages: </format></p>
 
 <list type = "bullet">
 <li>
@@ -263,7 +263,7 @@ int* v4 = const_cast<int*> (&v3);
 
 #### 3.4 initializer_list
 
-<p><format color = "DodgerBlue">Definition</format>: An initializer 
+<p><format color = "BlueViolet">Definition</format>: An initializer 
 list is a lightweight vector that can be used as a parameter.</p>
 
 ```C++
@@ -319,7 +319,7 @@ std::vector<int> v2{3, 10} // v2 = {3, 10}
 
 #### 4.1 Sequence Containers
 
-<p><format color = "Chartreuse">Sequence Containers:</format> Containers
+<p><format color = "DarkOrange">Sequence Containers:</format> Containers
 which provide access to sequences of elements.</p>
 
 <list type = "bullet">
@@ -342,7 +342,7 @@ which provide access to sequences of elements.</p>
 
 ##### 4.1.1 Vector
 
-<p><format color = "Chartreuse">Vector:</format> An array with 
+<p><format color = "DarkOrange">Vector:</format> An array with 
 changeable size.</p>
 
 <table style = "both">
@@ -358,7 +358,7 @@ changeable size.</p>
 </format> you down.</p>
 </warning>
 
-<p><format color = "DodgerBlue">Advantages:</format> </p>
+<p><format color = "BlueViolet">Advantages:</format> </p>
 
 <list>
 <li>
@@ -370,7 +370,7 @@ changeable size.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Disadvantages:</format> </p>
+<p><format color = "BlueViolet">Disadvantages:</format> </p>
 
 <list>
 <li>
@@ -380,10 +380,10 @@ changeable size.</p>
 
 ##### 4.1.2 Deque
 
-<p><format color = "Chartreuse">Deque:</format> A deque is a doubly 
+<p><format color = "DarkOrange">Deque:</format> A deque is a doubly 
 ended queue.</p>
 
-<p><format color = "DodgerBlue">Implementation:</format> </p>
+<p><format color = "BlueViolet">Implementation:</format> </p>
 <p>Instead of storing all elements in a single contiguous block, deque 
 internally manages a collection of fixed-size arrays called "chunks" 
 or "buffers."</p>
@@ -391,7 +391,7 @@ or "buffers."</p>
 tree-like structure) called a "map" or "central index". This map stores
 pointers to the beginning of each chunk.</p>
 
-<p><format color = "DodgerBlue">Advantages:</format> </p>
+<p><format color = "BlueViolet">Advantages:</format> </p>
 
 <list>
 <li>
@@ -399,7 +399,7 @@ pointers to the beginning of each chunk.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Disadvantages:</format> </p>
+<p><format color = "BlueViolet">Disadvantages:</format> </p>
 
 <list>
 <li>
@@ -441,7 +441,7 @@ pointers to the beginning of each chunk.</p>
 
 #### 4.3 Associative Containers
 
-<p><format color = "Chartreuse">Associative containers:</format> Data is
+<p><format color = "DarkOrange">Associative containers:</format> Data is
 accessed using the <format color = "OrangeRed">key</format> instead of
 index.</p>
 
@@ -461,7 +461,7 @@ index.</p>
 
 #### 4.4 Iterators
 
-<p><format color = "DodgerBlue">Four iterator operations:</format> </p>
+<p><format color = "BlueViolet">Four iterator operations:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -483,7 +483,7 @@ currently pointed to:</format> </p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Map Iterators:</format> </p>
+<p><format color = "BlueViolet">Map Iterators:</format> </p>
 
 ```C++
     map<int, int> m;
@@ -548,7 +548,7 @@ if (iter1 == iter2) { cout << "Equal" << endl; } // Equal
 <p>Same as forward iterators, plus can go backwards with the decrement
 operator (--).</p>
 
-<p><format color = "DodgerBlue">Use cases:</format> <code>std::map
+<p><format color = "BlueViolet">Use cases:</format> <code>std::map
 </code>, <code>std::set</code>, <code>std::list</code></p>
 
 ##### 4.4.5 Random Access Iterators
@@ -556,7 +556,7 @@ operator (--).</p>
 <p>Same as bidirectional iterators, plus can be implemented or 
 decremented by arbitrary amounts using + and -.</p>
 
-<p><format color = "DodgerBlue">Use cases:</format> <code>std::vector
+<p><format color = "BlueViolet">Use cases:</format> <code>std::vector
 </code>, <code>std::deque</code>, <code>std::string</code></p>
 
 ### 5 Templates
@@ -683,7 +683,7 @@ int main() {
 </code-block>
 <p>In this context, <code>std::function&lt;int(int, int)&gt;</code> can 
 store any callable object as long as it matches the signature.</p>
-<p><format color = "DodgerBlue">Benefit: </format></p>
+<p><format color = "BlueViolet">Benefit: </format></p>
 <list type = "alpha-lower">
 <li>
 <p><format color = "Fuchsia">Type Erasure for Flexibility:</format> It 
@@ -740,7 +740,7 @@ that behave like functions. => Lambdas are a type of function object.
 
 ##### 6.2.1 std::sort
 
-<p><format color = "DodgerBlue">Syntax:</format> </p>
+<p><format color = "BlueViolet">Syntax:</format> </p>
 
 ```C++
 #include <algorithm> // Required header
@@ -754,7 +754,7 @@ template <class RandomAccessIterator, class Compare>
 void sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp); 
 ```
 
-<p><format color = "DodgerBlue">Example usage:</format> </p>
+<p><format color = "BlueViolet">Example usage:</format> </p>
 
 ```C++
 std::vector<int> numbers = {3, 1, 4, 1, 5};
@@ -782,7 +782,7 @@ and false otherwise.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Important notes:</format> </p>
+<p><format color = "BlueViolet">Important notes:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -824,7 +824,7 @@ int main() {
 
 ##### 6.2.2 std::nth_element
 
-<p><format color = "DodgerBlue">Syntax:</format> </p>
+<p><format color = "BlueViolet">Syntax:</format> </p>
 
 ```C++
 #include <algorithm>
@@ -839,7 +839,7 @@ void nth_element (RandomAccessIterator first, RandomAccessIterator nth,
                   RandomAccessIterator last, Compare comp);
 ```
 
-<p><format color = "DodgerBlue">Example usage:</format> </p>
+<p><format color = "BlueViolet">Example usage:</format> </p>
 
 ```C++
 std::vector<int> numbers = {5, 2, 8, 1, 9, 3};
@@ -849,7 +849,7 @@ std::nth_element(numbers.begin(), numbers.begin() + 2, numbers.end());
 //          which is the 3rd smallest, but the rest are not sorted)
 ```
 
-<p><format color = "DodgerBlue">Parameters:</format> </p>
+<p><format color = "BlueViolet">Parameters:</format> </p>
 
 <list type = "decimal">
 <li>
@@ -868,7 +868,7 @@ std::sort.</p>
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Important notes:</format> </p>
+<p><format color = "BlueViolet">Important notes:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -890,7 +890,7 @@ after it.</p>
 
 ##### 6.2.3 std::stable_partition
 
-<p><format color = "DodgerBlue">Syntax:</format> </p>
+<p><format color = "BlueViolet">Syntax:</format> </p>
 
 ```C++
 #include <algorithm> // Required header
@@ -937,7 +937,7 @@ element from the range) and returns a bool:</p>
 
 ##### 6.2.4 std::copy_if
 
-<p><format color = "DodgerBlue">Syntax:</format> </p>
+<p><format color = "BlueViolet">Syntax:</format> </p>
 
 ```C++
 #include <algorithm> // Required header
@@ -983,7 +983,7 @@ OutputIterator copy_if (InputIterator first, InputIterator last,
 
 ##### 6.2.5 std::remove_if
 
-<p><format color = "DodgerBlue">Syntax:</format> </p>
+<p><format color = "BlueViolet">Syntax:</format> </p>
 
 ```C++
 #include <algorithm> // Required header
@@ -1030,16 +1030,16 @@ element from the range) and returns:</p>
 
 ### 3. Inheritance
 
-<p><format color = "DodgerBlue">Definition:</format> </p>
+<p><format color = "BlueViolet">Definition:</format> </p>
 
 <list>
 <li>
-<p><format color = "Chartreuse">Hypernym</format>: A word with a broad 
+<p><format color = "DarkOrange">Hypernym</format>: A word with a broad 
 meaning constituting a category into which words with more specific 
 meanings fall.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Hyponym</format>: Opposite of hypernym.
+<p><format color = "DarkOrange">Hyponym</format>: Opposite of hypernym.
 </p>
 </li>
 </list>
@@ -1049,15 +1049,15 @@ tree.</p>
 
 #### 3.1 Overriding and Overloading
 
-<p><format color = "DodgerBlue">Definition:</format> </p>
+<p><format color = "BlueViolet">Definition:</format> </p>
 
 <list type = "bullet">
 <li>
-<p><format color = "Chartreuse">Overloading</format>: Methods with the
+<p><format color = "DarkOrange">Overloading</format>: Methods with the
 same name but different signature.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Overriding</format>: A subclass to 
+<p><format color = "DarkOrange">Overriding</format>: A subclass to 
 provide a specific implementation of a method that is already provided 
 by its parent class or interface.</p>
 </li>
@@ -1150,7 +1150,7 @@ public class Main {
 
 <tip>
 <p>For Java, better use <code>@Override</code> !</p>
-<p><format color = "DodgerBlue">Reasons:</format> </p>
+<p><format color = "BlueViolet">Reasons:</format> </p>
 <list type = "bullet">
 <li>
 <p><format color = "Fuchsia">Protect against typos:</format> If 
@@ -1170,18 +1170,18 @@ hierarchy.</p>
 <list type = "alpha-lower">
 
 <li>
-<p><format color = "Chartreuse">Interface Inheritance: </format></p>
+<p><format color = "DarkOrange">Interface Inheritance: </format></p>
 <p>Specifying the capabilities of a subclass using the 
 <code>implements</code> keyword is known as 
 <format style = "underline, bold">interface inheritance</format>.</p>
 
 <list type = "bullet">
 <li>
-<p><format color = "Chartreuse">Interface:</format> The list of all 
+<p><format color = "DarkOrange">Interface:</format> The list of all 
 method signatures.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Inheritance:</format> The subclass 
+<p><format color = "DarkOrange">Inheritance:</format> The subclass 
 "inherits" the interface from a superclass.</p>
 </li>
 <li>
@@ -1195,7 +1195,7 @@ of these methods, will fail to compile otherwise!</p>
 </li>
 
 <li>
-<p><format color = "Chartreuse">Implementation Inheritance:</format> 
+<p><format color = "DarkOrange">Implementation Inheritance:</format> 
 Subclasses can inherit signatures AND implementation.</p>
 </li>
 

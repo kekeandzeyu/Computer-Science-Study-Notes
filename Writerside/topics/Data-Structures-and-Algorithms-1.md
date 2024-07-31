@@ -48,7 +48,7 @@
 
 ### 1.2 Mathematical Models
 
-<p><format color = "DodgerBlue">Simplifications:</format> </p>
+<p><format color = "BlueViolet">Simplifications:</format> </p>
 
 <list type = "decimal">
 <li>
@@ -135,11 +135,11 @@ for (int i = 0; i &lt; N; i++)
 
 #### 1.3.2 Binary Search
 
-<p><format color = "DodgerBlue">Properties:</format> Binary search 
+<p><format color = "BlueViolet">Properties:</format> Binary search 
 uses at most &le; <math>1 + \log N</math> to search in a sorted array
 of size <math>N</math>.</p>
 
-<p><format color = "DodgerBlue">Proof skectch:</format> </p>
+<p><format color = "BlueViolet">Proof skectch:</format> </p>
 
 <p>
 <math>T (N) = </math> number of compares to binary search in a sorted 
@@ -237,7 +237,7 @@ def binary_search(arr, x):
 <p><a href = "https://leetcode.com/problems/3sum/description/" 
 summary = "Leetcode 15: 3Sum">Leetcode 15: 3Sum</a></p>
 
-<p><format color = "DodgerBlue">Description:</format> </p>
+<p><format color = "BlueViolet">Description:</format> </p>
 
 <p>Given an integer array nums, return all the triplets 
 <code>[nums[i], nums[j], nums[k]]</code> such that 
@@ -829,7 +829,7 @@ entries whose id equals <code>parent[p]</code> to <code>parent[q]
 </list>
 
 <note>
-<p><format color = "DodgerBlue">Defect:</format> </p>
+<p><format color = "BlueViolet">Defect:</format> </p>
 <list type = "bullet">
 <li>
 <p>Union too expensive (<math>N</math> array accesses).</p>
@@ -861,7 +861,7 @@ root.</p>
 </list>
 
 <note>
-<p><format color = "DodgerBlue">Defect:</format> </p>
+<p><format color = "BlueViolet">Defect:</format> </p>
 <list type = "bullet">
 <li>
 <p>Trees can get tall.</p>
@@ -1045,26 +1045,26 @@ class UnionFind:
 
 ### 4.1 Stacks
 
-<p><format color = "DodgerBlue">Defintion:</format> </p>
+<p><format color = "BlueViolet">Defintion:</format> </p>
 
 <list>
 <li>
-<p><format color = "Chartreuse">Client:</format> program using 
+<p><format color = "DarkOrange">Client:</format> program using 
 operations defined in interface.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Implementation:</format> actual code 
+<p><format color = "DarkOrange">Implementation:</format> actual code 
 implementing operations.</p>
 </li>
 <li>
-<p><format color = "Chartreuse">Interface:</format> description of 
+<p><format color = "DarkOrange">Interface:</format> description of 
 data types, basic operations.</p>
 </li>
 </list>
 
 <p>Separate interface from implementation.</p>
 
-<p><format color = "DodgerBlue">Benefits</format>: </p>
+<p><format color = "BlueViolet">Benefits</format>: </p>
 
 <list>
 <li>
@@ -1187,7 +1187,7 @@ style = "inline"/>
 style = "inline"/>
 </procedure>
 
-<p><format color = "DodgerBlue">Properties:</format> </p>
+<p><format color = "BlueViolet">Properties:</format> </p>
 
 <list>
 <li>
@@ -1319,7 +1319,7 @@ class Stack:
 
 #### 4.1.3 Resizing-Array Implementation
 
-<p><format color = "DodgerBlue">Property:</format> Uses between 
+<p><format color = "BlueViolet">Property:</format> Uses between 
 <math>\sim 8N</math> and <math>\sim 32N</math> bytes to
 represent a stack with <math>N</math> items.</p>
 
@@ -3123,11 +3123,11 @@ compression, graoh searching, etc.
 
 <list type="decimal">
 <li>
-<p><format color = "DodgerBlue">Binary tree</format>: Empty or node with links
+<p><format color = "BlueViolet">Binary tree</format>: Empty or node with links
 to left and right binary trees.</p>
 </li>
 <li>
-<p><format color = "Dodgerblue">Complete binary tree</format>: Perfectly
+<p><format color = "BlueViolet">Complete binary tree</format>: Perfectly
 balanced, except for bottom level.</p>
 <img src="../images_data/8-1-1.png" alt="Complete binary tree" width="450" style = "inline"/>
 <p>Property: Height of complete binary tree with <math>N</math> nodes is
@@ -3135,7 +3135,7 @@ balanced, except for bottom level.</p>
 <p>Proof: Height only increases when <math>N</math> is a power of <math>2</math>.</p>
 </li>
 <li>
-<p><format color = "Dodgerblue">Binary heap</format>: Array representation of
+<p><format color = "BlueViolet">Binary heap</format>: Array representation of
 a heap-ordered complete binary tree.</p>
 <p>Properties:</p>
     <list type = "bullet">
@@ -3427,10 +3427,10 @@ class PriorityQueue:
 
 <procedure>
 <step>
-<format color = "Dodgerblue">Heap construction</format>: Build max heap using bottom-up method.
+<format color = "BlueViolet">Heap construction</format>: Build max heap using bottom-up method.
 </step>
 <step>
-<format color = "Dodgerblue">Sortdown</format>: Repeatedly delete the largest remaining item.
+<format color = "BlueViolet">Sortdown</format>: Repeatedly delete the largest remaining item.
 </step>
 </procedure>
 
@@ -3546,7 +3546,7 @@ def printArray(arr):
 
 ### 9.1 Symbol Table & Elementary Implementation
 
-<p><format color = "DodgerBlue">Symbol table</format>: Key-value pair
+<p><format color = "BlueViolet">Symbol table</format>: Key-value pair
 abstraction.</p>
 
 <list>
@@ -3565,18 +3565,18 @@ corresponding value.</p>
 
 <list type = "bullet">
 <li>
-<p><format color = "DodgerBlue">Search</format>: Scan through all keys 
+<p><format color = "BlueViolet">Search</format>: Scan through all keys 
 until find a match.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Search</format>: Scan through all keys 
+<p><format color = "BlueViolet">Search</format>: Scan through all keys 
 until find a match; if no match add to front.</p>
 </li>
 </list>
 
 #### 9.1.2 Ordered Array
 
-<p><format color = "DodgerBlue">Method</format>: Maintain an ordered 
+<p><format color = "BlueViolet">Method</format>: Maintain an ordered 
 array of key-value pairs.</p>
 
 ```Java
@@ -3605,13 +3605,13 @@ array of key-value pairs.</p>
 <p>Def: A BST is a <format color = "OrangeRed">binary tree</format> in 
 <format color = "OrangeRed">symmetric order.</format></p>
 
-<p>A <format color = "Dodgerblue">binary tree</format> is either:</p>
+<p>A <format color = "BlueViolet">binary tree</format> is either:</p>
 <list type = "bullet">
 <li>Empty.</li>
 <li>Two disjoint binary trees (left and right).</li>
 </list>
 
-<p><format color = "Dodgerblue">Symmetric order</format>: Each node has
+<p><format color = "BlueViolet">Symmetric order</format>: Each node has
 a key, and every node's key is:</p>
 <list>
 <li>Larger than all keys in the left subtree.</li>
@@ -3657,13 +3657,13 @@ of compares for a search/insert is <math>\sim 2 \ln N</math>.
 
 <p>Proof: 1-1 correspondence with quicksort partitioning.</p>
 
-<p><format color = "Dodgerblue">Floor</format>: Largest key &le; to a 
+<p><format color = "BlueViolet">Floor</format>: Largest key &le; to a 
 given key.</p>
 
-<p><format color = "Dodgerblue">Ceiling</format>: Smallest key &ge; to
+<p><format color = "BlueViolet">Ceiling</format>: Smallest key &ge; to
 a given key.</p>
 
-<p><format color = "Dodgerblue">Rank</format>: How many keys &lt; k</p>
+<p><format color = "BlueViolet">Rank</format>: How many keys &lt; k</p>
 
 <procedure title = "Basic Plan for Computing the Floor" type = "choices">
 <step>
@@ -4306,11 +4306,11 @@ key interface</td></tr>
 root to null link has same length.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Worst case</format>: 
+<p><format color = "BlueViolet">Worst case</format>: 
 <math>\lg N</math> => all 2-nodes</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Best case</format>: 
+<p><format color = "BlueViolet">Best case</format>: 
 <math>\log_{3} N \approx 0.631 \lg N</math> </p>
 </li>
 <li>
@@ -4349,7 +4349,7 @@ for search and insert.</p>
 
 <list type = "alpha-lower">
 <li>
-<p><format color = "DodgerBlue">Definition 1</format>: </p>
+<p><format color = "BlueViolet">Definition 1</format>: </p>
 <list type = "bullet">
 <li>
 <p>Represent 2–3 tree as a BST.</p>
@@ -4360,7 +4360,7 @@ for search and insert.</p>
 </list>
 </li>
 <li>
-<p><format color = "DodgerBlue">Definition 2</format>: A BST such 
+<p><format color = "BlueViolet">Definition 2</format>: A BST such 
 that: </p>
 <list type = "bullet">
 <li>
@@ -4383,15 +4383,15 @@ that: </p>
 
 <list type = "alpha-lower">
 <li>
-<p><format color = "DodgerBlue">Left rotation:</format> Orient a 
+<p><format color = "BlueViolet">Left rotation:</format> Orient a 
 (temporarily) right-leaning red link to lean left.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Right rotation:</format> Orient a 
+<p><format color = "BlueViolet">Right rotation:</format> Orient a 
 left-leaning red link to (temporarily) lean right.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Color flip:</format> Recolor to split
+<p><format color = "BlueViolet">Color flip:</format> Recolor to split
 a (temporary) 4-node.</p>
 </li>
 </list>
@@ -5522,20 +5522,20 @@ applications.</p>
 tables.</p>
 <list>
 <li>
-<p><format color = "DodgerBlue">Java</format>: 
+<p><format color = "BlueViolet">Java</format>: 
 java.util.TreeMap, java.util.TreeSet.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">C++ STL</format>: 
+<p><format color = "BlueViolet">C++ STL</format>: 
 map, multimap, multiset.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Linux kernel</format>: 
+<p><format color = "BlueViolet">Linux kernel</format>: 
 completely fair scheduler, linux/rbtree.h.
 </p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Emacs</format>: 
+<p><format color = "BlueViolet">Emacs</format>: 
 conservative stack scanning.</p>
 </li>
 </list>
@@ -5548,19 +5548,19 @@ conservative stack scanning.</p>
 
 <list type = "bullet">
 <li>
-<p><format color = "DodgerBlue">Page</format>: Continuous block of
+<p><format color = "BlueViolet">Page</format>: Continuous block of
 data (e.g., a file or 4,096-byte chunk).</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Probe</format>: First access to a 
+<p><format color = "BlueViolet">Probe</format>: First access to a 
 page (e.g., from disk to memory).</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Property</format>: Time required for
+<p><format color = "BlueViolet">Property</format>: Time required for
 a probe is much higher than time to access data within a page.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Goal</format>: Access data using
+<p><format color = "BlueViolet">Goal</format>: Access data using
 minimum number of probes.</p>
 </li>
 </list>
@@ -5568,7 +5568,7 @@ minimum number of probes.</p>
 <li>
 <p>Definition:</p>
 
-<p><format color = "DodgerBlue">B-tree (Bayer-McCreight, 1972)</format>: 
+<p><format color = "BlueViolet">B-tree (Bayer-McCreight, 1972)</format>: 
 Generalize 2-3 trees by allowing up to <math>M - 1</math> key-link
 pairs per node.</p>
 <list type = "bullet">
@@ -5595,14 +5595,14 @@ nodes.</p>
 <math>M</math> with <math>N</math> keys requires between 
 <math>log_{M-1} N</math> and <math>log_{M/2} N</math> probes.</p>
 
-<p><format color = "DodgerBlue">Proof</format>: All internal nodes 
+<p><format color = "BlueViolet">Proof</format>: All internal nodes 
 (besides root) have between <math>\frac {M}{2}</math> and 
 <math>M - 1</math> links.</p>
 
-<p><format color = "DodgerBlue">In practice</format>: Number of 
+<p><format color = "BlueViolet">In practice</format>: Number of 
 probes is at most 4.</p>
 
-<p><format color = "DodgerBlue">Optimization</format>: Always keep 
+<p><format color = "BlueViolet">Optimization</format>: Always keep 
 page root in memory.</p>
 </li>
 <li>
@@ -5613,17 +5613,17 @@ widely used for file systems and databases.</p>
 
 <list>
 <li>
-<p><format color = "DodgerBlue">Windows</format>: NTFS.</p>
+<p><format color = "BlueViolet">Windows</format>: NTFS.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Mac</format>: HFS, HFS+.</p>
+<p><format color = "BlueViolet">Mac</format>: HFS, HFS+.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Linux</format>: ReiserFS, XFS, Ext3FS, 
+<p><format color = "BlueViolet">Linux</format>: ReiserFS, XFS, Ext3FS, 
 JFS.</p>
 </li>
 <li>
-<p><format color = "DodgerBlue">Databases</format>: ORACLE, DB2, 
+<p><format color = "BlueViolet">Databases</format>: ORACLE, DB2, 
 INGRES, SQL, PostgreSQL.</p>
 </li>
 </list>
@@ -5664,13 +5664,13 @@ INGRES, SQL, PostgreSQL.</p>
 
 <list type = "alpha-lower">
 <li>
-<p><format color = "Chartreuse">Skew of a node:</format> The height of
+<p><format color = "DarkOrange">Skew of a node:</format> The height of
 of its right subtree minus that of its left subtree.</p>
 
 <p>A node is height-blanced if <math>\text {skew} \in \{-1, 0, 1\}
 </math>.</p>
 
-<p><format color = "DodgerBlue">Properties:</format> A binary tree 
+<p><format color = "BlueViolet">Properties:</format> A binary tree 
 with height-balanced nodes has height <math>h = O(\log n)</math>.</p>
 
 <p>Proof: </p>

@@ -2,13 +2,13 @@
 
 ## 1 Introduction to Operating System
 
-<p><format color = "DodgerBlue">Definition:</format> Special layer of 
+<p><format color = "BlueViolet">Definition:</format> Special layer of 
 software that provides application software access to hardware resources.
 </p>
 
 <img src = "../images_system/1-1.png" alt = "Operating System"/>
 
-<p><format color = "DodgerBlue">What is an Operating System?</format></p>
+<p><format color = "BlueViolet">What is an Operating System?</format></p>
 
 <list type = "bullet">
 <li>
@@ -41,7 +41,7 @@ process abstraction provided by OS.</p>
 </li>
 </list>
 
-<p><format color = "Chartreuse">A process consists of: </format></p>
+<p><format color = "DarkOrange">A process consists of: </format></p>
 
 <list type = "bullet">
 <li>

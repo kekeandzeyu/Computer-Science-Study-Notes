@@ -276,7 +276,7 @@ bits.</p>
 
 ## 2 Higher-Order Function
 
-<p><format color = "Chartreuse">Higher-order function:</format> 
+<p><format color = "DarkOrange">Higher-order function:</format> 
 A function that takes a function as an argument value or returns
 a function as a return value.</p>
 
@@ -440,7 +440,7 @@ s = curry2(add)(1)(2)
 
 ## 3 Recursion
 
-<p><format color = "Chartreuse">Recursive Function:</format> 
+<p><format color = "DarkOrange">Recursive Function:</format> 
 A function is called <format style = "italic">recursive</format> 
 if the body of that function calls itself, either directly or 
 indirectly.</p>
@@ -560,7 +560,7 @@ be passed as arguments.</p></td>
 
 ### 3.4 Mutual Recursion
 
-<p><format color = "Chartreuse">Luhn Algorithm</format> - Used to 
+<p><format color = "DarkOrange">Luhn Algorithm</format> - Used to 
 verify credit card numbers.</p>
 
 <list type = "decimal">
@@ -600,15 +600,15 @@ def luhn_sum_double(n):
 
 ### 4.1 Iterators
 
-<p><format color = "DodgerBlue">Definitions:</format> </p>
+<p><format color = "BlueViolet">Definitions:</format> </p>
 
 <list type = "alpha-lower">
 <li>
-    <p><format color = "Chartreuse">Iterable:</format> An 
+    <p><format color = "DarkOrange">Iterable:</format> An 
     object capable of returning its members one at a time.</p>
 </li>
 <li>
-    <p><format color = "Chartreuse">Iterator:</format> An 
+    <p><format color = "DarkOrange">Iterator:</format> An 
     object that progressively provides access to each item of a 
     collection, in order.</p>
 </li>
@@ -618,13 +618,13 @@ def luhn_sum_double(n):
 <p>Iterators themselves are iterables!</p>
 </warning>
 
-<p><format color = "DodgerBlue">Types of iterables:</format> </p>
+<p><format color = "BlueViolet">Types of iterables:</format> </p>
 
 <list type = "bullet">
 
 </list>
 
-<p><format color = "DodgerBlue">Operations on iterators:</format> </p>
+<p><format color = "BlueViolet">Operations on iterators:</format> </p>
 
 <list type = "bullet">
 <li>
@@ -637,7 +637,7 @@ def luhn_sum_double(n):
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Example usage:</format> </p>
+<p><format color = "BlueViolet">Example usage:</format> </p>
 
 ```Python
 s = [5, 2, 0]
@@ -675,7 +675,7 @@ item4 = next(iterator) # StopIteration
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Special case: Dictionaries</format></p>
+<p><format color = "BlueViolet">Special case: Dictionaries</format></p>
 
 <list type = "bullet">
 <li>
@@ -688,7 +688,7 @@ item4 = next(iterator) # StopIteration
 </li>
 </list>
 
-<p><format color = "DodgerBlue">Example usage:</format> </p>
+<p><format color = "BlueViolet">Example usage:</format> </p>
 
 ```Python
 # Iterate keys
@@ -730,16 +730,16 @@ however, change the value of the key.</p>
 
 ### 4.3 Generators
 
-<p><format color = "DodgerBlue">Definitions:</format> </p>
+<p><format color = "BlueViolet">Definitions:</format> </p>
 
 <list type = "alpha-lower">
 <li>
-    <p><format color = "Chartreuse">Generator:</format> A function that 
+    <p><format color = "DarkOrange">Generator:</format> A function that 
     <format color = "OrangeRed">yields</format> value instead of
     <format color = "OrangeRed">returning</format> them.</p>
 </li>
 <li>
-    <p><format color = "Chartreuse">Generator:</format> An iterator 
+    <p><format color = "DarkOrange">Generator:</format> An iterator 
     created automatically by calling a generator function.</p>
 </li>
 </list>
@@ -749,7 +749,7 @@ however, change the value of the key.</p>
 multiple times.</p>
 </note>
 
-<p><format color = "DodgerBlue">Example usage:</format> </p>
+<p><format color = "BlueViolet">Example usage:</format> </p>
 
 ```Python
 def even(start, end):
@@ -764,7 +764,7 @@ item1 = next(t) # 2
 item2 = next(t) # 4
 ```
 
-<p><format color = "DodgerBlue">Generators can yield form iterators:
+<p><format color = "BlueViolet">Generators can yield form iterators:
 </format></p>
 
 <p>A <format color = "OrangeRed">yield from</format> statement yields
@@ -838,7 +838,7 @@ into a container.</p>
 <p><format color = "OrangeRed">map</format> (func, iterable): Iterate
 over func(x) for x in iterable.</p>
 
-<p><format color = "DodgerBlue">Example usage:</format> </p>
+<p><format color = "BlueViolet">Example usage:</format> </p>
 
 ```Python
 def square(x):
@@ -854,7 +854,7 @@ item1 = next(squared_numbers)  # 1
 <p><format color = "OrangeRed">filter</format> (func, iterable): 
 Iterate over x in iterable if func(x).</p>
 
-<p><format color = "DodgerBlue">Example usage:</format> </p>
+<p><format color = "BlueViolet">Example usage:</format> </p>
 
 ```Python
 def square(x):
@@ -872,7 +872,7 @@ even_numbers = filter(is_even, numbers)  # filter object (iterator)
 <p><format color = "OrangeRed">zip</format> (first_iter, second_iter, ...):
 Iterate over co-indexed (x, y) pairs.</p>
 
-<p><format color = "DodgerBlue">Example usage:</format> </p>
+<p><format color = "BlueViolet">Example usage:</format> </p>
 
 <p>Example 1: </p>
 
@@ -892,7 +892,7 @@ def palindrome(s):
 <p><format color = "OrangeRed">reversed</format> (sequence): Iterate
 over x in a sequence in reverse order.</p>
 
-<p><format color = "DodgerBlue">Example usage:</format> </p>
+<p><format color = "BlueViolet">Example usage:</format> </p>
 
 ```Python
 t = [1, 2, 3, 2, 1]
@@ -903,7 +903,7 @@ print(list(reversed(t) == t) # True
 
 #### 4.4.5 range iterator
 
-<p><format color = "DodgerBlue">Example usage:</format> </p>
+<p><format color = "BlueViolet">Example usage:</format> </p>
 
 ```Python
 r = range(3, 6)
