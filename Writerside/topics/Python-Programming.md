@@ -642,13 +642,93 @@ def luhn_sum_double(n):
 ```Python
 s = [5, 2, 0]
 iterator = iter(s)
-item1 = next(iterator) // 5
-item2 = next(iterator) // 2
-item3 = next(iterator) // 0
-item4 = next(iterator) // StopIteration
+item1 = next(iterator) # 5
+item2 = next(iterator) # 2
+item3 = next(iterator) # 0
+item4 = next(iterator) # StopIteration
 ```
 
-### 4.2 Generators
+### 4.2 Iterables
+
+<list>
+<li>
+<p>Lists: [1, 2, 3, 4]</p>
+</li>
+<li>
+<p>Tuples: (10, 20, 30)</p>
+</li>
+<li>
+<p>Strings: &quot;Hello&quot;</p>
+</li>
+<li>
+<p>Dictionaries: {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;:
+30} (iterates over keys by default)</p>
+</li>
+<li>
+<p>Sets: {1, 2, 3}</p>
+</li>
+<li>
+<p>Ranges: range(1, 5)</p>
+</li>
+<li>
+<p>File Objects: Used for reading data from files line by line.</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Special case: Dictionaries</format></p>
+
+<list type = "bullet">
+<li>
+    <p>The order of items of a dictionary is the order in which they 
+    were added (Python 3.6+).</p>
+</li>
+<li>
+    <p>Historically, items appeared in an arbitrary order (Python 3.5
+    and earlier).</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Example usage:</format> </p>
+
+```Python
+# Iterate keys
+d = {"MacOS": "Apple", "Windows": "Microsoft", "Linux": "Open Source"}
+k = iter(d.keys()) # or iter(d)
+print(next(k)) # MacOS
+
+# Iterate values
+v = iter(d.values())
+print(next(v)) # Apple
+
+# Iterate items
+i = iter(d.items())
+print(next(i)) # ('MacOS', 'Apple')
+```
+
+<note>
+<p>During iteration, you can't change the size of dictionary, aka 
+change the structure of it, which may initiate runtime error; you can, 
+however, change the value of the key.</p>
+</note>
+
+<compare type = "top-bottom" first-title = "change the size" second-title = "change the key">
+    <code-block lang = "python">
+        d = {"MacOS": "Apple", "Windows": "Microsoft", "Linux": "Open Source"}
+        k = iter(d.values())
+        print(next(k)) # Apple
+        d["Android"] = "Google"
+        print(next(k)) # RuntimeError: dictionary changed size during iteration
+    </code-block>
+    <code-block lang = "python">
+        d = {"MacOS": "Apple", "Windows": "Microsoft", "Linux": "Open Source"}
+        k = iter(d.values())
+        print(next(k)) # Apple
+        d["Windows"] = "Microsoft Corporation"
+        print(next(k)) # Microsoft Corporation
+    </code-block>
+</compare>
+
+### 4.3 Generators
 
 <p><format color = "DodgerBlue">Definitions:</format> </p>
 
@@ -678,10 +758,10 @@ def even(start, end):
         yield current
         current += 2
         
-lst1 = list(even(1, 10)) // [2, 4, 6, 8, 10]
+lst1 = list(even(1, 10)) # [2, 4, 6, 8, 10]
 t = even(1, 10)
-item1 = next(t) // 2
-item2 = next(t) // 4
+item1 = next(t) # 2
+item2 = next(t) # 4
 ```
 
 <p><format color = "DodgerBlue">Generators can yield form iterators:
@@ -709,15 +789,15 @@ all values from an iterator or iterable (Python 3.3).</p>
 
 <p>Example 2: </p>
 
-<compare first-title = "yield" second-title = "yield from">
+<compare type = "top-bottom" first-title = "yield" second-title = "yield from">
     <code-block lang = "python">
         def countdown(k):
             if k > 0:
                 yield k
                 yield countdown(k - 1)
         t = countdown(3)
-        item1 = next(t) // 3
-        item2 = next(t) // &lt;generator object countdown at 0x0000021D7D3D3F90>
+        item1 = next(t) # 3
+        item2 = next(t) # &lt;generator object countdown at 0x0000021D7D3D3F90>
     </code-block>
     <code-block lang = "python">
         def countdown(k):
@@ -725,12 +805,12 @@ all values from an iterator or iterable (Python 3.3).</p>
                 yield k
                 yield from countdown(k - 1)
         t = countdown(3) 
-        item1 = next(t) // 3
-        item2 = next(t) // 2
+        item1 = next(t) # 3
+        item2 = next(t) # 2
     </code-block>
 </compare>
 
-### 4.3 Built-In Iterator Functions
+### 4.4 Built-In Iterator Functions
 
 <p>Many built-in Python sequence operations return iterators that
 compute results lazily.</p>
@@ -753,12 +833,87 @@ into a container.</p>
 </li>
 </list>
 
-#### 4.3.1 Map
+#### 4.4.1 Map
 
-<p><code>map(func, iterable)</code>: Iterate over func(x) for x in 
-iterable.</p>
+<p><format color = "OrangeRed">map</format> (func, iterable): Iterate
+over func(x) for x in iterable.</p>
 
+<p><format color = "DodgerBlue">Example usage:</format> </p>
 
+```Python
+def square(x):
+    return x * x
+    
+numbers = [1, 2, 3, 4]
+squared_numbers = map(square, numbers)  # map object (iterator)
+item1 = next(squared_numbers)  # 1
+```
+
+#### 4.4.2 Filter
+
+<p><format color = "OrangeRed">filter</format> (func, iterable): 
+Iterate over x in iterable if func(x).</p>
+
+<p><format color = "DodgerBlue">Example usage:</format> </p>
+
+```Python
+def square(x):
+    return x * x
+
+def is_even(x):
+    return x % 2 == 0
+    
+numbers = [1, 2, 3, 4]
+even_numbers = filter(is_even, numbers)  # filter object (iterator)
+```
+
+#### 4.4.3 zip
+
+<p><format color = "OrangeRed">zip</format> (first_iter, second_iter, ...):
+Iterate over co-indexed (x, y) pairs.</p>
+
+<p><format color = "DodgerBlue">Example usage:</format> </p>
+
+<p>Example 1: </p>
+
+```Python
+list(zip([1, 2], [3, 4, 5], [6, 7]))  # [(1, 3, 6), (2, 4, 7)]
+```
+
+<p>Example 2: </p>
+
+```Python
+def palindrome(s):
+    return all(a == b for a, b in zip(s, reversed(s)))
+```
+
+#### 4.4.4 reversed
+
+<p><format color = "OrangeRed">reversed</format> (sequence): Iterate
+over x in a sequence in reverse order.</p>
+
+<p><format color = "DodgerBlue">Example usage:</format> </p>
+
+```Python
+t = [1, 2, 3, 2, 1]
+print(reverse(t) == t) # False
+# Because reversed(t) is a list_reverseiterator object
+print(list(reversed(t) == t) # True
+```
+
+#### 4.4.5 range iterator
+
+<p><format color = "DodgerBlue">Example usage:</format> </p>
+
+```Python
+r = range(3, 6)
+ri = iter(r) # range_iterator object
+for i in ri:
+    print(i)
+# 3
+# 4
+# 5
+```
 
 ## 5 Object
 
