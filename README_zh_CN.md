@@ -66,13 +66,30 @@ For English version please check [here](README.md)
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz and the rest of CS162 staff.
 
-## 4 许可证
+## 4 如何使用
+
+笔记中不同颜色对应的含义如下：
+
+<ul>
+    <li><p style="color:#8A2BE2;">BlueViolet: 代表不同板块的内容。</p></li>
+    <li>
+    <p style="color:#FF4500">OrangeRed: 强调重点内容。</p>
+    </li>
+    <li>
+    <p style="color:#EB8202">DarkOrange: 表示定义。</p>
+    </li>
+    <li>
+    <p style="color:#BE07BF">Fuchsia: 表示列表中不同内容。</p>
+    </li>
+</ul>
+
+## 5 许可证
 
 本笔记遵循[MIT License](License)。
 
 引用的其他作者的原创内容遵循原作者的许可证。
 
-## 5 致谢
+## 6 致谢
 
 首先，我要向以上列表中所有教授、助教等表示感谢，感谢他们将自己渊博的知识无私地传授给我们这些初学者，也感谢他们将学习资料面向公众开放，这些宝贵的知识让我受益匪浅、终生难忘。
 

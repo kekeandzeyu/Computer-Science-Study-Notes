@@ -66,13 +66,30 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz and the rest of CS162 staff.
 
-## 4 License
+## 4 How to use it
+
+For the colors in the notes, here are their meanings:
+
+<ul>
+    <li><p style="color:#8A2BE2;">BlueViolet: to indicate different sections.</p></li>
+    <li>
+    <p style="color:#FF4500">OrangeRed: to highlight important parts.</p>
+    </li>
+    <li>
+    <p style="color:#EB8202">DarkOrange: to indicate definitions.</p>
+    </li>
+    <li>
+    <p style="color:#BE07BF">Fuchsia: to indicate different points in a list.</p>
+    </li>
+</ul>
+
+## 5 License
 
 The notes are under MIT License.
 
 All the references in the notes are under the original licenses.
 
-## 5 Acknowledgements
+## 6 Acknowledgements
 
 Above all, I'd like to express my sincere gratitude to all those professors and TAs in the list above, who selflessly imparting his profound knowledge to us beginners, and made those learning resources public to everyone. The valuable knowledge has benefited me a lot and will be unforgettable for my whole life.
 
