@@ -595,3 +595,202 @@ def luhn_sum_double(n):
     else:
         return luhn_sum(all_but_last) + luhn_digit
 ```
+
+## 4 Iterators & Generators
+
+### 4.1 Iterators
+
+<p><format color = "DodgerBlue">Definitions:</format> </p>
+
+<list type = "alpha-lower">
+<li>
+    <p><format color = "Chartreuse">Iterable:</format> An 
+    object capable of returning its members one at a time.</p>
+</li>
+<li>
+    <p><format color = "Chartreuse">Iterator:</format> An 
+    object that progressively provides access to each item of a 
+    collection, in order.</p>
+</li>
+</list>
+
+<warning>
+<p>Iterators themselves are iterables!</p>
+</warning>
+
+<p><format color = "DodgerBlue">Types of iterables:</format> </p>
+
+<list type = "bullet">
+
+</list>
+
+<p><format color = "DodgerBlue">Operations on iterators:</format> </p>
+
+<list type = "bullet">
+<li>
+    <p><format color = "OrangeRed">iter</format> (iterable): Return an 
+    iterator over the elements of an iterable value.</p>
+</li>
+<li>
+    <p><format color = "OrangeRed">next</format> (iterable): Return the
+    next element in an iterator.</p>
+</li>
+</list>
+
+<p><format color = "DodgerBlue">Example usage:</format> </p>
+
+```Python
+s = [5, 2, 0]
+iterator = iter(s)
+item1 = next(iterator) // 5
+item2 = next(iterator) // 2
+item3 = next(iterator) // 0
+item4 = next(iterator) // StopIteration
+```
+
+### 4.2 Generators
+
+<p><format color = "DodgerBlue">Definitions:</format> </p>
+
+<list type = "alpha-lower">
+<li>
+    <p><format color = "Chartreuse">Generator:</format> A function that 
+    <format color = "OrangeRed">yields</format> value instead of
+    <format color = "OrangeRed">returning</format> them.</p>
+</li>
+<li>
+    <p><format color = "Chartreuse">Generator:</format> An iterator 
+    created automatically by calling a generator function.</p>
+</li>
+</list>
+
+<note>
+<p>A normal function returns once; a generator function can yield 
+multiple times.</p>
+</note>
+
+<p><format color = "DodgerBlue">Example usage:</format> </p>
+
+```Python
+def even(start, end):
+    current = start + (start % 2)
+    while current <= end:
+        yield current
+        current += 2
+        
+lst1 = list(even(1, 10)) // [2, 4, 6, 8, 10]
+t = even(1, 10)
+item1 = next(t) // 2
+item2 = next(t) // 4
+```
+
+<p><format color = "DodgerBlue">Generators can yield form iterators:
+</format></p>
+
+<p>A <format color = "OrangeRed">yield from</format> statement yields
+all values from an iterator or iterable (Python 3.3).</p>
+
+<p>Example 1: </p>
+
+<compare first-title = "yield" second-title = "yield from">
+    <code-block lang = "python">
+        def a_then_b(a, b):
+            for x in a:
+                yield x
+            for x in b:
+                yield x
+    </code-block>
+    <code-block lang = "python">
+        def a_then_b(a, b):
+            yield from a
+            yield from b
+    </code-block>
+</compare>
+
+<p>Example 2: </p>
+
+<compare first-title = "yield" second-title = "yield from">
+    <code-block lang = "python">
+        def countdown(k):
+            if k > 0:
+                yield k
+                yield countdown(k - 1)
+        t = countdown(3)
+        item1 = next(t) // 3
+        item2 = next(t) // &lt;generator object countdown at 0x0000021D7D3D3F90>
+    </code-block>
+    <code-block lang = "python">
+        def countdown(k):
+            if k > 0:
+                yield k
+                yield from countdown(k - 1)
+        t = countdown(3) 
+        item1 = next(t) // 3
+        item2 = next(t) // 2
+    </code-block>
+</compare>
+
+### 4.3 Built-In Iterator Functions
+
+<p>Many built-in Python sequence operations return iterators that
+compute results lazily.</p>
+
+<p>To view the contents of an iterator, place the resulting elements 
+into a container.</p>
+
+<list type = "bullet">
+<li>
+    <p><format color = "OrangeRed">list</format> (iterable): 
+    Create a list containing all x in iterable.</p>
+</li>
+<li>
+    <p><format color = "OrangeRed">tuple</format> (iterable): 
+    Create a tuple containing all x in iterable.</p>
+</li>
+<li>
+    <p><format color = "OrangeRed">sorted</format> (iterable):
+    Create a sorted list containing x in iterable.</p>
+</li>
+</list>
+
+#### 4.3.1 Map
+
+<p><code>map(func, iterable)</code>: Iterate over func(x) for x in 
+iterable.</p>
+
+
+
+## 5 Object
+
+<list type = "bullet">
+<li>
+    <p>Objects represent information.</p>
+</li>
+<li>
+    <p>They consist of data and behavior, bundled together to create 
+    abstractions.</p>
+</li>
+<li>
+    <p>Objects can represent things, but also properties, 
+    interaction, & processes.</p>
+</li>
+<li>
+    <p>A type of object is called a class; classes are first class 
+    values in Python.</p>
+</li>
+<li>
+    <p>In Python, every value is an object.</p>
+    <list type = "bullet">
+    <li>
+        <p>All objects have attributes.</p>
+    </li>
+    <li>
+        <p>A lot of data manipulation happens through object methods
+        .</p>
+    </li>
+    <li>
+        <p>Functions do one thing; objects do many related thing.</p>
+    </li>
+    </list>
+</li>
+</list>
