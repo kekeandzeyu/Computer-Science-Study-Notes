@@ -56,6 +56,8 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 1. CS61A: Structure and Interpretation of Computer Programs (UC Berkeley) by Professor John DeNero and the rest of CS61A staff.
 
+2. <https://en.wikipedia.org/wiki/Iterator>.
+
 ### Topic 4: Computer Architecture
 
 1. CS61C: Great Ideas in Computer Architecture (UC Berkeley) by Instructors Stephan Kaminsky, Sean Farhat, Jenny Song, and the rest of CS61C staff.
