@@ -524,10 +524,144 @@ reg</code>.</p>
 <li>
 <p>RISC-Ⅴ</p>
 <p>lw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t0, <format color = 
-"OrangeRed">l2</format> (s3)&nbsp;&nbsp;&nbsp;# t0 = A[<format color = "OrangeRed">3
+"OrangeRed">l2</format> (s3)&nbsp;&nbsp;&nbsp;&nbsp;# t0 = A[<format color = "OrangeRed">3
 </format>]</p>
-<p>add&nbsp;&nbsp;&nbsp;&nbsp;t0, s2, t0&nbsp;&nbsp;&nbsp;&nbsp;# t0 = A[3] + b</p>
+<p>add&nbsp;&nbsp;&nbsp;&nbsp;t0, s2, t0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# t0 = A[3] + b</p>
 <p>sw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t0, <format color = "OrangeRed">40</format> (s3)&nbsp;&nbsp;# A[<format 
 color = "OrangeRed">10</format>] = A[3] + b</p>
 </li>
 </list>
+
+##### 3.3.4 Control Flow Instructions
+
+<p><format color = "DarkOrange">Labels in RISC-Ⅴ</format>: Defined
+by a text and followed by a colon (e.g., main:) and refers to the 
+instructions that follows; generate control flow by jumping to labels.
+</p>
+
+<p><format color = "BlueViolet">Types:</format> </p>
+
+<list type = "alpha-lower">
+<li>
+    <p><format color = "Fuchsia">Branch If Equal</format> (beq)</p>
+    <list type = "bullet">
+    <li>    
+        <p><format color = "LawnGreen">Syntax:</format> beq reg1, 
+        reg2, label</p>
+    </li>
+    <li>
+        <p>If value in reg1 == value in reg2, go to label.</p>
+    </li>
+    <li>
+        <p>Otherwise go to next instruction.</p>
+    </li>
+    </list>
+</li>
+<li>
+<p><format color = "Fuchsia">Branch If Not Equal</format> (bne)</p>
+    <list type = "bullet">
+    <li>    
+        <p><format color = "LawnGreen">Syntax:</format> bne reg1, 
+        reg2, label</p>
+    </li>
+    <li>
+        <p>If value in reg1 &#8800; value in reg2, go to label.</p>
+    </li>
+    </list>
+</li>
+<li>
+<p><format color = "Fuchsia">Jump</format> (j)</p>
+    <list type = "bullet">
+    <li>    
+        <p><format color = "LawnGreen">Syntax:</format> j label</p>
+    </li>
+    <li>
+        <p>Unconditional jump to label.</p>
+    </li>
+    </list>
+</li>
+<li>
+<p><format color = "Fuchsia">Branch Less Than</format> (blt)</p>
+    <list type = "bullet">
+    <li>    
+        <p><format color = "LawnGreen">Syntax:</format> blt reg1, reg2,
+        label</p>
+    </li>
+    <li>
+        <p>If value in reg1 &lt; value in reg2, go to label.</p>
+    </li>
+    </list>
+</li>
+<li>
+<p><format color = "Fuchsia">Branch Less Than or Equal</format> (ble)
+</p>
+    <list type = "bullet">
+    <li>    
+        <p><format color = "LawnGreen">Syntax:</format> ble reg1, reg2,
+        label</p>
+    </li>
+    <li>
+        <p>If value in reg1 &#8804; value in reg2, go to label.</p>
+    </li>
+    </list>
+</li>
+</list>
+
+<compare first-title="C" second-title="RISC-Ⅴ (beq)">
+    <code-block lang = "c">
+        if (i == j) {
+            a = b; /* then */
+        } else {
+            a = -b; /* else */
+        }
+    </code-block>
+    <code-block lang = "python">
+        # i -> s0, j -> s1
+        # a -> s2, b -> s3
+        beq s0, s1, then
+        else:
+        sub s2, x0, s3
+        j end
+        then:
+        add s2, s3, x0
+        end:
+    </code-block>
+</compare>
+
+<p><format color = "BlueViolet">Loops in RISC-Ⅴ:</format> </p>
+
+<list type = "bullet">
+<li>
+    <p>There are three types of loops in C: while, do...while, and
+    for.</p>
+</li>
+<li>
+    <p>These can be created with branch instructions as well.</p>
+</li>
+<li>
+    <p>The key to decision making is the branch statement.</p>
+</li>
+</list>
+
+<p><format color = "BlueViolet">Program Counter:</format> </p>
+
+<list type = "bullet">
+<li>
+    <p>Program Counter (PC): A special register that contains the 
+    current address of the code that is being executed.</p>
+</li>
+<li>
+    <p>Branches and Jumps change the flow of execution by modifying 
+    the PC.</p>
+</li>
+<li>
+    <p>Instructions are stored as data in memory (code section) and 
+    have addresses! Labels get converted to instruction addresses.</p>
+</li>
+<li>
+    <p>The PC tracks where in memory the current instruction is.</p>
+</li>
+</list>
+
+### 4 RISC-&#8548; Functions
+
