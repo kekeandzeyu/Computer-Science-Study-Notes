@@ -3114,8 +3114,21 @@ def quicksort3_entry(arr):
 
 ## 8 Priority Queues
 
-Applications: Event-driven simulation, numerical computation, data
-compression, graoh searching, etc.
+<p><format color = "BlueViolet">Applications:</format> </p>
+<list type = "bullet">
+<li>
+<p>Event-driven simulation</p>
+</li>
+<li>
+<p>Numerical computation</p>
+</li>
+<li>
+<p>Data compression</p>
+</li>
+<li>
+<p>Graph searching</p>
+</li>
+</list>
 
 ### 8.1 Binary Heap & Priority Queue Implementation
 
@@ -3407,32 +3420,362 @@ class PriorityQueue:
         return retval
 ```
 
-### 8.2 Heapsort
+### 8.2 Indexed Priority Queue
 
-* Heap construction uses &le; <em>2N</em> compares and exchanges.
-*
-* Heapsort uses &le; <em>2N log N</em> compares and exchanges.
-*
-* Heapsort is an in-place algorithm with <em>NlogN</em> worst-case.
+<p><format color = "DarkOrange">Indexed Priority Queue:</format> 
+Associate an index between <math>0</math> and <math>N - 1</math> 
+with each key in the priority queue.</p>
 
-> It is optimal for both time and space, but:
->
-> * Inner loop longer than quick sort's.
->
-> * Makes poor use of cache memory.
->
-> * Not stable.
->
-{style = "tip"}
+<list type = "bullet">
+<li>
+    <p>Client can insert and delete-the-minimum.</p>
+</li>
+<li>
+    <p>Client can change the key by specifying the index.</p>
+</li>
+</list>
 
-<procedure>
-<step>
-<format color = "BlueViolet">Heap construction</format>: Build max heap using bottom-up method.
-</step>
-<step>
-<format color = "BlueViolet">Sortdown</format>: Repeatedly delete the largest remaining item.
-</step>
+<procedure title = "Indexed Priority Queue">
+    <step>
+        <p>Start with same code as MinPQ.</p>
+    </step>
+    <step>
+        <p>Maintain parallel arrays keys[], pq[] and qp[] so that: 
+        </p>
+        <list type = "bullet">
+            <li><p>keys[i] is the priority of i.</p></li>
+            <li><p>pq[i] is the index of the key in heap position i.
+            </p></li>
+            <li><p>qp[i] is the heap position of the key with index i
+            .</p></li>
+        </list>
+    </step>
+    <step>
+        <p>Use swim(qp[i]) implement decreaseKey(i, key).</p>
+    </step>
 </procedure>
+
+Java
+
+```Java
+import java.util.NoSuchElementException;
+
+public class IndexedPriorityQueue {
+    private final int maxN;
+    private int n;
+    private final int[] pq;
+    private final int[] qp;
+    private final double[] keys;
+
+    public IndexedPriorityQueue(int maxN) {
+        if (maxN < 0) throw new IllegalArgumentException();
+        this.maxN = maxN;
+        n = 0;
+        keys = new double[maxN + 1];
+        pq = new int[maxN + 1];
+        qp = new int[maxN + 1];
+        for (int i = 0; i <= maxN; i++) qp[i] = -1;
+    }
+
+    public boolean isEmpty() {
+        return n == 0;
+    }
+
+    public boolean contains(int i) {
+        return qp[i] != -1;
+    }
+
+    public int size() {
+        return n;
+    }
+
+    public void insert(int i, double key) {
+        if (contains(i)) throw new IllegalArgumentException("Index is already in the priority queue");
+        n++;
+        qp[i] = n;
+        pq[n] = i;
+        keys[i] = key;
+        swim(n);
+    }
+
+    public int delMin() {
+        if (n == 0) throw new NoSuchElementException("Priority queue underflow");
+        int min = pq[1];
+        exch(1, n--);
+        sink(1);
+        qp[min] = -1;
+        pq[n + 1] = -1;
+        return min;
+    }
+
+    public void decreaseKey(int i, double key) {
+        if (!contains(i)) throw new NoSuchElementException("Index is not in the priority queue");
+        if (keys[i] <= key) throw new IllegalArgumentException("Calling decreaseKey() with a key greater than or equal to the key in the priority queue");
+        keys[i] = key;
+        swim(qp[i]);
+    }
+
+    private boolean greater(int i, int j) {
+        return keys[pq[i]] > keys[pq[j]];
+    }
+
+    private void exch(int i, int j) {
+        int swap = pq[i];
+        pq[i] = pq[j];
+        pq[j] = swap;
+        qp[pq[i]] = i;
+        qp[pq[j]] = j;
+    }
+
+    private void swim(int k) {
+        while (k > 1 && greater(k / 2, k)) {
+            exch(k, k / 2);
+            k = k / 2;
+        }
+    }
+
+    private void sink(int k) {
+        while (2 * k <= n) {
+            int j = 2 * k;
+            if (j < n && greater(j, j + 1)) j++;
+            if (!greater(k, j)) break;
+            exch(k, j);
+            k = j;
+        }
+    }
+}
+```
+
+C++ (IndexedPriorityQueue.h)
+
+```C++
+#ifndef INDEXED_PRIORITY_QUEUE_H
+#define INDEXED_PRIORITY_QUEUE_H
+
+#include <vector>
+
+class IndexedPriorityQueue {
+public:
+    explicit IndexedPriorityQueue(int maxN);
+    [[nodiscard]] bool isEmpty() const;
+    [[nodiscard]] bool contains(int i) const;
+    [[nodiscard]] int size() const;
+    void insert(int i, double key);
+    int delMin();
+    void decreaseKey(int i, double key);
+
+private:
+    int maxN;
+    int n;
+    std::vector<int> pq;
+    std::vector<int> qp;
+    std::vector<double> keys;
+
+    [[nodiscard]] bool greater(int i, int j) const;
+    void exch(int i, int j);
+    void swim(int k);
+    void sink(int k);
+};
+
+#endif // INDEXED_PRIORITY_QUEUE_H
+```
+
+C++ (IndexedPriorityQueue.cpp)
+
+```C++
+#include "IndexedPriorityQueue.h"
+#include <stdexcept>
+
+IndexedPriorityQueue::IndexedPriorityQueue(const int maxN) : maxN(maxN), n(0), pq(maxN + 1), qp(maxN + 1, -1), keys(maxN + 1) {
+    if (maxN < 0) throw std::invalid_argument("maxN must be non-negative");
+}
+
+bool IndexedPriorityQueue::isEmpty() const {
+    return n == 0;
+}
+
+bool IndexedPriorityQueue::contains(int i) const {
+    return qp[i] != -1;
+}
+
+int IndexedPriorityQueue::size() const {
+    return n;
+}
+
+void IndexedPriorityQueue::insert(const int i, const double key) {
+    if (contains(i)) throw std::invalid_argument("Index is already in the priority queue");
+    n++;
+    qp[i] = n;
+    pq[n] = i;
+    keys[i] = key;
+    swim(n);
+}
+
+int IndexedPriorityQueue::delMin() {
+    if (n == 0) throw std::out_of_range("Priority queue underflow");
+    const int min = pq[1];
+    exch(1, n--);
+    sink(1);
+    qp[min] = -1;
+    pq[n + 1] = -1;
+    return min;
+}
+
+void IndexedPriorityQueue::decreaseKey(const int i, const double key) {
+    if (!contains(i)) throw std::out_of_range("Index is not in the priority queue");
+    if (keys[i] <= key) throw std::invalid_argument("Calling decreaseKey() with a key greater than or equal to the key in the priority queue");
+    keys[i] = key;
+    swim(qp[i]);
+}
+
+bool IndexedPriorityQueue::greater(const int i, const int j) const {
+    return keys[pq[i]] > keys[pq[j]];
+}
+
+void IndexedPriorityQueue::exch(const int i, const int j) {
+    int swap = pq[i];
+    pq[i] = pq[j];
+    pq[j] = swap;
+    qp[pq[i]] = i;
+    qp[pq[j]] = j;
+}
+
+void IndexedPriorityQueue::swim(int k) {
+    while (k > 1 && greater(k / 2, k)) {
+        exch(k, k / 2);
+        k = k / 2;
+    }
+}
+
+void IndexedPriorityQueue::sink(int k) {
+    while (2 * k <= n) {
+        int j = 2 * k;
+        if (j < n && greater(j, j + 1)) j++;
+        if (!greater(k, j)) break;
+        exch(k, j);
+        k = j;
+    }
+}
+```
+
+Python
+
+```Python
+class IndexedPriorityQueue:
+    def __init__(self, maxN):
+        if maxN < 0:
+            raise ValueError("maxN must be non-negative")
+        self.maxN = maxN
+        self.n = 0
+        self.keys = [None] * (maxN + 1)
+        self.pq = [0] * (maxN + 1)
+        self.qp = [-1] * (maxN + 1)
+
+    def is_empty(self):
+        return self.n == 0
+
+    def contains(self, i):
+        return self.qp[i] != -1
+
+    def size(self):
+        return self.n
+
+    def insert(self, i, key):
+        if self.contains(i):
+            raise ValueError("Index is already in the priority queue")
+        self.n += 1
+        self.qp[i] = self.n
+        self.pq[self.n] = i
+        self.keys[i] = key
+        self.swim(self.n)
+
+    def del_min(self):
+        if self.n == 0:
+            raise IndexError("Priority queue underflow")
+        min_index = self.pq[1]
+        self.exch(1, self.n)
+        self.n -= 1
+        self.sink(1)
+        self.qp[min_index] = -1
+        self.pq[self.n + 1] = -1
+        return min_index
+
+    def decrease_key(self, i, key):
+        if not self.contains(i):
+            raise IndexError("Index is not in the priority queue")
+        if self.keys[i] <= key:
+            raise ValueError("Calling decrease_key() with a key greater than or equal to the key in the priority queue")
+        self.keys[i] = key
+        self.swim(self.qp[i])
+
+    def greater(self, i, j):
+        return self.keys[self.pq[i]] > self.keys[self.pq[j]]
+
+    def exch(self, i, j):
+        self.pq[i], self.pq[j] = self.pq[j], self.pq[i]
+        self.qp[self.pq[i]] = i
+        self.qp[self.pq[j]] = j
+
+    def swim(self, k):
+        while k > 1 and self.greater(k // 2, k):
+            self.exch(k, k // 2)
+            k //= 2
+
+    def sink(self, k):
+        while 2 * k <= self.n:
+            j = 2 * k
+            if j < self.n and self.greater(j, j + 1):
+                j += 1
+            if not self.greater(k, j):
+                break
+            self.exch(k, j)
+            k = j
+```
+
+### 8.3 Heapsort
+
+<procedure title = "Heapsort">
+    <step>
+        <p><format color = "Fuchsia">Heap construction</format>: 
+        Build max heap using bottom-up method.</p>
+    </step>
+    <step>
+        <p><format color = "Fuchsia">Sortdown</format>: Repeatedly
+        delete the largest remaining item.</p>
+    </step>
+</procedure>
+
+<p><format color = "BlueViolet">Properties:</format> </p>
+
+<list>
+<li>
+    <p>Heap construction uses <math>\leq 2N</math> compares and 
+    exchanges.</p>
+</li>
+<li>
+    <p>Heapsort uses <math>\leq 2N \log N</math> compares and 
+    exchanges.</p>
+</li>
+<li>
+    <p>Heapsort is an in-place algorithm with <math>N \log N</math> 
+    worst-case.</p>
+</li>
+</list>
+
+<tip>
+<p>It is optimal for both time and space, but:</p>
+<list>
+    <li>
+        <p>Inner loop longer than quick sort's.</p>
+    </li>
+    <li>
+        <p>Makes poor use of cache memory.</p>
+    </li>
+    <li>
+        <p>Not stable.</p>
+    </li>
+</list>
+</tip>
 
 Java
 

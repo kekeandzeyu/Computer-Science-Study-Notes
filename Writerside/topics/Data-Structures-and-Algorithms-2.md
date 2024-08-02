@@ -3826,12 +3826,18 @@ public class Edge implements Comparable<Edge> {
         this.weight = weight;
     }
 
-    public int getSource() {
+    public int getEitherVertex() {
         return source;
     }
 
-    public int getDestination() {
-        return destination;
+    public int getOtherVertex(int vertex) {
+        if (vertex == source) {
+            return destination;
+        } else if (vertex == destination) {
+            return source;
+        } else {
+            throw new IllegalArgumentException("Invalid vertex");
+        }
     }
 
     public double getWeight() {
@@ -3900,25 +3906,64 @@ C++ (Edge.h)
 #ifndef EDGE_H
 #define EDGE_H
 
+#include <string>
+
 class Edge {
-public:
+private:
     int source;
     int destination;
     double weight;
 
+public:
     Edge(int source, int destination, double weight);
+    [[nodiscard]] int getEitherVertex() const;
+    [[nodiscard]] int getOtherVertex(int vertex) const;
+    [[nodiscard]] double getWeight() const;
+    bool operator<(const Edge& other) const;
+    [[nodiscard]] std::string toString() const;
 };
 
-#endif //EDGE_H
+#endif // EDGE_H
 ```
 
 C++ (Edge.cpp)
 
 ```C++
 #include "Edge.h"
+#include <stdexcept>
+#include <sstream>
+#include <iomanip>
 
 Edge::Edge(const int source, const int destination, const double weight)
     : source(source), destination(destination), weight(weight) {}
+
+int Edge::getEitherVertex() const {
+    return source;
+}
+
+int Edge::getOtherVertex(const int vertex) const {
+    if (vertex == source) {
+        return destination;
+    } else if (vertex == destination) {
+        return source;
+    } else {
+        throw std::invalid_argument("Invalid vertex");
+    }
+}
+
+double Edge::getWeight() const {
+    return weight;
+}
+
+bool Edge::operator<(const Edge& other) const {
+    return weight < other.weight;
+}
+
+std::string Edge::toString() const {
+    std::ostringstream oss;
+    oss << "(" << source << " - " << destination << " : " << std::fixed << std::setprecision(2) << weight << ")";
+    return oss.str();
+}
 ```
 
 C++ (EdgeWeightedGraph.h)
@@ -3927,13 +3972,13 @@ C++ (EdgeWeightedGraph.h)
 #ifndef EDGEWEIGHTEDGRAPH_H
 #define EDGEWEIGHTEDGRAPH_H
 
-#include "Edge.h"
 #include <vector>
+#include "Edge.h"
 
 class EdgeWeightedGraph {
 private:
     int vertices;
-    std::vector<std::vector<Edge>> adjacencyList; 
+    std::vector<std::vector<Edge>> adjacencyList;
 
 public:
     explicit EdgeWeightedGraph(int vertices);
@@ -3943,7 +3988,7 @@ public:
     void printGraph() const;
 };
 
-#endif //EDGEWEIGHTEDGRAPH_H
+#endif // EDGEWEIGHTEDGRAPH_H
 ```
 
 C++ (EdgeWeightedGraph.cpp)
@@ -3952,10 +3997,12 @@ C++ (EdgeWeightedGraph.cpp)
 #include "EdgeWeightedGraph.h"
 #include <iostream>
 
-EdgeWeightedGraph::EdgeWeightedGraph(const int vertices) : vertices(vertices), adjacencyList(vertices) {}
+EdgeWeightedGraph::EdgeWeightedGraph(const int vertices)
+    : vertices(vertices), adjacencyList(vertices) {}
 
-void EdgeWeightedGraph::addEdge(int source, int destination, double weight) {
-    adjacencyList[source].emplace_back(source, destination, weight);
+void EdgeWeightedGraph::addEdge(const int source, const int destination, const double weight) {
+    const Edge edge(source, destination, weight);
+    adjacencyList[source].push_back(edge);
     adjacencyList[destination].emplace_back(destination, source, weight);
 }
 
@@ -3963,15 +4010,16 @@ int EdgeWeightedGraph::getVertices() const {
     return vertices;
 }
 
-const std::vector<Edge>& EdgeWeightedGraph::getAdjacencyList(const int vertex) const {
+const std::vector<Edge>& EdgeWeightedGraph::getAdjacencyList(int vertex) const {
     return adjacencyList[vertex];
 }
 
 void EdgeWeightedGraph::printGraph() const {
     for (int i = 0; i < vertices; ++i) {
+        const std::vector<Edge>& edges = adjacencyList[i];
         std::cout << "Vertex " << i << ":";
-        for (const Edge& edge : adjacencyList[i]) {
-            std::cout << " (" << edge.source << " - " << edge.destination << " : " << edge.weight << ")";
+        for (const Edge& edge : edges) {
+            std::cout << " " << edge.toString();
         }
         std::cout << std::endl;
     }
@@ -3982,31 +4030,45 @@ Python
 
 ```Python
 class Edge:
-    def __init__(self, source, destination, weight):
+    def __init__(self, source: int, destination: int, weight: float):
         self.source = source
         self.destination = destination
         self.weight = weight
 
-    def __lt__(self, other):
-        return self.weight < other.weight
+    def get_either_vertex(self) -> int:
+        return self.source
 
-    def __str__(self):
+    def get_other_vertex(self, vertex: int) -> int:
+        if vertex == self.source:
+            return self.destination
+        elif vertex == self.destination:
+            return self.source
+        else:
+            raise ValueError("Invalid vertex")
+
+    def get_weight(self) -> float:
+        return self.weight
+
+    def __str__(self) -> str:
         return f"({self.source} - {self.destination} : {self.weight})"
+
+    def __lt__(self, other: 'Edge') -> bool:
+        return self.weight < other.weight
 
 
 class EdgeWeightedGraph:
-    def __init__(self, vertices):
+    def __init__(self, vertices: int):
         self.vertices = vertices
-        self.adjacency_list = [[] for _ in range(vertices)]
+        self.adjacency_list: list[list[Edge]] = [[] for _ in range(vertices)]
 
-    def add_edge(self, source, destination, weight):
+    def add_edge(self, source: int, destination: int, weight: float):
         self.adjacency_list[source].append(Edge(source, destination, weight))
         self.adjacency_list[destination].append(Edge(destination, source, weight))
 
-    def get_vertices(self):
+    def get_vertices(self) -> int:
         return self.vertices
 
-    def get_adjacency_list(self, vertex):
+    def get_adjacency_list(self, vertex: int) -> list[Edge]:
         return self.adjacency_list[vertex]
 
     def print_graph(self):
@@ -4097,7 +4159,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class KruskalsAlgorithm {
-
     public static List<Edge> findMinimumSpanningTree(EdgeWeightedGraph graph) {
         int vertices = graph.getVertices();
         List<Edge> minimumSpanningTree = new ArrayList<>();
@@ -4106,14 +4167,19 @@ public class KruskalsAlgorithm {
 
         for (int i = 0; i < vertices; i++) {
             for (Edge edge : graph.getAdjacencyList(i)) {
-                minHeap.offer(edge);
+                if (edge.getEitherVertex() < i) {
+                    minHeap.offer(edge);
+                }
             }
         }
 
         while (!minHeap.isEmpty() && minimumSpanningTree.size() < vertices - 1) {
             Edge edge = minHeap.poll();
-            int sourceRoot = unionFind.find(edge.getSource());
-            int destinationRoot = unionFind.find(edge.getDestination());
+            int source = edge.getEitherVertex();
+            int destination = edge.getOtherVertex(source);
+
+            int sourceRoot = unionFind.find(source);
+            int destinationRoot = unionFind.find(destination);
 
             if (sourceRoot != destinationRoot) {
                 minimumSpanningTree.add(edge);
@@ -4140,7 +4206,7 @@ public class KruskalsAlgorithm {
 
         public int find(int element) {
             if (parent[element] != element) {
-                parent[element] = find(parent[element]); // Path compression
+                parent[element] = find(parent[element]);
             }
             return parent[element];
         }
@@ -4167,60 +4233,25 @@ public class KruskalsAlgorithm {
 C++
 
 ```C++
-#include "Edge.h"
 #include "EdgeWeightedGraph.h"
-#include <vector>
 #include <queue>
-#include <iostream>
+#include <vector>
 
-class UnionFind
-{
-private:
-    std::vector<int> parent;
-    std::vector<int> rank;
+class UnionFind {
+    public:
+        explicit UnionFind(int size);
+        int find(int element);
+        void unionSets(int element1, int element2);
 
-public:
-    explicit UnionFind(const int size) {
-        parent.resize(size);
-        rank.resize(size, 1);
-
-        for (int i = 0; i < size; i++) {
-            parent[i] = i;
-        }
-    }
-
-    int find(const int element) {
-        if (parent[element] != element) {
-            parent[element] = find(parent[element]); // Path compression
-        }
-        return parent[element];
-    }
-
-    void unionSets(const int element1, const int element2) {
-        const int root1 = find(element1);
-        int root2 = find(element2);
-
-        if (root1 != root2) {
-            if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
-            } else if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else {
-                parent[root2] = root1;
-                rank[root1] += 1;
-            }
-        }
-    }
+    private:
+        std::vector<int> parent;
+        std::vector<int> rank;
 };
 
-bool operator<(const Edge& lhs, const Edge& rhs) {
-    return lhs.weight > rhs.weight;
-}
-
-std::vector<Edge> kruskalsAlgorithm(const EdgeWeightedGraph& graph) {
+std::vector<Edge> findMinimumSpanningTree(const EdgeWeightedGraph& graph) {
     const int vertices = graph.getVertices();
     std::vector<Edge> minimumSpanningTree;
-    std::priority_queue<Edge> minHeap;
+    std::priority_queue<Edge, std::vector<Edge>, std::greater<>> minHeap;
     UnionFind unionFind(vertices);
 
     for (int i = 0; i < vertices; ++i) {
@@ -4229,61 +4260,106 @@ std::vector<Edge> kruskalsAlgorithm(const EdgeWeightedGraph& graph) {
         }
     }
 
+    // Build the minimum spanning tree
     while (!minHeap.empty() && minimumSpanningTree.size() < vertices - 1) {
         Edge edge = minHeap.top();
         minHeap.pop();
-        const int sourceRoot = unionFind.find(edge.source);
-        int destinationRoot = unionFind.find(edge.destination);
+        const int source = edge.getEitherVertex();
+        int destination = edge.getOtherVertex(source);
 
-        if (sourceRoot != destinationRoot) {
+        // **Corrected Condition:** Check if connecting these vertices creates a cycle
+        if (unionFind.find(source) != unionFind.find(destination)) {
             minimumSpanningTree.push_back(edge);
-            unionFind.unionSets(sourceRoot, destinationRoot);
+            unionFind.unionSets(source, destination);
         }
     }
 
     return minimumSpanningTree;
 }
 
-int main() {
-    EdgeWeightedGraph graph(4);
-    graph.addEdge(0, 1, 10);
-    graph.addEdge(0, 2, 6);
-    graph.addEdge(0, 3, 5);
-    graph.addEdge(1, 3, 15);
-    graph.addEdge(2, 3, 4);
-
-    std::vector<Edge> mst = kruskalsAlgorithm(graph);
-
-    std::cout << "Minimum Spanning Tree Edges:\n";
-    for (const Edge& edge : mst) {
-        std::cout << "(" << edge.source << " - " << edge.destination << " : " << edge.weight << ")\n";
+UnionFind::UnionFind(const int size) : parent(size), rank(size, 1) {
+    for (int i = 0; i < size; ++i) {
+        parent[i] = i;
     }
+}
 
-    return 0;
+int UnionFind::find(const int element) {
+    if (parent[element] != element) {
+        parent[element] = find(parent[element]);
+    }
+    return parent[element];
+}
+
+void UnionFind::unionSets(const int element1, const int element2) {
+    const int root1 = find(element1);
+    const int root2 = find(element2);
+
+    if (root1 != root2) {
+        if (rank[root1] > rank[root2]) {
+            parent[root2] = root1;
+        } else if (rank[root1] < rank[root2]) {
+            parent[root1] = root2;
+        } else {
+            parent[root2] = root1;
+            rank[root1]++;
+        }
+    }
 }
 ```
 
 Python
 
 ```Python
+from typing import List
 import heapq
 
-from EdgeWeightedGraph import EdgeWeightedGraph
+from EdgeWeightedGraph import EdgeWeightedGraph, Edge
+
+
+class KruskalsAlgorithm:
+    @staticmethod
+    def find_minimum_spanning_tree(graph: EdgeWeightedGraph) -> List[Edge]:
+        vertices: int = graph.get_vertices()
+        minimum_spanning_tree: List[Edge] = []
+        min_heap: list[Edge] = []
+        union_find = UnionFind(vertices)
+
+        # Add edges to the min-heap, ensuring no duplicates
+        for i in range(vertices):
+            for edge in graph.get_adjacency_list(i):
+                # Add edge only if its source vertex is smaller than its destination
+                if edge.source < edge.destination:
+                    heapq.heappush(min_heap, edge)
+
+        while min_heap and len(minimum_spanning_tree) < vertices - 1:
+            edge: Edge = heapq.heappop(min_heap)
+            source: int = edge.get_either_vertex()
+            destination: int = edge.get_other_vertex(source)
+
+            source_root: int = union_find.find(source)
+            destination_root: int = union_find.find(destination)
+
+            if source_root != destination_root:
+                minimum_spanning_tree.append(edge)
+                union_find.union(source_root, destination_root)
+
+        return minimum_spanning_tree
 
 
 class UnionFind:
-    def __init__(self, size):
-        self.parent = [i for i in range(size)]
-        self.rank = [1] * size
+    def __init__(self, size: int):
+        self.parent: List[int] = [i for i in range(size)]
+        self.rank: List[int] = [1] * size
 
-    def find(self, element):
+    def find(self, element: int) -> int:
         if self.parent[element] != element:
             self.parent[element] = self.find(self.parent[element])
         return self.parent[element]
 
-    def union(self, element1, element2):
-        root1 = self.find(element1)
-        root2 = self.find(element2)
+    def union(self, element1: int, element2: int):
+        root1: int = self.find(element1)
+        root2: int = self.find(element2)
+
         if root1 != root2:
             if self.rank[root1] > self.rank[root2]:
                 self.parent[root2] = root1
@@ -4292,29 +4368,6 @@ class UnionFind:
             else:
                 self.parent[root2] = root1
                 self.rank[root1] += 1
-
-
-def kruskals_algorithm(graph):
-    vertices = graph.get_vertices()
-    minimum_spanning_tree = []
-    min_heap = []  # Use Python's heapq for min-heap
-    union_find = UnionFind(vertices)
-
-    for i in range(vertices):
-        for edge in graph.get_adjacency_list(i):
-            # heapq works with tuples, putting weight first for min-heap priority
-            heapq.heappush(min_heap, (edge.weight, edge))
-
-    while min_heap and len(minimum_spanning_tree) < vertices - 1:
-        weight, edge = heapq.heappop(min_heap)
-        source_root = union_find.find(edge.source)
-        destination_root = union_find.find(edge.destination)
-
-        if source_root != destination_root:
-            minimum_spanning_tree.append(edge)
-            union_find.union(source_root, destination_root)
-
-    return minimum_spanning_tree
 ```
 
 ### 16.5 Prim's Algorithm
@@ -4332,6 +4385,452 @@ def kruskals_algorithm(graph):
         <p>Repeat until <math>V - 1</math> edges.</p>
     </step>
 </procedure>
+
+<p><format color = "BlueViolet">Correctness Proof:</format> </p>
+
+<p>Prim's Algorithm is a special case of the greedy MST algorithm.
+</p>
+
+<list>
+<li>
+<p>Suppose edge e = min weight edge connecting a vertex on the tree
+to a vertex not on the tree.</p>
+</li>
+<li>
+<p>Cut = set of vertices connected on tree.</p>
+</li>
+<li>
+<p>No crossing edge is black.</p>
+</li>
+<li>
+<p>No crossing edge has lower weight.</p>
+</li>
+</list>
+
+#### 16.5.1 Lazy Implementation
+
+<procedure title = "Lazy Implementation">
+    <step>
+        <p>Maintain a PQ of <format color = "OrangeRed">edges
+        </format> with (at least) one endpoint in T.</p>
+    </step>
+    <step>
+        <p>Key = edge; priority = weight of edge.</p>
+    </step>
+    <step>
+        <p>Delete-min to determine next edge <math>e = v-w</math> to
+        add to <math>T</math>.</p>
+    </step>
+    <step>
+        <p>Disregard if both endpoints <math>v</math> and <math>w
+        </math> are in <math>T</math>.</p>
+    </step>
+    <step>
+        <p>Otherwise, let <math>w</math> be the vertex not in <math>T
+        </math>.</p>
+        <p>Add to PQ any edge incident to <math>w</math> (assuming 
+        other endpoint not in T)</p>
+        <p>Add <math>e</math> to <math>T</math> and mark <math>w
+        </math>.</p>
+    </step>
+</procedure>
+
+<p><format color = "BlueViolet">Property:</format> Lazy Prim's 
+algorithm computes the MST in time proportional to <math>E \log E
+</math> and extra space proportional to <math>E</math> (in the worst
+case).</p>
+
+<table style = "header-row">
+<tr><td>Operation</td><td>Frequency</td><td>Binary Heap</td></tr>
+<tr><td>Delete min</td><td><math>E</math></td><td><math>\log E
+</math></td></tr>
+<tr><td>Insert</td><td><math>E</math></td><td><math>\log E</math>
+</td></tr>
+</table>
+
+Java
+
+```Java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+
+public class PrimMSTLazy {
+    private final boolean[] marked; 
+    private final PriorityQueue<Edge> pq; 
+    private final List<Edge> mst; 
+    private double weight; 
+
+    public PrimMSTLazy(EdgeWeightedGraph graph) {
+        marked = new boolean[graph.getVertices()];
+        pq = new PriorityQueue<>();
+        mst = new ArrayList<>();
+        weight = 0.0;
+
+        visit(graph, 0);
+        while (!pq.isEmpty()) {
+            Edge e = pq.poll(); 
+
+            int v = e.getEitherVertex();
+            int w = e.getOtherVertex(v);
+
+            if (marked[v] && marked[w]) continue; 
+            mst.add(e); 
+            weight += e.getWeight();
+
+            if (!marked[v]) visit(graph, v); 
+            if (!marked[w]) visit(graph, w); 
+        }
+    }
+
+    private void visit(EdgeWeightedGraph graph, int v) {
+        marked[v] = true; 
+
+        for (Edge e : graph.getAdjacencyList(v)) {
+            if (!marked[e.getOtherVertex(v)]) {
+                pq.offer(e);
+            }
+        }
+    }
+
+    public Iterable<Edge> edges() {
+        return mst;
+    }
+
+    public double weight() {
+        return weight;
+    }
+}
+```
+
+C++
+
+```C++
+#include <iostream>
+#include <vector>
+#include <queue>
+#include "EdgeWeightedGraph.h"
+
+class PrimMSTLazy {
+private:
+    std::vector<bool> marked;
+    std::priority_queue<Edge, std::vector<Edge>, std::greater<>> pq;
+    std::vector<Edge> mst;
+    double weight;
+
+    void visit(const EdgeWeightedGraph& graph, int v) {
+        marked[v] = true;
+        for (const Edge& e : graph.getAdjacencyList(v)) {
+            if (!marked[e.getOtherVertex(v)]) {
+                pq.push(e);
+            }
+        }
+    }
+
+public:
+    explicit PrimMSTLazy(const EdgeWeightedGraph& graph) : 
+        marked(graph.getVertices(), false), weight(0.0)  {
+
+        visit(graph, 0); 
+        while (!pq.empty()) {
+            Edge e = pq.top();
+            pq.pop();
+
+            int v = e.getEitherVertex();
+            int w = e.getOtherVertex(v);
+
+            if (marked[v] && marked[w]) continue; 
+            mst.push_back(e);
+            weight += e.getWeight();
+
+            if (!marked[v]) visit(graph, v);
+            if (!marked[w]) visit(graph, w);
+        }
+    }
+
+    [[nodiscard]] const std::vector<Edge>& edges() const {
+        return mst;
+    }
+
+    [[nodiscard]] double getWeight() const {
+        return weight;
+    }
+};
+```
+
+Python
+
+```Python
+from typing import List, Iterable
+import heapq  
+
+from EdgeWeightedGraph import EdgeWeightedGraph, Edge
+
+
+class PrimMSTLazy:
+    def __init__(self, graph: EdgeWeightedGraph):
+        self.marked: List[bool] = [False] * graph.get_vertices()
+        self.pq: List[Edge] = []  # Min-heap for edges
+        self.mst: List[Edge] = []  # Stores the MST edges
+        self.weight: float = 0.0
+
+        self._visit(graph, 0)  # Start from vertex 0
+        while self.pq:
+            edge: Edge = heapq.heappop(self.pq)
+
+            v: int = edge.get_either_vertex()
+            w: int = edge.get_other_vertex(v)
+
+            if self.marked[v] and self.marked[w]:
+                continue  # Ignore if both vertices are already in the MST
+
+            self.mst.append(edge)
+            self.weight += edge.get_weight()
+
+            if not self.marked[v]:
+                self._visit(graph, v)
+            if not self.marked[w]:
+                self._visit(graph, w)
+
+    def _visit(self, graph: EdgeWeightedGraph, v: int):
+        """Adds edges connected to vertex v to the priority queue."""
+        self.marked[v] = True
+        for edge in graph.get_adjacency_list(v):
+            if not self.marked[edge.get_other_vertex(v)]:
+                heapq.heappush(self.pq, edge)
+
+    def edges(self) -> Iterable[Edge]:
+        return self.mst
+
+    def weight(self) -> float:
+        return self.weight
+```
+
+#### 16.5.2 Eager Implementation
+
+Java
+
+```Java
+import java.util.ArrayList;
+import java.util.List;
+
+public class PrimMST {
+    private final boolean[] marked;
+    private final Edge[] edgeTo;
+    private final double[] distTo; 
+    private final IndexedPriorityQueue pq; 
+    private final List<Edge> mst; 
+
+    public PrimMST(EdgeWeightedGraph graph) {
+        marked = new boolean[graph.getVertices()];
+        edgeTo = new Edge[graph.getVertices()];
+        distTo = new double[graph.getVertices()];
+        pq = new IndexedPriorityQueue(graph.getVertices());
+        mst = new ArrayList<>();
+
+        for (int v = 0; v < graph.getVertices(); v++) {
+            distTo[v] = Double.POSITIVE_INFINITY;
+        }
+        distTo[0] = 0.0;
+        pq.insert(0, 0.0);
+        while (!pq.isEmpty()) {
+            visit(graph, pq.delMin());
+        }
+    }
+
+    private void visit(EdgeWeightedGraph graph, int vertex) {
+        marked[vertex] = true;
+        for (Edge edge : graph.getAdjacencyList(vertex)) {
+            int w = edge.getOtherVertex(vertex);
+            if (marked[w]) continue;
+            if (edge.getWeight() < distTo[w]) {
+                edgeTo[w] = edge;
+                distTo[w] = edge.getWeight();
+                if (pq.contains(w)) {
+                    pq.decreaseKey(w, distTo[w]);
+                } else {
+                    pq.insert(w, distTo[w]);
+                }
+            }
+        }
+    }
+
+    public Iterable<Edge> edges() {
+        for (int v = 1; v < edgeTo.length; v++) {
+            if (edgeTo[v] != null) {
+                mst.add(edgeTo[v]);
+            }
+        }
+        return mst;
+    }
+
+    public double weight() {
+        double weight = 0.0;
+        for (Edge edge : mst) {
+            weight += edge.getWeight();
+        }
+        return weight;
+    }
+}
+```
+
+C++
+
+```C++
+#include "IndexedPriorityQueue.h"
+#include "EdgeWeightedGraph.h"
+#include <vector>
+#include <limits>
+
+class PrimMST {
+private:
+    std::vector<bool> marked;
+    std::vector<Edge> edgeTo;
+    std::vector<double> distTo;
+    IndexedPriorityQueue pq;
+    std::vector<Edge> mst;
+
+    void visit(const EdgeWeightedGraph& graph, int vertex) {
+        marked[vertex] = true;
+        for (const Edge& edge : graph.getAdjacencyList(vertex)) {
+            const int w = edge.getOtherVertex(vertex);
+            if (marked[w]) continue;
+            if (edge.getWeight() < distTo[w]) {
+                edgeTo[w] = edge;
+                distTo[w] = edge.getWeight();
+                if (pq.contains(w)) {
+                    pq.decreaseKey(w, distTo[w]);
+                } else {
+                    pq.insert(w, distTo[w]);
+                }
+            }
+        }
+    }
+
+public:
+    explicit PrimMST(const EdgeWeightedGraph& graph) :
+        marked(graph.getVertices(), false),
+        edgeTo(graph.getVertices()),
+        distTo(graph.getVertices(), std::numeric_limits<double>::infinity()),
+        pq(graph.getVertices()) {
+
+        distTo[0] = 0.0;
+        pq.insert(0, 0.0);
+        while (!pq.isEmpty()) {
+            visit(graph, pq.delMin());
+        }
+    }
+
+    const std::vector<Edge>& edges() {
+        mst.clear();
+        for (int v = 1; v < edgeTo.size(); v++) {
+            if (edgeTo[v].getWeight() != 0.0) {
+                mst.push_back(edgeTo[v]);
+            }
+        }
+        return mst;
+    }
+
+    [[nodiscard]] double weight() const {
+        double weight = 0.0;
+        for (const Edge& edge : mst) {
+            weight += edge.getWeight();
+        }
+        return weight;
+    }
+};
+```
+
+Python
+
+```Python
+from typing import List, Iterable
+
+from EdgeWeightedGraph import EdgeWeightedGraph, Edge
+from IndexedPriorityQueue import IndexedPriorityQueue 
+
+
+class PrimMSTEager:
+    def __init__(self, graph: EdgeWeightedGraph):
+        self.marked: List[bool] = [False] * graph.get_vertices()
+        self.edge_to: List[Edge] = [None] * graph.get_vertices()
+        self.dist_to: List[float] = [float('inf')] * graph.get_vertices()
+        self.pq: IndexedPriorityQueue = IndexedPriorityQueue(graph.get_vertices())
+        self.mst: List[Edge] = []  # Stores MST edges
+
+        self.dist_to[0] = 0.0  # Initialize source vertex
+        self.pq.insert(0, 0.0)
+
+        while not self.pq.is_empty():
+            self._visit(graph, self.pq.del_min())
+
+    def _visit(self, graph: EdgeWeightedGraph, vertex: int):
+        self.marked[vertex] = True
+        for edge in graph.get_adjacency_list(vertex):
+            w: int = edge.get_other_vertex(vertex)
+            if self.marked[w]:
+                continue
+
+            if edge.get_weight() < self.dist_to[w]:
+                self.dist_to[w] = edge.get_weight()
+                self.edge_to[w] = edge
+                if self.pq.contains(w):
+                    self.pq.decrease_key(w, self.dist_to[w])
+                else:
+                    self.pq.insert(w, self.dist_to[w])
+
+    def edges(self) -> Iterable[Edge]:
+        """Returns an iterable of edges in the MST."""
+        for v in range(1, len(self.edge_to)):
+            if self.edge_to[v] is not None:
+                self.mst.append(self.edge_to[v])
+        return self.mst
+
+    def weight(self) -> float:
+        """Returns the total weight of the MST."""
+        return sum(edge.get_weight() for edge in self.mst)
+```
+
+<p><format color = "BlueViolet">Property:</format> </p>
+
+<p>Running time depends on PQ implementation: <math>V</math> insert, 
+<math>V</math> delete-min, <math>E</math> decrease-key.</p>
+
+<table style = "header-row">
+<tr><td>PQ Implementation</td><td>Insert</td><td>Delete-Min</td><td>
+Decrease-Key</td><td>Total</td></tr>
+<tr><td>Array</td><td><math>1</math></td><td><math>V</math></td><td>
+<math>1</math></td><td><math>V ^ {2}</math></td></tr>
+<tr><td>Binary Heap</td><td><math>\log V</math></td><td>\log V</td>
+<td><math>\log V</math></td><td><math>E \log V</math></td></tr>
+<tr><td><p>d-way Heap</p><p>(Johnson 1975)</p></td><td><math>
+\log_{d} V</math></td><td><math>d \log_{d} V</math></td><td><math>
+\log_{d} V</math></td><td><math>E \log_{\frac {1}{V}} V</math></td>
+</tr>
+<tr><td><p>Fibonacci Heap</p><p>(Fredman-Tarjan 1984)</p></td>
+<td><math>1^{*}</math></td><td><math>\log V ^ {*}</math></td>
+<td><math>1^{*}</math></td><td><math>E + \log V</math></td></tr>
+</table>
+
+<p>*: amortized</p>
+
+<p><format color = "BlueViolet">Bottom Line:</format> </p>
+
+<list type = "bullet">
+<li>
+    <p>Array implementation optimal for dense graph.</p>
+</li>
+<li>
+    <p>Binary heap much faster for sparse graphs.</p>
+</li>
+<li>
+    <p>4-way heap worth the trouble in performance-critical 
+    situations.</p>
+</li>
+<li>
+    <p>Fibonacci heap best in theory, but not worth implementing.</p>
+</li>
+</list>
 
 ## 17 Shortest Paths
 
