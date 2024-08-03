@@ -88,7 +88,7 @@ N(N - 1)</math></td></tr>
 </li>
 </list>
 
-### 1.3 Order-of-Growth Classifications
+### 1.3 Order-of-Growth Classifications {id = "Growth"}
 
 #### 1.3.1 Common Classifications
 

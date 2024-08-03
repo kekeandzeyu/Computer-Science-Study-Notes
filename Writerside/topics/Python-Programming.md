@@ -6,13 +6,19 @@
 
 ### 1.1 String
 
+<p>String Interpolation involves evaluating a string literal that 
+contains expressions. Subexpressions are evaluated in the current 
+environment.</p>
+
 ```Python
 name = "Nate"
 age = 19
 
 s = "My name is %s and I am %d years old" % (name, age)
 s1 = "My name is {} and I am {} years old".format(name, age)
-s2 = f"My name is {name} and I am {age} years old"  # -> This is the best one!
+s2 = f"My name is {name} and I am {age} years old"  
+
+print(f"2 + 2 = {(lambda x: x + x)(2)}") # 2 + 2 = 4
 ```
 
 ```Python
@@ -21,7 +27,7 @@ print(s[2:6]) # "have"
 print(s[2:]) # "have a dream!"
 print(s[-3:-1]) # "am"
 print(s[-1:-3]) # "" No result!
-print(s[::-1]) # "!maerd a evah I" -1 refers to the step
+print(s[::-1]) # "!maerd a evah I", -1 refers to the step
 ```
 
 ```Python
@@ -915,37 +921,122 @@ for i in ri:
 # 5
 ```
 
-## 5 Object
+## 5 Efficiency
+
+### 5.1 Order of Growth
+
+<p>For more information on order of growth, please refer to <a href 
+= "Data-Structures-and-Algorithms-1.md" anchor = "Growth" 
+summary = "Order of Growth">Data Structures and Algorithms 1</a>.</p>
+
+### 5.2 Space
 
 <list type = "bullet">
 <li>
-    <p>Objects represent information.</p>
+    <p>At any moment there is a set of active environments. Values and 
+    frames in active environments consume memory.</p>
 </li>
 <li>
-    <p>They consist of data and behavior, bundled together to create 
-    abstractions.</p>
+    <p>Memory that is used for other values and frames can be 
+    recycled.</p>
 </li>
 <li>
-    <p>Objects can represent things, but also properties, 
-    interaction, & processes.</p>
+    <p><format color = "Fuchsia">Active Environments:</format> </p>
+    <list type = "bullet">
+        <li>
+            <p>Environments for any function calls currently being
+            evaluated => call the function but hasn't returned yet.</p>
+        </li>
+        <li>
+            <p>Parent environments of functions named in active 
+            environments => define a function in another function, so
+            the function defined is not in the global frame, the 
+            parent frame is needed.</p>
+        </li>
+    </list>
+</li>
+</list>
+
+## 5 Object
+
+<p><format color = "BlueViolet">Definitions:</format> </p>
+
+<list type = "bullet">
+<li>
+    <p>A <format color = "OrangeRed">class</format> defines how objects 
+    of a particular type behave.</p>
 </li>
 <li>
-    <p>A type of object is called a class; classes are first class 
-    values in Python.</p>
+    <p>An <format color = "OrangeRed">object</format> is an instance of 
+    of a class; the class is its type.</p>
 </li>
 <li>
-    <p>In Python, every value is an object.</p>
+    <p>A method is a function called on an object using a dot 
+    expression.</p>
+</li>
+</list>
+
+<warning>
+<p>In Python, every value is an object!</p>
+</warning>
+
+```Python
+class Account:
+    # _init_ is a special method name for the function that constructs
+    # an Account instance
+    def __init__(self, account_holder):
+        self.balance = 0
+        self.holder = account_holder
+        
+    # self is the instance of the Account class on which deposit was
+    # invoked
+    def deposit(self, amount):
+        self.balance = self.balance + amount
+        return self.balance
+        
+    def withdraw(self, amount):
+        if amount > self.balance:
+            return "Insufficient funds"
+        self.balance = self.balance - amount
+        return self.balance
+        
+
+a = Account("Nate")
+a.deposit(100)
+a.withdraw(50)
+print(a.balance) # 50
+```
+
+<list type = "alpha-lower">
+<li>
+    <p>A class describes the behavior of its instances.</p>
+</li>
+<li>
+    <p>When a class is called: </p>
     <list type = "bullet">
     <li>
-        <p>All objects have attributes.</p>
+        <p>A new instance of that class (aka an object) is created.</p>
     </li>
     <li>
-        <p>A lot of data manipulation happens through object methods
-        .</p>
+        <p>The <format color = "OrangeRed">_init_</format> method
+        of the class is called with the new object as its first 
+        argument (named <format color = "OrangeRed">self</format>), 
+        along with any additional arguments provided in the call 
+        expression.</p>
     </li>
     <li>
-        <p>Functions do one thing; objects do many related thing.</p>
+        <p>An object's attributes can be accessed and modified using 
+        dot expressions.</p>
+    </li>
+    <li>
+        <p>Every object that is an instance of a class has a unique 
+        identity.</p>
     </li>
     </list>
+</li>
+<li>
+    <p>All invoked methods have access to the object via the self
+    parameter, and so they can all access and manipulate the object's 
+    attributes.</p>
 </li>
 </list>
