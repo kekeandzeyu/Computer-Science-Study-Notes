@@ -50,6 +50,8 @@ For English version please check [here](README.md)
 
 2. CS61B: Data Structures and Algorithms (UC Berkeley) by Professor Josh Hug and the rest of CS61B staff.
 
+3. CS106B: Programming Abstractions (Stanford University) by Professor Marty Stepp and the rest of CS106B staff.
+
 > 注意：CS61B部分内容被用于面向对象编程部分。
 
 ### Topic 3: Python编程

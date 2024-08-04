@@ -50,6 +50,8 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 2. CS61B: Data Structures and Algorithms (UC Berkeley) by Professor Josh Hug and the rest of CS61B staff.
 
+3. CS106B: Programming Abstractions (Stanford University) by Professor Marty Stepp and the rest of CS106B staff.
+
 > Note: Content of CS61B is partly used for the Object-Oriented part.
 
 ### Topic 3: Python Programming
