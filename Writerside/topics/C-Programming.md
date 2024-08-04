@@ -1028,9 +1028,217 @@ element from the range) and returns:</p>
 
 ## &#8546; Object-Oriented Programming
 
-### 3. Inheritance
+### 7 Classes and Consts
 
-<p><format color = "BlueViolet">Definition:</format> </p>
+#### 7.1 Classes
+
+<p><format color = "BlueViolet">Definitions:</format> </p>
+
+<list type = "bullet">
+<li>
+    <p><format color = "DarkOrange">Class:</format> a template for a new
+    type of objects.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Object:</format> Entity that 
+    combines state and behavior.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Member variables (instance 
+    variables, fields):</format> Define state inside each object.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Member functions (methods):</format> 
+    Define behavior inside each object.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Constructor:</format> Initializes 
+    new objects as they are created.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Destructor:</format> Called when the
+    object is deleted by the program.</p>
+    <list type = "bullet">
+        <li>
+            <p>Delete any pointers stored as private members.</p>
+        </li>
+        <li>
+            <p>delete[] any arrays stored as private members.</p>
+        </li>
+    </list>
+</li>
+<li>
+    <p><format color = "DarkOrange">Client code:</format> Code that uses
+    the objects defind.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Encapsulation:</format> Hiding 
+    implementation details from the client code.</p>
+</li>
+</list>
+
+<p>C++ separates classes into two kinds of files: </p>
+
+<list type = "bullet">
+<li>
+    <p><format color = "Fuchsia">Header File (
+    <format color = "OrangeRed">.h</format>, .hh, .hpp):</format> 
+    Containing the interface (declarations).</p>
+</li>
+<li>
+    <p><format color = "Fuchsia">Source File (
+    <format color = "OrangeRed">.cpp</format>, .cc, .cxx, .c++, 
+    .C):</format> Containing definitions (method bodies).</p>
+</li>
+    
+</list>
+
+<p><format color = "BlueViolet">Example (header file):</format> </p>
+
+```C++
+// Protection in case multiple .cpp files include this header, so 
+// that its contents won't get declared twice.
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+class MyClass {
+public:
+    MyClass(); // Constructor
+    ~MyClass(); // Destructor
+    void myMethod(); // Member function (behavior inside each function)
+    int getMyVariable(); 
+private:
+    int myVariable; // Member variable (data inside each object)
+};  // Semicolons!
+
+#endif
+```
+
+<p><format color = "BlueViolet">Example (source file):</format> </p>
+
+```C++
+# include "MyClass.h"
+
+MyClass::MyClass() {
+    myVariable = 0; // Initialize member variable
+}
+
+void MyClass::myMethod() {
+    myVariable++;
+}
+
+MyClass::~MyClass() {
+    // Simple destructor implementation
+}
+
+int MyClass::getMyVariable() {
+    return myVariable;
+}
+```
+
+<note>
+<p>Why so many extensions?</p>
+<p>Depend on the compilers!</p>
+<list type = "bullet">
+<li>
+    <p>Historically, used .C</p>
+</li>
+<li>
+    <p>Now, Unix most uses <format color = "OrangeRed">.cc</format>, 
+    and outside Unix mostly uses <format color = "OrangeRed">.cpp
+    </format></p>
+</li>
+<li>
+    <p>.h is technically for C programs, so if mixing C and C++ code, 
+    use .hh instead</p>
+</li>
+</list>
+</note>
+
+#### 7.2 Consts
+
+<p>Consts help us find bugs, and allow us to reason about whether 
+a variable will be changed.</p>
+
+<p>Within a function that takes a const parameter, you cannot call 
+non-const member functions (if the parameter is an object) or modify 
+the value (if it's a fundamental type or a pointer to const data) of 
+that parameter.</p>
+
+<p><format color = "BlueViolet">Example for value:</format> </p>
+
+```C++
+int plus(const int& x) {
+    return x + 1; // Error: x is const
+}
+
+int plus(const int x) {
+    return x + 1; // OK: x is a copy
+}
+```
+
+<p><format color = "BlueViolet">Example for member functions:</format>
+</p>
+
+```C++
+struct Planet { 
+    int countPopulation() const; 
+    void deathStar(); 
+};
+
+int Planet::countPopulation() const { 
+    return 42;
+}
+
+void Planet::deathStar() { 
+    cout << "BOOM" << endl; 
+}
+
+void evil(const Planet &p) { 
+    // OK: countPopulation is const 
+    cout << p.countPopulation() << endl; 
+    // ERROR: deathStar isn't const 
+    p.deathStar(); 
+}
+```
+
+##### 7.2.1 Const Pointers
+
+```C++
+// constant pointer to a non-constant int
+// (*p)++; OK! 
+// p++; NOT allowed!
+int * const p;
+
+// non-constant pointer to a constant 
+int const int* p;
+int const* p;
+
+// constant pointer to a constant 
+int const int* const p; 
+int const* const p;
+```
+
+<warning>
+<p>When in doubt, read from right to left!</p>
+</warning>
+
+##### 7.2.2 Const Iterators
+
+```C++
+const vector<int>::iterator itr = v.begin(); 
+*itr = 5; // OK! changing what itr points to 
+++itr; // ERROR! can’t modify itr
+
+vector<int>::const_iterator itr = v.begin(); 
+*itr = 5; //ERROR! can’t change value of itr 
+++itr; //OK! changing v 
+int value = *itr; //OK! reading from itr
+```
+
+### 8 Inheritance
+
+<p><format color = "BlueViolet">Definitions:</format> </p>
 
 <list>
 <li>
