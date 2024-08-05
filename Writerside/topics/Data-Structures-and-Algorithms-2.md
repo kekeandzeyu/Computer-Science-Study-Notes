@@ -4832,31 +4832,181 @@ Decrease-Key</td><td>Total</td></tr>
 </li>
 </list>
 
+### 16.6 MST Context
+
+#### 16.6.1 Euclidean MST
+
+<p><format color = "OrangeRed">Euclidean MST:</format> Given <math>N
+</math> points in the plane, find MST connecting them, where the
+distances between point pairs are their <format color = 
+"OrangeRed">Euclidean</format> distances.</p>
+
+<p><format color = "LawnGreen">Methods:</format> Exploit geometry
+and do it in <math>\sim cN \log N</math></p>
+
+#### 16.6.2 Single Link Clustering
+
+<p><format color = "BlueViolet">Definitions:</format> </p>
+
+<list type = "bullet">
+<li>
+    <p><format color = "DarkOrange">k-clustering:</format> Divide
+    a set of objects calssify into <math>k</math> coherent groups.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Distance Function:</format> 
+    Numeric value specifying "closeness" of two objects.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Single link:</format> Distance 
+    between two clusters equals the distance between the two closest
+    objects (one in each cluster).</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Single-link clustering:</format> 
+    Given an integer k, find a k-clustering that maximizes the 
+    distance between two closest clusters.</p>
+</li>
+</list>
+
+<img src = "../images_data/16-6-1.png" alt = "Clustering"/>
+
+<procedure title = '"Well-known" algorithm in science literature for single-link clustering:'>
+    <step>
+        <p>Form <math>V</math> clusters of one object each.</p>
+    </step>
+    <step>
+        <p>Find the closest pair of objects such that each object is 
+        in a different cluster, and merge the two clusters.</p>
+    </step>
+    <step>
+        <p>Repeat until there are exactly <math>k</math> clusters.</p>
+    </step>
+</procedure>
+
+<note>
+<p>This is Kruskal's algorithm (stop when <math>k</math> connected 
+components).</p>
+<p>Run Prim's algorithm and delete <math>k–1</math> max weight edges.</p>
+</note>
+
+<p><format color = "BlueViolet">Applications:</format> </p>
+
+<list>
+<li>
+<p>Routing in mobile ad hoc networks.</p>
+</li>
+<li>
+<p>Document categorization for web search.</p>
+</li>
+<li>
+<p>Similarity searching in medical image databases.</p>
+</li>
+<li>
+<p>Skycat: cluster <math>10 ^ {9}</math> sky objects into stars, 
+quasars, galaxies.</p>
+</li>
+</list>
+
+### 16.7 Important Questions
+
+<list type = "decimal">
+<li>
+    <p><format color = "Fuchsia">Q: Bottleneck minimum spanning tree:
+    </format> Given a connected edge-weighted graph, design an 
+    efficient algorithm to find a minimum bottleneck spanning tree. 
+    The bottleneck capacity of a spanning tree is the weights of its 
+    largest edge. A minimum bottleneck spanning tree is a spanning 
+    tree of minimum bottleneck capacity.</p>
+    <p><format color = "LawnGreen">A:</format> Prove that an MST is 
+    a minimum bottleneck spanning tree.</p>
+</li>
+<li>
+    <p><format color = "Fuchsia">Q: Is an edge in a MST:</format> 
+    Given an edge-weighted graph <math>G</math> and an edge <math>e
+    </math>, design a linear-time algorithm to determine whether 
+    <math>e</math> appears in some MST of <math>G</math>.</p>
+    <p>Note: Since your algorithm must take linear time in the worst
+    case, you cannot afford to compute the MST itself.</p>
+    <p><format color = "LawnGreen">A:</format> Consider the subgraph 
+    <math>G'</math> of <math>G</math> containing only those edges 
+    whose weight is strictly less than that of <math>e</math>.</p>
+</li>
+<li>
+    <p><format color = "Fuchsia">Q: Minimum-weight feedback edge set:
+    </format> A feedback edge set of a graph is a subset of edges that
+    contains at least one edge from every cycle in the graph. If the 
+    edges of a feedback edge set are removed, the resulting graph is 
+    acyclic. Given an edge-weighted graph, design an efficient 
+    algorithm to find a feedback edge set of minimum weight. Assume 
+    the edge weights are positive.</p>
+    <p><format color = "LawnGreen">A:</format> Complement of an MST.
+    </p>
+</li>
+</list>
+
 ## 17 Shortest Paths
 
 ### 17.1 Shortest Paths APIs
 
-* Given an edge-weighted digraph, find the shortest path from <em>s</em>
-  to <em>t</em>.
+<p><format color = "BlueViolet">Goal:</format> Given an edge-weighted
+digraph, find the shortest path from <math>s</math> to <math>t</math>
+.</p>
 
-* Applications: Map routing, Seam carving, robot navigation, etc.
-
-> This the implementation of weighted edge.
->
-{style = "note"}
+<list type = "bullet">
+<li>
+<p>Navigation.</p>
+</li>
+<li>
+<p>PERT/CPM.</p>
+</li>
+<li>
+<p>Map routing.</p>
+</li>
+<li>
+<p>Seam carving.</p>
+</li>
+<li>
+<p>Robot navigation.</p>
+</li>
+<li>
+<p>Texture mapping.</p>
+</li>
+<li>
+<p>Typesetting in TeX.</p>
+</li>
+<li>
+<p>Urban traffic planning.</p>
+</li>
+<li>
+<p>Optimal pipelining of VLSI chip.</p>
+</li>
+<li>
+<p>Telemarketer operator scheduling.</p>
+</li>
+<li>
+<p>Routing of telecommunications messages.</p>
+</li>
+<li>
+<p>Network routing protocols (OSPF, BGP, RIP).</p>
+</li>
+<li>
+<p>Exploiting arbitrage opportunities in currency exchange.</p>
+</li>
+<li>
+<p>Optimal truck routing through given traffic congestion pattern.</p>
+</li>
+</list>
 
 Java
 
 ```Java
-public class DirectedEdge {
-    private final int v;
-    private final int w;
+public class DirectedEdge { 
+    private final int v; 
+    private final int w; 
     private final double weight;
 
     public DirectedEdge(int v, int w, double weight) {
-        if (v < 0) throw new IllegalArgumentException("Vertex names must be nonnegative integers");
-        if (w < 0) throw new IllegalArgumentException("Vertex names must be nonnegative integers");
-        if (Double.isNaN(weight)) throw new IllegalArgumentException("Weight is NaN");
         this.v = v;
         this.w = w;
         this.weight = weight;
@@ -4874,180 +5024,11 @@ public class DirectedEdge {
         return weight;
     }
 
+    @Override
     public String toString() {
         return v + "->" + w + " " + String.format("%5.2f", weight);
     }
 }
-```
-
-C++
-
-```C++
-class DirectedEdge {
-private:
-    int v, w;
-    double weight;
-
-public:
-    DirectedEdge(int v, int w, double weight) : v(v), w(w), weight(weight) {}
-
-    double getWeight() const { 
-        return weight; 
-    }
-
-    int from() const { 
-        return v; 
-    }
-
-    int to() const { 
-        return w; 
-    }
-};
-```
-
-```Python
-class Edge:
-    def __init__(self, v, w, weight):
-        self.v = v
-        self.w = w
-        self.weight = weight
-
-    def from_vertex(self):
-        return self.v
-
-    def to_vertex(self):
-        return self.w
-
-    def get_weight(self):
-        return self.weight
-```
-
-> This is the implementation of edge-weighted digraph.
->
-{style = "note"}
-
-Java
-
-```Java
-import java.util.*;
-
-public class EdgeWeightedDigraph {
-    private final int V;
-    private int E;
-    private final LinkedList<DirectedEdge>[] adj;
-
-    public EdgeWeightedDigraph(int V) {
-        if (V < 0) throw new IllegalArgumentException("Number of vertices in a Digraph must be nonnegative");
-        this.V = V;
-        this.E = 0;
-        adj = (LinkedList<DirectedEdge>[]) new LinkedList[V];
-        for (int v = 0; v < V; v++) {
-            adj[v] = new LinkedList<DirectedEdge>();
-        }
-    }
-
-    public int V() {
-        return V;
-    }
-
-    public int E() {
-        return E;
-    }
-
-    public void addEdge(DirectedEdge e) {
-        int v = e.from();
-        adj[v].add(e);
-        E++;
-    }
-
-    public Iterable<DirectedEdge> adj(int v) {
-        return adj[v];
-    }
-
-    public Iterable<DirectedEdge> edges() {
-        LinkedList<DirectedEdge> list = new LinkedList<DirectedEdge>();
-        for (int v = 0; v < V; v++) {
-            for (DirectedEdge e : adj(v)) {
-                list.add(e);
-            }
-        }
-        return list;
-    }
-}
-```
-
-C++
-
-```C++
-#include <vector>
-#include <list>
-
-class DirectedEdge {
-private:
-    int v, w;
-    double weight;
-
-public:
-    DirectedEdge(int v, int w, double weight) : v(v), w(w), weight(weight) {}
-
-    double getWeight() const {
-        return weight;
-    }
-
-    int from() const {
-        return v;
-    }
-
-    int to() const {
-        return w;
-    }
-};
-
-class EdgeWeightedDigraph {
-private:
-    int V; // number of vertices
-    int E; // number of edges
-    std::vector<std::list<DirectedEdge>> adj; // adjacency lists
-
-public:
-    EdgeWeightedDigraph(int V) : V(V), E(0), adj(V) {}
-
-    int getV() const { return V; }
-
-    int getE() const { return E; }
-
-    void addEdge(DirectedEdge e) {
-        int v = e.from();
-        adj[v].push_back(e);
-        E++;
-    }
-
-    const std::list<DirectedEdge> &getAdj(int v) const { return adj[v]; }
-};
-```
-
-Python
-
-```Python
-class EdgeWeightedDigraph:
-    def __init__(self, vertices):
-        self.vertices = vertices
-        self.edges = 0
-        self.adj = [[] for _ in range(vertices)]
-
-    def add_edge(self, edge):
-        v = edge.from_vertex()
-        self.adj[v].append(edge)
-        self.edges += 1
-
-    def adjacent_edges(self, v):
-        return self.adj[v]
-
-    def total_vertices(self):
-        return self.vertices
-
-    def total_edges(self):
-        return self.edges
 ```
 
 ## 18 Substring Search
