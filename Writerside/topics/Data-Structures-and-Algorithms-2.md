@@ -4998,6 +4998,10 @@ digraph, find the shortest path from <math>s</math> to <math>t</math>
 </li>
 </list>
 
+<note>
+<p>Here are the implementations of Edge Weighted Digraphs.</p>
+</note>
+
 Java (DirectedEdge.java)
 
 ```Java
@@ -5262,6 +5266,8 @@ class EdgeWeightedDigraph:
             s += "\n"
         return s
 ```
+
+
 
 ## 18 Substring Search
 
