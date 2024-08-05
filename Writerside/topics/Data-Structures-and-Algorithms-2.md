@@ -4998,7 +4998,7 @@ digraph, find the shortest path from <math>s</math> to <math>t</math>
 </li>
 </list>
 
-Java
+Java (DirectedEdge.java)
 
 ```Java
 public class DirectedEdge { 
@@ -5029,6 +5029,238 @@ public class DirectedEdge {
         return v + "->" + w + " " + String.format("%5.2f", weight);
     }
 }
+```
+
+Java (EdgeWeightedDigraph.java)
+
+```Java
+import java.util.ArrayList;
+import java.util.List;
+
+public class EdgeWeightedDigraph {
+    private final int V;
+    private final List<DirectedEdge>[] adj;
+
+    public EdgeWeightedDigraph(int V) {
+        this.V = V;
+        adj = (List<DirectedEdge>[]) new ArrayList[V];
+        for (int v = 0; v < V; v++)
+            adj[v] = new ArrayList<DirectedEdge>();
+    }
+
+    public void addEdge(int source, int destination, double weight) {
+        DirectedEdge e = new DirectedEdge(source, destination, weight);
+        adj[source].add(e);
+    }
+
+    public Iterable<DirectedEdge> adj(int v) {
+        return adj[v];
+    }
+
+    public int V() {
+        return V;
+    }
+
+    public int E() {
+        int count = 0;
+        for (int v = 0; v < V; v++)
+            count += adj[v].size();
+        return count;
+    }
+
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append(V).append(" vertices, ").append(E()).append(" edges ").append("\n");
+        for (int v = 0; v < V; v++) {
+            s.append(v).append(": ");
+            for (DirectedEdge e : adj[v]) {
+                s.append(e).append("  ");
+            }
+            s.append("\n");
+        }
+        return s.toString();
+    }
+}
+```
+
+C++ (DirectedEdge.h)
+
+```C++
+#ifndef DIRECTEDEDGE_H
+#define DIRECTEDEDGE_H
+
+#include <ostream>
+
+class DirectedEdge {
+private:
+    int v;
+    int w;
+    double weight;
+
+public:
+    DirectedEdge(int v, int w, double weight);
+    [[nodiscard]] int from() const;
+    [[nodiscard]] int to() const;
+    [[nodiscard]] double getWeight() const;
+    friend std::ostream& operator<<(std::ostream& out, const DirectedEdge& e);
+};
+
+#endif // DIRECTEDEDGE_H
+```
+
+C++ (DirectedEdge.cpp)
+
+```C++
+#include "DirectedEdge.h"
+#include <iostream>
+
+DirectedEdge::DirectedEdge(const int v, const int w, const double weight)
+: v(v), w(w), weight(weight) {}
+
+int DirectedEdge::from() const {
+    return v;
+}
+
+int DirectedEdge::to() const {
+    return w;
+}
+
+double DirectedEdge::getWeight() const {
+    return weight;
+}
+
+std::ostream& operator<<(std::ostream& out, const DirectedEdge& e) {
+    out << e.v << "->" << e.w << " " << e.weight;
+    return out;
+}
+```
+
+C++ (EdgeWeightedDigraph.h)
+
+```C++
+#ifndef EDGEWEIGHTEDDIGRAPH_H
+#define EDGEWEIGHTEDDIGRAPH_H
+
+#include "DirectedEdge.h"
+#include <vector>
+#include <iostream>
+
+class EdgeWeightedDigraph {
+private:
+    int V;
+    std::vector<std::vector<DirectedEdge>> adj;
+
+public:
+    explicit EdgeWeightedDigraph(int V);
+    void addEdge(int source, int destination, double weight);
+    [[nodiscard]] std::vector<DirectedEdge> getAdj(int v) const;
+    [[nodiscard]] int getV() const;
+    [[nodiscard]] int getE() const;
+    friend std::ostream& operator<<(std::ostream& out, const EdgeWeightedDigraph& G);
+};
+
+#endif // EDGEWEIGHTEDDIGRAPH_H
+```
+
+C++ (EdgeWeightedDigraph.cpp)
+
+```C++
+#include "EdgeWeightedDigraph.h"
+
+EdgeWeightedDigraph::EdgeWeightedDigraph(const int V) : V(V), adj(V) {}
+
+void EdgeWeightedDigraph::addEdge(const int source, const int destination,
+    const double weight) {
+    const DirectedEdge e(source, destination, weight);
+    adj[source].push_back(e);
+}
+
+std::vector<DirectedEdge> EdgeWeightedDigraph::getAdj(int v) const {
+    return adj[v];
+}
+
+int EdgeWeightedDigraph::getV() const {
+    return V;
+}
+
+int EdgeWeightedDigraph::getE() const {
+    std::size_t count = 0;
+    for (int v = 0; v < V; ++v) {
+        count += adj[v].size();
+    }
+    return static_cast<int>(count);
+}
+
+std::ostream& operator<<(std::ostream& out, const EdgeWeightedDigraph& G) {
+    out << G.V << " vertices, " << G.getE() << " edges\n";
+    for (int v = 0; v < G.V; ++v) {
+        out << v << ": ";
+        for (const auto& e : G.adj[v]) {
+            out << e << "  ";
+        }
+        out << "\n";
+    }
+    return out;
+}
+```
+
+Python (DirectedEdge.py)
+
+```Python
+class DirectedEdge:
+    def __init__(self, v, w, weight):
+        self.v = v 
+        self.w = w 
+        self.weight = weight
+
+    def from_vertex(self):
+        return self.v
+
+    def to_vertex(self):
+        return self.w
+
+    def get_weight(self):
+        return self.weight
+
+    def __str__(self):
+        return f"{self.v}->{self.w} ({self.weight})"
+```
+
+Python (EdgeWeightedDigraph.py)
+
+```Python
+from DirecteEdge import DirectedEdge
+
+
+class EdgeWeightedDigraph:
+    def __init__(self, V):
+        self.V = V
+        self.adj = [[] for _ in range(V)]
+
+    def add_edge(self, source, destination, weight):
+        e = DirectedEdge(source, destination, weight)
+        self.adj[source].append(e)
+
+    def get_adj(self, v):
+        return self.adj[v]
+
+    def get_V(self):
+        return self.V
+
+    def get_E(self):
+        count = 0
+        for v in range(self.V):
+            count += len(self.adj[v])
+        return count
+
+    def __str__(self):
+        s = f"{self.V} vertices, {self.get_E()} edges\n"
+        for v in range(self.V):
+            s += f"{v}: "
+            for e in self.adj[v]:
+                s += f"{e}  "
+            s += "\n"
+        return s
 ```
 
 ## 18 Substring Search
