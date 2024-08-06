@@ -5352,6 +5352,74 @@ path from <math>s</math> to <math>w</math>.</p>
 </li>
 </list>
 
+### 17.3 Dijkstra's Algorithm
+
+Java
+
+```Java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.PriorityQueue;
+
+public class Dijkstra {
+
+    private final double[] distTo;
+    private final DirectedEdge[] edgeTo;
+    private final boolean[] marked;
+    private final int source;
+
+    public Dijkstra(EdgeWeightedDigraph G, int s) {
+        source = s;
+        distTo = new double[G.V()];
+        edgeTo = new DirectedEdge[G.V()];
+        marked = new boolean[G.V()];
+        Arrays.fill(distTo, Double.POSITIVE_INFINITY);
+        distTo[s] = 0.0;
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>((v1, v2) -> Double.compare(distTo[v1], distTo[v2]));
+        pq.offer(s);
+        while (!pq.isEmpty()) {
+            int v = pq.poll();
+            marked[v] = true;
+            for (DirectedEdge e : G.adj(v)) {
+                relax(e, pq);
+            }
+        }
+    }
+
+    private void relax(DirectedEdge e, PriorityQueue<Integer> pq) {
+        int v = e.from(), w = e.to();
+        if (distTo[w] > distTo[v] + e.weight()) {
+            distTo[w] = distTo[v] + e.weight();
+            edgeTo[w] = e;
+            if (marked[w]) {
+                pq.offer(w);
+            } else {
+                pq.offer(w);
+            }
+        }
+    }
+
+    public double distTo(int v) {
+        return distTo[v];
+    }
+
+    public Iterable<DirectedEdge> pathTo(int v) {
+        if (!hasPathTo(v)) return null;
+        List<DirectedEdge> path = new ArrayList<>();
+        for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
+            path.add(e);
+        }
+        return path;
+    }
+
+    public boolean hasPathTo(int v) {
+        return distTo[v] < Double.POSITIVE_INFINITY;
+    }
+}
+```
+
 ## 18 Substring Search
 
 ### 18.1 Introduction

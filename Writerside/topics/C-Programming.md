@@ -1,4 +1,4 @@
-<show-structure for="chapter" depth="3"/>
+<show-structure for="chapter" depth="3"></show-structure>
 
 # C++ Programming
 
