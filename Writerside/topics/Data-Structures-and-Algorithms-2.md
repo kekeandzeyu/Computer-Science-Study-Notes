@@ -5267,7 +5267,90 @@ class EdgeWeightedDigraph:
         return s
 ```
 
+### 17.2 Shortest Path Properties
 
+<procedure title = "Edge Relaxation" type = "choices">
+    <step>
+        <p><code>distTo[v]</code> is length of shortest <format color 
+        = "OrangeRed">known</format> path from <math>s</math> to 
+        <math>v</math>.</p>
+    </step>
+    <step>
+        <p><code>distTo[w]</code> is length of shortest <format color 
+        = "OrangeRed">known</format> path from <math>s</math> to 
+        <math>w</math>.</p>
+    </step>
+    <step>
+        <p><code>edgeTo[w]</code> is last edge on shortest <format color 
+        = "OrangeRed">known</format> path from <math>s</math> to 
+        <math>w</math>.</p>
+    </step>
+    <step>
+        <p>If <math>e = v→w</math> gives shorter path to <math>w
+        </math> through <math>v</math>, update both <code>distTo[w]
+        </code> and <code>edgeTo[w]</code>.</p>
+    </step>
+</procedure>
+
+<img src = "../images_data/17-2-1.png" alt = "Edge Relaxation"/>
+
+<p><format color = "BlueViolet">Correctness Proof:</format> 
+Shortest-paths optimality conditions</p>
+
+<p>Let <math>G</math> be an edge-weighted digraph.</p>
+<p>Then <code>distTo[]</code> are the shortest path distances from 
+<math>s</math> iff:</p>
+
+<list>
+<li>
+<p>distTo[s] = 0.</p>
+</li>
+<li>
+<p>For each vertex v, distTo[v] is the length of some path from 
+<math>s</math> to <math>v</math>.</p>
+</li>
+<li>
+<p>For each edge <math>e = v→w</math>, 
+distTo[w] &leq; distTo[v] + e.weight().</p>
+</li>
+</list>
+
+<p><format color = "IndianRed">Proof:</format> </p>
+
+<list type = "bullet">
+<li>
+<p>Suppose that <math>s = v_{0} → v_{1} → v_{2} → … → v_{k} = w</math> 
+is a shortest path from <math>s</math> to <math>w</math>.</p>
+</li>
+<li>
+<p>Then, </p>
+<code-block lang = "tex">
+\begin{align*}
+\text{distTo}[v_{1}] & = \text{distTo}[v_{0}] + \text{e}_{1}.\text{weight}() \\
+\text{distTo}[v_{2}] & = \text{distTo}[v_{2}] + \text{e}_{2}.\text{weight}() \\
+... \\
+\text{distTo}[v_{k}] & = \text{distTo}[v_{k - 1}] + \text{e}_{k}.\text{weight}() \\
+\end{align*}
+</code-block>
+<p><math>\text{e}_{i}</math> = <math>\text{i}^{\text{th}}</math> edge
+on shortest path from <math>s</math> to <math>w</math>.</p>
+</li>
+<li>
+<p>Add inequalities; simplify; and substitute 
+<math>\text{distTo}[v_{0}] = \text{distTo}[s] = 0</math></p>
+<code-block lang = "tex">
+\text{distTo}[w] = \text{distTo}[v_{k}] \leq \text{e}_{1}.\text{weight}()
++ \text{e}_{2}.\text{weight}() + ... + \text{e}_{k}.\text{weight}()
+</code-block>
+<p><math>\text{e}_{1}.\text{weight}() + \text{e}_{2}.\text{weight}() 
++ ... + \text{e}_{k}.\text{weight}()</math> is the weight of shortest 
+path from <math>s</math> to <math>w</math>.</p>
+</li>
+<li>
+<p>Thus, <code>distTo[w]</code> is the weight of shortest path to 
+<math>w</math>.</p>
+</li>
+</list>
 
 ## 18 Substring Search
 
