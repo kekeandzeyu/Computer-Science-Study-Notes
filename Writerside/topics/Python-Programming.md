@@ -957,7 +957,7 @@ summary = "Order of Growth">Data Structures and Algorithms 1</a>.</p>
 </li>
 </list>
 
-## 5 Object
+## 6 Object
 
 <p><format color = "BlueViolet">Definitions:</format> </p>
 

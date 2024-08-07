@@ -763,7 +763,7 @@ std::sort(numbers.begin(), numbers.end()); // Sort the entire vector
 std::sort(numbers.begin(), numbers.end(), std::greater<int>()); // Sort in descending order
 ```
 
-<p>Parameters: </p>
+<p><format color = "BlueViolet">Parameters:</format> </p>
 
 <list type = "decimal">
 <li>
@@ -901,6 +901,8 @@ BidirectionalIterator stable_partition (BidirectionalIterator first,
                                        UnaryPredicate pred); 
 ```
 
+<p><format color = "BlueViolet">Parameters:</format> </p>
+
 <list type = "decimal">
 <li>
 <p>BidirectionalIterator: A template parameter indicating the type of 
@@ -934,6 +936,53 @@ element from the range) and returns a bool:</p>
     </list>
 </li>
 </list>
+
+<p><format color = "BlueViolet">Example Usage:</format> </p>
+
+```C++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+
+// A simple struct to represent a course (you can customize this)
+struct Course {
+    std::string name;
+};
+
+int main() {
+    // Sample course data
+    std::vector<Course> courses = {
+        {"CS101"},
+        {"MATH101"},
+        {"CS202"},
+        {"PHYS101"},
+        {"CS301"}
+    };
+
+    std::string dep = "CS";
+
+    // Lambda function to check if a course belongs to the "CS" department
+    auto isDep = [dep](const Course& course) {
+        return course.name.size() >= dep.size() && 
+               course.name.substr(0, dep.size()) == dep;
+    };
+
+    // Partition the courses vector, keeping "CS" courses at the beginning
+    auto iter = std::stable_partition(courses.begin(), courses.end(), isDep);
+
+    // Remove non-"CS" courses
+    courses.erase(iter, courses.end());
+
+    // Output the remaining "CS" courses
+    std::cout << "CS Courses:\n";
+    for (const Course& course : courses) {
+        std::cout << course.name << std::endl;
+    }
+
+    return 0;
+}
+```
 
 ##### 6.2.4 std::copy_if
 
@@ -981,6 +1030,49 @@ OutputIterator copy_if (InputIterator first, InputIterator last,
 </li>
 </list>
 
+<p><format color = "BlueViolet">Example Usage:</format> </p>
+
+```C++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+
+struct Course {
+    std::string name;
+};
+
+int main() {
+    std::vector<Course> csCourses = {
+        {"CS101"},
+        {"MATH101"},
+        {"CS202"},
+        {"PHYS101"},
+        {"CS301"}
+    };
+
+    std::vector<Course> filteredCourses; 
+    std::string dep = "CS";
+
+    auto isDep = [dep](const Course& course) {
+        return course.name.size() >= dep.size() && 
+               course.name.substr(0, dep.size()) == dep;
+    };
+
+    // Copy matching courses to 'filteredCourses'
+    // Use back_inserter to add more space!
+    std::copy_if(csCourses.begin(), csCourses.end(), 
+                 std::back_inserter(filteredCourses), isDep);
+
+    std::cout << "Filtered CS Courses:\n";
+    for (const Course& course : filteredCourses) {
+        std::cout << course.name << std::endl;
+    }
+
+    return 0;
+}
+```
+
 ##### 6.2.5 std::remove_if
 
 <p><format color = "BlueViolet">Syntax:</format> </p>
@@ -1024,7 +1116,6 @@ element from the range) and returns:</p>
     </list>
 </li>
 </list>
-
 
 ## &#8546; Object-Oriented Programming
 
