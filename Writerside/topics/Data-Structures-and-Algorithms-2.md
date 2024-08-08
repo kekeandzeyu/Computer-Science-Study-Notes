@@ -5354,48 +5354,58 @@ path from <math>s</math> to <math>w</math>.</p>
 
 ### 17.3 Dijkstra's Algorithm
 
+<procedure title = "Dijkstra's Algorithm">
+<step>
+    <p>Consider vertices in increasing order of distance from s.</p>
+    <p>(non-tree vertex with the lowest <code>distTo[]</code> value)
+    </p>
+</step>
+<step>
+    <p>Add vertex to tree and relaw all edges pointing from that vertex.
+    </p>
+</step>
+</procedure>
+
 Java
 
 ```Java
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
 public class Dijkstra {
 
-    private final double[] distTo;
-    private final DirectedEdge[] edgeTo;
-    private final boolean[] marked;
-    private final int source;
+    private final double[] distTo; 
+    private final DirectedEdge[] edgeTo; 
+    private final boolean[] marked; 
+    private final PriorityQueue<Integer> pq;
 
     public Dijkstra(EdgeWeightedDigraph G, int s) {
-        source = s;
         distTo = new double[G.V()];
         edgeTo = new DirectedEdge[G.V()];
         marked = new boolean[G.V()];
-        Arrays.fill(distTo, Double.POSITIVE_INFINITY);
+        for (int v = 0; v < G.V(); v++)
+            distTo[v] = Double.POSITIVE_INFINITY;
         distTo[s] = 0.0;
-
-        PriorityQueue<Integer> pq = new PriorityQueue<>((v1, v2) -> Double.compare(distTo[v1], distTo[v2]));
+        pq = new PriorityQueue<>(Comparator.comparingDouble(v -> distTo[v]));
         pq.offer(s);
         while (!pq.isEmpty()) {
             int v = pq.poll();
             marked[v] = true;
             for (DirectedEdge e : G.adj(v)) {
-                relax(e, pq);
+                relax(e);
             }
         }
     }
 
-    private void relax(DirectedEdge e, PriorityQueue<Integer> pq) {
-        int v = e.from(), w = e.to();
+    private void relax(DirectedEdge e) {
+        int v = e.from();
+        int w = e.to();
         if (distTo[w] > distTo[v] + e.weight()) {
             distTo[w] = distTo[v] + e.weight();
             edgeTo[w] = e;
-            if (marked[w]) {
-                pq.offer(w);
-            } else {
+            if (!marked[w]) {
                 pq.offer(w);
             }
         }
@@ -5403,6 +5413,10 @@ public class Dijkstra {
 
     public double distTo(int v) {
         return distTo[v];
+    }
+
+    public boolean hasPathTo(int v) {
+        return distTo[v] < Double.POSITIVE_INFINITY;
     }
 
     public Iterable<DirectedEdge> pathTo(int v) {
@@ -5413,11 +5427,145 @@ public class Dijkstra {
         }
         return path;
     }
+}
+```
 
-    public boolean hasPathTo(int v) {
-        return distTo[v] < Double.POSITIVE_INFINITY;
+C++ (Dijkstra.h)
+
+```C++
+#ifndef DIJKSTRA_H
+#define DIJKSTRA_H
+
+#include "EdgeWeightedDigraph.h"
+#include <vector>
+#include <queue>
+
+class Dijkstra {
+private:
+    std::vector<double> distTo;
+    std::vector<DirectedEdge> edgeTo;
+    std::vector<bool> marked;
+    std::priority_queue<std::pair<double, int>, std::vector<std::pair<double, int>>,
+                        std::greater<>> pq; // Min-heap
+
+    void relax(const DirectedEdge& e);
+
+public:
+    explicit Dijkstra(const EdgeWeightedDigraph& G, int s);
+
+    [[nodiscard]] double getdistTo(int v) const;
+    [[nodiscard]] bool hasPathTo(int v) const;
+    [[nodiscard]] std::vector<DirectedEdge> pathTo(int v) const;
+};
+
+#endif // DIJKSTRA_H
+```
+
+C++ (Dijkstra.cpp)
+
+```C++
+#include "dijkstra.h"
+#include <limits>
+
+Dijkstra::Dijkstra(const EdgeWeightedDigraph& G, int s) :
+    distTo(G.getV(), std::numeric_limits<double>::infinity()),
+    edgeTo(G.getV(), DirectedEdge()),
+    marked(G.getV(), false)
+{
+    distTo[s] = 0.0;
+    pq.emplace(0.0, s);
+
+    while (!pq.empty()) {
+        int v = pq.top().second;
+        pq.pop();
+
+        if (marked[v]) continue; // Already processed
+
+        marked[v] = true;
+        for (const auto& e : G.getAdj(v)) {
+            relax(e);
+        }
     }
 }
+
+void Dijkstra::relax(const DirectedEdge& e) {
+    int v = e.from();
+    int w = e.to();
+    if (distTo[w] > distTo[v] + e.getWeight()) {
+        distTo[w] = distTo[v] + e.getWeight();
+        edgeTo[w] = e;
+        pq.emplace(distTo[w], w);
+    }
+}
+
+double Dijkstra::getdistTo(int v) const {
+    return distTo[v];
+}
+
+bool Dijkstra::hasPathTo(int v) const {
+    return distTo[v] < std::numeric_limits<double>::infinity();
+}
+
+std::vector<DirectedEdge> Dijkstra::pathTo(int v) const {
+    if (!hasPathTo(v)) return {};
+    std::vector<DirectedEdge> path;
+    for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
+        path.push_back(e);
+    }
+    return path;
+}
+```
+
+Python
+
+```Python
+from EdgeWeightedDigraph import EdgeWeightedDigraph
+import heapq
+
+
+class Dijkstra:
+    def __init__(self, G, s):
+        self.distTo = [float('inf')] * G.get_V()
+        self.edgeTo = [None] * G.get_V()
+        self.marked = [False] * G.get_V()
+        self.pq = []  # Priority queue (min-heap)
+
+        self.distTo[s] = 0.0
+        heapq.heappush(self.pq, (0.0, s))
+
+        while self.pq:
+            _, v = heapq.heappop(self.pq)
+
+            if self.marked[v]:
+                continue
+
+            self.marked[v] = True
+            for e in G.get_adj(v):
+                self.relax(e)
+
+    def relax(self, e):
+        v = e.from_vertex()
+        w = e.to_vertex()
+        if self.distTo[w] > self.distTo[v] + e.get_weight():
+            self.distTo[w] = self.distTo[v] + e.get_weight()
+            self.edgeTo[w] = e
+            heapq.heappush(self.pq, (self.distTo[w], w))
+
+    def dist_to(self, v):
+        return self.distTo[v]
+
+    def has_path_to(self, v):
+        return self.distTo[v] < float('inf')
+
+    def path_to(self, v):
+        if not self.has_path_to(v):
+            return None
+        path = []
+        # Correct the for loop syntax
+        for e in reversed(self.edgeTo[v:v + 1]):  # Reverse the path
+            if e is not None:
+                path.append(e)
+        return path
 ```
 
 ## 18 Substring Search
