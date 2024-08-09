@@ -4608,6 +4608,48 @@ class PrimMSTLazy:
 
 #### 16.5.2 Eager Implementation
 
+<p><format color = "BlueViolet">Property:</format> </p>
+
+<p>Running time depends on PQ implementation: <math>V</math> insert, 
+<math>V</math> delete-min, <math>E</math> decrease-key.</p>
+
+<table style = "header-row">
+<tr><td>PQ Implementation</td><td>Insert</td><td>Delete-Min</td><td>
+Decrease-Key</td><td>Total</td></tr>
+<tr><td>Array</td><td><math>1</math></td><td><math>V</math></td><td>
+<math>1</math></td><td><math>V ^ {2}</math></td></tr>
+<tr><td>Binary Heap</td><td><math>\log V</math></td><td><math>\log V
+</math></td><td><math>\log V</math></td><td><math>E \log V</math>
+</td></tr>
+<tr><td><p>d-way Heap</p><p>(Johnson 1975)</p></td><td><math>
+\log_{d} V</math></td><td><math>d \log_{d} V</math></td><td><math>
+\log_{d} V</math></td><td><math>E \log_{\frac {E}{V}} V</math></td>
+</tr>
+<tr><td><p>Fibonacci Heap</p><p>(Fredman-Tarjan 1984)</p></td>
+<td><math>1^{*}</math></td><td><math>\log V ^ {*}</math></td>
+<td><math>1^{*}</math></td><td><math>E + \log V</math></td></tr>
+</table>
+
+<p>*: amortized</p>
+
+<p><format color = "BlueViolet">Bottom Line:</format> </p>
+
+<list type = "bullet">
+<li>
+    <p>Array implementation optimal for dense graph.</p>
+</li>
+<li>
+    <p>Binary heap much faster for sparse graphs.</p>
+</li>
+<li>
+    <p>4-way heap worth the trouble in performance-critical 
+    situations.</p>
+</li>
+<li>
+    <p>Fibonacci heap best in theory, but not worth implementing.</p>
+</li>
+</list>
+
 Java
 
 ```Java
@@ -4790,47 +4832,6 @@ class PrimMSTEager:
         """Returns the total weight of the MST."""
         return sum(edge.get_weight() for edge in self.mst)
 ```
-
-<p><format color = "BlueViolet">Property:</format> </p>
-
-<p>Running time depends on PQ implementation: <math>V</math> insert, 
-<math>V</math> delete-min, <math>E</math> decrease-key.</p>
-
-<table style = "header-row">
-<tr><td>PQ Implementation</td><td>Insert</td><td>Delete-Min</td><td>
-Decrease-Key</td><td>Total</td></tr>
-<tr><td>Array</td><td><math>1</math></td><td><math>V</math></td><td>
-<math>1</math></td><td><math>V ^ {2}</math></td></tr>
-<tr><td>Binary Heap</td><td><math>\log V</math></td><td>\log V</td>
-<td><math>\log V</math></td><td><math>E \log V</math></td></tr>
-<tr><td><p>d-way Heap</p><p>(Johnson 1975)</p></td><td><math>
-\log_{d} V</math></td><td><math>d \log_{d} V</math></td><td><math>
-\log_{d} V</math></td><td><math>E \log_{\frac {1}{V}} V</math></td>
-</tr>
-<tr><td><p>Fibonacci Heap</p><p>(Fredman-Tarjan 1984)</p></td>
-<td><math>1^{*}</math></td><td><math>\log V ^ {*}</math></td>
-<td><math>1^{*}</math></td><td><math>E + \log V</math></td></tr>
-</table>
-
-<p>*: amortized</p>
-
-<p><format color = "BlueViolet">Bottom Line:</format> </p>
-
-<list type = "bullet">
-<li>
-    <p>Array implementation optimal for dense graph.</p>
-</li>
-<li>
-    <p>Binary heap much faster for sparse graphs.</p>
-</li>
-<li>
-    <p>4-way heap worth the trouble in performance-critical 
-    situations.</p>
-</li>
-<li>
-    <p>Fibonacci heap best in theory, but not worth implementing.</p>
-</li>
-</list>
 
 ### 16.6 MST Context
 
@@ -5102,7 +5103,7 @@ private:
     double weight;
 
 public:
-    DirectedEdge(int v, int w, double weight);
+    explicit DirectedEdge(int v = -1, int w = -1, double weight = 0.0); // Default constructor added
     [[nodiscard]] int from() const;
     [[nodiscard]] int to() const;
     [[nodiscard]] double getWeight() const;
@@ -5179,7 +5180,7 @@ void EdgeWeightedDigraph::addEdge(const int source, const int destination,
     adj[source].push_back(e);
 }
 
-std::vector<DirectedEdge> EdgeWeightedDigraph::getAdj(int v) const {
+std::vector<DirectedEdge> EdgeWeightedDigraph::getAdj(const int v) const {
     return adj[v];
 }
 
@@ -5213,8 +5214,8 @@ Python (DirectedEdge.py)
 ```Python
 class DirectedEdge:
     def __init__(self, v, w, weight):
-        self.v = v 
-        self.w = w 
+        self.v = v
+        self.w = w
         self.weight = weight
 
     def from_vertex(self):
@@ -5352,6 +5353,21 @@ path from <math>s</math> to <math>w</math>.</p>
 </li>
 </list>
 
+<p><format color = "BlueViolet">Different Implementations:</format> 
+</p>
+
+<list type = "bullet">
+<li>
+    <p>Dijkstra's algorithm (nonnegative weights).</p>
+</li>
+<li>
+    <p>Topological sort algorithm (no directed cycles).</p>
+</li>
+<li>
+    <p>Bellman-Ford algorithm (no negative cycles).</p>
+</li>
+</list>
+
 ### 17.3 Dijkstra's Algorithm
 
 <procedure title = "Dijkstra's Algorithm">
@@ -5365,6 +5381,60 @@ path from <math>s</math> to <math>w</math>.</p>
     </p>
 </step>
 </procedure>
+
+<p><format color = "BlueViolet">Correctness Proof:</format> Dijkstra's 
+algorithm computes a SPT in any edge-weighted digraph with 
+<format color = "OrangeRed">nonnegative</format> weights.</p>
+
+<list type = "bullet">
+<li>
+    <p>Each edge <math>e = v→w</math> is relaxed exactly once 
+    (when v is relaxed), leaving 
+    <math>\text{distTo}[w] ≤ \text{distTo}[v] + \text{e.weight()}</math>.</p>
+</li>
+<li>
+    <p>Inequality holds until algorithm terminates because: </p>
+    <list type = "bullet">
+    <li>
+        <p><code>distTo[w]</code> cannot increase => <code>distTo[]
+        </code> values are monotone decreasing.</p>
+    </li>
+    <li>
+        <p><code>distTo[v]</code> will not change => we choose lowest
+        <code>distTo[]</code> value at each step and edge weights are
+        nonnegative)</p>
+    </li>
+    </list>
+</li>
+<li>
+    <p>Thus, upon termination, shortest-paths optimality conditions 
+    hold.</p>
+</li>
+</list>
+
+<p><format color = "BlueViolet">Prim’s algorithm is essentially the 
+same algorithm as Dijkstra’s algorithm</format></p>
+
+<list type = "bullet">
+<li>
+    <p>Both are in a family of algorithms that compute a graph's 
+    spanning tree.</p>
+</li>
+<li>
+    <p><format color = "Fuchsia">Prim's</format>: Closest vertex to 
+    the <format color = "OrangeRed">tree</format> (via an undirected 
+    edge).</p>
+</li>
+<li>
+    <p><format color = "Fuchsia">Dijkstra's</format>: Closest vertex 
+    to the <format color = "OrangeRed">source</format> (via a 
+    directed path).</p>
+</li>
+</list>
+
+<note>
+<p>DFS and BFS are also in this family of algorithms.</p>
+</note>
 
 Java
 
@@ -5566,6 +5636,357 @@ class Dijkstra:
             if e is not None:
                 path.append(e)
         return path
+```
+
+<p><format color = "BlueViolet">Property:</format> </p>
+
+<p>Running time depends on PQ implementation: <math>V</math> insert, 
+<math>V</math> delete-min, <math>E</math> decrease-key.</p>
+
+<table style = "header-row">
+<tr><td>PQ Implementation</td><td>Insert</td><td>Delete-Min</td><td>
+Decrease-Key</td><td>Total</td></tr>
+<tr><td>Array</td><td><math>1</math></td><td><math>V</math></td><td>
+<math>1</math></td><td><math>V ^ {2}</math></td></tr>
+<tr><td>Binary Heap</td><td><math>\log V</math></td><td><math>\log V
+</math></td><td><math>\log V</math></td><td><math>E \log V</math>
+</td></tr>
+<tr><td><p>d-way Heap</p><p>(Johnson 1975)</p></td><td><math>
+\log_{d} V</math></td><td><math>d \log_{d} V</math></td><td><math>
+\log_{d} V</math></td><td><math>E \log_{\frac {E}{V}} V</math></td>
+</tr>
+<tr><td><p>Fibonacci Heap</p><p>(Fredman-Tarjan 1984)</p></td>
+<td><math>1^{*}</math></td><td><math>\log V ^ {*}</math></td>
+<td><math>1^{*}</math></td><td><math>E + \log V</math></td></tr>
+</table>
+
+<p>*: amortized</p>
+
+<p><format color = "BlueViolet">Bottom Line:</format> </p>
+
+<list type = "bullet">
+<li>
+    <p>Array implementation optimal for dense graph.</p>
+</li>
+<li>
+    <p>Binary heap much faster for sparse graphs.</p>
+</li>
+<li>
+    <p>4-way heap worth the trouble in performance-critical 
+    situations.</p>
+</li>
+<li>
+    <p>Fibonacci heap best in theory, but not worth implementing.</p>
+</li>
+</list>
+
+### 17.4 Edge-Weighted DAGs
+
+<procedure title = "Topological Sort Algorithm for Shortest Path">
+    <step>Consider all vertices in topological order.</step>
+    <step>Relax all edges pointing from that vertex.</step>
+</procedure>
+
+Java
+
+```Java
+import java.util.*;
+
+public class ShortestPathTopological {
+
+    private final EdgeWeightedDigraph graph;
+    private final int source;
+    private final double[] distTo;
+    private final DirectedEdge[] edgeTo;
+
+    public ShortestPathTopological(EdgeWeightedDigraph graph, int source) {
+        this.graph = graph;
+        this.source = source;
+        distTo = new double[graph.V()];
+        edgeTo = new DirectedEdge[graph.V()];
+
+        for (int v = 0; v < graph.V(); v++) {
+            distTo[v] = Double.POSITIVE_INFINITY;
+        }
+        distTo[source] = 0.0;
+
+        TopologicalSort topologicalSort = new TopologicalSort();
+        List<Integer> sorted = topologicalSort.sort(graph);
+
+        for (int v : sorted) {
+            relax(v);
+        }
+    }
+
+    private void relax(int v) {
+        for (DirectedEdge edge : graph.adj(v)) {
+            int w = edge.to();
+            if (distTo[w] > distTo[v] + edge.weight()) {
+                distTo[w] = distTo[v] + edge.weight();
+                edgeTo[w] = edge;
+            }
+        }
+    }
+
+    public double distTo(int v) {
+        return distTo[v];
+    }
+
+    public boolean hasPathTo(int v) {
+        return distTo[v] < Double.POSITIVE_INFINITY;
+    }
+
+    public Iterable<DirectedEdge> pathTo(int v) {
+        if (!hasPathTo(v)) return null;
+        List<DirectedEdge> path = new ArrayList<>();
+        for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
+            path.addFirst(e); 
+        }
+        return path;
+    }
+
+    private static class TopologicalSort {
+        public List<Integer> sort(EdgeWeightedDigraph graph) {
+            int V = graph.V();
+            List<Integer> sorted = new ArrayList<>();
+            int[] inDegree = new int[V];
+            Queue<Integer> queue = new LinkedList<>();
+
+            for (int v = 0; v < V; v++) {
+                for (DirectedEdge edge : graph.adj(v)) {
+                    inDegree[edge.to()]++;
+                }
+            }
+
+            for (int v = 0; v < V; v++) {
+                if (inDegree[v] == 0) {
+                    queue.offer(v);
+                }
+            }
+
+            while (!queue.isEmpty()) {
+                int u = queue.poll();
+                sorted.add(u);
+
+                for (DirectedEdge edge : graph.adj(u)) {
+                    int v = edge.to();
+                    inDegree[v]--;
+                    if (inDegree[v] == 0) {
+                        queue.offer(v);
+                    }
+                }
+            }
+
+            if (sorted.size() != V) {
+                throw new IllegalArgumentException("Graph contains a cycle.");
+            }
+
+            return sorted;
+        }
+    }
+}
+```
+
+C++ (ShortestPathTopological.h)
+
+```C++
+#ifndef SHORTESTPATHTOPOLOGICAL_H
+#define SHORTESTPATHTOPOLOGICAL_H
+
+#include "EdgeWeightedDigraph.h"
+#include <vector>
+
+class ShortestPathTopological {
+private:
+    const EdgeWeightedDigraph& graph;
+    int source;
+    std::vector<double> distTo;
+    std::vector<DirectedEdge> edgeTo;
+
+    class TopologicalSort {
+    public:
+        explicit TopologicalSort(const EdgeWeightedDigraph& graph);
+        [[nodiscard]] std::vector<int> sort() const;
+    private:
+        const EdgeWeightedDigraph& graph;
+    };
+
+    void relax(int v);
+
+public:
+    explicit ShortestPathTopological(const EdgeWeightedDigraph& graph, int source);
+
+    [[nodiscard]] double getdistTo(int v) const; // Declaration marked const
+
+    [[nodiscard]] bool hasPathTo(int v) const; // Declaration marked const
+
+    [[nodiscard]] std::vector<DirectedEdge> pathTo(int v) const; // Declaration marked const
+};
+
+#endif // SHORTESTPATHTOPOLOGICAL_H
+```
+
+C++ (ShortestPathTopological.cpp)
+
+```C++
+#include "ShortestPathTopological.h"
+
+#include <algorithm>
+#include <iostream>
+#include <queue>
+#include <limits>
+
+ShortestPathTopological::ShortestPathTopological(const EdgeWeightedDigraph &graph, int source)
+    : graph(graph), source(source), distTo(graph.getV(), std::numeric_limits<double>::infinity()),
+      edgeTo(graph.getV()) {
+    distTo[source] = 0.0;
+
+    TopologicalSort topologicalSort(graph);
+    std::vector<int> sorted = topologicalSort.sort();
+
+    for (int v : sorted) {
+        relax(v);
+    }
+}
+
+void ShortestPathTopological::relax(const int v) {
+    for (const DirectedEdge& edge : graph.getAdj(v)) {
+        int w = edge.to();
+        if (distTo[w] > distTo[v] + edge.getWeight()) {
+            distTo[w] = distTo[v] + edge.getWeight();
+            edgeTo[w] = edge;
+        }
+    }
+}
+
+double ShortestPathTopological::getdistTo(const int v) const {
+    return distTo[v];
+}
+
+bool ShortestPathTopological::hasPathTo(const int v) const {
+    return distTo[v] < std::numeric_limits<double>::infinity();
+}
+
+std::vector<DirectedEdge> ShortestPathTopological::pathTo(const int v) const {
+    std::vector<DirectedEdge> path;
+    if (!hasPathTo(v)) {
+        return path;
+    }
+
+    for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
+        path.push_back(e);
+    }
+    std::ranges::reverse(path);
+    return path;
+}
+
+ShortestPathTopological::TopologicalSort::TopologicalSort(const EdgeWeightedDigraph &graph) : graph(graph) {}
+
+std::vector<int> ShortestPathTopological::TopologicalSort::sort() const {
+    const int V = graph.getV();
+    std::vector<int> sorted;
+    std::vector<int> inDegree(V, 0);
+    std::queue<int> queue;
+
+    for (int v = 0; v < V; ++v) {
+        for (const DirectedEdge& e : graph.getAdj(v)) {
+            inDegree[e.to()]++;
+        }
+    }
+
+    for (int v = 0; v < V; ++v) {
+        if (inDegree[v] == 0) {
+            queue.push(v);
+        }
+    }
+
+    while (!queue.empty()) {
+        int u = queue.front();
+        queue.pop();
+        sorted.push_back(u);
+
+        for (const DirectedEdge& e : graph.getAdj(u)) {
+            int w = e.to();
+            if (--inDegree[w] == 0) {
+                queue.push(w);
+            }
+        }
+    }
+
+    if (sorted.size() != static_cast<size_t>(V)) {
+        throw std::runtime_error("Graph contains a cycle!");
+    }
+    return sorted;
+}
+```
+
+Python
+
+```Python
+from collections import deque
+from typing import List, Optional
+
+from DirectedEdge import DirectedEdge
+from EdgeWeightedDigraph import EdgeWeightedDigraph
+
+
+class ShortestPathTopological:
+    def __init__(self, graph: EdgeWeightedDigraph, source: int):
+        self.graph = graph
+        self.source = source
+        self.dist_to = [float('inf')] * graph.get_V()
+        self.edge_to: List[Optional[DirectedEdge]] = [None] * graph.get_V()
+        self.dist_to[source] = 0.0
+
+        topological_order = self._topological_sort()
+        for v in topological_order:
+            self._relax(v)
+
+    def _relax(self, v: int):
+        for edge in self.graph.get_adj(v):
+            w = edge.to_vertex()
+            if self.dist_to[w] > self.dist_to[v] + edge.get_weight():
+                self.dist_to[w] = self.dist_to[v] + edge.get_weight()
+                self.edge_to[w] = edge
+
+    def get_dist_to(self, v: int) -> float:
+        return self.dist_to[v]
+
+    def has_path_to(self, v: int) -> bool:
+        return self.dist_to[v] < float('inf')
+
+    def path_to(self, v: int) -> Optional[List[str]]:
+        if not self.has_path_to(v):
+            return None
+        path: List[DirectedEdge] = []
+        e = self.edge_to[v]
+        while e is not None:
+            path.append(e)
+            e = self.edge_to[e.from_vertex()]
+        return [str(edge) for edge in path[::-1]]
+
+    def _topological_sort(self) -> List[int]:
+        V = self.graph.get_V()
+        in_degree = [0] * V
+        for v in range(V):
+            for edge in self.graph.get_adj(v):
+                in_degree[edge.to_vertex()] += 1
+
+        queue = deque([v for v in range(V) if in_degree[v] == 0])
+        sorted_order = []
+        while queue:
+            u = queue.popleft()
+            sorted_order.append(u)
+            for edge in self.graph.get_adj(u):
+                v = edge.to_vertex()
+                in_degree[v] -= 1
+                if in_degree[v] == 0:
+                    queue.append(v)
+
+        if len(sorted_order) != V:
+            raise ValueError("Graph contains a cycle.")
+
+        return sorted_order
 ```
 
 ## 18 Substring Search
