@@ -6107,7 +6107,16 @@ source to schedule each job:</p>
 
 ### 17.5 Negative Weights
 
-### 18 Maximum Flow and Minimum Cut
+<p><format color = "DarkOrange">Negative Cycle:</format> A <format 
+color = "OrangeRed">negative cycle</format> is a directed cycle whose
+sum of edge weights is negative.</p>
+
+<note>
+<p>Assuming all vertices reachable from s, a SPT exists iff no 
+negative cycles.</p>
+</note>
+
+## 18 Maximum Flow and Minimum Cut
 
 ## 19 Substring Search
 
