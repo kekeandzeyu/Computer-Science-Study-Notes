@@ -6163,6 +6163,254 @@ rowspan="2">No Negative Cycles</td><td><math>EV</math></td><td>
 </list>
 </warning>
 
+<p>Java</p>
+
+```Java
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class BellmanFordSP {
+    private final double[] distTo;
+    private final DirectedEdge[] edgeTo;
+    private final boolean[] onQueue;
+    private final int[] cost;
+    private final int s;
+    private boolean hasNegativeCycle;
+
+    private final Queue<Integer> q;
+
+    public BellmanFordSP(EdgeWeightedDigraph G, int s) {
+        this.s = s;
+        distTo = new double[G.V()];
+        edgeTo = new DirectedEdge[G.V()];
+        onQueue = new boolean[G.V()];
+        cost = new int[G.V()];
+        for (int v = 0; v < G.V(); v++)
+            distTo[v] = Double.POSITIVE_INFINITY;
+        distTo[s] = 0.0;
+
+        q = new LinkedList<>();
+        q.add(s);
+        onQueue[s] = true;
+
+        while (!q.isEmpty()) {
+            int v = q.remove();
+            onQueue[v] = false;
+            relax(G, v);
+        }
+    }
+
+    private void relax(EdgeWeightedDigraph G, int v) {
+        for (DirectedEdge e : G.adj(v)) {
+            int w = e.to();
+            if (distTo[w] > distTo[v] + e.weight()) {
+                distTo[w] = distTo[v] + e.weight();
+                edgeTo[w] = e;
+                cost[w]++;
+
+                if (!onQueue[w]) {
+                    q.add(w);
+                    onQueue[w] = true;
+                }
+
+                if (cost[w] >= G.V()) {
+                    hasNegativeCycle = true;
+                    return;
+                }
+            }
+        }
+    }
+
+    public double distTo(int v) {
+        return distTo[v];
+    }
+
+    public boolean hasPathTo(int v) {
+        return distTo[v] < Double.POSITIVE_INFINITY;
+    }
+
+    public Iterable<DirectedEdge> pathTo(int v) {
+        if (!hasPathTo(v)) return null;
+        List<DirectedEdge> path = new ArrayList<>();
+        for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
+            path.add(e);
+        }
+        return path;
+    }
+
+    public boolean hasNegativeCycle() {
+        return hasNegativeCycle;
+    }
+}
+```
+
+<p>C++ (BellmanFordSP.h)</p>
+
+```C++
+#ifndef BELLMANFORDSP_H
+#define BELLMANFORDSP_H
+
+#include "EdgeWeightedDigraph.h"
+#include <vector>
+#include <queue>
+
+class BellmanFordSP {
+private:
+    std::vector<double> distTo;  // distTo[v] = distance of shortest s->v path
+    std::vector<DirectedEdge> edgeTo; // edgeTo[v] = last edge on shortest s->v path
+    std::vector<bool> onQueue;  // onQueue[v] = is v on the queue?
+    std::vector<int> cost;     // cost[v] = number of relaxations performed on v
+    int s;                    // source vertex
+    bool hasNegativeCycle;     // flag to detect negative cycle
+
+    std::queue<int> q;
+
+public:
+    BellmanFordSP(const EdgeWeightedDigraph& G, int s);
+    [[nodiscard]] double getdistTo(int v) const;
+    [[nodiscard]] bool hasPathTo(int v) const;
+    [[nodiscard]] std::vector<DirectedEdge> pathTo(int v) const;
+    [[nodiscard]] bool NegativeCycle() const;
+
+private:
+    void relax(const EdgeWeightedDigraph& G, int v);
+};
+
+#endif // BELLMANFORDSP_H
+```
+
+<p>C++ (BellmanFordSP.cpp)</p>
+
+```C++
+#include "BellmanFordSP.h"
+#include <limits>
+
+BellmanFordSP::BellmanFordSP(const EdgeWeightedDigraph& G, const int s) :
+    distTo(G.getV(), std::numeric_limits<double>::infinity()),
+    edgeTo(G.getV(), DirectedEdge(-1, -1, 0.0)),
+    onQueue(G.getV(), false),
+    cost(G.getV(), 0),
+    s(s),
+    hasNegativeCycle(false) {
+
+    distTo[s] = 0.0;
+    q.push(s);
+    onQueue[s] = true;
+
+    while (!q.empty()) {
+        int v = q.front();
+        q.pop();
+        onQueue[v] = false;
+        relax(G, v);
+    }
+}
+
+double BellmanFordSP::getdistTo(const int v) const {
+    return distTo[v];
+}
+
+bool BellmanFordSP::hasPathTo(const int v) const {
+    return distTo[v] < std::numeric_limits<double>::infinity();
+}
+
+std::vector<DirectedEdge> BellmanFordSP::pathTo(const int v) const {
+    if (!hasPathTo(v)) {
+        return {};
+    }
+    std::vector<DirectedEdge> path;
+    for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
+        path.push_back(e);
+    }
+    return path;
+}
+
+bool BellmanFordSP::NegativeCycle() const {
+    return hasNegativeCycle;
+}
+
+void BellmanFordSP::relax(const EdgeWeightedDigraph& G, const int v) {
+    for (const DirectedEdge& e : G.getAdj(v)) {
+        int w = e.to();
+        if (distTo[w] > distTo[v] + e.getWeight()) {
+            distTo[w] = distTo[v] + e.getWeight();
+            edgeTo[w] = e;
+            cost[w]++;
+
+            if (!onQueue[w]) {
+                q.push(w);
+                onQueue[w] = true;
+            }
+
+            if (cost[w] >= G.getV()) {
+                hasNegativeCycle = true;
+                return;
+            }
+        }
+    }
+}
+```
+
+<p>Python</p>
+
+```Python
+from EdgeWeightedDigraph import EdgeWeightedDigraph
+
+class BellmanFordSP:
+    def __init__(self, G, s):
+        self.distTo = [float("inf") for _ in range(G.get_V())]
+        self.edgeTo = [None for _ in range(G.get_V())]
+        self.onQueue = [False for _ in range(G.get_V())]
+        self.cost = [0 for _ in range(G.get_V())]
+        self.s = s
+        self.hasNegativeCycle = False
+
+        self.distTo[s] = 0.0
+        self.q = [s]
+        self.onQueue[s] = True
+
+        while self.q:
+            v = self.q.pop(0)
+            self.onQueue[v] = False
+            self.relax(G, v)
+
+    def distTo(self, v):
+        return self.distTo[v]
+
+    def hasPathTo(self, v):
+        return self.distTo[v] != float("inf")
+
+    def pathTo(self, v):
+        if not self.hasPathTo(v):
+            return None
+        path = []
+        e = self.edgeTo[v]
+        while e is not None:
+            path.append(e)
+            e = self.edgeTo[e.from_vertex()]
+        return path
+
+    def hasNegativeCycle(self):
+        return self.hasNegativeCycle
+
+    def relax(self, G, v):
+        for e in G.get_adj(v):
+            w = e.to_vertex()
+            if self.distTo[w] > self.distTo[v] + e.get_weight():
+                self.distTo[w] = self.distTo[v] + e.get_weight()
+                self.edgeTo[w] = e
+                self.cost[w] += 1
+
+                if not self.onQueue[w]:
+                    self.q.append(w)
+                    self.onQueue[w] = True
+
+                if self.cost[w] >= G.get_V():
+                    self.hasNegativeCycle = True
+                    return
+```
+
 <p><format color = "BlueViolet">Find A Negative Cycle:</format> </p>
 
 <p>If there is a negative cycle, Bellman-Ford gets stuck in loop,
@@ -6206,4 +6454,3 @@ cycle (and can trace back edgeTo[v] entries to find it).</p>
 </procedure>
 
 ## 18 Maximum Flow and Minimum Cut
-
