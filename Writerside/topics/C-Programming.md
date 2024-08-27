@@ -1327,7 +1327,9 @@ vector<int>::const_iterator itr = v.begin();
 int value = *itr; //OK! reading from itr
 ```
 
-### 8 Inheritance
+### 8 Operators
+
+### 9 Inheritance
 
 <p><format color = "BlueViolet">Definitions:</format> </p>
 
@@ -1346,7 +1348,7 @@ meanings fall.</p>
 <p>For example, tree is hyponym of plant, and plant is hypernym of 
 tree.</p>
 
-#### 3.1 Overriding and Overloading
+#### 9.1 Overriding and Overloading
 
 <p><format color = "BlueViolet">Definition:</format> </p>
 
@@ -1464,7 +1466,7 @@ hierarchy.</p>
 </list>
 </tip>
 
-#### 3.2 Types of Inheritance (Java)
+#### 9.2 Types of Inheritance (Java)
 
 <list type = "alpha-lower">
 
