@@ -1,5 +1,95 @@
 # Data Structures and Algorithms 3
 
+## 18 Maximum Flow and Minimum Cut
+
+### 18.1 Introduction
+
+<p><format color = "BlueViolet">Definitions:</format> </p>
+
+<p><format color = "DarkOrange"><math>st</math>-cut: </format> A 
+<format color = "OrangeRed"><math>st</math>-cut (cut)</format> is a 
+partition of the vertices into two disjoint sets, with <math>s
+</math> in one set <math>A</math> and <math>t</math> in the other 
+set <math>B</math>.</p>
+
+<p><format color = "DarkOrange"><math>st</math>-cut capacity: </format> 
+Its <format color = "OrangeRed">capacity</format> is the sum of the 
+capacities of the edges from <math>A</math> to <math>B</math>.</p>
+
+<note>
+<p>Each edge has a positive capacity in edge-weighted digraph here.</p>
+</note>
+
+<img src = "../images_data/18-1-1.png" alt = "st-cut"/>
+
+<p><format color = "BlueViolet">Minimum cut problem:</format> 
+Find a cut of minimum capacity.</p>
+
+<p><format color = "BlueViolet">Definitions:</format> </p>
+
+<p><format color = "DarkOrange"><math>st</math>-flow:</format> An 
+<format color = "OrangeRed"><math>st</math>-flow (flow)</format> is 
+an assignment of values to the edges such that:</p>
+
+<list type = "bullet">
+<li>
+<p>Capacity constraint: 0 ≤ edge's flow ≤ edge's capacity.</p>
+</li>
+<li>
+<p>Local equilibrium: inflow = outflow at every vertex (except <math>s
+</math> and <math>t</math>).</p>
+</li>
+</list>
+
+<img src = "../images_data/18-1-2.png" alt = "st-flow"/>
+
+<p><format color = "DarkOrange">Value of a flow:</format> 
+The value of a flow is the inflow at <math>t</math> (assuming 
+no edge points to <math>s</math> or from <math>t</math>.</p>
+
+<p><format color = "BlueViolet">Maximum st-flow (maxflow) problem:
+</format> Find a flow of maximum value.</p>
+
+<warning>
+<p>These two problems are dual!</p>
+</warning>
+
+### 18.2 Ford-Fulkerson Algorithm
+
+<procedure title = "Ford-Fulkerson Algorithm">
+<step>
+    <p>Start with 0 flow.</p>
+</step>
+<step>
+    <p>Find an undirected path from s to t such that: </p>
+    <p>1. Can increase flow on forward edges (not full).</p>
+    <p>2. Can decrease flow on backward edges (not empty).</p>
+</step>
+<step>
+    <p>Terminates when all paths from s to t are blocked by either a
+    full forward edge or an empty backward edge.</p>
+</step>
+</procedure>
+
+<img src = "../images_data/18-2-1.png" alt = "Ford-Fulkerson Algorithm"/>
+
+<img src = "../images_data/18-2-2.png" alt = "Ford-Fulkerson Algorithm"/>
+
+### 18.3 Maxflow-Mincut Theorem
+
+<p><format color = "BlueViolet">Definitions:</format> </p>
+
+<p><format color = "OrangeRed">Net Flow: </format> The <format color = 
+"OrangeRed">net flow across</format> a cut (<math>A</math>, <math>B
+</math>) is the sum of the flows on its edges from <math>A</math> to 
+<math>B</math> minus the sum of the flows on its edges from from 
+<math>B</math> to <math>A</math>.</p>
+
+<p><format color = "BlueViolet">Flow-value lemma:</format> Let <math>f
+</math> be any flow and let (<math>A</math>, <math>B</math>) be any 
+cut. Then, the net flow across (<math>A</math>, <math>B</math>) 
+equals the value of <math>f</math>.</p>
+
 ## 19 Substring Search
 
 ### 19.1 Introduction
@@ -153,7 +243,7 @@ string-search machine.
 * Exactly one transition for each char in alphabet.
 * Accept if sequence of transitions lead to halt state.
 
-<img src="../images_data/18-3-1.png" alt="Alt text" width="450"/>
+<img src="../images_data/20-3-1.png" alt="Alt text" width="450"/>
 
 DFA state = number of characters in pattern that have been matched (length
 of longest prefix of `pat[]` that is a suffix of `txt[0...i]`).
@@ -567,13 +657,13 @@ or, equivalently, with a total of <math>n</math> internal nodes.</p>
 0 or 2 children. (International Definiton)</p>
 </note>
 <p>For <math>n = 3</math>, for example:</p>
-<img src="../images_data/19-2-1.png" alt="Alt text" width="450" style = "inline"/></li>
+<img src="../images_data/21-2-1.png" alt="Alt text" width="450" style = "inline"/></li>
 <li>
 <p>It is the number of structurally unique BSTs (binary search
 trees) which has exactly <math>n</math> nodes of unique values
 from 1 to <math>n</math>.</p>
 <p>For <math>n = 3</math>, for example:</p>
-<img src="../images_data/19-2-2.jpg" alt="Alt text" width="450" style = "inline"/></li>
+<img src="../images_data/21-2-2.jpg" alt="Alt text" width="450" style = "inline"/></li>
 <li>
 <p>It is the number of Dyck words of length <math>2n</math>. A Dyck word is a
 string consisting of <math>n</math> X's and <math>n</math> Y's

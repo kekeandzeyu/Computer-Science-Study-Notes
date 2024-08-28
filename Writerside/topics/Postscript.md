@@ -4,7 +4,7 @@ switcher-label: Language
 
 <show-structure depth = "0"></show-structure>
 
-# Postscript | 后记
+# Postscript
 
 ## 致读者的几句话 {switcher-key="Chinese"}
 

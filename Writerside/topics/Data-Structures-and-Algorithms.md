@@ -1,3 +1,4 @@
 # Data Structures and Algorithms
 
-Start typing here...
+<p>In the following sections, we will explore more about Data 
+Structures and Algorithms.</p>

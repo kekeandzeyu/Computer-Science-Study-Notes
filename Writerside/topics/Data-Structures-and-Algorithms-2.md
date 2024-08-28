@@ -6452,5 +6452,3 @@ cycle (and can trace back edgeTo[v] entries to find it).</p>
     </math> (negative cycle).</p>
 </step>
 </procedure>
-
-## 18 Maximum Flow and Minimum Cut
