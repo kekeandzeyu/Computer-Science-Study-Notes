@@ -6,7 +6,7 @@
 software that provides application software access to hardware resources.
 </p>
 
-<img src = "../images_system/1-1.png" alt = "Operating System"/>
+<img src = "../images_system/s1-1.png" alt = "Operating System"/>
 
 <p><format color = "BlueViolet">What is an Operating System?</format></p>
 
@@ -26,7 +26,7 @@ protection, isolation, and sharing of resources.</p>
 
 ### 1.1 Operating System as Illusionist - Provide clean, easy-to-use abstractions of physical resources
 
-<img src = "../images_system/1-2.png" alt = "Operating System as Illusionist"/>
+<img src = "../images_system/s1-2.png" alt = "Operating System as Illusionist"/>
 
 <list type = "bullet">
 <li>

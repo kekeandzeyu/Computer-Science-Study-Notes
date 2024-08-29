@@ -10,7 +10,7 @@ switcher-label: Language
 
 <p>当您读到这里时，感谢您阅读完我所有的笔记！</p>
 
-<p>如果您想要进一步了解我，欢迎进入 <a href ="https://kekeandzeyu.github.io/">
+<p>如果您想要进一步了解我，欢迎进入 <a href ="https://kkzy.pages.dev/">
 我的主页</a> 详细了解！</p>
 
 <p>想要了解这篇笔记背后的故事？欢迎在 <a href = 
@@ -28,7 +28,7 @@ switcher-label: Language
 <p>When you reach here, thank you for reading through all my notes!</p>
 
 <p>If you want to learn more about me, please visit <a href =
-"https://kekeandzeyu.github.io/">my website</a> for more!</p>
+"https://kkzy.pages.dev/">my website</a> for more!</p>
 
 <p>Want to know more about the notes? Please visit the <a href = 
 "https://github.com/kekeandzeyu/Computer-Science-Study-Notes">link

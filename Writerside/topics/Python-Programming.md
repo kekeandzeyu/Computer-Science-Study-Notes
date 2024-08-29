@@ -332,7 +332,7 @@ result = apply_twice(square, 2)
 <p>This is the environment frame for the code above.</p>
 </note>
 
-<img src = "../images_python/2-1-1.png" alt = "Environments for Higher
+<img src = "../images_python/p2-1-1.png" alt = "Environments for Higher
 -Order Functions"/>
 
 ### 2.2 Nested Definitions (Functions as Returned Values)
@@ -360,7 +360,7 @@ def make_adder(n):
 </li>
 </list>
 
-<img src = "../images_python/2-1-2.png" alt = "Environments for Nested Definitions" 
+<img src = "../images_python/p2-1-2.png" alt = "Environments for Nested Definitions" 
 height = "450"/>
 
 ### 2.3 Lambda Expressions
@@ -461,7 +461,7 @@ def print_all(x):
 print_all(1)(3)(5)
 ```
 
-<img src = "../images_python/3-1-1.png" alt = "environment diagram"/>
+<img src = "../images_python/p3-1-1.png" alt = "environment diagram"/>
 
 ```Python
 def print_sums(x):
@@ -473,7 +473,7 @@ def print_sums(x):
 print_sums(1)(3)(5)
 ```
 
-<img src = "../images_python/3-1-2.png" alt = "environment diagram"/>
+<img src = "../images_python/p3-1-2.png" alt = "environment diagram"/>
 
 ### 3.2 Recursion & Environment Diagrams
 
@@ -492,7 +492,7 @@ def sum_digits(n):
         return sum_digits(all_but_last) + last
 ```
 
-<img src = "../images_python/3-2-1.png" alt = "environment diagram 
+<img src = "../images_python/p3-2-1.png" alt = "environment diagram 
 for example 1"/>
 
 <p>Example 2: </p>
@@ -505,7 +505,7 @@ def fact(n):
         return n * fact(n - 1)
 ```
 
-<img src = "../images_python/3-2-2.png" alt = "environment diagram 
+<img src = "../images_python/p3-2-2.png" alt = "environment diagram 
 for example 2"/>
 
 ### 3.3 Iteration & Recursion
@@ -583,7 +583,7 @@ card number is a multiple of 10.</p>
 </li>
 </list>
 
-<img src = "../images_python/3-4-1.png" alt = "Luhn Algorithm"/>
+<img src = "../images_python/p3-4-1.png" alt = "Luhn Algorithm"/>
 
 ```Python
 def luhn_sum(n):
@@ -926,7 +926,7 @@ for i in ri:
 ### 5.1 Order of Growth
 
 <p>For more information on order of growth, please refer to <a href 
-= "Data-Structures-and-Algorithms-1.md" anchor = "Growth" 
+= "Data-Structures-and-Algorithms.md" anchor = "Growth" 
 summary = "Order of Growth">Data Structures and Algorithms 1</a>.</p>
 
 ### 5.2 Space

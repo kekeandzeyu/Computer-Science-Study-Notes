@@ -1,4 +1,4 @@
-# Data Structures and Algorithms 3
+# Part &#8546;
 
 ## 18 Maximum Flow and Minimum Cut
 
@@ -20,7 +20,7 @@ capacities of the edges from <math>A</math> to <math>B</math>.</p>
 <p>Each edge has a positive capacity in edge-weighted digraph here.</p>
 </note>
 
-<img src = "../images_data/18-1-1.png" alt = "st-cut"/>
+<img src = "../images_data/d18-1-1.png" alt = "st-cut"/>
 
 <p><format color = "BlueViolet">Minimum cut problem:</format> 
 Find a cut of minimum capacity.</p>
@@ -41,7 +41,7 @@ an assignment of values to the edges such that:</p>
 </li>
 </list>
 
-<img src = "../images_data/18-1-2.png" alt = "st-flow"/>
+<img src = "../images_data/d18-1-2.png" alt = "st-flow"/>
 
 <p><format color = "DarkOrange">Value of a flow:</format> 
 The value of a flow is the inflow at <math>t</math> (assuming 
@@ -71,9 +71,9 @@ no edge points to <math>s</math> or from <math>t</math>.</p>
 </step>
 </procedure>
 
-<img src = "../images_data/18-2-1.png" alt = "Ford-Fulkerson Algorithm"/>
+<img src = "../images_data/d18-2-1.png" alt = "Ford-Fulkerson Algorithm"/>
 
-<img src = "../images_data/18-2-2.png" alt = "Ford-Fulkerson Algorithm"/>
+<img src = "../images_data/d18-2-2.png" alt = "Ford-Fulkerson Algorithm"/>
 
 ### 18.3 Maxflow-Mincut Theorem
 
@@ -243,7 +243,7 @@ string-search machine.
 * Exactly one transition for each char in alphabet.
 * Accept if sequence of transitions lead to halt state.
 
-<img src="../images_data/20-3-1.png" alt="Alt text" width="450"/>
+<img src="../images_data/d30-3-1.png" alt="Alt text" width="450"/>
 
 DFA state = number of characters in pattern that have been matched (length
 of longest prefix of `pat[]` that is a suffix of `txt[0...i]`).
@@ -657,13 +657,13 @@ or, equivalently, with a total of <math>n</math> internal nodes.</p>
 0 or 2 children. (International Definiton)</p>
 </note>
 <p>For <math>n = 3</math>, for example:</p>
-<img src="../images_data/21-2-1.png" alt="Alt text" width="450" style = "inline"/></li>
+<img src="../images_data/d31-2-1.png" alt="Alt text" width="450" style = "inline"/></li>
 <li>
 <p>It is the number of structurally unique BSTs (binary search
 trees) which has exactly <math>n</math> nodes of unique values
 from 1 to <math>n</math>.</p>
 <p>For <math>n = 3</math>, for example:</p>
-<img src="../images_data/21-2-2.jpg" alt="Alt text" width="450" style = "inline"/></li>
+<img src="../images_data/d31-2-2.jpg" alt="Alt text" width="450" style = "inline"/></li>
 <li>
 <p>It is the number of Dyck words of length <math>2n</math>. A Dyck word is a
 string consisting of <math>n</math> X's and <math>n</math> Y's

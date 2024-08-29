@@ -5,7 +5,7 @@
 <description>The following links will help you get started with the 
 notes.</description>
 <spotlight>
-<a href="https://kekeandzeyu.github.io/" summary = 
+<a href="https://kkzy.pages.dev/" summary = 
 "Learn more about the author" type = "account"/>
 <a href="https://github.com/kekeandzeyu/Computer-Science-Study-Notes" 
 summary = "Learn more about the notes" type = "learn"/>

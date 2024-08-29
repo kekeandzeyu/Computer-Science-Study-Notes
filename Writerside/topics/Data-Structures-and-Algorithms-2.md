@@ -1,375 +1,6 @@
 <show-structure for="chapter" depth="3"></show-structure>
 
-# Data Structures and Algorithms 2
-
-## 11 Geometric Applications of BSTs
-
-<p><format color = "BlueViolet">Topic</format>: Intersections among 
-<format color = "OrangeRed">geometric objects</format>.</p>
-
-<p><format color = "BlueViolet">Applications</format>: CAD, games, 
-movies, virtual reality, databases...</p>
-
-### 11.1 1d Range Search
-
-<list type = "bullet">
-<li>
-<p><format color = "DarkOrange">Range search</format>: find all key between
-<math>k_{1}</math> and <math>k_{2}</math>.</p>
-</li>
-<li>
-<p><format color = "DarkOrange">Range count</format>: # of keys between
-<math>k_{1}</math> and <math>k_{2}</math>.</p>
-</li>
-<li>Geometric interpretation: Keys are point on a 
-<format color = "OrangeRed">line</format>; find/count points in a given 
-<format color = "OrangeRed">1d interval</format>.</li>
-</list>
-
-<procedure title = "1d range count">
-<step>
-<p>Recursively find all keys in left subtree (if any could fall 
-in range).</p>
-</step>
-<step>
-<p>Check key in current node.</p>
-</step>
-<step>
-<p>Recursively find all keys in right subtree (if any could fall 
-in range).</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Property</format>: Running
-time proportinal to <math>R + \ log N</math></p>
-
-### 11.2 Line Segment Intersection
-
-<p><format color = "IndianRed">Goal</format>: Given <math>N</math> 
-horizontal and vertical line segments, find all intersections 
-(all <math>x</math>- and <math>y</math>-coordinates are distinct.</p>
-
-<procedure title = "Sweep-Line Algorithm => Sweep Vertical Lines 
-from Left to Right">
-<step>
-<p><math>x</math>-coordinates define events.</p>
-</step>
-<step>
-<p><math>h</math>-segments (left endpoint): insert <math>y</math>- 
-coordiantes into BST.</p>
-</step>
-<step>
-<p><math>h</math>-segments (right endpoint): remove <math>y</math>- 
-coordiantes from BST.</p>
-</step>
-<step>
-<p><math>v</math>- segment: range search for interval of 
-<math>y</math>-endpoints.</p>
-</step>
-</procedure>
-
-<img src = "../images_data/11-2-1.png" alt = "Line Segment 
-Intersection"/>
-
-<p><format color = "LawnGreen">Properties</format>: The sweep-line 
-algorithm takes time proportional to <math>N \log N + R</math> to 
-find all <math>R</math> intersections among <math>N</math> 
-orthogonal line segments.</p>
-
-<p>Proof: </p>
-<list type = "bullet">
-<li>
-<p>Put <math>x</math>-coordinates on a PQ (or sort). => 
-<math>N \log N</math></p>
-</li>
-<li>
-<p>Insert <math>y</math>-coordinates into BST. => 
-<math>N \log N</math></p>
-</li>
-<li>
-<p>Delete <math>y</math>-coordinates from BST. => 
-<math>N \log N</math></p>
-</li>
-<li>
-<p>Range searches in BST. => <math>N \log N + R</math></p>
-</li>
-</list>
-
-### 11.3 Kd-Trees
-
-<p><format color = "MediumVioletRed">Goal</format>: 2d orthogonal range search.</p>
-
-<p><format color = "MediumVioletRed">Geometric interpretation</format>: 
-Keys are point in the <format color = "OrangeRed">plane</format>;
-find/count points in a given <format color = "OrangeRed">
-<math>h-v</math> rectangle</format>.</p>
-
-#### 11.3.1 Grid Implementation
-
-<procedure title = "Grid Implementation">
-<step>
-<p>Divide space into <math>M</math> -by- <math>M</math> grid of 
-squares.</p>
-</step>
-<step>
-<p>Create list of points contained in each square.</p>
-</step>
-<step>
-<p>Use 2d array to directly index relevant square.</p>
-</step>
-<step>
-<p>Insert: add <math>(x, y)</math> to list for corresponding square.</p>
-</step>
-<step>
-<p>Range search: examine only squares that intersect 2d range 
-query.</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Properties: </format></p>
-
-<list type = "bullet">
-<li>
-<p>Space: <math>M ^ {2} + N</math></p>
-</li>
-<li>
-<p>Time: <math>1 + \frac {N}{M ^ {2}}</math> per square examined,
-on average.</p>
-</li>
-</list>
-
-<p><format color = "BlueViolet">Problems: </format></p>
-<list type = "bullet">
-<li>
-<p><format color = "OrangeRed">Clustering</format>: a well-known 
-phenomenon in geometric data.</p>
-</li>
-<li>
-<p>Lists are too long, even though average length is short.</p>
-</li>
-<li>
-<p>Need data structure that adapts gracefully to data.</p>
-</li>
-</list>
-
-#### 11.3.2 Space-Partitioning Trees
-
-<p><format color = "DarkOrange">Space-Partitioning Trees:</format> Use 
-a tree to represent a recursive subdivision of a 2d space.</p>
-
-<p><format color = "DarkOrange">2d Trees:</format> Recursively divide
-space into two halfplanes.</p>
-
-<p><format color = "BlueViolet">Applications:</format> Ray tracing,
-2d range search, Flight simulators, N-body simulation, Nearest
-neighbor search, Accelerate rendering in Doom, etc.</p>
-
-##### Part &#8544; 2d Trees
-
-<p><format color = "BlueViolet">Data Structure:</format> BST, but 
-alternate using <math>x</math>- and <math>y</math>- coordinates as 
-key.</p>
-
-<list type = "bullet">
-<li>
-<p>Search gives rectangle containing point.</p>
-</li>
-<li>
-<p>Insert further subdivides the plane.</p>
-</li>
-</list>
-
-<img src = "../images_data/11-2-2.png" alt = "2d tree implementation"/>
-
-<procedure title = "Range Search - Find all points in a query 
-axis-aligned rectangle">
-<step>
-<p>Check if point in node lies in given rectangle.</p>
-</step>
-<step>
-<p>Recursively search left/bottom (if any could fall in rectangle).</p>
-</step>
-<step>
-<p>Recursively search right/top (if any could fall in rectangle).</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Properties: </format></p>
-
-<list type = "bullet">
-<li>
-<p>Typical case: <math>R + \log N</math></p>
-</li>
-<li>
-<p>Worst case (assuming tree is balanced): <math>R + \sqrt{N}</math></p>
-</li>
-</list>
-
-<procedure title = "Nearest Neighbor Search - Find closest point to 
-query point">
-<step>
-<p>Check distance from point in node to query point.</p>
-</step>
-<step>
-<p>Recursively search left/bottom (if it could contain a closer 
-point).</p>
-</step>
-<step>
-<p>Recursively search right/top (if it could contain a closer 
-point).</p>
-</step>
-<step>
-<p>Organize method so that it begins by searching for query point.</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Properties: </format></p>
-
-<list type = "bullet">
-<li>
-<p>Typical case: <math>\log N</math></p>
-</li>
-<li>
-<p>Worst case (even if tree is balanced): <math>N</math></p>
-</li>
-</list>
-
-##### Part &#8545; Kd Trees
-
-<p><format color = "DarkOrange">Kd Tree:</format> Recursively 
-partition <math>k</math>-dimensional space into 2 halfspaces.</p>
-
-<p><format color = "BlueViolet">Implementation:</format> BST, but
-cycle through dimensions ala 2d trees.</p>
-
-##### Part &#8546; N-body Simulation
-
-<format color = "BlueViolet">Goal:</format> Simulate the motion 
-of <math>N</math> particles, mutually affected by gravity.
-
-<procedure title = "Appel's Algorithm for N-body Simulation">
-<step>
-<p>Build 3d-tree with <math>N</math> particles as nodes.</p>
-</step>
-<step>
-<p>Store center-of-mass of subtree in each node.</p>
-</step>
-<step>
-<p>To compute total force acting on a particle, traverse tree, but 
-stop as soon as distance from particle to subdivision is sufficiently
-large.</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Properties:</format> Running time
-per step is <math>N \log N</math>.</p>
-
-### 11.4 Interval Search Tree
-
-<p>Create BST, where each node stores an interval <math>(lo, hi)
-</math>.</p>
-
-<list type = "bullet">
-<li>
-<p>Use left endpoint as BST <format color = "OrangeRed">key</format>
-.</p>
-</li>
-<li>
-<p>Store <format color = "BlueViolet">max endpoint</format> in 
-subtree rooted at node.</p>
-</li>
-</list>
-
-<procedure title = "Insertion for Interval Search Tree">
-<step>
-<p>Insert into BST, using <math>lo</math> as the key.</p>
-</step>
-<step>
-<p>Update max in each node on search path.</p>
-</step>
-</procedure>
-
-<procedure title = "Interval Search for Interval Search Tree" 
-type = "choices">
-<step>
-<p>If interval in node intersects query interval, return it.</p>
-</step>
-<step>
-<p>Else if left subtree is null, go right.</p>
-</step>
-<step>
-<p>Else if max endpoint in left subtree is less than lo, go right.</p>
-</step>
-<step>
-<p>Else go left.</p>
-</step>
-</procedure>
-
-<p>Order of growth of running time for <math>N</math> intervals.</p>
-
-<table style = "header-row">
-<tr><td>operation</td><td>brute</td><td>interval search tree</td>
-<td>best in theory</td></tr>
-<tr><td>insert interval</td><td><math>1</math></td><td><math>\log N
-</math></td><td><math>\log N</math></td></tr>
-<tr><td>find interval</td><td><math>N</math></td><td><math>\log N
-</math></td><td><math>\log N</math></td></tr>
-<tr><td>delete interval</td><td><math>N</math></td><td><math>\log N
-</math></td><td><math>\log N</math></td></tr>
-<tr><td>find <format color = "OrangeRed">any one</format> interval
-that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
-<td><math>\log N</math></td><td><math>\log N</math></td></tr>
-<tr><td>find <format color = "OrangeRed">all</format> interval
-that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
-<td><math>R \log N</math></td><td><math>R + \log N</math></td></tr>
-</table>
-
-### 11.5 Rectangle Intersection
-
-<p><format color = "BlueViolet">Sweep-line Algorithm</format>: </p>
-
-<list type = "bullet">
-<li>
-<p><math>x</math>-coordinates of left and right endpoints define 
-events.</p>
-</li>
-<li>
-<p>Maintain set of rectangles that intersect the sweep line in an 
-interval search tree (using <math>y</math>-intervals of rectangle).</p>
-</li>
-<li>
-<p>Left endpoint: interval search for <math>y</math>-interval of 
-rectangle; insert <math>y</math>-interval.</p>
-</li>
-<li>
-<p>Right endpoint: remove <math>y</math>-interval.</p>
-</li>
-</list>
-
-<p><format color = "BlueViolet">Property:</format> Sweep line 
-algorithm takes time proportional to <math>N \log N + R \log N</math> 
-to find <math>R</math> intersections among a set of <math>N</math> 
-rectangles.</p>
-
-<p>Proof: </p>
-<list type = "bullet">
-<li>
-<p>Put <math>x</math>-coordinates on a PQ (or sort) => 
-<math>N \log N</math></p>
-</li>
-<li>
-<p>Insert <math>y</math>-intervals into ST => <math>N \log N</math>
-</p>
-</li>
-<li>
-<p>Delete <math>y</math>-intervals from ST => <math>N \log N</math>
-</p>
-</li>
-<li>
-<p>Interval searches for y-intervals => <math>N \log N + R \log N
-</math></p>
-</li>
-</list>
+# Part &#8545;
 
 ## 12 Hash Tables
 
@@ -485,7 +116,7 @@ only <math>i ^ {th}</math> chain.</p>
 </li>
 </list>
 
-<img src = "../images_data/12-2-1.png" alt = "Separate Chaining"/>
+<img src = "../images_data/d12-2-1.png" alt = "Separate Chaining"/>
 
 <list>
 <li>
@@ -1678,7 +1309,7 @@ there is a path between them.</p>
 </li>
 </list>
 
-<img src="../images_data/14-1-1.png" alt = "undirected graph"/>
+<img src="../images_data/d14-1-1.png" alt = "undirected graph"/>
 
 ### 14.2 Graph API
 
@@ -2561,7 +2192,7 @@ piece together the cycles you discover.</p>
 <p>Directed graph: Set of vertices connected pairwise by <format color
 = "red">directed edges</format>.</p>
 
-<img src = "../images_data/15-1-1.png" alt = "Directed graph"/>
+<img src = "../images_data/d15-1-1.png" alt = "Directed graph"/>
 
 ### 15.2 Directed Graph API
 
@@ -3443,9 +3074,9 @@ between <math>v</math> and <math>w</math></td><td><math>v</math> and
 <math>w</math> and a directed graph from <math>w</math> to <math>v
 </math></td></tr>
 <tr><td>Implementation</td><td>DFS</td><td>DFS & Reverse DFS</td></tr>
-<tr><td>Detail</td><td><img src = "../images_data/15-5-1.png" 
+<tr><td>Detail</td><td><img src = "../images_data/d15-5-1.png" 
 alt = "Connected Components"/></td><td><img src = 
-"../images_data/15-5-2.png" alt = "Strongly-Connected Components"/>
+"../images_data/d15-5-2.png" alt = "Strongly-Connected Components"/>
 </td></tr>
 </table>
 
@@ -3671,7 +3302,7 @@ color = "OrangeRed">spanning tree</format> is a subgraph <math>T
 (connected and acyclic) and <format color = "OrangeRed">spanning
 </format> (includes all of the vertices).</p>
 
-<img src = "../images_data/16-1-1.png" alt = "Spanning Tree"/>
+<img src = "../images_data/d16-1-1.png" alt = "Spanning Tree"/>
 
 <p><format color = "BlueViolet">Application:</format></p>
 
@@ -3733,7 +3364,7 @@ edge connects a vertex in one set with a vertex in the other.</p>
 </li>
 </list>
 
-<img src = "../images_data/16-2-1.png" alt = "Greedy Algorithm"/>
+<img src = "../images_data/d16-2-1.png" alt = "Greedy Algorithm"/>
 
 <procedure title = "Greedy Algorithm for MST">
     <step>
@@ -3779,7 +3410,7 @@ MST.</p>
     <p>Contradiction.</p>
     </li>
     </list>
-<img src = "../images_data/16-2-2.png" alt = "Proof"/>
+<img src = "../images_data/d16-2-2.png" alt = "Proof"/>
 </li>
 <li>
 <p>The greedy algorithm computes the MST.</p>
@@ -4870,7 +4501,7 @@ and do it in <math>\sim cN \log N</math></p>
 </li>
 </list>
 
-<img src = "../images_data/16-6-1.png" alt = "Clustering"/>
+<img src = "../images_data/d16-6-1.png" alt = "Clustering"/>
 
 <procedure title = '"Well-known" algorithm in science literature for single-link clustering:'>
     <step>
@@ -5293,7 +4924,7 @@ class EdgeWeightedDigraph:
     </step>
 </procedure>
 
-<img src = "../images_data/17-2-1.png" alt = "Edge Relaxation"/>
+<img src = "../images_data/d17-2-1.png" alt = "Edge Relaxation"/>
 
 <p><format color = "BlueViolet">Correctness Proof:</format> 
 Shortest-paths optimality conditions</p>
@@ -6061,7 +5692,7 @@ without distortion for display on cell phones and web browsers.</p>
 </li>
 </list>
 
-<img src = "../images_data/17-4-1.png" alt = "Seam Carving"/>
+<img src = "../images_data/d17-4-1.png" alt = "Seam Carving"/>
 
 <p><format color = "BlueViolet">Application &#8545; - Parallel Job 
 Scheduling</format></p>
@@ -6099,10 +5730,10 @@ source to schedule each job:</p>
 <li>One edge for each precedence constraint (0 weight).</li>
 </list>
 
-<img src = "../images_data/17-4-2.png" alt = "Parallel Job Scheduling"
+<img src = "../images_data/d17-4-2.png" alt = "Parallel Job Scheduling"
 />
 
-<img src = "../images_data/17-4-3.png" alt = "Parallel Job Scheduling"
+<img src = "../images_data/d17-4-3.png" alt = "Parallel Job Scheduling"
 />
 
 ### 17.5 Negative Weights
@@ -6436,7 +6067,7 @@ cycle (and can trace back edgeTo[v] entries to find it).</p>
 </li>
 </list>
 
-<img src = "../images_data/17-5-1.png" alt = "Arbitrage Detection"/>
+<img src = "../images_data/d17-5-1.png" alt = "Arbitrage Detection"/>
 
 <procedure title = "">
 <step>

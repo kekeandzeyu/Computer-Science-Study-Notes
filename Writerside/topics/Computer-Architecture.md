@@ -47,7 +47,7 @@ starts, does not change.</p>
 </li>
 </list>
 
-<img src = "../images_architecture/2-1-1.png" alt = "C Memory Layout"/>
+<img src = "../images_architecture/a2-1-1.png" alt = "C Memory Layout"/>
 
 <p><format color = "BlueViolet">Storage:</format> </p>
 
@@ -152,7 +152,7 @@ byte</format>.</p>
 
 <p><format color = "BlueViolet">Endianness:</format> </p>
 
-<img src = "../images_architecture/2-4-1.png" alt = "Endianness"/>
+<img src = "../images_architecture/a2-4-1.png" alt = "Endianness"/>
 
 <list type = "bullet">
 <li>
@@ -382,7 +382,7 @@ registers?</p><p>Keep most frequently used in registers and move the
 rest to memory</p></td></tr>
 </table>
 
-<img src = "../images_architecture/3-2-1.png" alt = "Registers"/>
+<img src = "../images_architecture/a3-2-1.png" alt = "Registers"/>
 
 <warning>
 <p>Some important notes about registers: </p>

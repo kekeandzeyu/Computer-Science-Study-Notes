@@ -1,344 +1,10 @@
 <show-structure for="chapter" depth="3"></show-structure>
 
-# Data Structures and Algorithms 1
-
-## 1 Data Structures and Algorithms Overview
-
-### 1.1 Data Storage & Logical Structures
-
-#### 1.1.1 Data Storage Structures
-
-<list type = "alpha-lower">
-<li>
-<format color = "Fuchsia">Sequential Storage Structure</format>
-    <list type = "bullet">
-    <li><p>Linear list</p></li>
-    <li><p>Array</p></li>
-    <li><p>Vector</p></li>
-    </list>
-</li>
-<li>
-<format color = "Fuchsia">Linked Storage Structure</format>
-    <list type = "bullet">
-    <li>Linked list</li>
-    </list>
-</li>
-<li>
-<format color = "Fuchsia">Index Storage Structure</format>
-    <list>
-    <li>B-Tree/B+-Tree</li>
-    </list>
-</li>
-<li>
-<format color = "Fuchsia">Hashing Storage Structure</format>
-    <list>
-    <li>Hash table</li>
-    </list>
-</li>
-</list>
-
-#### 1.1.2 Data Logical Structures
-
-<list type = "decimal">
-<li>Set</li>
-<li>Linear</li>
-<li>Tree</li>
-<li>Graph</li>
-</list>
-
-### 1.2 Mathematical Models
-
-<p><format color = "BlueViolet">Simplifications:</format> </p>
-
-<list type = "decimal">
-<li>
-<p><format color = "Fuchsia">Cost Model</format>: Use some 
-basic operations as a proxy for running time.</p>
-<table>
-<tr><td>Operation</td><td>Frequency</td></tr>
-<tr><td>Variable declaration</td><td><math>N + 2</math></td></tr>
-<tr><td>Assignment statement</td><td><math>N + 2</math></td></tr>
-<tr><td>Less than compare</td><td><math>\frac {(N + 1)(N + 2)} {2}
-</math></td></tr>
-<tr><td>Equal to compare</td><td><math>\frac {N(N - 1)} {2}</math>
-</td></tr>
-<tr><td>Array access</td><td><math>N(N - 1)</math></td></tr>
-<tr><td>Increment</td><td><math>\frac {N(N - 1)} {2}</math> to <math>
-N(N - 1)</math></td></tr>
-</table>
-</li>
-<li>
-    <list type = "bullet">
-    <li>
-    <p>Estimate running time (or memory) as a function of input 
-    size <math>N</math></p>
-    </li>
-    <li>
-    <p>Ignore lower order terms.</p>
-        <list type = "bullet">
-        <li>
-        <p>When <math>N</math> is large, terms are negligible.</p>
-        </li>
-        <li>
-        <p>When <math>N</math> is small, we don't care.</p>
-        </li>
-        </list>
-    </li>
-    </list>
-</li>
-</list>
-
-### 1.3 Order-of-Growth Classifications {id = "Growth"}
-
-#### 1.3.1 Common Classifications
-
-<table>
-<tr><td>Order of growth</td><td>Name</td><td>Typical code 
-Framework</td><td>Decription</td><td>Example</td><td>T(2N)/T(N)</td>
-</tr>
-<tr><td><math>1</math></td><td>constant</td>
-<td><code-block lang = "C++">a = b + c;</code-block></td>
-<td>statement</td><td>add two numbers</td><td>1</td></tr>
-<tr><td><math>\log N</math></td><td>logarithmic</td>
-<td><code-block lang = "C++">
-while (N &gt; 1)
-{N = N / 2; ...}
-</code-block></td><td>divide in half</td><td>binary search</td><td>- 1</td></tr>
-<tr><td><math>N</math></td><td>linear</td>
-<td><code-block lang = "C++" noinject = "true">
-for (int i = 0; i &lt; N; i++)
-{...}
-</code-block></td><td>loop</td><td>find the maximum</td><td>2</td></tr>
-<tr><td><math>N \log N</math></td><td>linearithmatic</td>
-<td>see <a anchor="mergesort" summary="Mergesort">
-mergesort lecture</a></td><td>divide and conquer</td><td>mergesort</td>
-<td>- 2</td></tr>
-<tr><td><math>N ^ {2}</math></td><td>quadratic</td>
-<td><code-block lang = "C++">
-for (int i = 0; i &lt; N; i++)
-    for (int j = 0; j &lt; N; j++)
-        {...}
-</code-block></td><td>double loop</td><td>check all pairs</td>
-<td>4</td></tr>
-<tr><td><math>N ^ {3}</math></td><td>cubic</td>
-<td><code-block lang = "C++">
-for (int i = 0; i &lt; N; i++)
-    for (int j = 0; j &lt; N; j++)
-        for (int k = 0; k &lt; N; k++)
-            {...}
-</code-block></td><td>triple loop</td><td>check all triples</td>
-<td>8</td></tr>
-<tr><td><math>2 ^ {N}</math></td><td>exponential</td>
-<td>see combinational search lecture</td><td>exhaustive search</td>
-<td>check all subsets</td><td>T(N)</td></tr>
-</table>
-
-#### 1.3.2 Binary Search
-
-<p><format color = "BlueViolet">Properties:</format> Binary search 
-uses at most &le; <math>1 + \log N</math> to search in a sorted array
-of size <math>N</math>.</p>
-
-<p><format color = "BlueViolet">Proof skectch:</format> </p>
-
-<p>
-<math>T (N) = </math> number of compares to binary search in a sorted 
-subarray of size <math>\leq N</math>.
-</p>
-
-<code-block lang = "tex">
-T(N) \leq T\left(\frac{N}{2}\right) + 1, N > 1, T(1) = 1
-</code-block>
-
-<code-block lang = "tex">
-\begin{align*}
-T(N) &\leq T\left(\frac{N}{2}\right) + 1 \\
-&\leq T\left(\frac{N}{4}\right) + 1 + 1 \\
-&\leq T\left(\frac{N}{8}\right) + 1 + 1 + 1 \\
-&... \\
-&\leq T\left(\frac{N}{N}\right) + 1 + 1 + ... + 1 \\
-&= 1 + \log N
-\end{align*}
-</code-block>
-
-<procedure title = "Basic Plan for Binary Seach">
-<step>
-    <p>Compare key against middle entry.</p>
-</step>
-<step>
-    <p>Too small, go left.</p>
-</step>
-<step>
-    <p>Too big, go right.</p>
-</step>
-<step>
-    <p>Equal, found.</p>
-</step>
-</procedure>
-
-Java
-
-```Java
-public static int binarySearch(int[] a, int key) {
-    int lo = 0;
-    int hi = a.length - 1;
-    while (lo <= hi) {
-        int mid = lo + (hi - lo) / 2;
-        if (key < a[mid]) {
-            hi = mid - 1;
-        } else if (key > a[mid]) {
-            lo = mid + 1;
-        } else {
-            return mid;
-        }
-    }
-    return -1;
-}
-```
-
-C++
-
-```C++
-int binarySearch(std::vector<int> arr, int x) {
-    int l = 0, r = arr.size() - 1;
-    while (l <= r) {
-        int m = l + (r - l) / 2;
-        if (arr[m] == x) {
-            return m;
-        }
-        if (arr[m] < x) {
-            l = m + 1;
-        } else {
-            r = m - 1;
-        }
-    }
-    return -1;
-}
-```
-
-Python
-
-```Python
-def binary_search(arr, x):
-    l, r = 0, len(arr) - 1
-    while l <= r:
-        m = l + (r - l) // 2
-        if arr[m] == x:
-            return m
-        if arr[m] < x:
-            l = m + 1
-        else:
-            r = m - 1
-    return -1
-```
-
-#### 1.3.3 3-Sum
-
-<p><a href = "https://leetcode.com/problems/3sum/description/" 
-summary = "Leetcode 15: 3Sum">Leetcode 15: 3Sum</a></p>
-
-<p><format color = "BlueViolet">Description:</format> </p>
-
-<p>Given an integer array nums, return all the triplets 
-<code>[nums[i], nums[j], nums[k]]</code> such that 
-<code>i != j</code>, <code>i != k</code>, and <code>j != k</code>, 
-and <code>nums[i] + nums[j] + nums[k] == 0</code>.</p>
-
-<procedure title = "Basic Plan for 3-Sum">
-<step>
-Sort the <math>N</math> (distinct) numbers.
-</step>
-<step>
-For each pair of numbers <code>a[i]</code> and <code>a[j]</code>,
-<format color = "OrangeRed">binary search</format> for 
-<code>-(a[i] + a[j])</code>.
-</step>
-</procedure>
-
-<p>Analysis: Order of grwoth is <math>N ^ {2} \log N</math></p>
-
-<list type = "bullet">
-<li>
-Step 1: <math>N ^ {2}</math> with insertion sort. (not necessarily!)
-</li>
-<li>
-Step 2: <math>N ^ {2} \log N</math> with binary search.
-</li>
-</list>
-
-### 1.4 Theory of Algorithms
-
-<table>
-<tr><td>Notion</td><td>Formal Definition</td><td>Provides</td><td>Example</td>
-<td>Shorthand for</td><td>Used to</td></tr>
-<tr><td><format color = "OrangeRed">Big Theta</format></td>
-<td>
-<code-block lang = "tex">
-R(N) \in \Theta (f(N))
-</code-block>
-<p>means there are positive constants <math>k_1</math> and <math>k_2
-</math> such that</p>
-<code-block lang = "tex">
-k_1 f(N) \leq R(N) \leq k_2 f(N)
-</code-block>
-</td>
-<td>asymptotic order of growth</td><td><math>\Theta (N ^ {2})</math></td>
-<td><code-block lang = "tex">
-\begin{align*}
-&\frac {N ^ {2}}{2} \\
-&10 N ^ {2} \\
-&5 N ^ {2} + 22 N \log N + 3 N \\
-\text {...}
-\end{align*}
-</code-block></td><td>classify algorithms</td></tr>
-<tr><td><format color = "OrangeRed">Big Oh</format></td>
-<td>
-<code-block lang = "tex">
-R(N) \in O(f(N))
-</code-block>
-<p>means there is a positive constant <math>k_2
-</math> such that</p>
-<code-block lang = "tex">
-R(N) \leq k_2 f(N)
-</code-block>
-</td>
-<td><math>\Theta (N ^ {2})</math> and smaller</td><td><math>O(N ^ {2})</math></td>
-<td><code-block lang = "tex">
-\begin{align*}
-&10 N ^ {2} \\
-&100 N \\
-&22 N \log N + 3 N \\
-\text {...}
-\end{align*}
-</code-block></td><td>develop upper bounds</td></tr>
-<tr><td><format color = "OrangeRed">Big Omega</format></td>
-<td>
-<code-block lang = "tex">
-R(N) \in \Omega (f(N))
-</code-block>
-<p>means there is a positive constant <math>k_1</math> such that</p>
-<code-block lang = "tex">
-k_1 f(N) \leq R(N)
-</code-block>
-</td>
-<td><math>\Theta (N ^ {2})</math> and larger</td><td><math>\Omega (N ^ {2})</math></td>
-<td><code-block lang = "tex">
-\begin{align*}
-&\frac {N ^ {2}}{2} \\
-&N ^ {5} \\
-&N ^ {3} + 22 N \log N + 3 N \\
-\text {...}
-\end{align*}
-</code-block></td><td>develop lower bounds</td></tr>
-</table>
+# Part &#8544;
 
 ## 2 Linked Lists
 
 ### 2.1 Singly Linked Lists
-
-> This is the implementation of singly linked lists.
->
-{style = "note"}
 
 Java
 
@@ -1169,7 +835,7 @@ print(len(stack) == 0)
 <step>
     Return saved item.
 </step>
-<img src = "../images_data/4-1-1.png" alt = "Stack pop" 
+<img src = "../images_data/d4-1-1.png" alt = "Stack pop" 
 style = "inline"/>
 </procedure>
 
@@ -1183,7 +849,7 @@ style = "inline"/>
 <step>
     Set the instance variables in the new node.
 </step>
-<img src = "../images_data/4-1-2.png" alt = "Stack push" 
+<img src = "../images_data/d4-1-2.png" alt = "Stack push" 
 style = "inline"/>
 </procedure>
 
@@ -1199,7 +865,7 @@ style = "inline"/>
 </li>
 </list>
 
-<img src = "../images_data/4-1-3.png" alt = "Stroage Structure"/>
+<img src = "../images_data/d4-1-3.png" alt = "Stroage Structure"/>
 
 <note>
 <p>This is the linked-list implementation of stacks.</p>
@@ -1469,7 +1135,7 @@ print(q.empty())
 <step>
     Return saved item.
 </step>
-<img src="../images_data/4-2-1.png" alt="Queue dequeue" width="450" style = "inline"/>
+<img src="../images_data/d4-2-1.png" alt="Queue dequeue" width="450" style = "inline"/>
 </procedure>
 
 <procedure title = "Queue enqueue">
@@ -1482,7 +1148,7 @@ print(q.empty())
 <step>
     Link the new node to the end of the list.
 </step>
-<img src = "../images_data/4-2-2.png" alt = "Queue enqueue" style = "inline"/>
+<img src = "../images_data/d4-2-2.png" alt = "Queue enqueue" style = "inline"/>
 </procedure>
 
 > This is the implementation of queues.
@@ -2892,7 +2558,7 @@ find the <math>k ^ {th}</math> largest.</p>
 </step>
 </procedure>
 
-<img src="../images_data/7-2-1.png" alt="Quick Select" width="450"/>
+<img src="../images_data/d7-2-1.png" alt="Quick Select" width="450"/>
 
 Java
 
@@ -3142,7 +2808,7 @@ to left and right binary trees.</p>
 <li>
 <p><format color = "BlueViolet">Complete binary tree</format>: Perfectly
 balanced, except for bottom level.</p>
-<img src="../images_data/8-1-1.png" alt="Complete binary tree" width="450" style = "inline"/>
+<img src="../images_data/d8-1-1.png" alt="Complete binary tree" width="450" style = "inline"/>
 <p>Property: Height of complete binary tree with <math>N</math> nodes is
 <math>\lfloor lg N \rfloor</math>.</p>
 <p>Proof: Height only increases when <math>N</math> is a power of <math>2</math>.</p>
@@ -3173,7 +2839,7 @@ a heap-ordered complete binary tree.</p>
 </list>
 </li>
 </list>
-<img src="../images_data/8-1-2.png" alt="Alt text" width="450" style = "inline"/>
+<img src="../images_data/d8-1-2.png" alt="Alt text" width="450" style = "inline"/>
 
 > This is the use of built-in priority queues.
 >
@@ -4040,17 +3706,17 @@ otherwise, it is the key at the root.
 <step>
 <p>Update subtree counts.</p>
 </step>
-<img src = "../images_data/9-2-1.png" alt = "Delete the minimum" style = "inline"/>
+<img src = "../images_data/d9-2-1.png" alt = "Delete the minimum" style = "inline"/>
 </procedure>
 
 <procedure title = "Basic Plan for Habbard Deletion" type = "choices">
 <step>
 <p>0 children: Delete <math>t</math> by setting parent link to null.</p>
-<img src = "../images_data/9-2-2.png" alt = "Habbard Deletion 0 children" style = "inline"/>
+<img src = "../images_data/d9-2-2.png" alt = "Habbard Deletion 0 children" style = "inline"/>
 </step>
 <step>
 <p>1 child: Delete <math>t</math> by replacing parent link.</p>
-<img src = "../images_data/9-2-3.png" alt = "Habbard Deletion 1 child" style = "inline"/>
+<img src = "../images_data/d9-2-3.png" alt = "Habbard Deletion 1 child" style = "inline"/>
 </step>
 <step>
 <p>2 children:</p>
@@ -4065,7 +3731,7 @@ otherwise, it is the key at the root.
 <p>Put <math>x</math> in <math>t</math>'s spot.</p>
 </li>
 </list>
-<img src = "../images_data/9-2-4.png" alt = "Habbard Deletion 2 children" style = "inline"/>
+<img src = "../images_data/d9-2-4.png" alt = "Habbard Deletion 2 children" style = "inline"/>
 </step>
 </procedure>
 
@@ -4533,7 +4199,7 @@ current node's right subtree.</p>
 </li>
 </list>
 
-<img src = "../images_data/9-3-1.png" alt = "Traversal"/>
+<img src = "../images_data/d9-3-1.png" alt = "Traversal"/>
 
 <p>Depth-first traversal (dotted path) of a binary tree:</p>
 <list type = "alpha-lower">
@@ -4603,7 +4269,7 @@ key interface</td></tr>
 </li>
 </list>
 
-<p><img src = "../images_data/10-1-1.png" alt = "2-3 Tree"/></p>
+<p><img src = "../images_data/d10-1-1.png" alt = "2-3 Tree"/></p>
 
 <procedure title = "Basic Plan for Searching in 2-3 Tree">
 <step>
@@ -4718,7 +4384,7 @@ that: </p>
 </list>
 </li>
 </list>
-<img src = "../images_data/10-2-1.png" alt = "Red-Black BST"/>
+<img src = "../images_data/d10-2-1.png" alt = "Red-Black BST"/>
 
 <note><p>1–1 correspondence between 2–3 and LLRB!</p></note>
 
@@ -4739,9 +4405,9 @@ a (temporary) 4-node.</p>
 </li>
 </list>
 
-<img src = "../images_data/10-2-2.png" alt = "Left Rotation"/>
+<img src = "../images_data/d10-2-2.png" alt = "Left Rotation"/>
 
-<img src = "../images_data/10-2-3.png" alt = "Right Rotation"/>
+<img src = "../images_data/d10-2-3.png" alt = "Right Rotation"/>
 
 #### 10.2.3 Red-Black BST Operations
 
@@ -4778,7 +4444,7 @@ Insert into a tree with exactly 2 nodes.">
 </step>
 </procedure>
 
-<img src = "../images_data/10-2-4.png" alt = "Insert into a 3-node 
+<img src = "../images_data/d10-2-4.png" alt = "Insert into a 3-node 
 at the bottom"/>
 
 <procedure title = "Insertion for Red-Black BSTs" type = "choices">
@@ -5929,7 +5595,7 @@ nodes.</p>
 <p>Internal nodes contain copies of keys to guide search.</p>
 </li>
 </list>
-<img src = "../images_data/10-3-1.png" alt = "B-Tree" style="inline"/>
+<img src = "../images_data/d10-3-1.png" alt = "B-Tree" style="inline"/>
 </li>
 <li>
 <p>Property: </p>
@@ -5983,7 +5649,7 @@ INGRES, SQL, PostgreSQL.</p>
     <step>
         <p>Follow associated link (recursively).</p>
     </step>
-<img src = "../images_data/10-3-2.png" alt = "Search in B-Tree"/>
+<img src = "../images_data/d10-3-2.png" alt = "Search in B-Tree"/>
 </procedure>
 
 <procedure title = "Insert in B-Tree">
@@ -5997,7 +5663,7 @@ INGRES, SQL, PostgreSQL.</p>
         <p>Split nodes with <math>M</math> key-link pairs on the way up
         the tree.</p>
     </step>
-<img src = "../images_data/10-3-3.png" alt = "Insert in B-Tree"/>
+<img src = "../images_data/d10-3-3.png" alt = "Insert in B-Tree"/>
 </procedure>
 
 ### 10.4 AVL Trees
@@ -6034,11 +5700,380 @@ in imbalance, skews still have magnitude <math>\leq 2</math>.</p>
 or <format color = "Fuchsia">Case 2:</format> skew of F is 1
 </p>
 <p>=> Perform a left rotation on B.</p>
-<img src = "../images_data/10-4-1.png" alt = "Balancing AVL Trees"/>
+<img src = "../images_data/d10-4-1.png" alt = "Balancing AVL Trees"/>
 
 <p><format color = "Fuchsia">Case 3:</format> skew of F is −1
 </p>
 <p>Perform a right rotation on F, then a left rotation on B</p>
-<img src = "../images_data/10-4-2.png" alt = "Balancing AVL Trees"/>
+<img src = "../images_data/d10-4-2.png" alt = "Balancing AVL Trees"/>
+</li>
+</list>
+
+## 11 Geometric Applications of BSTs
+
+<p><format color = "BlueViolet">Topic</format>: Intersections among 
+<format color = "OrangeRed">geometric objects</format>.</p>
+
+<p><format color = "BlueViolet">Applications</format>: CAD, games, 
+movies, virtual reality, databases...</p>
+
+### 11.1 1d Range Search
+
+<list type = "bullet">
+<li>
+<p><format color = "DarkOrange">Range search</format>: find all key between
+<math>k_{1}</math> and <math>k_{2}</math>.</p>
+</li>
+<li>
+<p><format color = "DarkOrange">Range count</format>: # of keys between
+<math>k_{1}</math> and <math>k_{2}</math>.</p>
+</li>
+<li>Geometric interpretation: Keys are point on a 
+<format color = "OrangeRed">line</format>; find/count points in a given 
+<format color = "OrangeRed">1d interval</format>.</li>
+</list>
+
+<procedure title = "1d range count">
+<step>
+<p>Recursively find all keys in left subtree (if any could fall 
+in range).</p>
+</step>
+<step>
+<p>Check key in current node.</p>
+</step>
+<step>
+<p>Recursively find all keys in right subtree (if any could fall 
+in range).</p>
+</step>
+</procedure>
+
+<p><format color = "BlueViolet">Property</format>: Running
+time proportinal to <math>R + \ log N</math></p>
+
+### 11.2 Line Segment Intersection
+
+<p><format color = "IndianRed">Goal</format>: Given <math>N</math> 
+horizontal and vertical line segments, find all intersections 
+(all <math>x</math>- and <math>y</math>-coordinates are distinct.</p>
+
+<procedure title = "Sweep-Line Algorithm => Sweep Vertical Lines 
+from Left to Right">
+<step>
+<p><math>x</math>-coordinates define events.</p>
+</step>
+<step>
+<p><math>h</math>-segments (left endpoint): insert <math>y</math>- 
+coordiantes into BST.</p>
+</step>
+<step>
+<p><math>h</math>-segments (right endpoint): remove <math>y</math>- 
+coordiantes from BST.</p>
+</step>
+<step>
+<p><math>v</math>- segment: range search for interval of 
+<math>y</math>-endpoints.</p>
+</step>
+</procedure>
+
+<img src = "../images_data/d11-2-1.png" alt = "Line Segment 
+Intersection"/>
+
+<p><format color = "LawnGreen">Properties</format>: The sweep-line 
+algorithm takes time proportional to <math>N \log N + R</math> to 
+find all <math>R</math> intersections among <math>N</math> 
+orthogonal line segments.</p>
+
+<p>Proof: </p>
+<list type = "bullet">
+<li>
+<p>Put <math>x</math>-coordinates on a PQ (or sort). => 
+<math>N \log N</math></p>
+</li>
+<li>
+<p>Insert <math>y</math>-coordinates into BST. => 
+<math>N \log N</math></p>
+</li>
+<li>
+<p>Delete <math>y</math>-coordinates from BST. => 
+<math>N \log N</math></p>
+</li>
+<li>
+<p>Range searches in BST. => <math>N \log N + R</math></p>
+</li>
+</list>
+
+### 11.3 Kd-Trees
+
+<p><format color = "MediumVioletRed">Goal</format>: 2d orthogonal range search.</p>
+
+<p><format color = "MediumVioletRed">Geometric interpretation</format>: 
+Keys are point in the <format color = "OrangeRed">plane</format>;
+find/count points in a given <format color = "OrangeRed">
+<math>h-v</math> rectangle</format>.</p>
+
+#### 11.3.1 Grid Implementation
+
+<procedure title = "Grid Implementation">
+<step>
+<p>Divide space into <math>M</math> -by- <math>M</math> grid of 
+squares.</p>
+</step>
+<step>
+<p>Create list of points contained in each square.</p>
+</step>
+<step>
+<p>Use 2d array to directly index relevant square.</p>
+</step>
+<step>
+<p>Insert: add <math>(x, y)</math> to list for corresponding square.</p>
+</step>
+<step>
+<p>Range search: examine only squares that intersect 2d range 
+query.</p>
+</step>
+</procedure>
+
+<p><format color = "BlueViolet">Properties: </format></p>
+
+<list type = "bullet">
+<li>
+<p>Space: <math>M ^ {2} + N</math></p>
+</li>
+<li>
+<p>Time: <math>1 + \frac {N}{M ^ {2}}</math> per square examined,
+on average.</p>
+</li>
+</list>
+
+<p><format color = "BlueViolet">Problems: </format></p>
+<list type = "bullet">
+<li>
+<p><format color = "OrangeRed">Clustering</format>: a well-known 
+phenomenon in geometric data.</p>
+</li>
+<li>
+<p>Lists are too long, even though average length is short.</p>
+</li>
+<li>
+<p>Need data structure that adapts gracefully to data.</p>
+</li>
+</list>
+
+#### 11.3.2 Space-Partitioning Trees
+
+<p><format color = "DarkOrange">Space-Partitioning Trees:</format> Use 
+a tree to represent a recursive subdivision of a 2d space.</p>
+
+<p><format color = "DarkOrange">2d Trees:</format> Recursively divide
+space into two halfplanes.</p>
+
+<p><format color = "BlueViolet">Applications:</format> Ray tracing,
+2d range search, Flight simulators, N-body simulation, Nearest
+neighbor search, Accelerate rendering in Doom, etc.</p>
+
+##### Part &#8544; 2d Trees
+
+<p><format color = "BlueViolet">Data Structure:</format> BST, but 
+alternate using <math>x</math>- and <math>y</math>- coordinates as 
+key.</p>
+
+<list type = "bullet">
+<li>
+<p>Search gives rectangle containing point.</p>
+</li>
+<li>
+<p>Insert further subdivides the plane.</p>
+</li>
+</list>
+
+<img src = "../images_data/d11-2-2.png" alt = "2d tree implementation"/>
+
+<procedure title = "Range Search - Find all points in a query 
+axis-aligned rectangle">
+<step>
+<p>Check if point in node lies in given rectangle.</p>
+</step>
+<step>
+<p>Recursively search left/bottom (if any could fall in rectangle).</p>
+</step>
+<step>
+<p>Recursively search right/top (if any could fall in rectangle).</p>
+</step>
+</procedure>
+
+<p><format color = "BlueViolet">Properties: </format></p>
+
+<list type = "bullet">
+<li>
+<p>Typical case: <math>R + \log N</math></p>
+</li>
+<li>
+<p>Worst case (assuming tree is balanced): <math>R + \sqrt{N}</math></p>
+</li>
+</list>
+
+<procedure title = "Nearest Neighbor Search - Find closest point to 
+query point">
+<step>
+<p>Check distance from point in node to query point.</p>
+</step>
+<step>
+<p>Recursively search left/bottom (if it could contain a closer 
+point).</p>
+</step>
+<step>
+<p>Recursively search right/top (if it could contain a closer 
+point).</p>
+</step>
+<step>
+<p>Organize method so that it begins by searching for query point.</p>
+</step>
+</procedure>
+
+<p><format color = "BlueViolet">Properties: </format></p>
+
+<list type = "bullet">
+<li>
+<p>Typical case: <math>\log N</math></p>
+</li>
+<li>
+<p>Worst case (even if tree is balanced): <math>N</math></p>
+</li>
+</list>
+
+##### Part &#8545; Kd Trees
+
+<p><format color = "DarkOrange">Kd Tree:</format> Recursively 
+partition <math>k</math>-dimensional space into 2 halfspaces.</p>
+
+<p><format color = "BlueViolet">Implementation:</format> BST, but
+cycle through dimensions ala 2d trees.</p>
+
+##### Part &#8546; N-body Simulation
+
+<format color = "BlueViolet">Goal:</format> Simulate the motion 
+of <math>N</math> particles, mutually affected by gravity.
+
+<procedure title = "Appel's Algorithm for N-body Simulation">
+<step>
+<p>Build 3d-tree with <math>N</math> particles as nodes.</p>
+</step>
+<step>
+<p>Store center-of-mass of subtree in each node.</p>
+</step>
+<step>
+<p>To compute total force acting on a particle, traverse tree, but 
+stop as soon as distance from particle to subdivision is sufficiently
+large.</p>
+</step>
+</procedure>
+
+<p><format color = "BlueViolet">Properties:</format> Running time
+per step is <math>N \log N</math>.</p>
+
+### 11.4 Interval Search Tree
+
+<p>Create BST, where each node stores an interval <math>(lo, hi)
+</math>.</p>
+
+<list type = "bullet">
+<li>
+<p>Use left endpoint as BST <format color = "OrangeRed">key</format>
+.</p>
+</li>
+<li>
+<p>Store <format color = "BlueViolet">max endpoint</format> in 
+subtree rooted at node.</p>
+</li>
+</list>
+
+<procedure title = "Insertion for Interval Search Tree">
+<step>
+<p>Insert into BST, using <math>lo</math> as the key.</p>
+</step>
+<step>
+<p>Update max in each node on search path.</p>
+</step>
+</procedure>
+
+<procedure title = "Interval Search for Interval Search Tree" 
+type = "choices">
+<step>
+<p>If interval in node intersects query interval, return it.</p>
+</step>
+<step>
+<p>Else if left subtree is null, go right.</p>
+</step>
+<step>
+<p>Else if max endpoint in left subtree is less than lo, go right.</p>
+</step>
+<step>
+<p>Else go left.</p>
+</step>
+</procedure>
+
+<p>Order of growth of running time for <math>N</math> intervals.</p>
+
+<table style = "header-row">
+<tr><td>operation</td><td>brute</td><td>interval search tree</td>
+<td>best in theory</td></tr>
+<tr><td>insert interval</td><td><math>1</math></td><td><math>\log N
+</math></td><td><math>\log N</math></td></tr>
+<tr><td>find interval</td><td><math>N</math></td><td><math>\log N
+</math></td><td><math>\log N</math></td></tr>
+<tr><td>delete interval</td><td><math>N</math></td><td><math>\log N
+</math></td><td><math>\log N</math></td></tr>
+<tr><td>find <format color = "OrangeRed">any one</format> interval
+that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
+<td><math>\log N</math></td><td><math>\log N</math></td></tr>
+<tr><td>find <format color = "OrangeRed">all</format> interval
+that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
+<td><math>R \log N</math></td><td><math>R + \log N</math></td></tr>
+</table>
+
+### 11.5 Rectangle Intersection
+
+<p><format color = "BlueViolet">Sweep-line Algorithm</format>: </p>
+
+<list type = "bullet">
+<li>
+<p><math>x</math>-coordinates of left and right endpoints define 
+events.</p>
+</li>
+<li>
+<p>Maintain set of rectangles that intersect the sweep line in an 
+interval search tree (using <math>y</math>-intervals of rectangle).</p>
+</li>
+<li>
+<p>Left endpoint: interval search for <math>y</math>-interval of 
+rectangle; insert <math>y</math>-interval.</p>
+</li>
+<li>
+<p>Right endpoint: remove <math>y</math>-interval.</p>
+</li>
+</list>
+
+<p><format color = "BlueViolet">Property:</format> Sweep line 
+algorithm takes time proportional to <math>N \log N + R \log N</math> 
+to find <math>R</math> intersections among a set of <math>N</math> 
+rectangles.</p>
+
+<p>Proof: </p>
+<list type = "bullet">
+<li>
+<p>Put <math>x</math>-coordinates on a PQ (or sort) => 
+<math>N \log N</math></p>
+</li>
+<li>
+<p>Insert <math>y</math>-intervals into ST => <math>N \log N</math>
+</p>
+</li>
+<li>
+<p>Delete <math>y</math>-intervals from ST => <math>N \log N</math>
+</p>
+</li>
+<li>
+<p>Interval searches for y-intervals => <math>N \log N + R \log N
+</math></p>
 </li>
 </list>
