@@ -6,7 +6,7 @@
 
 中文版请移步[这里](README_zh_CN.md)
 
-Visit [here](https://kekeandzeyu.github.io/Computer-Science-Study-Notes/) for the notes.
+Visit [here](https://csstudy.pages.dev/) for the notes.
 
 ## 1 Intention & Background
 

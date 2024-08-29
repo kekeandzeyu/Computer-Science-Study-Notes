@@ -6,7 +6,7 @@
 
 For English version please check [here](README.md)
 
-点击[这里](https://kekeandzeyu.github.io/Computer-Science-Study-Notes/)阅读笔记。
+点击[这里](https://csstudy.pages.dev/)阅读笔记。
 
 ## 1 目的及背景
 

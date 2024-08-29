@@ -2,11 +2,6 @@
 <buildprofiles xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd"
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <build-profile instance="c">
-        <variables>
-            <noindex-content>false</noindex-content>
-        </variables>
-    </build-profile>
     <build-profile instance="hi">
         <variables>
             <primary-color>strawberry</primary-color>
@@ -17,10 +12,11 @@
     </build-profile>
     <footer>
         <copyright>2024 Zeyu Li</copyright>
-        <social type="email" href="kekeandzeyu.gmail.com">Email</social>
+        <social type="email" href="kekeandzeyu@gmail.com">Email</social>
         <social type="twitter" href="https://x.com/kekeandzeyu">X</social>
+        <social type="facebook" href="https://www.facebook.com/profile.php?id=61562817105259">Facebook</social>
         <link href="https://github.com/kekeandzeyu/Computer-Science-Study-Notes">
-            Repository in Github</link>
+            Repository</link>
     </footer>
 
 </buildprofiles>
