@@ -1126,11 +1126,11 @@ element from the range) and returns:</p>
 <p><format color = "BlueViolet">Definitions:</format> </p>
 
 <list type = "bullet">
-    <li>
-        <p><format color = "DarkOrange">Class:</format> a template for
-        a new type of objects, defines how objects of a particular 
-        type behave.</p>
-    </li>
+<li>
+<p><format color = "DarkOrange">Class:</format> a template for
+a new type of objects, defines how objects of a particular 
+type behave.</p>
+</li>
     <li>
         <p><format color = "DarkOrange">Object:</format> Entity that 
         combines state and behavior, instance of a class.</p>
@@ -1418,7 +1418,7 @@ val = static_cast<int>(size); // val: lvalue, static_cast<int>(size): rvalue
 <p>BUT the r-value reference itself is an l-value</p>
 </warning>
 
-<img src = "../images_c/c8-1.png" alt = "Value References"/>\
+<img src = "../images_c/c8-1.png" alt = "Value References"/>
 
 #### 9.2 Move Semantics
 
