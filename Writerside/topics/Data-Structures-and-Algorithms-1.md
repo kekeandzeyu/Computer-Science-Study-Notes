@@ -4,13 +4,22 @@
 
 ## 2 Linked Lists
 
+<p>The sentinel reference always points to a sentinel node.</p>
+
+<p>Sentinel code make it easier to reason about code, and also give 
+you specific goals to strive for in making sure your code works.</p>
+
+<img src = "../images_data/d2-1-1.png" alt = "Sentinel Node"/>
+
 ### 2.1 Singly Linked Lists
 
-Java
+<p>Java</p>
 
 ```Java
-public class SLList {
-    private static class IntNode {
+import java.util.Iterator;
+
+public class SLList implements Iterable<Integer> {
+    public static class IntNode {
         public int item;
         public IntNode next;
 
@@ -24,12 +33,12 @@ public class SLList {
     private int size;
 
     public SLList() {
-        sentinel = new IntNode(17, null);
+        sentinel = new IntNode(63, null);
         size = 0;
     }
 
     public SLList(int x) {
-        sentinel = new IntNode(17, null);
+        sentinel = new IntNode(63, null);
         sentinel.next = new IntNode(x, null);
         size = 1;
     }
@@ -39,13 +48,8 @@ public class SLList {
         size += 1;
     }
 
-    public int getFirst() {
-        return sentinel.next.item;
-    }
-
     public void addLast(int x) {
         size += 1;
-
         IntNode p = sentinel;
         while (p.next != null) {
             p = p.next;
@@ -56,170 +60,147 @@ public class SLList {
     public int size() {
         return size;
     }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return new SLListIterator();
+    }
+
+    private class SLListIterator implements Iterator<Integer> {
+        private IntNode p;
+
+        public SLListIterator() {
+            p = sentinel.next; 
+        }
+
+        @Override
+        public boolean hasNext() {
+            return p != null;
+        }
+
+        @Override
+        public Integer next() {
+            int returnItem = p.item;
+            p = p.next;
+            return returnItem;
+        }
+    }
 }
 ```
 
-C++
+<p>C++</p>
 
 ```C++
-#include<iostream>
+#ifndef SLLIST_H
+#define SLLIST_H
 
-class Node {
+template <typename T>
+class SLList {
 public:
-    int data;
-    Node* next;
-};
+    class IntNode {
+    public:
+        T item;
+        IntNode* next;
 
-class LinkedList {
-public:
-    Node* head;
+        IntNode(T i, IntNode* n) : item(i), next(n) {}
+    };
+
+private:
+    IntNode* sentinel;
     int size;
 
-    LinkedList() : head(nullptr), size(0) {}
+public:
+    SLList() : sentinel(new IntNode(0, nullptr)), size(0) {} 
 
-    void addFirst(int newData) {
-        Node* newNode = new Node();
-        newNode->data = newData;
-        newNode->next = head;
-        head = newNode;
-        size++;
+    explicit SLList(T x) : sentinel(new IntNode(0, nullptr)), size(0) {
+        sentinel->next = new IntNode(x, nullptr);
+        size = 1;
     }
 
-    void addLast(int newData) {
-        Node* newNode = new Node();
-        newNode->data = newData;
-        newNode->next = nullptr;
-
-        if (head == nullptr) {
-            head = newNode;
-        } else {
-            Node* last = head;
-            while (last->next != nullptr) {
-                last = last->next;
-            }
-            last->next = newNode;
-        }
-        size++;
-    }
-
-    int getFirst() {
-        if (head == nullptr) {
-            std::cout << "The list is empty." << std::endl;
-            return -1;
-        } else {
-            return head->data;
+    ~SLList() {
+        IntNode* current = sentinel;
+        while (current != nullptr) {
+            IntNode* next = current->next;
+            delete current;
+            current = next;
         }
     }
 
-    int getSize() {
+    void addFirst(T x) {
+        sentinel->next = new IntNode(x, sentinel->next);
+        size++;
+    }
+
+    void addLast(T x) {
+        IntNode* p = sentinel;
+        while (p->next != nullptr) {
+            p = p->next;
+        }
+        p->next = new IntNode(x, nullptr);
+        size++;
+    }
+
+    [[nodiscard]] int getSize() const {
         return size;
     }
 
-    void display() {
-        Node* ptr;
-        if (head == nullptr) {
-            std::cout << "The list is empty." << std::endl;
-        } else {
-            ptr = head;
-            while (ptr != nullptr) {
-                std::cout << ptr->data << " ";
-                ptr = ptr->next;
-            }
-            std::cout << std::endl;
+    class iterator {
+    private:
+        IntNode* current;
+
+    public:
+        explicit iterator(IntNode* node) : current(node) {}
+
+        T& operator*() { return current->item; }
+        iterator& operator++() {
+            current = current->next;
+            return *this;
         }
-    }
+        bool operator!=(const iterator& other) const { return current != other.current; }
+    };
 
-    void deleteNode(int key) {
-        Node* temp = head;
-        Node* prev = nullptr;
-
-        if (temp != nullptr && temp->data == key) {
-            head = temp->next;
-            delete temp;
-            size--;
-            return;
-        }
-
-        while (temp != nullptr && temp->data != key) {
-            prev = temp;
-            temp = temp->next;
-        }
-
-        if (temp == nullptr) return;
-
-        prev->next = temp->next;
-        delete temp;
-        size--;
-    }
+    iterator begin() { return iterator(sentinel->next); }
+    iterator end() { return iterator(nullptr); }
 };
+
+#endif // SLLIST_H
 ```
 
-Python
+<p>Python</p>
 
 ```Python
-class Node:
-    def __init__(self, data=None):
-        self.data = data
-        self.next = None
+class SLList:
+    class IntNode:
+        def __init__(self, i, n):
+            self.item = i
+            self.next = n
 
-class LinkedList:
-    def __init__(self):
-        self.head = None
+    def __init__(self, x=None): 
+        self.sentinel = self.IntNode(None, None)
         self.size = 0
+        if x is not None:  # If x is provided, add it as the first element
+            self.sentinel.next = self.IntNode(x, None)
+            self.size = 1
 
-    def addFirst(self, data):
-        new_node = Node(data)
-        new_node.next = self.head
-        self.head = new_node
+    def addFirst(self, x):
+        self.sentinel.next = self.IntNode(x, self.sentinel.next)
         self.size += 1
 
-    def addLast(self, data):
-        new_node = Node(data)
-        if not self.head:
-            self.head = new_node
-        else:
-            last = self.head
-            while last.next:
-                last = last.next
-            last.next = new_node
+    def addLast(self, x):
+        p = self.sentinel
+        while p.next is not None:
+            p = p.next
+        p.next = self.IntNode(x, None)
         self.size += 1
 
-    def getFirst(self):
-        if self.head is None:
-            print("The list is empty.")
-            return None
-        else:
-            return self.head.data
-
-    def getSize(self):
+    def __len__(self):
         return self.size
 
-    def display(self):
-        node = self.head
-        while node:
-            print(node.data, end=" ")
-            node = node.next
-        print()
-
-    def deleteNode(self, key):
-        temp = self.head
-        if temp is not None:
-            if temp.data == key:
-                self.head = temp.next
-                temp = None
-                self.size -= 1
-                return
-        prev = None
-        while temp is not None:
-            if temp.data == key:
-                break
-            prev = temp
-            temp = temp.next
-        if temp == None:
-            return
-        prev.next = temp.next
-        temp = None
-        self.size -= 1
+    def __iter__(self):
+        p = self.sentinel.next
+        while p is not None:
+            yield p.item
+            p = p.next
 ```
 
 ### 2.2 Doubly Linked Lists
@@ -228,7 +209,7 @@ class LinkedList:
 <p>This is the use of built-in doubly linked lists.</p>
 </note>
 
-Java
+<p>Java</p>
 
 ```Java
 import java.util.LinkedList;
@@ -273,203 +254,367 @@ int main() {
 <p>This is the implementation of doubly linked lists.</p>
 </note>
 
-Java
+<p>Java</p>
 
 ```Java
-public class DoublyLinkedList {
-    class Node {
-        int data;
-        Node previous;
-        Node next;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-        public Node(int data) {
-            this.data = data;
+public class Deque<T> implements Iterable<T> {
+
+    private class Node {
+        public T item;
+        public Node prev;
+        public Node next;
+
+        public Node(T i, Node p, Node n) {
+            item = i;
+            prev = p;
+            next = n;
         }
     }
 
-    Node head, tail = null;
+    private final Node sentinel;
+    private int size;
 
-    public void addNode(int data) {
-        Node newNode = new Node(data);
-
-        if(head == null) {
-            head = tail = newNode;
-            head.previous = null;
-            tail.next = null;
-        } else {
-            tail.next = newNode;
-            newNode.previous = tail;
-            tail = newNode;
-            tail.next = null;
-        }
+    public Deque() {
+        sentinel = new Node(null, null, null);
+        sentinel.prev = sentinel;
+        sentinel.next = sentinel;
+        size = 0;
     }
 
-    public void deleteNode(Node del) {
-        if (head == null || del == null) {
-            return;
+    public void addFirst(T x) {
+        if (x == null) {
+            throw new IllegalArgumentException("Cannot add null item");
         }
-
-        if (head == del) {
-            head = del.next;
-        }
-
-        if (del.next != null) {
-            del.next.previous = del.previous;
-        }
-
-        if (del.previous != null) {
-            del.previous.next = del.next;
-        }
+        Node newNode = new Node(x, sentinel, sentinel.next);
+        sentinel.next.prev = newNode;
+        sentinel.next = newNode;
+        size++;
     }
 
-    public void display() {
-        Node current = head;
-        if(head == null) {
-            System.out.println("List is empty");
-            return;
+    public void addLast(T x) {
+        Node newNode = new Node(x, sentinel.prev, sentinel);
+        sentinel.prev.next = newNode;
+        sentinel.prev = newNode;
+        size++;
+    }
+
+    public ArrayList<T> toList() {
+        ArrayList<T> returnList = new ArrayList<>();
+        Node p = sentinel.next;
+        while (p != sentinel) {
+            returnList.add(p.item);
+            p = p.next;
         }
-        System.out.println("Nodes of doubly linked list: ");
-        while(current != null) {
-            System.out.print(current.data + " ");
+        return returnList;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public T removeFirst() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Deque is empty");
+        }
+        Node first = sentinel.next;
+        sentinel.next = first.next;
+        first.next.prev = sentinel;
+        size--;
+        return first.item;
+    }
+
+    public T removeLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Deque is empty");
+        }
+        Node last = sentinel.prev;
+        sentinel.prev = last.prev;
+        last.prev.next = sentinel;
+        size--;
+        return last.item;
+    }
+
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            return null;
+        }
+        Node p = sentinel.next;
+        for (int i = 0; i < index; i++) {
+            p = p.next;
+        }
+        return p.item;
+    }
+
+    public Iterator<T> iterator() {
+        return new DequeIterator();
+    }
+
+    private class DequeIterator implements Iterator<T> {
+        private Node current = sentinel.next; // Start at the first node after sentinel
+
+        public boolean hasNext() {
+            return current != sentinel;
+        }
+
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No more elements");
+            }
+            T item = current.item;
             current = current.next;
+            return item;
         }
     }
 }
 ```
 
-C++
+<p>C++</p>
 
 ```C++
-#include<iostream>
-using namespace std;
+#ifndef DEQUE_H
+#define DEQUE_H
 
-class Node {
+#include <vector>
+#include <stdexcept>
+
+template <typename T>
+class Deque {
+private:
+    struct Node {
+        T item;
+        Node* prev;
+        Node* next;
+
+        Node(const T& i, Node* p, Node* n) : item(i), prev(p), next(n) {}
+    };
+
+    Node* sentinel;
+    int size;
+
 public:
-    int data;
-    Node* next;
-    Node* prev;
+    Deque() {
+        sentinel = new Node(T{}, nullptr, nullptr); // Default construct T for sentinel
+        sentinel->prev = sentinel;
+        sentinel->next = sentinel;
+        size = 0;
+    }
+
+    ~Deque() {
+        Node* current = sentinel->next;
+        while (current != sentinel) {
+            const Node* temp = current;
+            current = current->next;
+            delete temp;
+        }
+        delete sentinel;
+    }
+
+    void addFirst(const T& x) {
+        Node* newNode = new Node(x, sentinel, sentinel->next);
+        sentinel->next->prev = newNode;
+        sentinel->next = newNode;
+        size++;
+    }
+
+    void addLast(const T& x) {
+        Node* newNode = new Node(x, sentinel->prev, sentinel);
+        sentinel->prev->next = newNode;
+        sentinel->prev = newNode;
+        size++;
+    }
+
+    std::vector<T> toList() const {
+        std::vector<T> returnList;
+        Node* p = sentinel->next;
+        while (p != sentinel) {
+            returnList.push_back(p->item);
+            p = p->next;
+        }
+        return returnList;
+    }
+
+    [[nodiscard]] bool isEmpty() const {
+        return size == 0;
+    }
+
+    [[nodiscard]] int getsize() const {
+        return size;
+    }
+
+    T removeFirst() {
+        if (isEmpty()) {
+            throw std::runtime_error("Deque is empty");
+        }
+        Node* first = sentinel->next;
+        sentinel->next = first->next;
+        first->next->prev = sentinel;
+        size--;
+        T item = first->item;
+        delete first;
+        return item;
+    }
+
+    T removeLast() {
+        if (isEmpty()) {
+            throw std::runtime_error("Deque is empty");
+        }
+        Node* last = sentinel->prev;
+        sentinel->prev = last->prev;
+        last->prev->next = sentinel;
+        size--;
+        T item = last->item;
+        delete last;
+        return item;
+    }
+
+    T get(const int index) const {
+        if (index < 0 || index >= size) {
+            throw std::runtime_error("Index out of bounds"); // Or return a default value
+        }
+        Node* p = sentinel->next;
+        for (int i = 0; i < index; i++) {
+            p = p->next;
+        }
+        return p->item;
+    }
+
+    class iterator {
+    public:
+        using iterator_category = std::bidirectional_iterator_tag;
+        using value_type = T;
+        using difference_type = std::ptrdiff_t;
+        using pointer = T*;
+        using reference = T&;
+
+        explicit iterator(Node* ptr) : current(ptr) {}
+
+        reference operator*() const { return current->item; }
+        pointer operator->() const { return &current->item; }
+
+        iterator& operator++() {
+            current = current->next;
+            return *this;
+        }
+
+        iterator operator++(int) {
+            iterator temp = *this;
+            ++(*this);
+            return temp;
+        }
+
+        iterator& operator--() {
+            current = current->prev;
+            return *this;
+        }
+
+        iterator operator--(int) {
+            iterator temp = *this;
+            --(*this);
+            return temp;
+        }
+
+        bool operator==(const iterator& other) const { return current == other.current; }
+        bool operator!=(const iterator& other) const { return current != other.current; }
+
+    private:
+        Node* current;
+    };
+
+    iterator begin() const { return iterator(sentinel->next); }
+    iterator end() const { return iterator(sentinel); }
 };
 
-void insertAtBeginning(Node** start, int value) {
-    Node* newNode = new Node();
-    newNode->data = value;
-    newNode->next = *start;
-    newNode->prev = NULL;
-    if (*start != NULL)
-        (*start)->prev = newNode;
-    *start = newNode;
-}
-
-void insertAtEnd(Node** start, int value) {
-    Node* newNode = new Node();
-    newNode->data = value;
-    newNode->next = NULL;
-    Node* last = *start;
-    if (*start == NULL) {
-        newNode->prev = NULL;
-        *start = newNode;
-        return;
-    }
-    while (last->next != NULL)
-        last = last->next;
-    last->next = newNode;
-    newNode->prev = last;
-}
-
-void deleteNode(Node** start, Node* del) {
-    if (*start == NULL || del == NULL)
-        return;
-    if (*start == del)
-        *start = del->next;
-    if (del->next != NULL)
-        del->next->prev = del->prev;
-    if (del->prev != NULL)
-        del->prev->next = del->next;
-    free(del);
-}
-
-void display(Node* node) {
-    while (node != NULL) {
-        cout << node->data << " ";
-        node = node->next;
-    }
-}
+#endif // DEQUE_H
 ```
 
-Python
+<p>Python</p>
 
 ```Python
-class Node:
-    def __init__(self, data=None):
-        self.data = data
-        self.next = None
-        self.prev = None
+class Deque:
+    class Node:
+        def __init__(self, item, prev, next):
+            self.item = item
+            self.prev = prev
+            self.next = next
 
-class DoublyLinkedList:
     def __init__(self):
-        self.head = None
+        self.sentinel = self.Node(None, None, None)
+        self.sentinel.prev = self.sentinel
+        self.sentinel.next = self.sentinel
+        self.size = 0
 
-    def insert_at_beginning(self, data):
-        if self.head is None:
-            self.head = Node(data)
-        else:
-            new_node = Node(data)
-            self.head.prev = new_node
-            new_node.next = self.head
-            self.head = new_node
+    def addFirst(self, x):
+        if x is None:
+            raise ValueError("Cannot add null item")
+        new_node = self.Node(x, self.sentinel, self.sentinel.next)
+        self.sentinel.next.prev = new_node
+        self.sentinel.next = new_node
+        self.size += 1
 
-    def insert_at_end(self, data):
-        if self.head is None:
-            self.head = Node(data)
-        else:
-            cur_node = self.head
-            while cur_node.next:
-                cur_node = cur_node.next
-            new_node = Node(data)
-            cur_node.next = new_node
-            new_node.prev = cur_node
+    def addLast(self, x):
+        new_node = self.Node(x, self.sentinel.prev, self.sentinel)
+        self.sentinel.prev.next = new_node
+        self.sentinel.prev = new_node
+        self.size += 1
 
-    def delete_node(self, key):
-        cur_node = self.head
-        while cur_node:
-            if cur_node.data == key and cur_node == self.head:
-                if not cur_node.next:
-                    cur_node = None 
-                    self.head = None
-                    return
-                else:
-                    nxt = cur_node.next
-                    cur_node.next = None
-                    nxt.prev = None
-                    cur_node = None
-                    self.head = nxt
-                    return
+    def toList(self):
+        return_list = []
+        p = self.sentinel.next
+        while p != self.sentinel:
+            return_list.append(p.item)
+            p = p.next
+        return return_list
 
-            elif cur_node.data == key:
-                if cur_node.next:
-                    nxt = cur_node.next
-                    prev = cur_node.prev
-                    prev.next = nxt
-                    nxt.prev = prev
-                    cur_node.next = None
-                    cur_node.prev = None
-                    cur_node = None
-                    return
-                else:
-                    prev = cur_node.prev
-                    prev.next = None
-                    cur_node.prev = None
-                    cur_node = None 
-                    return 
-            cur_node = cur_node.next
+    def isEmpty(self):
+        return self.size == 0
 
-    def display(self):
-        elems = []
-        cur_node = self.head
-        while cur_node:
-            elems.append(cur_node.data)
-            cur_node = cur_node.next
-        print(elems)
+    def size(self):
+        return self.size
+
+    def removeFirst(self):
+        if self.isEmpty():
+            raise IndexError("Deque is empty")
+        first = self.sentinel.next
+        self.sentinel.next = first.next
+        first.next.prev = self.sentinel
+        self.size -= 1
+        return first.item
+
+    def removeLast(self):
+        if self.isEmpty():
+            raise IndexError("Deque is empty")
+        last = self.sentinel.prev
+        self.sentinel.prev = last.prev
+        last.prev.next = self.sentinel
+        self.size -= 1
+        return last.item
+
+    def get(self, index):
+        if index < 0 or index >= self.size:
+            return None
+        p = self.sentinel.next
+        for _ in range(index):
+            p = p.next
+        return p.item
+
+    def __iter__(self):
+        self.current = self.sentinel.next
+        return self
+
+    def __next__(self):
+        if self.current == self.sentinel:
+            raise StopIteration
+        item = self.current.item
+        self.current = self.current.next
+        return item
 ```
 
 ## 3 Union-Find
