@@ -1126,46 +1126,48 @@ element from the range) and returns:</p>
 <p><format color = "BlueViolet">Definitions:</format> </p>
 
 <list type = "bullet">
-<li>
-    <p><format color = "DarkOrange">Class:</format> a template for a new
-    type of objects.</p>
-</li>
-<li>
-    <p><format color = "DarkOrange">Object:</format> Entity that 
-    combines state and behavior.</p>
-</li>
-<li>
-    <p><format color = "DarkOrange">Member variables (instance 
-    variables, fields):</format> Define state inside each object.</p>
-</li>
-<li>
-    <p><format color = "DarkOrange">Member functions (methods):</format> 
-    Define behavior inside each object.</p>
-</li>
-<li>
-    <p><format color = "DarkOrange">Constructor:</format> Initializes 
-    new objects as they are created.</p>
-</li>
-<li>
-    <p><format color = "DarkOrange">Destructor:</format> Called when the
-    object is deleted by the program.</p>
-    <list type = "bullet">
-        <li>
-            <p>Delete any pointers stored as private members.</p>
-        </li>
-        <li>
-            <p>delete[] any arrays stored as private members.</p>
-        </li>
-    </list>
-</li>
-<li>
-    <p><format color = "DarkOrange">Client code:</format> Code that uses
-    the objects defind.</p>
-</li>
-<li>
-    <p><format color = "DarkOrange">Encapsulation:</format> Hiding 
-    implementation details from the client code.</p>
-</li>
+    <li>
+        <p><format color = "DarkOrange">Class:</format> a template for
+        a new type of objects, defines how objects of a particular 
+        type behave.</p>
+    </li>
+    <li>
+        <p><format color = "DarkOrange">Object:</format> Entity that 
+        combines state and behavior, instance of a class.</p>
+    </li>
+    <li>
+        <p><format color = "DarkOrange">Member variables (instance 
+        variables, fields):</format> Define state inside each object.
+        </p>
+    </li>
+    <li>
+        <p><format color = "DarkOrange">Member functions (methods):
+        </format> Define behavior inside each object.</p>
+    </li>
+    <li>
+        <p><format color = "DarkOrange">Constructor:</format> 
+        Initializes new objects as they are created.</p>
+    </li>
+    <li>
+        <p><format color = "DarkOrange">Destructor:</format> Called when the
+        object is deleted by the program.</p>
+        <list type = "bullet">
+            <li>
+                <p>Delete any pointers stored as private members.</p>
+            </li>
+            <li>
+                <p>delete[] any arrays stored as private members.</p>
+            </li>
+        </list>
+    </li>
+    <li>
+        <p><format color = "DarkOrange">Client code:</format> Code 
+        that uses the objects defind.</p>
+    </li>
+    <li>
+        <p><format color = "DarkOrange">Encapsulation:</format> Hiding 
+        implementation details from the client code.</p>
+    </li>
 </list>
 
 <p>C++ separates classes into two kinds of files: </p>
@@ -1327,9 +1329,100 @@ vector<int>::const_iterator itr = v.begin();
 int value = *itr; //OK! reading from itr
 ```
 
-### 8 Operators
+### 8 Special Member Functions
 
-### 9 Inheritance
+### 9 Move Semantics
+
+#### 9.1 lvalues & rvalues
+
+<p><format color = "BlueViolet">Definitions:</format> </p>
+
+<list type = "bullet">
+<li>
+<p><format color = "DarkOrange">lvalue:</format> An l-value is an 
+expression that has a name (identity).</p>
+</li>
+<li>
+<p><format color = "DarkOrange">rvalue:</format> An r-value is an 
+expression that does not have a name (identity).</p>
+</li>
+</list>
+
+<table style = "both">
+    <tr>
+        <td></td><td>l-value</td><td>r-value</td>
+    </tr>
+    <tr>
+        <td>Find address using address-of operator (&var)</td>
+        <td>Yes</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Intuitive Definition</td>
+        <td>Can appear either left or right of an assignment *</td>
+        <td>Can appear only on the right of an assignment *</td>
+    </tr>
+    <tr>
+        <td>Lifetime</td>
+        <td>Decided by scope</td>
+        <td>Ends on the very next line (unless you purposely extend 
+        it!)</td>
+    </tr>
+    <tr>
+        <td rowspan="2">Value References</td>
+        <td><p>An <format color = "OrangeRed">l-value</format> 
+        reference can bind to an l-value.</p>
+        <code-block lang = "C++">
+            auto& ptr2 = (ptr += 3);
+        </code-block>
+        </td>
+        <td><p>An <format color = "OrangeRed">r-value</format> 
+        reference can bind to an r-value.</p>
+        <code-block lang = "C++">
+            auto&& v4 = v1 + v2;
+        </code-block>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"><p>A <format color = "Plum">const</format> 
+        <format color = "OrangeRed">l-value</format> reference can bind to 
+        either l or r-value.</p>
+        <code-block lang = "C++">
+            const auto& ptr2 = (ptr += 3);
+            const auto& v4 = v1 + v2;
+        </code-block>
+        </td>
+    </tr>
+</table>
+
+<note>
+<p>*: This was technically the definition until 2011. Technically there 
+are these weird things called gl-values, pr-values, x-values, ...</p>
+</note>
+
+<p><format color = "BlueViolet">Examples:</format> </p>
+
+```C++
+int val = 2; // val: lvalue, 2: rvalue
+int* ptr = &val; // ptr: lvalue, &val: rvalue
+<vector>int v1{1, 2, 3}; // v1: lvalue, {1, 2, 3}: rvalue
+
+auto v4 = v1 + v2; // v4: lvalue, v1 + v2: rvalue => + returns a copy to a temporary
+size_t size = v1.size(); // size: lvalue, v1.size(): rvalue
+val = static_cast<int>(size); // val: lvalue, static_cast<int>(size): rvalue
+// cast returns a copy of size
+```
+
+<warning>
+<p>An r-value reference is an alias to an r-value</p>
+<p>BUT the r-value reference itself is an l-value</p>
+</warning>
+
+<img src = "../images_c/c8-1.png" alt = "Value References"/>\
+
+#### 9.2 Move Semantics
+
+### 10 Inheritance
 
 <p><format color = "BlueViolet">Definitions:</format> </p>
 
@@ -1348,7 +1441,7 @@ meanings fall.</p>
 <p>For example, tree is hyponym of plant, and plant is hypernym of 
 tree.</p>
 
-#### 9.1 Overriding and Overloading
+#### 10.1 Overriding and Overloading
 
 <p><format color = "BlueViolet">Definition:</format> </p>
 
@@ -1449,6 +1542,20 @@ public class Main {
 }
 ```
 
+<note>
+<p>To look up a name in a class: </p>
+<list type = "bullet">
+    <li>
+        <p>If it names an attribute in the class, return the 
+        attribute value.</p>
+    </li>
+    <li>
+        <p>Otherwise, look up the name in the base class, if there 
+        is one.</p>
+    </li>
+</list>
+</note>
+
 <tip>
 <p>For Java, better use <code>@Override</code> !</p>
 <p><format color = "BlueViolet">Reasons:</format> </p>
@@ -1466,7 +1573,7 @@ hierarchy.</p>
 </list>
 </tip>
 
-#### 9.2 Types of Inheritance (Java)
+#### 10.2 Types of Inheritance (Java)
 
 <list type = "alpha-lower">
 
@@ -1555,6 +1662,6 @@ instantiation</format></td></tr>
 at</td></tr>
 </table>
 
-#### 3.3 
-
 ## &#8547; Modern C++
+
+### 11 RAII

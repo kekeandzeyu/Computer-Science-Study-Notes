@@ -957,24 +957,16 @@ summary = "Order of Growth">Data Structures and Algorithms 1</a>.</p>
 </li>
 </list>
 
-## 6 Object
+## 6 Object-Oriented Programming
 
-<p><format color = "BlueViolet">Definitions:</format> </p>
+<p>For more information about the details of Object-Oriented 
+Programming, refer to <a href = "C-Programming.md" anchor 
+= "7-classes-and-consts" summary = "Object-Oriented Programming">
+Object-Oriented Programming in C++</a>.</p>
 
-<list type = "bullet">
-<li>
-    <p>A <format color = "OrangeRed">class</format> defines how objects 
-    of a particular type behave.</p>
-</li>
-<li>
-    <p>An <format color = "OrangeRed">object</format> is an instance of 
-    of a class; the class is its type.</p>
-</li>
-<li>
-    <p>A method is a function called on an object using a dot 
-    expression.</p>
-</li>
-</list>
+<note>
+<p>The following content is details of OOP in Python.</p>
+</note>
 
 <warning>
 <p>In Python, every value is an object!</p>
@@ -1008,9 +1000,6 @@ print(a.balance) # 50
 ```
 
 <list type = "alpha-lower">
-<li>
-    <p>A class describes the behavior of its instances.</p>
-</li>
 <li>
     <p>When a class is called: </p>
     <list type = "bullet">
