@@ -1,3 +1,5 @@
+<show-structure for="chapter" depth="3"></show-structure>
+
 # Part &#8546;
 
 ## 18 Maximum Flow and Minimum Cut
@@ -77,9 +79,9 @@ no edge points to <math>s</math> or from <math>t</math>.</p>
 
 ### 18.3 Maxflow-Mincut Theorem
 
-<p><format color = "BlueViolet">Definitions:</format> </p>
+<p><format color = "BlueViolet">Definition:</format> </p>
 
-<p><format color = "OrangeRed">Net Flow: </format> The <format color = 
+<p><format color = "OrangeRed">Net Flow:</format> The <format color = 
 "OrangeRed">net flow across</format> a cut (<math>A</math>, <math>B
 </math>) is the sum of the flows on its edges from <math>A</math> to 
 <math>B</math> minus the sum of the flows on its edges from from 
@@ -89,6 +91,189 @@ no edge points to <math>s</math> or from <math>t</math>.</p>
 </math> be any flow and let (<math>A</math>, <math>B</math>) be any 
 cut. Then, the net flow across (<math>A</math>, <math>B</math>) 
 equals the value of <math>f</math>.</p>
+
+<p><format color = "LawnGreen">Proof:</format> By induction on the size of 
+<math>B</math>.</p>
+
+<list type = "bullet">
+<li>
+    <p>Base case: <math>B = {t}</math></p>
+</li>
+<li>
+    <p>Induction step: remains true by local equilibrium when moving
+    any vertex from <math>A</math> to <math>B</math>.</p>
+</li>
+</list>
+
+<p><format color = "BlueViolet">Weak duality:</format> Let <math>f
+</math> be any flow and let <math>(A, B)</math> be any cut. Then, the 
+value of the flow ≤ the capacity of the cut.</p>
+
+<p><format color = "LawnGreen">Proof:</format> </p>
+
+<p>Value of flow <math>f</math> = net flow across cut <math>(A, B)
+</math> ≤ capacity of cut <math>(A, B)</math>.</p>
+
+<p><format color = "BlueViolet">Augmenting path theorem:</format> A 
+flow f is a maxflow iff no augmenting paths.</p>
+
+<p><format color = "BlueViolet">Maxflow-mincut theorem:</format> Value 
+of the maxflow = capacity of mincut.</p>
+
+<p><format color = "LawnGreen">Proof:</format> The following three 
+conditions are equivalent for any flow <math>f</math>.</p>
+
+<list type = "decimal">
+<li>
+    <p>There exists a cut whose capacity equals the value of the flow 
+    <math>f</math>.</p>
+</li>
+<li>
+    <p><math>f</math> is a maxflow.</p>
+</li>
+<li>
+    <p>There is no augmenting path with respect to <math>f</math>.</p>
+</li>
+</list>
+
+<p><format color = "Fuchsia">1 -> 2:</format> </p>
+
+<list>
+<li>
+    <p>Suppose that <math>(A, B)</math> is a cut with capacity equal 
+    to the value of <math>f</math>.</p>
+</li>
+<li>
+    <p>Then, the value of any flow <math>f'</math> ≤ capacity of 
+    <math>(A, B)</math> = value of <math>f</math>.</p>
+</li>
+<li>
+    <p>Thus, <math>f</math> is a maxflow.</p>
+</li>
+</list>
+
+<p><format color = "Fuchsia">2 -> 3:</format> We prove 
+contrapositive: ~3 -> ~2</p>
+
+<list>
+<li>
+    <p>Suppose that there is an augmenting path with respect to 
+    <math>f</math>.</p>
+</li>
+<li>
+    <p>Can improve flow <math>f</math> by sending flow along this path.
+    </p>
+</li>
+<li>
+    <p>Thus, f is not a maxflow.</p>
+</li>
+</list>
+
+<p><format color = "Fuchsia">3 -> 1:</format> Suppose that there is no
+augmenting path with respect to <math>f</math>.</p>
+
+<list>
+<li>
+    <p>Let <math>(A, B)</math> be a cut where <math>A</math> is the set
+    of vertices connected to <math>s</math> by an undirected path with 
+    no full forward or empty backward edges.</p></li>
+<li>
+    <p>By definition, <math>s</math> is in <math>A</math>; since no 
+    augmenting path, <math>t</math> is in <math>B</math>.</p>
+</li>
+<li>
+    <p>Capacity of cut = net flow across cut (forward edges full; 
+    backward edges empty) = value of flow <math>f</math> (
+    flow-value lemma).</p>
+</li>
+</list>
+
+<p>To compute mincut <math>(A, B)</math> from maxflow <math>f</math>: 
+</p>
+
+<list>
+<li>
+    <p>By augmenting path theorem, no augmenting paths with respect 
+    to <math>f</math>.</p>
+</li>
+<li>
+    <p>Compute <math>A</math> = set of vertices connected to <math>s
+    </math> by an undirected path with no full forward or empty 
+    backward edges.</p>
+</li>
+</list>
+
+<img src = "../images_data/d18-3-1.png" alt = "Compute Mincut"/>
+
+### 18.4 Running Time Analysis
+
+<note>
+<p>Important special case: Edge capacities are integers between 1 and 
+<math>U</math>.</p>
+</note>
+
+<p><format color = "BlueViolet">Properties:</format> </p>
+
+<list type = "decimal">
+<li>
+    <p>The flow is integer-valued throughout Ford-Fulkerson.</p>
+    <p><format color = "LawnGreen">Proof:</format> </p>
+    <list type = "bullet">
+    <li>
+        <p>Bottleneck capacity is an integer.</p>
+    </li>
+    <li>
+        <p>Flow on an edge increases/decreases by bottleneck capacity.
+        </p>
+    </li>
+    </list>
+</li>
+<li>
+    <p>Number of augmentations ≤ the value of the maxflow.</p>
+    <p><format color="LawnGreen">Proof:</format> Each augmentation 
+    increases the value by at least 1.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Integrality theorem:</format> There 
+    exists an integer-valued maxflow.</p>
+    <p><format color="LawnGreen">Proof:</format> Ford-Fulkerson 
+    terminates and maxflow that it finds is integer-valued.</p>
+</li>
+</list>
+
+<p><format color = "BlueViolet">Running time:</format> FF performance 
+depends on choice of augmenting paths.</p>
+
+<p>Digraph with <math>V</math> vertices, <math>E</math> edges, and 
+integer capacities between 1 and <math>U</math></p>
+
+<table style="header-row">
+<tr>
+    <td>Augmenting Path</td>
+    <td>Number of Paths</td>
+    <td>Implementation</td>
+</tr>
+<tr>
+    <td>Shortest Path</td>
+    <td><math>\leq \frac {1}{2} E V</math></td>
+    <td>Queue (BFS)</td>
+</tr>
+<tr>
+    <td>Fattest path</td>
+    <td><math>\leq E \ln (E U)</math></td>
+    <td>Priority Queue</td>
+</tr>
+<tr>
+    <td>Random Path</td>
+    <td><math>\leq E U</math></td>
+    <td>Randomized Queue</td>
+</tr>
+<tr>
+    <td>DFS Path</td>
+    <td><math>\leq E U</math></td>
+    <td>Stack (DFS)</td>
+</tr>
+</table>
 
 ## 19 Substring Search
 
