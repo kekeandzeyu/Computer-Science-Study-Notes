@@ -1329,11 +1329,44 @@ vector<int>::const_iterator itr = v.begin();
 int value = *itr; //OK! reading from itr
 ```
 
-### 8 Special Member Functions
+### 8 Operators
 
-### 9 Move Semantics
+<p>There are 40 (+4) operators you can overload!</p>
 
-#### 9.1 lvalues & rvalues
+<img src="../images_c/c8-1.png" alt="Operators"/>
+
+<p><format color="BlueViolet">Examples for default operators 
+behaviors:</format> </p>
+
+<compare type="top-bottom">
+<code-block lang="c++">
+    std::vector&lt;std::string&gt; v{"Hello", "World"}; 
+    std::cout &lt;&lt; v[0]; 
+    v[1] += "!";
+</code-block>
+<code-block lang="c++">
+    std::vector&lt;std::string&gt; v{"Hello", "World"};
+    std::cout.operator &lt;&lt; (v.operator[](0).c_str());
+    v.operator[](1).operator += ("!");
+</code-block>
+</compare>
+
+<p>In STL, </p>
+
+```C++
+    ostream& operator<<(ostream& s, const string& val) { 
+        ...
+    }
+    string& vector<string>::operator[](size_t index) const { 
+        ...
+    }
+```
+
+### 9 Special Member Functions
+
+### 10 Move Semantics
+
+#### 10.1 lvalues & rvalues
 
 <p><format color = "BlueViolet">Definitions:</format> </p>
 
@@ -1418,11 +1451,11 @@ val = static_cast<int>(size); // val: lvalue, static_cast<int>(size): rvalue
 <p>BUT the r-value reference itself is an l-value</p>
 </warning>
 
-<img src = "../images_c/c8-1.png" alt = "Value References"/>
+<img src = "../images_c/c10-1.png" alt = "Value References"/>
 
-#### 9.2 Move Semantics
+#### 10.2 Move Semantics
 
-### 10 Inheritance
+### 11 Inheritance
 
 <p><format color = "BlueViolet">Definitions:</format> </p>
 
@@ -1441,7 +1474,7 @@ meanings fall.</p>
 <p>For example, tree is hyponym of plant, and plant is hypernym of 
 tree.</p>
 
-#### 10.1 Overriding and Overloading
+#### 11.1 Overriding and Overloading
 
 <p><format color = "BlueViolet">Definition:</format> </p>
 
@@ -1573,7 +1606,7 @@ hierarchy.</p>
 </list>
 </tip>
 
-#### 10.2 Types of Inheritance (Java)
+#### 11.2 Types of Inheritance (Java)
 
 <list type = "alpha-lower">
 
@@ -1664,4 +1697,4 @@ at</td></tr>
 
 ## &#8547; Modern C++
 
-### 11 RAII
+### 12 RAII
