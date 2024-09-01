@@ -1029,3 +1029,128 @@ print(a.balance) # 50
     attributes.</p>
 </li>
 </list>
+
+## 7 Scheme
+
+### 7.1 Scheme Fundamentals
+
+<p>Scheme programs consist of expressions, which can be: </p>
+
+<list type = "bullet">
+<li>Primitive expressions: 2, 3.3, true, +, quotient...</li>
+<li>Combinations: (quotient 10 2), (not true)...</li>
+</list>
+
+<p>Numbers are self-evaluating; symbols are bound to values.</p>
+<p>Call expressions include an operator and 0 or more operands in 
+parenthesis.</p>
+
+<p><format color = "BlueViolet">Example:</format> </p>
+
+<code-block lang="plain text">
+(quotient 10 2) ; 5
+(- (* 3 5) (+ 10 1)) ; 14
+(- (* 2 2 3) 
+    (+ 3 2 1)) ; 9
+(number? 3) ; #t
+</code-block>
+
+<p><format color="BlueViolet">Special forms:</format> </p>
+
+<p><format color="OrangeRed">Special forms:</format> A combination
+taht is not a call expression is a <format style="italic">special
+form</format>: </p>
+
+<list type="bullet">
+<li><format color="Fuchsia"><format style="bold">If</format> statement
+:</format> (if &lt;predicate&gt; &lt;consequent&gt; &lt;alternative
+&gt;)</li>
+<li><format color="Fuchsia"><format style="bold">And</format> and 
+<format style="bold">or</format>:</format> (and &lt;e <sub>1</sub>&gt;
+... &lt;e <sub>n</sub>&gt;), (or &lt;e <sub>1</sub>&gt; ... &lt;e 
+<sub>n</sub>&gt;)</li>
+<li><format color="Fuchsia">Binding symbols:</format> (define &lt;
+symbol&gt; &lt;expression&gt;)</li>
+<li><format color="Fuchsia">New procedures:</format> (define &lt;
+symbol&gt; &lt;formal parameters&gt;) &lt;body&gt;</li>
+<li><format color="Fuchsia">Lambda Expressions:</format> (lambda 
+(&lt;formal-parameters&gt;) &lt;body&gt;</li>
+</list>
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+<code-block lang="plain text">
+(define pi 3.14)
+(define (abs x)
+    (if (&gt;= x 0)
+        x
+        (- x)))
+</code-block>
+
+<compare first-title="Procedure" second-title="Lambda Expressions">
+<code-block lang="plain text">
+(define (plus4 x) (+ x 4))
+</code-block>
+<code-block lang="plain text">
+(define plus4 (lambda (x) (+ x 4)))
+</code-block>
+</compare>
+
+<p><format color="BlueViolet">Cond & Begin:</format> </p>
+
+<p><format color="Magenta">Cond</format></p>
+
+<compare first-title="if-elif-else in Python" second-title
+="Cond in Scheme">
+<code-block lang="python">
+if x &gt; 10:
+    print("big")
+elif x &gt; 5:
+    print("medium")
+else:
+    print("small")
+</code-block>
+<code-block lang="plain text">
+(cond ((&gt; x 10) (print 'big))
+      ((&gt; x 5)  (print 'medium))
+      (else     (print 'small)))
+</code-block>
+</compare>
+
+<p><format color="Magenta">Begin</format></p>
+
+<compare first-title="Python" second-title="Scheme">
+<code-block lang="python">
+if x &gt; 10:
+    print("big")
+    print("guy")
+else:
+    print("small")
+    print("fry")
+</code-block>
+<code-block lang="plain text">
+(if (&gt; x 10)
+    (begin
+        (print 'big)
+        (print 'guy))
+    (begin
+        (print 'small)
+        (print 'fry)))
+</code-block>
+</compare>
+
+<p><format color="BlueViolet">Let:</format> </p>
+
+<compare first-title="Bound in Python" second-title="Not Bound in 
+Scheme">
+<code-block lang="python">
+a = 3
+b = 2 + 2
+c = math.sqrt(a * a + b * b)
+</code-block>
+<code-block lang="plain text">
+(let ((a 3)
+      (b (+ 2 2)))
+    (sqrt (+ (* a a) (* b b))))
+</code-block>
+</compare>
