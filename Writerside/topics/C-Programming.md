@@ -73,9 +73,125 @@ on each new system.</p>
 </li>
 </list>
 
-### 2 Streams
+<img src="../images_c/c1-1.png" alt="Compilation"/>
 
-#### 2.1 Strings
+### 2 Types and Structs
+
+#### 2.1 Primitive Types
+
+<table style="header-row">
+<tr>
+    <td>Fundamental Types</td><td>Example</td><td>Memory</td>
+</tr>
+<tr>
+    <td>int</td><td><code-block lang="c++">int val = 5;</code-block>
+    </td><td>32 bits (usually)</td>
+</tr>
+<tr>
+    <td>char</td><td><code-block lang="c++">char ch = 'F';</code-block>
+    </td><td>8 bits (usually)</td>
+</tr>
+<tr>
+    <td>float</td><td><code-block lang="c++">float decimalVal1 = 5.0;
+    </code-block></td><td>32 bits (usually)</td>
+</tr>
+<tr>
+    <td>double</td><td><code-block lang="c++">double decimalVal2 = 5.0;
+    </code-block></td><td>64 bits (usually)</td>
+</tr>
+<tr>
+    <td>bool</td><td><code-block lang="c++">bool bVal = true;
+    </code-block></td><td>1 bit</td>
+</tr>
+<tr>
+    <td>std::string</td><td><code-block lang="c++">std::string str = 
+    "Haven";</code-block></td><td>Depends on architecture</td>
+</tr>
+</table>
+
+#### 2.2 Structs
+
+<p><format color="BlueViolet">Definitio:</format> </p>
+
+<p><format color="DarkOrange">Struct:</format> A <format style=
+"bold">struct</format> is a group of <format style="bold">named 
+variables</format>, each with their own type, that allows programmers
+to <format style="bold">bundle different types</format> together!</p>
+
+<p><format color="BlueViolet">Example:</format> </p>
+
+```C++
+struct Student { 
+    string name; // these are called fields 
+    string state; // separate these by semicolons 
+    int age; 
+};
+Student s; 
+s.name = "Haven"; 
+s.state = "AR"; 
+s.age = 22; // use . to access fields
+```
+
+### 3 Initialization & References
+
+#### 3.1 Initialization
+
+<p><format color="BlueViolet">Direct Initialization:</format> </p>
+
+```C++
+int numOne = 12.0;
+// numOne = 12, doesn’t type check with direct initialization
+```
+
+<p><format color="BlueViolet">Uniform Initialization:</format> </p>
+
+```C++
+int numTwo {12.0};
+// narrowing conversion of '1.2e+1' from 'double' to 'int'
+// type checks with uniform initialization
+```
+
+<p><format color="BlueViolet">Advantages for Uniform Initialization:
+</format> </p>
+
+<list type="decimal">
+<li>It’s safe! It doesn’t allow for narrowing conversions — which can
+lead to unexpected behaviour (or critical system failures)</li>
+<li>It’s ubiquitous! it works for all types like vectors, maps, and 
+custom classes, among other things!</li>
+</list>
+
+#### 3.2 References
+
+```C++
+int x = 5;
+int& ref = x; // ref is a reference to x
+ref = 10; // x is now 10
+```
+
+<p><format color="BlueViolet">A common mistake:</format> </p>
+
+```C++
+// We are modifying the std::pair’s inside of nums
+void shift(std::vector<std::pair<int, int>> &nums) { // nums passed by reference
+    for (auto [num1, num2] : nums) { // num1 and num2 are copies
+        num1++;
+        num2++;
+    }
+}
+
+// Correct Way
+void shift(std::vector<std::pair<int, int>> &nums) { 
+    for (auto& [num1, num2] : nums) {
+        num1++;
+        num2++;
+    }
+}
+```
+
+### 4 Streams
+
+#### 4.1 Strings
 
 ```C++
 std::string str = "Hello, World!";
@@ -87,7 +203,7 @@ std::cout << "[" << std::left << std::setw(3) << "It" << "]" <<std::endl; // [It
 std::cout << "[" << std::left << std::setfill('-') << std::setw(3) << "It" << "]" <<std::endl; // [It-]
 ```
 
-#### 2.2 Stringstreams
+#### 4.2 Stringstreams
 
 <list>
 <li>
@@ -99,7 +215,7 @@ bin (read as binary).</p>
 </li>
 </list>
 
-##### 2.2.1 Output Stringstreams
+##### 4.2.1 Output Stringstreams
 
 ```C++
 std::ostringstream oss("Ito-En Green Tea");
@@ -112,7 +228,7 @@ oss << "16.9 Ounces";
 std::cout << oss.str() << std::endl; // Ito-En Green Tea16.9 Ounces
 ```
 
-##### 2.2.2 Input Stringstreams
+##### 4.2.2 Input Stringstreams
 
 <warning>
 <p>Types matter! Stream stops reading at any whitespace or any invalid
@@ -131,7 +247,7 @@ std::string unit;
 iss >> amount >> unit; // amount = 16, unit = ".9"
 ```
 
-##### 2.2.3 State Bits
+##### 4.2.3 State Bits
 
 <list>
 <li>
@@ -169,7 +285,7 @@ std::cout << (iss.eof() ? "EOF" : "Not EOF") << std::endl;
 // There also exist iss.good(), iss.fail() & iss.bad()
 ```
 
-#### 2.3 cin and cout
+#### 4.3 cin and cout
 
 <list type = "bullet">
 <li>
@@ -198,9 +314,9 @@ the token with each &gt;&gt; operation.</p>
 </li>
 </list>
 
-### 3 Modern C++ Types
+### 5 Modern C++ Types
 
-#### 3.1 Auto
+#### 5.1 Auto
 
 <list type = "bullet">
 <li>
@@ -225,7 +341,7 @@ class. Example:</p>
 <p>Auto discards const and references!</p>
 </warning>
 
-#### 3.2 Pair/Tuple
+#### 5.2 Pair/Tuple
 
 <p>A pair is simply two objects bundled together.</p>
 
@@ -249,7 +365,7 @@ class. Example:</p>
     const auto& [c, d, e] = values; // c = 4, d = 4, e = "hi"
 ```
 
-#### 3.3 Conversions
+#### 5.3 Conversions
 
 ```C++
 int v1 = static_cast<double>(3.14);
@@ -261,7 +377,7 @@ const int v3 = 3;
 int* v4 = const_cast<int*> (&v3);
 ```
 
-#### 3.4 initializer_list
+#### 5.4 initializer_list
 
 <p><format color = "BlueViolet">Definition</format>: An initializer 
 list is a lightweight vector that can be used as a parameter.</p>
@@ -315,9 +431,9 @@ std::vector<int> v2{3, 10} // v2 = {3, 10}
 
 ## &#8545; Standard Template Library (STL)
 
-### 4 Containers
+### 6 Containers
 
-#### 4.1 Sequence Containers
+#### 6.1 Sequence Containers
 
 <p><format color = "DarkOrange">Sequence Containers:</format> Containers
 which provide access to sequences of elements.</p>
@@ -340,7 +456,7 @@ which provide access to sequences of elements.</p>
 </li>
 </list>
 
-##### 4.1.1 Vector
+##### 6.1.1 Vector
 
 <p><format color = "DarkOrange">Vector:</format> An array with 
 changeable size.</p>
@@ -378,7 +494,7 @@ changeable size.</p>
 </li>
 </list>
 
-##### 4.1.2 Deque
+##### 6.1.2 Deque
 
 <p><format color = "DarkOrange">Deque:</format> A deque is a doubly 
 ended queue.</p>
@@ -407,7 +523,7 @@ pointers to the beginning of each chunk.</p>
 </li>
 </list>
 
-#### 4.2 Container Adapters
+#### 6.2 Container Adapters
 
 <list type = "alpha-lower">
 <li>
@@ -439,7 +555,7 @@ pointers to the beginning of each chunk.</p>
 </li>
 </list>
 
-#### 4.3 Associative Containers
+#### 6.3 Associative Containers
 
 <p><format color = "DarkOrange">Associative containers:</format> Data is
 accessed using the <format color = "OrangeRed">key</format> instead of
@@ -459,7 +575,7 @@ index.</p>
 @endmindmap
 ```
 
-#### 4.4 Iterators
+#### 6.4 Iterators
 
 <p><format color = "BlueViolet">Four iterator operations:</format> </p>
 
@@ -504,7 +620,7 @@ stateDiagram
     Forward --> Output
 ```
 
-##### 4.4.1 Input Iterators
+##### 6.4.1 Input Iterators
 
 <p>For sequential, single-pass input.</p>
 
@@ -516,7 +632,7 @@ vector<int>::iterator iter = myVector.begin();
 int val = *iter;
 ```
 
-##### 4.4.2 Output Iterators
+##### 6.4.2 Output Iterators
 
 <p>For sequential, single-pass output.</p>
 
@@ -528,7 +644,7 @@ vector<int>::iterator iter = myVector.begin();
 *iter = 5;
 ```
 
-##### 4.4.3 Forward Iterators
+##### 6.4.3 Forward Iterators
 
 <p>Combines input and output, plus can make multiple passes.</p>
 
@@ -543,7 +659,7 @@ iter2++;
 if (iter1 == iter2) { cout << "Equal" << endl; } // Equal
 ```
 
-##### 4.4.4 Bidirectional Iterators
+##### 6.4.4 Bidirectional Iterators
 
 <p>Same as forward iterators, plus can go backwards with the decrement
 operator (--).</p>
@@ -551,7 +667,7 @@ operator (--).</p>
 <p><format color = "BlueViolet">Use cases:</format> <code>std::map
 </code>, <code>std::set</code>, <code>std::list</code></p>
 
-##### 4.4.5 Random Access Iterators
+##### 6.4.5 Random Access Iterators
 
 <p>Same as bidirectional iterators, plus can be implemented or 
 decremented by arbitrary amounts using + and -.</p>
@@ -559,9 +675,9 @@ decremented by arbitrary amounts using + and -.</p>
 <p><format color = "BlueViolet">Use cases:</format> <code>std::vector
 </code>, <code>std::deque</code>, <code>std::string</code></p>
 
-### 5 Templates
+### 7 Templates
 
-#### 5.1 Template Functions
+#### 7.1 Template Functions
 
 ```C++
 template <typename T>
@@ -625,9 +741,9 @@ int countOccurences(const Collection& collection, const DataType& val) {
 }
 ```
 
-### 6 Functions and Algorithms
+### 8 Functions and Algorithms
 
-#### 6.1 Lambda Functions {id = "Lambda"}
+#### 8.1 Lambda Functions {id = "Lambda"}
 
 ```C++
 auto isLessThanLimit = [limit](auto val) -> bool {
@@ -736,9 +852,9 @@ that behave like functions. => Lambdas are a type of function object.
 </p>
 </warning>
 
-#### 6.2 Algorithms
+#### 8.2 Algorithms
 
-##### 6.2.1 std::sort
+##### 8.2.1 std::sort
 
 <p><format color = "BlueViolet">Syntax:</format> </p>
 
@@ -822,7 +938,7 @@ int main() {
 </li>
 </list>
 
-##### 6.2.2 std::nth_element
+##### 8.2.2 std::nth_element
 
 <p><format color = "BlueViolet">Syntax:</format> </p>
 
@@ -888,7 +1004,7 @@ after it.</p>
 </li>
 </list>
 
-##### 6.2.3 std::stable_partition
+##### 8.2.3 std::stable_partition
 
 <p><format color = "BlueViolet">Syntax:</format> </p>
 
@@ -984,7 +1100,7 @@ int main() {
 }
 ```
 
-##### 6.2.4 std::copy_if
+##### 8.2.4 std::copy_if
 
 <p><format color = "BlueViolet">Syntax:</format> </p>
 
@@ -1073,7 +1189,7 @@ int main() {
 }
 ```
 
-##### 6.2.5 std::remove_if
+##### 8.2.5 std::remove_if
 
 <p><format color = "BlueViolet">Syntax:</format> </p>
 
@@ -1119,9 +1235,9 @@ element from the range) and returns:</p>
 
 ## &#8546; Object-Oriented Programming
 
-### 7 Classes and Consts
+### 9 Classes and Consts
 
-#### 7.1 Classes
+#### 9.1 Classes
 
 <p><format color = "BlueViolet">Definitions:</format> </p>
 
@@ -1248,7 +1364,7 @@ int MyClass::getMyVariable() {
 </list>
 </note>
 
-#### 7.2 Consts
+#### 9.2 Consts
 
 <p>Consts help us find bugs, and allow us to reason about whether 
 a variable will be changed.</p>
@@ -1295,7 +1411,7 @@ void evil(const Planet &p) {
 }
 ```
 
-##### 7.2.1 Const Pointers
+##### 9.2.1 Const Pointers
 
 ```C++
 // constant pointer to a non-constant int
@@ -1316,7 +1432,7 @@ int const* const p;
 <p>When in doubt, read from right to left!</p>
 </warning>
 
-##### 7.2.2 Const Iterators
+##### 9.2.2 Const Iterators
 
 ```C++
 const vector<int>::iterator itr = v.begin(); 
@@ -1329,7 +1445,7 @@ vector<int>::const_iterator itr = v.begin();
 int value = *itr; //OK! reading from itr
 ```
 
-### 8 Operators
+### 10 Operators
 
 <p>There are 40 (+4) operators you can overload!</p>
 
@@ -1362,11 +1478,11 @@ behaviors:</format> </p>
     }
 ```
 
-### 9 Special Member Functions
+### 11 Special Member Functions
 
-### 10 Move Semantics
+### 12 Move Semantics
 
-#### 10.1 lvalues & rvalues
+#### 12.1 lvalues & rvalues
 
 <p><format color = "BlueViolet">Definitions:</format> </p>
 
@@ -1453,9 +1569,9 @@ val = static_cast<int>(size); // val: lvalue, static_cast<int>(size): rvalue
 
 <img src = "../images_c/c10-1.png" alt = "Value References"/>
 
-#### 10.2 Move Semantics
+#### 12.2 Move Semantics
 
-### 11 Inheritance
+### 13 Inheritance
 
 <p><format color = "BlueViolet">Definitions:</format> </p>
 
@@ -1474,7 +1590,7 @@ meanings fall.</p>
 <p>For example, tree is hyponym of plant, and plant is hypernym of 
 tree.</p>
 
-#### 11.1 Overriding and Overloading
+#### 13.1 Overriding and Overloading
 
 <p><format color = "BlueViolet">Definition:</format> </p>
 
@@ -1606,7 +1722,7 @@ hierarchy.</p>
 </list>
 </tip>
 
-#### 11.2 Types of Inheritance (Java)
+#### 13.2 Types of Inheritance (Java)
 
 <list type = "alpha-lower">
 
@@ -1697,4 +1813,4 @@ at</td></tr>
 
 ## &#8547; Modern C++
 
-### 12 RAII
+### 14 RAII
