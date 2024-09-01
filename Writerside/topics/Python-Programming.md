@@ -961,7 +961,7 @@ summary = "Order of Growth">Data Structures and Algorithms 1</a>.</p>
 
 <p>For more information about the details of Object-Oriented 
 Programming, refer to <a href = "C-Programming.md" anchor 
-= "7-classes-and-consts" summary = "Object-Oriented Programming">
+= "9-classes-and-consts" summary = "Object-Oriented Programming">
 Object-Oriented Programming in C++</a>.</p>
 
 <note>
