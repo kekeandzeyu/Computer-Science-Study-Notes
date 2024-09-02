@@ -1447,6 +1447,8 @@ int value = *itr; //OK! reading from itr
 
 ### 10 Operators
 
+#### 10.1 Basic Operators
+
 <p>There are 40 (+4) operators you can overload!</p>
 
 <img src="../images_c/c8-1.png" alt="Operators"/>
@@ -1477,6 +1479,120 @@ behaviors:</format> </p>
         ...
     }
 ```
+
+#### 10.2 Operator Overloading
+
+<p><format color="BlueViolet">General rule of Thumb:</format> (Member
+& Non-Member)</p>
+
+<list type="decimal">
+<li>Some operators must be implemented as members (e.g., [], (), 
+-&gt;, =) due to C++ semantics.</li>
+<li>Some must be implemented as non-members (eg. &lt;&lt;, if you are
+writing class for rhs, not lhs).</li>
+<li>If unary operator (eg. ++), implement as member.</li>
+<li>If binary operator and treats both operands equally (eg. both 
+unchanged) implement as non-member (maybe friend). Examples: +, &lt;
+.</li>
+<li>If binary operator and not both equally (changes lhs), implement 
+as member (allows easy access to lhs private members). Examples: +=
+</li>
+</list>
+
+<tip>
+<list type="decimal">
+<li>Always think about const-ness of parameters.</li>
+<li>Return reference to support chaining &lt;&lt; calls.</li>
+<li>Here we are overloading &lt;&lt; so our class works as the rhs...
+but we can’t change the class of lhs (stream library).</li>
+</list>
+</tip>
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+<p><format color="Fuchsia">Member Function: </format></p>
+
+```C++
+#include <iostream>
+
+class MyClass {
+private:
+    int data[10]; 
+public:
+    // Subscript operator ([])
+    int& operator[](int index) { 
+        return data[index];
+    }
+
+    // Function call operator ()
+    int operator()(int a, int b) {
+        return data[a] + data[b]; 
+    }
+
+    // Assignment operator (=)
+    MyClass& operator=(const MyClass& other) {
+        if (this != &other) { // Avoid self-assignment
+            for (int i = 0; i < 10; ++i) {
+                data[i] = other.data[i];
+            }
+        }
+        return *this;
+    } 
+};
+
+int main() {
+    MyClass obj;
+    obj[2] = 5; // Using the subscript operator
+    obj[3] = 10; // Using the subscript operator
+    int sum = obj(2, 3); // Using the function call operator
+    std::cout << "Sum: " << sum << std::endl; 
+
+    MyClass obj2;
+    obj2 = obj; // Using the assignment operator
+    return 0;
+}
+```
+
+<p><format color="Fuchsia">Non-Member Function:</format> </p>
+
+```C++
+#include <iostream>
+
+class Point {
+private:
+    int x, y;
+public:
+    Point(int xVal, int yVal) : x(xVal), y(yVal) {}
+
+    // Friend declaration for the output stream operator
+    friend std::ostream& operator<<(std::ostream& out, const Point& p);
+};
+
+// Non-member output stream operator (<<)
+std::ostream& operator<<(std::ostream& out, const Point& p) {
+    out << "(" << p.x << ", " << p.y << ")";
+    return out;
+}
+
+int main() {
+    Point p(5, 10);
+    std::cout << "Point coordinates: " << p << std::endl; // Using the overloaded << 
+    return 0;
+}
+```
+
+<note>
+Declare non-member functions as friends of a class to give them 
+access to private members.
+</note>
+
+#### 10.3 Principle of Least Astonishment (POLA)
+
+<list type="bullet">
+<li>Design operators primarily to mimic conventional usage.</li>
+<li>Use nonmember functions for symmetric operators.</li>
+<li>Always provide all out of a set of related operators.</li>
+</list>
 
 ### 11 Special Member Functions
 
