@@ -52,7 +52,9 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 3. CS106B: Programming Abstractions (Stanford University) by Professor Marty Stepp and the rest of CS106B staff.
 
-> Note: Content of CS61B is partly used for the Object-Oriented part.
+4. CS61A: Structure and Interpretation of Computer Programs (UC Berkeley) by Professor John DeNero and the rest of CS61A staff.
+
+> Note: Content of CS61A and CS61B are partly used for the Object-Oriented part.
 
 ### Topic 3: Python Programming
 

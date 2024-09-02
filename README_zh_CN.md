@@ -52,7 +52,9 @@ For English version please check [here](README.md)
 
 3. CS106B: Programming Abstractions (Stanford University) by Professor Marty Stepp and the rest of CS106B staff.
 
-> 注意：CS61B部分内容被用于面向对象编程部分。
+4. CS61A: Structure and Interpretation of Computer Programs (UC Berkeley) by Professor John DeNero and the rest of CS61A staff.
+
+> 注意：CS61A和CS61B部分内容被用于面向对象编程部分。
 
 ### Topic 3: Python编程
 
