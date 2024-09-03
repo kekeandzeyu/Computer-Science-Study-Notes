@@ -1,7 +1,13 @@
 # Data Structures and Algorithms
 
+<secondary-label ref="wip"></secondary-label>
+<secondary-label ref="beta"></secondary-label>
+
 <p>In the following sections, we will explore more about Data 
 Structures and Algorithms.</p>
+
+<p>In the meantime, these topics will also serve as an introductory 
+part to Java Programming.</p>
 
 ## 1 Data Structures and Algorithms Overview
 

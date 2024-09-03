@@ -2,8 +2,7 @@
 
 # Part &#8544;
 
-<secondary-label ref="beta"/>
-<secondary-label ref="wip"/>
+<primary-label ref="finish"></primary-label>
 
 ## 2 Linked Lists
 
@@ -4371,34 +4370,78 @@ current node's right subtree.</p>
 ## 10 Balanced Search Trees
 
 <table style = "none">
-<tr><td rowspan = "2">implementation</td><td colspan="3">worst-case 
-cost (after <math>N</math> inserts)</td><td colspan = "3">
-average case (after <math>N</math> random inserts)</td>
-<td rowspan = "2">ordered iteration?</td><td rowspan = "2">
-key interface</td></tr>
-<tr><td>search</td><td>insert</td><td>delete</td><td>search hit</td>
-<td>insert</td><td>delete</td></tr>
-<tr><td>sequential search (unordered list)</td><td><math>N</math></td>
-<td><math>N</math></td><td><math>N</math></td><td><math>
-\frac {N}{2}</math></td><td><math>N</math></td><td><math>N</math>
-</td><td>no</td><td><code>equals()</code></td></tr>
-<tr><td>binary search (ordered list)</td><td><math>\lg N</math></td>
-<td><math>N</math></td><td><math>N</math></td><td><math>
-\lg N</math></td><td><math>\frac {N}{2}</math></td>
-<td><math>\frac {N}{2}</math></td><td>yes</td>
-<td><code>compareTo()</code></td></tr>
-<tr><td>BST</td><td><math>N</math></td><td><math>N</math></td>
-<td><math>N</math></td><td><math>1.39 \log N</math></td>
-<td><math>1.39 \log N</math></td><td>?</td><td>yes</td>
-<td><code>compareTo()</code></td></tr>
-<tr><td>2-3 tree</td><td><math>c \log N</math></td>
-<td><math>c \log N</math></td><td><math>c \log N</math></td>
-<td><math>c \log N</math></td><td><math>c \log N</math></td>
-<td><math>c \log N</math></td><td>yes</td><td><code>compareTo()</code></td></tr>
-<tr><td>red-black BST</td><td><math>2 \log N</math></td>
-<td><math>2 \log N</math></td><td><math>2 \log N</math></td>
-<td><math>1.00 \lg N</math></td><td><math>1.00 \lg N</math></td>
-<td><math>1.00 \lg N</math></td><td>yes</td><td><code>compareTo()</code></td></tr>
+<tr>
+    <td rowspan = "2">Implementation</td>
+    <td colspan="3">Worst-Case Cost (after <math>N</math> inserts)
+    </td>
+    <td colspan = "3">Average Case (after <math>N</math> random 
+    inserts)</td>
+    <td rowspan = "2">Ordered Iteration?</td>
+    <td rowspan = "2">Key Interface</td>
+</tr>
+<tr>
+    <td>Search</td>
+    <td>Insert</td>
+    <td>Delete</td>
+    <td>Search Hit</td>
+    <td>Insert</td>
+    <td>Delete</td>
+</tr>
+<tr>
+    <td>Sequential Search (unordered list)</td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>\frac {N}{2}</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td>no</td>
+    <td><code>equals()</code></td>
+</tr>
+<tr>
+    <td>Binary Search (ordered list)</td>
+    <td><math>\lg N</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>\lg N</math></td>
+    <td><math>\frac {N}{2}</math></td>
+    <td><math>\frac {N}{2}</math></td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td>BST</td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>1.39 \log N</math></td>
+    <td><math>1.39 \log N</math></td>
+    <td>?</td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td>2-3 Tree</td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td>Red-Black BST</td>
+    <td><math>2 \log N</math></td>
+    <td><math>2 \log N</math></td>
+    <td><math>2 \log N</math></td>
+    <td><math>1.00 \lg N</math></td>
+    <td><math>1.00 \lg N</math></td>
+    <td><math>1.00 \lg N</math></td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
 </table>
 
 ### 10.1 2-3 Trees

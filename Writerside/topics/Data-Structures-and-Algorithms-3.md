@@ -2,6 +2,9 @@
 
 # Part &#8546;
 
+<secondary-label ref="beta"></secondary-label>
+<secondary-label ref="wip"></secondary-label>
+
 ## 18 Maximum Flow and Minimum Cut
 
 ### 18.1 Introduction
@@ -1409,6 +1412,334 @@ public class StringTest {
         System.out.println(s1.concat(" World")); // Hello World
     }
 }
+```
+
+<table style="both">
+<tr>
+    <td colspan="2"></td>
+    <td colspan="2">String</td>
+    <td colspan="2">StringBuilder</td>
+</tr>
+<tr>
+    <td colspan="2">Data Type in Java</td>
+    <td colspan="2">Sequence of characters (immutable)</td>
+    <td colspan="2">Sequence of characters (mutable)</td>
+</tr>
+<tr>
+    <td colspan="2">Underlying Implementation</td>
+    <td colspan="2">Immutable <code>char[]</code> array, offset, and 
+    length</td>
+    <td colspan="2">Resizing <code>char[]</code> array and length.
+    </td>
+</tr>
+<tr>
+    <td colspan="2"></td>
+    <td>Guarantee</td>
+    <td>Extra Space</td>
+    <td>Guarantee</td>
+    <td>Extra Space</td>
+</tr>
+<tr>
+    <td rowspan="4">Operation</td>
+    <td><code>length()</code></td>
+    <td><math>1</math></td>
+    <td><math>1</math></td>
+    <td><math>1</math></td>
+    <td><math>1</math></td>
+</tr>
+<tr>
+    <td><code>charAt()</code></td>
+    <td><math>1</math></td>
+    <td><math>1</math></td>
+    <td><math>1</math></td>
+    <td><math>1</math></td>
+</tr>
+<tr>
+    <td><code>substring()</code></td>
+    <td><math>1</math></td>
+    <td><math>1</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+</tr>
+<tr>
+    <td><code>concat()</code></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>1*</math></td>
+    <td><math>1*</math></td>
+</tr>
+</table>
+
+<note>
+<list type="decimal">
+<li>
+    <p><math>40 + 2N</math> bytes for a virgin String of length <math>
+    N</math>.</p>
+</li>
+<li>
+    <p>StringBuffer data type is similar, but thread safe (and slower
+    ).</p>
+</li>
+</list>
+</note>
+
+### 19.2 Key-Indexed Counting
+
+<p><format color="BlueViolet">Assumption:</format> Keys are integers 
+between <math>0</math> and <math>R - 1</math>. Can use key as an array
+index.</p>
+
+<p><format color="BlueViolet">Goal:</format> Sort an array of <math>N
+</math> integers between <math>0</math> and <math>R - 1</math>.</p>
+
+<procedure title="Key-Indexed Counting">
+<step>Count frequencies of each letter using key as index.</step>
+<step>Compute frequency cumulates which specify destinations.</step>
+<step>Access cumulates using key as index to move items.</step>
+<step>Copy back into original array.</step>
+</procedure>
+
+<img src="../images_data/d19-2-1.png" alt="Key-Indexed Counting"/>
+
+<p><format color="BlueViolet">Properties:</format> </p>
+
+<list type="bullet">
+<li>Key-indexed counting uses <math>\sim 11 N + 4 R</math> array 
+accesses to sort <math>N</math> items whose keys are integers between
+<math>0</math> and <math>R - 1</math>.</li>
+<li>Key-indexed counting uses extra space proportional to <math>
+N + R</math>.</li>
+<li>Key-indexed counting is stable.</li>
+</list>
+
+<p>Java</p>
+
+```Java
+public class KeyIndexedSorting {
+    public static void sort(Squirrel[] students) {
+        int N = students.length;
+        int R = 5; // Assuming grades are from 0 to 4
+
+        int[] count = new int[R + 1];
+        for (Squirrel student : students) {
+            count[student.grade + 1]++;
+        }
+
+        for (int r = 0; r < R; r++) {
+            count[r + 1] += count[r];
+        }
+
+        Squirrel[] aux = new Squirrel[N];
+        for (Squirrel student : students) {
+            aux[count[student.grade]++] = student;
+        }
+
+        System.arraycopy(aux, 0, students, 0, N);
+    }
+
+    static class Squirrel {
+        String name;
+        int grade;
+
+        public Squirrel(String name, int grade) {
+            this.name = name;
+            this.grade = grade;
+        }
+
+        @Override
+        public String toString() {
+            return name + " (Grade: " + grade + ")";
+        }
+    }
+}
+```
+
+<p>C++</p>
+
+```C++
+#include <iostream>
+#include <utility>
+#include <vector>
+#include <string>
+
+struct Squirrel {
+    std::string name;
+    int grade;
+
+    Squirrel(std::string n, const int g) : name(std::move(n)), grade(g) {}
+
+    friend std::ostream& operator<<(std::ostream& os, const Squirrel& s) {
+        os << s.name << " (Grade: " << s.grade << ")";
+        return os;
+    }
+};
+
+void sort(std::vector<Squirrel>& students) {
+    const int N = static_cast<int>(students.size());
+    constexpr int R = 5; // Assuming grades are from 0 to 4
+
+    std::vector<int> count(R + 1, 0);
+    for (int i = 0; i < N; i++) {
+        count[students[i].grade + 1]++;
+    }
+
+    for (int r = 0; r < R; r++) {
+        count[r + 1] += count[r];
+    }
+
+    std::vector<Squirrel> aux(N);
+    for (int i = 0; i < N; i++) {
+        aux[count[students[i].grade]++] = students[i];
+    }
+
+    students = aux;
+}
+```
+
+<p>Python</p>
+
+```Python
+class Squirrel:
+    def __init__(self, name, grade):
+        self.name = name
+        self.grade = grade
+
+    def __str__(self):
+        return f"{self.name} (Grade: {self.grade})"
+
+def sort(students):
+    N = len(students)
+    R = 5  # Assuming grades are from 0 to 4
+
+    count = [0] * (R + 1)
+    for student in students:
+        count[student.grade + 1] += 1
+
+    for r in range(R):
+        count[r + 1] += count[r]
+
+    aux = [None] * N
+    for student in students:
+        aux[count[student.grade]] = student
+        count[student.grade] += 1
+
+    students[:] = aux 
+```
+
+### 19.3 LSD Radix Sort
+
+<procedure title="LSD Radix Sort">
+<step>Consider characters from right to left.</step>
+<step>Stably sort using dth character as the key (using key-indexed 
+counting).</step>
+</procedure>
+
+<p><format color="BlueViolet">Correctness Proof:</format> LSD sorts 
+fixed-length strings in ascending order.</p>
+
+<p><format color="LawnGreen">Proof:</format> </p>
+
+<p>After pass <math>i</math>, strings are sorted by last <math>i
+</math> characters.</p>
+
+<list>
+<li>If two strings differ on sort key, key-indexed sort puts them in
+proper relative order.</li>
+<li>If two strings agree on sort key, stability keeps them in proper
+relative order.</li>
+</list>
+
+<p><format color="BlueViolet">Property:</format> LSD sort is stable.
+</p>
+
+<p>Google (or presidential) Interview Question: Sort one million 
+32-bit integers using LSD radix sort.</p>
+
+<p>Java</p>
+
+```Java
+public class LSDStringSort {
+    public static void sort(String[] a, int W) {
+        int N = a.length;
+        int R = 256; // extended ASCII alphabet size
+        String[] aux = new String[N];
+
+        for (int d = W - 1; d >= 0; d--) {
+            int[] count = new int[R + 1];
+            for (String string : a) {
+                count[string.charAt(d) + 1]++;
+            }
+
+            for (int r = 0; r < R; r++) {
+                count[r + 1] += count[r];
+            }
+
+            for (String s : a) {
+                aux[count[s.charAt(d)]++] = s;
+            }
+
+            System.arraycopy(aux, 0, a, 0, N);
+        }
+    }
+}
+```
+
+<p>C++</p>
+
+```C++
+#include <iostream>
+#include <string>
+#include <vector>
+
+void lsdSort(std::vector<std::string>& a, const int w) {
+    const int n = static_cast<int>(a.size());
+    int R = 256; 
+    std::vector<std::string> aux(n);
+
+    for (int d = w - 1; d >= 0; d--) {
+        std::vector<int> count(R + 1, 0);
+
+        for (int i = 0; i < n; i++) {
+            count[a[i][d] + 1]++;
+        }
+
+        for (int r = 0; r < R; r++) {
+            count[r + 1] += count[r];
+        }
+
+        for (int i = 0; i < n; i++) {
+            aux[count[a[i][d]]++] = a[i];
+        }
+
+        for (int i = 0; i < n; i++) {
+            a[i] = aux[i];
+        }
+    }
+}
+```
+
+<p>Python</p>
+
+```Python
+def lsd_sort(a, w):
+    n = len(a)
+    R = 256 
+    aux = [""] * n
+
+    for d in range(w - 1, -1, -1):
+        count = [0] * (R + 1)
+
+        for i in range(n):
+            count[ord(a[i][d]) + 1] += 1
+
+        for r in range(R):
+            count[r + 1] += count[r]
+
+        for i in range(n):
+            aux[count[ord(a[i][d])]] = a[i]
+            count[ord(a[i][d])] += 1
+
+        a[:] = aux 
 ```
 
 ## 20 Tries
