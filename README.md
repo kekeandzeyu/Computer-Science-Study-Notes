@@ -70,6 +70,10 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz and the rest of CS162 staff.
 
+### Topic 6: Database System
+
+1. CS186: Introduction to Database Systems (UC Berkeley) by Professor Alvin Cheung, Joe Hellerstein and the rest of CS186 staff.
+
 ## 4 How to use it
 
 For the colors in the notes, here are their meanings:

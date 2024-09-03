@@ -14,29 +14,30 @@
 
 <list type="bullet">
 <li>
-    <p>Declarative!</p>
+    <p><format color="Fuchsia">Declarative!</format></p>
     <list type="bullet">
         <li>Specify <format style="italic">what</format> you want, not 
         <format style="italic">how</format> to get it.</li>  
     </list>
 </li>
 <li>
-    <p>Implemented widely</p>
+    <p><format color="Fuchsia">Implemented widely</format></p>
     <list type="bullet">
         <li>With varying levels of efficiency, completeness.</li>  
     </list>
 </li>
 <li>
-<p>Constrained</p>
-<list type="bullet">
+    <p><format color="Fuchsia">Constrained</format></p>
+    <list type="bullet">
     <li>
         <p>Not targeted at Turing-complete tasks.</p>
     </li>
-</list>
+    </list>
 </li>
 <li>
-<p>General-purpose and feature-rich</p>
-<list type="bullet">
+    <p><format color="Fuchsia">General-purpose and feature-rich
+    </format></p>
+    <list type="bullet">
     <li>
         <p>Many years of added features.</p>
     </li>

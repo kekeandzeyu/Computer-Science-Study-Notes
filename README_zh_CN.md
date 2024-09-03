@@ -70,6 +70,10 @@ For English version please check [here](README.md)
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz and the rest of CS162 staff.
 
+### Topic 6: 数据库系统
+
+1. CS186: Introduction to Database Systems (UC Berkeley) by Professor Alvin Cheung, Joe Hellerstein and the rest of CS186 staff.
+
 ## 4 如何使用
 
 笔记中不同颜色对应的含义如下：
