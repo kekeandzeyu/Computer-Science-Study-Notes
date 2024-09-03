@@ -4,11 +4,13 @@
 
 ## 1 Basic Python Knowledge
 
-### 1.1 String
+### 1.1 Strings
 
-<p>String Interpolation involves evaluating a string literal that 
-contains expressions. Subexpressions are evaluated in the current 
-environment.</p>
+<p>For more detailed introduction on strings, please visit 
+<a href="Data-Structures-and-Algorithms-3.md" anchor="strings-in-java"
+summary="Strings in Java">strings in Java</a>.</p>
+
+<p><format color="BlueViolet">Examples in Python:</format> </p>
 
 ```Python
 name = "Nate"
@@ -58,7 +60,7 @@ s6 = "123"
 ret = s6.isdigit() # True
 ```
 
-### 1.2 List
+### 1.2 Lists
 
 ```Python
 lst = ["I", "have", "a", "dream!"]

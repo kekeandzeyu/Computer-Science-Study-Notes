@@ -1349,9 +1349,73 @@ in <math>S</math> can be matched only to companies in <math>T</math>.
 
 <img src="../images_data/d18-6-3.png" alt="Mincut"/>
 
-## 19 Substring Search
+#### 18.6.2 Baseball Elimination
 
-### 19.1 Introduction
+<p><format color="BlueViolet">Problem:</format> Which teams have a 
+chance of finishing the season with the most wins?</p>
+
+<img src="../images_data/d18-6-4.png" alt="Baseball Elimination"/>
+
+<img src="../images_data/d18-6-5.png" alt="Baseball Elimination"/>
+
+<p>Team 4 not eliminated iff all edges pointing from s are full in 
+maxflow.</p>
+
+<warning>
+Team 4 not eliminated iff all edges pointing from s are full in 
+maxflow.
+</warning>
+
+<note>
+Push-relabel method with gap relabeling: <math>E^{\frac {3}{2}}
+</math>.
+</note>
+
+## 19 Radix Sort
+
+### 19.1 Strings in Java {id="strings-in-java"}
+
+<p><format color="DarkOrange">String:</format> Sequence of characters.
+</p>
+
+<p><format color="BlueViolet">The char data type:</format> </p>
+
+<list type="bullet">
+<li><format color="Fuchsia">C char data type:</format> Typically an 
+8-bit integer.
+    <list type="bullet">
+        <li>Supports 7-bit ASCII.</li>
+        <li>Can represent only 256 characters.</li>
+    </list>
+</li>
+<li><format color="Fuchsia">Java char data type:</format> A 16-bit 
+unsigned integer.
+    <list type="bullet">
+        <li>Supports original 16-bit Unicode.</li>
+        <li>Supports 21-bit Unicode 3.0 (awkwardly).</li>
+    </list>
+</li>
+</list>
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+```Java
+public class StringTest {
+    public static void main(String[] args) {
+        String s1 = "Hello";
+        System.out.println(s1.length()); // 5
+        System.out.println(s1.charAt(0)); // H
+        System.out.println(s1.substring(0, 1)); // H
+        System.out.println(s1.concat(" World")); // Hello World
+    }
+}
+```
+
+## 20 Tries
+
+## 21 Substring Search
+
+### 21.1 Introduction
 
 <list>
 <li>
@@ -1366,7 +1430,7 @@ electronic surveillance, screen scraping, etc.</p>
 </li>
 </list>
 
-### 19.2 Brute-Force Substring Search
+### 21.2 Brute-Force Substring Search
 
 * Theoretical challenge: Linear-time guarantee.
   (Worst case: <math>\sim MN</math>)
@@ -1470,9 +1534,9 @@ def brute_force_search(main_string, sub_string):
     return -1
 ```
 
-### 19.3 Knuth-Morris-Pratt
+### 21.3 Knuth-Morris-Pratt
 
-#### 19.3.1 Proposition
+#### 21.3.1 Proposition
 
 * KMP substring search accesses no more than <math>M + N</math>
   chars to search for a pattern of length <math>M</math> in a text of
@@ -1493,7 +1557,7 @@ def brute_force_search(main_string, sub_string):
 >
 {style = "tip"}
 
-#### 19.3.2 DFA
+#### 21.3.2 DFA
 
 Deterministic Finite State Automaton (DFA) is an abstract
 string-search machine.
@@ -1685,7 +1749,7 @@ class KMP:
         return n  # not found
 ```
 
-#### 19.3.3 NFA
+#### 21.3.3 NFA
 
 Example: A B A B A C
 

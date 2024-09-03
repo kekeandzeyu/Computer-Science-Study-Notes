@@ -193,6 +193,12 @@ void shift(std::vector<std::pair<int, int>> &nums) {
 
 #### 4.1 Strings
 
+<p>For more detailed introduction on strings, please visit 
+<a href="Data-Structures-and-Algorithms-3.md" anchor="strings-in-java"
+summary="Strings in Java">strings in Java</a>.</p>
+
+<p><format color="BlueViolet">Examples in C++:</format> </p>
+
 ```C++
 std::string str = "Hello, World!";
 std::cout << str[1] << std::endl; // e
