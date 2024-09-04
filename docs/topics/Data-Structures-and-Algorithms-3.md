@@ -1626,7 +1626,7 @@ def sort(students):
     students[:] = aux 
 ```
 
-### 19.3 LSD Radix Sort
+### 19.3 LSD Radix Sort {id="lsd"}
 
 <procedure title="LSD Radix Sort">
 <step>Consider characters from right to left.</step>
@@ -1742,6 +1742,580 @@ def lsd_sort(a, w):
         a[:] = aux 
 ```
 
+### 19.4 MSD Radix Sort {id="msd"}
+
+<procedure title="MSD Radix Sort">
+<step>Partition array into <math>R</math> pieces according to first 
+character (use key-indexed counting).</step>
+<step>Recursively sort all strings that start with each character 
+(key-indexed counts delineate subarrays to sort).</step>
+</procedure>
+
+<p><format color="BlueViolet">Variable-length strings:</format> Treat
+strings as if they had an extra char at end (smaller than any char)
+</p>
+
+<note>
+C strings =>Have extra char '\0' at end => no extra work needed.
+</note>
+
+<p><format color="BlueViolet">Potential for Disastrous Performance:
+</format> </p>
+
+<list type="decimal">
+<li>
+<p>Much too slow for small subarrays.</p>
+    <list type="bullet">
+    <li>Each function call needs its own <code>count[]</code> array.
+    </li>
+    <li>ASCII (256 counts): 100x slower than copy pass for <math>
+    N = 2</math>.</li>
+    <li>Unicode (65,536 counts): 32,000x slower for <math>N = 2
+    </math>.</li>
+    </list>
+</li>
+<li>
+<p>Huge number of small subarrays because of recursion.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Improvements:</format> </p>
+
+<p>Cutoff to insertion sort for small subarrays.</p>
+
+<list type="bullet">
+<li>Insertion sort, but start at <math>d^{th}</math> character.</li>
+<li>Implement <code>less()</code> so that it compares starting at 
+<math>d^{th}</math> character.</li>
+</list>
+
+<p><format color="BlueViolet">Performance:</format> </p>
+
+<p>Number of characters examined.</p>
+
+<list>
+<li>MSD examines just enough characters to sort the keys.</li>
+<li>Number of characters examined depends on keys.</li>
+<li>Can be sublinear in input size!</li>
+</list>
+
+<p><format color="BlueViolet">MSD String Sort vs. Quicksort for 
+Strings</format></p>
+
+<list type="alpha-lower">
+<li>
+<p><format color="Fuchsia">Disadvantages of MSD string sort:</format>
+</p>
+    <list type="bullet">
+    <li>Extra space for aux[] arrays.</li>
+    <li>Extra space for count[] arrays.</li>
+    <li>Inner loop has a lot of instructions.</li>
+    <li>Accesses memory "randomly" (cache inefficient).</li>
+    </list>
+</li>
+<li>
+<p><format color="Fuchsia">Disadvantage of quicksort:</format> </p>
+    <list type="bullet">
+    <li>Linearithmic number of string compares (not linear).</li>
+    <li>Has to rescan many characters in keys with long prefix matches
+    .</li>
+    </list>
+</li>
+</list>
+
+Java
+
+```Java
+public class MSDStringSort {
+    private static final int R = 256;
+    private static final int CUTOFF = 15;
+
+    public static void sort(String[] a) {
+        String[] aux = new String[a.length];
+        sort(a, aux, 0, a.length - 1, 0);
+    }
+
+    private static void sort(String[] a, String[] aux, int low, int high, int d) {
+        if (high <= low + CUTOFF) {
+            insertionSort(a, low, high, d);
+            return;
+        }
+
+        int[] count = new int[R + 2];
+        for (int i = low; i <= high; i++) {
+            int c = charAt(a[i], d);
+            count[c + 2]++;
+        }
+
+        for (int r = 0; r < R + 1; r++) {
+            count[r + 1] += count[r];
+        }
+
+        for (int i = low; i <= high; i++) {
+            int c = charAt(a[i], d);
+            aux[count[c + 1]++] = a[i];
+        }
+
+        if (high + 1 - low >= 0) System.arraycopy(aux, 0, a, low, high + 1 - low);
+
+        for (int r = 0; r < R; r++) {
+            sort(a, aux, low + count[r], low + count[r + 1] - 1, d + 1);
+        }
+    }
+
+    private static int charAt(String s, int d) {
+        if (d < s.length()) {
+            return s.charAt(d);
+        } else {
+            return -1;
+        }
+    }
+
+    private static void insertionSort(String[] a, int low, int high, int d) {
+        for (int i = low; i <= high; i++) {
+            for (int j = i; j > low && less(a[j], a[j - 1], d); j--) {
+                swap(a, j, j - 1);
+            }
+        }
+    }
+
+    private static boolean less(String v, String w, int d) {
+        return v.substring(d).compareTo(w.substring(d)) < 0;
+    }
+
+    private static void swap(String[] a, int i, int j) {
+        String temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+}
+```
+
+C++
+
+```C++
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <iostream>
+
+class MSDStringSort {
+private:
+    static constexpr int R = 256;
+    static constexpr int CUTOFF = 15;
+
+public:
+    static void sort(std::vector<std::string>& a) {
+        std::vector<std::string> aux(a.size());
+        sort(a, aux, 0, static_cast<int>(a.size()) - 1, 0);
+    }
+
+private:
+    static void sort(std::vector<std::string>& a, std::vector<std::string>& aux, const int low, const int high, const int d) {
+        if (high <= low + CUTOFF) {
+            insertionSort(a, low, high, d);
+            return;
+        }
+
+        std::vector<int> count(R + 2, 0);
+        for (int i = low; i <= high; i++) {
+            const int c = charAt(a[i], d);
+            count[c + 2]++;
+        }
+
+        for (int r = 0; r < R + 1; r++) {
+            count[r + 1] += count[r];
+        }
+
+        for (int i = low; i <= high; i++) {
+            const int c = charAt(a[i], d);
+            aux[count[c + 1]++] = a[i];
+        }
+
+        std::copy_n(aux.begin(), (high + 1 - low), a.begin() + low);
+
+        for (int r = 0; r < R; r++) {
+            sort(a, aux, low + count[r], low + count[r + 1] - 1, d + 1);
+        }
+    }
+
+    static int charAt(const std::string& s, const int d) {
+        if (d < s.length()) {
+            return s[d];
+        } else {
+            return -1;
+        }
+    }
+
+    static void insertionSort(std::vector<std::string>& a, const int low, const int high, const int d) {
+        for (int i = low; i <= high; i++) {
+            for (int j = i; j > low && less(a[j], a[j - 1], d); j--) {
+                std::swap(a[j], a[j - 1]);
+            }
+        }
+    }
+
+    static bool less(const std::string& v, const std::string& w, const int d) {
+        return v.substr(d) < w.substr(d);
+    }
+};
+```
+
+Python
+
+```Python
+def char_at(s, d):
+    if d < len(s):
+        return ord(s[d])
+    else:
+        return -1
+
+def insertion_sort(arr, low, high, d):
+    for i in range(low, high + 1):
+        for j in range(i, low, -1):
+            if arr[j][d:] < arr[j - 1][d:]:
+                arr[j], arr[j - 1] = arr[j - 1], arr[j]
+            else:
+                break
+
+def msd_string_sort(arr):
+    CUTOFF = 15
+    aux = [None] * len(arr)
+    sort(arr, 0, len(arr) - 1, 0, aux, CUTOFF)
+
+def sort(arr, low, high, d, aux, CUTOFF):
+    if high <= low + CUTOFF:
+        insertion_sort(arr, low, high, d)
+        return
+
+    R = 256
+    count = [0] * (R + 2)
+
+    for i in range(low, high + 1):
+        c = char_at(arr[i], d)
+        count[c + 2] += 1
+
+    for r in range(R + 1):
+        count[r + 1] += count[r]
+
+    for i in range(low, high + 1):
+        c = char_at(arr[i], d)
+        aux[count[c + 1]] = arr[i]
+        count[c + 1] += 1
+
+    for i in range(low, high + 1):
+        arr[i] = aux[i - low]
+
+    for r in range(R):
+        sort(arr, low + count[r], low + count[r + 1] - 1, d + 1, aux, CUTOFF)
+```
+
+### 19.5 3-Way Radix Quicksort {id="3Q"}
+
+<p>Do 3-way partitioning on the <math>d^{th}</math> character.</p>
+
+<p><format color="BlueViolet">Properties:</format> </p>
+
+<list>
+<li>Less overhead than R-way partitioning in MSD string sort.</li>
+<li>
+<p>Does not re-examine characters equal to the partitioning char.</p>
+<p>(but does re-examine characters not equal to the partitioning char)
+</p>
+</li>
+</list>
+
+<img src="../images_data/d19-5-1.png" alt="3-Way Radix Quicksort"/>
+
+<p><format color="BlueViolet">3-Way String Quicksort vs. Standard 
+Quicksort</format></p>
+
+<list type="decimal">
+<li>
+<p><format color="Fuchsia">Standard quicksort</format></p>
+    <list type="bullet">
+    <li>Uses ~ 2 N ln N string compares on average.</li>
+    <li>Costly for keys with long common prefixes (and this is a 
+    common case!)</li>
+    </list>
+</li>
+<li>
+<p><format color="Fuchsia">3-way string (radix) quicksort</format></p>
+    <list type="bullet">
+    <li>Uses ~ 2 N ln N character compares on average for random strings.</li>
+    <li>Avoids re-comparing long common prefixes.</li>
+    </list>
+</li>
+</list>
+
+<p><format color="BlueViolet">3-way String !uicksort vs. MSD String 
+Sort</format></p>
+
+<list type="decimal">
+<li>
+<p><format color="Fuchsia">MSD string sort</format></p>
+    <list type="bullet">
+    <li>Is cache-inefficient.</li>
+    <li>Too much memory storing count[].</li>
+    <li>Too much overhead reinitializing count[] and aux[].</li>
+    </list>
+</li>
+<li>
+<p><format color="Fuchsia">3-way string quicksort</format></p>
+    <list>
+    <li>Has a short inner loop.</li>
+    <li>Is cache-friendly.</li>
+    <li>Is in-place.</li>
+    </list>
+</li>
+</list>
+
+Java
+
+```Java
+public class ThreeWayRadixQuicksortStrings {
+
+    private static final int CUTOFF = 15;
+
+    private static int charAt(String s, int d) {
+        if (d < s.length()) return s.charAt(d);
+        else return -1;
+    }
+
+    public static void sort(String[] a) {
+        sort(a, 0, a.length - 1, 0);
+    }
+
+    private static void sort(String[] a, int lo, int hi, int d) {
+        if (hi <= lo + CUTOFF) {
+            insertionSort(a, lo, hi, d);
+            return;
+        }
+
+        int lt = lo, gt = hi;
+        int v = charAt(a[lo], d);
+        int i = lo + 1;
+        while (i <= gt) {
+            int t = charAt(a[i], d);
+            if (t < v) exch(a, lt++, i++);
+            else if (t > v) exch(a, i, gt--);
+            else i++;
+        }
+
+        sort(a, lo, lt - 1, d);
+        if (v >= 0) sort(a, lt, gt, d + 1);
+        sort(a, gt + 1, hi, d);
+    }
+
+    private static void insertionSort(String[] a, int lo, int hi, int d) {
+        for (int i = lo; i <= hi; i++) {
+            for (int j = i; j > lo && less(a[j], a[j - 1], d); j--) {
+                exch(a, j, j - 1);
+            }
+        }
+    }
+
+    private static boolean less(String v, String w, int d) {
+        for (int i = d; i < Math.min(v.length(), w.length()); i++) {
+            if (v.charAt(i) < w.charAt(i)) return true;
+            if (v.charAt(i) > w.charAt(i)) return false;
+        }
+        return v.length() < w.length();
+    }
+
+    private static void exch(String[] a, int i, int j) {
+        String temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+}
+```
+
+C++
+
+```C++
+#include <iostream>
+#include <vector>
+#include <string>
+
+class ThreeWayRadixQuicksortStrings {
+private:
+    static constexpr int CUTOFF = 15; 
+
+    static int charAt(const std::string& s, const int d) {
+        if (d < s.length()) return s[d];
+        else return -1;
+    }
+
+    static void sort(std::vector<std::string>& a, const int lo, const int hi, const int d) {
+        if (hi <= lo + CUTOFF) {
+            insertionSort(a, lo, hi, d);
+            return;
+        }
+
+        int lt = lo, gt = hi;
+        const int v = charAt(a[lo], d);
+        int i = lo + 1;
+        while (i <= gt) {
+            int t = charAt(a[i], d);
+            if (t < v) std::swap(a[lt++], a[i++]);
+            else if (t > v) std::swap(a[i], a[gt--]);
+            else i++;
+        }
+
+        sort(a, lo, lt - 1, d);
+        if (v >= 0) sort(a, lt, gt, d + 1);
+        sort(a, gt + 1, hi, d);
+    }
+
+    static void insertionSort(std::vector<std::string>& a, const int lo, const int hi, const int d) {
+        for (int i = lo; i <= hi; i++) {
+            for (int j = i; j > lo && less(a[j], a[j - 1], d); j--) {
+                std::swap(a[j], a[j - 1]);
+            }
+        }
+    }
+
+    static bool less(const std::string& v, const std::string& w, const int d) {
+        for (int i = d; i < std::min(v.length(), w.length()); i++) {
+            if (v[i] < w[i]) return true;
+            if (v[i] > w[i]) return false;
+        }
+        return v.length() < w.length();
+    }
+
+public:
+    static void sort(std::vector<std::string>& a) {
+        sort(a, 0, static_cast<int>(a.size()) - 1, 0);
+    }
+};
+```
+
+Python
+
+```Python
+CUTOFF = 15
+
+def char_at(s, d):
+    if d < len(s):
+        return ord(s[d])
+    else:
+        return -1
+
+def insertion_sort(arr, lo, hi, d):
+    for i in range(lo, hi + 1):
+        for j in range(i, lo, -1):
+            if arr[j][d:] < arr[j - 1][d:]:
+                arr[j], arr[j - 1] = arr[j - 1], arr[j]
+            else:
+                break
+
+def three_way_radix_quicksort(arr):
+    def sort(arr, lo, hi, d):
+        if hi <= lo + CUTOFF:
+            insertion_sort(arr, lo, hi, d)
+            return
+        lt, gt = lo, hi
+        v = char_at(arr[lo], d)
+        i = lo + 1
+        while i <= gt:
+            t = char_at(arr[i], d)
+            if t < v:
+                arr[lt], arr[i] = arr[i], arr[lt]
+                lt += 1
+                i += 1
+            elif t > v:
+                arr[gt], arr[i] = arr[i], arr[gt]
+                gt -= 1
+            else:
+                i += 1
+        sort(arr, lo, lt - 1, d)
+        if v >= 0:
+            sort(arr, lt, gt, d + 1)
+        sort(arr, gt + 1, hi, d)
+
+    sort(arr, 0, len(arr) - 1, 0)
+```
+
+<p><format color="BlueViolet">Summary of the Performance of Sorting 
+Algorithms</format></p>
+
+<table style="header-row">
+<tr>
+    <td>Algorithm</td>
+    <td>Guarantee</td>
+    <td>Random</td>
+    <td>Extra Space</td>
+    <td>Stable?</td>
+    <td>Operations on keys</td>
+</tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
+    "insertion-sort" summary="Insertion Sort">Insertion Sort</a></td>
+    <td><math>\frac {1}{2} N^{2}</math></td>
+    <td><math>\frac {1}{4} N^{2}</math></td>
+    <td><math>1</math></td>
+    <td>Yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
+    "mergesort" summary="Mergesort">Mergesort</a></td>
+    <td><math>N \lg N</math></td>
+    <td><math>N \lg N</math></td>
+    <td><math>N</math></td>
+    <td>Yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
+    "quicksort" summary="Quicksort">Quicksort</a></td>
+    <td><math>1.39 N \lg N</math> *</td>
+    <td><math>1.39 N \lg N</math></td>
+    <td><math>c \lg N</math></td>
+    <td>No</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
+    "heapsort" summary="Heapsort">Heapsort</a></td>
+    <td><math>2 N \lg N</math></td>
+    <td><math>2 N \lg N</math></td>
+    <td><math>1</math></td>
+    <td>No</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td><a anchor="lsd" summary="LSD Radix Sort">LSD&star;</a></td>
+    <td><math>2 N W</math></td>
+    <td><math>2 N W</math></td>
+    <td><math>N + R</math></td>
+    <td>Yes</td>
+    <td><code>charAt()</code></td>
+</tr>
+<tr>
+    <td><a anchor="msd" summary="MSD Radix Sort">MSD&starf;</a></td>
+    <td><math>2 N W</math></td>
+    <td><math>N \log_{R} N</math></td>
+    <td><math>N + D R</math></td>
+    <td>Yes</td>
+    <td><code>charAt()</code></td>
+</tr>
+<tr>
+    <td><a anchor="3Q" summary="3-Way Radix Quicksort">3-Way String 
+    Quicksort</a></td>
+    <td><math>1.39 W N \lg R</math> *</td>
+    <td><math>1.39 N \lg N</math></td>
+    <td><math>\log N + W</math></td>
+    <td>No</td>
+    <td><code>charAt()</code></td>
+</tr>
+</table>
+
+<p>*: probabilistic</p>
+<p>&star;: fixed-length W keys</p>
+<p>&starf;: average-length W keys</p>
+ 
 ## 20 Tries
 
 ## 21 Substring Search

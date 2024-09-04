@@ -1797,7 +1797,7 @@ def selection_sort(arr):
         arr[i], arr[min_index] = arr[min_index], arr[i]
 ```
 
-### 5.2 Insertion Sort
+### 5.2 Insertion Sort {id="insertion-sort"}
 
 <list type = "bullet">
 <li> 
@@ -2461,7 +2461,7 @@ Stable sort: Insertion sort, mergesort, bubble sort, radix sort, etc.
 
 Unstable sort: Selection sort, shellsort, quicksort, heapsort, etc.
 
-## 7 Quicksort
+## 7 Quicksort {id="quicksort"}
 
 ### 7.1 Quicksort
 
@@ -3545,7 +3545,7 @@ class IndexedPriorityQueue:
             k = j
 ```
 
-### 8.3 Heapsort
+### 8.3 Heapsort {id="heapsort"}
 
 <procedure title = "Heapsort">
     <step>
