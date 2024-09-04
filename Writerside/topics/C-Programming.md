@@ -194,7 +194,7 @@ void shift(std::vector<std::pair<int, int>> &nums) {
 #### 4.1 Strings
 
 <p>For more detailed introduction on strings, please visit 
-<a href="Data-Structures-and-Algorithms-3.md" anchor="strings-in-java"
+<a href="Data-Structures-and-Algorithms-3.md" anchor="strings-in-java" 
 summary="Strings in Java">strings in Java</a>.</p>
 
 <p><format color="BlueViolet">Examples in C++:</format> </p>
@@ -747,6 +747,16 @@ int countOccurences(const Collection& collection, const DataType& val) {
 }
 ```
 
+#### 7.2 Template Classes
+
+<procedure title="Template Class">
+<step>Add template declaration for class</step>
+<step>Add all the member type aliases</step>
+<step>Add the template declaration to every single class member</step>
+<step>Move everything to the .h file => separate compilation template
+classes are not classes themselves</step>
+</procedure>
+
 ### 8 Functions and Algorithms
 
 #### 8.1 Lambda Functions {id = "Lambda"}
@@ -1253,43 +1263,43 @@ element from the range) and returns:</p>
 a new type of objects, defines how objects of a particular 
 type behave.</p>
 </li>
-    <li>
-        <p><format color = "DarkOrange">Object:</format> Entity that 
-        combines state and behavior, instance of a class.</p>
-    </li>
-    <li>
-        <p><format color = "DarkOrange">Member variables (instance 
-        variables, fields):</format> Define state inside each object.
-        </p>
-    </li>
-    <li>
-        <p><format color = "DarkOrange">Member functions (methods):
-        </format> Define behavior inside each object.</p>
-    </li>
-    <li>
-        <p><format color = "DarkOrange">Constructor:</format> 
-        Initializes new objects as they are created.</p>
-    </li>
-    <li>
-        <p><format color = "DarkOrange">Destructor:</format> Called when the
-        object is deleted by the program.</p>
-        <list type = "bullet">
-            <li>
-                <p>Delete any pointers stored as private members.</p>
-            </li>
-            <li>
-                <p>delete[] any arrays stored as private members.</p>
-            </li>
-        </list>
-    </li>
-    <li>
-        <p><format color = "DarkOrange">Client code:</format> Code 
-        that uses the objects defind.</p>
-    </li>
-    <li>
-        <p><format color = "DarkOrange">Encapsulation:</format> Hiding 
-        implementation details from the client code.</p>
-    </li>
+<li>
+    <p><format color = "DarkOrange">Object:</format> Entity that 
+    combines state and behavior, instance of a class.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Member variables (instance 
+    variables, fields):</format> Define state inside each object.
+    </p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Member functions (methods):
+    </format> Define behavior inside each object.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Constructor:</format> 
+    Initializes the state of newly created objects.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Destructor:</format> Called when the
+    object is deleted by the program.</p>
+    <list type = "bullet">
+        <li>
+            <p>Delete any pointers stored as private members.</p>
+        </li>
+        <li>
+            <p>delete[] any arrays stored as private members.</p>
+        </li>
+    </list>
+</li>
+<li>
+    <p><format color = "DarkOrange">Client code:</format> Code 
+    that uses the objects defind.</p>
+</li>
+<li>
+    <p><format color = "DarkOrange">Encapsulation:</format> Hiding 
+    implementation details from the client code.</p>
+</li>
 </list>
 
 <p>C++ separates classes into two kinds of files: </p>
@@ -1594,11 +1604,44 @@ access to private members.
 
 #### 10.3 Principle of Least Astonishment (POLA)
 
+<p><format color="BlueViolet">From the C++ Core Guidelines (section C
+):</format></p>
+
 <list type="bullet">
 <li>Design operators primarily to mimic conventional usage.</li>
 <li>Use nonmember functions for symmetric operators.</li>
+<li>
+    <p>Use nonmember functions for symmetric operators.</p>
+    <list type="bullet">
+    <li>Compound operators return reference to *this</li>
+    <li>Arithmetic operators return copies</li>
+    <li>In/decrement prefix vs. postfix rules</li>
+    <li>Indexing requires const and non-const versions</li>
+    <li>Look at the C++ reference for common patterns!</li>
+    </list>
+</li>
 <li>Always provide all out of a set of related operators.</li>
 </list>
+
+#### 10.4 Interesting Operators
+
+<p><format color="BlueViolet">Advanced Multithreading Support (C++ 20)
+:</format> </p>
+
+```C++
+awaiter operator co_await() const noexcept { 
+    return awaiter{ *this }; 
+}
+```
+
+<p><format color="BlueViolet">Spaceship operator (C++20):</format> 
+</p>
+
+```C++
+std::strong_ordering operator<=> (const Time& rhs) {
+    return hour <=> rhs.hour; 
+}
+```
 
 ### 11 Special Member Functions
 
@@ -1695,22 +1738,79 @@ val = static_cast<int>(size); // val: lvalue, static_cast<int>(size): rvalue
 
 ### 13 Inheritance
 
-<p><format color = "BlueViolet">Definitions:</format> </p>
+#### 13.1 Namespace
 
-<list>
-<li>
-<p><format color = "DarkOrange">Hypernym</format>: A word with a broad 
-meaning constituting a category into which words with more specific 
-meanings fall.</p>
-</li>
-<li>
-<p><format color = "DarkOrange">Hyponym</format>: Opposite of hypernym.
-</p>
-</li>
-</list>
+<p><format color="DarkOrange">Namespace:</format> Namespace is an 
+abstract container or environment created to hold a logical grouping 
+of unique identifiers or symbols (i.e. names).</p>
 
-<p>For example, tree is hyponym of plant, and plant is hypernym of 
-tree.</p>
+<p><format color="BlueViolet">Goal:</format> To resolve identifier 
+clash. The same identifier can be independently defined in multiple 
+namespaces. That is, an identifier defined in one namespace may or 
+may not have the same meaning as the same identifier defined in 
+another namespace.</p>
+
+<tip>
+<p>Here is an analogy from Wikipedia: </p>
+<p>Imagine that two companies, X and Y, each assign ID numbers to their 
+employees. X should not have two employees with the same ID number, 
+and likewise for Y; but it is not a problem for the same ID number to
+be used at both companies. For example, if Bill works for company X 
+and Jane works for company Y, then it is not a problem for each of 
+them to be employee #123.</p>
+</tip>
+
+<p><format color="BlueViolet">Most modern languages use namespaces 
+to fix this.</format></p>
+
+C++
+
+```C++
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> v = {1, 2, 3}; // std:: is namespace
+    for (int i : v) {
+        std::cout << i << std::endl;
+    }
+    return 0;
+}
+```
+
+Python
+
+```Python
+import numpy as np
+
+a = np.array([1, 2, 3]) // np. is namespace
+```
+
+Java
+
+```Java
+import java.util.ArrayList; // Java packages before identifier
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        for (int i : list) {
+            System.out.println(i);
+        }
+    }
+}
+```
+
+JavaScript
+
+```Javascript
+const fs = require('fs'); 
+
+const data = fs.readFileSync('file.txt', 'utf8'); // fs. is namespace
+```
 
 #### 13.1 Overriding and Overloading
 
@@ -1844,15 +1944,10 @@ hierarchy.</p>
 </list>
 </tip>
 
-#### 13.2 Types of Inheritance (Java)
+#### 13.2 Types of Inheritance
 
-<list type = "alpha-lower">
-
-<li>
-<p><format color = "DarkOrange">Interface Inheritance: </format></p>
-<p>Specifying the capabilities of a subclass using the 
-<code>implements</code> keyword is known as 
-<format style = "underline, bold">interface inheritance</format>.</p>
+<p><format color = "BlueViolet">Interface Inheritance: </format></p>
+<p>Specifying the capabilities of a subclass.</p>
 
 <list type = "bullet">
 <li>
@@ -1860,25 +1955,140 @@ hierarchy.</p>
 method signatures.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Inheritance:</format> The subclass 
-"inherits" the interface from a superclass.</p>
-</li>
-<li>
 <p>Specifies what the subclass can do, but not how.</p>
 </li>
-<li>
-<p>Subclasses <format style = "underline">must</format> override all
-of these methods, will fail to compile otherwise!</p>
-</li>
 </list>
-</li>
 
-<li>
+<p><format color="BlueViolet">Examples:</format> </p>
+
+<p>C++</p>
+ 
+```C++
+// Shape.h
+#ifndef SHAPE_H
+#define SHAPE_H
+
+class Shape {
+public:
+    virtual void draw() const = 0; // Pure virtual function
+    virtual ~Shape() = default;    // Virtual destructor
+};
+
+#endif //SHAPE_H
+```
+
+```C++
+// Circle.h
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
+#include "Shape.h"
+#include &lt;iostream&gt;
+
+class Circle final : public Shape {
+public:
+    void draw() const override {
+        std::cout << "Drawing Circle" << std::endl;
+    }
+};
+
+#endif //CIRCLE_H
+```
+
+```C++
+// Square.h
+#ifndef SQUARE_H
+#define SQUARE_H
+
+#include "Shape.h"
+#include &lt;iostream&gt;
+
+class Square final : public Shape {
+public:
+    void draw() const override {
+        std::cout << "Drawing Square" << std::endl;
+    }
+};
+
+#endif //SQUARE_H
+```
+
+<p>Java</p>
+
+```Java
+// Shape.java
+public interface Shape {
+    double getArea();
+    double getPerimeter();
+    String toString();
+}
+```
+
+```Java
+// Circle.java
+public class Circle implements Shape {
+    private final double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    public double getArea() {
+        return Math.PI * radius * radius;
+    }
+
+    public double getPerimeter() {
+        return 2 * Math.PI * radius;
+    }
+
+    public String toString() {
+        return "Circle with radius " + radius;
+    }
+}
+```
+
 <p><format color = "DarkOrange">Implementation Inheritance:</format> 
 Subclasses can inherit signatures AND implementation.</p>
-</li>
 
-</list>
+<p><format color="BlueViolet">Examples:</format> </p>
+
+<p>C++</p>
+
+```C++
+// Animal.h
+#ifndef ANIMAL_H
+#define ANIMAL_H
+
+#include &lt;iostream&gt;
+
+class Animal {
+public:
+    virtual void makeSound() const {
+        std::cout << "Generic animal sound" << std::endl;
+    }
+    virtual ~Animal() = default;
+};
+
+#endif //ANIMAL_H
+```
+
+```C++
+// Dog.h
+#ifndef DOG_H
+#define DOG_H
+
+#include "Animal.h"
+#include &lt;iostream&gt;
+
+class Dog final : public Animal {
+public:
+    void makeSound() const override {
+        std::cout << "Bark" << std::endl;
+    }
+};
+
+#endif //DOG_H
+```
 
 Java
 
@@ -1923,15 +2133,6 @@ public class Main {
     }
 }
 ```
-
-<table style = "header-row">
-<tr><td>Compile-time Type</td><td>Run-time Type</td></tr>
-<tr><td>Static type, specified at <format style = "bold">declaration
-</format></td><td>Dynamic type, specified at <format style = "bold">
-instantiation</format></td></tr>
-<tr><td>Never changes</td><td>Equal to the type of object being pointed
-at</td></tr>
-</table>
 
 ## &#8547; Modern C++
 
