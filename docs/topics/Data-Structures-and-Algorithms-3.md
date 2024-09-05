@@ -2315,6 +2315,12 @@ Algorithms</format></p>
 <p>*: probabilistic</p>
 <p>&star;: fixed-length W keys</p>
 <p>&starf;: average-length W keys</p>
+
+### 19.6 Suffix Arrays
+
+<p><format color="BlueViolet">Keyword in context search:</format> 
+Given a text of N characters, preprocess it to enable fast substring 
+search (find all occurrences of query string context).</p>
  
 ## 20 Tries
 

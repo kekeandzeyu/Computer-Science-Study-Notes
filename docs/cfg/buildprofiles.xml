@@ -4,10 +4,13 @@
 
     <build-profile instance="hi">
         <variables>
+            <custom-css>custom.css</custom-css>
             <primary-color>strawberry</primary-color>
             <custom-favicons>photo.png</custom-favicons>
             <noindex-content>false</noindex-content>
             <header-logo>photo.png</header-logo>
+            <resizable-sidebar>true</resizable-sidebar>
+            <link-color>frozen</link-color>
         </variables>
     </build-profile>
     <footer>

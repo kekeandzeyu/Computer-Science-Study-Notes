@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'Google Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../static/GoogleSans-Medium.ttf);
+}
+
+.article__p {
+    font-family: "Google Sans";
+}
+
+.title__content {
+    font-family: "Google Sans";
+}
+
+.
