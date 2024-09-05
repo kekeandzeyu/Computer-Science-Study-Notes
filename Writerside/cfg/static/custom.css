@@ -13,4 +13,7 @@
     font-family: "Google Sans";
 }
 
-.
+:root {
+    --rs-font-family-ui: "Google Sans";
+    --rs-font-family-headers: "Google Sans";
+}

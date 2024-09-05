@@ -4,6 +4,9 @@
 
     <build-profile instance="hi">
         <variables>
+            <algolia-id>BRE1L571BN</algolia-id>
+            <algolia-index>prod_test</algolia-index>
+            <algolia-api-key>e10b43492b4677cb0d5b48a18887a5cc</algolia-api-key>
             <custom-css>custom.css</custom-css>
             <primary-color>strawberry</primary-color>
             <custom-favicons>photo.png</custom-favicons>
