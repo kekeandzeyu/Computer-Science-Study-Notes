@@ -1655,6 +1655,13 @@ relative order.</li>
 <p>Google (or presidential) Interview Question: Sort one million 
 32-bit integers using LSD radix sort.</p>
 
+<note>
+For information about the performance of insertion sort, please refer
+to the <a anchor="sortperf" 
+summary="Table for Comparing Performance of Sorting Algorithm">table 
+for sorting performance</a>.
+</note>
+
 <p>Java</p>
 
 ```Java
@@ -1822,6 +1829,13 @@ Strings</format></p>
     </list>
 </li>
 </list>
+
+<note>
+For information about the performance of MSD radix sort, please refer
+to the <a anchor="sortperf" summary=
+"Table for Comparing Performance of Sorting Algorithm">table for 
+sorting performance</a>.
+</note>
 
 Java
 
@@ -2240,7 +2254,7 @@ def three_way_radix_quicksort(arr):
 <p><format color="BlueViolet">Summary of the Performance of Sorting 
 Algorithms</format></p>
 
-<table style="header-row">
+<table style="header-row" id="sortperf">
 <tr>
     <td>Algorithm</td>
     <td>Guarantee</td>
@@ -2321,8 +2335,23 @@ Algorithms</format></p>
 <p><format color="BlueViolet">Keyword in context search:</format> 
 Given a text of N characters, preprocess it to enable fast substring 
 search (find all occurrences of query string context).</p>
- 
+
+<p><format color="BlueViolet">Applications:</format> Linguistics, 
+databases, web search, word processing, ...</p>
+
+<p><format color="BlueViolet">Keyword-in-context search:</format> 
+suffix-sorting solution.
+
+<list type="bullet">
+<li><format color="Fuchsia">Preprocess:</format> <format color=
+"OrangeRed">suffix sort</format> the text.</li>
+<li><format color="Fuchsia">Query:</format> binary search for query; 
+scan until mismatch.</li>
+</list> 
+
 ## 20 Tries
+
+### 20.1 R-Way Tries
 
 ## 21 Substring Search
 

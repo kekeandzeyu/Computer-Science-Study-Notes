@@ -1817,7 +1817,7 @@ def selection_sort(arr):
 </step>
 </procedure>
 
-Property:
+<p><format color="BlueViolet">Properties:</format> </p>
 
 <list>
 <li>
@@ -1844,6 +1844,13 @@ makes <math>N-1</math> compares and <math>0</math> exchanges.</p>
 <math>\frac {N^{2}}{2}</math> exchanges.</p>
 </li>
 </list>
+
+<note>
+For information about the performance of insertion sort, please refer
+to the <a href="Data-Structures-and-Algorithms-3.md" anchor="sortperf" 
+summary="Table for Comparing Performance of Sorting Algorithm">table 
+for sorting performance</a>.
+</note>
 
 Java
 
@@ -2086,7 +2093,7 @@ def knuth_shuffle(array):
 
 ### 6.1 Mergesort
 
-Property:
+<p><format color="BlueViolet">Properties:</format> </p>
 
 <list>
 <li>
@@ -2158,6 +2165,13 @@ Property:
 > * Documents code.
 >
 {style = "tip"}
+
+<note>
+For information about the performance of mergesort, please refer
+to the <a href="Data-Structures-and-Algorithms-3.md" anchor="sortperf" 
+summary="Table for Comparing Performance of Sorting Algorithm">table 
+for sorting performance</a>.
+</note>
 
 Java
 
@@ -2465,7 +2479,7 @@ Unstable sort: Selection sort, shellsort, quicksort, heapsort, etc.
 
 ### 7.1 Quicksort
 
-Property:
+<p><format color="BlueViolet">Properties:</format> </p>
 
 <list>
 <li>
@@ -2604,6 +2618,13 @@ Property:
     <format color = "OrangeRed">Sort</format> each piece recursively.
 </step>
 </procedure>
+
+<note>
+For information about the performance of quicksort, please refer
+to the <a href="Data-Structures-and-Algorithms-3.md" anchor="sortperf" 
+summary="Table for Comparing Performance of Sorting Algorithm">table 
+for sorting performance</a>.
+</note>
 
 Java
 
@@ -3589,6 +3610,13 @@ class IndexedPriorityQueue:
     </li>
 </list>
 </tip>
+
+<note>
+For information about the performance of heapsort, please refer
+to the <a href="Data-Structures-and-Algorithms-3.md" anchor="sortperf" 
+summary="Table for Comparing Performance of Sorting Algorithm">table 
+for sorting performance</a>.
+</note>
 
 Java
 
