@@ -2340,13 +2340,17 @@ search (find all occurrences of query string context).</p>
 databases, web search, word processing, ...</p>
 
 <p><format color="BlueViolet">Keyword-in-context search:</format> 
-suffix-sorting solution.
+suffix-sorting solution.</p>
 
 <list type="bullet">
-<li><format color="Fuchsia">Preprocess:</format> <format color=
-"OrangeRed">suffix sort</format> the text.</li>
-<li><format color="Fuchsia">Query:</format> binary search for query; 
-scan until mismatch.</li>
+<li>
+<p><format color="Fuchsia">Preprocess:</format> <format color=
+"OrangeRed">suffix sort</format> the text.</p>
+</li>
+<li>
+<p><format color="Fuchsia">Query:</format> binary search for query; 
+scan until mismatch.</p>
+</li>
 </list> 
 
 ## 20 Tries
