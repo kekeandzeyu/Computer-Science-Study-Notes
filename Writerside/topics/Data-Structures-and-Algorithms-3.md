@@ -2357,6 +2357,8 @@ scan until mismatch.</p>
 
 ### 20.1 R-Way Tries
 
+### 20.2 Ternary Search Tries
+
 ## 21 Substring Search
 
 ### 21.1 Introduction
