@@ -1,6 +1,6 @@
 # 计算机科学学习笔记
 
-![Favicon](docs/images/photo.png)
+![Favicon](Writerside/images/photo.png)
 
 > *我们都是迷失在璀璨梦境中的繁星，不顾一切只为点亮黑暗。*
 
