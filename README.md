@@ -24,7 +24,7 @@ I took down notes carefully when studying. With the the content of my notes gett
 
 3. The notes will be released in the form of pdf article. You will see it in the release part.
 
-4. Thank you for your reading! Everyone is welcome to discuss with me via email.
+4. Thank you for reading! Everyone is welcome to discuss with me via email.
 
 ## 3 References
 
