@@ -6,8 +6,58 @@
 
 ### 1.1 Strings
 
+#### 1.1.1 String Representation
+
+<p>In Python, all objects produce two string representations: </p>
+
+<list type="bullet">
+<li>The <format color="Fuchsia">str</format> is legible to humans.
+</li>
+<li>The <format color="Fuchsia">repr</format> is legible to Python
+interpreter.</li>
+</list>
+
+<list type="alpha-lower">
+
+<li>
+<p><format color="Fuchsia">repr:</format> Provides a string 
+representation that can be used to recreate the object. It's designed
+for debugging and introspection. It aims for a more precise and 
+detailed description, often including the object's type.</p>
+<p><format color="BlueViolet">Examples:</format> </p>
+<code-block lang="python">
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+    def __repr__(self):
+        return f"MyClass({self.value})"
+obj = MyClass(10)
+print(repr(obj))  # Output: MyClass(10)
+</code-block>
+</li>
+
+<li>
+<p><format color="Fuchsia">repr:</format> Provides a human-readable 
+string representation of the object. It's designed to be easily 
+understood by humans.</p>
+<p><format color="BlueViolet">Examples:</format> </p>
+<code-block lang="python">
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return f"MyClass with value: {self.value}"
+obj = MyClass(10)
+print(str(obj))  # Output: MyClass with value: 10
+</code-block> 
+</li>
+
+</list>
+
+#### 1.1.2 Strings in Python
+
 <p>For more detailed introduction on strings, please visit 
-<a href="Data-Structures-and-Algorithms-3.md" anchor="strings-in-java"
+<a href="Data-Structures-and-Algorithms-3.md" anchor="strings-in-java" 
 summary="Strings in Java">strings in Java</a>.</p>
 
 <p><format color="BlueViolet">Examples in Python:</format> </p>
@@ -961,9 +1011,11 @@ summary = "Order of Growth">Data Structures and Algorithms 1</a>.</p>
 
 ## 6 Object-Oriented Programming
 
+### 6.1 Object-Oriented Programming in Python
+
 <p>For more information about the details of Object-Oriented 
-Programming, refer to <a href = "C-Programming.md" anchor 
-= "9-classes-and-consts" summary = "Object-Oriented Programming">
+Programming, refer to <a href = "C-Programming.md" anchor="object" 
+summary = "Object-Oriented Programming">
 Object-Oriented Programming in C++</a>.</p>
 
 <note>
@@ -1030,6 +1082,32 @@ print(a.balance) # 50
     parameter, and so they can all access and manipulate the object's 
     attributes.</p>
 </li>
+</list>
+
+### 6.2 Inheritance
+
+<p>For more information about inheritance, please visit <a 
+href = "C-Programming.md" anchor="inheritance" 
+summary = "Object-Oriented Programming">
+Object-Oriented Programming in C++</a>.</p>
+
+### 6.3 Special Method Functions
+
+<p>Certain names are special because they have built-in behavior.</p>
+
+<p>These names always start and end with two underscores.</p>
+
+<list type="decimal">
+<li><format color="Fuchsia">__init__</format> Method invoked 
+automatically when an object is constructed</li>
+<li><format color="Fuchsia">__repr__</format> Method invoked 
+to display an object as a Python expression</li>
+<li><format color="Fuchsia">__add__</format> Method invoked 
+to add one object to another</li>
+<li><format color="Fuchsia">__bool__</format> Method invoked 
+to convert an object to True or False.</li>
+<li><format color="Fuchsia">__float__</format> Method invoked 
+to convert an object to a float (real number).</li>
 </list>
 
 ## 7 Scheme

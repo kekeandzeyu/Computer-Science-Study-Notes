@@ -1249,7 +1249,7 @@ element from the range) and returns:</p>
 </li>
 </list>
 
-## &#8546; Object-Oriented Programming
+## &#8546; Object-Oriented Programming {id="object"}
 
 ### 9 Classes and Consts
 
@@ -1736,7 +1736,7 @@ val = static_cast<int>(size); // val: lvalue, static_cast<int>(size): rvalue
 
 #### 12.2 Move Semantics
 
-### 13 Inheritance
+### 13 Inheritance {id="inheritance"}
 
 #### 13.1 Namespace
 
