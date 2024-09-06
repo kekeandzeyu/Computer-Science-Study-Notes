@@ -3743,7 +3743,7 @@ corresponding value.</p>
 </li>
 </list>
 
-#### 9.1.1 Sequential Search (unordered list)
+#### 9.1.1 Sequential Search (unordered list) {id="sequential-search"}
 
 <p>Method: Maintain an (unordered) linked list of key-value pairs.</p>
 
@@ -3758,7 +3758,7 @@ until find a match; if no match add to front.</p>
 </li>
 </list>
 
-#### 9.1.2 Ordered Array
+#### 9.1.2 Ordered Array {id="ordered-array"}
 
 <p><format color = "BlueViolet">Method</format>: Maintain an ordered 
 array of key-value pairs.</p>
@@ -3784,7 +3784,7 @@ array of key-value pairs.</p>
     }
 ```
 
-### 9.2 Binary Search Trees
+### 9.2 Binary Search Trees {id="BST"}
 
 <p>Def: A BST is a <format color = "OrangeRed">binary tree</format> in 
 <format color = "OrangeRed">symmetric order.</format></p>
@@ -4472,7 +4472,7 @@ current node's right subtree.</p>
 </tr>
 </table>
 
-### 10.1 2-3 Trees
+### 10.1 2-3 Trees {id="2-3-trees"}
 
 <p>Basic properties: </p>
 
@@ -4571,7 +4571,7 @@ for search and insert.</p>
 </list>
 </tip>
 
-### 10.2 Red-Black BSTs
+### 10.2 Red-Black BSTs {id="red-black-bsts"}
 
 #### 10.2.1 Left-Leaning Red-Black BSTs
 

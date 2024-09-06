@@ -17,76 +17,132 @@
     <td rowspan = "2">Key Interface</td>
 </tr>
 <tr>
-    <td>search</td>
-    <td>insert</td>
-    <td>delete</td>
-    <td>search hit</td>
-    <td>insert</td>
-    <td>delete</td>
+    <td>Search</td>
+    <td>Insert</td>
+    <td>Delete</td>
+    <td>Search Hit</td>
+    <td>Insert</td>
+    <td>Delete</td>
 </tr>
-<tr><td>sequential search (unordered list)</td><td><math>N</math></td>
-<td><math>N</math></td><td><math>N</math></td><td><math>
-\frac {N}{2}</math></td><td><math>N</math></td><td><math>N</math>
-</td><td>no</td><td><code>equals()</code></td></tr>
-<tr><td>binary search (ordered list)</td><td><math>\lg N</math></td>
-<td><math>N</math></td><td><math>N</math></td><td><math>
-\lg N</math></td><td><math>\frac {N}{2}</math></td>
-<td><math>\frac {N}{2}</math></td><td>yes</td>
-<td><code>compareTo()</code></td></tr>
-<tr><td>BST</td><td><math>N</math></td><td><math>N</math></td>
-<td><math>N</math></td><td><math>1.39 \log N</math></td>
-<td><math>1.39 \log N</math></td><td>?</td><td>yes</td>
-<td><code>compareTo()</code></td></tr>
-<tr><td>2-3 tree</td><td><math>c \log N</math></td>
-<td><math>c \log N</math></td><td><math>c \log N</math></td>
-<td><math>c \log N</math></td><td><math>c \log N</math></td>
-<td><math>c \log N</math></td><td>yes</td><td><code>compareTo()</code></td></tr>
-<tr><td>red-black BST</td><td><math>2 \log N</math></td>
-<td><math>2 \log N</math></td><td><math>2 \log N</math></td>
-<td><math>1.00 \lg N</math></td><td><math>1.00 \lg N</math></td>
-<td><math>1.00 \lg N</math></td><td>yes</td><td><code>compareTo()
-</code></td></tr>
-<tr><td>separate chaining</td><td><math>\log N</math></td>
-<td><math>\log N</math></td><td><math>\log N</math></td>
-<td><math>3-5</math></td><td><math>3-5</math></td>
-<td><math>3-5</math></td><td>no</td><td><code>equals
-</code><code>hashCode()</code></td></tr>
-<tr><td>linear probing</td><td><math>\log N</math></td>
-<td><math>\log N</math></td><td><math>\log N</math></td>
-<td><math>3-5</math></td><td><math>3-5</math></td>
-<td><math>3-5</math></td><td>no</td><td><code>equals
-</code><code>hashCode()</code></td></tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-1.md" anchor
+    ="sequential-search" summary="Sequential Search (unordered list)">
+    Sequential Search (unordered list)</a></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>\frac {N}{2}</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td>no</td>
+    <td><code>equals()</code></td>
+</tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-1.md" anchor
+    ="ordered-array" summary="Binary Search (ordered array)">
+    Binary Search (ordered list)</a></td>
+    <td><math>\lg N</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>\lg N</math></td>
+    <td><math>\frac {N}{2}</math></td>
+    <td><math>\frac {N}{2}</math></td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-1.md" anchor="BST" 
+    summary="Binary Search Tree">BST</a></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>1.39 \log N</math></td>
+    <td><math>1.39 \log N</math></td>
+    <td>?</td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
+    "2-3-trees" summary="2-3 Tree">2-3 Tree</a></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
+    "red-black-bsts" summary="Red-Black BST">Red-Black BST</a></td>
+    <td><math>2 \log N</math></td>
+    <td><math>2 \log N</math></td>
+    <td><math>2 \log N</math></td>
+    <td><math>1.00 \lg N</math></td>
+    <td><math>1.00 \lg N</math></td>
+    <td><math>1.00 \lg N</math></td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td><a anchor="separate-chaining" summary="Separate Chaining">
+    Separate Chaining</a></td>
+    <td><math>\log N</math></td>
+    <td><math>\log N</math></td>
+    <td><math>\log N</math></td>
+    <td><math>3-5</math></td>
+    <td><math>3-5</math></td>
+    <td><math>3-5</math></td>
+    <td>no</td>
+    <td><code>equals</code><code>hashCode()</code></td>
+</tr>
+<tr>
+    <td><a anchor="linear-probing" summary="Linear Probing">Linear 
+    Probing</a></td>
+    <td><math>\log N</math></td>
+    <td><math>\log N</math></td>
+    <td><math>\log N</math></td>
+    <td><math>3-5</math></td>
+    <td><math>3-5</math></td>
+    <td><math>3-5</math></td>
+    <td>no</td>
+    <td><code>equals</code><code>hashCode()</code></td>
+ </tr>
 </table>
 
 ### 12.1 Hash Tables
 
+<p><format color="BlueViolet">Definitions:</format> </p>
+
 <list type = "decimal">
 <li>
-<p><format color = "BlueViolet">Hashing</format>: Save items in a key-indexed 
-table (index is a function of the key).</p>
+<p><format color = "OrangeRed">Hashing</format>: Save items in a 
+key-indexed table (index is a function of the key).</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Hash function</format>: Method for 
+<p><format color = "OrangeRed">Hash function</format>: Method for 
 computing array index from key.</p>
 <p>Issues:</p>
-<list type = "alpha-lower">
-<li>
-<p><format color = "BlueViolet">Equality test</format>: Method 
-for checking whether two keys are equal.</p>
+    <list type = "alpha-lower">
+    <li>
+    <p><format color = "Fuchsia">Equality test</format>: Method 
+    for checking whether two keys are equal.</p>
+    </li>
+    <li>
+    <p><format color = "Fuchsia">Collision resolution</format>: 
+    Algorithm and data structure to handle two keys that hash to the 
+    same array index.</p>
+    </li>
+    </list>
 </li>
 <li>
-<p><format color = "BlueViolet">Collision resolution</format>: 
-Algorithm and data structure to handle two keys that hash to the 
-same array index.</p>
-</li>
-</list>
-</li>
-<li>
-<p><format color = "BlueViolet">Hash code</format>: An int between 
+<p><format color = "OrangeRed">Hash code</format>: An int between 
 <math>-2^31</math> and <math>2^31-1</math>.</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Hash function</format>: An int 
+<p><format color = "OrangeRed">Hash function</format>: An int 
 between 0 and M-1 (for use of array index).</p>
 </li>
 </list>
@@ -111,7 +167,7 @@ public final class StringTest {
 
 ### 12.2 Collision Solution &#8544; - Separate Chaining & Variant
 
-#### 12.2.1 Separate Chaining
+#### 12.2.1 Separate Chaining {id="separate-chaining"}
 
 <list type = "alpha-lower">
 <li>
@@ -120,17 +176,19 @@ public final class StringTest {
 </li>
 <li>
 <p><format color = "Fuchsia">Insert:</format> put at front of
-<math>i ^ {th}</math> chain (if not already there).</p>
+<math>i ^ {\text{th}}</math> chain (if not already there).</p>
 </li>
 <li>
 <p><format color = "Fuchsia">Search:</format> need to search 
-only <math>i ^ {th}</math> chain.</p>
+only <math>i ^ {\text{th}}</math> chain.</p>
 </li>
 </list>
 
 <img src = "../images_data/d12-2-1.png" alt = "Separate Chaining"/>
 
-<list>
+<p><format color="BlueViolet">Properties:</format> </p>
+
+<list type="bullet">
 <li>
 <p>Number of probes for search/insert/delete is proportional to 
 <math>\frac {N}{M}</math>.
@@ -245,7 +303,7 @@ private:
 
 ### 12.3 Collision Solution &#8545; - Open Addressing
 
-#### 12.3.1 Linear Probing
+#### 12.3.1 Linear Probing {id="linear-probing"}
 
 <p><format color = "DarkOrange">Open addressing:</format> When a new
 key collides, find next empty slot, and put it there.</p>

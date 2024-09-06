@@ -19,7 +19,7 @@ part to Java Programming.</p>
 
 <list type = "alpha-lower">
 <li>
-<format color = "Fuchsia">Sequential Storage Structure</format>
+<p><format color = "Fuchsia">Sequential Storage Structures:</format> </p>
     <list type = "bullet">
     <li><p>Linear list</p></li>
     <li><p>Array</p></li>
@@ -27,19 +27,19 @@ part to Java Programming.</p>
     </list>
 </li>
 <li>
-<format color = "Fuchsia">Linked Storage Structure</format>
+<p><format color = "Fuchsia">Linked Storage Structure</format> </p>
     <list type = "bullet">
     <li>Linked list</li>
     </list>
 </li>
 <li>
-<format color = "Fuchsia">Index Storage Structure</format>
+<p><format color = "Fuchsia">Index Storage Structure</format> </p>
     <list>
     <li>B-Tree/B+-Tree</li>
     </list>
 </li>
 <li>
-<format color = "Fuchsia">Hashing Storage Structure</format>
+<p><format color = "Fuchsia">Hashing Storage Structure</format> </p>
     <list>
     <li>Hash table</li>
     </list>
@@ -49,10 +49,18 @@ part to Java Programming.</p>
 #### 1.1.2 Data Logical Structures
 
 <list type = "decimal">
-<li>Set</li>
-<li>Linear</li>
-<li>Tree</li>
-<li>Graph</li>
+<li>
+<p><format color="Fuchsia">Set</format> </p>
+</li>
+<li>
+<p><format color="Fuchsia">Linear</format> </p>
+</li>
+<li>
+<p><format color="Fuchsia">Tree</format> </p>
+</li>
+<li>
+<p><format color="Fuchsia">Graph</format> </p>
+</li>
 </list>
 
 ### 1.2 Mathematical Models
@@ -63,18 +71,38 @@ part to Java Programming.</p>
 <li>
 <p><format color = "Fuchsia">Cost Model</format>: Use some 
 basic operations as a proxy for running time.</p>
-<table>
-<tr><td>Operation</td><td>Frequency</td></tr>
-<tr><td>Variable declaration</td><td><math>N + 2</math></td></tr>
-<tr><td>Assignment statement</td><td><math>N + 2</math></td></tr>
-<tr><td>Less than compare</td><td><math>\frac {(N + 1)(N + 2)} {2}
-</math></td></tr>
-<tr><td>Equal to compare</td><td><math>\frac {N(N - 1)} {2}</math>
-</td></tr>
-<tr><td>Array access</td><td><math>N(N - 1)</math></td></tr>
-<tr><td>Increment</td><td><math>\frac {N(N - 1)} {2}</math> to <math>
-N(N - 1)</math></td></tr>
+
+<table style="header-row">
+<tr>
+    <td>Operation</td>
+    <td>Frequency</td>
+</tr>
+<tr>
+    <td>Variable declaration</td>
+    <td><math>N + 2</math></td>
+</tr>
+<tr>
+    <td>Assignment statement</td>
+    <td><math>N + 2</math></td>
+</tr>
+<tr>
+    <td>Less than compare</td>
+    <td><math>\frac {(N + 1)(N + 2)} {2}</math></td>
+</tr>
+<tr>
+    <td>Equal to compare</td>
+    <td><math>\frac {N(N - 1)} {2}</math></td>
+</tr>
+<tr>
+    <td>Array access</td>
+    <td><math>N(N - 1)</math></td>
+</tr>
+<tr>
+    <td>Increment</td>
+    <td><math>\frac {N(N - 1)} {2}</math> to <math>N(N - 1)</math></td>
+</tr>
 </table>
+
 </li>
 <li>
     <list type = "bullet">
