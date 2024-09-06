@@ -1,3 +1,5 @@
+<show-structure for="chapter" depth="3"></show-structure>
+
 # Operating System
 
 ## 1 Introduction to Operating System

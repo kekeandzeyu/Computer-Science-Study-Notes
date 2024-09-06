@@ -193,7 +193,7 @@ void shift(std::vector<std::pair<int, int>> &nums) {
 
 #### 4.1 Strings
 
-<p>For more detailed introduction on strings, please visit 
+<p>For more information on strings, please visit 
 <a href="Data-Structures-and-Algorithms-3.md" anchor="strings-in-java" 
 summary="Strings in Java">strings in Java</a>.</p>
 
@@ -211,17 +211,19 @@ std::cout << "[" << std::left << std::setfill('-') << std::setw(3) << "It" << "]
 
 #### 4.2 Stringstreams
 
-<list>
+<list type="bullet">
 <li>
 <p>Constructors with initialtext in the buffer.</p>
 </li>
 <li>
-<p>Can optionally provide &quot;modes&quot; such as ate (start at end) or
+<p>Can optionally provide "modes" such as ate (start at end) or
 bin (read as binary).</p>
 </li>
 </list>
 
 ##### 4.2.1 Output Stringstreams
+
+<p><format color="BlueViolet">Examples:</format> </p>
 
 ```C++
 std::ostringstream oss("Ito-En Green Tea");
@@ -241,6 +243,8 @@ std::cout << oss.str() << std::endl; // Ito-En Green Tea16.9 Ounces
 character for the type.</p>
 </warning>
 
+<p><format color="BlueViolet">Examples:</format> </p>
+
 ```C++
 std::istringstream iss("16.9 Ounces");
 double amount;
@@ -253,9 +257,45 @@ std::string unit;
 iss >> amount >> unit; // amount = 16, unit = ".9"
 ```
 
-##### 4.2.3 State Bits
+##### 4.2.3 getline
 
-<list>
+<code-block lang="c++">
+std::istream& getline(std::istream& is, std::string& str, char delim);
+</code-block>
+
+<list type="bullet">
+<li>
+<p><format color="Fuchsia">is:</format> The input stream from which 
+to read.</p>
+</li>
+<li>
+<p><format color="Fuchsia">str:</format> The string where the read 
+line will be stored.</p>
+</li>
+<li>
+<p><format color="Fuchsia">delim:</format> The delimiter character 
+that specifies where to stop reading (optional, by default '\n').</p>
+</li>
+</list>
+
+<note>
+<p>getline() <format color="OrangeRed">consumes</format> the delim 
+character!</p>
+</note>
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+```C++
+std::string input;
+std::cout << "Enter a line of text: ";
+std::getline(std::cin, input);
+std::cout << "You entered: " << input << std::endl;
+return 0;
+```
+
+##### 4.2.4 State Bits
+
+<list type="alpha-lower">
 <li>
 <p><format color = "Fuchsia">Good bit</format> - ready for read
 /write. (Nothing unusal, on when other bits are off)</p>
@@ -283,6 +323,8 @@ deleted)</p>
 <p>Fail and EOF are normally the ones you will be checking.</p>
 </note>
 
+<p><format color="BlueViolet">Examples:</format> </p>
+
 ```C++
 std::istringstream iss("17");
 int amount;
@@ -291,7 +333,9 @@ std::cout << (iss.eof() ? "EOF" : "Not EOF") << std::endl;
 // There also exist iss.good(), iss.fail() & iss.bad()
 ```
 
-#### 4.3 cin and cout
+#### 4.3 Input Streams
+
+
 
 <list type = "bullet">
 <li>
@@ -299,26 +343,72 @@ std::cout << (iss.eof() ? "EOF" : "Not EOF") << std::endl;
 reaches EOF, past the last token in the buffer.</p>
 </li>
 <li>
-<p>The position pointer skips whitespace <format colo = "OrangeRed">after</format> 
-the token with each &gt;&gt; operation.</p>
+<p>The position pointer skips whitespace <format color = "OrangeRed">
+after</format> the token with each &gt;&gt; operation.</p>
 </li>
 <li>
 <p>The position pointer does the following:</p>
-<list type = "bullet">
-<li>
-<p>consume all whitespaces (spaces, newlines, etc.)</p>
+    <list type = "bullet">
+    <li>
+    <p>consume all whitespaces (spaces, newlines, '\t', '\n', etc.)
+    </p>
+    </li>
+    <li>
+    <p>reads as many characters until:</p>
+        <list type = "bullet">
+        <li>
+        <p>a whitespace is reached, or...</p>
+        </li>
+        <li>
+        <p>for primitives, the maximum number of bytes necessary to 
+        form a valid variable.</p></li>
+        <li><p>Example: if we extract an int from "86.2", we'll get 
+        86, with pos at the decimal point.</p></li>
+        </list>
+    </li>
+    </list>
 </li>
-<li>
-<p>reads as many characters until:</p>
-<list type = "bullet">
-<li>a whitespace is reached, or…</li>
-<li>for primitives, the maximum number of bytes necessary to form a valid variable.</li>
-<li>example: if we extract an int from “86.2”, we’ll get 86, with pos at the decimal point.</li>
 </list>
-</li>
-</list>
-</li>
-</list>
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+```C++
+#include <iostream>
+#include <string>
+
+int main() {
+    double pi, r;
+    std::string name;
+    std::cin >> pi;
+    std::cin.ignore(); // ignore the newline character
+    std::getline(std::cin, name);
+    std::cin >> r;
+    std::cout << "Hello, " << name << "!" << std::endl;
+    std::cout << "Value of pi: " << pi << std::endl;
+    std::cout << "Value of r: " << r << std::endl;
+    return 0;
+}
+```
+
+```C++
+#include <iostream>
+#include <string>
+
+int main() {
+    double pi, r;
+    std::string name;
+    std::cin >> pi;
+    std::getline(std::cin, name);
+    std::getline(std::cin, name);
+    std::cin >> r;
+    std::cout << "Hello, " << name << "!" << std::endl;
+    std::cout << "Value of pi: " << pi << std::endl;
+    std::cout << "Value of r: " << r << std::endl;
+    return 0;
+}
+```
+
+#### 4.4 Output Streams
 
 ### 5 Modern C++ Types
 

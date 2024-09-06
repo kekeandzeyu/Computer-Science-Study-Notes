@@ -1,3 +1,5 @@
+<show-structure for="chapter" depth="3"></show-structure>
+
 # Data Structures and Algorithms
 
 <secondary-label ref="wip"></secondary-label>
