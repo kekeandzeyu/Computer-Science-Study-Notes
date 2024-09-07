@@ -69,7 +69,7 @@ part to Java Programming.</p>
 
 <list type = "decimal">
 <li>
-<p><format color = "Fuchsia">Cost Model</format>: Use some 
+<p><format color = "Fuchsia">Cost Model:</format> Use some 
 basic operations as a proxy for running time.</p>
 
 <table style="header-row">
@@ -104,6 +104,7 @@ basic operations as a proxy for running time.</p>
 </table>
 
 </li>
+
 <li>
     <list type = "bullet">
     <li>
@@ -130,51 +131,92 @@ basic operations as a proxy for running time.</p>
 #### 1.3.1 Common Classifications
 
 <table>
-<tr><td>Order of growth</td><td>Name</td><td>Typical code 
-Framework</td><td>Decription</td><td>Example</td><td>T(2N)/T(N)</td>
+<tr>
+    <td>Order of growth</td>
+    <td>Name</td>
+    <td>Typical code Framework</td>
+    <td>Decription</td>
+    <td>Example</td>
+    <td>T(2N)/T(N)</td>
 </tr>
-<tr><td><math>1</math></td><td>constant</td>
-<td><code-block lang = "C++">a = b + c;</code-block></td>
-<td>statement</td><td>add two numbers</td><td>1</td></tr>
-<tr><td><math>\log N</math></td><td>logarithmic</td>
-<td><code-block lang = "C++">
-while (N &gt; 1)
-{N = N / 2; ...}
-</code-block></td><td>divide in half</td><td>binary search</td><td>- 1</td></tr>
-<tr><td><math>N</math></td><td>linear</td>
-<td><code-block lang = "C++" noinject = "true">
-for (int i = 0; i &lt; N; i++)
-{...}
-</code-block></td><td>loop</td><td>find the maximum</td><td>2</td></tr>
-<tr><td><math>N \log N</math></td><td>linearithmatic</td>
-<td>see <a href="Data-Structures-and-Algorithms-1.md" anchor = "mergesort" 
-summary="Mergesort">mergesort lecture</a></td><td>divide and conquer
-</td><td>mergesort</td>
-<td>- 2</td></tr>
-<tr><td><math>N ^ {2}</math></td><td>quadratic</td>
-<td><code-block lang = "C++">
-for (int i = 0; i &lt; N; i++)
-    for (int j = 0; j &lt; N; j++)
-        {...}
-</code-block></td><td>double loop</td><td>check all pairs</td>
-<td>4</td></tr>
-<tr><td><math>N ^ {3}</math></td><td>cubic</td>
-<td><code-block lang = "C++">
-for (int i = 0; i &lt; N; i++)
-    for (int j = 0; j &lt; N; j++)
-        for (int k = 0; k &lt; N; k++)
+<tr>
+    <td><math>1</math></td>
+    <td>constant</td>
+    <td><code-block lang = "C++">a = b + c;</code-block></td>
+    <td>statement</td>
+    <td>add two numbers</td>
+    <td><math>1</math></td>
+</tr>
+<tr>
+    <td><math>\log N</math></td>
+    <td>logarithmic</td>
+    <td><code-block lang = "C++">
+    while (N &gt; 1)
+    {N = N / 2; ...}
+    </code-block></td>
+    <td>divide in half</td>
+    <td>binary search</td>
+    <td><math>- 1</math></td>
+</tr>
+<tr>
+    <td><math>N</math></td>
+    <td>linear</td>
+    <td><code-block lang = "C++" noinject = "true">
+    for (int i = 0; i &lt; N; i++)
+    {...}
+    </code-block></td>
+    <td>loop</td>
+    <td>find the maximum</td>
+    <td>2</td>
+</tr>
+<tr>
+    <td><math>N \log N</math></td>
+    <td>linearithmatic</td>
+    <td>see <a href="Data-Structures-and-Algorithms-1.md" anchor=
+    "mergesort" summary="Mergesort">mergesort lecture</a></td>
+    <td>divide and conquer</td>
+    <td>mergesort</td>
+    <td><math>- 2</math></td>
+</tr>
+<tr>
+    <td><math>N ^ {2}</math></td>
+    <td>quadratic</td>
+    <td><code-block lang = "C++">
+    for (int i = 0; i &lt; N; i++)
+        for (int j = 0; j &lt; N; j++)
             {...}
-</code-block></td><td>triple loop</td><td>check all triples</td>
-<td>8</td></tr>
-<tr><td><math>2 ^ {N}</math></td><td>exponential</td>
-<td>see combinational search lecture</td><td>exhaustive search</td>
-<td>check all subsets</td><td>T(N)</td></tr>
+    </code-block></td>
+    <td>double loop</td>
+    <td>check all pairs</td>
+    <td><math>4</math></td>
+</tr>
+<tr>
+    <td><math>N ^ {3}</math></td>
+    <td>cubic</td>
+    <td><code-block lang = "C++">
+    for (int i = 0; i &lt; N; i++)
+        for (int j = 0; j &lt; N; j++)
+            for (int k = 0; k &lt; N; k++)
+                {...}
+    </code-block></td>
+    <td>triple loop</td>
+    <td>check all triples</td>
+    <td>8</td>
+</tr>
+<tr>
+    <td><math>2 ^ {N}</math></td>
+    <td>exponential</td>
+    <td>see combinatorial search lecture</td>
+    <td>exhaustive search</td>
+    <td>check all subsets</td>
+    <td>T(N)</td>
+</tr>
 </table>
 
 #### 1.3.2 Binary Search
 
 <p><format color = "BlueViolet">Properties:</format> Binary search 
-uses at most &le; <math>1 + \log N</math> to search in a sorted array
+uses at most <math>\leq 1 + \log N</math> to search in a sorted array
 of size <math>N</math>.</p>
 
 <p><format color = "BlueViolet">Proof skectch:</format> </p>
@@ -199,7 +241,7 @@ T(N) &\leq T\left(\frac{N}{2}\right) + 1 \\
 \end{align*}
 </code-block>
 
-<procedure title = "Basic Plan for Binary Seach">
+<procedure title = "Binary Seach">
 <step>
     <p>Compare key against middle entry.</p>
 </step>
@@ -282,7 +324,7 @@ summary = "Leetcode 15: 3Sum">Leetcode 15: 3Sum</a></p>
 <code>i != j</code>, <code>i != k</code>, and <code>j != k</code>, 
 and <code>nums[i] + nums[j] + nums[k] == 0</code>.</p>
 
-<procedure title = "Basic Plan for 3-Sum">
+<procedure title = "3-Sum">
 <step>
 Sort the <math>N</math> (distinct) numbers.
 </step>
@@ -293,7 +335,7 @@ For each pair of numbers <code>a[i]</code> and <code>a[j]</code>,
 </step>
 </procedure>
 
-<p>Analysis: Order of grwoth is <math>N ^ {2} \log N</math></p>
+<p>Analysis: Order of growth is <math>N ^ {2} \log N</math></p>
 
 <list type = "bullet">
 <li>
@@ -304,68 +346,194 @@ Step 2: <math>N ^ {2} \log N</math> with binary search.
 </li>
 </list>
 
+Java
+
+```Java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Leetcode {
+    public Leetcode() {
+    }
+    
+    public List<List<Integer>> threeSum(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        List<List<Integer>> answer = new ArrayList<>();
+        for (int first = 0; first < n; ++first) {
+            if (first > 0 && nums[first] == nums[first - 1]) {
+                continue;
+            }
+            int third = n - 1;
+            int target = -nums[first];
+            for (int second = first + 1; second < n; ++second) {
+                if (second > first + 1 && nums[second] == nums[second - 1]) {
+                    continue;
+                }
+                while (second < third && nums[second] + nums[third] > target) {
+                    --third;
+                }
+                if (second == third) {
+                    break;
+                }
+                if (nums[second] + nums[third] == target) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[first]);
+                    list.add(nums[second]);
+                    list.add(nums[third]);
+                    answer.add(list);
+                }
+            }
+        }
+        return answer;
+    }
+}
+```
+
+C++
+
+```C++
+#include <vector>
+#include <algorithm>
+
+std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
+    const int n = static_cast<int>(nums.size());
+    std::sort(nums.begin(), nums.end());
+
+    std::vector<std::vector<int>> answer;
+
+    for (int first = 0; first < n; first++) {
+        if (first > 0 && nums[first] == nums[first - 1]) {
+            continue;
+        }
+
+        int third = n - 1;
+        const int target = -nums[first];
+
+        for (int second = first + 1; second < n; second++) {
+            if (second > first + 1 && nums[second] == nums[second - 1]) {
+                continue;
+            }
+            while (second < third && nums[second] + nums[third] > target) {
+                --third;
+            }
+            
+            if (second == third) {
+                break;
+            }
+            if (nums[second] + nums[third] == target) {
+                answer.emplace_back(std::vector<int>{nums[first], nums[second], nums[third]});
+            }
+        }
+    }
+    return answer;
+}
+```
+
+Python
+
+```Python
+from typing import List
+
+
+def threeSum(nums: List[int]) -> List[List[int]]:
+    n = len(nums)
+    nums.sort()
+    ans = list()
+
+    for first in range(n):
+        if first > 0 and nums[first] == nums[first - 1]:
+            continue
+        third = n - 1
+        target = -nums[first]
+        for second in range(first + 1, n):
+            if second > first + 1 and nums[second] == nums[second - 1]:
+                continue
+            while second < third and nums[second] + nums[third] > target:
+                third -= 1
+            if second == third:
+                break
+            if nums[second] + nums[third] == target:
+                ans.append([nums[first], nums[second], nums[third]])
+
+    return ans
+```
+
 ### 1.4 Theory of Algorithms
 
-<table>
-<tr><td>Notion</td><td>Formal Definition</td><td>Provides</td><td>Example</td>
-<td>Shorthand for</td><td>Used to</td></tr>
-<tr><td><format color = "OrangeRed">Big Theta</format></td>
-<td>
-<code-block lang = "tex">
-R(N) \in \Theta (f(N))
-</code-block>
-<p>means there are positive constants <math>k_1</math> and <math>k_2
-</math> such that</p>
-<code-block lang = "tex">
-k_1 f(N) \leq R(N) \leq k_2 f(N)
-</code-block>
-</td>
-<td>asymptotic order of growth</td><td><math>\Theta (N ^ {2})</math></td>
-<td><code-block lang = "tex">
-\begin{align*}
-&\frac {N ^ {2}}{2} \\
-&10 N ^ {2} \\
-&5 N ^ {2} + 22 N \log N + 3 N \\
-\text {...}
-\end{align*}
-</code-block></td><td>classify algorithms</td></tr>
-<tr><td><format color = "OrangeRed">Big Oh</format></td>
-<td>
-<code-block lang = "tex">
-R(N) \in O(f(N))
-</code-block>
-<p>means there is a positive constant <math>k_2
-</math> such that</p>
-<code-block lang = "tex">
-R(N) \leq k_2 f(N)
-</code-block>
-</td>
-<td><math>\Theta (N ^ {2})</math> and smaller</td><td><math>O(N ^ {2})</math></td>
-<td><code-block lang = "tex">
-\begin{align*}
-&10 N ^ {2} \\
-&100 N \\
-&22 N \log N + 3 N \\
-\text {...}
-\end{align*}
-</code-block></td><td>develop upper bounds</td></tr>
-<tr><td><format color = "OrangeRed">Big Omega</format></td>
-<td>
-<code-block lang = "tex">
-R(N) \in \Omega (f(N))
-</code-block>
-<p>means there is a positive constant <math>k_1</math> such that</p>
-<code-block lang = "tex">
-k_1 f(N) \leq R(N)
-</code-block>
-</td>
-<td><math>\Theta (N ^ {2})</math> and larger</td><td><math>\Omega (N ^ {2})</math></td>
-<td><code-block lang = "tex">
-\begin{align*}
-&\frac {N ^ {2}}{2} \\
-&N ^ {5} \\
-&N ^ {3} + 22 N \log N + 3 N \\
-\text {...}
-\end{align*}
-</code-block></td><td>develop lower bounds</td></tr>
+<table style="header-row">
+<tr>
+    <td>Notion</td>
+    <td>Formal Definition</td>
+    <td>Provides</td>
+    <td>Example</td>
+    <td>Shorthand for</td>
+    <td>Used to</td>
+</tr>
+<tr>
+    <td><format color = "OrangeRed">Big Theta</format></td>
+    <td><code-block lang = "tex">
+    R(N) \in \Theta (f(N))
+    </code-block>
+    <p>means there are positive constants <math>k_1</math> and <math>
+    k_2</math> such that</p>
+    <code-block lang = "tex">
+    k_1 f(N) \leq R(N) \leq k_2 f(N)
+    </code-block>
+    </td>
+    <td>asymptotic order of growth</td>
+    <td><math>\Theta (N ^ {2})</math></td>
+    <td><code-block lang = "tex">
+    \begin{align*}
+    &\frac {N ^ {2}}{2} \\
+    &10 N ^ {2} \\
+    &5 N ^ {2} + 22 N \log N + 3 N \\
+    &\text {...} \\
+    \end{align*}
+    </code-block></td>
+    <td>Classify Algorithms</td>
+</tr>
+<tr>
+    <td><format color = "OrangeRed">Big Oh</format></td>
+    <td><code-block lang = "tex">
+    R(N) \in O(f(N))
+    </code-block>
+    <p>means there is a positive constant <math>k_2</math> such that</p>
+    <code-block lang = "tex">
+    R(N) \leq k_2 f(N)
+    </code-block></td>
+    <td><math>\Theta (N ^ {2})</math> and smaller</td>
+    <td><math>O(N ^ {2})</math></td>
+    <td><code-block lang = "tex">
+    \begin{align*}
+    &10 N ^ {2} \\
+    &100 N \\
+    &22 N \log N + 3 N \\
+    &\text {...} \\
+    \end{align*}
+    </code-block></td>
+    <td>Develop Upper Bounds</td>
+</tr>
+<tr>
+    <td><format color = "OrangeRed">Big Omega</format></td>
+    <td><code-block lang = "tex">
+    R(N) \in \Omega (f(N))
+    </code-block>
+    <p>means there is a positive constant <math>k_1</math> such that</p>
+    <code-block lang = "tex">
+    k_1 f(N) \leq R(N)
+    </code-block></td>
+    <td><math>\Theta (N ^ {2})</math> and larger</td>
+    <td><math>\Omega (N ^ {2})</math></td>
+    <td><code-block lang = "tex">
+    \begin{align*}
+    &\frac {N ^ {2}}{2} \\
+    &N ^ {5} \\
+    &N ^ {3} + 22 N \log N + 3 N \\
+    &\text {...} \\
+    \end{align*}
+    </code-block></td>
+    <td>Develop Lower Bounds</td>
+</tr>
 </table>
