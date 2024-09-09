@@ -2,18 +2,8 @@
 
 # Computer Architecture
 
-```mermaid
-stateDiagram-v2
-    State1: Higher-Level Language Program (e.g. C)
-    State1 --> State2: Compiler
-    State2: Assembly Language Program (e.g. RISC-V)
-    State2 --> State3: Assembler
-    State3: Machine Language Program (e.g. RISC-V)
-    State3 --> State4: Machine Interpretation
-    State4: Hardware Architecture Description (e.g. block diagrams)
-    State4 --> State5: Architecture Implementation
-    State5: Logic Circuit Description (Circuit Schematic Diagrams)
-```
+<img src="../images_architecture/a1-1-1.png" alt=
+"Computer Architecture"/>
 
 ## &#8544; C Programming
 
