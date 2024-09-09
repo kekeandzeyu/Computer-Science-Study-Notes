@@ -11,7 +11,7 @@
 <p>Sentinel code make it easier to reason about code, and also give 
 you specific goals to strive for in making sure your code works.</p>
 
-<img src = "../images_data/d2-1-1.png" alt = "Sentinel Node"/>
+<img src="../images_data/d2-1-1.png" alt="Sentinel Node"/>
 
 ### 2.1 Singly Linked Lists
 
@@ -623,14 +623,14 @@ class Deque:
 
 ### 3.1 Quick Find (Eager Approach)
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p><code>parent[i]</code> is the root of <math>i</math>, <math>p
 </math> and <math>q</math> are connected if and only if they have the
 same <code>parent[i]</code>.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Find:</format> Check if <math>p
+<p><format color="Fuchsia">Find:</format> Check if <math>p
 </math> and <math>q</math> have the same <code>parent[i]</code>.</p>
 </li>
 <li>
@@ -641,9 +641,9 @@ entries whose id equals <code>parent[p]</code> to <code>parent[q]
 </li>
 </list>
 
-<note>
-<p><format color = "BlueViolet">Defect:</format> </p>
-<list type = "bullet">
+<tip>
+<p><format color="BlueViolet">Defect:</format> </p>
+<list type="bullet">
 <li>
 <p>Union too expensive (<math>N</math> array accesses).</p>
 </li>
@@ -651,22 +651,22 @@ entries whose id equals <code>parent[p]</code> to <code>parent[q]
 <p>Trees are flat, but too expensive to keep them flat.</p>
 </li>
 </list>
-</note>
+</tip>
 
 ### 3.2 Quick Union (Lazy Approach)
 
 <list>
 <li>
 <p>parent[i] is the parent of <math>i</math>, root of <math>i</math> 
-is <br/>parent[parent[...[i]]] (keep going until it doesn't change).
+is parent[parent[...[i]]] (keep going until it doesn't change).
 </p>
 </li>
 <li>
-<p><format color = "Fuchsia">Find:</format> Check if <math>p
+<p><format color="Fuchsia">Find:</format> Check if <math>p
 </math> and <math>q</math> have the same root.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Union:</format> To merge 
+<p><format color="Fuchsia">Union:</format> To merge 
 components containing <math>p</math> and <math>q</math>, set the 
 parent of <math>p</math>'s root to the parent of <math>q</math>'s 
 root.</p>
@@ -674,8 +674,8 @@ root.</p>
 </list>
 
 <note>
-<p><format color = "BlueViolet">Defect:</format> </p>
-<list type = "bullet">
+<p><format color="BlueViolet">Defect:</format> </p>
+<list type="bullet">
 <li>
 <p>Trees can get tall.</p>
 </li>
@@ -689,7 +689,7 @@ root.</p>
 
 <p>Two Improvements: Weighting and Path Compression (WQUPC).</p>
 
-<procedure title = "Weighted quick-union" type="choices">
+<procedure title="Weighted quick-union" type="choices">
 <step>
 <p>Modify quick-union to avoid tall trees.</p>
 </step>
@@ -711,7 +711,8 @@ each examined node to point to that root.</p>
 
 <list>
 <li>
-<p><code>rank[i]</code> is the size of the tree rooted at <math>i</math>.</p>
+<p><code>rank[i]</code> is the size of the tree rooted at <math>i
+</math>.</p>
 </li>
 <li>
 <p>Property: Starting from an empty data structure, any sequence of 
@@ -852,25 +853,32 @@ class UnionFind:
 
 ## 4 Bags, Queues and Stacks
 
-* Stack: Examine the item most recently added (LIFO: last in first out).
-
-* Queue: Examine the item least recently added (FIFO: first in first out).
+<list>
+<li>
+<p><format color="Fuchsia">Stack:</format> Examine the item most 
+recently added (LIFO: last in first out).</p>
+</li>
+<li>
+<p><format color="Fuchsia">Queue:</format> Examine the item least 
+recently added (FIFO: first in first out).</p>
+</li>
+</list>
 
 ### 4.1 Stacks
 
-<p><format color = "BlueViolet">Defintion:</format> </p>
+<p><format color="BlueViolet">Defintion:</format> </p>
 
 <list>
 <li>
-<p><format color = "DarkOrange">Client:</format> program using 
+<p><format color="DarkOrange">Client:</format> program using 
 operations defined in interface.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Implementation:</format> actual code 
+<p><format color="DarkOrange">Implementation:</format> actual code 
 implementing operations.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Interface:</format> description of 
+<p><format color="DarkOrange">Interface:</format> description of 
 data types, basic operations.</p>
 </li>
 </list>
@@ -889,11 +897,11 @@ client has many implementation from which to choose.</p>
 many clients can re-use the same implementation.</p>
 </li>
 <li>
-<p><format color = "OrangeRed">Design</format>: creates modular,
+<p><format color="Fuchsia">Design</format>: creates modular,
 reusable libraries.</p>
 </li>
 <li>
-<p><format color = "OrangeRed">Performance</format>: use optimized
+<p><format color="Fuchsia">Performance</format>: use optimized
 implementation where it matters.</p>
 </li>
 </list>
@@ -982,11 +990,11 @@ print(len(stack) == 0)
 <step>
     Return saved item.
 </step>
-<img src = "../images_data/d4-1-1.png" alt = "Stack pop" 
-style = "inline"/>
+<img src="../images_data/d4-1-1.png" alt="Stack pop" 
+style="inline"/>
 </procedure>
 
-<procedure title = "Stack push">
+<procedure title="Stack push">
 <step>
     Save a link to the list.
 </step>
@@ -996,8 +1004,8 @@ style = "inline"/>
 <step>
     Set the instance variables in the new node.
 </step>
-<img src = "../images_data/d4-1-2.png" alt = "Stack push" 
-style = "inline"/>
+<img src="../images_data/d4-1-2.png" alt="Stack push" 
+style="inline"/>
 </procedure>
 
 <p><format color = "BlueViolet">Properties:</format> </p>
@@ -1012,11 +1020,7 @@ style = "inline"/>
 </li>
 </list>
 
-<img src = "../images_data/d4-1-3.png" alt = "Stroage Structure"/>
-
-<note>
-<p>This is the linked-list implementation of stacks.</p>
-</note>
+<img src="../images_data/d4-1-3.png" alt="Stroage Structure"/>
 
 Java
 
@@ -1132,7 +1136,7 @@ class Stack:
 
 #### 4.1.3 Resizing-Array Implementation
 
-<p><format color = "BlueViolet">Property:</format> Uses between 
+<p><format color="BlueViolet">Property:</format> Uses between 
 <math>\sim 8N</math> and <math>\sim 32N</math> bytes to
 represent a stack with <math>N</math> items.</p>
 
@@ -1145,20 +1149,22 @@ represent a stack with <math>N</math> items.</p>
 </li>
 </list>
 
-<table style = "header-row">
-<tr><td>Linked-List Implementation</td><td>Resizing-Array 
-Implementation</td></tr>
-<tr><td>Every operation takes constant time in the <format 
-color = "OrangeRed">worst case.</format></td><td>Every operation 
-takes constant <format color = "OrangeRed">amortized</format> time.
-</td></tr>
-<tr><td>Uses extra time and space to deal with the links.</td>
-<td>Less wasted space.</td></tr>
+<table style="header-row">
+<tr>
+    <td>Linked-List Implementation</td>
+    <td>Resizing-Array Implementation</td>
+</tr>
+<tr>
+    <td>Every operation takes constant time in the <format 
+    color="OrangeRed">worst case.</format></td>
+    <td>Every operation takes constant <format color = "OrangeRed">
+    amortized</format> time.</td>
+</tr>
+<tr>
+    <td>Uses extra time and space to deal with the links.</td>
+    <td>Less wasted space.</td>
+</tr>
 </table>
-
-> This is the resizing-array implementation of stacks.
->
-{style = "note"}
 
 Java
 
@@ -1204,10 +1210,6 @@ public class ResizingArrayStackOfStrings {
 ### 4.2 Queues
 
 #### 4.2.1 Built-in Queues
-
-> This is the use of built-in queues.
->
-{style = "note"}
 
 Java
 
@@ -1282,10 +1284,11 @@ print(q.empty())
 <step>
     Return saved item.
 </step>
-<img src="../images_data/d4-2-1.png" alt="Queue dequeue" width="450" style = "inline"/>
+<img src="../images_data/d4-2-1.png" alt="Queue dequeue" style=
+"inline"/>
 </procedure>
 
-<procedure title = "Queue enqueue">
+<procedure title="Queue enqueue">
 <step>
     Save a link to the last node.
 </step>
@@ -1295,12 +1298,8 @@ print(q.empty())
 <step>
     Link the new node to the end of the list.
 </step>
-<img src = "../images_data/d4-2-2.png" alt = "Queue enqueue" style = "inline"/>
+<img src="../images_data/d4-2-2.png" alt="Queue enqueue" style="inline"/>
 </procedure>
-
-> This is the implementation of queues.
->
-{style = "note"}
 
 Java
 
