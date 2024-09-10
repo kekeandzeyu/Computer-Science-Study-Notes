@@ -1,4 +1,4 @@
-<show-structure for="chapter" depth="3"></show-structure>
+<show-structure for="chapter" depth="3" xmlns=""></show-structure>
 
 # C++ Programming
 
@@ -1408,6 +1408,21 @@ type behave.</p>
     
 </list>
 
+<p>Classes have <format color="OrangeRed">three</format> main parts:
+</p>
+
+<list type = "bullet">
+<li>
+<p><format color="Fuchsia">Constructor and destructor</format></p>
+</li>
+<li>
+<p><format color="Fuchsia">Member variables</format></p>
+</li>
+<li>
+<p><format color="Fuchsia">Member functions</format></p>
+</li>
+</list>
+
 <p><format color = "BlueViolet">Example (header file):</format> </p>
 
 ```C++
@@ -1734,6 +1749,77 @@ std::strong_ordering operator<=> (const Time& rhs) {
 ```
 
 ### 11 Special Member Functions
+
+<p><format color="BlueViolet">Six types of special member functions:
+</format> </p>
+
+<p>Every class has them by default.</p>
+
+<p>These functions are generated only when they're called (and before
+any are explicitly defined by you):</p>
+
+<list type="bullet">
+<li>
+<p><format color="Fuchsia">Default constructor:</format> Takes no 
+parameters and creates a new object.</p>
+</li>
+<li>
+<p><format color="Fuchsia">Destructor:</format> Called when an object
+goes out of scope.</p>
+</li>
+<li>
+<p><format color="Fuchsia">Copy constructor:</format> Creates a 
+<format style="underline">new object</format> as a member-wise copy 
+of another.</p>
+</li>
+<li>
+<p><format color="Fuchsia">Copy assignment operator:</format> Assigns
+an <format style="underline">already existing object</format> to 
+another.</p>
+</li>
+<li>
+<p>Move constructor</p>
+</li>
+<li>
+<p>Move assignment operator</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Example:</format> </p>
+
+```C++
+MyVector<int> function(MyVector<int> vec0) { // copy constructor
+    MyVector<int> vec1;                      // default constructor
+    MyVector<int> vec2{3, 4, 5};             // initializer list constructor
+    MyVector<int> vec3();                    // function declaration - C++’s most vexing parse
+    MyVector<int> vec4(vec2);                // copy constructor
+    MyVector<int> vec5{};                    // default constructor
+    MyVector<int> vec6{vec3 + vec4};         // move constructor
+    MyVector<int> vec7 = vec4;               // copy constructor
+    vec7 = vec2;                             // copy assignment operator
+    return vec7;                             // move constructor
+}
+```
+
+<note>
+<p>About the return value:</p>
+<list type="decimal">
+<li>
+<p><format color="Fuchsia">Return Value Optimization (RVO):</format> 
+The compiler is allowed to optimize away the copy/move entirely and 
+construct vec7 directly in the location where the return value will 
+be placed. This eliminates any copying or moving.</p>
+</li>
+<li>
+<p><format color="Fuchsia">Move Semantics:</format> If RVO is not 
+applicable (e.g., due to complex control flow or compiler limitations
+), the compiler will prefer to use the move constructor because vec7 
+is a local variable that is going out of scope. This means its 
+resources can be "moved" to the return value efficiently, rather than
+copying them.</p>
+</li>
+</list>
+</note>
 
 ### 12 Move Semantics
 
