@@ -335,8 +335,6 @@ std::cout << (iss.eof() ? "EOF" : "Not EOF") << std::endl;
 
 #### 4.3 Input Streams
 
-
-
 <list type = "bullet">
 <li>
 <p>The program hangs and waits for user input when the position
@@ -398,8 +396,8 @@ int main() {
     double pi, r;
     std::string name;
     std::cin >> pi;
-    std::getline(std::cin, name);
-    std::getline(std::cin, name);
+    std::getline(std::cin, name); // read '\n' from previous input
+    std::getline(std::cin, name); // read name
     std::cin >> r;
     std::cout << "Hello, " << name << "!" << std::endl;
     std::cout << "Value of pi: " << pi << std::endl;
@@ -408,7 +406,121 @@ int main() {
 }
 ```
 
+<warning>
+<p>Don’t use getline() and std::cin() together, unless you really 
+really have to!</p>
+</warning>
+
 #### 4.4 Output Streams
+
+<list type="bullet">
+<li>
+<p><format color="Fuchsia">cerr (Standard Error Stream):</format> 
+used to output errors (unbuffered).</p>
+</li>
+<li>
+<p><format color="Fuchsia">clog (Standard Logging Stream):</format> 
+used for non-critical event logging (buffered).</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+```C++
+#include <iostream>
+
+int main() {
+  std::cerr << "Error: Could not open the file!" << std::endl;
+
+  std::clog << "Log: User logged in successfully." << std::endl;
+
+  return 0;
+}
+```
+
+<p><format color="BlueViolet">Input File Streams & Output File Streams
+</format></p>
+
+<table style="both">
+<tr>
+    <td></td>
+    <td>ifstream</td>
+    <td>ofstream</td>
+</tr>
+<tr>
+    <td>Purpose</td>
+    <td>Input from a file</td>
+    <td>Output to a file</td>
+</tr>
+<tr>
+    <td>Mode</td>
+    <td>Opens a file in read mode</td>
+    <td>Opens a file in write mode</td>
+</tr>
+<tr>
+    <td>Default behavior</td>
+    <td>If the file doesn't exist, it fails to open.</td>
+    <td>If the file doesn't exist, it creates a new one. If it 
+    exists, it overwrites the content by default.</td>
+</tr>
+<tr>
+    <td>Operators</td>
+    <td>Primarily used with the extraction operator (&gt;&gt;) to read
+    data from the file.</td>
+    <td>Primarily used with the insertion operator (&lt;&lt;) to 
+    write data to the file.</td>
+</tr>
+<tr>
+    <td>Similarities</td>
+    <td colspan="2">
+    <list type="alpha-lower">
+    <li>
+    <p>They share many common methods like open(), close(), is_open()
+    , good(), bad(), fail(), eof(), etc. for managing the file stream
+    .</p>
+    </li>
+    <li>
+    <p>Both inherit properties and methods from the base class fstream
+    .</p>
+    </li>
+    </list>
+    </td>
+</tr>
+</table>
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+```C++
+#include <iostream>
+#include <fstream>
+
+int main() {
+    // ifstream for reading from a file
+    std::ifstream inputFile("myInput.txt"); 
+
+    if (inputFile.is_open()) {
+        std::string line;
+        while (std::getline(inputFile, line)) {
+            std::cout << line << std::endl;
+        }
+        inputFile.close(); 
+    } else {
+    std::cerr << "Unable to open input file." << std::endl;
+    }
+
+    // ofstream for writing to a file
+    std::ofstream outputFile("myOutput.txt");
+
+    if (outputFile.is_open()) {
+        outputFile << "This is some text for the output file." << std::endl;
+        outputFile.close();
+    } else {
+        std::cerr << "Unable to open output file." << std::endl;
+    }
+
+    return 0;
+}
+```
 
 ### 5 Modern C++ Types
 
@@ -1820,6 +1932,138 @@ copying them.</p>
 </li>
 </list>
 </note>
+
+#### 11.1 Copy Constructor & Copy Assignment Operator
+
+<p>By default, the copy constructor will create copies of each member
+variable.</p>
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+```C++
+/** Problem with the following code:
+ * When the vectors go out of scope, their destructor tries to free the array.
+ */
+IntVector operator+(const IntVector & vec, int elem) { 
+    IntVector copy = vec; // default copy constructor, copy a pointer to the same array
+    copy += element; 
+    return copy; 
+}
+```
+
+<img src="../images_c/c11-1.png" alt="Copy Constructor"/>
+
+<note>
+<p>When the vectors go out of scope, their destructor tries to free 
+the array.</p>
+</note>
+
+<p><format color="BlueViolet">Copy constructor:</format> </p>
+
+<list type="bullet">
+<li>
+<p>Use initializer list to copy members where assignment does the
+correct thing. e.g., int, other objects, etc.</p>
+</li>
+<li>
+<p>Deep copy all members where assignment does not work. e.g.,
+pointers to heap memory.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Copy assignment operator:</format> </p>
+
+<list type="bullet">
+<li>
+<p>Clean up any resources in the existing object about to be
+overwritten.</p></li>
+<li>
+<p>Copy members using initializer list when assignment works.</p>
+</li>
+<li>
+<p>Deep copy members where assignment does not work.</p>
+</li>
+</list>
+
+#### 11.2 Delete Operations
+
+<p>Setting a special member function to delete removes its 
+functionality.</p>
+
+<p>We can also keep the default copy constructor if we declare other 
+constructors.</p>
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+```C++
+#include <iostream>
+
+class NonCopyable {
+public:
+    NonCopyable() = default;  // Default constructor
+
+    NonCopyable(const NonCopyable&) = delete;  // Delete copy constructor
+    NonCopyable& operator=(const NonCopyable&) = delete;  // Delete copy assignment
+
+    NonCopyable(NonCopyable&&) = default;  // Default move constructor
+    NonCopyable& operator=(NonCopyable&&) = default;  // Default move assignment
+
+    void print() { std::cout << "NonCopyable object" << std::endl; }
+};
+
+int main() {
+    NonCopyable obj1;
+    obj1.print();
+
+    NonCopyable obj2 = std::move(obj1); // Move construction is allowed
+    obj2.print();
+
+    // NonCopyable obj3 = obj2; // Error: Copy construction is deleted
+    // obj1 = obj2; // Error: Copy assignment is deleted
+
+    return 0;
+}
+```
+
+#### 11.3 Rule of Zero/Three
+
+<p><format color="BlueViolet">Rule of Zero:</format> If the default 
+operations work, don't define your own custom ones!</p>
+
+<p>When the default one generated by the compiler does not work, 
+you need to write your own special member functions.</p>
+
+<p>Most common reason: ownership issues. A member is a handle on a 
+resource outside of the class (e.g., pointers, mutexes, filestreams)
+.</p>
+
+<p><format color="BlueViolet">Rule of Three:</format> If you 
+explicitly define (or delete) a copy constructor, copy assignment, 
+or destructor, you should define (or delete) all three.</p>
+
+<note>
+<p>The fact that you defined one of these means one of your members 
+has ownership issues that need to be resolved.</p>
+</note>
+
+#### 11.4 Copy Elision and Return Value Optimization (RVO)
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+```C++
+int main() { 
+    StringVector words; 
+    words = findAllWords(“words.txt”); // print words 
+} 
+
+StringVector findAllWords(const string& filename) { 
+    StringVector words; 
+    // read from filename using an ifstream 
+    return words; 
+}
+```
+
+<img src="../images_c/c11-2.png" alt="RVO"/>
 
 ### 12 Move Semantics
 
