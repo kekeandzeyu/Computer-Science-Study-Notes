@@ -268,3 +268,173 @@ CREATE TABLE Reserves (
 </li>
 </list>
 </tip>
+
+### 1.4 SQL Queries
+
+<p><format color="BlueViolet">Basic Single Table Queries:</format> </p>
+
+```SQL
+SELECT [DISTINCT] <column expression list>
+FROM <single table>
+[WHERE <predicate>]
+```
+
+<list type="bullet">
+<li>
+<p>Produce all tuples in the table that satisfy the predicate.</p>
+</li>
+<li>
+<p>Output the expressions in the SELECT list,</p>
+</li>
+<li>
+<p>Expression can be a column reference, or an arithmetic expression 
+over column refs.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Example:</format> </p>
+
+```SQL
+SELECT S.name, S.gpa, S.age*2 AS a2
+FROM Students [AS] S
+WHERE S.dept = 'CS'
+ORDER BY S.gpa DESC, S.name ASC, a2;
+LIMIT 3;
+```
+
+<list type="alpha-lower">
+<li>
+<p><format color="Fuchsia">SELECT, FROM, WHERE lines:</format> </p>
+    <list type="bullet">
+    <li>
+    <p>Return all unique (name, GPA) pairs from students.</p>
+    </li>
+    <li>
+    <p>DISTINCT specifies removal of duplicate rows before output.</p>
+    </li>
+    <li>
+    <p>Can refer to the students table as S, this is called an <format 
+    style="italic">alias</format>.</p>
+    </li>
+    </list>
+</li>
+<li>
+<p><format color="Fuchsia">ORDER line:</format> </p>
+    <list type="bullet">
+    <li>
+    <p>ORDER BY clause specifies output to be sorted.</p>
+        <list type="bullet">
+        <li>
+        <p>Sorts the output by GPA in descending order, then by name in
+        ascending order.</p>
+        </li>
+        <li>
+        <p>Also computes the value of age*2 and names it a2.</p>
+        </li>
+        </list>
+    </li>
+    <li>
+    <p>Obviously must refer to columns in the output.</p>
+    <p>Note the AS clause for naming output columns!</p>
+    </li>
+    </list>
+</li>
+<li>
+<p><format color="Fuchsia">LIMIT line:</format> </p>
+    <list type="bullet">
+    <li>
+    <p>Only produces the first 3 output rows.</p>
+    </li>
+    <li>
+    <p>Typically used with ORDER BY.</p>
+        <list type="bullet">
+        <li>
+        <p>Otherwise the output is <format style="italic">non-
+        deterministic</format>.</p>
+        </li>
+        <li>
+        <p>Not a "pure" declarative construct in that case – output 
+        set depends on algorithm for query processing.</p>
+        </li>
+        </list>
+    </li>
+    </list>
+</li>
+</list>
+
+<p><format color="BlueViolet">Aggregates:</format> </p>
+
+```SQL
+SELECT [DISTINCT] AVG(S.gpa)
+FROM Students S
+WHERE S.dept = 'CS';
+```
+
+<list>
+<li>
+<p>Before producing output, compute a summary (aka an aggregate) of 
+some arithmetic expression.</p>
+</li>
+<li>
+<p>Produces 1 row of output, with one column of average in this case.
+</p>
+</li>
+<li>
+<p>Other aggregates: SUM, COUNT, MAX, MIN (and others).</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Group By:</format> </p>
+
+```SQL
+SELECT [DISTINCT] AVG(S.gpa), S.dept
+FROM Students S
+GROUP BY S.dept
+```
+
+<list type="bullet">
+<li>
+<p>Partition table into groups with same GROUP BY column values, can
+group by a list of columns.</p>
+</li>
+<li>
+<p>Produce an aggregate result per group, cardinality (rows) of output
+= number of distinct group values.</p>
+</li>
+<li>
+<p>Note: can put grouping columns in SELECT list (in this case, average 
+GPA + department).</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Having:</format> </p>
+
+```SQL
+SELECT [DISTINCT] AVG(S.gpa), S.dept
+FROM Students S
+GROUP BY S.dept 
+HAVING COUNT(*) > 2
+```
+
+<list type="bullet">
+<li>
+<p>The HAVING predicate filters groups</p>
+</li>
+<li>
+<p>HAVING is applied after grouping and aggregation</p>
+    <list type="bullet">
+    <li>
+    <p>Hence can contain anything that could go in the SELECT list</p>
+    </li>
+    <li>
+    <p>i.e., aggs or GROUP BY columns</p>
+    </li>
+    </list>
+</li>
+<li>
+<p>HAVING can only be used in aggregate queries</p>
+</li>
+<li>
+<p>It's an optional clause</p>
+</li>
+</list>
