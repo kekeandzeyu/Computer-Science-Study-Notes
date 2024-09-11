@@ -988,7 +988,212 @@ scan until mismatch.</p>
 
 ### 20.1 R-Way Tries
 
+<p><format color="BlueViolet">Tries (from retrieval, but pronounced 
+"try"):</format> Store characters in nodes (not keys), each node has
+<math>R</math> children, one for each possible character.</p>
 
+<img src="../images_data/d20-1-1.png" alt="Tries"/>
+
+<procedure title="Trie Search">
+<step>
+    <p>Follow links corresponding to each character in the key.</p>
+</step>
+<step>
+    <p><format color="Fuchsia">Search hit:</format> node where search
+    ends has a non-null value.</p>
+</step>
+<step>
+    <p><format color="Fuchsia">Search miss:</format> reach null link 
+    or node where search ends has null value.</p>
+</step>
+</procedure>
+
+<procedure title="Trie Delete">
+<step>
+    <p>Find the node corresponding to key and set value to null.</p>
+</step>
+<step>
+    <p>If node has null value and all null links, remove that node 
+    (and recur).</p>
+</step>
+</procedure>
+
+Java
+
+```Java
+import java.util.HashMap;
+
+public class RWayTrie {
+
+    private static final int R = 256;
+
+    private final Node root;
+
+    private static class Node {
+        private boolean isEndOfWord;
+        private final HashMap<Character, Node> children;
+
+        public Node() {
+            isEndOfWord = false;
+            children = new HashMap<>();
+        }
+    }
+
+    public RWayTrie() {
+        root = new Node();
+    }
+
+    public void insert(String word) {
+        Node current = root;
+        for (char c : word.toCharArray()) {
+            if (!current.children.containsKey(c)) {
+                current.children.put(c, new Node());
+            }
+            current = current.children.get(c);
+        }
+        current.isEndOfWord = true;
+    }
+
+    public boolean search(String word) {
+        Node current = root;
+        for (char c : word.toCharArray()) {
+            if (!current.children.containsKey(c)) {
+                return false;
+            }
+            current = current.children.get(c);
+        }
+        return current.isEndOfWord;
+    }
+
+    public boolean startsWith(String prefix) {
+        Node current = root;
+        for (char c : prefix.toCharArray()) {
+            if (!current.children.containsKey(c)) {
+                return false;
+            }
+            current = current.children.get(c);
+        }
+        return true;
+    }
+}
+```
+
+C++
+
+```C++
+#include <iostream>
+#include <unordered_map>
+#include <ranges>
+
+constexpr int R = 26;
+
+struct Node {
+    bool isEndOfWord;
+    std::unordered_map<char, Node*> children;
+
+    Node() : isEndOfWord(false) {}
+};
+
+class RWayTrie {
+private:
+    Node* root;
+
+    static void deleteNode(Node* node) {
+        if (node == nullptr) {
+            return;
+        }
+
+        for (Node* child : node->children | std::views::values) {
+            deleteNode(child);
+        }
+
+        delete node;
+    }
+
+public:
+    RWayTrie() {
+        root = new Node();
+    }
+
+    void insert(const std::string& word) const
+    {
+        Node* current = root;
+        for (char c : word) {
+            if (!current->children.contains(c)) {
+                current->children[c] = new Node();
+            }
+            current = current->children[c];
+        }
+        current->isEndOfWord = true;
+    }
+
+    [[nodiscard]] bool search(const std::string& word) const
+    {
+        Node* current = root;
+        for (char c : word) {
+            if (!current->children.contains(c)) {
+                return false;
+            }
+            current = current->children[c];
+        }
+        return current->isEndOfWord;
+    }
+
+    [[nodiscard]] bool startsWith(const std::string& prefix) const
+    {
+        Node* current = root;
+        for (char c : prefix) {
+            if (!current->children.contains(c)) {
+                return false;
+            }
+            current = current->children[c];
+        }
+        return true;
+    }
+
+    ~RWayTrie() {
+        deleteNode(root);
+    }
+};
+```
+
+Python
+
+```Python
+class Node:
+    def __init__(self):
+        self.isEndOfWord = False
+        self.children = {}  # Dictionary to store child nodes
+
+
+class RWayTrie:
+    def __init__(self):
+        self.root = Node()
+
+    def insert(self, word):
+        current = self.root
+        for char in word:
+            if char not in current.children:
+                current.children[char] = Node()
+            current = current.children[char]
+        current.isEndOfWord = True
+
+    def search(self, word):
+        current = self.root
+        for char in word:
+            if char not in current.children:
+                return False
+            current = current.children[char]
+        return current.isEndOfWord
+
+    def startsWith(self, prefix):
+        current = self.root
+        for char in prefix:
+            if char not in current.children:
+                return False
+            current = current.children[char]
+        return True
+```
 
 ### 20.2 Ternary Search Tries
 
