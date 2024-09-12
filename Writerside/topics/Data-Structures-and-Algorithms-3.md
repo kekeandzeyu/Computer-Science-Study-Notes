@@ -986,7 +986,7 @@ scan until mismatch.</p>
 
 ## 20 Tries
 
-### 20.1 R-Way Tries
+### 20.1 R-Way Tries {id="rway"}
 
 <p><format color="BlueViolet">Tries (from retrieval, but pronounced 
 "try"):</format> Store characters in nodes (not keys), each node has
@@ -1195,7 +1195,481 @@ class RWayTrie:
         return True
 ```
 
-### 20.2 Ternary Search Tries
+### 20.2 Ternary Search Tries {id="tst"}
+
+<p><format color="BlueViolet">Ternary Search Trees:</format> </p>
+
+<list type="bullet">
+<li>
+<p>Store characters and values in nodes (not keys).</p>
+</li>
+<li>
+<p>Each node has 3 children: smaller (left), equal (middle), larger 
+(right).</p>
+</li>
+</list>
+
+<img src="../images_data/d20-2-1.png" alt="TST Representation"/>
+
+<procedure title="TST Search">
+<step>
+    <p>Follow links corresponding to each character in the key.</p>
+    <list type="bullet">
+    <li>
+    <p>If less, take left link; if greater, take right link.</p>
+    </li>
+    <li>
+    <p>If equal, take the middle link and move to the next key character.
+    </p>
+    </li>
+    </list>
+</step>
+<step>
+    <p>Search hit & miss: </p>
+    <list type="bullet">
+    <li>
+    <p><format color="Fuchsia">Search hit:</format> Node where search 
+    ends has a non-null value.</p>
+    </li>
+    <li>
+    <p><format color="Fuchsia">Search miss:</format> Reach null link 
+    or node where search ends has null value.</p>
+    </li>
+    </list>
+</step>
+</procedure>
+
+Java
+
+```Java
+public class TernarySearchTree {
+
+    private Node root;
+
+    private static class Node {
+        char data;
+        boolean isEndOfString;
+        Node left, equal, right;
+
+        public Node(char data) {
+            this.data = data;
+            this.isEndOfString = false;
+            this.left = null;
+            this.equal = null;
+            this.right = null;
+        }
+    }
+
+    public TernarySearchTree() {
+        root = null;
+    }
+
+    public void insert(String word) {
+        root = insertRecursive(root, word, 0);
+    }
+
+    private Node insertRecursive(Node node, String word, int index) {
+        char c = word.charAt(index);
+
+        if (node == null) {
+            node = new Node(c);
+        }
+
+        if (c < node.data) {
+            node.left = insertRecursive(node.left, word, index);
+        } else if (c > node.data) {
+            node.right = insertRecursive(node.right, word, index);
+        } else {
+            if (index < word.length() - 1) {
+                node.equal = insertRecursive(node.equal, word, index + 1);
+            } else {
+                node.isEndOfString = true;
+            }
+        }
+        return node;
+    }
+
+    public boolean search(String word) {
+        return searchRecursive(root, word, 0);
+    }
+
+    private boolean searchRecursive(Node node, String word, int index) {
+        if (node == null) {
+            return false;
+        }
+
+        char c = word.charAt(index);
+
+        if (c < node.data) {
+            return searchRecursive(node.left, word, index);
+        } else if (c > node.data) {
+            return searchRecursive(node.right, word, index);
+        } else {
+            if (index == word.length() - 1) {
+                return node.isEndOfString;
+            } else {
+                return searchRecursive(node.equal, word, index + 1);
+            }
+        }
+    }
+
+    public void getWordsWithPrefix(String prefix) {
+        Node node = getPrefixNode(root, prefix, 0);
+        if (node != null) {
+            traverseAndPrint(node, prefix);
+        }
+    }
+
+    private Node getPrefixNode(Node node, String prefix, int index) {
+        if (node == null) {
+            return null;
+        }
+
+        char c = prefix.charAt(index);
+
+        if (c < node.data) {
+            return getPrefixNode(node.left, prefix, index);
+        } else if (c > node.data) {
+            return getPrefixNode(node.right, prefix, index);
+        } else {
+            if (index == prefix.length() - 1) {
+                return node;
+            } else {
+                return getPrefixNode(node.equal, prefix, index + 1);
+            }
+        }
+    }
+
+    private void traverseAndPrint(Node node, String prefix) {
+        if (node == null) {
+            return;
+        }
+
+        if (node.isEndOfString) {
+            System.out.println(prefix);
+        }
+
+        traverseAndPrint(node.left, prefix);
+        traverseAndPrint(node.equal, prefix + node.data);
+        traverseAndPrint(node.right, prefix);
+    }
+}
+```
+
+C++
+
+```C++
+#include <iostream>
+#include <string>
+
+class TernarySearchTree {
+private:
+    struct Node {
+        char data;
+        bool isEndOfString;
+        Node *left, *equal, *right;
+
+        explicit Node(const char data) : data(data), isEndOfString(false), left(nullptr), equal(nullptr), right(nullptr) {}
+    };
+
+    Node *root;
+
+    static Node* insertRecursive(Node* node, const std::string& word, const int index) {
+        const char c = word[index];
+
+        if (node == nullptr) {
+            node = new Node(c);
+        }
+
+        if (c < node->data) {
+            node->left = insertRecursive(node->left, word, index);
+        } else if (c > node->data) {
+            node->right = insertRecursive(node->right, word, index);
+        } else {
+            if (index < word.length() - 1) {
+                node->equal = insertRecursive(node->equal, word, index + 1);
+            } else {
+                node->isEndOfString = true;
+            }
+        }
+        return node;
+    }
+
+    static bool searchRecursive(const Node* node, const std::string& word, const int index) {
+        if (node == nullptr) {
+            return false;
+        }
+
+        const char c = word[index];
+
+        if (c < node->data) {
+            return searchRecursive(node->left, word, index);
+        } else if (c > node->data) {
+            return searchRecursive(node->right, word, index);
+        } else {
+            if (index == word.length() - 1) {
+                return node->isEndOfString;
+            } else {
+                return searchRecursive(node->equal, word, index + 1);
+            }
+        }
+    }
+
+    static Node* getPrefixNode(Node* node, const std::string& prefix, const int index) {
+        if (node == nullptr) {
+            return nullptr;
+        }
+
+        const char c = prefix[index];
+
+        if (c < node->data) {
+            return getPrefixNode(node->left, prefix, index);
+        } else if (c > node->data) {
+            return getPrefixNode(node->right, prefix, index);
+        } else {
+            if (index == prefix.length() - 1) {
+                return node;
+            } else {
+                return getPrefixNode(node->equal, prefix, index + 1);
+            }
+        }
+    }
+
+    static void traverseAndPrint(const Node* node, const std::string& prefix) {
+        if (node == nullptr) {
+            return;
+        }
+
+        if (node->isEndOfString) {
+            std::cout << prefix << std::endl;
+        }
+
+        traverseAndPrint(node->left, prefix);
+        traverseAndPrint(node->equal, prefix + node->data);
+        traverseAndPrint(node->right, prefix);
+    }
+
+    static void deleteNodes(const Node* node) {
+        if (node == nullptr) {
+            return;
+        }
+        deleteNodes(node->left);
+        deleteNodes(node->equal);
+        deleteNodes(node->right);
+        delete node;
+    }
+
+public:
+    TernarySearchTree() : root(nullptr) {}
+
+    void insert(const std::string& word) {
+        root = insertRecursive(root, word, 0);
+    }
+
+    [[nodiscard]] bool search(const std::string& word) const{
+        return searchRecursive(root, word, 0);
+    }
+
+    void getWordsWithPrefix(const std::string& prefix) const {
+        Node* node = getPrefixNode(root, prefix, 0);
+        if (node != nullptr) {
+            traverseAndPrint(node, prefix);
+        }
+    }
+
+    ~TernarySearchTree() {
+        deleteNodes(root);
+    }
+};
+```
+
+Python
+
+```Python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.isEndOfString = False
+        self.left = None
+        self.equal = None
+        self.right = None
+
+class TernarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, word):
+        self.root = self._insert_recursive(self.root, word, 0)
+
+    def _insert_recursive(self, node, word, index):
+        c = word[index]
+
+        if node is None:
+            node = Node(c)
+
+        if c < node.data:
+            node.left = self._insert_recursive(node.left, word, index)
+        elif c > node.data:
+            node.right = self._insert_recursive(node.right, word, index)
+        else:
+            if index < len(word) - 1:
+                node.equal = self._insert_recursive(node.equal, word, index + 1)
+            else:
+                node.isEndOfString = True
+        return node
+
+    def search(self, word):
+        return self._search_recursive(self.root, word, 0)
+
+    def _search_recursive(self, node, word, index):
+        if node is None:
+            return False
+
+        c = word[index]
+
+        if c < node.data:
+            return self._search_recursive(node.left, word, index)
+        elif c > node.data:
+            return self._search_recursive(node.right, word, index)
+        else:
+            if index == len(word) - 1:
+                return node.isEndOfString
+            else:
+                return self._search_recursive(node.equal, word, index + 1)
+
+    def get_words_with_prefix(self, prefix):
+        node = self._get_prefix_node(self.root, prefix, 0)
+        if node is not None:
+            self._traverse_and_print(node, prefix)
+
+    def _get_prefix_node(self, node, prefix, index):
+        if node is None:
+            return None
+
+        c = prefix[index]
+
+        if c < node.data:
+            return self._get_prefix_node(node.left, prefix, index)
+        elif c > node.data:
+            return self._get_prefix_node(node.right, prefix, index)
+        else:
+            if index == len(prefix) - 1:
+                return node
+            else:
+                return self._get_prefix_node(node.equal, prefix, index + 1)
+
+    def _traverse_and_print(self, node, prefix):
+        if node is None:
+            return
+
+        if node.isEndOfString:
+            print(prefix)
+
+        self._traverse_and_print(node.left, prefix)
+        self._traverse_and_print(node.equal, prefix + node.data)
+        self._traverse_and_print(node.right, prefix)
+```
+
+<p id="tst-with-r2"><format color="BlueViolet">TST with <math>R^{2}
+</math> branching at root:</format> Hybrid of R-way trie and TST</p>
+
+<list type="bullet">
+<li>
+<p>Do <math>R^{2}</math>-way branching at root.</p>
+</li>
+<li>
+<p>Each of <math>R^{2}</math> root nodes points to a TST.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">TST vs. Hashing</format></p>
+
+<table style="header-row">
+<tr>
+    <td>TSTs</td>
+    <td>Hashing</td>
+</tr>
+<tr>
+    <td>Works only for strings (or digital keys)</td>
+    <td>Need to examine entire key</td>
+</tr>
+<tr>
+    <td>Only examines just enough key characters</td>
+    <td>Search hits and misses cost about the same</td>
+</tr>
+<tr>
+    <td>Search miss may involve only a few characters</td>
+    <td>Performance relies on hash function</td>
+</tr>
+<tr>
+    <td>Supports ordered symbol table operations (plus others!)</td>
+    <td>Does not support ordered symbol table operations</td>
+</tr>
+</table>
+
+<note>
+<p>TSTs are: </p>
+<list type="bullet">
+<li>
+<p>Faster than hashing (especially for search misses).</p>
+</li>
+<li>
+<p>More flexible than red-black BSTs.</p>
+</li>
+</list>
+</note>
+
+<table style="none">
+<tr>
+    <td rowspan="2">Implementation</td>
+    <td>Character Accesses (typical case)</td>
+</tr>
+<tr>
+    <td>Search Hit</td>
+    <td>Search Miss</td>
+    <td>Insert</td>
+    <td>Space (references)</td>
+</tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-1.md" anchor
+    ="red-black-bsts" summary="Red-Black BSTs">Red-Black BST</a></td>
+    <td><math>L+c \lg^{2} N</math></td>
+    <td><math>c \lg^{2} N</math></td>
+    <td><math>c \lg^{2} N</math></td>
+    <td><math>4N</math></td>
+</tr>
+<tr>
+    <td><a href="Data-Structures-and-Algorithms-2.md" anchor
+    ="linear-probing" summary="Linear Probing">Hashing (linear 
+    probing)</a></td>
+    <td><math>L</math></td>
+    <td><math>L</math></td>
+    <td><math>L</math></td>
+    <td><math>4N</math> to <math>16N</math></td>
+</tr>
+<tr>
+    <td><a anchor="rway" summary="R-Way Tries">R-Way Trie</a></td>
+    <td><math>L</math></td>
+    <td><math>\log_{R} N</math></td>
+    <td><math>L</math></td>
+    <td><math>(R+1)N</math></td>
+</tr>
+<tr>
+    <td><a anchor="tst" summary="TST">TST</a></td>
+    <td><math>L+\ln N</math></td>
+    <td><math>\ln N</math></td>
+    <td><math>L+\ln N</math></td>
+    <td><math>4N</math></td>
+</tr>
+<tr>
+    <td><a anchor="tst-with-r2" summary="TST with R^2">TST with <math>
+    R^{2}</math></a></td>
+    <td><math>L+\ln N</math></td>
+    <td><math>\ln N</math></td>
+    <td><math>L+\ln N</math></td>
+    <td><math>4N + R^{2}</math></td>
+</tr>
+</table>
 
 ## 21 Substring Search
 
