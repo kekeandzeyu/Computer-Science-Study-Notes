@@ -1675,25 +1675,38 @@ class TernarySearchTree:
 
 ### 21.1 Introduction
 
-<list>
-<li>
 <p><format color = "BlueViolet">Goal</format>: Find pattern of length 
 <math>M</math> in text of length <math>N</math> (typically 
-<math>N</math> &gt;&gt; <math>M</math>).</p>
+<math>N \leq \leq M</math>).</p>
+
+<p><format color = "BlueViolet">Applications</format>: </p>
+
+<list type="bullet">
+<li>
+<p>Find & replace</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Applications</format>: Find & replace,
-computer forensics, identify patterns indicative of spam, 
-electronic surveillance, screen scraping, etc.</p>
+<p>Computer forensics</p>
+</li>
+<li>
+<p>Identify patterns indicative of spam</p>
+</li>
+<li>
+<p>Electronic surveillance</p>
+</li>
+<li>
+<p>Screen scraping</p>
 </li>
 </list>
 
 ### 21.2 Brute-Force Substring Search
 
-* Theoretical challenge: Linear-time guarantee.
-  (Worst case: <math>\sim MN</math>)
-* Practical challenge: Avoid backup in text stream. (Brute-force
-  algorithm needs backup for every mismatch)
+<list>
+<li>Theoretical challenge: Linear-time guarantee.
+(Worst case: <math>\sim MN</math>)</li>
+<li>Practical challenge: Avoid backup in text stream. (Brute-force
+algorithm needs backup for every mismatch)</li>
+</list>
 
 Java
 
@@ -1796,138 +1809,114 @@ def brute_force_search(main_string, sub_string):
 
 #### 21.3.1 Proposition
 
-* KMP substring search accesses no more than <math>M + N</math>
-  chars to search for a pattern of length <math>M</math> in a text of
-  length <math>N</math>.
+<p><format color="BlueViolet">Property:</format> KMP substring search
+accesses no more than <math>M + N</math> chars to search for a pattern
+of length <math>M</math> in a text of length <math>N</math>.</p>
 
-> Proof: Each pattern char accessed once when constructing DFA;
-> each text char accessed once (in the worst case) when simulating
-> DFA.
->
-{style = "tip"}
+<p><format color="LawnGreen">Proof:</format> Each pattern char 
+accessed once when constructing DFA; each text char accessed once (in
+the worst case) when simulating DFA.</p>
 
-* KMP constructs `dfa[][]` in time and space proportional to <math>RM</math>,
-  where <math>R</math> is the alphabet size and <math>M</math> is the pattern
-  length.
-
-> Improved version of KMP constructs `nfa[]` in time and space
-> proportional to <math>M</math>.
->
-{style = "tip"}
+<p><format color="BlueViolet">Property:</format> KMP constructs 
+<code>dfa[][]</code> in time and space proportional to <math>RM</math>
+, where <math>R</math> is the alphabet size and <math>M</math> is the
+pattern length.</p>
 
 #### 21.3.2 DFA
 
-Deterministic Finite State Automaton (DFA) is an abstract
-string-search machine.
+<p><format color="DarkOrange">Deterministic Finite State Automaton 
+(DFA)</format> is an abstract string-search machine.</p>
 
-* Finite number of states (including start and halt).
-* Exactly one transition for each char in alphabet.
-* Accept if sequence of transitions lead to halt state.
+<list type="bullet">
+<li>
+<p>Finite number of states (including start and halt).</p>
+</li>
+<li>
+<p>Exactly one transition for each char in alphabet.</p>
+</li>
+<li>
+<p>Accept if sequence of transitions lead to halt state.</p>
+</li>
+</list>
 
-<img src="../images_data/d30-3-1.png" alt="Alt text" width="450"/>
+<img src="../images_data/d21-3-1.png" alt="DFA"/>
 
-DFA state = number of characters in pattern that have been matched (length
-of longest prefix of `pat[]` that is a suffix of `txt[0...i]`).
+<note>
+<p>DFA state = number of characters in pattern that have been matched
+(length of longest prefix of <code>pat[]</code> that is a suffix of
+<code>txt[0...i]</code>).</p>
+</note>
 
-To compute DFA: If in state <math>j</math> and next char `c != pat.charAt(j)`,
-then the last <math>j - 1</math> characters of input are `pat[1...j - 1]`,
-followed by `c`. Simulate `pat[1...j - 1]` on DFA and take transition c.
+<procedure title="DFA Construction">
+<step>
+    <p>If in state <math>j</math> (first <math>j</math> characters of
+    pattern have already been matched and next char <code>c == pat.
+    charAt(j)</code> (next char matches), go to <math>j+1</math> (now
+    first <math>j+1</math> characters of pattern have been matched).
+    </p>
+</step>
+<step>
+    <p>If in state <math>j</math> and next char <code>c != pat.charAt
+    (j)</code>, then the last <math>j-1</math> characters of input are
+    <code>pat[1...j - 1]</code>, followed by c. Simulate <code>
+    pat[1...j - 1]</code> on DFA and take transition c (only longest 
+    possible matched suffix now lies <code>pat[1...j - 1]</code> 
+    followed by c).</p>
+</step>
+</procedure>
 
-For each state <math>j</math> and char `c != pat.charAt(j)`, set `dfa[c][j] = dfa[c][X]`,
-then update `X = dfa[pat.charAt(j)][X]`. X is the simulation of `pat[1...j - 1]` on DFA.
+<note>
+<p>Use state X to simulate <code>pat[1...j-1]</code>, takes only 
+constant time!</p>
+</note>
 
-> This is the implementation using DFA.
->
-{style = "note"}
+<procedure title="DFA Construction for Code">
+<step>
+    <p>Copy <code>dfa[][X]</code> to <code>dfa[][j]</code> for 
+    mismatch case.</p>
+</step>
+<step>
+    <p>Set <code>dfa[pat.charAt(j)][j]</code> to <math>j+1</math> for
+    match case.</p>
+</step>
+<step>
+    <p>Update <math>X</math>.</p>
+</step>
+</procedure>
 
-Java (Princeton)
+Java
 
 ```Java
 public class KMP {
-    private final int R;       // the radix
-    private final int m;       // length of pattern
-    private final int[][] dfa;       // the KMP automaton
+    private final int[][] dfa;
+    private final String pattern;
 
-    /**
-     * Preprocesses the pattern string.
-     *
-     * @param pat the pattern string
-     */
-    public KMP(String pat) {
-        this.R = 256;
-        this.m = pat.length();
+    public KMP(String pattern) {
+        this.pattern = pattern;
+        int M = pattern.length();
+        int R = 256;
 
-        // build DFA from pattern
-        dfa = new int[R][m];
-        dfa[pat.charAt(0)][0] = 1;
-        for (int x = 0, j = 1; j < m; j++) {
-            for (int c = 0; c < R; c++)
-                dfa[c][j] = dfa[c][x];     // Copy mismatch cases.
-            dfa[pat.charAt(j)][j] = j+1;   // Set match case.
-            x = dfa[pat.charAt(j)][x];     // Update restart state.
+        dfa = new int[R][M];
+        dfa[pattern.charAt(0)][0] = 1;
+
+        for (int X = 0, j = 1; j < M; j++) {
+            for (int c = 0; c < R; c++) {
+                dfa[c][j] = dfa[c][X];
+            }
+            dfa[pattern.charAt(j)][j] = j + 1;
+            X = dfa[pattern.charAt(j)][X];
         }
     }
 
-    /**
-     * Preprocesses the pattern string.
-     *
-     * @param pattern the pattern string
-     * @param R the alphabet size
-     */
-    public KMP(char[] pattern, int R) {
-        this.R = R;
-        this.m = pattern.length;
-
-        // build DFA from pattern
-        int m = pattern.length;
-        dfa = new int[R][m];
-        dfa[pattern[0]][0] = 1;
-        for (int x = 0, j = 1; j < m; j++) {
-            for (int c = 0; c < R; c++)
-                dfa[c][j] = dfa[c][x];     // Copy mismatch cases.
-            dfa[pattern[j]][j] = j+1;      // Set match case.
-            x = dfa[pattern[j]][x];        // Update restart state.
-        }
-    }
-
-    /**
-     * Returns the index of the first occurrence of the pattern string
-     * in the text string.
-     *
-     * @param  txt the text string
-     * @return the index of the first occurrence of the pattern string
-     *         in the text string; N if no such match
-     */
-    public int search(String txt) {
-
-        // simulate operation of DFA on text
-        int n = txt.length();
+    public int search(String text) {
+        int M = pattern.length();
+        int N = text.length();
         int i, j;
-        for (i = 0, j = 0; i < n && j < m; i++) {
-            j = dfa[txt.charAt(i)][j];
+        for (i = 0, j = 0; i < N && j < M; i++) {
+            j = dfa[text.charAt(i)][j];
         }
-        if (j == m) return i - m;    // found
-        return n;                    // not found
-    }
-
-    /**
-     * Returns the index of the first occurrence of the pattern string
-     * in the text string.
-     *
-     * @param  text the text string
-     * @return the index of the first occurrence of the pattern string
-     *         in the text string; N if no such match
-     */
-    public int search(char[] text) {
-
-        // simulate operation of DFA on text
-        int n = text.length;
-        int i, j;
-        for (i = 0, j = 0; i < n && j < m; i++) {
-            j = dfa[text[i]][j];
-        }
-        if (j == m) return i - m;    // found
-        return n;                    // not found
+        if (j == M) return i - M;
+        else return N;
     }
 }
 ```
@@ -1935,44 +1924,42 @@ public class KMP {
 C++
 
 ```C++
-#include <vector>
+#include <iostream>
 #include <string>
+#include <vector>
 
 class KMP {
 private:
-    int R;       // the radix
-    int m;       // length of pattern
-    std::vector<std::vector<int>> dfa;       // the KMP automaton
+    std::vector<std::vector<int>> dfa;
+    std::string pattern;
 
 public:
-    // Preprocesses the pattern string.
-    KMP(std::string pat) {
-        this->R = 256;
-        this->m = pat.length();
+    explicit KMP(const std::string& pattern) : pattern(pattern) {
+        const int M = static_cast<int>(pattern.length());
+        constexpr int R = 256;
 
-        // build DFA from pattern
-        dfa = std::vector<std::vector<int>>(R, std::vector<int>(m));
-        dfa[pat[0]][0] = 1;
-        for (int x = 0, j = 1; j < m; j++) {
-            for (int c = 0; c < R; c++)
-                dfa[c][j] = dfa[c][x];     // Copy mismatch cases.
-            dfa[pat[j]][j] = j+1;   // Set match case.
-            x = dfa[pat[j]][x];     // Update restart state.
+        dfa.resize(R, std::vector<int>(M));
+        dfa[pattern[0]][0] = 1;
+
+        for (int X = 0, j = 1; j < M; j++) {
+            for (int c = 0; c < R; c++) {
+                dfa[c][j] = dfa[c][X];
+            }
+            dfa[pattern[j]][j] = j + 1;
+            X = dfa[pattern[j]][X];
         }
     }
 
-    // Returns the index of the first occurrence of the pattern string
-    // in the text string.
-    int search(std::string txt) {
-
-        // simulate operation of DFA on text
-        int n = txt.length();
+    [[nodiscard]] int search(const std::string& text) const
+    {
+        const int M = static_cast<int>(pattern.length());
+        const int N = static_cast<int>(text.length());
         int i, j;
-        for (i = 0, j = 0; i < n && j < m; i++) {
-            j = dfa[txt[i]][j];
+        for (i = 0, j = 0; i < N && j < M; i++) {
+            j = dfa[text[i]][j];
         }
-        if (j == m) return i - m;    // found
-        return n;                    // not found
+        if (j == M) return i - M;
+        else return N;
     }
 };
 ```
@@ -1981,30 +1968,32 @@ Python
 
 ```Python
 class KMP:
-    def __init__(self, pat):
-        self.R = 256  # the radix
-        self.m = len(pat)  # length of pattern
+    def __init__(self, pattern):
+        self.pattern = pattern
+        M = len(pattern)
+        R = 256
 
-        # build DFA from pattern
-        self.dfa = [[0 for _ in range(self.m)] for _ in range(self.R)]
-        self.dfa[ord(pat[0])][0] = 1
-        x = 0
-        for j in range(1, self.m):
-            for c in range(self.R):
-                self.dfa[c][j] = self.dfa[c][x]  # Copy mismatch cases.
-            self.dfa[ord(pat[j])][j] = j + 1  # Set match case.
-            x = self.dfa[ord(pat[j])][x]  # Update restart state.
+        self.dfa = [[0] * M for _ in range(R)]
+        self.dfa[ord(pattern[0])][0] = 1
 
-    def search(self, txt):
-        # simulate operation of DFA on text
-        n = len(txt)
+        X = 0
+        for j in range(1, M):
+            for c in range(R):
+                self.dfa[c][j] = self.dfa[c][X]
+            self.dfa[ord(pattern[j])][j] = j + 1
+            X = self.dfa[ord(pattern[j])][X]
+
+    def search(self, text):
+        M = len(self.pattern)
+        N = len(text)
         i, j = 0, 0
-        while i < n and j < self.m:
-            j = self.dfa[ord(txt[i])][j]
+        while i < N and j < M:
+            j = self.dfa[ord(text[i])][j]
             i += 1
-        if j == self.m:
-            return i - self.m  # found
-        return n  # not found
+        if j == M:
+            return i - M
+        else:
+            return N
 ```
 
 #### 21.3.3 NFA
