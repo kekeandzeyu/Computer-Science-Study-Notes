@@ -1699,7 +1699,7 @@ class TernarySearchTree:
 </li>
 </list>
 
-### 21.2 Brute-Force Substring Search
+### 21.2 Brute-Force Substring Search {id="brute-force"}
 
 <list>
 <li>Theoretical challenge: Linear-time guarantee.
@@ -1805,7 +1805,7 @@ def brute_force_search(main_string, sub_string):
     return -1
 ```
 
-### 21.3 Knuth-Morris-Pratt
+### 21.3 Knuth-Morris-Pratt {id="KMP"}
 
 #### 21.3.1 Proposition
 
@@ -2175,7 +2175,7 @@ class KMP:
         return -1
 ```
 
-### 21.4 Boyer-Moore
+### 21.4 Boyer-Moore {id="Boyer-Moore"}
 
 <procedure title="Boyer-Moore">
 <step>
@@ -2366,9 +2366,297 @@ class BoyerMoore:
         return N
 ```
 
-## 19 Catalan Number
+### 21.5 Rabin-Karp
 
-### 19.1 Properties and Formulas
+<procedure title="Rabin-Karp (Modular Hashing)">
+<step>
+    <p>Compute a hash of pattern characters <math>0</math> to <math>
+    M - 1</math>.</p>
+</step>
+<step>
+    <p>For each <math>i</math>, compute a hash of text characters 
+    <math>i</math> to <math>M + i - 1</math>.</p>
+</step>
+<step>
+    <p>If pattern hash = text substring hash, check for a match.</p>
+</step>
+</procedure>
+
+<p><format color="BlueViolet">Modular Hashing Function:</format> 
+Using the notation <math>t_{i}</math> for <code>txt.charAt(i)</code>,
+we wish to compute:</p>
+
+<code-block lang="tex">
+x_{i} = t_{i} R^{M-1} + t_{i+1} R^{M-2} + ... + t_{i+M-1} R^{0}   \mod Q
+</code-block>
+
+<p>M-digit, base-R integer, modulo Q.</p>
+
+<tip>
+<p><format color="BlueViolet">Horner's method:</format> Linear-time 
+method to evaluate degree- <math>M</math> polynomial.</p>
+<img src="../images_data/d21-5-1.png" alt="Horner's Method"/>
+</tip>
+
+<p>Based on the function above, we can get:</p>
+
+<code-block lang="tex">
+x_{i+1} = (x_{i} - t_{i} R^{M-1}) R + t_{i+M}
+</code-block>
+
+<img src="../images_data/d21-5-2.png" alt="Substring Search Example"/>
+
+Java
+
+```Java
+public class RabinKarp {
+    private final long patHash;
+    private final int M;
+    private final long Q;
+    private final int R;
+    private long RM;
+
+    public RabinKarp(String pat) {
+        M = pat.length();
+        R = 256;
+        Q = longRandomPrime();
+        RM = 1;
+        for (int i = 1; i <= M - 1; i++)
+            RM = (R * RM) % Q;
+        patHash = hash(pat, M);
+    }
+
+    private long hash(String key, int M) {
+        long h = 0;
+        for (int j = 0; j < M; j++)
+            h = (R * h + key.charAt(j)) % Q;
+        return h;
+    }
+
+    // Las Vegas version: does pat[] match txt[i..i-M+1] ?
+    private boolean check(String txt, int i) {
+        for (int j = 0; j < M; j++)
+            if (patHash != hash(txt.substring(i, i + M), M))
+                return false;
+        return true;
+    }
+
+    // Monte Carlo version: always return true
+    private static long longRandomPrime() {
+        return (1L << 31) - 1;
+    }
+
+    public int search(String txt) {
+        int N = txt.length();
+        if (N < M) return N;
+        long txtHash = hash(txt, M);
+
+        if ((patHash == txtHash) && check(txt, 0))
+            return 0;
+
+        for (int i = M; i < N; i++) {
+            txtHash = (txtHash + Q - RM * txt.charAt(i - M) % Q) % Q;
+            txtHash = (txtHash * R + txt.charAt(i)) % Q;
+
+            int offset = i - M + 1;
+            if ((patHash == txtHash) && check(txt, offset))
+                return offset;
+        }
+
+        return N;
+    }
+}
+```
+
+C++
+
+```C++
+#include <iostream>
+#include <string>
+
+class RabinKarp {
+private:
+    long long patHash;
+    int M;
+    long long Q;
+    int R;
+    long long RM;
+    std::string pat;
+
+public:
+    explicit RabinKarp(const std::string& pat) : pat(pat) { 
+        M = static_cast<int>(pat.length());
+        R = 256;
+        Q = longRandomPrime();
+        RM = 1;
+        for (int i = 1; i <= M - 1; i++)
+            RM = (R * RM) % Q;
+        patHash = hash(pat, M);
+    }
+
+    [[nodiscard]] long long hash(const std::string& key, const int M) const {
+        long long h = 0;
+        for (int j = 0; j < M; j++)
+            h = (R * h + key[j]) % Q;
+        return h;
+    }
+
+    // Las Vegas version: does pat[] match txt[i..i-M+1] ?
+    [[nodiscard]] bool check(const std::string& txt, const int i) const {
+        for (int j = 0; j < M; j++)
+            if (txt[i + j] != pat[j])
+                return false;
+        return true;
+    }
+
+    // Monte Carlo version: always return true
+
+    static long long longRandomPrime() {
+        return 16777213;
+    }
+
+    [[nodiscard]] int search(const std::string& txt) const {
+        const int N = static_cast<int>(txt.length());
+        if (N < M) return N;
+        long long txtHash = hash(txt, M);
+
+        if ((patHash == txtHash) && check(txt, 0))
+            return 0;
+
+        for (int i = M; i < N; i++) {
+            txtHash = (txtHash + Q - RM * txt[i - M] % Q) % Q;
+            txtHash = (txtHash * R + txt[i]) % Q;
+
+            int offset = i - M + 1;
+            if ((patHash == txtHash) && check(txt, offset))
+                return offset;
+        }
+
+        return N;
+    }
+};
+```
+
+Python
+
+```Python
+def long_random_prime():
+    return (1 << 31) - 1
+
+
+class RabinKarp:
+    def __init__(self, pat):
+        self.pat = pat
+        self.M = len(pat)
+        self.R = 256
+        self.Q = long_random_prime()
+        self.RM = 1
+        for i in range(1, self.M):
+            self.RM = (self.R * self.RM) % self.Q
+        self.pat_hash = self.hash(pat, self.M)
+
+    def hash(self, key, M):
+        h = 0
+        for j in range(M):
+            h = (self.R * h + ord(key[j])) % self.Q
+        return h
+
+    # Las Vegas version: does pat[] match txt[i..i-M+1] ?
+    def check(self, txt, i):
+        for j in range(self.M):
+            if self.pat_hash != self.hash(txt[i:i+self.M], self.M):
+                return False
+        return True
+
+    # Monte Carlo version: always return true
+
+    def search(self, txt):
+        N = len(txt)
+        if N < self.M:
+            return N
+        txt_hash = self.hash(txt, self.M)
+
+        if (self.pat_hash == txt_hash) and self.check(txt, 0):
+            return 0
+
+        for i in range(self.M, N):
+            txt_hash = (txt_hash + self.Q - self.RM * ord(txt[i - self.M]) % self.Q) % self.Q
+            txt_hash = (txt_hash * self.R + ord(txt[i])) % self.Q
+
+            offset = i - self.M + 1
+            if (self.pat_hash == txt_hash) and self.check(txt, offset):
+                return offset
+
+        return N
+```
+
+<p><format color="BlueViolet">Cost of searching for an <math>M</math>
+-character pattern in an <math>N</math>-character text</format></p>
+
+<table>
+<tr>
+    <td rowspan="2">Algorithm</td>
+    <td rowspan="2">Version</td>
+    <td>Operation Count</td>
+    <td rowspan="2">Backup in Input?</td>
+    <td rowspan="2">Correct?</td>
+    <td rowspan="2">Extra Space</td>
+</tr>
+<tr>
+    <td>Guarantee</td>
+    <td>Typical</td>
+</tr>
+<tr>
+    <td><a anchor="brute-force" summary="Brute Force Algorithm">Brute
+    Force</a></td>
+    <td>-</td>
+    <td><math>MN</math></td>
+    <td><math>1.1MN</math></td>
+    <td>yes</td>
+    <td>yes</td>
+    <td><math>1</math></td>
+</tr>
+<tr>
+    <td rowspan="2"><a anchor="KMP" summary="KMP">Knuth-Morris-Pratt
+    </a></td>
+    <td>full DFA</td>
+    <td><math>2N</math></td>
+    <td><math>1.1N</math></td>
+    <td>no</td>
+    <td>yes</td>
+    <td><math>MR</math></td>
+</tr>
+<tr>
+    <td>mismatch transitions only</td>
+    <td><math>3N</math></td>
+    <td><math>1.1N</math></td>
+    <td>no</td>
+    <td>yes</td>
+    <td><math>R</math></td>
+</tr>
+<tr>
+    <td><a anchor="Boyer-Moore" summary="Boyer-Moore">Boyer-Moore</a>
+    </td>
+    <td>full algorithm</td>
+    <td><math>3N</math></td>
+    <td><math>N/M</math></td>
+    <td>yes</td>
+    <td>yes</td>
+    <td><math>R</math></td>
+</tr>
+<tr>
+    <td>mismatched char heuristic only</td>
+    <td><math>MN</math></td>
+    <td><math>N/M</math></td>
+    <td>yes</td>
+    <td>yes</td>
+    <td><math>R</math></td>
+</tr>
+</table>
+
+## 22 Catalan Number
+
+### 22.1 Properties and Formulas
 
 <list type = "decimal">
 <li>
@@ -2393,7 +2681,7 @@ class BoyerMoore:
 </li>
 </list>
 
-### 19.2 Applications
+### 22.2 Applications
 
 <list type = "decimal">
 <li>
@@ -2459,7 +2747,7 @@ can be achieved.</p>
 </li>
 </list>
 
-### 19.3 Implementation
+### 22.3 Implementation
 
 Java
 
