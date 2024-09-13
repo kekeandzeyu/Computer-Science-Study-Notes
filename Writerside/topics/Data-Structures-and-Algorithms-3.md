@@ -2175,6 +2175,197 @@ class KMP:
         return -1
 ```
 
+### 21.4 Boyer-Moore
+
+<procedure title="Boyer-Moore">
+<step>
+    <p>Scan characters in pattern from right to left.</p>
+</step>
+<step>
+    <p>Can skip as many as <math>M</math> text chars when finding one
+    not in the pattern.</p>
+</step>
+</procedure>
+
+<p><format color="BlueViolet">How much to skip?</format></p>
+
+<list type="alpha-lower">
+<li>
+<p><format color="Fuchsia">Mismatch character not in pattern.
+</format></p>
+<img src="../images_data/d21-4-1.png" alt="Case 1"/>
+</li>
+
+<li>
+<p><format color="Fuchsia">Mismatch character in pattern.</format></p>
+<img src="../images_data/d21-4-2.png" alt="Case 2"/>
+</li>
+
+<li>
+<p><format color="Fuchsia">Mismatch character in pattern (but 
+heuristic no help).</format></p>
+<img src="../images_data/d21-4-3.png" alt="Case 3"/>
+</li>
+
+</list>
+
+<note>
+<p>Precompute index of rightmost occurrence of character c in pattern
+(-1 if character not in pattern).</p>
+</note>
+
+<p><format color="BlueViolet">Property:</format> Substring search with 
+the Boyer-Moore mismatched character heuristic takes about <math>
+\sim \frac{N}{m}</math> character (sublinear) compares to search for 
+a pattern of length <math>M</math> in a text of length <math>N</math>
+.</p>
+
+<p><format color="BlueViolet">Worst Case:</format> Can be as bad as 
+<math>\sim MN</math>.</p>
+
+<p><format color="BlueViolet">Boyer-Moore variant:</format> Can 
+improve worst case to <math>\sim 3N</math> character compares
+by adding a KMP-like rule to guard against repetitive patterns.</p>
+
+Java
+
+```Java
+public class BoyerMoore {
+    private final int R;
+    private final int[] right;
+    private char[] pattern;
+    private String pat;
+
+    public BoyerMoore(String pat) {
+        this.R = 256;
+        this.pat = pat;
+
+        right = new int[R];
+        for (int c = 0; c < R; c++)
+            right[c] = -1;
+        for (int j = 0; j < pat.length(); j++)
+            right[pat.charAt(j)] = j;
+    }
+
+    public BoyerMoore(char[] pattern, int R) {
+        this.R = R;
+        this.pattern = new char[pattern.length];
+        System.arraycopy(pattern, 0, this.pattern, 0, pattern.length);
+
+        right = new int[R];
+        for (int c = 0; c < R; c++)
+            right[c] = -1;
+        for (int j = 0; j < pattern.length; j++)
+            right[pattern[j]] = j;
+    }
+
+    public int search(String txt) {
+        int M = pat.length();
+        int N = txt.length();
+        int skip;
+        for (int i = 0; i <= N - M; i += skip) {
+            skip = 0;
+            for (int j = M - 1; j >= 0; j--) {
+                if (pat.charAt(j) != txt.charAt(i + j)) {
+                    skip = Math.max(1, j - right[txt.charAt(i + j)]);
+                    break;
+                }
+            }
+            if (skip == 0) return i;
+        }
+        return N;
+    }
+
+    public int search(char[] text) {
+        int M = pattern.length;
+        int N = text.length;
+        int skip;
+        for (int i = 0; i <= N - M; i += skip) {
+            skip = 0;
+            for (int j = M - 1; j >= 0; j--) {
+                if (pattern[j] != text[i + j]) {
+                    skip = Math.max(1, j - right[text[i + j]]);
+                    break;
+                }
+            }
+            if (skip == 0) return i;
+        }
+        return N;
+    }
+}
+```
+
+C++
+
+```C++
+#include <iostream>
+#include <string>
+#include <vector>
+
+class BoyerMoore {
+private:
+    int R;
+    std::vector<int> right;
+    std::string pat;
+
+public:
+    explicit BoyerMoore(const std::string& pat) {
+        this->R = 256;
+        this->pat = pat;
+
+        this->right.resize(R, -1);
+        for (int j = 0; j < pat.size(); j++) {
+            this->right[pat[j]] = j;
+        }
+    }
+
+    [[nodiscard]] int search(const std::string& txt) const {
+        const int M = static_cast<int>(pat.size());
+        const int N = static_cast<int>(txt.size());
+        int skip;
+        for (int i = 0; i <= N - M; i += skip) {
+            skip = 0;
+            for (int j = M - 1; j >= 0; j--) {
+                if (pat[j] != txt[i + j]) {
+                    skip = std::max(1, j - right[txt[i + j]]);
+                    break;
+                }
+            }
+            if (skip == 0) return i;
+        }
+        return N;
+    }
+};
+```
+
+Python
+
+```Python
+class BoyerMoore:
+    def __init__(self, pat):
+        self.R = 256
+        self.pat = pat
+        self.right = [-1] * self.R
+
+        for j in range(len(pat)):
+            self.right[ord(pat[j])] = j
+
+    def search(self, txt):
+        M = len(self.pat)
+        N = len(txt)
+        skip = 1 
+
+        for i in range(0, N - M + 1, skip):
+            skip = 0
+            for j in range(M - 1, -1, -1):
+                if self.pat[j] != txt[i + j]:
+                    skip = max(1, j - self.right[ord(txt[i + j])])
+                    break
+            if skip == 0:
+                return i
+        return N
+```
+
 ## 19 Catalan Number
 
 ### 19.1 Properties and Formulas

@@ -13,3 +13,8 @@
     --rs-font-family-ui: "Google Sans";
     --rs-font-family-headers: "Google Sans";
 }
+
+th {
+    text-align: center;
+    vertical-align: middle;
+}
