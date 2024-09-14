@@ -264,8 +264,8 @@ persistent than Stack.</p>
 
 #### 3.1 Assembly Language
 
-<p><format color = "DarkOrange">Assembly:</format> (also known as 
-Assembly language, ASM) A low-level programming language where the 
+<p><format color = "DarkOrange">Assembly (also known as Assembly 
+language, ASM):</format>  A low-level programming language where the 
 program instructions match a particular architecture's operations.
 </p>
 
@@ -363,13 +363,29 @@ operations</p>
 </list>
 
 <table style = "both">
-<tr><td></td><td>Registers</td><td>Memory</td></tr>
-<tr><td>Speed</td><td>Fast</td><td>Slow</td></tr>
-<tr><td>Size</td><td><p>Small</p><p>e.g., 32 registers * 32 bit = 
-128 bytes</p></td><td><p>Big</p><p>4-32 GB</p></td></tr>
-<tr><td>Connection</td><td colspan = "2"><p>More variables than 
-registers?</p><p>Keep most frequently used in registers and move the 
-rest to memory</p></td></tr>
+<tr>
+    <td></td>
+    <td>Registers</td>
+    <td>Memory</td>
+</tr>
+<tr>
+    <td>Speed</td>
+    <td>Fast</td>
+    <td>Slow</td>
+</tr>
+<tr>
+    <td>Size</td>
+    <td><p>Small</p>
+    <p>e.g., 32 registers * 32 bit = 128 bytes</p></td>
+    <td><p>Big</p><p>4-32 GB</p></td>
+</tr>
+<tr>
+    <td>Connection</td>
+    <td colspan = "2">
+    <p>More variables than registers?</p>
+    <p>Keep most frequently used in registers and move the rest to 
+    memory</p></td>
+</tr>
 </table>
 
 <img src = "../images_architecture/a3-2-1.png" alt = "Registers"/>
@@ -377,6 +393,10 @@ rest to memory</p></td></tr>
 <warning>
 <p>Some important notes about registers: </p>
 <list type = "bullet">
+<li>
+<p>Each ISA has a predetermined number of registers, registers are 
+built in with hardware.</p>
+</li>
 <li>
 <p>Register denoted by 'x' can be referenced by number (x0 - x31) or 
 by name.</p>
@@ -396,6 +416,11 @@ available memory.</p>
 </warning>
 
 #### 3.3 RISC-&#8548; Instructions
+
+<p>In high-level languages, variable types determine operation.</p>
+
+<p>In assembly, operation determines type, i.e., how register contents
+are treated.</p>
 
 ##### 3.3.1 Basic Arithmetic Instructions
 
@@ -440,25 +465,33 @@ constants.</p>
 
 <list type = "bullet">
 <li>
-<p>Operation names end with "i", replace <math>2 ^ {\text{nd}}</math> 
-source register with an immeidate.</p>
+    <p>Operation names end with "i", replace <math>2 ^ {\text{nd}}
+    </math> source register with an immeidate.</p>
 </li>
 <li>
-<p>Immediates can up to 12-bits in size.</p>
+    <p>Immediates can up to 12-bits in size.</p>
 </li>
 <li>
-<p>Interpreted as sign-extended two's complement.</p>
+    <p>Interpreted as sign-extended two's complement.</p>
+</li>
+<li>
+    <p>RISC-Ⅴ hardwires the register zero (x0) to value 0.</p>
+    <p>Example: RISC-Ⅴ: add x3 x4 0</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C:&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    f = g</p>
 </li>
 </list>
 
 <warning>
-<p>No <code>subi</code> instruction, since RISCV is all about reducing
+<p>No <code>subi</code> instruction, since RISC-Ⅴ is all about reducing
 # of instructions.</p>
 </warning>
 
 ##### 3.3.3 Data Transfer Instructions
 
-<p>Specialized <format color = "OrangeRed">data transfer instructions
+<p>Specialized <format color="OrangeRed">data transfer instructions
 </format> move data between registers and memory.</p>
 
 <list type = "bullet">
