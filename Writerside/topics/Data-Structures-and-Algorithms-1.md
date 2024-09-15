@@ -211,82 +211,83 @@ class SLList:
 <p>This is the use of built-in doubly linked lists.</p>
 </note>
 
-<p>Java</p>
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.LinkedList;
-
-public class AlgorithmForjava {
+\/
+public class DLList {
     public static void main(String[] args) {
-        LinkedList<String> linkedList = new LinkedList<>();
-
+        LinkedList&lt;String&gt; linkedList = new LinkedList&lt;&gt;();
+\/
         linkedList.add("A");
         linkedList.add("B");
         linkedList.addLast("C");
         linkedList.addFirst("D");
         linkedList.add(2, "E");
-
+\/
         System.out.println("Linked list : " + linkedList);
     }
 }
-```
-
-C++
-
-```C++
-#include <list>
-#include <iostream>
-
-int main() {
-    std::list<int> myList;
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;list&gt;
+#include &lt;iostream&gt;
+\/
+int main() &#123;
+    std::list&lt;int&gt; myList;
+\/
     myList.push_back(1);
     myList.push_back(2);
     myList.push_back(3);
-
+\/
     for(auto i : myList) {
-        std::cout << i << " ";
+        std::cout &lt;&lt; i &lt;&lt; " ";
     }
-
+\/
     return 0;
 }
-```
+    </code-block>
+    </tab>
+</tabs>
 
 <note>
 <p>This is the implementation of doubly linked lists.</p>
 </note>
 
-<p>Java</p>
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-public class Deque<T> implements Iterable<T> {
-
+\/
+public class Deque&lt;T&gt; implements Iterable&lt;T&gt; {
+\/
     private class Node {
         public T item;
         public Node prev;
         public Node next;
-
+\/
         public Node(T i, Node p, Node n) {
             item = i;
             prev = p;
             next = n;
         }
     }
-
+\/
     private final Node sentinel;
     private int size;
-
+\/
     public Deque() {
         sentinel = new Node(null, null, null);
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
         size = 0;
     }
-
+\/
     public void addFirst(T x) {
         if (x == null) {
             throw new IllegalArgumentException("Cannot add null item");
@@ -296,16 +297,16 @@ public class Deque<T> implements Iterable<T> {
         sentinel.next = newNode;
         size++;
     }
-
+\/
     public void addLast(T x) {
         Node newNode = new Node(x, sentinel.prev, sentinel);
         sentinel.prev.next = newNode;
         sentinel.prev = newNode;
         size++;
     }
-
-    public ArrayList<T> toList() {
-        ArrayList<T> returnList = new ArrayList<>();
+\/
+    public ArrayList&lt;T&gt; toList() {
+        ArrayList&lt;T&gt; returnList = new ArrayList&lt;&gt;();
         Node p = sentinel.next;
         while (p != sentinel) {
             returnList.add(p.item);
@@ -313,15 +314,15 @@ public class Deque<T> implements Iterable<T> {
         }
         return returnList;
     }
-
+\/
     public boolean isEmpty() {
         return size == 0;
     }
-
+\/
     public int size() {
         return size;
     }
-
+\/
     public T removeFirst() {
         if (isEmpty()) {
             throw new NoSuchElementException("Deque is empty");
@@ -332,7 +333,7 @@ public class Deque<T> implements Iterable<T> {
         size--;
         return first.item;
     }
-
+\/
     public T removeLast() {
         if (isEmpty()) {
             throw new NoSuchElementException("Deque is empty");
@@ -343,29 +344,29 @@ public class Deque<T> implements Iterable<T> {
         size--;
         return last.item;
     }
-
+\/
     public T get(int index) {
-        if (index < 0 || index >= size) {
+        if (index &lt; 0 || index &gt;= size) {
             return null;
         }
         Node p = sentinel.next;
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i &lt; index; i++) {
             p = p.next;
         }
         return p.item;
     }
-
-    public Iterator<T> iterator() {
+\/
+    public Iterator&lt;T&gt; iterator() {
         return new DequeIterator();
     }
-
-    private class DequeIterator implements Iterator<T> {
+\/
+    private class DequeIterator implements Iterator&lt;T&gt; {
         private Node current = sentinel.next; // Start at the first node after sentinel
-
+\/
         public boolean hasNext() {
             return current != sentinel;
         }
-
+\/
         public T next() {
             if (!hasNext()) {
                 throw new NoSuchElementException("No more elements");
@@ -376,31 +377,30 @@ public class Deque<T> implements Iterable<T> {
         }
     }
 }
-```
-
-<p>C++</p>
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (Header File)">
+    <code-block lang="c++" collapsible="true">
 #ifndef DEQUE_H
 #define DEQUE_H
-
-#include <vector>
-#include <stdexcept>
-
-template <typename T>
+\/
+#include &lt;vector&gt;
+#include &lt;stdexcept&gt;
+\/
+template &lt;typename T&gt;
 class Deque {
 private:
     struct Node {
         T item;
         Node* prev;
         Node* next;
-
+\/
         Node(const T& i, Node* p, Node* n) : item(i), prev(p), next(n) {}
     };
-
+\/
     Node* sentinel;
     int size;
-
+\/
 public:
     Deque() {
         sentinel = new Node(T{}, nullptr, nullptr); // Default construct T for sentinel
@@ -408,7 +408,7 @@ public:
         sentinel->next = sentinel;
         size = 0;
     }
-
+\/
     ~Deque() {
         Node* current = sentinel->next;
         while (current != sentinel) {
@@ -418,23 +418,23 @@ public:
         }
         delete sentinel;
     }
-
+\/
     void addFirst(const T& x) {
         Node* newNode = new Node(x, sentinel, sentinel->next);
         sentinel->next->prev = newNode;
         sentinel->next = newNode;
         size++;
     }
-
+\/
     void addLast(const T& x) {
         Node* newNode = new Node(x, sentinel->prev, sentinel);
         sentinel->prev->next = newNode;
         sentinel->prev = newNode;
         size++;
     }
-
-    std::vector<T> toList() const {
-        std::vector<T> returnList;
+\/
+    std::vector&lt;T&gt; toList() const {
+        std::vector&lt;T&gt; returnList;
         Node* p = sentinel->next;
         while (p != sentinel) {
             returnList.push_back(p->item);
@@ -442,15 +442,15 @@ public:
         }
         return returnList;
     }
-
+\/
     [[nodiscard]] bool isEmpty() const {
         return size == 0;
     }
-
+\/
     [[nodiscard]] int getsize() const {
         return size;
     }
-
+\/
     T removeFirst() {
         if (isEmpty()) {
             throw std::runtime_error("Deque is empty");
@@ -463,7 +463,7 @@ public:
         delete first;
         return item;
     }
-
+\/
     T removeLast() {
         if (isEmpty()) {
             throw std::runtime_error("Deque is empty");
@@ -476,18 +476,18 @@ public:
         delete last;
         return item;
     }
-
+\/
     T get(const int index) const {
-        if (index < 0 || index >= size) {
+        if (index &lt; 0 || index >= size) {
             throw std::runtime_error("Index out of bounds"); // Or return a default value
         }
         Node* p = sentinel->next;
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i &lt; index; i++) {
             p = p->next;
         }
         return p->item;
     }
-
+\/
     class iterator {
     public:
         using iterator_category = std::bidirectional_iterator_tag;
@@ -495,64 +495,63 @@ public:
         using difference_type = std::ptrdiff_t;
         using pointer = T*;
         using reference = T&;
-
+\/
         explicit iterator(Node* ptr) : current(ptr) {}
-
+\/
         reference operator*() const { return current->item; }
         pointer operator->() const { return &current->item; }
-
+\/
         iterator& operator++() {
             current = current->next;
             return *this;
         }
-
+\/
         iterator operator++(int) {
             iterator temp = *this;
             ++(*this);
             return temp;
         }
-
+\/
         iterator& operator--() {
             current = current->prev;
             return *this;
         }
-
+\/
         iterator operator--(int) {
             iterator temp = *this;
             --(*this);
             return temp;
         }
-
+\/
         bool operator==(const iterator& other) const { return current == other.current; }
         bool operator!=(const iterator& other) const { return current != other.current; }
-
+\/
     private:
         Node* current;
     };
-
+\/
     iterator begin() const { return iterator(sentinel->next); }
     iterator end() const { return iterator(sentinel); }
 };
-
+\/
 #endif // DEQUE_H
-```
-
-<p>Python</p>
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class Deque:
     class Node:
         def __init__(self, item, prev, next):
             self.item = item
             self.prev = prev
             self.next = next
-
+\/
     def __init__(self):
         self.sentinel = self.Node(None, None, None)
         self.sentinel.prev = self.sentinel
         self.sentinel.next = self.sentinel
         self.size = 0
-
+\/
     def addFirst(self, x):
         if x is None:
             raise ValueError("Cannot add null item")
@@ -560,13 +559,13 @@ class Deque:
         self.sentinel.next.prev = new_node
         self.sentinel.next = new_node
         self.size += 1
-
+\/
     def addLast(self, x):
         new_node = self.Node(x, self.sentinel.prev, self.sentinel)
         self.sentinel.prev.next = new_node
         self.sentinel.prev = new_node
         self.size += 1
-
+\/
     def toList(self):
         return_list = []
         p = self.sentinel.next
@@ -574,13 +573,13 @@ class Deque:
             return_list.append(p.item)
             p = p.next
         return return_list
-
+\/
     def isEmpty(self):
         return self.size == 0
-
+\/
     def size(self):
         return self.size
-
+\/
     def removeFirst(self):
         if self.isEmpty():
             raise IndexError("Deque is empty")
@@ -589,7 +588,7 @@ class Deque:
         first.next.prev = self.sentinel
         self.size -= 1
         return first.item
-
+\/
     def removeLast(self):
         if self.isEmpty():
             raise IndexError("Deque is empty")
@@ -598,26 +597,28 @@ class Deque:
         last.prev.next = self.sentinel
         self.size -= 1
         return last.item
-
+\/
     def get(self, index):
-        if index < 0 or index >= self.size:
+        if index &lt; 0 or index >= self.size:
             return None
         p = self.sentinel.next
         for _ in range(index):
             p = p.next
         return p.item
-
+\/
     def __iter__(self):
         self.current = self.sentinel.next
         return self
-
+\/
     def __next__(self):
         if self.current == self.sentinel:
             raise StopIteration
         item = self.current.item
         self.current = self.current.next
         return item
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ## 3 Union-Find
 
