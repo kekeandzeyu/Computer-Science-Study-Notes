@@ -5,7 +5,7 @@
     src: url(../static/GoogleSans-Medium.ttf) format('truetype'),
          url(../static/GoogleSans-Medium.woff) format('woff'),
          url(../static/GoogleSans-Medium.woff2) format('woff2'),
-         url(../static/GoogleSans-Medium.eot) format('embedded-opentype');
+         url(../static/GoogleSans-Medium.eot) format('embedded-opentype'),
          url(../static/GoogleSans-Medium.svg#GoogleSans-Medium) format('svg');
 }
 
