@@ -17,49 +17,61 @@ part to Java Programming.</p>
 
 #### 1.1.1 Data Storage Structures
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "Fuchsia">Sequential Storage Structures:</format> </p>
-    <list type = "bullet">
-    <li><p>Linear list</p></li>
-    <li><p>Array</p></li>
-    <li><p>Vector</p></li>
+<p><format color="Fuchsia">Sequential Storage Structures:</format> </p>
+    <list type="bullet">
+    <li>
+        <p>Linear list</p>
+    </li>
+    <li>
+        <p>Array</p>
+    </li>
+    <li>
+        <p>Vector</p>
+    </li>
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">Linked Storage Structure</format> </p>
-    <list type = "bullet">
-    <li>Linked list</li>
+<p><format color="Fuchsia">Linked Storage Structure</format> </p>
+    <list type="bullet">
+    <li>
+        <p>Linked list</p>
+    </li>
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">Index Storage Structure</format> </p>
+<p><format color="Fuchsia">Index Storage Structure</format> </p>
     <list>
-    <li>B-Tree/B+-Tree</li>
+    <li>
+        <p>B-Tree/B+-Tree</p>
+    </li>
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">Hashing Storage Structure</format> </p>
+<p><format color="Fuchsia">Hashing Storage Structure</format> </p>
     <list>
-    <li>Hash table</li>
+    <li>
+        <p>Hash table</p>
+    </li>
     </list>
 </li>
 </list>
 
 #### 1.1.2 Data Logical Structures
 
-<list type = "decimal">
+<list type="decimal">
 <li>
-<p><format color="Fuchsia">Set</format> </p>
+    <p><format color="Fuchsia">Set</format> </p>
 </li>
 <li>
-<p><format color="Fuchsia">Linear</format> </p>
+    <p><format color="Fuchsia">Linear</format> </p>
 </li>
 <li>
-<p><format color="Fuchsia">Tree</format> </p>
+    <p><format color="Fuchsia">Tree</format> </p>
 </li>
 <li>
-<p><format color="Fuchsia">Graph</format> </p>
+    <p><format color="Fuchsia">Graph</format> </p>
 </li>
 </list>
 
@@ -130,7 +142,7 @@ basic operations as a proxy for running time.</p>
 
 #### 1.3.1 Common Classifications
 
-<table>
+<table style="header-row">
 <tr>
     <td>Order of growth</td>
     <td>Name</td>
@@ -141,15 +153,15 @@ basic operations as a proxy for running time.</p>
 </tr>
 <tr>
     <td><math>1</math></td>
-    <td>constant</td>
-    <td><code-block lang = "C++">a = b + c;</code-block></td>
+    <td>Constant</td>
+    <td><code-block lang="C++">a = b + c;</code-block></td>
     <td>statement</td>
     <td>add two numbers</td>
     <td><math>1</math></td>
 </tr>
 <tr>
     <td><math>\log N</math></td>
-    <td>logarithmic</td>
+    <td>Logarithmic</td>
     <td><code-block lang = "C++">
     while (N &gt; 1)
     {N = N / 2; ...}
@@ -160,7 +172,7 @@ basic operations as a proxy for running time.</p>
 </tr>
 <tr>
     <td><math>N</math></td>
-    <td>linear</td>
+    <td>Linear</td>
     <td><code-block lang = "C++" noinject = "true">
     for (int i = 0; i &lt; N; i++)
     {...}
@@ -171,7 +183,7 @@ basic operations as a proxy for running time.</p>
 </tr>
 <tr>
     <td><math>N \log N</math></td>
-    <td>linearithmatic</td>
+    <td>Linearithmatic</td>
     <td>see <a href="Data-Structures-and-Algorithms-1.md" anchor=
     "mergesort" summary="Mergesort">mergesort lecture</a></td>
     <td>divide and conquer</td>
@@ -180,7 +192,7 @@ basic operations as a proxy for running time.</p>
 </tr>
 <tr>
     <td><math>N ^ {2}</math></td>
-    <td>quadratic</td>
+    <td>Quadratic</td>
     <td><code-block lang = "C++">
     for (int i = 0; i &lt; N; i++)
         for (int j = 0; j &lt; N; j++)
@@ -192,7 +204,7 @@ basic operations as a proxy for running time.</p>
 </tr>
 <tr>
     <td><math>N ^ {3}</math></td>
-    <td>cubic</td>
+    <td>Cubic</td>
     <td><code-block lang = "C++">
     for (int i = 0; i &lt; N; i++)
         for (int j = 0; j &lt; N; j++)
@@ -205,7 +217,7 @@ basic operations as a proxy for running time.</p>
 </tr>
 <tr>
     <td><math>2 ^ {N}</math></td>
-    <td>exponential</td>
+    <td>Exponential</td>
     <td>see combinatorial search lecture</td>
     <td>exhaustive search</td>
     <td>check all subsets</td>
@@ -215,16 +227,14 @@ basic operations as a proxy for running time.</p>
 
 #### 1.3.2 Binary Search
 
-<p><format color = "BlueViolet">Properties:</format> Binary search 
+<p><format color="BlueViolet">Property:</format> Binary search 
 uses at most <math>\leq 1 + \log N</math> to search in a sorted array
 of size <math>N</math>.</p>
 
-<p><format color = "BlueViolet">Proof skectch:</format> </p>
+<p><format color = "BlueViolet">Proof:</format> </p>
 
-<p>
-<math>T (N) = </math> number of compares to binary search in a sorted 
-subarray of size <math>\leq N</math>.
-</p>
+<p><math>T (N) = </math> number of compares to binary search in a sorted 
+subarray of size <math>\leq N</math>.</p>
 
 <code-block lang = "tex">
 T(N) \leq T\left(\frac{N}{2}\right) + 1, N > 1, T(1) = 1
@@ -241,7 +251,7 @@ T(N) &\leq T\left(\frac{N}{2}\right) + 1 \\
 \end{align*}
 </code-block>
 
-<procedure title = "Binary Seach">
+<procedure title="Binary Seach">
 <step>
     <p>Compare key against middle entry.</p>
 </step>
@@ -256,17 +266,17 @@ T(N) &\leq T\left(\frac{N}{2}\right) + 1 \\
 </step>
 </procedure>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public static int binarySearch(int[] a, int key) {
     int lo = 0;
     int hi = a.length - 1;
-    while (lo <= hi) {
+    while (lo &lt;= hi) {
         int mid = lo + (hi - lo) / 2;
-        if (key < a[mid]) {
+        if (key &lt; a[mid]) {
             hi = mid - 1;
-        } else if (key > a[mid]) {
+        } else if (key &gt; a[mid]) {
             lo = mid + 1;
         } else {
             return mid;
@@ -274,19 +284,20 @@ public static int binarySearch(int[] a, int key) {
     }
     return -1;
 }
-```
-
-C++
-
-```C++
-int binarySearch(std::vector<int> arr, int x) {
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;vector&gt;
+\/
+int binarySearch(std::vector&lt;int&gt; arr, int x) {
     int l = 0, r = arr.size() - 1;
-    while (l <= r) {
+    while (l &lt;= r) {
         int m = l + (r - l) / 2;
         if (arr[m] == x) {
             return m;
         }
-        if (arr[m] < x) {
+        if (arr[m] &lt; x) {
             l = m + 1;
         } else {
             r = m - 1;
@@ -294,28 +305,29 @@ int binarySearch(std::vector<int> arr, int x) {
     }
     return -1;
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 def binary_search(arr, x):
     l, r = 0, len(arr) - 1
-    while l <= r:
+    while l &lt;= r:
         m = l + (r - l) // 2
         if arr[m] == x:
             return m
-        if arr[m] < x:
+        if arr[m] &lt; x:
             l = m + 1
         else:
             r = m - 1
     return -1
-```
+    </code-block>
+    </tab>
+</tabs>
 
 #### 1.3.3 3-Sum
 
-<p><a href = "https://leetcode.com/problems/3sum/description/" 
-summary = "Leetcode 15: 3Sum">Leetcode 15: 3Sum</a></p>
+<p><a href="https://leetcode.com/problems/3sum/description/" 
+summary="Leetcode 15: 3Sum">Leetcode 15: 3Sum</a></p>
 
 <p><format color = "BlueViolet">Description:</format> </p>
 
@@ -326,59 +338,65 @@ and <code>nums[i] + nums[j] + nums[k] == 0</code>.</p>
 
 <procedure title = "3-Sum">
 <step>
-Sort the <math>N</math> (distinct) numbers.
+    <p>Sort the <math>N</math> (distinct) numbers.</p>
 </step>
 <step>
-For each pair of numbers <code>a[i]</code> and <code>a[j]</code>,
-<format color = "OrangeRed">binary search</format> for 
-<code>-(a[i] + a[j])</code>.
+    <p>For each pair of numbers <code>a[i]</code> and <code>a[j]</code>,
+    <format color = "OrangeRed">binary search</format> for <code>
+    -(a[i] + a[j])</code>.</p>
 </step>
 </procedure>
 
-<p>Analysis: Order of growth is <math>N ^ {2} \log N</math></p>
+<p><format color="BlueViolet">Analysis:</format> Order of growth is 
+<math>N^{2} \log N</math></p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-Step 1: <math>N ^ {2}</math> with insertion sort. (not necessarily!)
+    <p>Step 1: <math>N^{2}</math> with insertion sort.</p>
 </li>
 <li>
-Step 2: <math>N ^ {2} \log N</math> with binary search.
+    <p>Step 2: <math>N^{2} \log N</math> with binary search.</p>
 </li>
 </list>
 
-Java
+<p><format color="BlueViolet">Better Algorithm:</format> Sorting & 
+Two pointers =&gt; <math>O(N^{2})</math></p>
 
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-public class Leetcode {
-    public Leetcode() {
+\/
+public class Solution {
+    public Solution() {
     }
-    
-    public List<List<Integer>> threeSum(int[] nums) {
+\/
+    public List&lt;List&lt;Integer&gt;&gt; threeSum(int[] nums) {
         int n = nums.length;
         Arrays.sort(nums);
-        List<List<Integer>> answer = new ArrayList<>();
-        for (int first = 0; first < n; ++first) {
-            if (first > 0 && nums[first] == nums[first - 1]) {
+        List&lt;List&lt;Integer&gt;&gt; answer = new ArrayList&lt;&gt;();
+\/        
+        for (int first = 0; first &lt; n; ++first) {
+            if (first &gt; 0 && nums[first] == nums[first - 1]) {
                 continue;
             }
             int third = n - 1;
             int target = -nums[first];
-            for (int second = first + 1; second < n; ++second) {
-                if (second > first + 1 && nums[second] == nums[second - 1]) {
+            for (int second = first + 1; second &lt; n; ++second) {
+                if (second &gt; first + 1 && nums[second] == nums[second - 1]) {
                     continue;
                 }
-                while (second < third && nums[second] + nums[third] > target) {
+                while (second &lt; third && nums[second] + nums[third] &gt; target) {
                     --third;
                 }
+\/
                 if (second == third) {
                     break;
                 }
                 if (nums[second] + nums[third] == target) {
-                    List<Integer> list = new ArrayList<>();
+                    List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
                     list.add(nums[first]);
                     list.add(nums[second]);
                     list.add(nums[third]);
@@ -389,76 +407,76 @@ public class Leetcode {
         return answer;
     }
 }
-```
-
-C++
-
-```C++
-#include <vector>
-#include <algorithm>
-
-std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
-    const int n = static_cast<int>(nums.size());
-    std::sort(nums.begin(), nums.end());
-
-    std::vector<std::vector<int>> answer;
-
-    for (int first = 0; first < n; first++) {
-        if (first > 0 && nums[first] == nums[first - 1]) {
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+\/
+std::vector&lt;std::vector&lt;int&gt;&gt; threeSum(std::vector&lt;int&gt;& nums) {
+const int n = static_cast&lt;int&gt;(nums.size());
+std::sort(nums.begin(), nums.end());
+\/
+    std::vector&lt;std::vector&lt;int&gt;&gt; answer;
+\/
+    for (int first = 0; first &lt; n; first++) {
+        if (first &gt; 0 && nums[first] == nums[first - 1]) {
             continue;
         }
-
+\/
         int third = n - 1;
         const int target = -nums[first];
-
-        for (int second = first + 1; second < n; second++) {
-            if (second > first + 1 && nums[second] == nums[second - 1]) {
+\/
+        for (int second = first + 1; second &lt; n; second++) {
+            if (second &gt; first + 1 && nums[second] == nums[second - 1]) {
                 continue;
             }
-            while (second < third && nums[second] + nums[third] > target) {
+            while (second &lt; third && nums[second] + nums[third] &gt; target) {
                 --third;
             }
-            
+\/           
             if (second == third) {
                 break;
             }
             if (nums[second] + nums[third] == target) {
-                answer.emplace_back(std::vector<int>{nums[first], nums[second], nums[third]});
+                answer.emplace_back(std::vector&lt;int&gt;{nums[first], nums[second], nums[third]});
             }
         }
     }
     return answer;
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from typing import List
-
-
-def threeSum(nums: List[int]) -> List[List[int]]:
+\/
+\/
+def threeSum(nums: List[int]) -&gt; List[List[int]]:
     n = len(nums)
     nums.sort()
     ans = list()
-
+\/
     for first in range(n):
-        if first > 0 and nums[first] == nums[first - 1]:
+        if first &gt; 0 and nums[first] == nums[first - 1]:
             continue
         third = n - 1
         target = -nums[first]
         for second in range(first + 1, n):
-            if second > first + 1 and nums[second] == nums[second - 1]:
+            if second &gt; first + 1 and nums[second] == nums[second - 1]:
                 continue
-            while second < third and nums[second] + nums[third] > target:
+            while second &lt; third and nums[second] + nums[third] &gt; target:
                 third -= 1
             if second == third:
                 break
             if nums[second] + nums[third] == target:
                 ans.append([nums[first], nums[second], nums[third]])
-
+\/
     return ans
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 1.4 Theory of Algorithms
 
@@ -467,13 +485,13 @@ def threeSum(nums: List[int]) -> List[List[int]]:
     <td>Notion</td>
     <td>Formal Definition</td>
     <td>Provides</td>
-    <td>Example</td>
     <td>Shorthand for</td>
+    <td>Example</td>
     <td>Used to</td>
 </tr>
 <tr>
-    <td><format color = "OrangeRed">Big Theta</format></td>
-    <td><code-block lang = "tex">
+    <td><format color="OrangeRed">Big Theta</format></td>
+    <td><code-block lang="tex">
     R(N) \in \Theta (f(N))
     </code-block>
     <p>means there are positive constants <math>k_1</math> and <math>
@@ -484,28 +502,28 @@ def threeSum(nums: List[int]) -> List[List[int]]:
     </td>
     <td>asymptotic order of growth</td>
     <td><math>\Theta (N ^ {2})</math></td>
-    <td><code-block lang = "tex">
+    <td><code-block lang="tex">
     \begin{align*}
     &\frac {N ^ {2}}{2} \\
-    &10 N ^ {2} \\
-    &5 N ^ {2} + 22 N \log N + 3 N \\
+    &10 N^{2} \\
+    &5 N^{2} + 22N \log N + 3N \\
     &\text {...} \\
     \end{align*}
     </code-block></td>
     <td>Classify Algorithms</td>
 </tr>
 <tr>
-    <td><format color = "OrangeRed">Big Oh</format></td>
-    <td><code-block lang = "tex">
+    <td><format color="OrangeRed">Big Oh</format></td>
+    <td><code-block lang="tex">
     R(N) \in O(f(N))
     </code-block>
     <p>means there is a positive constant <math>k_2</math> such that</p>
-    <code-block lang = "tex">
+    <code-block lang="tex">
     R(N) \leq k_2 f(N)
     </code-block></td>
     <td><math>\Theta (N ^ {2})</math> and smaller</td>
     <td><math>O(N ^ {2})</math></td>
-    <td><code-block lang = "tex">
+    <td><code-block lang="tex">
     \begin{align*}
     &10 N ^ {2} \\
     &100 N \\
@@ -516,17 +534,17 @@ def threeSum(nums: List[int]) -> List[List[int]]:
     <td>Develop Upper Bounds</td>
 </tr>
 <tr>
-    <td><format color = "OrangeRed">Big Omega</format></td>
-    <td><code-block lang = "tex">
+    <td><format color="OrangeRed">Big Omega</format></td>
+    <td><code-block lang="tex">
     R(N) \in \Omega (f(N))
     </code-block>
     <p>means there is a positive constant <math>k_1</math> such that</p>
-    <code-block lang = "tex">
+    <code-block lang="tex">
     k_1 f(N) \leq R(N)
     </code-block></td>
     <td><math>\Theta (N ^ {2})</math> and larger</td>
     <td><math>\Omega (N ^ {2})</math></td>
-    <td><code-block lang = "tex">
+    <td><code-block lang="tex">
     \begin{align*}
     &\frac {N ^ {2}}{2} \\
     &N ^ {5} \\
