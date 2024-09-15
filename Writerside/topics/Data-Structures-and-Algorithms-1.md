@@ -15,6 +15,11 @@ you specific goals to strive for in making sure your code works.</p>
 
 ### 2.1 Singly Linked Lists
 
+<p>The first item (if it exists) is at <code>sentinel.next</code>.</p>
+
+<p>No need to check for special cases since sentinel node is never 
+null!</p>
+
 <tabs>
     <tab title="Java">
     <code-block lang="java" collapsible="true">
@@ -63,24 +68,21 @@ public class SLList implements Iterable&lt;Integer&gt; {
         return size;
     }
 \/
-    @Override
     public Iterator&lt;Integer&gt; iterator() {
         return new SLListIterator();
     }
 \/
     private class SLListIterator implements Iterator&lt;Integer&gt; {
         private IntNode p;
-\
+\/
         public SLListIterator() {
             p = sentinel.next; 
         }
 \/
-        @Override
         public boolean hasNext() {
             return p != null;
         }
 \/
-        @Override
         public Integer next() {
             int returnItem = p.item;
             p = p.next;
@@ -92,56 +94,53 @@ public class SLList implements Iterable&lt;Integer&gt; {
     </tab>
     <tab title="C++">
     <code-block lang="c++" collapsible="true">
-#ifndef SLLIST_H
-#define SLLIST_H
+#include &lt;iostream&gt;
 \/
 template &lt;typename T&gt;
 class SLList {
 public:
-class IntNode {
-public:
-T item;
-IntNode* next;
+    class IntNode {
+    public:
+        T item;
+        IntNode* next;
 \/
-        IntNode(T i, IntNode* n) : item(i), next(n) {}
+        IntNode(T i, IntNode* n) {
+            item = i;
+            next = n;
+        }
     };
 \/
 private:
-IntNode* sentinel;
-int size;
+    IntNode* sentinel;
+    int size;
 \/
 public:
-SLList() : sentinel(new IntNode(0, nullptr)), size(0) {}
+    SLList() {
+        sentinel = new IntNode(63, nullptr);
+        size = 0;
+    }
 \/
-    explicit SLList(T x) : sentinel(new IntNode(0, nullptr)), size(0) {
-        sentinel->next = new IntNode(x, nullptr);
+    explicit SLList(T x) {
+        sentinel = new IntNode(63, nullptr); 
+        sentinel-&gt;next = new IntNode(x, nullptr);
         size = 1;
     }
 \/
-    ~SLList() {
-        IntNode* current = sentinel;
-        while (current != nullptr) {
-            IntNode* next = current->next;
-            delete current;
-            current = next;
-        }
-    }
-\/
     void addFirst(T x) {
-        sentinel->next = new IntNode(x, sentinel->next);
-        size++;
+        sentinel-&gt;next = new IntNode(x, sentinel-&gt;next);
+        size += 1;
     }
 \/
     void addLast(T x) {
+        size += 1;
         IntNode* p = sentinel;
-        while (p->next != nullptr) {
-            p = p->next;
+        while (p-&gt;next != nullptr) {
+            p = p-&gt;next;
         }
-        p->next = new IntNode(x, nullptr);
-        size++;
+        p-&gt;next = new IntNode(x, nullptr);
     }
 \/
-    [[nodiscard]] int getSize() const {
+    [[nodiscard]] int size_() const {
         return size;
     }
 \/
@@ -150,21 +149,16 @@ SLList() : sentinel(new IntNode(0, nullptr)), size(0) {}
         IntNode* current;
 \/
     public:
-        explicit iterator(IntNode* node) : current(node) {}
+        explicit iterator(IntNode* start) : current(start) {}
 \/
-        T& operator*() { return current->item; }
-        iterator& operator++() {
-            current = current->next;
-            return *this;
-        }
+        T& operator*() { return current-&gt;item; }
+        iterator& operator++() { current = current-&gt;next; return *this; }
         bool operator!=(const iterator& other) const { return current != other.current; }
     };
 \/
-    iterator begin() { return iterator(sentinel->next); }
+    iterator begin() { return iterator(sentinel-&gt;next); }
     iterator end() { return iterator(nullptr); }
 };
-\/
-#endif // SLLIST_H
     </code-block>
     </tab>
     <tab title="Python">
@@ -205,7 +199,11 @@ class SLList:
     </tab>
 </tabs>
 
-### 2.2 Doubly Linked Lists
+### 2.2 Doubly Linked Lists & Deques
+
+<tip>
+<p>Doubly linked lists and deques share many similarities.</p>
+</tip>
 
 <note>
 <p>This is the use of built-in doubly linked lists.</p>
@@ -251,20 +249,58 @@ int main() &#123;
 }
     </code-block>
     </tab>
+    <tab title="Python (Deque)">
+    <code-block lang="python" collapsible="true">
+from collections import deque
+\/
+# Initialize a deque
+my_deque = deque([1, 2, 3])
+\/
+# Append to the right
+my_deque.append(4)
+print("Deque after appending 4:", my_deque)  # Output: deque([1, 2, 3, 4])
+\/
+# Append to the left
+my_deque.appendleft(0)
+print("Deque after appending 0 to the left:", my_deque)  # Output: deque([0, 1, 2, 3, 4])
+\/
+# Pop from the right
+popped_right = my_deque.pop()
+print("Popped element from the right:", popped_right)  # Output: 4
+print("Deque after popping from the right:", my_deque)  # Output: deque([0, 1, 2, 3])
+\/
+# Pop from the left
+popped_left = my_deque.popleft()
+print("Popped element from the left:", popped_left)  # Output: 0
+print("Deque after popping from the left:", my_deque)  # Output: deque([1, 2, 3])
+\/
+# Rotate the deque (positive value rotates to the right)
+my_deque.rotate(2)
+print("Deque after rotating 2 positions to the right:", my_deque)  # Output: deque([2, 3, 1])
+\/
+# Rotate the deque (negative value rotates to the left)
+my_deque.rotate(-1)
+print("Deque after rotating 1 position to the left:", my_deque)  # Output: deque([3, 1, 2])
+\/
+# You can also use deque as a fixed-size queue with maxlen
+limited_deque = deque(maxlen=3)
+limited_deque.extend([1, 2, 3, 4])  # Oldest element (1) will be automatically removed
+print("Limited deque:", limited_deque)  # Output: deque([2, 3, 4], maxlen=3)
+    </code-block>
+    </tab>
 </tabs>
 
 <note>
-<p>This is the implementation of doubly linked lists.</p>
+<p>This is the implementation of doubly linked lists and linked list
+implementation of deques.</p>
 </note>
 
 <tabs>
     <tab title="Java">
     <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 \/
-public class Deque&lt;T&gt; implements Iterable&lt;T&gt; {
+public class LinkedList&lt;T&gt; {
 \/
     private class Node {
         public T item;
@@ -281,7 +317,7 @@ public class Deque&lt;T&gt; implements Iterable&lt;T&gt; {
     private final Node sentinel;
     private int size;
 \/
-    public Deque() {
+    public LinkedList() {
         sentinel = new Node(null, null, null);
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
@@ -289,9 +325,6 @@ public class Deque&lt;T&gt; implements Iterable&lt;T&gt; {
     }
 \/
     public void addFirst(T x) {
-        if (x == null) {
-            throw new IllegalArgumentException("Cannot add null item");
-        }
         Node newNode = new Node(x, sentinel, sentinel.next);
         sentinel.next.prev = newNode;
         sentinel.next = newNode;
@@ -325,7 +358,7 @@ public class Deque&lt;T&gt; implements Iterable&lt;T&gt; {
 \/
     public T removeFirst() {
         if (isEmpty()) {
-            throw new NoSuchElementException("Deque is empty");
+            return null;
         }
         Node first = sentinel.next;
         sentinel.next = first.next;
@@ -336,7 +369,7 @@ public class Deque&lt;T&gt; implements Iterable&lt;T&gt; {
 \/
     public T removeLast() {
         if (isEmpty()) {
-            throw new NoSuchElementException("Deque is empty");
+            return null;
         }
         Node last = sentinel.prev;
         sentinel.prev = last.prev;
@@ -356,233 +389,189 @@ public class Deque&lt;T&gt; implements Iterable&lt;T&gt; {
         return p.item;
     }
 \/
-    public Iterator&lt;T&gt; iterator() {
-        return new DequeIterator();
+    public T getRecursive(int index) {
+        if (index &lt; 0 || index &gt;= size) {
+            return null;
+        }
+        return getRecursiveHelper(sentinel.next, index);
     }
 \/
-    private class DequeIterator implements Iterator&lt;T&gt; {
-        private Node current = sentinel.next; // Start at the first node after sentinel
-\/
-        public boolean hasNext() {
-            return current != sentinel;
+    private T getRecursiveHelper(Node p, int index) {
+        if (index == 0) {
+            return p.item;
         }
-\/
-        public T next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException("No more elements");
-            }
-            T item = current.item;
-            current = current.next;
-            return item;
-        }
+        return getRecursiveHelper(p.next, index - 1);
     }
 }
     </code-block>
     </tab>
-    <tab title="C++ (Header File)">
+    <tab title="C++">
     <code-block lang="c++" collapsible="true">
-#ifndef DEQUE_H
-#define DEQUE_H
-\/
 #include &lt;vector&gt;
-#include &lt;stdexcept&gt;
 \/
 template &lt;typename T&gt;
-class Deque {
+class LinkedList {
 private:
     struct Node {
         T item;
         Node* prev;
         Node* next;
 \/
-        Node(const T& i, Node* p, Node* n) : item(i), prev(p), next(n) {}
+        Node(T i, Node* p, Node* n) : item(i), prev(p), next(n) {}
     };
 \/
     Node* sentinel;
     int size;
 \/
 public:
-    Deque() {
-        sentinel = new Node(T{}, nullptr, nullptr); // Default construct T for sentinel
-        sentinel->prev = sentinel;
-        sentinel->next = sentinel;
-        size = 0;
+    LinkedList() : size(0) {
+        sentinel = new Node(T(), nullptr, nullptr);
+        sentinel-&gt;prev = sentinel;
+        sentinel-&gt;next = sentinel;
     }
 \/
-    ~Deque() {
-        Node* current = sentinel->next;
+    ~LinkedList() {
+        Node* current = sentinel-&gt;next;
         while (current != sentinel) {
-            const Node* temp = current;
-            current = current->next;
-            delete temp;
+            Node* next = current-&gt;next;
+            delete current;
+            current = next;
         }
         delete sentinel;
     }
 \/
-    void addFirst(const T& x) {
-        Node* newNode = new Node(x, sentinel, sentinel->next);
-        sentinel->next->prev = newNode;
-        sentinel->next = newNode;
+    void addFirst(T x) {
+        Node* newNode = new Node(x, sentinel, sentinel-&gt;next);
+        sentinel-&gt;next-&gt;prev = newNode;
+        sentinel-&gt;next = newNode;
         size++;
     }
 \/
-    void addLast(const T& x) {
-        Node* newNode = new Node(x, sentinel->prev, sentinel);
-        sentinel->prev->next = newNode;
-        sentinel->prev = newNode;
+    void addLast(T x) {
+        Node* newNode = new Node(x, sentinel-&gt;prev, sentinel);
+        sentinel-&gt;prev-&gt;next = newNode;
+        sentinel-&gt;prev = newNode;
         size++;
     }
-\/
-    std::vector&lt;T&gt; toList() const {
+\/  
+    std::vector&lt;T&gt; toList() {
         std::vector&lt;T&gt; returnList;
-        Node* p = sentinel->next;
+        Node* p = sentinel-&gt;next;
         while (p != sentinel) {
-            returnList.push_back(p->item);
-            p = p->next;
+            returnList.push_back(p-&gt;item);
+            p = p-&gt;next;
         }
         return returnList;
     }
 \/
-    [[nodiscard]] bool isEmpty() const {
+    [[nodiscard]] bool isEmpty() const
+    {
         return size == 0;
     }
 \/
-    [[nodiscard]] int getsize() const {
+    [[nodiscard]] int size_() const
+    {
         return size;
     }
 \/
     T removeFirst() {
         if (isEmpty()) {
-            throw std::runtime_error("Deque is empty");
+            return T(); 
         }
-        Node* first = sentinel->next;
-        sentinel->next = first->next;
-        first->next->prev = sentinel;
+        Node* first = sentinel-&gt;next;
+        sentinel-&gt;next = first-&gt;next;
+        first-&gt;next-&gt;prev = sentinel;
         size--;
-        T item = first->item;
+        T item = first-&gt;item;
         delete first;
         return item;
     }
 \/
     T removeLast() {
         if (isEmpty()) {
-            throw std::runtime_error("Deque is empty");
+            return T();
         }
-        Node* last = sentinel->prev;
-        sentinel->prev = last->prev;
-        last->prev->next = sentinel;
+        Node* last = sentinel-&gt;prev;
+        sentinel-&gt;prev = last-&gt;prev;
+        last-&gt;prev-&gt;next = sentinel;
         size--;
-        T item = last->item;
+        T item = last-&gt;item;
         delete last;
         return item;
     }
 \/
-    T get(const int index) const {
-        if (index &lt; 0 || index >= size) {
-            throw std::runtime_error("Index out of bounds"); // Or return a default value
+    T get(const int index) {
+        if (index &lt; 0 || index &gt;= size) {
+            return T(); 
         }
-        Node* p = sentinel->next;
+        Node* p = sentinel-&gt;next;
         for (int i = 0; i &lt; index; i++) {
-            p = p->next;
+            p = p-&gt;next;
         }
-        return p->item;
+        return p-&gt;item;
     }
 \/
-    class iterator {
-    public:
-        using iterator_category = std::bidirectional_iterator_tag;
-        using value_type = T;
-        using difference_type = std::ptrdiff_t;
-        using pointer = T*;
-        using reference = T&;
-\/
-        explicit iterator(Node* ptr) : current(ptr) {}
-\/
-        reference operator*() const { return current->item; }
-        pointer operator->() const { return &current->item; }
-\/
-        iterator& operator++() {
-            current = current->next;
-            return *this;
+    T getRecursive(const int index) {
+        if (index &lt; 0 || index &gt;= size) {
+            return T();
         }
+        return getRecursiveHelper(sentinel-&gt;next, index);
+    }
 \/
-        iterator operator++(int) {
-            iterator temp = *this;
-            ++(*this);
-            return temp;
+private:
+    T getRecursiveHelper(Node* p, const int index) {
+        if (index == 0) {
+            return p-&gt;item;
         }
-\/
-        iterator& operator--() {
-            current = current->prev;
-            return *this;
-        }
-\/
-        iterator operator--(int) {
-            iterator temp = *this;
-            --(*this);
-            return temp;
-        }
-\/
-        bool operator==(const iterator& other) const { return current == other.current; }
-        bool operator!=(const iterator& other) const { return current != other.current; }
-\/
-    private:
-        Node* current;
-    };
-\/
-    iterator begin() const { return iterator(sentinel->next); }
-    iterator end() const { return iterator(sentinel); }
+        return getRecursiveHelper(p-&gt;next, index - 1);
+    }
 };
-\/
-#endif // DEQUE_H
     </code-block>
     </tab>
     <tab title="Python">
     <code-block lang="python" collapsible="true">
-class Deque:
-    class Node:
-        def __init__(self, item, prev, next):
-            self.item = item
-            self.prev = prev
-            self.next = next
+class Node:
+    def __init__(self, item, prev, next):
+        self.item = item
+        self.prev = prev
+        self.next = next
 \/
+class LinkedList:
     def __init__(self):
-        self.sentinel = self.Node(None, None, None)
+        self.sentinel = Node(None, None, None)
         self.sentinel.prev = self.sentinel
         self.sentinel.next = self.sentinel
         self.size = 0
 \/
     def addFirst(self, x):
-        if x is None:
-            raise ValueError("Cannot add null item")
-        new_node = self.Node(x, self.sentinel, self.sentinel.next)
-        self.sentinel.next.prev = new_node
-        self.sentinel.next = new_node
+        newNode = Node(x, self.sentinel, self.sentinel.next)
+        self.sentinel.next.prev = newNode
+        self.sentinel.next = newNode
         self.size += 1
 \/
     def addLast(self, x):
-        new_node = self.Node(x, self.sentinel.prev, self.sentinel)
-        self.sentinel.prev.next = new_node
-        self.sentinel.prev = new_node
+        newNode = Node(x, self.sentinel.prev, self.sentinel)
+        self.sentinel.prev.next = newNode
+        self.sentinel.prev = newNode
         self.size += 1
 \/
     def toList(self):
-        return_list = []
+        returnList = []
         p = self.sentinel.next
         while p != self.sentinel:
-            return_list.append(p.item)
+            returnList.append(p.item)
             p = p.next
-        return return_list
+        return returnList
 \/
     def isEmpty(self):
         return self.size == 0
 \/
-    def size(self):
+    def size_(self):
         return self.size
 \/
     def removeFirst(self):
         if self.isEmpty():
-            raise IndexError("Deque is empty")
+            return None
         first = self.sentinel.next
         self.sentinel.next = first.next
         first.next.prev = self.sentinel
@@ -591,7 +580,7 @@ class Deque:
 \/
     def removeLast(self):
         if self.isEmpty():
-            raise IndexError("Deque is empty")
+            return None
         last = self.sentinel.prev
         self.sentinel.prev = last.prev
         last.prev.next = self.sentinel
@@ -599,23 +588,308 @@ class Deque:
         return last.item
 \/
     def get(self, index):
-        if index &lt; 0 or index >= self.size:
+        if index &lt; 0 or index &gt;= self.size:
             return None
         p = self.sentinel.next
-        for _ in range(index):
+        for i in range(index):
             p = p.next
         return p.item
 \/
-    def __iter__(self):
-        self.current = self.sentinel.next
-        return self
+    def getRecursive(self, index):
+        if index &lt; 0 or index &gt;= self.size:
+            return None
+        return self._getRecursiveHelper(self.sentinel.next, index)
 \/
-    def __next__(self):
-        if self.current == self.sentinel:
-            raise StopIteration
-        item = self.current.item
-        self.current = self.current.next
+    def _getRecursiveHelper(self, p, index):
+        if index == 0:
+            return p.item
+        return self._getRecursiveHelper(p.next, index - 1)
+    </code-block>
+    </tab>
+</tabs>
+
+<note>
+<p>This is the resizing array implementation of deque.</p>
+</note>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.List;
+import java.util.ArrayList;
+import java.lang.Math;
+\/
+public class ArrayDeque&lt;T&gt; {
+    private T[] items;
+    private int size;
+    private int nextFirst;
+    private int nextLast;
+\/
+    public ArrayDeque() {
+        items = (T[]) new Object[8];
+        size = 0;
+        nextFirst = 0;
+        nextLast = 1;
+    }
+\/
+    public void addFirst(T x) {
+        checkAndResize();
+        items[nextFirst] = x;
+        nextFirst = Math.floorMod(nextFirst - 1, items.length);
+        size += 1;
+    }
+\/
+    public void addLast(T x) {
+        checkAndResize();
+        items[nextLast] = x;
+        nextLast = Math.floorMod(nextLast + 1, items.length);
+        size += 1;
+    }
+\/
+    public List&lt;T&gt; toList() {
+        List&lt;T&gt; list = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; size; i++) {
+            list.add(get(i));
+        }
+        return list;
+    }
+\/
+    public boolean isEmpty() {
+        return size == 0;
+    }
+\/
+    public int size() {
+        return size;
+    }
+\/
+    public T removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+        nextFirst = Math.floorMod(nextFirst + 1, items.length);
+        T item = items[nextFirst];
+        items[nextFirst] = null;
+        size -= 1;
+        checkAndResize();
+        return item;
+    }
+\/
+    public T removeLast() {
+        if (isEmpty()) {
+            return null;
+        }
+        nextLast = Math.floorMod(nextLast - 1, items.length);
+        T item = items[nextLast];
+        items[nextLast] = null;
+        size -= 1;
+        checkAndResize();
+        return item;
+    }
+\/
+    private void resize(int capacity) {
+        T[] a = (T[]) new Object[capacity];
+        for (int i = 0; i &lt; size; i++) {
+            a[i] = get(i);
+        }
+        items = a;
+        nextFirst = capacity - 1;
+        nextLast = size;
+    }
+\/
+    private void checkAndResize() {
+        if (size == items.length) {
+            resize(size * 2);
+        } else if (items.length &gt;= 16 && size &lt; items.length / 4) {
+            resize(items.length / 2);
+        }
+    }
+\/
+    public T get(int index) {
+        if (index &gt;= size || index &lt; 0) {
+            return null;
+        }
+        return items[Math.floorMod(nextFirst + 1 + index, items.length)];
+    }
+\/
+    public T getRecursive(int index) {
+        throw new UnsupportedOperationException("No need to implement getRecursive for proj 1b");
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;vector&gt;
+\/
+template &lt;typename T&gt;
+class ArrayDeque {
+private:
+    T* items;
+    int size;
+    int nextFirst;
+    int nextLast;
+    int capacity;
+\/
+    void resize(const int newCapacity) {
+        T* a = new T[newCapacity];
+        for (int i = 0; i &lt; size; i++) {
+            a[i] = get(i);
+        }
+        delete[] items;
+        items = a;
+        capacity = newCapacity;
+        nextFirst = capacity - 1;
+        nextLast = size;
+    }
+\/
+    void checkAndResize() {
+        if (size == capacity) {
+            resize(capacity * 2);
+        } else if (capacity &gt;= 16 && size &lt; capacity / 4) {
+            resize(capacity / 2);
+        }
+    }
+\/
+public:
+    ArrayDeque(): size(0), nextFirst(0), nextLast(1), capacity(8) {
+        items = new T[capacity];
+    }
+\/
+    ~ArrayDeque() {
+        delete[] items;
+    }
+\/
+    void addFirst(T x) {
+        checkAndResize();
+        items[nextFirst] = x;
+        nextFirst = (nextFirst - 1 + capacity) % capacity;
+        size += 1;
+    }
+\/
+    void addLast(T x) {
+        checkAndResize();
+        items[nextLast] = x;
+        nextLast = (nextLast + 1) % capacity;
+        size += 1;
+    }
+\/
+    std::vector&lt;T&gt; toList() {
+        std::vector&lt;T&gt; list;
+        for (int i = 0; i &lt; size; i++) {
+            list.push_back(get(i));
+        }
+        return list;
+    }
+\/
+    [[nodiscard]] bool isEmpty() const {
+        return size == 0;
+    }
+\/
+    [[nodiscard]] int size_() const {
+        return size;
+    }
+\/
+    T removeFirst() {
+        if (isEmpty()) {
+            return T(); 
+        }
+        nextFirst = (nextFirst + 1) % capacity;
+        T item = items[nextFirst];
+        size -= 1;
+        checkAndResize();
+        return item;
+    }
+\/
+    T removeLast() {
+        if (isEmpty()) {
+            return T(); 
+        }
+        nextLast = (nextLast - 1 + capacity) % capacity;
+        T item = items[nextLast];
+        size -= 1;
+        checkAndResize();
+        return item;
+    }
+\/
+    T get(const int index) {
+        if (index &gt;= size || index &lt; 0) {
+            return T(); 
+        }
+        return items[(nextFirst + 1 + index) % capacity];
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class ArrayDeque:
+    def __init__(self):
+        self.capacity = 8
+        self.items = [None] * self.capacity
+        self.size = 0
+        self.nextFirst = 0
+        self.nextLast = 1
+\/
+    def addFirst(self, x):
+        self.checkAndResize()
+        self.items[self.nextFirst] = x
+        self.nextFirst = (self.nextFirst - 1 + self.capacity) % self.capacity
+        self.size += 1
+\/
+    def addLast(self, x):
+        self.checkAndResize()
+        self.items[self.nextLast] = x
+        self.nextLast = (self.nextLast + 1) % self.capacity
+        self.size += 1
+\/
+    def toList(self):
+        return [self.get(i) for i in range(self.size)]
+\/
+    def isEmpty(self):
+        return self.size == 0
+\/
+    def size_(self):
+        return self.size
+\/
+    def removeFirst(self):
+        if self.isEmpty():
+            return None
+        self.nextFirst = (self.nextFirst + 1) % self.capacity
+        item = self.items[self.nextFirst]
+        self.items[self.nextFirst] = None
+        self.size -= 1
+        self.checkAndResize()
         return item
+\/
+    def removeLast(self):
+        if self.isEmpty():
+            return None
+        self.nextLast = (self.nextLast - 1 + self.capacity) % self.capacity
+        item = self.items[self.nextLast]
+        self.items[self.nextLast] = None
+        self.size -= 1
+        self.checkAndResize()
+        return item
+\/
+    def resize(self, newCapacity):
+        a = [None] * newCapacity
+        for i in range(self.size):
+            self.get(i)
+        self.items = a
+        self.capacity = newCapacity
+        self.nextFirst = newCapacity - 1
+        self.nextLast = self.size
+\/
+    def checkAndResize(self):
+        if self.size == self.capacity:
+            self.resize(self.capacity * 2)
+        elif self.capacity &gt;= 16 and self.size &lt; self.capacity // 4:
+            self.resize(self.capacity // 2)
+\/
+    def get(self, index):
+        if index &gt;= self.size or index &lt; 0:
+            return None
+        return self.items[(self.nextFirst + 1 + index) % self.capacity]
     </code-block>
     </tab>
 </tabs>
@@ -626,19 +900,20 @@ class Deque:
 
 <list type="bullet">
 <li>
-<p><code>parent[i]</code> is the root of <math>i</math>, <math>p
-</math> and <math>q</math> are connected if and only if they have the
-same <code>parent[i]</code>.</p>
+    <p><code>parent[i]</code> is the root of <math>i</math>, <math>p
+    </math> and <math>q</math> are connected if and only if they have
+    the same <code>parent[i]</code>.</p>
 </li>
 <li>
-<p><format color="Fuchsia">Find:</format> Check if <math>p
-</math> and <math>q</math> have the same <code>parent[i]</code>.</p>
+    <p><format color="Fuchsia">Find:</format> Check if <math>p
+    </math> and <math>q</math> have the same <code>parent[i]</code>.
+    </p>
 </li>
 <li>
-<p><format color = "Fuchsia">Union:</format> To merge 
-components containing <math>p</math> and <math>q</math>, change all 
-entries whose id equals <code>parent[p]</code> to <code>parent[q]
-</code>.</p>
+    <p><format color = "Fuchsia">Union:</format> To merge 
+    components containing <math>p</math> and <math>q</math>, change 
+    all entries whose id equals <code>parent[p]</code> to <code>
+    parent[q]</code>.</p>
 </li>
 </list>
 
@@ -646,10 +921,10 @@ entries whose id equals <code>parent[p]</code> to <code>parent[q]
 <p><format color="BlueViolet">Defect:</format> </p>
 <list type="bullet">
 <li>
-<p>Union too expensive (<math>N</math> array accesses).</p>
+    <p>Union too expensive (<math>N</math> array accesses).</p>
 </li>
 <li>
-<p>Trees are flat, but too expensive to keep them flat.</p>
+    <p>Trees are flat, but too expensive to keep them flat.</p>
 </li>
 </list>
 </tip>
@@ -658,19 +933,19 @@ entries whose id equals <code>parent[p]</code> to <code>parent[q]
 
 <list>
 <li>
-<p>parent[i] is the parent of <math>i</math>, root of <math>i</math> 
-is parent[parent[...[i]]] (keep going until it doesn't change).
-</p>
+    <p>parent[i] is the parent of <math>i</math>, root of <math>i
+    </math> is parent[parent[...[i]]] (keep going until it doesn't 
+    change).</p>
 </li>
 <li>
-<p><format color="Fuchsia">Find:</format> Check if <math>p
-</math> and <math>q</math> have the same root.</p>
+    <p><format color="Fuchsia">Find:</format> Check if <math>p
+    </math> and <math>q</math> have the same root.</p>
 </li>
 <li>
-<p><format color="Fuchsia">Union:</format> To merge 
-components containing <math>p</math> and <math>q</math>, set the 
-parent of <math>p</math>'s root to the parent of <math>q</math>'s 
-root.</p>
+    <p><format color="Fuchsia">Union:</format> To merge 
+    components containing <math>p</math> and <math>q</math>, set the 
+    parent of <math>p</math>'s root to the parent of <math>q</math>'s 
+    root.</p>
 </li>
 </list>
 
@@ -678,10 +953,11 @@ root.</p>
 <p><format color="BlueViolet">Defect:</format> </p>
 <list type="bullet">
 <li>
-<p>Trees can get tall.</p>
+    <p>Trees can get tall.</p>
 </li>
 <li>
-<p>Find too expensive (could be <math>N</math> array accesses).</p>
+    <p>Find too expensive (could be <math>N</math> array accesses).
+    </p>
 </li>
 </list>
 </note>
@@ -692,21 +968,21 @@ root.</p>
 
 <procedure title="Weighted quick-union" type="choices">
 <step>
-<p>Modify quick-union to avoid tall trees.</p>
+    <p>Modify quick-union to avoid tall trees.</p>
 </step>
 <step>
-<p>Keep track of size of each tree (number of objects).</p>
+    <p>Keep track of size of each tree (number of objects).</p>
 </step>
 <step>
-<p>Balance by linking root of smaller tree to root of larger tree.
-</p>
+    <p>Balance by linking root of smaller tree to root of larger tree.
+    </p>
 </step>
 </procedure>
 
 <procedure title = "Path compression" type="choices">
 <step>
-<p>Just after computing the root of <math>p</math>, set the parent of 
-each examined node to point to that root.</p>
+    <p>Just after computing the root of <math>p</math>, set the parent
+    of each examined node to point to that root.</p>
 </step>
 </procedure>
 
@@ -735,88 +1011,120 @@ each examined node to point to that root.</p>
     <code-block lang="java" collapsible="true">
 public class UnionFind {
     private final int[] parent;
-    private final int[] rank;
+    private final byte[] rank;
+    private int count;
 \/
-    public UnionFind(int size) {
-        parent = new int[size];
-        rank = new int[size];
-\/
-        for (int i = 0; i &lt; size; i++) {
+    public UnionFind(int n) {
+        if (n &lt; 0) throw new IllegalArgumentException();
+        count = n;
+        parent = new int[n];
+        rank = new byte[n];
+        for (int i = 0; i &lt; n; i++) {
             parent[i] = i;
-            rank[i] = 1;
+            rank[i] = 0;
         }
     }
 \/
-    public int find(int element) {
-        if (parent[element] != element) {
-            parent[element] = find(parent[element]); // Path compression
+    public int find(int p) {
+        validate(p);
+        while (p != parent[p]) {
+            parent[p] = parent[parent[p]];
+            p = parent[p];
         }
-        return parent[element];
+        return p;
     }
 \/
-    public void union(int element1, int element2) {
-        int root1 = find(element1);
-        int root2 = find(element2);
+    public int count() {
+        return count;
+    }
 \/
-        if (root1 != root2) {
-            if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
-            } else if (rank[root1] &lt; rank[root2]) {
-                parent[root1] = root2;
-            } else {
-                parent[root2] = root1;
-                rank[root1] += 1;
-            }
+    public boolean connected(int p, int q) {
+        return find(p) == find(q);
+    }
+\/
+    public void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (rootP == rootQ) return;
+\/
+        if (rank[rootP] &lt; rank[rootQ]) parent[rootP] = rootQ;
+        else if (rank[rootP] &gt; rank[rootQ]) parent[rootQ] = rootP;
+        else {
+            parent[rootQ] = rootP;
+            rank[rootP]++;
+        }
+        count--;
+    }
+\/
+    private void validate(int p) {
+        int n = parent.length;
+        if (p &lt; 0 || p &gt;= n) {
+            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n - 1));
         }
     }
-}    
+}
     </code-block>
     </tab>
     <tab title="C++">
     <code-block lang="c++" collapsible="true">
 #include &lt;vector&gt;
+#include &lt;stdexcept&gt;
 \/
 class UnionFind {
 private:
     std::vector&lt;int&gt; parent;
     std::vector&lt;int&gt; rank;
+    int count;
 \/
 public:
-    UnionFind(int size) {
-        parent.resize(size);
-        rank.resize(size, 1);
-\/
-        for (int i = 0; i &lt; size; i++) {
+    explicit UnionFind(const int n) {
+        if (n &lt; 0) throw std::invalid_argument("n must be non-negative");
+        count = n;
+        parent.resize(n);
+        rank.resize(n);
+        for (int i = 0; i &lt; n; i++) {
             parent[i] = i;
+            rank[i] = 0;
         }
     }
 \/
-    int find(int element) {
-        if (parent[element] != element) {
-            parent[element] = find(parent[element]); // Path compression
+    int find(int p) {
+        validate(p);
+        while (p != parent[p]) {
+            parent[p] = parent[parent[p]];
+            p = parent[p];
         }
-        return parent[element];
+        return p;
     }
 \/
-    void unionSet(int element1, int element2) {
-        int root1 = find(element1);
-        int root2 = find(element2);
-\/
-        // Weighted quick union
-        if (root1 != root2) {
-            if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
-            } else if (rank[root1] &lt; rank[root2]) {
-                parent[root1] = root2;
-            } else {
-                parent[root2] = root1;
-                rank[root1] += 1;
-            }
-        }
+    [[nodiscard]] int countComponents() const {
+        return count;
     }
 \/
-    bool connected(int element1, int element2) {
-        return find(element1) == find(element2);
+    bool connected(const int p, const int q) {
+        return find(p) == find(q);
+    }
+\/
+    void unionSets(const int p, const int q) {
+        const int rootP = find(p);
+        const int rootQ = find(q);
+        if (rootP == rootQ) return;
+\/
+        if (rank[rootP] &lt; rank[rootQ]) parent[rootP] = rootQ;
+        else if (rank[rootP] &gt; rank[rootQ]) parent[rootQ] = rootP;
+        else {
+            parent[rootQ] = rootP;
+            rank[rootP]++;
+        }
+        count--;
+    }
+\/
+private:
+    void validate(const int p) const {
+        const int n = static_cast&lt;int&gt;(parent.size());
+        if (p &lt; 0 || p &gt;= n) {
+            throw std::invalid_argument("index " + std::to_string(p) + " is not between 0 and " + std::to_string(n - 1));
+        }
     }
 };
     </code-block>
@@ -824,31 +1132,45 @@ public:
     <tab title="Python">
     <code-block lang="python" collapsible="true">
 class UnionFind:
-    def __init__(self, size):
-        self.parent = list(range(size))
-        self.rank = [1] * size
+    def __init__(self, n):
+        if n &lt; 0:
+            raise ValueError("n must be non-negative")
+        self.count = n
+        self.parent = list(range(n))
+        self.rank = [0] * n
 \/
-    def find(self, element):
-        if self.parent[element] != element:
-            self.parent[element] = self.find(self.parent[element]) # Path compression
-        return self.parent[element]
+    def find(self, p):
+        self.validate(p)
+        while p != self.parent[p]:
+            self.parent[p] = self.parent[self.parent[p]]
+            p = self.parent[p]
+        return p
 \/
-    def union(self, element1, element2):
-        root1 = self.find(element1)
-        root2 = self.find(element2)
+    def count_components(self):
+        return self.count
 \/
-        # Weighted quick union
-        if root1 != root2:
-            if self.rank[root1] > self.rank[root2]:
-                self.parent[root2] = root1
-            elif self.rank[root1] &lt; self.rank[root2]:
-                self.parent[root1] = root2
-            else:
-                self.parent[root2] = root1
-                self.rank[root1] += 1
+    def connected(self, p, q):
+        return self.find(p) == self.find(q)
 \/
-    def connected(self, element1, element2):
-        return self.find(element1) == self.find(element2)
+    def union(self, p, q):
+        root_p = self.find(p)
+        root_q = self.find(q)
+        if root_p == root_q:
+            return
+\/
+        if self.rank[root_p] &lt; self.rank[root_q]:
+            self.parent[root_p] = root_q
+        elif self.rank[root_p] &gt; self.rank[root_q]:
+            self.parent[root_q] = root_p
+        else:
+            self.parent[root_q] = root_p
+            self.rank[root_p] += 1
+        self.count -= 1
+\/
+    def validate(self, p):
+        n = len(self.parent)
+        if p &lt; 0 or p &gt;= n:
+            raise ValueError(f"index {p} is not between 0 and {n - 1}")
     </code-block>
     </tab>
 </tabs>
@@ -868,7 +1190,7 @@ class UnionFind:
 
 ### 4.1 Stacks
 
-<p><format color="BlueViolet">Defintion:</format> </p>
+<p><format color="BlueViolet">Defintions:</format> </p>
 
 <list type="bullet">
 <li>

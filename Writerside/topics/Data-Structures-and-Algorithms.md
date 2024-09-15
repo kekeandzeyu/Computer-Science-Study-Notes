@@ -2,8 +2,7 @@
 
 # Data Structures and Algorithms
 
-<secondary-label ref="wip"></secondary-label>
-<secondary-label ref="beta"></secondary-label>
+<primary-label ref="finish"></primary-label>
 
 <p>In the following sections, we will explore more about Data 
 Structures and Algorithms.</p>
