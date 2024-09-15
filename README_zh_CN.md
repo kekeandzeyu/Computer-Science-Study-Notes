@@ -30,7 +30,7 @@ For English version please check [here](README.md)
 
 以下列表是我在完成这份笔记时所参考的内容。如果有作者的原创作品被使用却未被声明，或者被错误使用，请通过邮件与我联系删除，谢谢。
 
-### Topic 1: 数据结构与算法第 &#8544;, &#8545 & &#8546;部分
+### Topic 1: 数据结构与算法第&#8544;, &#8545 & &#8546;部分
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
 
