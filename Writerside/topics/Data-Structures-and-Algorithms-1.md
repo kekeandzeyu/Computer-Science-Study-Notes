@@ -15,41 +15,41 @@ you specific goals to strive for in making sure your code works.</p>
 
 ### 2.1 Singly Linked Lists
 
-<p>Java</p>
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.Iterator;
-
-public class SLList implements Iterable<Integer> {
+\/
+public class SLList implements Iterable&lt;Integer&gt; {
     public static class IntNode {
         public int item;
         public IntNode next;
-
+\/
         public IntNode(int i, IntNode n) {
             item = i;
             next = n;
         }
     }
-
+\/
     private final IntNode sentinel;
     private int size;
-
+\/
     public SLList() {
         sentinel = new IntNode(63, null);
         size = 0;
     }
-
+\/
     public SLList(int x) {
         sentinel = new IntNode(63, null);
         sentinel.next = new IntNode(x, null);
         size = 1;
     }
-
+\/
     public void addFirst(int x) {
         sentinel.next = new IntNode(x, sentinel.next);
         size += 1;
     }
-
+\/
     public void addLast(int x) {
         size += 1;
         IntNode p = sentinel;
@@ -58,28 +58,28 @@ public class SLList implements Iterable<Integer> {
         }
         p.next = new IntNode(x, null);
     }
-
+\/
     public int size() {
         return size;
     }
-
+\/
     @Override
-    public Iterator<Integer> iterator() {
+    public Iterator&lt;Integer&gt; iterator() {
         return new SLListIterator();
     }
-
-    private class SLListIterator implements Iterator<Integer> {
+\/
+    private class SLListIterator implements Iterator&lt;Integer&gt; {
         private IntNode p;
-
+\
         public SLListIterator() {
             p = sentinel.next; 
         }
-
+\/
         @Override
         public boolean hasNext() {
             return p != null;
         }
-
+\/
         @Override
         public Integer next() {
             int returnItem = p.item;
@@ -88,37 +88,36 @@ public class SLList implements Iterable<Integer> {
         }
     }
 }
-```
-
-<p>C++</p>
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
 #ifndef SLLIST_H
 #define SLLIST_H
-
-template <typename T>
+\/
+template &lt;typename T&gt;
 class SLList {
 public:
-    class IntNode {
-    public:
-        T item;
-        IntNode* next;
-
+class IntNode {
+public:
+T item;
+IntNode* next;
+\/
         IntNode(T i, IntNode* n) : item(i), next(n) {}
     };
-
+\/
 private:
-    IntNode* sentinel;
-    int size;
-
+IntNode* sentinel;
+int size;
+\/
 public:
-    SLList() : sentinel(new IntNode(0, nullptr)), size(0) {} 
-
+SLList() : sentinel(new IntNode(0, nullptr)), size(0) {}
+\/
     explicit SLList(T x) : sentinel(new IntNode(0, nullptr)), size(0) {
         sentinel->next = new IntNode(x, nullptr);
         size = 1;
     }
-
+\/
     ~SLList() {
         IntNode* current = sentinel;
         while (current != nullptr) {
@@ -127,12 +126,12 @@ public:
             current = next;
         }
     }
-
+\/
     void addFirst(T x) {
         sentinel->next = new IntNode(x, sentinel->next);
         size++;
     }
-
+\/
     void addLast(T x) {
         IntNode* p = sentinel;
         while (p->next != nullptr) {
@@ -141,18 +140,18 @@ public:
         p->next = new IntNode(x, nullptr);
         size++;
     }
-
+\/
     [[nodiscard]] int getSize() const {
         return size;
     }
-
+\/
     class iterator {
     private:
         IntNode* current;
-
+\/
     public:
         explicit iterator(IntNode* node) : current(node) {}
-
+\/
         T& operator*() { return current->item; }
         iterator& operator++() {
             current = current->next;
@@ -160,50 +159,51 @@ public:
         }
         bool operator!=(const iterator& other) const { return current != other.current; }
     };
-
+\/
     iterator begin() { return iterator(sentinel->next); }
     iterator end() { return iterator(nullptr); }
 };
-
+\/
 #endif // SLLIST_H
-```
-
-<p>Python</p>
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class SLList:
     class IntNode:
         def __init__(self, i, n):
             self.item = i
             self.next = n
-
+\/
     def __init__(self, x=None): 
         self.sentinel = self.IntNode(None, None)
         self.size = 0
         if x is not None:  # If x is provided, add it as the first element
             self.sentinel.next = self.IntNode(x, None)
             self.size = 1
-
+\/
     def addFirst(self, x):
         self.sentinel.next = self.IntNode(x, self.sentinel.next)
         self.size += 1
-
+\/
     def addLast(self, x):
         p = self.sentinel
         while p.next is not None:
             p = p.next
         p.next = self.IntNode(x, None)
         self.size += 1
-
+\/
     def __len__(self):
         return self.size
-
+\/
     def __iter__(self):
         p = self.sentinel.next
         while p is not None:
             yield p.item
             p = p.next
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 2.2 Doubly Linked Lists
 

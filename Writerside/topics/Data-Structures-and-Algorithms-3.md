@@ -2593,11 +2593,11 @@ class RabinKarp:
 <p><format color="BlueViolet">Cost of searching for an <math>M</math>
 -character pattern in an <math>N</math>-character text</format></p>
 
-<table>
+<table style="none">
 <tr>
     <td rowspan="2">Algorithm</td>
     <td rowspan="2">Version</td>
-    <td>Operation Count</td>
+    <td colspan="2">Operation Count</td>
     <td rowspan="2">Backup in Input?</td>
     <td rowspan="2">Correct?</td>
     <td rowspan="2">Extra Space</td>
@@ -2635,8 +2635,8 @@ class RabinKarp:
     <td><math>R</math></td>
 </tr>
 <tr>
-    <td><a anchor="Boyer-Moore" summary="Boyer-Moore">Boyer-Moore</a>
-    </td>
+    <td rowspan="2"><a anchor="Boyer-Moore" summary="Boyer-Moore">
+    Boyer-Moore</a></td>
     <td>full algorithm</td>
     <td><math>3N</math></td>
     <td><math>N/M</math></td>
@@ -2652,7 +2652,26 @@ class RabinKarp:
     <td>yes</td>
     <td><math>R</math></td>
 </tr>
+<tr>
+    <td rowspan="2">Rabin-Karp*</td>
+    <td>Monte Carlo</td>
+    <td><math>7N</math></td>
+    <td><math>7N</math></td>
+    <td>no</td>
+    <td>yes*</td>
+    <td><math>1</math></td>
+</tr>
+<tr>
+    <td>Las Vegas</td>
+    <td><math>7N</math> *</td>
+    <td><math>7N</math></td>
+    <td>yes</td>
+    <td>yes</td>
+    <td><math>1</math></td>
+</tr>
 </table>
+
+<p>*: probabilisitic guarantee, with uniform hash function</p>
 
 ## 22 Catalan Number
 
