@@ -712,55 +712,56 @@ each examined node to point to that root.</p>
 
 <list>
 <li>
-<p><code>rank[i]</code> is the size of the tree rooted at <math>i
-</math>.</p>
+    <p><code>rank[i]</code> is the size of the tree rooted at <math>i
+    </math>.</p>
 </li>
 <li>
-<p>Property: Starting from an empty data structure, any sequence of 
-<math>M</math> union-find operations on <math>N</math> objects
-makes <math>\leq c(N + M lg* N)</math> array accesses.</p>
+    <p>Property: Starting from an empty data structure, any sequence 
+    of <math>M</math> union-find operations on <math>N</math> objects
+    makes <math>\leq c(N + M lg* N)</math> array accesses.</p>
 </li>
 <li>
-<p>In theory, WQUPC is not linear; in practice, it is.</p>
+    <p>In theory, WQUPC is not linear; in practice, it is.</p>
 </li>
 <li>
-<p>Application: Percoloation, games, dynamic connectivity, least 
-common ancestor, Kruskal's minimum spanning tree algorithm, etc.</p>
+    <p>Application: Percoloation, games, dynamic connectivity, least 
+    common ancestor, Kruskal's minimum spanning tree algorithm, etc.
+    </p>
 </li>
 </list>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class UnionFind {
     private final int[] parent;
     private final int[] rank;
-
+\/
     public UnionFind(int size) {
         parent = new int[size];
         rank = new int[size];
-
-        for (int i = 0; i < size; i++) {
+\/
+        for (int i = 0; i &lt; size; i++) {
             parent[i] = i;
             rank[i] = 1;
         }
     }
-
+\/
     public int find(int element) {
         if (parent[element] != element) {
             parent[element] = find(parent[element]); // Path compression
         }
         return parent[element];
     }
-
+\/
     public void union(int element1, int element2) {
         int root1 = find(element1);
         int root2 = find(element2);
-
+\/
         if (root1 != root2) {
             if (rank[root1] > rank[root2]) {
                 parent[root2] = root1;
-            } else if (rank[root1] < rank[root2]) {
+            } else if (rank[root1] &lt; rank[root2]) {
                 parent[root1] = root2;
             } else {
                 parent[root2] = root1;
@@ -768,45 +769,44 @@ public class UnionFind {
             }
         }
     }
-}
-```
-
-C++
-
-```C++
-#include <vector>
-
+}    
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;vector&gt;
+\/
 class UnionFind {
 private:
-    std::vector<int> parent;
-    std::vector<int> rank;
-
+    std::vector&lt;int&gt; parent;
+    std::vector&lt;int&gt; rank;
+\/
 public:
     UnionFind(int size) {
         parent.resize(size);
         rank.resize(size, 1);
-
-        for (int i = 0; i < size; i++) {
+\/
+        for (int i = 0; i &lt; size; i++) {
             parent[i] = i;
         }
     }
-
+\/
     int find(int element) {
         if (parent[element] != element) {
             parent[element] = find(parent[element]); // Path compression
         }
         return parent[element];
     }
-
+\/
     void unionSet(int element1, int element2) {
         int root1 = find(element1);
         int root2 = find(element2);
-
+\/
         // Weighted quick union
         if (root1 != root2) {
             if (rank[root1] > rank[root2]) {
                 parent[root2] = root1;
-            } else if (rank[root1] < rank[root2]) {
+            } else if (rank[root1] &lt; rank[root2]) {
                 parent[root1] = root2;
             } else {
                 parent[root2] = root1;
@@ -814,54 +814,55 @@ public:
             }
         }
     }
-
+\/
     bool connected(int element1, int element2) {
         return find(element1) == find(element2);
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class UnionFind:
     def __init__(self, size):
         self.parent = list(range(size))
         self.rank = [1] * size
-
+\/
     def find(self, element):
         if self.parent[element] != element:
             self.parent[element] = self.find(self.parent[element]) # Path compression
         return self.parent[element]
-
+\/
     def union(self, element1, element2):
         root1 = self.find(element1)
         root2 = self.find(element2)
-
+\/
         # Weighted quick union
         if root1 != root2:
             if self.rank[root1] > self.rank[root2]:
                 self.parent[root2] = root1
-            elif self.rank[root1] < self.rank[root2]:
+            elif self.rank[root1] &lt; self.rank[root2]:
                 self.parent[root1] = root2
             else:
                 self.parent[root2] = root1
                 self.rank[root1] += 1
-
+\/
     def connected(self, element1, element2):
         return self.find(element1) == self.find(element2)
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ## 4 Bags, Queues and Stacks
 
 <list>
 <li>
-<p><format color="Fuchsia">Stack:</format> Examine the item most 
-recently added (LIFO: last in first out).</p>
+    <p><format color="Fuchsia">Stack:</format> Examine the item most 
+    recently added (LIFO: last in first out).</p>
 </li>
 <li>
-<p><format color="Fuchsia">Queue:</format> Examine the item least 
-recently added (FIFO: first in first out).</p>
+    <p><format color="Fuchsia">Queue:</format> Examine the item least 
+    recently added (FIFO: first in first out).</p>
 </li>
 </list>
 
@@ -869,255 +870,250 @@ recently added (FIFO: first in first out).</p>
 
 <p><format color="BlueViolet">Defintion:</format> </p>
 
-<list>
+<list type="bullet">
 <li>
-<p><format color="DarkOrange">Client:</format> program using 
-operations defined in interface.</p>
+    <p><format color="DarkOrange">Client:</format> program using 
+    operations defined in interface.</p>
 </li>
 <li>
-<p><format color="DarkOrange">Implementation:</format> actual code 
-implementing operations.</p>
+    <p><format color="DarkOrange">Implementation:</format> actual code 
+    implementing operations.</p>
 </li>
 <li>
-<p><format color="DarkOrange">Interface:</format> description of 
-data types, basic operations.</p>
+    <p><format color="DarkOrange">Interface:</format> description of 
+    data types, basic operations.</p>
 </li>
 </list>
 
-<p>Separate interface from implementation.</p>
+<p>Separate interface from implementation!</p>
 
 <p><format color = "BlueViolet">Benefits</format>: </p>
 
-<list>
+<list type="bullet">
 <li>
-<p>Clients can't know details of implementation =&gt;
-client has many implementation from which to choose.</p>
+    <p><format color="Fuchsia">Clients can't know details of 
+    implementation</format> =&gt; client has many implementation from 
+    which to choose.</p>
 </li>
 <li>
-<p>Implementation can't know details of client needs =&gt;
-many clients can re-use the same implementation.</p>
+    <p><format color="Fuchsia">Implementation can't know details of 
+    client needs</format> =&gt; many clients can re-use the same 
+    implementation.</p>
 </li>
 <li>
-<p><format color="Fuchsia">Design</format>: creates modular,
-reusable libraries.</p>
+    <p><format color="Fuchsia">Design:</format> creates modular,
+    reusable libraries.</p>
 </li>
 <li>
-<p><format color="Fuchsia">Performance</format>: use optimized
-implementation where it matters.</p>
+    <p><format color="Fuchsia">Performance:</format> use optimized
+    implementation where it matters.</p>
 </li>
 </list>
 
 #### 4.1.1 Built-In Stacks
 
-<note>
-<p>This is the use of built-in stacks.</p>
-</note>
-
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.Stack;
-
+\/
 public class StackExample {
     public static void main(String[] args) {
-        Stack<Integer> stack = new Stack<>();
-
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+\/
         stack.push(1);
         stack.push(2);
         stack.push(3);
-
+\/
         System.out.println(stack.pop()); // Outputs 3
         System.out.println(stack.pop()); // Outputs 2
-
+\/
         System.out.println(stack.peek()); // Outputs 1
-
+\/
         System.out.println(stack.empty()); 
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <stack>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;stack&gt;
+\/
 int main() {
-    std::stack<int> stack;
-
+    std::stack&lt;int&gt; stack;
+\/
     // Push elements to the stack
     stack.push(1);
     stack.push(2);
     stack.push(3);
-
-    std::cout << stack.top() << std::endl; 
+\/
+    std::cout &lt;&lt; stack.top() &lt;&lt; std::endl; 
     stack.pop();
-    std::cout << stack.top() << std::endl; 
+    std::cout &lt;&lt; stack.top() &lt;&lt; std::endl; 
     stack.pop();
-
-    std::cout << stack.top() << std::endl; 
-    std::cout << (stack.empty() ? "true" : "false") << std::endl;
-
+\/
+    std::cout &lt;&lt; stack.top() &lt;&lt; std::endl; 
+    std::cout &lt;&lt; (stack.empty() ? "true" : "false") &lt;&lt; std::endl;
+\/
     return 0;
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 stack = []
-
+\/
 stack.append(1)
 stack.append(2)
 stack.append(3)
-
+\/
 print(stack.pop())  
 print(stack.pop())
-
-print(stack[-1]) 
-
-print(len(stack) == 0) 
-```
+\/
+print(stack[-1])
+\/
+print(len(stack) == 0)
+</code-block>
+    </tab>
+</tabs>
 
 #### 4.1.2 Linked-List Implementation
 
 <procedure title = "Stack pop">
 <step>
-    Save item to return.
+    <p>Save item to return.</p>
 </step>
 <step>
-    Delete first node.
+    <p>Delete first node.</p>
 </step>
 <step>
-    Return saved item.
+    <p>Return saved item.</p>
 </step>
-<img src="../images_data/d4-1-1.png" alt="Stack pop" 
-style="inline"/>
+<img src="../images_data/d4-1-1.png" alt="Stack pop"/>
 </procedure>
 
 <procedure title="Stack push">
 <step>
-    Save a link to the list.
+    <p>Save a link to the list.</p>
 </step>
 <step>
-    Create a new node for the beginning.
+    <p>Create a new node for the beginning.</p>
 </step>
 <step>
-    Set the instance variables in the new node.
+    <p>Set the instance variables in the new node.</p>
 </step>
-<img src="../images_data/d4-1-2.png" alt="Stack push" 
-style="inline"/>
+<img src="../images_data/d4-1-2.png" alt="Stack push"/>
 </procedure>
 
 <p><format color = "BlueViolet">Properties:</format> </p>
 
 <list>
 <li>
-<p>Every operation takes constant time in the worst case.</p>
+    <p>Every operation takes constant time in the worst case.</p>
 </li>
 <li>
-<p>A stack with <math>N</math> items uses <math>\sim 40N</math> bytes
+    <p>A stack with <math>N</math> items uses <math>\sim 40N</math>
+    bytes.
 .</p>
 </li>
 </list>
 
 <img src="../images_data/d4-1-3.png" alt="Stroage Structure"/>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class LinkedStackOfStrings {
     private Node first = null;
-
+\/
     private class Node {
         String item;
         Node next;
     }
-
+\/
     public boolean isEmpty() {
         return first == null;
     }
-
+\/
     public void push(String item) {
         Node oldFirst = first;
         first = new Node();
         first.item = item;
         first.next = oldFirst;
     }
-
+\/
     public String pop() {
         String item = first.item;
         first = first.next;
         return item;
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+\/
 struct Node {
     int data;
     Node* next;
 };
-
+\/
 class Stack {
 private:
     Node* topNode;
-
+\/
 public:
     Stack() : topNode(nullptr) {}
-
+\/
     void push(int data) {
         Node* newNode = new Node();
-        newNode->data = data;
-        newNode->next = topNode;
+        newNode-&gt;data = data;
+        newNode-&gt;next = topNode;
         topNode = newNode;
     }
-
+\/
     void pop() {
         if (isEmpty()) {
-            std::cout << "Stack is empty.\n";
+            std::cout &lt;&lt; "Stack is empty.\n";
             return;
         }
         Node* tempNode = topNode;
-        topNode = topNode->next;
+        topNode = topNode-&gt;next;
         delete tempNode;
     }
-
+\/
     int top() {
         if (isEmpty()) {
-            std::cout << "Stack is empty.\n";
+            std::cout &lt;&lt; "Stack is empty.\n";
             return -1;
         }
-        return topNode->data;
+        return topNode-&gt;data;
     }
-
+\/
     bool isEmpty() {
         return topNode == nullptr;
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class Node:
     def __init__(self, data=None):
         self.data = data
         self.next = None
-
+\/
 class Stack:
     def __init__(self):
         self.top = None
-
+\/
     def push(self, data):
         new_node = Node(data)
         new_node.next = self.top
         self.top = new_node
-
+\/
     def pop(self):
         if self.is_empty():
             return None
@@ -1125,15 +1121,17 @@ class Stack:
         self.top = self.top.next
         pop_node.next = None
         return pop_node.data
-
+\/
     def top(self):
         if self.is_empty():
             return None
         return self.top.data
-
+\/
     def is_empty(self):
         return self.top is None
-```
+    </code-block>
+    </tab>
+</tabs>
 
 #### 4.1.3 Resizing-Array Implementation
 
@@ -1143,10 +1141,10 @@ represent a stack with <math>N</math> items.</p>
 
 <list type = "bullet">
 <li>
-<p><math>\sim 8N</math> when full.</p>
+    <p><math>\sim 8N</math> when full.</p>
 </li>
 <li>
-<p><math>\sim 32N</math> when one-quarter full.</p>
+    <p><math>\sim 32N</math> when one-quarter full.</p>
 </li>
 </list>
 
@@ -1167,156 +1165,209 @@ represent a stack with <math>N</math> items.</p>
 </tr>
 </table>
 
-Java
-
-```Java
-public class ResizingArrayStackOfStrings {
-    private String[] s;
-    private int N = 0;
-
-    public ResizingArrayStackOfStrings() {
-        s = new String[1];
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.ArrayList;
+import java.util.EmptyStackException;
+import java.util.List;
+\/
+public class ResizingArrayStack&lt;T> {
+\/
+    private List&lt;T&gt; items; 
+\/
+    public ResizingArrayStack() {
+        items = new ArrayList&lt;>();
     }
-
+\/
+    public void push(T item) {
+        items.add(item); 
+    }
+\/
+    public T pop() {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return items.remove(items.size() - 1); 
+    }
+\/
     public boolean isEmpty() {
-        return N == 0;
+        return items.isEmpty();
     }
-
-    public void push(String item) {
-        if (N == s.length) {
-            resize(2 * s.length);
-        }
-        s[N++] = item;
-    }
-
-    public String pop() {
-        String item = s[--N];
-        s[N] = null;
-        if (N > 0 && N == s.length / 4) {
-            resize(s.length / 2);
-        }
-        return item;
-    }
-
-    private void resize(int capacity) {
-        String[] copy = new String[capacity];
-        for (int i = 0; i < N; i++) {
-            copy[i] = s[i];
-        }
-        s = copy;
+\/
+    public int size() {
+        return items.size();
     }
 }
-```
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;vector&gt;
+#include &lt;stdexcept&gt;
+\/
+template &lt;typename T&gt;
+class ResizingArrayStack {
+private:
+    std::vector&lt;T&gt; items;
+\/
+public:
+    ResizingArrayStack() = default;
+\/
+    void push(const T& item) {
+        items.push_back(item);
+    }
+\/
+    T pop() {
+        if (isEmpty()) {
+            throw std::out_of_range("Stack is empty");
+        }
+        T item = items.back();
+        items.pop_back();
+        return item;
+    }
+\/
+    [[nodiscard]] bool isEmpty() const {
+        return items.empty();
+    }
+\/
+    [[nodiscard]] int size() const {
+        return items.size();
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class ResizingArrayStack:
+    def __init__(self):
+        self.items = []  # Using a list (like ArrayList in Java)
+\/
+    def push(self, item):
+        self.items.append(item)
+\/
+    def pop(self):
+        if self.is_empty():
+            raise IndexError("Stack is empty")  # Use IndexError for empty stack
+        return self.items.pop()
+\/
+    def is_empty(self):
+        return len(self.items) == 0
+\/
+    def size(self):
+        return len(self.items)
+    </code-block>
+    </tab>
+</tabs>
 
 ### 4.2 Queues
 
 #### 4.2.1 Built-in Queues
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.LinkedList;
 import java.util.Queue;
-
+\/
 public class QueueExample {
     public static void main(String[] args) {
-        Queue<Integer> queue = new LinkedList<>();
-
+        Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+\/
         queue.add(1);
         queue.add(2);
         queue.add(3);
-
-        System.out.println(queue.poll());
-
-        System.out.println(queue.peek()); 
-
-        System.out.println(queue.isEmpty());
+\/
+        System.out.println(queue.poll()); // Outputs 1
+\/
+        System.out.println(queue.peek()); // Outputs 2
+\/
+        System.out.println(queue.isEmpty()); // Outputs false
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <queue>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;queue&gt;
+\/
 int main() {
-    std::queue<int> q;
-
+    std::queue&lt;int&gt; q;
+\/
     q.push(1);
     q.push(2);
     q.push(3);
-
-    std::cout << q.front() << std::endl; 
+\/
+    std::cout &lt;&lt; q.front() &lt;&lt; std::endl; 
     q.pop();
-
-    std::cout << (q.empty() ? "true" : "false") << std::endl; 
-
+\/
+    std::cout &lt;&lt; (q.empty() ? "true" : "false") &lt;&lt; std::endl; 
+\/
     return 0;
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 import queue
-
+\/
 q = queue.Queue()
-
+\/
 q.put(1)
 q.put(2)
 q.put(3)
-
-print(q.get())  
-
-print(q.empty()) 
-```
+\/
+print(q.get())
+\/
+print(q.empty())
+    </code-block>
+    </tab>
+</tabs>
 
 #### 4.2.2 Queue Implementation
 
-<procedure title = "Queue dequeue">
+<procedure title="Queue dequeue">
 <step>
-    Save item to return.
+    <p>Save item to return.</p>
 </step>
 <step>
-    Delete first node.
+    <p>Delete first node.</p>
 </step>
 <step>
-    Return saved item.
+    <p>Return saved item.</p>
 </step>
-<img src="../images_data/d4-2-1.png" alt="Queue dequeue" style=
-"inline"/>
+<img src="../images_data/d4-2-1.png" alt="Queue dequeue"/>
 </procedure>
 
 <procedure title="Queue enqueue">
 <step>
-    Save a link to the last node.
+    <p>Save a link to the last node.</p>
 </step>
 <step>
-    Create a new node for the end.
+    <p>Create a new node for the end.</p>
 </step>
 <step>
-    Link the new node to the end of the list.
+    <p>Link the new node to the end of the list.</p>
 </step>
-<img src="../images_data/d4-2-2.png" alt="Queue enqueue" style="inline"/>
+<img src="../images_data/d4-2-2.png" alt="Queue enqueue"/>
 </procedure>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class LinkedQueueOfStrings {
     private Node first, last;
-
+\/
     private class Node {
         String item;
         Node next;
     }
-
+\/
     public boolean isEmpty() {
         return first == null;
     }
-
+\/
     public void enqueue(String item) {
         Node oldLast = last;
         last = new Node();
@@ -1328,7 +1379,7 @@ public class LinkedQueueOfStrings {
             oldLast.next = last;
         }
     }
-
+\/
     public String dequeue() {
         String item = first.item;
         first = first.next;
@@ -1338,253 +1389,254 @@ public class LinkedQueueOfStrings {
         return item;
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+\/
 struct Node {
     int data;
     Node* next;
 };
-
+\/
 class Queue {
 private:
     Node* front;
     Node* rear;
-
+\/
 public:
     Queue() : front(nullptr), rear(nullptr) {}
-
+\/
     void enqueue(int data) {
         Node* newNode = new Node();
         newNode->data = data;
         newNode->next = nullptr;
-
+\/
         if (rear == nullptr) {
             front = rear = newNode;
             return;
         }
-
+\/
         rear->next = newNode;
         rear = newNode;
     }
-
+\/
     void dequeue() {
         if (front == nullptr) {
-            std::cout << "Queue is empty.\n";
+            std::cout &lt;&lt; "Queue is empty.\n";
             return;
         }
-
+\/
         Node* tempNode = front;
         front = front->next;
-
+\/
         if (front == nullptr) {
             rear = nullptr;
         }
-
+\/
         delete tempNode;
     }
-
+\/
     int peek() {
         if (front == nullptr) {
-            std::cout << "Queue is empty.\n";
+            std::cout &lt;&lt; "Queue is empty.\n";
             return -1;
         }
         return front->data;
     }
-
+\/
     bool isEmpty() {
         return front == nullptr;
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class Node:
     def __init__(self, data=None):
         self.data = data
         self.next = None
-
+\/
 class Queue:
     def __init__(self):
         self.front = self.rear = None
-
+\/
     def is_empty(self):
         return self.front is None
-
+\/
     def enqueue(self, data):
         new_node = Node(data)
-
+\/
         if self.rear is None:
             self.front = self.rear = new_node
             return
-
+\/
         self.rear.next = new_node
         self.rear = new_node
-
+\/
     def dequeue(self):
         if self.is_empty():
             return None
-
+\/
         temp = self.front
         self.front = temp.next
-
+\/
         if self.front is None:
             self.rear = None
-
+\/
         return temp.data
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 4.3 Generics
 
-Java
-
-```Java
-public class Stack<Item> {
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+public class Stack&lt;Item&gt; {
     private Node first = null;
-
+\/
     private class Node {
         Item item;
         Node next;
     }
-
+\/
     public boolean isEmpty() {
         return first == null;
     }
-
+\/
     public void push(Item item) {
         Node oldFirst = first;
         first = new Node();
         first.item = item;
         first.next = oldFirst;
     }
-
+\/
     public Item pop() {
         Item item = first.item;
         first = first.next;
         return item;
     }
 }
-```
-
-C++
-
-```C++
-#include <vector>
-
-template<typename T>
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;vector&gt;
+\/
+template&lt;typename T&gt;
 class Stack {
 private:
-    std::vector<T> elements;
-
+    std::vector&lt;T&gt; elements;
+\/
 public:
     void push(T const& element) {
         elements.push_back(element);
     }
-
+\/
     void pop() {
         if (elements.empty()) {
-            throw std::out_of_range("Stack<>::pop(): empty stack");
+            throw std::out_of_range("Stack&lt;&gt;::pop(): empty stack");
         }
         elements.pop_back();
     }
-
+\/
     T top() const {
         if (elements.empty()) {
-            throw std::out_of_range("Stack<>::top(): empty stack");
+            throw std::out_of_range("Stack&lt;&gt;::top(): empty stack");
         }
         return elements.back();
     }
-
+\/
     bool empty() const {
         return elements.empty();
     }
 };
-```
-
-> The following code may get a warning about unchecked cast.
->
-> This is because Java does not allow generic array creation.
->
-{style = "warning"}
-
-Java
-
-```Java
-public class FixedCapacityStack<Item> {
+    </code-block>
+    </tab>
+    <tab title="Java (Fixed Capacity Tsack)">
+    <code-block lang="python" collapsible="true">
+public class FixedCapacityStack&lt;Item&gt; {
     private Item[] s;
     private int N = 0;
-
+\/
     public FixedCapacityStack(int capacity) {
         s = (Item[]) new Object[capacity];
     }
-
+\/
     public boolean isEmpty() {
         return N == 0;
     }
-
+\/
     public void push(Item item) {
         s[N++] = item;
     }
-
+\/
     public Item pop() {
         return s[--N];
     }
-```
+}
+    </code-block>
+    </tab>
+</tabs>
+
+<warning>
+<p>The fixed-capacity-stack code may get a warning about unchecked 
+cast.</p>
+<p>This is because Java does not allow generic array creation.</p>
+</warning>
 
 ### 4.4 Iterators
 
-> This is the linked-list implementation of stacks with
-> iterators.
->
-{style = "note"}
+<note>
+<p>This is the linked-list implementation of stacks with iterators.
+</p>
+</note>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.Iterator;
-
-public class Stack<Item> implements Iterable<Item> {
+\/
+public class Stack&lt;Item&gt; implements Iterable&lt;Item&gt; {
     private Node first = null;
-
+\/
     private class Node {
         Item item;
         Node next;
     }
-
+\/
     public boolean isEmpty() {
         return first == null;
     }
-
+\/
     public void push(Item item) {
         Node oldFirst = first;
         first = new Node();
         first.item = item;
         first.next = oldFirst;
     }
-
+\/
     public Item pop() {
         Item item = first.item;
         first = first.next;
         return item;
     }
-
-    public Iterator<Item> iterator() {
+\/
+    public Iterator&lt;Item&gt; iterator() {
         return new ListIterator();
     }
-
-    private class ListIterator implements Iterator<Item> {
+\/
+    private class ListIterator implements Iterator&lt;Item&gt; {
         private Node current = first;
-
+\/
         public boolean hasNext() {
             return current != null;
         }
-
+\/
         public Item next() {
             Item item = current.item;
             current = current.next;
@@ -1592,113 +1644,114 @@ public class Stack<Item> implements Iterable<Item> {
         }
     }
 }
-```
+    </code-block>
+    </tab>
+</tabs>
 
-> This is the array implementation of stacks with
-> iterators.
->
-{style = "note"}
+<note>
+<p>This is the array implementation of stacks with iterators.</p>
+</note>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.Iterator;
-
-public class Stack<Item> implements Iterable<Item> {
+\/
+public class Stack&lt;Item&gt; implements Iterable&lt;Item&gt; {
     private Item[] s;
     private int N = 0;
-
+\/
     public Stack(int capacity) {
         s = (Item[]) new Object[capacity];
     }
-
+\/
     public boolean isEmpty() {
         return N == 0;
     }
-
+\/
     public void push(Item item) {
         s[N++] = item;
     }
-
+\/
     public Item pop() {
         return s[--N];
     }
-
-    public Iterator<Item> iterator() {
+\/
+    public Iterator&lt;Item&gt; iterator() {
         return new ReverseArrayIterator();
     }
-
-    private class ReverseArrayIterator implements Iterator<Item> {
+\/
+    private class ReverseArrayIterator implements Iterator&lt;Item&gt; {
         private int i = N;
-
+\/
         public boolean hasNext() {
-            return i > 0;
+            return i &gt; 0;
         }
-
+\/
         public Item next() {
             return s[--i];
         }
     }
 }
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 4.5 Bag (Princeton)
 
-> The order of items in a bag does not matter.
->
-{style = "note"}
+<p>The order of items in a bag does not matter.</p>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-public class Bag<Item> implements Iterable<Item> {
-    private Node<Item> first;  
-    private int n;               
-
-    private static class Node<Item> {
+\/
+public class Bag&lt;Item&gt; implements Iterable&lt;Item&gt; {
+    private Node&lt;Item&gt; first;  
+    private int n;
+\/
+    private static class Node&lt;Item&gt; {
         private Item item;
-        private Node<Item> next;
+        private Node&lt;Item&gt; next;
     }
-
+\/
     public Bag() {
         first = null;
         n = 0;
     }
-
+\/
     public boolean isEmpty() {
         return first == null;
     }
-
+\/
     public int size() {
         return n;
     }
-
+\/
     public void add(Item item) {
-        Node<Item> oldfirst = first;
-        first = new Node<Item>();
+        Node&lt;Item&gt; oldfirst = first;
+        first = new Node&lt;Item&gt;();
         first.item = item;
         first.next = oldfirst;
         n++;
     }
-
-    public Iterator<Item> iterator()  {
+\/
+    public Iterator&lt;Item&gt; iterator()  {
         return new LinkedIterator(first);
     }
-
-    private class LinkedIterator implements Iterator<Item> {
-        private Node<Item> current;
-
-        public LinkedIterator(Node<Item> first) {
+\/
+    private class LinkedIterator implements Iterator&lt;Item&gt; {
+        private Node&lt;Item&gt; current;
+\/
+        public LinkedIterator(Node&lt;Item&gt; first) {
             current = first;
         }
-
+\/
         public boolean hasNext()  {
             return current != null;
         }
-
+\/
         public Item next() {
             if (!hasNext()) throw new NoSuchElementException();
             Item item = current.item;
@@ -1707,95 +1760,112 @@ public class Bag<Item> implements Iterable<Item> {
         }
     }
 }
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ## 5 Elementary Sorts
 
 ### 5.1 Selection Sort
 
-* Time Complexity: <math>O(N^2)</math>.
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Time Complexity:</format> <math>O(N^
+    2)</math>.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Space Complexity:</format> <math>O(1)
+    </math>.</p>
+</li>
+</list>
 
-* Space Complexity: <math>O(1)</math>.
-
-<procedure title = "Basic Plan of Selection Sort">
+<procedure title = "Selection Sort">
 <step>
-    In iteration <math>i</math>, find index <math>min</math> of smallest remaining entry.
+    <p>In iteration <math>i</math>, find index <math>min</math> of 
+    smallest remaining entry.</p>
 </step>
 <step>
-    Swap <code>a[i]</code> and <code>a[min]</code>.
+    <p>Swap <code>a[i]</code> and <code>a[min]</code>.</p>
 </step>
 </procedure>
 
-Property:
+<p><format color="BlueViolet">Properties:</format> </p>
 
-* Use <math>\frac {N^{2}} {2}</math> compares and <math>N</math> exchanges.
+<list type="bullet">
+<li>
+    <p>Use <math>\frac {N^{2}} {2}</math> compares and <math>N
+    </math> exchanges.</p>
+</li>
+<li>
+    <p>Quadratic time, even if the input is sorted!</p>
+</li>
+<li>
+    <p>Data movement is minimal: linear number of exchanges -&gt; 
+    suitable for small number of data.</p>
+</li>
+</list>
 
-* Quadratic time, even if the input is sorted!
-
-* Data movement is minimal: linear number of exchanges -> suitable for small number of data.
-
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class Selection {
     public static void sort(Comparable[] a) {
         int n = a.length;
-
-        for (int i = 0; i < n; i++) {
+\/
+        for (int i = 0; i &lt; n; i++) {
             int min = i;
-
-            for (int j = i + 1; j < n; j++) {
+\/
+            for (int j = i + 1; j &lt; n; j++) {
                 if (less(a[j], a[min])) {
                     min = j;
                 }
             }
-
+\/
             exch(a, i, min);
         }
     }
-
+\/
     private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
+        return v.compareTo(w) &lt; 0;
     }
-
+\/
     private static void exch(Comparable[] a, int i, int j) {
         Comparable temp = a[i];
         a[i] = a[j];
         a[j] = temp;
     }
 }
-```
-
-C++
-
-```C++
-#include <algorithm>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;algorithm&gt;
+\/
 void selectionSort(int arr[], int n) {
-    for (int i = 0; i < n - 1; i++) {
+    for (int i = 0; i &lt; n - 1; i++) {
         int minIndex = i;
-        for (int j = i + 1; j < n; j++) {
-            if (arr[j] < arr[minIndex]) {
+        for (int j = i + 1; j &lt; n; j++) {
+            if (arr[j] &lt; arr[minIndex]) {
                 minIndex = j;
             }
         }
-        std::swap(arr[minIndex], arr[i]);
+    std::swap(arr[minIndex], arr[i]);
     }
 }
-```
-
-Python
-
-```Python
-# Python Implementation
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 def selection_sort(arr):
     for i in range(len(arr)):
         min_index = i
         for j in range(i+1, len(arr)):
-            if arr[j] < arr[min_index]:
+            if arr[j] &lt; arr[min_index]:
                 min_index = j
         arr[i], arr[min_index] = arr[min_index], arr[i]
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 5.2 Insertion Sort {id="insertion-sort"}
 
