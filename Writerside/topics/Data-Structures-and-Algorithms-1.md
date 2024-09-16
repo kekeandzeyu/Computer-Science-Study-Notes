@@ -1302,7 +1302,7 @@ print(len(stack) == 0)
 
 #### 4.1.2 Linked-List Implementation
 
-<procedure title = "Stack pop">
+<procedure title="Stack pop">
 <step>
     <p>Save item to return.</p>
 </step>
@@ -1346,29 +1346,76 @@ print(len(stack) == 0)
 <tabs>
     <tab title="Java">
     <code-block lang="java" collapsible="true">
-public class LinkedStackOfStrings {
-    private Node first = null;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+\/
+public class LinkedStack&lt;Item&gt; implements Iterable&lt;Item&gt; {
+    private int n;
+    private Node first;
 \/
     private class Node {
-        String item;
-        Node next;
+        private Item item;
+        private Node next;
+    }
+\/
+    public LinkedStack() {
+        first = null;
+        n = 0;
     }
 \/
     public boolean isEmpty() {
         return first == null;
     }
 \/
-    public void push(String item) {
-        Node oldFirst = first;
-        first = new Node();
-        first.item = item;
-        first.next = oldFirst;
+    public int size() {
+        return n;
     }
 \/
-    public String pop() {
-        String item = first.item;
-        first = first.next;
-        return item;
+    public void push(Item item) {
+        Node oldfirst = first;
+        first = new Node();
+        first.item = item;
+        first.next = oldfirst;
+        n++;
+    }
+\/
+    public Item pop() {
+        if (isEmpty()) throw new NoSuchElementException("Stack underflow");
+        Item item = first.item;        
+        first = first.next;            
+        n--;
+        return item;                  
+    }
+\/
+    public Item peek() {
+        if (isEmpty()) throw new NoSuchElementException("Stack underflow");
+        return first.item;
+    }
+\/
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (Item item : this)
+            s.append(item).append(" ");
+        return s.toString();
+    }
+\/
+    public Iterator&lt;Item&gt; iterator() {
+        return new LinkedIterator();
+    }
+\/
+    private class LinkedIterator implements Iterator&lt;Item&gt; {
+        private Node current = first;
+\/
+        public boolean hasNext() {
+            return current != null;
+        }
+\/
+        public Item next() {
+            if (!hasNext()) throw new NoSuchElementException();
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
     }
 }
     </code-block>
@@ -1376,46 +1423,80 @@ public class LinkedStackOfStrings {
     <tab title="C++">
     <code-block lang="c++" collapsible="true">
 #include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
 \/
-struct Node {
-    int data;
-    Node* next;
-};
-\/
-class Stack {
+template &lt;typename Item&gt;
+class LinkedStack {
 private:
-    Node* topNode;
+    struct Node {
+        Item item;
+        Node* next;
+    };
 \/
+    int n;
+    Node* first;
+\/  
 public:
-    Stack() : topNode(nullptr) {}
+    LinkedStack() : n(0), first(nullptr) {}
 \/
-    void push(int data) {
-        Node* newNode = new Node();
-        newNode-&gt;data = data;
-        newNode-&gt;next = topNode;
-        topNode = newNode;
+    [[nodiscard]] bool isEmpty() const {
+        return first == nullptr;
     }
 \/
-    void pop() {
-        if (isEmpty()) {
-            std::cout &lt;&lt; "Stack is empty.\n";
-            return;
+    [[nodiscard]] int size() const {
+        return n;
+    }
+\/
+    void push(const Item& item) {
+        Node* oldfirst = first;
+        first = new Node();
+        first-&gt;item = item;
+        first-&gt;next = oldfirst;
+        n++;
+    }
+\/
+    Item pop() {
+        if (isEmpty()) throw std::runtime_error("Stack underflow");
+        Item item = first-&gt;item;
+        const Node* oldfirst = first;
+        first = first-&gt;next;
+        delete oldfirst;
+        n--;
+        return item;
+    }
+\/
+    [[nodiscard]] Item peek() const {
+        if (isEmpty()) throw std::runtime_error("Stack underflow");
+        return first-&gt;item;
+    }
+\/
+    class Iterator {
+    private:
+        Node* current;
+\/
+    public:
+        explicit Iterator(Node* start) : current(start) {}
+\/
+        bool operator!=(const Iterator& other) const {
+            return current != other.current;
         }
-        Node* tempNode = topNode;
-        topNode = topNode-&gt;next;
-        delete tempNode;
-    }
 \/
-    int top() {
-        if (isEmpty()) {
-            std::cout &lt;&lt; "Stack is empty.\n";
-            return -1;
+        Iterator& operator++() {
+            current = current-&gt;next;
+            return *this;
         }
-        return topNode-&gt;data;
+\/
+        Item& operator*() {
+            return current-&gt;item;
+        }
+    };
+\/
+    [[nodiscard]] Iterator begin() const {
+        return Iterator(first);
     }
 \/
-    bool isEmpty() {
-        return topNode == nullptr;
+    [[nodiscard]] Iterator end() const {
+        return Iterator(nullptr);
     }
 };
     </code-block>
@@ -1423,34 +1504,45 @@ public:
     <tab title="Python">
     <code-block lang="python" collapsible="true">
 class Node:
-    def __init__(self, data=None):
-        self.data = data
+    def __init__(self, item):
+        self.item = item
         self.next = None
 \/
-class Stack:
+class LinkedStack:
     def __init__(self):
-        self.top = None
+        self.first = None
+        self.n = 0
 \/
-    def push(self, data):
-        new_node = Node(data)
-        new_node.next = self.top
-        self.top = new_node
+    def is_empty(self):
+        return self.first is None
+\/
+    def size(self):
+        return self.n
+\/
+    def push(self, item):
+        oldfirst = self.first
+        self.first = Node(item)
+        self.first.next = oldfirst
+        self.n += 1
 \/
     def pop(self):
         if self.is_empty():
-            return None
-        pop_node = self.top
-        self.top = self.top.next
-        pop_node.next = None
-        return pop_node.data
+            raise Exception("Stack underflow")
+        item = self.first.item
+        self.first = self.first.next
+        self.n -= 1
+        return item
 \/
-    def top(self):
+    def peek(self):
         if self.is_empty():
-            return None
-        return self.top.data
+            raise Exception("Stack underflow")
+        return self.first.item
 \/
-    def is_empty(self):
-        return self.top is None
+    def __iter__(self):
+        current = self.first
+        while current:
+            yield current.item
+            current = current.next
     </code-block>
     </tab>
 </tabs>
@@ -1477,8 +1569,8 @@ represent a stack with <math>N</math> items.</p>
 </tr>
 <tr>
     <td>Every operation takes constant time in the <format 
-    color="OrangeRed">worst case.</format></td>
-    <td>Every operation takes constant <format color = "OrangeRed">
+    color="OrangeRed">worst case</format>.</td>
+    <td>Every operation takes constant <format color="OrangeRed">
     amortized</format> time.</td>
 </tr>
 <tr>
@@ -1490,94 +1582,166 @@ represent a stack with <math>N</math> items.</p>
 <tabs>
     <tab title="Java">
     <code-block lang="java" collapsible="true">
-import java.util.ArrayList;
-import java.util.EmptyStackException;
-import java.util.List;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 \/
-public class ResizingArrayStack&lt;T> {
+public class ResizingArrayStack&lt;Item&gt; implements Iterable&lt;Item&gt; {
+    private static final int INIT_CAPACITY = 8;
 \/
-    private List&lt;T&gt; items; 
+    private Item[] a;
+    private int n;
 \/
     public ResizingArrayStack() {
-        items = new ArrayList&lt;>();
-    }
-\/
-    public void push(T item) {
-        items.add(item); 
-    }
-\/
-    public T pop() {
-        if (isEmpty()) {
-            throw new EmptyStackException();
-        }
-        return items.remove(items.size() - 1); 
+        a = (Item[]) new Object[INIT_CAPACITY];
+        n = 0;
     }
 \/
     public boolean isEmpty() {
-        return items.isEmpty();
+        return n == 0;
     }
 \/
     public int size() {
-        return items.size();
+        return n;
+    }
+\/
+    private void resize(int capacity) {
+        assert capacity &gt;= n;
+        a = java.util.Arrays.copyOf(a, capacity);
+        // textbook implementation
+        // Item[] copy = (Item[]) new Object[capacity];
+        // for (int i = 0; i &lt; n; i++) {
+        //     copy[i] = a[i];
+        // }
+        // a = copy;
+    }
+\/
+    public void push(Item item) {
+        if (n == a.length) resize(2*a.length);    // double size of array if necessary
+        a[n++] = item;                            // add item
+    }
+\/
+    public Item pop() {
+        if (isEmpty()) throw new NoSuchElementException("Stack underflow");
+        Item item = a[n-1];
+        a[n-1] = null;                              // to avoid loitering
+        n--;
+        // shrink size of array if necessary
+        if (n &gt; 0 && n == a.length/4) resize(a.length/2);
+        return item;
+    }
+\/
+    public Item peek() {
+        if (isEmpty()) throw new NoSuchElementException("Stack underflow");
+        return a[n-1];
+    }
+\/
+    public Iterator&lt;Item&gt; iterator() {
+        return new ReverseArrayIterator();
+    }
+\/
+    private class ReverseArrayIterator implements Iterator&lt;Item&gt; {
+        private int i;
+\/
+        public ReverseArrayIterator() {
+            i = n-1;
+        }
+\/
+        public boolean hasNext() {
+            return i &gt;= 0;
+        }
+\/
+        public Item next() {
+            if (!hasNext()) throw new NoSuchElementException();
+            return a[i--];
+        }
     }
 }
     </code-block>
     </tab>
     <tab title="C++">
     <code-block lang="c++" collapsible="true">
+// no iterator for C++
+#include &lt;iostream&gt;
 #include &lt;vector&gt;
 #include &lt;stdexcept&gt;
 \/
-template &lt;typename T&gt;
+template &lt;typename Item&gt;
 class ResizingArrayStack {
 private:
-    std::vector&lt;T&gt; items;
+    static constexpr int INIT_CAPACITY = 8;
+    std::vector&lt;Item&gt; a;
+    int n;
 \/
 public:
-    ResizingArrayStack() = default;
-\/
-    void push(const T& item) {
-        items.push_back(item);
-    }
-\/
-    T pop() {
-        if (isEmpty()) {
-            throw std::out_of_range("Stack is empty");
-        }
-        T item = items.back();
-        items.pop_back();
-        return item;
-    }
+    ResizingArrayStack() : a(INIT_CAPACITY), n(0) {}
 \/
     [[nodiscard]] bool isEmpty() const {
-        return items.empty();
+        return n == 0;
     }
 \/
     [[nodiscard]] int size() const {
-        return items.size();
+        return n;
+    }
+\/
+    void push(const Item& item) {
+        if (n == a.size()) resize(2 * a.size());
+        a[n++] = item;
+    }
+\/
+    Item pop() {
+        if (isEmpty()) throw std::runtime_error("Stack underflow");
+        Item item = a[n - 1];
+        a[n - 1] = Item();
+        n--;
+        if (n > 0 && n == a.size() / 4) resize(a.size() / 2);
+        return item;
+    }
+\/
+    [[nodiscard]] Item peek() const {
+        if (isEmpty()) throw std::runtime_error("Stack underflow");
+        return a[n - 1];
+    }
+\/
+private:
+    void resize(int capacity) {
+        a.resize(capacity);
     }
 };
     </code-block>
     </tab>
     <tab title="Python">
     <code-block lang="python" collapsible="true">
+# Python lists handle resizing automatically
 class ResizingArrayStack:
     def __init__(self):
-        self.items = []  # Using a list (like ArrayList in Java)
+        self._a = []
+        self._n = 0 
+\/
+    def is_empty(self):
+        return self._n == 0
+\/
+    def size(self):
+        return self._n
 \/
     def push(self, item):
-        self.items.append(item)
+        if self._n == len(self._a):
+            self._resize(2 * len(self._a))
+        self._a.append(item)  # Python lists handle resizing automatically
+        self._n += 1
 \/
     def pop(self):
         if self.is_empty():
-            raise IndexError("Stack is empty")  # Use IndexError for empty stack
-        return self.items.pop()
+            raise Exception("Stack underflow")
+        self._n -= 1
+        item = self._a.pop()
+        if self._n > 0 and self._n == len(self._a) // 4:
+            self._resize(len(self._a) // 2)
+        return item
 \/
-    def is_empty(self):
-        return len(self.items) == 0
-\/
-    def size(self):
-        return len(self.items)
+    def peek(self):
+        if self.is_empty():
+            raise Exception("Stack underflow")
+        return self._a[-1]
     </code-block>
     </tab>
 </tabs>
@@ -1678,37 +1842,81 @@ print(q.empty())
 <tabs>
     <tab title="Java">
     <code-block lang="java" collapsible="true">
-public class LinkedQueueOfStrings {
-    private Node first, last;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+\/
+public class LinkedQueue&lt;Item&gt; implements Iterable&lt;Item&gt; {
+    private int n;
+    private Node first;
+    private Node last;
 \/
     private class Node {
-        String item;
-        Node next;
+        private Item item;
+        private Node next;
+    }
+\/
+    public LinkedQueue() {
+        first = null;
+        last = null;
+        n = 0;
     }
 \/
     public boolean isEmpty() {
         return first == null;
     }
 \/
-    public void enqueue(String item) {
-        Node oldLast = last;
+    public int size() {
+        return n;
+    }
+\/
+    public Item peek() {
+        if (isEmpty()) throw new NoSuchElementException("Queue underflow");
+        return first.item;
+    }
+\/
+    public void enqueue(Item item) {
+        Node oldlast = last;
         last = new Node();
         last.item = item;
         last.next = null;
-        if (isEmpty()) {
-            first = last;
-        } else {
-            oldLast.next = last;
-        }
+        if (isEmpty()) first = last;
+        else oldlast.next = last;
+        n++;
     }
 \/
-    public String dequeue() {
-        String item = first.item;
+    public Item dequeue() {
+        if (isEmpty()) throw new NoSuchElementException("Queue underflow");
+        Item item = first.item;
         first = first.next;
-        if (isEmpty()) {
-            last = null;
-        }
+        n--;
+        if (isEmpty()) last = null;
         return item;
+    }
+\/
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (Item item : this)
+            s.append(item).append(" ");
+        return s.toString();
+    }
+\/
+    public Iterator&lt;Item&gt; iterator() {
+        return new LinkedIterator();
+    }
+\/
+    private class LinkedIterator implements Iterator&lt;Item&gt; {
+        private Node current = first;
+\/
+        public boolean hasNext() {
+            return current != null;
+        }
+\/
+        public Item next() {
+            if (!hasNext()) throw new NoSuchElementException();
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
     }
 }
     </code-block>
@@ -1716,60 +1924,111 @@ public class LinkedQueueOfStrings {
     <tab title="C++">
     <code-block lang="c++" collapsible="true">
 #include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
 \/
-struct Node {
-    int data;
-    Node* next;
-};
-\/
-class Queue {
+template &lt;typename Item&gt;
+class LinkedQueue {
 private:
-    Node* front;
-    Node* rear;
+    struct Node {
+        Item item;
+        Node* next;
+    };
+\/
+    int n;
+    Node* first;
+    Node* last;
 \/
 public:
-    Queue() : front(nullptr), rear(nullptr) {}
+    LinkedQueue() : n(0), first(nullptr), last(nullptr) {}
 \/
-    void enqueue(int data) {
-        Node* newNode = new Node();
-        newNode->data = data;
-        newNode->next = nullptr;
-\/
-        if (rear == nullptr) {
-            front = rear = newNode;
-            return;
-        }
-\/
-        rear->next = newNode;
-        rear = newNode;
+    [[nodiscard]] bool isEmpty() const {
+        return first == nullptr;
     }
 \/
-    void dequeue() {
-        if (front == nullptr) {
-            std::cout &lt;&lt; "Queue is empty.\n";
-            return;
-        }
-\/
-        Node* tempNode = front;
-        front = front->next;
-\/
-        if (front == nullptr) {
-            rear = nullptr;
-        }
-\/
-        delete tempNode;
+    [[nodiscard]] int size() const {
+        return n;
     }
 \/
-    int peek() {
-        if (front == nullptr) {
-            std::cout &lt;&lt; "Queue is empty.\n";
-            return -1;
-        }
-        return front->data;
+    [[nodiscard]] Item peek() const {
+        if (isEmpty()) throw std::runtime_error("Queue underflow");
+        return first-&gt;item;
     }
 \/
-    bool isEmpty() {
-        return front == nullptr;
+    void enqueue(const Item& item) {
+        Node* oldlast = last;
+        last = new Node;
+        last-&gt;item = item;
+        last-&gt;next = nullptr;
+        if (isEmpty()) first = last;
+        else oldlast-&gt;next = last;
+        n++;
+    }
+\/
+    Item dequeue() {
+        if (isEmpty()) throw std::runtime_error("Queue underflow");
+        Item item = first-&gt;item;
+        const Node* oldfirst = first;
+        first = first-&gt;next;
+        delete oldfirst;
+        n--;
+        if (isEmpty()) last = nullptr;
+        return item;
+    }
+\/
+    friend std::ostream& operator&lt;&lt;(std::ostream& os, const LinkedQueue&lt;Item&gt;& queue) {
+        for (Node* current = queue.first; current != nullptr; current = current-&gt;next) {
+            os &lt;&lt; current-&gt;item &lt;&lt; " ";
+        }
+        return os;
+    }
+\/
+    class Iterator {
+    private:
+        Node* current;
+\/
+    public:
+        explicit Iterator(Node* start) : current(start) {}
+\/
+        [[nodiscard]] bool hasNext() const {
+            return current != nullptr;
+        }
+\/
+        Item next() {
+            if (!hasNext()) throw std::runtime_error("No more elements");
+            Item item = current-&gt;item;
+            current = current-&gt;next;
+            return item;
+        }
+\/
+        [[nodiscard]] Node* getCurrent() const {
+            return current;
+        }
+\/
+        Iterator& operator++() {
+            if (current) {
+                current = current-&gt;next;
+            }
+            return *this;
+        }
+\/
+        Item& operator*() {
+            if (!current) {
+                throw std::runtime_error("Dereferencing invalid iterator");
+            }
+            return current-&gt;item;
+        }
+    };
+\/
+    friend bool operator!=(const Iterator& lhs, const Iterator& rhs) {
+        return lhs.getCurrent() != rhs.getCurrent();
+    }
+\/
+    [[nodiscard]] Iterator begin() const {
+        return Iterator(first);
+    }
+\/
+    [[nodiscard]] Iterator end() const {
+        return Iterator(nullptr);
     }
 };
     </code-block>
@@ -1777,133 +2036,65 @@ public:
     <tab title="Python">
     <code-block lang="python" collapsible="true">
 class Node:
-    def __init__(self, data=None):
-        self.data = data
+    def __init__(self, item):
+        self.item = item
         self.next = None
 \/
-class Queue:
+\/
+class LinkedQueue:
     def __init__(self):
-        self.front = self.rear = None
+        self.n = 0
+        self.first = None
+        self.last = None
 \/
     def is_empty(self):
-        return self.front is None
+        return self.first is None
 \/
-    def enqueue(self, data):
-        new_node = Node(data)
+    def size(self):
+        return self.n
 \/
-        if self.rear is None:
-            self.front = self.rear = new_node
-            return
+    def peek(self):
+        if self.is_empty():
+            raise Exception("Queue underflow")
+        return self.first.item
 \/
-        self.rear.next = new_node
-        self.rear = new_node
+    def enqueue(self, item):
+        oldlast = self.last
+        self.last = Node(item)
+        if self.is_empty():
+            self.first = self.last
+        else:
+            oldlast.next = self.last
+        self.n += 1
 \/
     def dequeue(self):
         if self.is_empty():
-            return None
+            raise Exception("Queue underflow")
+        item = self.first.item
+        self.first = self.first.next
+        self.n -= 1
+        if self.is_empty():
+            self.last = None
+        return item
 \/
-        temp = self.front
-        self.front = temp.next
+    def __iter__(self):
+        current = self.first
+        while current:
+            yield current.item
+            current = current.next
 \/
-        if self.front is None:
-            self.rear = None
-\/
-        return temp.data
+    def __str__(self):
+        return " ".join(str(item) for item in self)
     </code-block>
     </tab>
 </tabs>
 
 ### 4.3 Generics
 
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-public class Stack&lt;Item&gt; {
-    private Node first = null;
-\/
-    private class Node {
-        Item item;
-        Node next;
-    }
-\/
-    public boolean isEmpty() {
-        return first == null;
-    }
-\/
-    public void push(Item item) {
-        Node oldFirst = first;
-        first = new Node();
-        first.item = item;
-        first.next = oldFirst;
-    }
-\/
-    public Item pop() {
-        Item item = first.item;
-        first = first.next;
-        return item;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-#include &lt;vector&gt;
-\/
-template&lt;typename T&gt;
-class Stack {
-private:
-    std::vector&lt;T&gt; elements;
-\/
-public:
-    void push(T const& element) {
-        elements.push_back(element);
-    }
-\/
-    void pop() {
-        if (elements.empty()) {
-            throw std::out_of_range("Stack&lt;&gt;::pop(): empty stack");
-        }
-        elements.pop_back();
-    }
-\/
-    T top() const {
-        if (elements.empty()) {
-            throw std::out_of_range("Stack&lt;&gt;::top(): empty stack");
-        }
-        return elements.back();
-    }
-\/
-    bool empty() const {
-        return elements.empty();
-    }
-};
-    </code-block>
-    </tab>
-    <tab title="Java (Fixed Capacity Tsack)">
-    <code-block lang="python" collapsible="true">
-public class FixedCapacityStack&lt;Item&gt; {
-    private Item[] s;
-    private int N = 0;
-\/
-    public FixedCapacityStack(int capacity) {
-        s = (Item[]) new Object[capacity];
-    }
-\/
-    public boolean isEmpty() {
-        return N == 0;
-    }
-\/
-    public void push(Item item) {
-        s[N++] = item;
-    }
-\/
-    public Item pop() {
-        return s[--N];
-    }
-}
-    </code-block>
-    </tab>
-</tabs>
+<p>Use generics for different types of objects!</p>
+
+<p>The implementation above has already taken generics into account.
+</p>
 
 <warning>
 <p>The fixed-capacity-stack code may get a warning about unchecked 
@@ -1913,111 +2104,23 @@ cast.</p>
 
 ### 4.4 Iterators
 
-<note>
-<p>This is the linked-list implementation of stacks with iterators.
+<p>Iterators allow clients to iterate through the items in a
+collection.</p>
+
+<p>Using iterator, we can:</p>
+
+<code-block lang="java">
+for (Item item : collection) {
+    // do something with item
+}
+</code-block>
+
+<p>The implementation above has already taken iterators into account.
 </p>
-</note>
 
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-import java.util.Iterator;
-\/
-public class Stack&lt;Item&gt; implements Iterable&lt;Item&gt; {
-    private Node first = null;
-\/
-    private class Node {
-        Item item;
-        Node next;
-    }
-\/
-    public boolean isEmpty() {
-        return first == null;
-    }
-\/
-    public void push(Item item) {
-        Node oldFirst = first;
-        first = new Node();
-        first.item = item;
-        first.next = oldFirst;
-    }
-\/
-    public Item pop() {
-        Item item = first.item;
-        first = first.next;
-        return item;
-    }
-\/
-    public Iterator&lt;Item&gt; iterator() {
-        return new ListIterator();
-    }
-\/
-    private class ListIterator implements Iterator&lt;Item&gt; {
-        private Node current = first;
-\/
-        public boolean hasNext() {
-            return current != null;
-        }
-\/
-        public Item next() {
-            Item item = current.item;
-            current = current.next;
-            return item;
-        }
-    }
-}
-    </code-block>
-    </tab>
-</tabs>
-
-<note>
-<p>This is the array implementation of stacks with iterators.</p>
-</note>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-import java.util.Iterator;
-\/
-public class Stack&lt;Item&gt; implements Iterable&lt;Item&gt; {
-    private Item[] s;
-    private int N = 0;
-\/
-    public Stack(int capacity) {
-        s = (Item[]) new Object[capacity];
-    }
-\/
-    public boolean isEmpty() {
-        return N == 0;
-    }
-\/
-    public void push(Item item) {
-        s[N++] = item;
-    }
-\/
-    public Item pop() {
-        return s[--N];
-    }
-\/
-    public Iterator&lt;Item&gt; iterator() {
-        return new ReverseArrayIterator();
-    }
-\/
-    private class ReverseArrayIterator implements Iterator&lt;Item&gt; {
-        private int i = N;
-\/
-        public boolean hasNext() {
-            return i &gt; 0;
-        }
-\/
-        public Item next() {
-            return s[--i];
-        }
-    }
-}
-    </code-block>
-    </tab>
-</tabs>
+<p>For more information on iterators, please visit <a href=
+"C-Programming.md" anchor="iterators" summary="Iterators in C++">
+Iterators in C++</a>.</p>
 
 ### 4.5 Bag (Princeton)
 

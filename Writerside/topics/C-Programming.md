@@ -1045,7 +1045,7 @@ index.</p>
 @endmindmap
 ```
 
-#### 6.4 Iterators
+#### 6.4 Iterators {id="iterators"}
 
 <p><format color = "BlueViolet">Four iterator operations:</format> </p>
 

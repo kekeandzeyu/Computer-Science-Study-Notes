@@ -2,6 +2,8 @@
 
 # Python Programming
 
+<primary-label ref="finish"></primary-label>
+
 ## 1 Basic Python Knowledge
 
 ### 1.1 Strings
