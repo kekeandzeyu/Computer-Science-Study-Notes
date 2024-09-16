@@ -58,6 +58,8 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 5. <https://en.wikipedia.org/wiki/Namespace>.
 
+6. <https://en.cppreference.com/w/>.
+
 > Note: Content of CS61A and CS61B are partly used for the Object-Oriented part.
 
 ### Topic 3: Python Programming

@@ -6,70 +6,71 @@
 
 ### 1 C & C++ Introduction {id = "intro"}
 
-<p><format color = "BlueViolet">Properties: </format></p>
+<p><format color="BlueViolet">Properties:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p>C/C++ is a <format color = "OrangeRed">compiled</format> language.</p>
+    <p>C/C++ is a <format color="OrangeRed">compiled</format> 
+    language.</p>
 </li>
 <li>
-<p>C/C++ <format style = "italic">compilers</format> map C/C++ programs
-into architecture-specific machine code (string of 0s and 1s).</p>
-<list type = "bullet">
+    <p>C/C++ <format style="italic">compilers</format> map C/C++ 
+    programs into architecture-specific machine code (string of 0s 
+    and 1s).</p>
+<list type="bullet">
 <li>
-<p>Unlike Java, which converts to architecture-independent bytecode (
-run by JVM => Java Virtual Machine).</p>
+    <p>Unlike Java, which converts to architecture-independent 
+    bytecode (run by JVM => Java Virtual Machine).</p>
 </li>
 <li>
-<p>Unlike Python, which directly <format style = "italic">interprets
-</format> the code.</p>
+    <p>Unlike Python, which directly <format style="italic">interprets
+    </format> the code.</p>
 </li>
 <li>
-<p>Main difference is when your program is mapped to low-level machine
-instructions, CPU will directly interprets and runs.</p>
+    <p>Main difference is when your program is mapped to low-level 
+    machine instructions, CPU will directly interprets and runs.</p>
 </li>
 </list>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Compilation Advantages: </format></p>
+<p><format color="BlueViolet">Compilation Advantages: </format></p>
 
 <list>
 <li>
-<p><format color = "Fuchsia">Excellent run-time performance: 
-</format></p>
-<p>Generally much faster than Python or Java for comparable code because
-it <format color = "OrangeRed">optimizes for the given architecture
-</format>.</p>
+    <p><format color="Fuchsia">Excellent run-time performance: 
+    </format></p>
+    <p>Generally much faster than Python or Java for comparable code 
+    because it <format color = "OrangeRed">optimizes for the given 
+    architecture</format>.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Fair compilation time: 
-</format></p>
-<p>Enhancements in compilation procedure (Makefiles) allow us to
-<format color = "OrangeRed">recompile only the modified files</format>
-.</p>
+    <p><format color="Fuchsia">Fair compilation time:</format> </p>
+    <p>Enhancements in compilation procedure (Makefiles) allow us to
+    <format color="OrangeRed">recompile only the modified files
+    </format>.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Compilation Advantages: </format></p>
+<p><format color="BlueViolet">Compilation Disadvantages:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p>Compiled files, including the executable, are arcitecture-specific.
-(CPU type and OS)</p>
-<list type = "bullet">
-<li>
-<p>Executable must be <format color = "OrangeRed">rebuilt</format> 
-on each new system.</p>
+    <p>Compiled files, including the executable, are arcitecture-
+    specific(CPU type and OS).</p>
+    <list type="bullet">
+    <li>
+    <p>Executable must be <format color = "OrangeRed">rebuilt</format> 
+    on each new system.</p>
+    </li>
+    <li>
+    <p>i.e. "porting your code" to a new architecture.</p>
+    </li>
+    </list>
 </li>
 <li>
-<p>i.e. "porting your code" to a new architecture.</p>
-</li>
-</list>
-</li>
-<li>
-<p>Instead of "Edit -> Run [repeat]" cycle, "Edit -> Compile -> Run
-[repeat]" iteration cycle can be slow.</p>
+    <p>Instead of "Edit -> Run [repeat]" cycle, "Edit -> Compile -> 
+    Run [repeat]" iteration cycle can be slow.</p>
 </li>
 </list>
 
@@ -81,113 +82,171 @@ on each new system.</p>
 
 <table style="header-row">
 <tr>
-    <td>Fundamental Types</td><td>Example</td><td>Memory</td>
+    <td>Fundamental Types</td>
+    <td>Example</td>
+    <td>Memory</td>
 </tr>
 <tr>
-    <td>int</td><td><code-block lang="c++">int val = 5;</code-block>
-    </td><td>32 bits (usually)</td>
+    <td>int</td>
+    <td><code-block lang="c++">int val = 5;</code-block></td>
+    <td>32 bits (usually)</td>
 </tr>
 <tr>
-    <td>char</td><td><code-block lang="c++">char ch = 'F';</code-block>
-    </td><td>8 bits (usually)</td>
+    <td>char</td>
+    <td><code-block lang="c++">char ch = 'F';</code-block></td>
+    <td>8 bits (usually)</td>
 </tr>
 <tr>
-    <td>float</td><td><code-block lang="c++">float decimalVal1 = 5.0;
-    </code-block></td><td>32 bits (usually)</td>
+    <td>float</td>
+    <td><code-block lang="c++">float decimalVal1 = 5.0;</code-block>
+    </td>
+    <td>32 bits (usually)</td>
 </tr>
 <tr>
-    <td>double</td><td><code-block lang="c++">double decimalVal2 = 5.0;
-    </code-block></td><td>64 bits (usually)</td>
+    <td>double</td>
+    <td><code-block lang="c++">double decimalVal2 = 5.0;</code-block>
+    </td>
+    <td>64 bits (usually)</td>
 </tr>
 <tr>
-    <td>bool</td><td><code-block lang="c++">bool bVal = true;
-    </code-block></td><td>1 bit</td>
+    <td>bool</td>
+    <td><code-block lang="c++">bool bVal = true;</code-block></td>
+    <td>1 bit</td>
 </tr>
 <tr>
-    <td>std::string</td><td><code-block lang="c++">std::string str = 
-    "Haven";</code-block></td><td>Depends on architecture</td>
+    <td>std::string</td>
+    <td><code-block lang="c++">std::string str = "Haven";</code-block>
+    </td>
+    <td>Depends on architecture</td>
 </tr>
 </table>
 
 #### 2.2 Structs
 
-<p><format color="BlueViolet">Definitio:</format> </p>
+<p><format color="BlueViolet">Definition:</format> </p>
 
 <p><format color="DarkOrange">Struct:</format> A <format style=
-"bold">struct</format> is a group of <format style="bold">named 
-variables</format>, each with their own type, that allows programmers
+"bold">
+struct</format> is a group of <format style="bold">named variables
+</format>, each with their own type, that allows programmers
 to <format style="bold">bundle different types</format> together!</p>
 
 <p><format color="BlueViolet">Example:</format> </p>
 
-```C++
+<code-block lang="c++" collapsible="true">
 struct Student { 
     string name; // these are called fields 
     string state; // separate these by semicolons 
     int age; 
 };
+\/
 Student s; 
 s.name = "Haven"; 
 s.state = "AR"; 
 s.age = 22; // use . to access fields
-```
+</code-block>
 
 ### 3 Initialization & References
 
 #### 3.1 Initialization
 
-<p><format color="BlueViolet">Direct Initialization:</format> </p>
+<p>There are three types of initialization: </p>
 
-```C++
+<list type="alpha-lower">
+
+<li>
+    <p><format color="Fuchsia">Direct Initialization:</format> </p>
+    <code-block lang="c++">
 int numOne = 12.0;
-// numOne = 12, doesn’t type check with direct initialization
-```
+// numOne = 12, doesn't type check with direct initialization
+    </code-block>
+</li>
 
-<p><format color="BlueViolet">Uniform Initialization:</format> </p>
-
-```C++
+<li>
+    <p><format color="Fuchsia">Uniform Initialization (C++ 11):
+    </format> </p>
+    <code-block lang="c++">
 int numTwo {12.0};
 // narrowing conversion of '1.2e+1' from 'double' to 'int'
 // type checks with uniform initialization
-```
+    </code-block>
+</li>
+
+<li>
+    <p><format color="Fuchsia">Structured binding (C++ 17):</format> 
+    Can access multiple values returned by a function.</p>
+    <code-block lang="c++">
+#include &lt;iostream&gt;
+#include &lt;tuple&gt;
+#include &lt;string&gt;
+\/
+std::tuple&lt;std::string, std::string, std::string&gt; getclassInfo() {
+    std::string className = "CS106L";
+    std::string buildingName = "Turing Auditorium";
+    std::string language = "C++";
+    return {className, buildingName, language};
+}
+\/
+int main() {
+    auto [className, buildingName, language] = getclassInfo();
+\/
+    std::cout &lt;&lt; "Come to " &lt;&lt; buildingName &lt;&lt; " and join us for " &lt;&lt; className
+    &lt;&lt; " to learn " &lt;&lt; language &lt;&lt; "!" &lt;&lt; std::endl;
+    // Output: Come to Turing Auditorium and join us for CS106L to learn C++!
+\/
+    return 0;
+}
+    </code-block>
+</li>
+
+</list>
 
 <p><format color="BlueViolet">Advantages for Uniform Initialization:
 </format> </p>
 
 <list type="decimal">
-<li>It’s safe! It doesn’t allow for narrowing conversions — which can
-lead to unexpected behaviour (or critical system failures)</li>
-<li>It’s ubiquitous! it works for all types like vectors, maps, and 
-custom classes, among other things!</li>
+<li>
+    <p>It's safe! It doesn't allow for narrowing conversions — which 
+    can lead to unexpected behaviour (or critical system failures)</p>
+</li>
+<li>
+    <p>It's ubiquitous! it works for all types like vectors, maps, and 
+    custom classes, among other things!</p></li>
 </list>
 
 #### 3.2 References
 
-```C++
+<p><format color="BlueViolet">Example:</format> </p>
+
+<code-block lang="c++">
 int x = 5;
 int& ref = x; // ref is a reference to x
 ref = 10; // x is now 10
-```
+</code-block>
 
-<p><format color="BlueViolet">A common mistake:</format> </p>
+<p><format color="BlueViolet">A classic reference-copy bug:</format> 
+</p>
 
-```C++
-// We are modifying the std::pair’s inside of nums
-void shift(std::vector<std::pair<int, int>> &nums) { // nums passed by reference
+<compare type="top-bottom" first-title="Bug" second-title="Fixed">
+    <code-block lang="c++">
+// We are modifying the std::pair's inside of nums
+void shift(std::vector&lt;std::pair&lt;int, int&gtl&gt; &nums) { // nums passed by reference
     for (auto [num1, num2] : nums) { // num1 and num2 are copies
         num1++;
         num2++;
     }
 }
-
+    </code-block>
+    <code-block lang="c++">
 // Correct Way
-void shift(std::vector<std::pair<int, int>> &nums) { 
+void shift(std::vector&lt;std::pair&lt;int, int&gt;&gt; &nums) { 
     for (auto& [num1, num2] : nums) {
         num1++;
         num2++;
     }
 }
-```
+    </code-block>
+</compare>
 
 ### 4 Streams
 
@@ -199,25 +258,21 @@ summary="Strings in Java">strings in Java</a>.</p>
 
 <p><format color="BlueViolet">Examples in C++:</format> </p>
 
-```C++
+<code-block lang="c++">
 std::string str = "Hello, World!";
-std::cout << str[1] << std::endl; // e
+std::cout &lt;&lt; str[1] &lt;&lt; std::endl; // e
 str[1] = 'a'; // Hallo, World!
-
-std::cout << "[" << std::setw(3) << "It" << "]" <<std::endl; // [ It]
-std::cout << "[" << std::left << std::setw(3) << "It" << "]" <<std::endl; // [It ]
-std::cout << "[" << std::left << std::setfill('-') << std::setw(3) << "It" << "]" <<std::endl; // [It-]
-```
+</code-block>
 
 #### 4.2 Stringstreams
 
 <list type="bullet">
 <li>
-<p>Constructors with initialtext in the buffer.</p>
+    <p>Constructors with initialtext in the buffer.</p>
 </li>
 <li>
-<p>Can optionally provide "modes" such as ate (start at end) or
-bin (read as binary).</p>
+    <p>Can optionally provide "modes" such as ate (start at end) or
+    bin (read as binary).</p>
 </li>
 </list>
 
@@ -225,16 +280,88 @@ bin (read as binary).</p>
 
 <p><format color="BlueViolet">Examples:</format> </p>
 
-```C++
+<code-block lang="c++">
 std::ostringstream oss("Ito-En Green Tea");
-std::cout << oss.str() << std::endl; // Ito-En Green Tea
-oss << "16.9 Ounces";
-std::cout << oss.str() << std::endl; // 16.9 Ouncesn Tea 
-
+std::cout &lt;&lt; oss.str() &lt;&lt; std::endl; // Ito-En Green Tea
+oss &lt;&lt; "16.9 Ounces";
+std::cout &lt;&lt; oss.str() &lt;&lt; std::endl; // 16.9 Ouncesn Tea 
+\/
 std::ostringstream oss("Ito-En Green Tea", std::ostringstream::ate);
-oss << "16.9 Ounces";
-std::cout << oss.str() << std::endl; // Ito-En Green Tea16.9 Ounces
-```
+oss &lt;&lt; "16.9 Ounces";
+std::cout &lt;&lt; oss.str() &lt;&lt; std::endl; // Ito-En Green Tea16.9 Ounces
+</code-block>
+
+<p><format color="BlueViolet">Positioning Functions:</format> </p>
+
+<list type="decimal">
+<li>
+    <p><format color="Fuchsia">tellp()</format></p>
+    <p>Returns the current position of the put pointer in the output 
+    string stream.</p>
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+\/
+int main() {
+    std::ostringstream oss;
+    oss &lt;&lt; "Hello";
+\/
+    std::streampos currentPos = oss.tellp();
+    std::cout &lt;&lt; "Current put pointer position: " &lt;&lt; currentPos &lt;&lt; std::endl; // Output: 5
+\/
+    oss &lt;&lt; " World!";
+    currentPos = oss.tellp();
+    std::cout &lt;&lt; "New put pointer position: " &lt;&lt; currentPos &lt;&lt; std::endl; // Output: 12
+\/
+    return 0;
+}
+    </code-block>
+</li>
+<li>
+    <p><format color="Fuchsia">seekp(pos)</format></p>
+    <p>Moves the put pointer to a specific position within the output 
+    string stream.</p>
+    <p>The position can be an absolute offset from the beginning of 
+    the stream, or a relative offset from the current position (using
+    std::ios::beg, std::ios::cur, or std::ios::end as a second 
+    argument).</p>
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+\/
+int main() {
+    std::ostringstream oss;
+    oss &lt;&lt; "Hello World!";
+\/
+    // 1. Absolute positioning (from the beginning)
+    oss.seekp(0); // Move to the beginning
+    oss &lt;&lt; "Hi"; // Overwrite "Hello"
+\/
+    std::cout &lt;&lt; oss.str() &lt;&lt; std::endl; // Output: Hi World!
+\/
+    // 2. Relative positioning (from the end)
+    oss.seekp(-2, std::ios::end); // Move 2 positions back from the end
+    oss &lt;&lt; "???"; // Overwrite "d!"
+\/
+    std::cout &lt;&lt; oss.str() &lt;&lt; std::endl; // Output: Hi Worl???
+\/
+    // 3. Using std::ios::beg (from the beginning)
+    oss.seekp(5, std::ios::beg); // Move 5 positions from the beginning
+    oss &lt;&lt; "-"; // Insert "-"
+\/
+    std::cout &lt;&lt; oss.str() &lt;&lt; std::endl; // Output: Hi Worl-???
+\/
+    // 4. Using std::ios::cur (from the current position)
+    oss.seekp(2, std::ios::cur); // Move 2 positions forward from the current position
+    oss &lt;&lt; "+"; // Insert "+"
+\/
+    std::cout &lt;&lt; oss.str() &lt;&lt; std::endl; // Output: Hi Worl-?+??
+\/
+    return 0;
+}
+    </code-block>
+</li>
+</list>
 
 ##### 4.2.2 Input Stringstreams
 
@@ -245,19 +372,139 @@ character for the type.</p>
 
 <p><format color="BlueViolet">Examples:</format> </p>
 
-```C++
+<code-block lang="c++">
 std::istringstream iss("16.9 Ounces");
 double amount;
 std::string unit;
-iss >> amount >> unit; // amount = 16.9, unit = Ounces
-
+iss &gt;&gt; amount &gt;&gt; unit; // amount = 16.9, unit = Ounces
+\/
 std::istringstream iss("16.9 Ounces");
 int amount;
 std::string unit;
-iss >> amount >> unit; // amount = 16, unit = ".9"
-```
+iss &gt;&gt; amount &gt;&gt; unit; // amount = 16, unit = ".9"
+</code-block>
 
-##### 4.2.3 getline
+<p><format color="BlueViolet">Positioning Functions:</format> </p>
+
+<list type="decimal">
+<li>
+    <p><format color="Fuchsia">tellg()</format></p>
+    <p>Returns the current position of the get pointer in the input 
+    string stream.</p>
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+\/
+int main() {
+    std::istringstream iss("Hello World");
+\/
+    iss &gt;&gt; std::ws; // Skip leading whitespaces
+\/
+    std::cout &lt;&lt; "Current position: " &lt;&lt; iss.tellg() &lt;&lt; std::endl; // Output: 0
+\/
+    std::string word;
+    iss &gt;&gt; word; // Read "Hello"
+\/
+    std::cout &lt;&lt; "Current position after reading 'Hello': " &lt;&lt; iss.tellg() &lt;&lt; std::endl; // Output: 5 (or 6 if there's a space after Hello)
+\/
+    return 0;
+}
+    </code-block>
+</li>
+<li>
+    <p><format color="Fuchsia">seekg(pos)</format></p>
+    <p>Moves the put pointer to a specific position within the output 
+    string stream.</p>
+    <p>The position can be an absolute offset from the beginning of 
+    the stream, or a relative offset from the current position (using
+    std::ios::beg, std::ios::cur, or std::ios::end as a second 
+    argument).</p>
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+\/
+int main() {
+    std::istringstream iss("Hello World");
+\/
+    // Using absolute position from the beginning
+    iss.seekg(7); // Move to the 7th position from the beginning (equivalent to iss.seekg(7, std::ios::beg))
+    char char1;
+    iss.get(char1); 
+    std::cout &lt;&lt; "Character read after seeking to absolute position 7: " &lt;&lt; char1 &lt;&lt; std::endl; // Output: o
+\/
+    // Using ios::beg (beginning)
+    iss.seekg(6, std::ios::beg); // Move to the 6th position from the beginning
+    std::string word1;
+    iss &gt;&gt; word1; 
+    std::cout &lt;&lt; "Word read after seeking from beginning: " &lt;&lt; word1 &lt;&lt; std::endl; // Output: World
+\/
+    // Using ios::cur (current)
+    iss.seekg(2, std::ios::cur); // Move 2 positions forward from the current position (which is after "World")
+    char char2;
+    iss.get(char2);
+    std::cout &lt;&lt; "Character read after seeking from current: " &lt;&lt; char2 &lt;&lt; std::endl; // Output: d 
+\/
+    // Using ios::end (end)
+    iss.seekg(-5, std::ios::end); // Move 5 positions backward from the end
+    std::string word2;
+    iss &gt;&gt; word2;
+    std::cout &lt;&lt; "Word read after seeking from end: " &lt;&lt; word2 &lt;&lt; std::endl; // Output: World
+\/
+    return 0;
+}
+    </code-block>
+</li>
+</list>
+
+<tip>
+<p>Two data types:</p>
+<list type="decimal">
+<li>
+    <p><format color="Fuchsia">streampos:</format> Represents the 
+    position of the get pointer.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">streamoff:</format> Represents the 
+    difference (offset) between two streampos values.</p>
+</li>
+</list>
+<p><format color="BlueViolet">Example:</format> </p>
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+\/
+int main() {
+    // Create an output string stream
+    std::ostringstream oss;
+    oss &lt;&lt; "Hello, world!";
+\/
+    // Get the current position using streampos
+    std::streampos pos = oss.tellp();
+    std::cout &lt;&lt; "Current position in output stream: " &lt;&lt; pos &lt;&lt; std::endl; // Outputs: 13
+\/    
+    // Move the position using streamoff
+    oss.seekp(5, std::ios::beg);
+    pos = oss.tellp();
+    std::cout &lt;&lt; "New position in output stream after seekp: " &lt;&lt; pos &lt;&lt; std::endl; // Outputs: 5
+\/    
+    // Create an input string stream with the data from the output stream
+    std::istringstream iss(oss.str());
+\/    
+    // Get the current position using streampos
+    pos = iss.tellg();
+    std::cout &lt;&lt; "Current position in input stream: " &lt;&lt; pos &lt;&lt; std::endl; // Outputs: 0
+\/    
+    // Move the position using streamoff
+    iss.seekg(7, std::ios::beg);
+    pos = iss.tellg();
+    std::cout &lt;&lt; "New position in input stream after seekg: " &lt;&lt; pos &lt;&lt; std::endl; // Outputs: 7
+\/    
+    return 0;
+}
+</code-block>
+</tip>
+
+##### 4.2.3 Getline
 
 <code-block lang="c++">
 std::istream& getline(std::istream& is, std::string& str, char delim);
@@ -265,55 +512,56 @@ std::istream& getline(std::istream& is, std::string& str, char delim);
 
 <list type="bullet">
 <li>
-<p><format color="Fuchsia">is:</format> The input stream from which 
-to read.</p>
+    <p><format color="Fuchsia">is:</format> The input stream from 
+    which to read.</p>
 </li>
 <li>
-<p><format color="Fuchsia">str:</format> The string where the read 
-line will be stored.</p>
+    <p><format color="Fuchsia">str:</format> The string where the read 
+    line will be stored.</p>
 </li>
 <li>
-<p><format color="Fuchsia">delim:</format> The delimiter character 
-that specifies where to stop reading (optional, by default '\n').</p>
+    <p><format color="Fuchsia">delim:</format> The delimiter character 
+    that specifies where to stop reading (optional, by default '\n').
+    </p>
 </li>
 </list>
 
 <note>
-<p>getline() <format color="OrangeRed">consumes</format> the delim 
-character!</p>
+    <p>getline() <format color="OrangeRed">consumes</format> the delim 
+    character!</p>
 </note>
 
 <p><format color="BlueViolet">Examples:</format> </p>
 
-```C++
+<code-block lang="c++">
 std::string input;
-std::cout << "Enter a line of text: ";
+std::cout &lt;&lt; "Enter a line of text: ";
 std::getline(std::cin, input);
-std::cout << "You entered: " << input << std::endl;
-return 0;
-```
+std::cout &lt;&lt; "You entered: " &lt;&lt; input &lt;&lt; std::endl;
+</code-block>
 
 ##### 4.2.4 State Bits
 
 <list type="alpha-lower">
 <li>
-<p><format color = "Fuchsia">Good bit</format> - ready for read
-/write. (Nothing unusal, on when other bits are off)</p>
+    <p><format color="Fuchsia">Good bit</format> - ready for read
+    /write. (Nothing unusal, on when other bits are off)</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Fail bit</format> - previous 
-operation failed, all future operations frozen. (Type mismatch, file 
-can't be opened, seekg failed)</p>
+    <p><format color="Fuchsia">Fail bit</format> - previous 
+    operation failed, all future operations frozen. (Type mismatch, 
+    file can't be opened, seekg failed)</p>
 </li>
 <li>
-<p><format color = "Fuchsia">EOF bit</format> - previous 
-operation reached the end of buffer content (reached the end of buffer).
+    <p><format color="Fuchsia">EOF bit</format> - previous 
+    operation reached the end of buffer content (reached the end of 
+    buffer).
 </p>
 </li>
 <li>
-<p><format color = "Fuchsia">Bad bit</format> - external error,
-like irrecoverable.(e.g. the file you are reading from suddenly is 
-deleted)</p>
+    <p><format color="Fuchsia">Bad bit</format> - external error,
+    like irrecoverable.(e.g. the file you are reading from suddenly is 
+    deleted)</p>
 </li>
 </list>
 
@@ -325,35 +573,59 @@ deleted)</p>
 
 <p><format color="BlueViolet">Examples:</format> </p>
 
-```C++
+<code-block lang="c++">
 std::istringstream iss("17");
 int amount;
-iss >> amount;
-std::cout << (iss.eof() ? "EOF" : "Not EOF") << std::endl;
+iss &gt;&gt; amount;
+std::cout &lt;&lt; (iss.eof() ? "EOF" : "Not EOF") &lt;&lt; std::endl;
 // There also exist iss.good(), iss.fail() & iss.bad()
-```
+</code-block>
 
 #### 4.3 Input Streams
 
-<list type = "bullet">
+<p><format color="BlueViolet">There are four standard iostreams
+</format></p>
+
+<list type="bullet">
 <li>
-<p>The program hangs and waits for user input when the position
-reaches EOF, past the last token in the buffer.</p>
+    <p><format color="Fuchsia">cout:</format> Standard Output Stream
+    .</p>
 </li>
 <li>
-<p>The position pointer skips whitespace <format color = "OrangeRed">
-after</format> the token with each &gt;&gt; operation.</p>
+    <p><format color="Fuchsia">cin:</format> Standard Input Stream
+    (buffered).</p>
 </li>
 <li>
-<p>The position pointer does the following:</p>
-    <list type = "bullet">
+    <p><format color="Fuchsia">cerr (Standard Error Stream):</format> 
+    used to output errors (unbuffered).</p>
+</li>
+<li>
+    <p><format color="Fuchsia">clog (Standard Logging Stream):
+    </format> used for non-critical event logging (buffered).</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">cin</format></p>
+
+<list type="bullet">
+<li>
+    <p>The program hangs and waits for user input when the position
+    reaches EOF, past the last token in the buffer.</p>
+</li>
+<li>
+    <p>The position pointer skips whitespace <format color=
+    "OrangeRed">after</format> the token with each &gt;&gt; operation.</p>
+</li>
+<li>
+    <p>The position pointer does the following:</p>
+    <list type="bullet">
     <li>
-    <p>consume all whitespaces (spaces, newlines, '\t', '\n', etc.)
-    </p>
+        <p>consume all whitespaces (spaces, newlines, '\t', '\n', etc
+        .)</p>
     </li>
     <li>
-    <p>reads as many characters until:</p>
-        <list type = "bullet">
+        <p>reads as many characters until:</p>
+        <list type="bullet">
         <li>
         <p>a whitespace is reached, or...</p>
         </li>
@@ -370,41 +642,42 @@ after</format> the token with each &gt;&gt; operation.</p>
 
 <p><format color="BlueViolet">Examples:</format> </p>
 
-```C++
-#include <iostream>
-#include <string>
-
+<compare type="top-bottom" first-title="Example 1" second-title="Example 2">
+    <code-block lang="c++">
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+\/
 int main() {
     double pi, r;
     std::string name;
-    std::cin >> pi;
+    std::cin &gt;&gt; pi;
     std::cin.ignore(); // ignore the newline character
     std::getline(std::cin, name);
-    std::cin >> r;
-    std::cout << "Hello, " << name << "!" << std::endl;
-    std::cout << "Value of pi: " << pi << std::endl;
-    std::cout << "Value of r: " << r << std::endl;
+    std::cin &gt;&gt; r;
+    std::cout &lt;&lt; "Hello, " &lt;&lt; name &lt;&lt; "!" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Value of pi: " &lt;&lt; pi &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Value of r: " &lt;&lt; r &lt;&lt; std::endl;
     return 0;
 }
-```
-
-```C++
-#include <iostream>
-#include <string>
-
+    </code-block>
+    <code-block lang="c++">
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+\/
 int main() {
     double pi, r;
     std::string name;
-    std::cin >> pi;
+    std::cin &gt;&gt; pi;
     std::getline(std::cin, name); // read '\n' from previous input
     std::getline(std::cin, name); // read name
-    std::cin >> r;
-    std::cout << "Hello, " << name << "!" << std::endl;
-    std::cout << "Value of pi: " << pi << std::endl;
-    std::cout << "Value of r: " << r << std::endl;
+    std::cin &gt;&gt; r;
+    std::cout &lt;&lt; "Hello, " &lt;&lt; name &lt;&lt; "!" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Value of pi: " &lt;&lt; pi &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Value of r: " &lt;&lt; r &lt;&lt; std::endl;
     return 0;
 }
-```
+    </code-block>
+</compare>
 
 <warning>
 <p>Don’t use getline() and std::cin() together, unless you really 
@@ -413,30 +686,19 @@ really have to!</p>
 
 #### 4.4 Output Streams
 
-<list type="bullet">
-<li>
-<p><format color="Fuchsia">cerr (Standard Error Stream):</format> 
-used to output errors (unbuffered).</p>
-</li>
-<li>
-<p><format color="Fuchsia">clog (Standard Logging Stream):</format> 
-used for non-critical event logging (buffered).</p>
-</li>
-</list>
+<p><format color="BlueViolet">Cerr & Clog</format></p>
 
-<p><format color="BlueViolet">Examples:</format> </p>
-
-```C++
-#include <iostream>
-
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+\/
 int main() {
-  std::cerr << "Error: Could not open the file!" << std::endl;
-
-  std::clog << "Log: User logged in successfully." << std::endl;
-
-  return 0;
+    std::cerr &lt;&lt; "Error: Could not open the file!" &lt;&lt; std::endl;
+\/
+    std::clog &lt;&lt; "Log: User logged in successfully." &lt;&lt; std::endl;
+\/
+    return 0;
 }
-```
+</code-block>
 
 <p><format color="BlueViolet">Input File Streams & Output File Streams
 </format></p>
@@ -488,39 +750,39 @@ int main() {
 </tr>
 </table>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="BlueViolet">Example:</format> </p>
 
-```C++
-#include <iostream>
-#include <fstream>
-
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+\/
 int main() {
     // ifstream for reading from a file
-    std::ifstream inputFile("myInput.txt"); 
-
+    std::ifstream inputFile("myInput.txt");
+\/
     if (inputFile.is_open()) {
         std::string line;
         while (std::getline(inputFile, line)) {
-            std::cout << line << std::endl;
+            std::cout &lt;&lt; line &lt;&lt; std::endl;
         }
         inputFile.close(); 
     } else {
-    std::cerr << "Unable to open input file." << std::endl;
+    std::cerr &lt;&lt; "Unable to open input file." &lt;&lt; std::endl;
     }
-
+\/
     // ofstream for writing to a file
     std::ofstream outputFile("myOutput.txt");
-
+\/
     if (outputFile.is_open()) {
-        outputFile << "This is some text for the output file." << std::endl;
+        outputFile &lt;&lt; "This is some text for the output file." &lt;&lt; std::endl;
         outputFile.close();
     } else {
-        std::cerr << "Unable to open output file." << std::endl;
+        std::cerr &lt;&lt; "Unable to open output file." &lt;&lt; std::endl;
     }
-
+\/
     return 0;
 }
-```
+</code-block>
 
 ### 5 Modern C++ Types
 
@@ -1599,6 +1861,9 @@ int MyClass::getMyVariable() {
 
 #### 9.2 Consts
 
+<p><format color="DarkOrange">Consts:</format> A qualifier for objects
+that declares they cannot be modified.</p>
+
 <p>Consts help us find bugs, and allow us to reason about whether 
 a variable will be changed.</p>
 
@@ -1663,6 +1928,7 @@ int const* const p;
 
 <warning>
 <p>When in doubt, read from right to left!</p>
+<p>You can't declare a non-const reference to a const variable!</p>
 </warning>
 
 ##### 9.2.2 Const Iterators
