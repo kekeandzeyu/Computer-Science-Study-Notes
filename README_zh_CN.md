@@ -58,6 +58,8 @@ For English version please check [here](README.md)
 
 5. <https://en.wikipedia.org/wiki/Namespace>.
 
+6. <https://en.cppreference.com/w/>. 
+
 > 注意：CS61A和CS61B部分内容被用于面向对象编程部分。
 
 ### Topic 3: Python编程
