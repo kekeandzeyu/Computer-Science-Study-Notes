@@ -1259,4 +1259,35 @@ c = math.sqrt(a * a + b * b)
 (cons 1 (cons 2 (cons 3 nil))) ; (1 2 3)
 </code-block>
 
-<p><format color="BlueViolet">Symbolic programming:</format></p>
+<p><format color="BlueViolet">Symbolic programming:</format> </p>
+
+<code-block lang="plain text">
+(define a 1)
+(define b 2)
+(list a b) ; (1 2)
+(list 'a 'b) ; (a b)
+</code-block>
+
+<p><format color="BlueViolet">Built-In List Processing Procedures
+</format></p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">(append s t):</format> list the 
+    elements of s and t; append can be called on more than 2 lists.
+    </p>
+</li>
+<li>
+    <p><format color="Fuchsia">(map f s):</format> call a procedure
+    f on each element of a list s and list the results.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">(filter f s):</format> call a procedure
+    f on each element of a list s and list the elements for which a 
+    true value is the result.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">(apply f s):</format> call a procedure
+    f with the elements of a list as its arguments.</p>
+</li>
+</list>
