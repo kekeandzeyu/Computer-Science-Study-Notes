@@ -1234,3 +1234,29 @@ c = math.sqrt(a * a + b * b)
     (sqrt (+ (* a a) (* b b))))
 </code-block>
 </compare>
+
+### 7.2 Scheme Lists
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">cons:</format> Two-argument procedure 
+    that creates a linked list.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">car:</format> Procedure that returns 
+    the first element of the list.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">cdr:</format> Procedure that returns 
+    the rest of a list.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">nil:</format> The empty list.</p>
+</li>
+</list>
+
+<code-block lang="plain text">
+(cons 1 (cons 2 (cons 3 nil))) ; (1 2 3)
+</code-block>
+
+<p><format color="BlueViolet">Symbolic programming:</format></p>
