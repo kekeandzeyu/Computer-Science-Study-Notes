@@ -3361,142 +3361,161 @@ def merge_sort(arr, comparator=lambda x, y: x &lt; y):
 
 ### 6.2 Bottom-Up Mergesort
 
-> No recursion needed!
->
-{style = "note"}
+<note>
+<p>No recursion needed!</p>
+</note>
 
-<procedure title = "Basic Plan">
+<procedure title="Bottom-Up Mergesort">
 <step>
-    Pass through array, merging subarrays of size 1.
+    <p>Pass through array, merging subarrays of size 1.</p>
 </step>
 <step>
-    Repeat for subarrays of size 2, 4, 8, 16, ...
+    <p>Repeat for subarrays of size 2, 4, 8, 16, ...</p>
 </step>
 </procedure>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class MergeBU {
     private static Comparable[] aux;
-
+\/
     private static void merge(Comparable[]a, int lo, int mid, int hi) {
         assert isSorted(a, lo, mid); // precondition: a[lo...mid] is sorted
         assert isSorted(a, mid+1, hi); // precondition: a[mid+1...hi] is sorted
-
-        for (int k = lo; k <= hi; k++) {
+\/
+        for (int k = lo; k &lt;= hi; k++) {
             aux[k] = a[k];
         }
-
+\/
         int i = lo, j = mid+1;
-        for (int k = lo; k <= hi; k++) {
-            if (i > mid) a[k] = aux[j++];
-            else if (j > hi) a[k] = aux[i++];
+        for (int k = lo; k &lt;= hi; k++) {
+            if (i &gt; mid) a[k] = aux[j++];
+            else if (j &gt; hi) a[k] = aux[i++];
             else if (less(aux[j], aux[i])) a[k] = aux[j++];
             else a[k] = aux[i++];
         }
-
+\/
         assert isSorted(a, lo, hi); // postcondition: a[lo...hi] is sorted
     }
-
+\/
     private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
+        return v.compareTo(w) &lt; 0;
     }
-
+\/
     public static void sort(Comparable[]a) {
         int N = a.length;
         aux = new Comparable[N];
-        for (int sz = 1; sz < N; sz++)
-            for (int lo = 0; lo < N-sz; lo += sz+sz)
+        for (int sz = 1; sz &lt; N; sz++)
+            for (int lo = 0; lo &lt; N-sz; lo += sz+sz)
                 merge(a, lo, lo+sz-1, Math.min(lo+sz+sz-1, N-1));
     }
-
+\/
     private static boolean isSorted(Comparable[] a, int lo, int hi) {
-        for (int i = lo + 1; i <= hi; i++)
+        for (int i = lo + 1; i &lt;= hi; i++)
             if (less(a[i], a[i-1])) return false;
         return true;
     }
 }
-```
-
-C++
-
-```C++
-#include <vector>
-#include <algorithm>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+\/
 class MergeBU {
 public:
-    static void merge(std::vector<int>& a, int lo, int mid, int hi) {
-        std::vector<int> aux(a);
-
+    static void merge(std::vector&lt;int&gt;& a, int lo, int mid, int hi) {
+        std::vector&lt;int&gt; aux(a);
+\/
         int i = lo, j = mid+1;
-        for (int k = lo; k <= hi; k++) {
-            if (i > mid) a[k] = aux[j++];
-            else if (j > hi) a[k] = aux[i++];
-            else if (aux[j] < aux[i]) a[k] = aux[j++];
+        for (int k = lo; k &lt;= hi; k++) {
+            if (i &gt; mid) a[k] = aux[j++];
+            else if (j &gt; hi) a[k] = aux[i++];
+            else if (aux[j] &lt; aux[i]) a[k] = aux[j++];
             else a[k] = aux[i++];
         }
     }
-
-    static void sort(std::vector<int>& a) {
+\/
+    static void sort(std::vector&lt;int&gt;& a) {
         int N = a.size();
-        for (int sz = 1; sz < N; sz = sz+sz)
-            for (int lo = 0; lo < N-sz; lo += sz+sz)
+        for (int sz = 1; sz &lt; N; sz = sz+sz)
+            for (int lo = 0; lo &lt; N-sz; lo += sz+sz)
                 merge(a, lo, lo+sz-1, std::min(lo+sz+sz-1, N-1));
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 def merge(a, lo, mid, hi):
     aux = a.copy()
-
+\/
     i = lo
     j = mid + 1
     for k in range(lo, hi + 1):
-        if i > mid:
+        if i &gt; mid:
             a[k] = aux[j]
             j += 1
-        elif j > hi:
+        elif j &gt; hi:
             a[k] = aux[i]
             i += 1
-        elif aux[j] < aux[i]:
+        elif aux[j] &lt; aux[i]:
             a[k] = aux[j]
             j += 1
         else:
             a[k] = aux[i]
             i += 1
-
+\/
     assert a[lo:hi + 1] == sorted(a[lo:hi + 1]), "Array is not sorted"
-
-
+\/
 def sort(a):
     N = len(a)
     sz = 1
-    while sz < N:
+    while sz &lt; N:
         lo = 0
-        while lo < N - sz:
+        while lo &lt; N - sz:
             merge(a, lo, lo + sz - 1, min(lo + sz + sz - 1, N - 1))
-            lo += sz + sz
+        lo += sz + sz
         sz += 1
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 6.3 Computational Complexity
 
-Def:
+<p><format color="BlueViolet">Definitions:</format> </p>
 
-* Computational complexity: Framework to study efficiency of
-  algorithms for solving a particular problem <math>X</math>.
-* Model of computation: Allowable operations.
-* Cost model: Operation count(s).
-* Upper bound: Cost guarantee provided by <format color = "OrangeRed">some</format>
-  algorithm for <math>X</math>.
-* Lower bound: Proven limit on cost guarantee of <format color = "OrangeRed">all</format>
-  algorithms for <math>X</math>.
-* Optimal algorithm: Algorithm with best possible cost guarantee for <math>X</math>.
+<list type="bullet">
+<li>
+<p><format color="DarkOrange">Computational complexity:</format> 
+Framework to study efficiency of algorithms for solving a particular 
+problem <math>X</math>.</p>
+</li>
+<li>
+<p><format color="DarkOrange">Model of computation:</format> 
+Allowable operations.</p>
+</li>
+<li>
+<p><format color="DarkOrange">Cost model:</format> Operation count(s)
+.</p>
+</li>
+<li>
+<p><format color="DarkOrange">Upper bound:</format> Cost guarantee 
+provided by <format color="OrangeRed">some</format> algorithm for 
+<math>X</math>.</p>
+</li>
+<li>
+<p><format color="DarkOrange">Lower bound:</format> Proven limit on 
+cost guarantee of <format color="OrangeRed">all</format> algorithms 
+for <math>X</math>.</p>
+</li>
+<li>
+<p><format color="DarkOrange">Optimal algorithm:</format> Algorithm 
+with best possible cost guarantee for <math>X</math>.</p>
+</li>
+</list>
 
 Example: sorting
 
@@ -3613,7 +3632,7 @@ Unstable sort: Selection sort, shellsort, quicksort, heapsort, etc.
     </p>
 <list type = "alpha-lower">
     <li>
-        Average case:
+        <p>Average case:</p>
         <list type = "bullet">
             <li>
                 39% more compares than mergesort.
