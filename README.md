@@ -6,7 +6,7 @@
 
 中文版请移步[这里](README_zh_CN.md)
 
-Visit [here](https://csstudy.pages.dev/) for the notes.
+Visit [here](https://csstudy.pages.dev/) for the notes, and don't visit GitHub Pages:)
 
 ## 1 Intention & Background
 
