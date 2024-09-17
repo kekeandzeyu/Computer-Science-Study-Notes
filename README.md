@@ -22,7 +22,7 @@ I took down notes carefully when studying. With the the content of my notes gett
 
 2. Some of the pictures in the notes come from Wikipedia. Out of consideration of copyright, I didn't modify the pictures. However, some of them do not have background, which cannot be seen clearly in the dark theme. The notes are in the dark theme by default; it is highly recommended that you turned into light mode by clicking the button on the left side of the search bar.
 
-3. The notes will be released in the form of pdf article. You will see it in the release part.
+3. The notes will be released in the form of pdf article, including Chinese edition. You will see it in the release part.
 
 4. Thank you for reading! Everyone is welcome to discuss with me via email.
 
