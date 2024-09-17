@@ -2361,10 +2361,10 @@ equals the number of inversions (number of compares = exchanges + (N
 </list>
 
 <note>
-For more information about the performance of insertion sort, please 
-visit the <a href="Data-Structures-and-Algorithms-3.md" 
+<p>For more information about the performance of insertion sort, 
+please visit the <a href="Data-Structures-and-Algorithms-3.md" 
 anchor="sortperf" summary="Table for Comparing Performance of Sorting
-Algorithm">table for sorting performance</a>.
+Algorithm">table for sorting performance</a>.</p>
 </note>
 
 <tabs>
@@ -2439,7 +2439,7 @@ def insertion_sort(arr):
 </step>
 </procedure>
 
-<p>Increment Sequence:</p>
+<p><format color="BlueViolet">Increment Sequence:</format> </p>
 
 <list type="decimal">
 <li>
@@ -2456,115 +2456,116 @@ def insertion_sort(arr):
 </li>
 </list>
 
-Property:
+<p><format color="BlueViolet">Property:</format> With the <math>3x+1
+</math> increments, the worst-case number of compares is <math>
+O(N^{\frac{3}{2}})</math>.</p>
 
-* With the <math>3x+1</math> increments, the worst-case number of compares
-  is <math>O(N^{\frac{3}{2}})</math>.
-
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class Shell {
     public static void sort(Comparable[] a) {
         int n = a.length;
         int h = 1;
-
-        while (h < n / 3) {
+\/
+        while (h &lt; n / 3) {
             h = 3 * h + 1;
         }
-
-        while (h >= 1) {
-            for (int i = h; i < n; i++) {
-                for (int j = i; j >= h && less(a[j], a[j - h]); j -= h) {
+\/
+        while (h &gt;= 1) {
+            for (int i = h; i &lt; n; i++) {
+                for (int j = i; j &gt;= h && less(a[j], a[j - h]); j -= h) {
                     exch(a, j, j - h);
                 }
             }
             h = h / 3;
         }
     }
-
+\/
     private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
+        return v.compareTo(w) &lt; 0;
     }
-
+\/
     private static void exch(Comparable[] a, int i, int j) {
         Comparable temp = a[i];
         a[i] = a[j];
         a[j] = temp;
     }
 }
-```
-
-C++
-
-```C++
-#include <vector>
-
-void shellSortKnuth(std::vector<int>& arr) {
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;vector&gt;
+\/
+void shellSortKnuth(std::vector&lt;int&gt;& arr) {
     int n = arr.size();
-
+\/
     int gap = 1;
-    while (gap < n/3) {
+    while (gap &lt; n/3) {
         gap = 3 * gap + 1;  
     }
-
-    while (gap >= 1) {
-        for (int i = gap; i < n; i += 1) {
+\/
+    while (gap &gt;= 1) {
+        for (int i = gap; i &lt; n; i += 1) {
             int temp = arr[i];
-
+\/
             int j;
-            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)
+            for (j = i; j &gt;= gap && arr[j - gap] &gt; temp; j -= gap)
                 arr[j] = arr[j - gap];
-
+\/
             arr[j] = temp;
         }
         gap /= 3;
     }
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 def shell_sort_knuth(arr):
     n = len(arr)
-
+\/
     gap = 1
-    while gap < n//3:
+    while gap &lt; n//3:
         gap = 3 * gap + 1  
-
-    while gap >= 1:
+\/
+    while gap &gt;= 1:
         for i in range(gap, n):
             temp = arr[i]
             j = i
-            while j >= gap and arr[j - gap] > temp:
+            while j &gt;= gap and arr[j - gap] &gt; temp:
                 arr[j] = arr[j - gap]
                 j -= gap
             arr[j] = temp
         gap //= 3
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 5.4 Shuffling
 
-<procedure title = "Basic Plan of Knuth Shuffle">
+<procedure title="Knuth Shuffle">
 <step>
-    In iteration <math>i</math>, pick integer <math>r</math> between <math>0</math> and <math>i</math> uniformly at random.
+    <p>In iteration <math>i</math>, pick integer <math>r</math> 
+    between <math>0</math> and <math>i</math> uniformly at random.
+    </p>
 </step>
 <step>
-    Swap <code>a[i]</code> and <code>a[r]</code>.
+    <p>Swap <code>a[i]</code> and <code>a[r]</code>.</p>
 </step>
 </procedure>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.Random;
-
+\/
 public class KnuthShuffle {
     public static void shuffle(int[] array) {
         int n = array.length;
         Random random = new Random();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i &lt; n; i++) {
             int r = i + random.nextInt(n - i);
             int temp = array[i];
             array[i] = array[r];
@@ -2572,43 +2573,590 @@ public class KnuthShuffle {
         }
     }
 }
-```
-
-C++
-
-```C++
-#include <random>
-#include <algorithm>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;random&gt;
+#include &lt;algorithm&gt;
+\/
 void knuthShuffle(int array[], int n) {
     // std::random_device is a C++ class that generates truly random numbers.
-    std::random_device rd; 
-    // std::mt19937 is a Mersenne Twister pseudo-random generator of 32-bit numbers. 
+    std::random_device rd;
+    // std::mt19937 is a Mersenne Twister pseudo-random generator of 32-bit numbers.
     // However, it's not truly random and needs to be seeded to ensure different outputs for different program runs.
     // That's where std::random_device comes in.
-    std::mt19937 gen(rd()); 
-
-    //  std::uniform_int_distribution<> is a template class in C++ that produces random integers in a specified range.
-    for(int i = 0; i < n; i++) {
-        std::uniform_int_distribution<> dis(i, n - 1);
+    std::mt19937 gen(rd());
+\/
+    // std::uniform_int_distribution&lt;&gt; is a template class in C++ that produces random integers in a specified range.
+    for(int i = 0; i &lt; n; i++) {
+        std::uniform_int_distribution&lt;&gt; dis(i, n - 1);
         int r = dis(gen);
         std::swap(array[i], array[r]);
     }
 }
-```
-
-Python
-
-```Python
-# Python Implementation
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 import random
-
+\/
 def knuth_shuffle(array):
-    n = len(array)
-    for i in range(n):
-        r = i + random.randint(0, n - i - 1)
-        array[i], array[r] = array[r], array[i]
-```
+n = len(array)
+for i in range(n):
+r = i + random.randint(0, n - i - 1)
+array[i], array[r] = array[r], array[i]
+    </code-block>
+    </tab>
+</tabs>
+
+### 5.5 Convex Hull
+
+<p><format color="DarkOrange">Convex Hull:</format> A convex hull of 
+a set of <math>N</math> points is the smallest perimeter fence 
+enclosing the points.</p>
+
+<img src="../images_data/d5-5-1.png" alt="Convex Hull"/>
+
+<p><format color="BlueViolet">Equivalent definitions:</format> </p>
+
+<list type="bullet">
+<li>
+    <p>Smallest convex set containing all the points.</p>
+</li>
+<li>
+    <p>Smallest area convex polygon enclosing the points.</p>
+</li>
+<li>
+    <p>Convex polygon enclosing the points, whose vertices are points
+    in set.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Geometric properties:</format> </p>
+
+<list type="bullet">
+<li>
+    <p>Can traverse the convex hull by making only counterclockwise 
+    turns.</p>
+</li>
+<li>
+    <p>The vertices of convex hull appear in increasing order of polar
+    angle with respect to point <math>p</math> with lowest <math>y
+    </math>-coordinate.</p>
+</li>
+</list>
+
+<img src="../images_data/d5-5-2.png"  alt="Geometric Properties"/>
+
+<procedure title="Graham Scan">
+<step>
+    <p>Choose point <math>p</math> with smallest <math>y</math>
+    -coordinate.</p>
+</step>
+<step>
+    <p>Sort points by polar angle with <math>p</math>.</p>
+</step>
+<step>
+    <p>Consider points in order; discard unless it create a ccw 
+    (counterclockwise) turn.
+    </p>
+</step>
+</procedure>
+
+<p><format color="BlueViolet">Implementing ccw:</format> Given three 
+points <math>a</math>, <math>b</math>, and <math>c</math>, is <math>
+a</math> -&gt; <math>b</math> -&gt; <math>c</math> a counterclockwise
+turn?</p>
+
+<procedure title="ccw">
+<step>
+    <p>Determinant (or cross product) gives <math>2 \times</math> 
+    signed area of planar triangle.</p>
+</step>
+<step>
+    <p>If signed area <math>\textgreater 0</math>, then <math>a</math>
+    -&gt; <math>b</math> -&gt; <math>c</math> is counterclockwise.</p>
+</step>
+<step>
+    <p>If signed area <math>\textless 0</math>, then <math>a</math>
+    -&gt; <math>b</math> -&gt; <math>c</math> is clockwise.</p>
+</step>
+<step>
+    <p>If signed area <math>= 0</math>, then <math>a</math> -&gt; 
+    <math>b</math> -&gt; <math>c</math> are collinear.</p>
+</step>
+</procedure>
+
+<p><format color="LawnGreen">Proof:</format> </p>
+
+<code-block lang="tex">
+\begin{equation}
+2 \times \text{Area}(\triangle abc) = \begin{vmatrix} x_a & y_a & 1 \\ x_b & y_b & 1 \\ x_c & y_c & 1 \end{vmatrix} = (x_b - x_a)(y_c - y_a) - (y_b - y_a)(x_c - x_a)
+\end{equation}
+</code-block>
+
+<img src="../images_data/d5-5-4.png" alt="Determinant and 
+Positions"/>
+
+<p><format color="BlueViolet">Applications:</format> </p>
+
+<list type="bullet">
+<li>
+    <p>Hammer nails perpendicular to plane, stretch elastic rubber 
+    band around points</p>
+</li>
+<li>
+    <p>Find shortest path in the plane from <math>s</math> to <math>t
+    </math> that avoids a polygonal obstacle.</p>
+    <p>Shortest path is either straight line from <math>s</math> to 
+    <math>t</math> or it is one of two polygonal chains of convex hull
+    .</p>
+    <img src="../images_data/d5-5-4.png" alt="Shortest Path"/>
+</li>
+<li>
+    <p>Given <math>N</math> points in the plane, find a pair of points
+    with the largest Euclidean distance between them.</p>
+    <p>Farthest pair of points are extreme points on convex hull.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Point2D:</format> </p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Comparator;
+\/
+public record Point2D(double x, double y) implements Comparable&lt;Point2D&gt; {
+\/
+    public double distanceTo(Point2D that) {
+        double dx = this.x - that.x;
+        double dy = this.y - that.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+\/
+    public double distanceSquaredTo(Point2D that) {
+        double dx = this.x - that.x;
+        double dy = this.y - that.y;
+        return dx * dx + dy * dy;
+    }
+\/
+    public int compareTo(Point2D that) {
+        if (this.y &lt; that.y) return -1;
+        if (this.y &gt; that.y) return +1;
+        return Double.compare(this.x, that.x);
+    }
+\/
+    public Comparator&lt;Point2D&gt; polarOrder() {
+        return new PolarOrder();
+    }
+\/
+    private class PolarOrder implements Comparator&lt;Point2D&gt; {
+        public int compare(Point2D q1, Point2D q2) {
+            double dx1 = q1.x - x;
+            double dy1 = q1.y - y;
+            double dx2 = q2.x - x;
+            double dy2 = q2.y - y;
+\/
+            if (dy1 &gt;= 0 && dy2 &lt; 0) return -1;
+            else if (dy2 &gt;= 0 && dy1 &lt; 0) return +1;
+            else if (dy1 == 0 && dy2 == 0) {
+                if (dx1 &gt;= 0 && dx2 &lt; 0) return -1;
+                else if (dx2 &gt;= 0 && dx1 &lt; 0) return +1;
+                else return 0;
+            } else return -ccw(Point2D.this, q1, q2);
+        }
+    }
+\/
+    public static int ccw(Point2D a, Point2D b, Point2D c) {
+        double area2 = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+        if (area2 &lt; 0) return -1;
+        else if (area2 &gt; 0) return +1;
+        else return 0;
+    }
+\/
+    public boolean equals(Object other) {
+        if (other == this) return true;
+        if (other == null) return false;
+        if (other.getClass() != this.getClass()) return false;
+        Point2D that = (Point2D) other;
+        return this.x == that.x && this.y == that.y;
+    }
+\/
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++ (Point2D.h)">
+#ifndef POINT2D_H
+#define POINT2D_H
+\/
+#include &lt;iostream&gt;
+\/
+class Point2D {
+public:
+    double x;
+    double y;
+\/
+    Point2D(const double x, const double y) : x(x), y(y) {}
+\/
+    [[nodiscard]] double distanceTo(const Point2D& that) const;
+\/
+    [[nodiscard]] double distanceSquaredTo(const Point2D& that) const;
+\/
+    [[nodiscard]] int compareTo(const Point2D& that) const;
+\/
+    struct PolarOrder;
+\/
+    bool operator==(const Point2D& other) const;
+\/
+    friend std::ostream& operator&lt;&lt;(std::ostream& os, const Point2D& p);
+\/
+    static int ccw(const Point2D& a, const Point2D& b, const Point2D& c);
+};
+\/
+struct Point2D::PolarOrder {
+    Point2D origin;
+    explicit PolarOrder(const Point2D& origin) : origin(origin) {}
+    bool operator()(const Point2D& q1, const Point2D& q2) const;
+};
+\/
+#endif // POINT2D_H
+    </tab>
+    <tab title="C++ (Point2D.cpp)">
+    <code-block lang="c++" collapsible="true">
+#include &lt;cmath&gt;
+#include "Point2D.h"
+\/
+double Point2D::distanceTo(const Point2D& that) const {
+    const double dx = this-&gt;x - that.x;
+    const double dy = this-&gt;y - that.y;
+    return std::sqrt(dx * dx + dy * dy);
+}
+\/
+double Point2D::distanceSquaredTo(const Point2D& that) const {
+    const double dx = this-&gt;x - that.x;
+    const double dy = this-&gt;y - that.y;
+    return dx * dx + dy * dy;
+}
+\/
+int Point2D::compareTo(const Point2D& that) const {
+    if (this-&gt;y &lt; that.y) return -1;
+    if (this-&gt;y &gt; that.y) return +1;
+    return (this-&gt;x &lt; that.x) ? -1 : (this-&gt;x &gt; that.x) ? 1 : 0;
+}
+\/
+bool Point2D::PolarOrder::operator()(const Point2D& q1, const Point2D& q2) const {
+    const double dx1 = q1.x - origin.x;
+    const double dy1 = q1.y - origin.y;
+    const double dx2 = q2.x - origin.x;
+    const double dy2 = q2.y - origin.y;
+\/
+    if (dy1 &gt;= 0 && dy2 &lt; 0) return true;
+    if (dy2 &gt;= 0 && dy1 &lt; 0) return false;
+    if (dy1 == 0 && dy2 == 0) {
+        if (dx1 &gt;= 0 && dx2 &lt; 0) return true;
+        if (dx2 &gt;= 0 && dx1 &lt; 0) return false;
+        return false;
+    }
+    return ccw(origin, q1, q2) &gt; 0;
+}
+\/
+bool Point2D::operator==(const Point2D& other) const {
+    return this-&gt;x == other.x && this-&gt;y == other.y;
+}
+\/
+std::ostream& operator&lt;&lt;(std::ostream& os, const Point2D& p) {
+    os &lt;&lt; "(" &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; ")";
+    return os;
+}
+\/
+int Point2D::ccw(const Point2D& a, const Point2D& b, const Point2D& c) {
+    double area2 = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+    if (area2 &lt; 0) return -1;
+    else if (area2 &gt; 0) return +1;
+    else return 0;
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+import math
+\/
+class Point2D:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+\/
+    def distance_to(self, that):
+        dx = self.x - that.x
+        dy = self.y - that.y
+        return math.sqrt(dx * dx + dy * dy)
+\/
+    def distance_squared_to(self, that):
+        dx = self.x - that.x
+        dy = self.y - that.y
+        return dx * dx + dy * dy
+\/
+    def __lt__(self, that):
+        if self.y &lt; that.y:
+            return True
+        if self.y &gt; that.y:
+            return False
+        return self.x &lt; that.x
+\/
+    def __eq__(self, other):
+        if other == self:
+            return True
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
+        return self.x == other.x and self.y == other.y
+\/
+    def __str__(self):
+        return "(" + str(self.x) + ", " + str(self.y) + ")"
+\/
+    @staticmethod
+    def ccw(a, b, c):
+        area2 = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
+        if area2 &lt; 0:
+            return -1
+        elif area2 &gt; 0:
+            return +1
+        else:
+            return 0
+    </code-block>
+    </tab>
+</tabs>
+
+<p><format color="BlueViolet">Graham Scan:</format> </p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Arrays;
+import java.util.Stack;
+\/
+public class GrahamScan {
+    private final Stack&lt;Point2D&gt; hull = new Stack&lt;Point2D&gt;();
+\/
+    public GrahamScan(Point2D[] points) {
+        if (points == null) throw new IllegalArgumentException("argument is null");
+        if (points.length == 0) throw new IllegalArgumentException("array is of length 0");
+\/
+        int n = points.length;
+        Point2D[] a = new Point2D[n];
+        for (int i = 0; i &lt; n; i++) {
+            if (points[i] == null)
+                throw new IllegalArgumentException("points[" + i + "] is null");
+            a[i] = points[i];
+        }
+\/
+        Arrays.sort(a);
+        Arrays.sort(a, 1, n, a[0].polarOrder());
+        hull.push(a[0]);
+\/
+        int k1;
+        for (k1 = 1; k1 &lt; n; k1++)
+            if (!a[0].equals(a[k1])) break;
+        if (k1 == n) return;
+\/
+        int k2;
+        for (k2 = k1 + 1; k2 &lt; n; k2++)
+            if (Point2D.ccw(a[0], a[k1], a[k2]) != 0) break;
+        hull.push(a[k2 - 1]);
+\/
+        for (int i = k2; i &lt; n; i++) {
+            Point2D top = hull.pop();
+            while (Point2D.ccw(hull.peek(), top, a[i]) &lt;= 0) {
+                top = hull.pop();
+            }
+            hull.push(top);
+            hull.push(a[i]);
+        }
+\/
+        assert isConvex();
+    }
+\/
+    public Iterable&lt;Point2D&gt; hull() {
+        Stack&lt;Point2D&gt; s = new Stack&lt;Point2D&gt;();
+        for (Point2D p : hull) s.push(p);
+        return s;
+    }
+\/
+    private boolean isConvex() {
+        int n = hull.size();
+        if (n &lt;= 2) return true;
+\/
+        Point2D[] points = new Point2D[n];
+        int k = 0;
+        for (Point2D p : hull()) {
+            points[k++] = p;
+        }
+\/
+        for (int i = 0; i &lt; n; i++) {
+            if (Point2D.ccw(points[i], points[(i + 1) % n], points[(i + 2) % n]) &lt;= 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++ (GrahamScan.h)">
+    <code-block lang="c++" collapsible="true">
+#ifndef GRAHAMSCAN_H
+#define GRAHAMSCAN_H
+\/
+#include "Point2D.h"
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+\/
+class GrahamScan {
+private:
+    std::stack&lt;Point2D&gt; hull;
+    [[nodiscard]] bool isConvex() const;
+\/
+public:
+    explicit GrahamScan(std::vector&lt;Point2D&gt;& points);
+\/
+    [[nodiscard]] std::vector&lt;Point2D&gt; hullPoints() const;
+};
+\/
+#endif // GRAHAMSCAN_H
+    </code-block>
+    </tab>
+    <tab title="C++ (GrahamScan.cpp)">
+    <code-block lang="c++" collapsible="true">
+#include &lt;algorithm&gt;
+#include "GrahamScan.h"
+\/
+GrahamScan::GrahamScan(std::vector&lt;Point2D&gt;& points) {
+    if (points.empty()) throw std::invalid_argument("array is of length 0");
+\/
+    const int n = static_cast&lt;int&gt;(points.size());
+\/
+    std::ranges::sort(points, [](const Point2D& a, const Point2D& b) {
+        return a.compareTo(b) &lt; 0;
+    });
+\/
+    std::sort(points.begin() + 1, points.end(), Point2D::PolarOrder(points[0]));
+\/
+    hull.push(points[0]);
+\/
+    int k1;
+    for (k1 = 1; k1 &lt; n; k1++)
+        if (points[0] != points[k1]) break;
+    if (k1 == n) return;
+\/
+    int k2;
+    for (k2 = k1 + 1; k2 &lt; n; k2++)
+        if (Point2D::ccw(points[0], points[k1], points[k2]) != 0) break;
+    hull.push(points[k2 - 1]);
+\/
+    for (int i = k2; i &lt; n; i++) {
+        Point2D top = hull.top();
+        hull.pop();
+        while (Point2D::ccw(hull.top(), top, points[i]) &lt;= 0) {
+            top = hull.top();
+            hull.pop();
+        }
+        hull.push(top);
+        hull.push(points[i]);
+    }
+}
+\/
+std::vector&lt;Point2D&gt; GrahamScan::hullPoints() const {
+    std::vector&lt;Point2D&gt; s;
+    std::stack&lt;Point2D&gt; tempHull = hull;
+    while (!tempHull.empty()) {
+        s.push_back(tempHull.top());
+        tempHull.pop();
+    }
+    std::ranges::reverse(s);
+    return s;
+}
+\/
+bool GrahamScan::isConvex() const {
+    const int n = static_cast&lt;int&gt;(hull.size());
+    if (n &lt;= 2) return true;
+\/
+    const std::vector&lt;Point2D&gt; points = hullPoints();
+\/
+    for (int i = 0; i &lt; n; i++) {
+        if (Point2D::ccw(points[i], points[(i + 1) % n], points[(i + 2) % n]) &lt;= 0) {
+            return false;
+        }
+    }
+    return true;
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+from Point2D import Point2D
+\/
+class GrahamScan:
+    def __init__(self, points):
+        if points is None:
+            raise ValueError("argument is null")
+        if not points:
+            raise ValueError("array is of length 0")
+\/
+        n = len(points)
+        a = sorted(points)
+\/
+        def polar_order(p1, p2):
+            dx1 = p1.x - a[0].x
+            dy1 = p1.y - a[0].y
+            dx2 = p2.x - a[0].x
+            dy2 = p2.y - a[0].y
+\/
+            if dy1 &gt;= 0 &gt; dy2:
+                return -1
+            elif dy2 &gt;= 0 &gt; dy1:
+                return +1
+            elif dy1 == 0 and dy2 == 0:
+                if dx1 &gt;= 0 &gt; dx2:
+                    return -1
+                elif dx2 &gt;= 0 &gt; dx1:
+                    return +1
+                else:
+                    return 0
+            else:
+                return -Point2D.ccw(a[0], p1, p2)
+\/
+        a[1:] = sorted(a[1:], key=lambda p: (p.y - a[0].y, p.x - a[0].x))
+\/
+        self.hull = [a[0], a[1]]
+\/
+        for i in range(2, n):
+            top = self.hull.pop()
+            while Point2D.ccw(self.hull[-1], top, a[i]) &lt;= 0:
+                top = self.hull.pop()
+            self.hull.append(top)
+            self.hull.append(a[i])
+\/
+    def hull_points(self):
+        return self.hull
+\/
+    def _is_convex(self):
+        n = len(self.hull)
+        if n &lt;= 2:
+            return True
+\/
+        for i in range(n):
+            if Point2D.ccw(self.hull[i], self.hull[(i + 1) % n], self.hull[(i + 2) % n]) &lt;= 0:
+                return False
+        return True
+    </code-block>
+    </tab>
+</tabs>
 
 ## 6. Mergesort {id = "mergesort"}
 
@@ -6446,374 +6994,5 @@ or <format color = "Fuchsia">Case 2:</format> skew of F is 1
 </p>
 <p>Perform a right rotation on F, then a left rotation on B</p>
 <img src = "../images_data/d10-4-2.png" alt = "Balancing AVL Trees"/>
-</li>
-</list>
-
-## 11 Geometric Applications of BSTs
-
-<p><format color = "BlueViolet">Topic</format>: Intersections among 
-<format color = "OrangeRed">geometric objects</format>.</p>
-
-<p><format color = "BlueViolet">Applications</format>: CAD, games, 
-movies, virtual reality, databases...</p>
-
-### 11.1 1d Range Search
-
-<list type = "bullet">
-<li>
-<p><format color = "DarkOrange">Range search</format>: find all key between
-<math>k_{1}</math> and <math>k_{2}</math>.</p>
-</li>
-<li>
-<p><format color = "DarkOrange">Range count</format>: # of keys between
-<math>k_{1}</math> and <math>k_{2}</math>.</p>
-</li>
-<li>Geometric interpretation: Keys are point on a 
-<format color = "OrangeRed">line</format>; find/count points in a given 
-<format color = "OrangeRed">1d interval</format>.</li>
-</list>
-
-<procedure title = "1d range count">
-<step>
-<p>Recursively find all keys in left subtree (if any could fall 
-in range).</p>
-</step>
-<step>
-<p>Check key in current node.</p>
-</step>
-<step>
-<p>Recursively find all keys in right subtree (if any could fall 
-in range).</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Property</format>: Running
-time proportinal to <math>R + \ log N</math></p>
-
-### 11.2 Line Segment Intersection
-
-<p><format color = "IndianRed">Goal</format>: Given <math>N</math> 
-horizontal and vertical line segments, find all intersections 
-(all <math>x</math>- and <math>y</math>-coordinates are distinct.</p>
-
-<procedure title = "Sweep-Line Algorithm => Sweep Vertical Lines 
-from Left to Right">
-<step>
-<p><math>x</math>-coordinates define events.</p>
-</step>
-<step>
-<p><math>h</math>-segments (left endpoint): insert <math>y</math>- 
-coordiantes into BST.</p>
-</step>
-<step>
-<p><math>h</math>-segments (right endpoint): remove <math>y</math>- 
-coordiantes from BST.</p>
-</step>
-<step>
-<p><math>v</math>- segment: range search for interval of 
-<math>y</math>-endpoints.</p>
-</step>
-</procedure>
-
-<img src = "../images_data/d11-2-1.png" alt = "Line Segment 
-Intersection"/>
-
-<p><format color = "LawnGreen">Properties</format>: The sweep-line 
-algorithm takes time proportional to <math>N \log N + R</math> to 
-find all <math>R</math> intersections among <math>N</math> 
-orthogonal line segments.</p>
-
-<p>Proof: </p>
-<list type = "bullet">
-<li>
-<p>Put <math>x</math>-coordinates on a PQ (or sort). => 
-<math>N \log N</math></p>
-</li>
-<li>
-<p>Insert <math>y</math>-coordinates into BST. => 
-<math>N \log N</math></p>
-</li>
-<li>
-<p>Delete <math>y</math>-coordinates from BST. => 
-<math>N \log N</math></p>
-</li>
-<li>
-<p>Range searches in BST. => <math>N \log N + R</math></p>
-</li>
-</list>
-
-### 11.3 Kd-Trees
-
-<p><format color = "MediumVioletRed">Goal</format>: 2d orthogonal range search.</p>
-
-<p><format color = "MediumVioletRed">Geometric interpretation</format>: 
-Keys are point in the <format color = "OrangeRed">plane</format>;
-find/count points in a given <format color = "OrangeRed">
-<math>h-v</math> rectangle</format>.</p>
-
-#### 11.3.1 Grid Implementation
-
-<procedure title = "Grid Implementation">
-<step>
-<p>Divide space into <math>M</math> -by- <math>M</math> grid of 
-squares.</p>
-</step>
-<step>
-<p>Create list of points contained in each square.</p>
-</step>
-<step>
-<p>Use 2d array to directly index relevant square.</p>
-</step>
-<step>
-<p>Insert: add <math>(x, y)</math> to list for corresponding square.</p>
-</step>
-<step>
-<p>Range search: examine only squares that intersect 2d range 
-query.</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Properties: </format></p>
-
-<list type = "bullet">
-<li>
-<p>Space: <math>M ^ {2} + N</math></p>
-</li>
-<li>
-<p>Time: <math>1 + \frac {N}{M ^ {2}}</math> per square examined,
-on average.</p>
-</li>
-</list>
-
-<p><format color = "BlueViolet">Problems: </format></p>
-<list type = "bullet">
-<li>
-<p><format color = "OrangeRed">Clustering</format>: a well-known 
-phenomenon in geometric data.</p>
-</li>
-<li>
-<p>Lists are too long, even though average length is short.</p>
-</li>
-<li>
-<p>Need data structure that adapts gracefully to data.</p>
-</li>
-</list>
-
-#### 11.3.2 Space-Partitioning Trees
-
-<p><format color = "DarkOrange">Space-Partitioning Trees:</format> Use 
-a tree to represent a recursive subdivision of a 2d space.</p>
-
-<p><format color = "DarkOrange">2d Trees:</format> Recursively divide
-space into two halfplanes.</p>
-
-<p><format color = "BlueViolet">Applications:</format> Ray tracing,
-2d range search, Flight simulators, N-body simulation, Nearest
-neighbor search, Accelerate rendering in Doom, etc.</p>
-
-##### Part &#8544; 2d Trees
-
-<p><format color = "BlueViolet">Data Structure:</format> BST, but 
-alternate using <math>x</math>- and <math>y</math>- coordinates as 
-key.</p>
-
-<list type = "bullet">
-<li>
-<p>Search gives rectangle containing point.</p>
-</li>
-<li>
-<p>Insert further subdivides the plane.</p>
-</li>
-</list>
-
-<img src = "../images_data/d11-2-2.png" alt = "2d tree implementation"/>
-
-<procedure title = "Range Search - Find all points in a query 
-axis-aligned rectangle">
-<step>
-<p>Check if point in node lies in given rectangle.</p>
-</step>
-<step>
-<p>Recursively search left/bottom (if any could fall in rectangle).</p>
-</step>
-<step>
-<p>Recursively search right/top (if any could fall in rectangle).</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Properties: </format></p>
-
-<list type = "bullet">
-<li>
-<p>Typical case: <math>R + \log N</math></p>
-</li>
-<li>
-<p>Worst case (assuming tree is balanced): <math>R + \sqrt{N}</math></p>
-</li>
-</list>
-
-<procedure title = "Nearest Neighbor Search - Find closest point to 
-query point">
-<step>
-<p>Check distance from point in node to query point.</p>
-</step>
-<step>
-<p>Recursively search left/bottom (if it could contain a closer 
-point).</p>
-</step>
-<step>
-<p>Recursively search right/top (if it could contain a closer 
-point).</p>
-</step>
-<step>
-<p>Organize method so that it begins by searching for query point.</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Properties: </format></p>
-
-<list type = "bullet">
-<li>
-<p>Typical case: <math>\log N</math></p>
-</li>
-<li>
-<p>Worst case (even if tree is balanced): <math>N</math></p>
-</li>
-</list>
-
-##### Part &#8545; Kd Trees
-
-<p><format color = "DarkOrange">Kd Tree:</format> Recursively 
-partition <math>k</math>-dimensional space into 2 halfspaces.</p>
-
-<p><format color = "BlueViolet">Implementation:</format> BST, but
-cycle through dimensions ala 2d trees.</p>
-
-##### Part &#8546; N-body Simulation
-
-<format color = "BlueViolet">Goal:</format> Simulate the motion 
-of <math>N</math> particles, mutually affected by gravity.
-
-<procedure title = "Appel's Algorithm for N-body Simulation">
-<step>
-<p>Build 3d-tree with <math>N</math> particles as nodes.</p>
-</step>
-<step>
-<p>Store center-of-mass of subtree in each node.</p>
-</step>
-<step>
-<p>To compute total force acting on a particle, traverse tree, but 
-stop as soon as distance from particle to subdivision is sufficiently
-large.</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Properties:</format> Running time
-per step is <math>N \log N</math>.</p>
-
-### 11.4 Interval Search Tree
-
-<p>Create BST, where each node stores an interval <math>(lo, hi)
-</math>.</p>
-
-<list type = "bullet">
-<li>
-<p>Use left endpoint as BST <format color = "OrangeRed">key</format>
-.</p>
-</li>
-<li>
-<p>Store <format color = "BlueViolet">max endpoint</format> in 
-subtree rooted at node.</p>
-</li>
-</list>
-
-<procedure title = "Insertion for Interval Search Tree">
-<step>
-<p>Insert into BST, using <math>lo</math> as the key.</p>
-</step>
-<step>
-<p>Update max in each node on search path.</p>
-</step>
-</procedure>
-
-<procedure title = "Interval Search for Interval Search Tree" 
-type = "choices">
-<step>
-<p>If interval in node intersects query interval, return it.</p>
-</step>
-<step>
-<p>Else if left subtree is null, go right.</p>
-</step>
-<step>
-<p>Else if max endpoint in left subtree is less than lo, go right.</p>
-</step>
-<step>
-<p>Else go left.</p>
-</step>
-</procedure>
-
-<p>Order of growth of running time for <math>N</math> intervals.</p>
-
-<table style = "header-row">
-<tr><td>operation</td><td>brute</td><td>interval search tree</td>
-<td>best in theory</td></tr>
-<tr><td>insert interval</td><td><math>1</math></td><td><math>\log N
-</math></td><td><math>\log N</math></td></tr>
-<tr><td>find interval</td><td><math>N</math></td><td><math>\log N
-</math></td><td><math>\log N</math></td></tr>
-<tr><td>delete interval</td><td><math>N</math></td><td><math>\log N
-</math></td><td><math>\log N</math></td></tr>
-<tr><td>find <format color = "OrangeRed">any one</format> interval
-that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
-<td><math>\log N</math></td><td><math>\log N</math></td></tr>
-<tr><td>find <format color = "OrangeRed">all</format> interval
-that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
-<td><math>R \log N</math></td><td><math>R + \log N</math></td></tr>
-</table>
-
-### 11.5 Rectangle Intersection
-
-<p><format color = "BlueViolet">Sweep-line Algorithm</format>: </p>
-
-<list type = "bullet">
-<li>
-<p><math>x</math>-coordinates of left and right endpoints define 
-events.</p>
-</li>
-<li>
-<p>Maintain set of rectangles that intersect the sweep line in an 
-interval search tree (using <math>y</math>-intervals of rectangle).</p>
-</li>
-<li>
-<p>Left endpoint: interval search for <math>y</math>-interval of 
-rectangle; insert <math>y</math>-interval.</p>
-</li>
-<li>
-<p>Right endpoint: remove <math>y</math>-interval.</p>
-</li>
-</list>
-
-<p><format color = "BlueViolet">Property:</format> Sweep line 
-algorithm takes time proportional to <math>N \log N + R \log N</math> 
-to find <math>R</math> intersections among a set of <math>N</math> 
-rectangles.</p>
-
-<p>Proof: </p>
-<list type = "bullet">
-<li>
-<p>Put <math>x</math>-coordinates on a PQ (or sort) => 
-<math>N \log N</math></p>
-</li>
-<li>
-<p>Insert <math>y</math>-intervals into ST => <math>N \log N</math>
-</p>
-</li>
-<li>
-<p>Delete <math>y</math>-intervals from ST => <math>N \log N</math>
-</p>
-</li>
-<li>
-<p>Interval searches for y-intervals => <math>N \log N + R \log N
-</math></p>
 </li>
 </list>

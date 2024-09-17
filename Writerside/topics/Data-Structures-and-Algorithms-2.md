@@ -4,6 +4,375 @@
 
 <primary-label ref="finish"></primary-label>
 
+## 11 Geometric Applications of BSTs
+
+<p><format color = "BlueViolet">Topic</format>: Intersections among 
+<format color = "OrangeRed">geometric objects</format>.</p>
+
+<p><format color = "BlueViolet">Applications</format>: CAD, games, 
+movies, virtual reality, databases...</p>
+
+### 11.1 1d Range Search
+
+<list type = "bullet">
+<li>
+<p><format color = "DarkOrange">Range search</format>: find all key between
+<math>k_{1}</math> and <math>k_{2}</math>.</p>
+</li>
+<li>
+<p><format color = "DarkOrange">Range count</format>: # of keys between
+<math>k_{1}</math> and <math>k_{2}</math>.</p>
+</li>
+<li>Geometric interpretation: Keys are point on a 
+<format color = "OrangeRed">line</format>; find/count points in a given 
+<format color = "OrangeRed">1d interval</format>.</li>
+</list>
+
+<procedure title = "1d range count">
+<step>
+<p>Recursively find all keys in left subtree (if any could fall 
+in range).</p>
+</step>
+<step>
+<p>Check key in current node.</p>
+</step>
+<step>
+<p>Recursively find all keys in right subtree (if any could fall 
+in range).</p>
+</step>
+</procedure>
+
+<p><format color = "BlueViolet">Property</format>: Running
+time proportinal to <math>R + \ log N</math></p>
+
+### 11.2 Line Segment Intersection
+
+<p><format color = "IndianRed">Goal</format>: Given <math>N</math> 
+horizontal and vertical line segments, find all intersections 
+(all <math>x</math>- and <math>y</math>-coordinates are distinct.</p>
+
+<procedure title = "Sweep-Line Algorithm => Sweep Vertical Lines 
+from Left to Right">
+<step>
+<p><math>x</math>-coordinates define events.</p>
+</step>
+<step>
+<p><math>h</math>-segments (left endpoint): insert <math>y</math>- 
+coordiantes into BST.</p>
+</step>
+<step>
+<p><math>h</math>-segments (right endpoint): remove <math>y</math>- 
+coordiantes from BST.</p>
+</step>
+<step>
+<p><math>v</math>- segment: range search for interval of 
+<math>y</math>-endpoints.</p>
+</step>
+</procedure>
+
+<img src = "../images_data/d11-2-1.png" alt = "Line Segment 
+Intersection"/>
+
+<p><format color = "LawnGreen">Properties</format>: The sweep-line 
+algorithm takes time proportional to <math>N \log N + R</math> to 
+find all <math>R</math> intersections among <math>N</math> 
+orthogonal line segments.</p>
+
+<p>Proof: </p>
+<list type = "bullet">
+<li>
+<p>Put <math>x</math>-coordinates on a PQ (or sort). => 
+<math>N \log N</math></p>
+</li>
+<li>
+<p>Insert <math>y</math>-coordinates into BST. => 
+<math>N \log N</math></p>
+</li>
+<li>
+<p>Delete <math>y</math>-coordinates from BST. => 
+<math>N \log N</math></p>
+</li>
+<li>
+<p>Range searches in BST. => <math>N \log N + R</math></p>
+</li>
+</list>
+
+### 11.3 Kd-Trees
+
+<p><format color = "MediumVioletRed">Goal</format>: 2d orthogonal range search.</p>
+
+<p><format color = "MediumVioletRed">Geometric interpretation</format>: 
+Keys are point in the <format color = "OrangeRed">plane</format>;
+find/count points in a given <format color = "OrangeRed">
+<math>h-v</math> rectangle</format>.</p>
+
+#### 11.3.1 Grid Implementation
+
+<procedure title = "Grid Implementation">
+<step>
+<p>Divide space into <math>M</math> -by- <math>M</math> grid of 
+squares.</p>
+</step>
+<step>
+<p>Create list of points contained in each square.</p>
+</step>
+<step>
+<p>Use 2d array to directly index relevant square.</p>
+</step>
+<step>
+<p>Insert: add <math>(x, y)</math> to list for corresponding square.</p>
+</step>
+<step>
+<p>Range search: examine only squares that intersect 2d range 
+query.</p>
+</step>
+</procedure>
+
+<p><format color = "BlueViolet">Properties: </format></p>
+
+<list type = "bullet">
+<li>
+<p>Space: <math>M ^ {2} + N</math></p>
+</li>
+<li>
+<p>Time: <math>1 + \frac {N}{M ^ {2}}</math> per square examined,
+on average.</p>
+</li>
+</list>
+
+<p><format color = "BlueViolet">Problems: </format></p>
+<list type = "bullet">
+<li>
+<p><format color = "OrangeRed">Clustering</format>: a well-known 
+phenomenon in geometric data.</p>
+</li>
+<li>
+<p>Lists are too long, even though average length is short.</p>
+</li>
+<li>
+<p>Need data structure that adapts gracefully to data.</p>
+</li>
+</list>
+
+#### 11.3.2 Space-Partitioning Trees
+
+<p><format color = "DarkOrange">Space-Partitioning Trees:</format> Use 
+a tree to represent a recursive subdivision of a 2d space.</p>
+
+<p><format color = "DarkOrange">2d Trees:</format> Recursively divide
+space into two halfplanes.</p>
+
+<p><format color = "BlueViolet">Applications:</format> Ray tracing,
+2d range search, Flight simulators, N-body simulation, Nearest
+neighbor search, Accelerate rendering in Doom, etc.</p>
+
+##### Part &#8544; 2d Trees
+
+<p><format color = "BlueViolet">Data Structure:</format> BST, but 
+alternate using <math>x</math>- and <math>y</math>- coordinates as 
+key.</p>
+
+<list type = "bullet">
+<li>
+<p>Search gives rectangle containing point.</p>
+</li>
+<li>
+<p>Insert further subdivides the plane.</p>
+</li>
+</list>
+
+<img src = "../images_data/d11-2-2.png" alt = "2d tree implementation"/>
+
+<procedure title = "Range Search - Find all points in a query 
+axis-aligned rectangle">
+<step>
+<p>Check if point in node lies in given rectangle.</p>
+</step>
+<step>
+<p>Recursively search left/bottom (if any could fall in rectangle).</p>
+</step>
+<step>
+<p>Recursively search right/top (if any could fall in rectangle).</p>
+</step>
+</procedure>
+
+<p><format color = "BlueViolet">Properties: </format></p>
+
+<list type = "bullet">
+<li>
+<p>Typical case: <math>R + \log N</math></p>
+</li>
+<li>
+<p>Worst case (assuming tree is balanced): <math>R + \sqrt{N}</math></p>
+</li>
+</list>
+
+<procedure title = "Nearest Neighbor Search - Find closest point to 
+query point">
+<step>
+<p>Check distance from point in node to query point.</p>
+</step>
+<step>
+<p>Recursively search left/bottom (if it could contain a closer 
+point).</p>
+</step>
+<step>
+<p>Recursively search right/top (if it could contain a closer 
+point).</p>
+</step>
+<step>
+<p>Organize method so that it begins by searching for query point.</p>
+</step>
+</procedure>
+
+<p><format color = "BlueViolet">Properties: </format></p>
+
+<list type = "bullet">
+<li>
+<p>Typical case: <math>\log N</math></p>
+</li>
+<li>
+<p>Worst case (even if tree is balanced): <math>N</math></p>
+</li>
+</list>
+
+##### Part &#8545; Kd Trees
+
+<p><format color = "DarkOrange">Kd Tree:</format> Recursively 
+partition <math>k</math>-dimensional space into 2 halfspaces.</p>
+
+<p><format color = "BlueViolet">Implementation:</format> BST, but
+cycle through dimensions ala 2d trees.</p>
+
+##### Part &#8546; N-body Simulation
+
+<format color = "BlueViolet">Goal:</format> Simulate the motion 
+of <math>N</math> particles, mutually affected by gravity.
+
+<procedure title = "Appel's Algorithm for N-body Simulation">
+<step>
+<p>Build 3d-tree with <math>N</math> particles as nodes.</p>
+</step>
+<step>
+<p>Store center-of-mass of subtree in each node.</p>
+</step>
+<step>
+<p>To compute total force acting on a particle, traverse tree, but 
+stop as soon as distance from particle to subdivision is sufficiently
+large.</p>
+</step>
+</procedure>
+
+<p><format color = "BlueViolet">Properties:</format> Running time
+per step is <math>N \log N</math>.</p>
+
+### 11.4 Interval Search Tree
+
+<p>Create BST, where each node stores an interval <math>(lo, hi)
+</math>.</p>
+
+<list type = "bullet">
+<li>
+<p>Use left endpoint as BST <format color = "OrangeRed">key</format>
+.</p>
+</li>
+<li>
+<p>Store <format color = "BlueViolet">max endpoint</format> in 
+subtree rooted at node.</p>
+</li>
+</list>
+
+<procedure title = "Insertion for Interval Search Tree">
+<step>
+<p>Insert into BST, using <math>lo</math> as the key.</p>
+</step>
+<step>
+<p>Update max in each node on search path.</p>
+</step>
+</procedure>
+
+<procedure title = "Interval Search for Interval Search Tree" 
+type = "choices">
+<step>
+<p>If interval in node intersects query interval, return it.</p>
+</step>
+<step>
+<p>Else if left subtree is null, go right.</p>
+</step>
+<step>
+<p>Else if max endpoint in left subtree is less than lo, go right.</p>
+</step>
+<step>
+<p>Else go left.</p>
+</step>
+</procedure>
+
+<p>Order of growth of running time for <math>N</math> intervals.</p>
+
+<table style = "header-row">
+<tr><td>operation</td><td>brute</td><td>interval search tree</td>
+<td>best in theory</td></tr>
+<tr><td>insert interval</td><td><math>1</math></td><td><math>\log N
+</math></td><td><math>\log N</math></td></tr>
+<tr><td>find interval</td><td><math>N</math></td><td><math>\log N
+</math></td><td><math>\log N</math></td></tr>
+<tr><td>delete interval</td><td><math>N</math></td><td><math>\log N
+</math></td><td><math>\log N</math></td></tr>
+<tr><td>find <format color = "OrangeRed">any one</format> interval
+that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
+<td><math>\log N</math></td><td><math>\log N</math></td></tr>
+<tr><td>find <format color = "OrangeRed">all</format> interval
+that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
+<td><math>R \log N</math></td><td><math>R + \log N</math></td></tr>
+</table>
+
+### 11.5 Rectangle Intersection
+
+<p><format color = "BlueViolet">Sweep-line Algorithm</format>: </p>
+
+<list type = "bullet">
+<li>
+<p><math>x</math>-coordinates of left and right endpoints define 
+events.</p>
+</li>
+<li>
+<p>Maintain set of rectangles that intersect the sweep line in an 
+interval search tree (using <math>y</math>-intervals of rectangle).</p>
+</li>
+<li>
+<p>Left endpoint: interval search for <math>y</math>-interval of 
+rectangle; insert <math>y</math>-interval.</p>
+</li>
+<li>
+<p>Right endpoint: remove <math>y</math>-interval.</p>
+</li>
+</list>
+
+<p><format color = "BlueViolet">Property:</format> Sweep line 
+algorithm takes time proportional to <math>N \log N + R \log N</math> 
+to find <math>R</math> intersections among a set of <math>N</math> 
+rectangles.</p>
+
+<p>Proof: </p>
+<list type = "bullet">
+<li>
+<p>Put <math>x</math>-coordinates on a PQ (or sort) => 
+<math>N \log N</math></p>
+</li>
+<li>
+<p>Insert <math>y</math>-intervals into ST => <math>N \log N</math>
+</p>
+</li>
+<li>
+<p>Delete <math>y</math>-intervals from ST => <math>N \log N</math>
+</p>
+</li>
+<li>
+<p>Interval searches for y-intervals => <math>N \log N + R \log N
+</math></p>
+</li>
+</list>
+
 ## 12 Hash Tables
 
 <table style="none">
@@ -6153,1372 +6522,3 @@ cycle (and can trace back edgeTo[v] entries to find it).</p>
     </math> (negative cycle).</p>
 </step>
 </procedure>
-
-## 18 Maximum Flow and Minimum Cut
-
-### 18.1 Introduction
-
-<p><format color = "BlueViolet">Definitions:</format> </p>
-
-<p><format color = "DarkOrange"><math>st</math>-cut: </format> A 
-<format color = "OrangeRed"><math>st</math>-cut (cut)</format> is a 
-partition of the vertices into two disjoint sets, with <math>s
-</math> in one set <math>A</math> and <math>t</math> in the other 
-set <math>B</math>.</p>
-
-<p><format color = "DarkOrange"><math>st</math>-cut capacity: </format> 
-Its <format color = "OrangeRed">capacity</format> is the sum of the 
-capacities of the edges from <math>A</math> to <math>B</math>.</p>
-
-<note>
-<p>Each edge has a positive capacity in edge-weighted digraph here.</p>
-</note>
-
-<img src = "../images_data/d18-1-1.png" alt = "st-cut"/>
-
-<p><format color = "BlueViolet">Minimum cut problem:</format> 
-Find a cut of minimum capacity.</p>
-
-<p><format color = "BlueViolet">Definitions:</format> </p>
-
-<p><format color = "DarkOrange"><math>st</math>-flow:</format> An 
-<format color = "OrangeRed"><math>st</math>-flow (flow)</format> is 
-an assignment of values to the edges such that:</p>
-
-<list type = "bullet">
-<li>
-<p>Capacity constraint: 0 ≤ edge's flow ≤ edge's capacity.</p>
-</li>
-<li>
-<p>Local equilibrium: inflow = outflow at every vertex (except <math>s
-</math> and <math>t</math>).</p>
-</li>
-</list>
-
-<img src = "../images_data/d18-1-2.png" alt = "st-flow"/>
-
-<p><format color = "DarkOrange">Value of a flow:</format> 
-The value of a flow is the inflow at <math>t</math> (assuming 
-no edge points to <math>s</math> or from <math>t</math>.</p>
-
-<p><format color = "BlueViolet">Maximum st-flow (maxflow) problem:
-</format> Find a flow of maximum value.</p>
-
-<warning>
-<p>These two problems are dual!</p>
-</warning>
-
-### 18.2 Ford-Fulkerson Algorithm
-
-<procedure title = "Ford-Fulkerson Algorithm">
-<step>
-    <p>Start with 0 flow.</p>
-</step>
-<step>
-    <p>Find an undirected path from s to t such that: </p>
-    <p>1. Can increase flow on forward edges (not full).</p>
-    <p>2. Can decrease flow on backward edges (not empty).</p>
-</step>
-<step>
-    <p>Terminates when all paths from s to t are blocked by either a
-    full forward edge or an empty backward edge.</p>
-</step>
-</procedure>
-
-<img src = "../images_data/d18-2-1.png" alt = "Ford-Fulkerson Algorithm"/>
-
-<img src = "../images_data/d18-2-2.png" alt = "Ford-Fulkerson Algorithm"/>
-
-### 18.3 Maxflow-Mincut Theorem
-
-<p><format color = "BlueViolet">Definition:</format> </p>
-
-<p><format color = "OrangeRed">Net Flow:</format> The <format color = 
-"OrangeRed">net flow across</format> a cut (<math>A</math>, <math>B
-</math>) is the sum of the flows on its edges from <math>A</math> to 
-<math>B</math> minus the sum of the flows on its edges from from 
-<math>B</math> to <math>A</math>.</p>
-
-<p><format color = "BlueViolet">Flow-value lemma:</format> Let <math>f
-</math> be any flow and let (<math>A</math>, <math>B</math>) be any 
-cut. Then, the net flow across (<math>A</math>, <math>B</math>) 
-equals the value of <math>f</math>.</p>
-
-<p><format color = "LawnGreen">Proof:</format> By induction on the size of 
-<math>B</math>.</p>
-
-<list type = "bullet">
-<li>
-    <p>Base case: <math>B = {t}</math></p>
-</li>
-<li>
-    <p>Induction step: remains true by local equilibrium when moving
-    any vertex from <math>A</math> to <math>B</math>.</p>
-</li>
-</list>
-
-<p><format color = "BlueViolet">Weak duality:</format> Let <math>f
-</math> be any flow and let <math>(A, B)</math> be any cut. Then, the 
-value of the flow ≤ the capacity of the cut.</p>
-
-<p><format color = "LawnGreen">Proof:</format> </p>
-
-<p>Value of flow <math>f</math> = net flow across cut <math>(A, B)
-</math> ≤ capacity of cut <math>(A, B)</math>.</p>
-
-<p><format color = "BlueViolet">Augmenting path theorem:</format> A 
-flow f is a maxflow iff no augmenting paths.</p>
-
-<p><format color = "BlueViolet">Maxflow-mincut theorem:</format> Value 
-of the maxflow = capacity of mincut.</p>
-
-<p><format color = "LawnGreen">Proof:</format> The following three 
-conditions are equivalent for any flow <math>f</math>.</p>
-
-<list type = "decimal">
-<li>
-    <p>There exists a cut whose capacity equals the value of the flow 
-    <math>f</math>.</p>
-</li>
-<li>
-    <p><math>f</math> is a maxflow.</p>
-</li>
-<li>
-    <p>There is no augmenting path with respect to <math>f</math>.</p>
-</li>
-</list>
-
-<p><format color = "Fuchsia">1 -> 2:</format> </p>
-
-<list>
-<li>
-    <p>Suppose that <math>(A, B)</math> is a cut with capacity equal 
-    to the value of <math>f</math>.</p>
-</li>
-<li>
-    <p>Then, the value of any flow <math>f'</math> ≤ capacity of 
-    <math>(A, B)</math> = value of <math>f</math>.</p>
-</li>
-<li>
-    <p>Thus, <math>f</math> is a maxflow.</p>
-</li>
-</list>
-
-<p><format color = "Fuchsia">2 -> 3:</format> We prove 
-contrapositive: ~3 -> ~2</p>
-
-<list>
-<li>
-    <p>Suppose that there is an augmenting path with respect to 
-    <math>f</math>.</p>
-</li>
-<li>
-    <p>Can improve flow <math>f</math> by sending flow along this path.
-    </p>
-</li>
-<li>
-    <p>Thus, f is not a maxflow.</p>
-</li>
-</list>
-
-<p><format color = "Fuchsia">3 -> 1:</format> Suppose that there is no
-augmenting path with respect to <math>f</math>.</p>
-
-<list>
-<li>
-    <p>Let <math>(A, B)</math> be a cut where <math>A</math> is the set
-    of vertices connected to <math>s</math> by an undirected path with 
-    no full forward or empty backward edges.</p></li>
-<li>
-    <p>By definition, <math>s</math> is in <math>A</math>; since no 
-    augmenting path, <math>t</math> is in <math>B</math>.</p>
-</li>
-<li>
-    <p>Capacity of cut = net flow across cut (forward edges full; 
-    backward edges empty) = value of flow <math>f</math> (
-    flow-value lemma).</p>
-</li>
-</list>
-
-<p>To compute mincut <math>(A, B)</math> from maxflow <math>f</math>: 
-</p>
-
-<list>
-<li>
-    <p>By augmenting path theorem, no augmenting paths with respect 
-    to <math>f</math>.</p>
-</li>
-<li>
-    <p>Compute <math>A</math> = set of vertices connected to <math>s
-    </math> by an undirected path with no full forward or empty 
-    backward edges.</p>
-</li>
-</list>
-
-<img src = "../images_data/d18-3-1.png" alt = "Compute Mincut"/>
-
-### 18.4 Running Time Analysis
-
-<note>
-<p>Important special case: Edge capacities are integers between 1 and 
-<math>U</math>.</p>
-</note>
-
-<p><format color = "BlueViolet">Properties:</format> </p>
-
-<list type = "decimal">
-<li>
-    <p>The flow is integer-valued throughout Ford-Fulkerson.</p>
-    <p><format color = "LawnGreen">Proof:</format> </p>
-    <list type = "bullet">
-    <li>
-        <p>Bottleneck capacity is an integer.</p>
-    </li>
-    <li>
-        <p>Flow on an edge increases/decreases by bottleneck capacity.
-        </p>
-    </li>
-    </list>
-</li>
-<li>
-    <p>Number of augmentations ≤ the value of the maxflow.</p>
-    <p><format color="LawnGreen">Proof:</format> Each augmentation 
-    increases the value by at least 1.</p>
-</li>
-<li>
-    <p><format color="Fuchsia">Integrality theorem:</format> There 
-    exists an integer-valued maxflow.</p>
-    <p><format color="LawnGreen">Proof:</format> Ford-Fulkerson 
-    terminates and maxflow that it finds is integer-valued.</p>
-</li>
-</list>
-
-<p><format color = "BlueViolet">Running time:</format> FF performance 
-depends on choice of augmenting paths.</p>
-
-<p>Digraph with <math>V</math> vertices, <math>E</math> edges, and 
-integer capacities between 1 and <math>U</math></p>
-
-<table style="header-row">
-<tr>
-    <td>Augmenting Path</td>
-    <td>Number of Paths</td>
-    <td>Implementation</td>
-</tr>
-<tr>
-    <td>Shortest Path</td>
-    <td><math>\leq \frac {1}{2} E V</math></td>
-    <td>Queue (BFS)</td>
-</tr>
-<tr>
-    <td>Fattest path</td>
-    <td><math>\leq E \ln (E U)</math></td>
-    <td>Priority Queue</td>
-</tr>
-<tr>
-    <td>Random Path</td>
-    <td><math>\leq E U</math></td>
-    <td>Randomized Queue</td>
-</tr>
-<tr>
-    <td>DFS Path</td>
-    <td><math>\leq E U</math></td>
-    <td>Stack (DFS)</td>
-</tr>
-</table>
-
-### 18.5 Implementation
-
-#### 18.5.1 Flow Edge
-
-<p><format color="BlueViolet">Implementation:</format> </p>
-
-<p>Use residual capcity: </p>
-
-<list type="bullet">
-<li>
-    <p>Forward edge: residual capacity <math>= c_{e} - f_{e}</math>.
-    </p>
-</li>
-<li>
-    <p>Backward edge: residual capacity <math>= f_{e}</math>.</p>
-</li>
-</list>
-
-<img src="../images_data/d18-5-1.png" alt="Flow Edge"/>
-
-<p>Java</p>
-
-```Java
-public class FlowEdge {
-    private static final double FLOATING_POINT_EPSILON = 1.0E-10;
-
-    private final int v;
-    private final int w;
-    private final double capacity;
-    private double flow;
-
-    public FlowEdge(int v, int w, double capacity) {
-        if (v < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
-        if (w < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
-        if (!(capacity >= 0.0)) throw new IllegalArgumentException("Edge capacity must be non-negative");
-        this.v = v;
-        this.w = w;
-        this.capacity = capacity;
-        this.flow = 0.0;
-    }
-
-    public FlowEdge(int v, int w, double capacity, double flow) {
-        if (v < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
-        if (w < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
-        if (!(capacity >= 0.0)) throw new IllegalArgumentException("edge capacity must be non-negative");
-        if (!(flow <= capacity)) throw new IllegalArgumentException("flow exceeds capacity");
-        if (!(flow >= 0.0)) throw new IllegalArgumentException("flow must be non-negative");
-        this.v = v;
-        this.w = w;
-        this.capacity = capacity;
-        this.flow = flow;
-    }
-
-    public FlowEdge(FlowEdge e) {
-        this.v = e.v;
-        this.w = e.w;
-        this.capacity = e.capacity;
-        this.flow = e.flow;
-    }
-
-    public int from() {
-        return v;
-    }
-
-    public int to() {
-        return w;
-    }
-
-    public double capacity() {
-        return capacity;
-    }
-
-    public double flow() {
-        return flow;
-    }
-
-    public int other(int vertex) {
-        if (vertex == v) return w;
-        else if (vertex == w) return v;
-        else throw new IllegalArgumentException("invalid endpoint");
-    }
-
-    public double residualCapacityTo(int vertex) {
-        if (vertex == v) return flow;             
-        else if (vertex == w) return capacity - flow;  
-        else throw new IllegalArgumentException("invalid endpoint");
-    }
-
-    public void addResidualFlowTo(int vertex, double delta) {
-        if (!(delta >= 0.0)) throw new IllegalArgumentException("Delta must be non-negative");
-
-        if (vertex == v) flow -= delta;
-        else if (vertex == w) flow += delta;
-        else throw new IllegalArgumentException("invalid endpoint");
-
-        if (Math.abs(flow) <= FLOATING_POINT_EPSILON)
-            flow = 0;
-        if (Math.abs(flow - capacity) <= FLOATING_POINT_EPSILON)
-            flow = capacity;
-
-        if (!(flow >= 0.0)) throw new IllegalArgumentException("Flow is negative");
-        if (!(flow <= capacity)) throw new IllegalArgumentException("Flow exceeds capacity");
-    }
-
-    public String toString() {
-        return v + "->" + w + " " + flow + "/" + capacity;
-    }
-}
-```
-
-<p>C++ (FlowEdge.h)</p>
-
-```C++
-#ifndef FLOWEDGE_H
-#define FLOWEDGE_H
-
-#include <iostream>
-
-class FlowEdge {
-private:
-    static constexpr double FLOATING_POINT_EPSILON = 1.0E-10;
-
-    int v;
-    int w;
-    double capacity;
-    double flow;
-
-public:
-    FlowEdge(int v, int w, double capacity);
-    FlowEdge(int v, int w, double capacity, double flow);
-    FlowEdge(const FlowEdge& e);
-
-    [[nodiscard]] int from() const;
-    [[nodiscard]] int to() const;
-    [[nodiscard]] double getcapacity() const;
-    [[nodiscard]] double getflow() const;
-    [[nodiscard]] int other(int vertex) const;
-    [[nodiscard]] double residualCapacityTo(int vertex) const;
-    void addResidualFlowTo(int vertex, double delta);
-
-    friend std::ostream& operator<<(std::ostream& os, const FlowEdge& e); 
-};
-
-#endif // FLOWEDGE_H
-```
-
-<p>C++ (FlowEdge.cpp)</p>
-
-```C++
-#include "FlowEdge.h"
-#include <stdexcept>
-#include <cmath>
-
-FlowEdge::FlowEdge(const int v, const int w, const double capacity) : v(v), w(w), capacity(capacity), flow(0.0) {
-    if (v < 0) throw std::invalid_argument("vertex index must be a non-negative integer");
-    if (w < 0) throw std::invalid_argument("vertex index must be a non-negative integer");
-    if (!(capacity >= 0.0)) throw std::invalid_argument("Edge capacity must be non-negative");
-}
-
-FlowEdge::FlowEdge(const int v, const int w, const double capacity, const double flow) : v(v), w(w), capacity(capacity), flow(flow) {
-    if (v < 0) throw std::invalid_argument("vertex index must be a non-negative integer");
-    if (w < 0) throw std::invalid_argument("vertex index must be a non-negative integer");
-    if (!(capacity >= 0.0)) throw std::invalid_argument("edge capacity must be non-negative");
-    if (!(flow <= capacity)) throw std::invalid_argument("flow exceeds capacity");
-    if (!(flow >= 0.0)) throw std::invalid_argument("flow must be non-negative");
-}
-
-FlowEdge::FlowEdge(const FlowEdge& e) = default;
-
-int FlowEdge::from() const {
-    return v;
-}
-
-int FlowEdge::to() const {
-    return w;
-}
-
-double FlowEdge::getcapacity() const {
-    return capacity;
-}
-
-double FlowEdge::getflow() const {
-    return flow;
-}
-
-int FlowEdge::other(const int vertex) const {
-    if (vertex == v) return w;
-    else if (vertex == w) return v;
-    else throw std::invalid_argument("invalid endpoint");
-}
-
-double FlowEdge::residualCapacityTo(const int vertex) const {
-    if (vertex == v) return flow;
-    else if (vertex == w) return capacity - flow;
-    else throw std::invalid_argument("invalid endpoint");
-}
-
-void FlowEdge::addResidualFlowTo(const int vertex, const double delta) {
-    if (!(delta >= 0.0)) throw std::invalid_argument("Delta must be non-negative");
-
-    if (vertex == v) flow -= delta;
-    else if (vertex == w) flow += delta;
-    else throw std::invalid_argument("invalid endpoint");
-
-    if (std::abs(flow) <= FLOATING_POINT_EPSILON)
-        flow = 0;
-    if (std::abs(flow - capacity) <= FLOATING_POINT_EPSILON)
-        flow = capacity;
-
-    if (!(flow >= 0.0)) throw std::invalid_argument("Flow is negative");
-    if (!(flow <= capacity)) throw std::invalid_argument("Flow exceeds capacity");
-}
-
-std::ostream& operator<<(std::ostream& os, const FlowEdge& e) {
-    os << e.v << "->" << e.w << " " << e.flow << "/" << e.capacity;
-    return os;
-}
-```
-
-<p>Python</p>
-
-```Python
-class FlowEdge:
-    FLOATING_POINT_EPSILON = 1e-10
-
-    def __init__(self, v, w, capacity, flow=0.0):
-        if v < 0:
-            raise ValueError("vertex index must be a non-negative integer")
-        if w < 0:
-            raise ValueError("vertex index must be a non-negative integer")
-        if capacity < 0.0:
-            raise ValueError("Edge capacity must be non-negative")
-        if flow > capacity:
-            raise ValueError("flow exceeds capacity")
-        if flow < 0.0:
-            raise ValueError("flow must be non-negative")
-
-        self._v = v
-        self._w = w
-        self._capacity = capacity
-        self._flow = flow
-
-    def from_(self):
-        return self._v
-
-    def to(self):
-        return self._w
-
-    def capacity(self):
-        return self._capacity
-
-    def flow(self):
-        return self._flow
-
-    def other(self, vertex):
-        if vertex == self._v:
-            return self._w
-        elif vertex == self._w:
-            return self._v
-        else:
-            raise ValueError("invalid endpoint")
-
-    def residualCapacityTo(self, vertex):
-        if vertex == self._v:
-            return self._flow 
-        elif vertex == self._w:
-            return self._capacity - self._flow  
-        else:
-            raise ValueError("invalid endpoint")
-
-    def addResidualFlowTo(self, vertex, delta):
-        if delta < 0.0:
-            raise ValueError("Delta must be non-negative")
-
-        if vertex == self._v:
-            self._flow -= delta
-        elif vertex == self._w:
-            self._flow += delta
-        else:
-            raise ValueError("invalid endpoint")
-
-        if abs(self._flow) <= self.FLOATING_POINT_EPSILON:
-            self._flow = 0
-        if abs(self._flow - self._capacity) <= self.FLOATING_POINT_EPSILON:
-            self._flow = self._capacity
-
-        if self._flow < 0.0:
-            raise ValueError("Flow is negative")
-        if self._flow > self._capacity:
-            raise ValueError("Flow exceeds capacity")
-
-    def __str__(self):
-        return f"{self._v}->{self._w} {self._flow}/{self._capacity}"
-```
-
-
-#### 18.5.2 Flow Network
-
-<img src="../images_data/d18-5-2.png" alt="Flow Network"/>
-
-<p>Java</p>
-
-```Java
-import java.util.ArrayList;
-import java.util.List;
-
-public class FlowNetwork {
-    private final int V;
-    private int E;
-    private final List<FlowEdge>[] adj;
-
-    public FlowNetwork(int V, int E, List<int[]> edges) {
-        if (V < 0) throw new IllegalArgumentException("Number of vertices in a Graph must be non-negative");
-        if (E < 0) throw new IllegalArgumentException("Number of edges must be non-negative");
-        this.V = V;
-        this.E = 0;
-        adj = (List<FlowEdge>[]) new List[V];
-        for (int v = 0; v < V; v++)
-            adj[v] = new ArrayList<>();
-        for (int[] edge : edges) {
-            int v = edge[0];
-            int w = edge[1];
-            double capacity = edge[2];
-            validateVertex(v);
-            validateVertex(w);
-            addEdge(new FlowEdge(v, w, capacity));
-        }
-    }
-
-    public int V() {
-        return V;
-    }
-
-    public int E() {
-        return E;
-    }
-
-    private void validateVertex(int v) {
-        if (v < 0 || v >= V)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
-    }
-
-    public void addEdge(FlowEdge e) {
-        int v = e.from();
-        int w = e.to();
-        validateVertex(v);
-        validateVertex(w);
-        adj[v].add(e);
-        adj[w].add(e);
-        E++;
-    }
-
-    public Iterable<FlowEdge> adj(int v) {
-        validateVertex(v);
-        return adj[v];
-    }
-
-    public Iterable<FlowEdge> edges() {
-        List<FlowEdge> list = new ArrayList<>();
-        for (int v = 0; v < V; v++)
-            for (FlowEdge e : adj(v)) {
-                if (e.to() != v)
-                    list.add(e);
-            }
-        return list;
-    }
-
-    public String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append(V).append(" ").append(E).append(System.lineSeparator());
-        for (int v = 0; v < V; v++) {
-            s.append(v).append(":  ");
-            for (FlowEdge e : adj[v]) {
-                if (e.to() != v) s.append(e).append("  ");
-            }
-            s.append(System.lineSeparator());
-        }
-        return s.toString();
-    }
-}
-```
-
-<p>C++ (FlowNetwork.h)</p>
-
-```C++
-#ifndef FLOWNETWORK_H
-#define FLOWNETWORK_H
-
-#include <vector>
-#include "FlowEdge.h"
-
-class FlowNetwork {
-private:
-    int V;
-    int E;
-    std::vector<FlowEdge>* adj;
-
-    void validateVertex(int v) const;
-
-public:
-    FlowNetwork(int V, int E, const std::vector<std::vector<int>>& edges);
-
-    [[nodiscard]] int getV() const;
-    [[nodiscard]] int getE() const;
-    void addEdge(const FlowEdge& e);
-    [[nodiscard]] std::vector<FlowEdge> getadj(int v) const;
-    [[nodiscard]] std::vector<FlowEdge> edges() const;
-
-    friend std::ostream& operator<<(std::ostream& os, const FlowNetwork& network);
-};
-
-#endif // FLOWNETWORK_H
-```
-
-<p>C++ (FlowNetwork.cpp)</p>
-
-```C++
-#include <iostream>
-#include "FlowNetwork.h"
-
-FlowNetwork::FlowNetwork(int V, int E, const std::vector<std::vector<int>>& edges) : V(V), E(0) {
-    if (V < 0) throw std::invalid_argument("Number of vertices in a Graph must be non-negative");
-    if (E < 0) throw std::invalid_argument("Number of edges must be non-negative");
-
-    adj = new std::vector<FlowEdge>[V];
-    for (const auto& edge : edges) {
-        int v = edge[0];
-        int w = edge[1];
-        double capacity = edge[2];
-        validateVertex(v);
-        validateVertex(w);
-        addEdge(FlowEdge(v, w, capacity));
-    }
-}
-
-int FlowNetwork::V() const {
-    return V;
-}
-
-int FlowNetwork::E() const {
-    return E;
-}
-
-void FlowNetwork::validateVertex(int v) const {
-    if (v < 0 || v >= V)
-        throw std::invalid_argument("vertex " + std::to_string(v) + " is not between 0 and " + std::to_string(V - 1));
-}
-
-void FlowNetwork::addEdge(const FlowEdge& e) {
-    int v = e.from();
-    int w = e.to();
-    validateVertex(v);
-    validateVertex(w);
-    adj[v].push_back(e);
-    adj[w].push_back(e);
-    E++;
-}
-
-std::vector<FlowEdge> FlowNetwork::adj(int v) const {
-    validateVertex(v);
-    return adj[v];
-}
-
-std::vector<FlowEdge> FlowNetwork::edges() const {
-    std::vector<FlowEdge> list;
-    for (int v = 0; v < V; v++) {
-        for (const FlowEdge& e : adj(v)) {
-            if (e.to() != v)
-                list.push_back(e);
-        }
-    }
-    return list;
-}
-
-std::ostream& operator<<(std::ostream& os, const FlowNetwork& network) {
-    os << network.V << " " << network.E << std::endl;
-    for (int v = 0; v < network.V; v++) {
-        os << v << ":  ";
-        for (const FlowEdge& e : network.adj[v]) {
-            if (e.to() != v) os << e << "  ";
-        }
-        os << std::endl;
-    }
-    return os;
-}
-```
-
-<p>Python</p>
-
-```Python
-from FlowEdge import FlowEdge
-
-class FlowNetwork:
-    def __init__(self, V, E, edges):
-        if V < 0:
-            raise ValueError("Number of vertices in a Graph must be non-negative")
-        if E < 0:
-            raise ValueError("Number of edges must be non-negative")
-
-        self._V = V
-        self._E = 0
-        self._adj = [[] for _ in range(V)]
-
-        for edge in edges:
-            v, w, capacity = edge
-            self._validate_vertex(v)
-            self._validate_vertex(w)
-            self._add_edge(FlowEdge(v, w, capacity))
-
-    def V(self):
-        return self._V
-
-    def E(self):
-        return self._E
-
-    def _validate_vertex(self, v):
-        if v < 0 or v >= self._V:
-            raise ValueError(f"vertex {v} is not between 0 and {self._V - 1}")
-
-    def _add_edge(self, e):
-        v = e.from_()
-        w = e.to()
-        self._validate_vertex(v)
-        self._validate_vertex(w)
-        self._adj[v].append(e)
-        self._adj[w].append(e)
-        self._E += 1
-
-    def adj(self, v):
-        self._validate_vertex(v)
-        return self._adj[v]
-
-    def edges(self):
-        all_edges = []
-        for v in range(self._V):
-            for edge in self.adj(v):
-                if edge.to() != v:
-                    all_edges.append(edge)
-        return all_edges
-
-    def __str__(self):
-        s = f"{self._V} {self._E}\n"
-        for v in range(self._V):
-            s += f"{v}:  "
-            for edge in self._adj[v]:
-                if edge.to() != v:
-                    s += str(edge) + "  "
-            s += "\n"
-        return s
-```
-
-#### 18.5.3 Ford-Fulkerson Algorithm
-
-<p>Java</p>
-
-```Java
-import java.util.LinkedList;
-import java.util.Queue;
-
-public class FordFulkerson {
-    private static final double FLOATING_POINT_EPSILON = 1.0E-11;
-
-    private final int V;
-    private boolean[] marked;
-    private FlowEdge[] edgeTo;
-    private double value;
-
-    public FordFulkerson(FlowNetwork G, int s, int t) {
-        V = G.V();
-        validate(s);
-        validate(t);
-        if (s == t) throw new IllegalArgumentException("Source equals sink");
-        if (!isFeasible(G, s, t)) throw new IllegalArgumentException("Initial flow is infeasible");
-
-        value = excess(G, t);
-        while (hasAugmentingPath(G, s, t)) {
-            double bottle = Double.POSITIVE_INFINITY;
-            for (int v = t; v != s; v = edgeTo[v].other(v)) {
-                bottle = Math.min(bottle, edgeTo[v].residualCapacityTo(v));
-            }
-
-            for (int v = t; v != s; v = edgeTo[v].other(v)) {
-                edgeTo[v].addResidualFlowTo(v, bottle);
-            }
-
-            value += bottle;
-        }
-
-        // check optimality conditions
-        assert check(G, s, t);
-    }
-
-    public double value() {
-        return value;
-    }
-
-    public boolean inCut(int v) {
-        validate(v);
-        return marked[v];
-    }
-
-    private void validate(int v) {
-        if (v < 0 || v >= V)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V - 1));
-    }
-
-    private boolean hasAugmentingPath(FlowNetwork G, int s, int t) {
-        edgeTo = new FlowEdge[G.V()];
-        marked = new boolean[G.V()];
-
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(s);
-        marked[s] = true;
-        while (!queue.isEmpty() && !marked[t]) {
-            int v = queue.remove();
-
-            for (FlowEdge e : G.adj(v)) {
-                int w = e.other(v);
-
-                if (e.residualCapacityTo(w) > 0) {
-                    if (!marked[w]) {
-                        edgeTo[w] = e;
-                        marked[w] = true;
-                        queue.add(w);
-                    }
-                }
-            }
-        }
-
-        return marked[t];
-    }
-
-    private double excess(FlowNetwork G, int v) {
-        double excess = 0.0;
-        for (FlowEdge e : G.adj(v)) {
-            if (v == e.from()) excess -= e.flow();
-            else excess += e.flow();
-        }
-        return excess;
-    }
-
-    private boolean isFeasible(FlowNetwork G, int s, int t) {
-        for (int v = 0; v < G.V(); v++) {
-            for (FlowEdge e : G.adj(v)) {
-                if (e.flow() < -FLOATING_POINT_EPSILON || e.flow() > e.capacity() + FLOATING_POINT_EPSILON) {
-                    System.err.println("Edge does not satisfy capacity constraints: " + e);
-                    return false;
-                }
-            }
-        }
-
-        if (Math.abs(value + excess(G, s)) > FLOATING_POINT_EPSILON) {
-            System.err.println("Excess at source = " + excess(G, s));
-            System.err.println("Max flow         = " + value);
-            return false;
-        }
-        if (Math.abs(value - excess(G, t)) > FLOATING_POINT_EPSILON) {
-            System.err.println("Excess at sink   = " + excess(G, t));
-            System.err.println("Max flow         = " + value);
-            return false;
-        }
-        for (int v = 0; v < G.V(); v++) {
-            if (v == s || v == t) continue;
-            else if (Math.abs(excess(G, v)) > FLOATING_POINT_EPSILON) {
-                System.err.println("Net flow out of " + v + " doesn't equal zero");
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean check(FlowNetwork G, int s, int t) {
-        if (!isFeasible(G, s, t)) {
-            System.err.println("Flow is infeasible");
-            return false;
-        }
-
-        if (!inCut(s)) {
-            System.err.println("source " + s + " is not on source side of min cut");
-            return false;
-        }
-        if (inCut(t)) {
-            System.err.println("sink " + t + " is on source side of min cut");
-            return false;
-        }
-
-        double mincutValue = 0.0;
-        for (int v = 0; v < G.V(); v++) {
-            for (FlowEdge e : G.adj(v)) {
-                if ((v == e.from()) && inCut(e.from()) && !inCut(e.to()))
-                    mincutValue += e.capacity();
-            }
-        }
-
-        if (Math.abs(mincutValue - value) > FLOATING_POINT_EPSILON) {
-            System.err.println("Max flow value = " + value + ", min cut value = " + mincutValue);
-            return false;
-        }
-
-        return true;
-    }
-}
-```
-
-<p>C++ (FordFulkerson.h)</p>
-
-```C++
-#ifndef FORDFULKERSON_H
-#define FORDFULKERSON_H
-
-#include <vector>
-#include "FlowEdge.h"
-#include "FlowNetwork.h"
-
-class FordFulkerson {
-private:
-    static constexpr double FLOATING_POINT_EPSILON = 1.0E-11;
-
-    int V;
-    std::vector<bool> marked;
-    std::vector<FlowEdge> edgeTo;
-    double value;
-
-    void validate(int v) const;
-    bool hasAugmentingPath(const FlowNetwork& G, int s, int t);
-    static double excess(const FlowNetwork& G, int v) ;
-    [[nodiscard]] bool isFeasible(const FlowNetwork& G, int s, int t) const;
-    [[nodiscard]] bool check(const FlowNetwork& G, int s, int t) const;
-
-public:
-    FordFulkerson(const FlowNetwork& G, int s, int t);
-
-    [[nodiscard]] double getvalue() const;
-    [[nodiscard]] bool inCut(int v) const;
-};
-
-#endif // FORDFULKERSON_H
-```
-
-<p>C++ (FordFulkerson.cpp)</p>
-
-```C++
-#include <cassert>
-#include <iostream>
-#include <limits>
-#include <queue>
-#include <vector>
-#include "FordFulkerson.h"
-
-FordFulkerson::FordFulkerson(const FlowNetwork& G, const int s, const int t) : V(G.getV()), value(0.0) {
-    validate(s);
-    validate(t);
-    if (s == t) throw std::invalid_argument("Source equals sink");
-    if (!isFeasible(G, s, t)) throw std::invalid_argument("Initial flow is infeasible");
-
-    value = excess(G, t);
-    while (hasAugmentingPath(G, s, t)) {
-
-        double bottle = std::numeric_limits<double>::infinity(); // Use numeric_limits for infinity
-        for (int v = t; v != s; v = edgeTo[v].other(v)) {
-            bottle = std::min(bottle, edgeTo[v].residualCapacityTo(v));
-        }
-
-        for (int v = t; v != s; v = edgeTo[v].other(v)) {
-            edgeTo[v].addResidualFlowTo(v, bottle);
-        }
-
-        value += bottle;
-    }
-    assert(check(G, s, t));
-}
-
-double FordFulkerson::getvalue() const {
-    return value;
-}
-
-bool FordFulkerson::inCut(int v) const {
-    validate(v);
-    return marked[v];
-}
-
-void FordFulkerson::validate(int v) const {
-    if (v < 0 || v >= V)
-        throw std::invalid_argument("vertex " + std::to_string(v) + " is not between 0 and " + std::to_string(V - 1));
-}
-
-bool FordFulkerson::hasAugmentingPath(const FlowNetwork& G, const int s, const int t) {
-    edgeTo.assign(G.getV(), FlowEdge(0, 0, 0.0));
-    marked.assign(G.getV(), false);
-
-    std::queue<int> queue;
-    queue.push(s);
-    marked[s] = true;
-    while (!queue.empty() && !marked[t]) {
-        const int v = queue.front();
-        queue.pop();
-
-        for (const FlowEdge& e : G.getadj(v)) {
-            const int w = e.other(v);
-
-            if (e.residualCapacityTo(w) > 0) {
-                if (!marked[w]) {
-                    edgeTo[w] = e;
-                    marked[w] = true;
-                    queue.push(w);
-                }
-            }
-        }
-    }
-    return marked[t];
-}
-
-double FordFulkerson::excess(const FlowNetwork& G, const int v) {
-    double excess = 0.0;
-    for (const FlowEdge& e : G.getadj(v)) {
-        if (v == e.from()) excess -= e.getflow();
-        else excess += e.getflow();
-    }
-    return excess;
-}
-
-bool FordFulkerson::isFeasible(const FlowNetwork& G, int s, int t) const {
-    for (int v = 0; v < G.getV(); v++) {
-        for (const FlowEdge& e : G.getadj(v)) {
-            if (e.getflow() < -FLOATING_POINT_EPSILON || e.getflow() > e.getcapacity() + FLOATING_POINT_EPSILON) {
-                std::cerr << "Edge does not satisfy capacity constraints: " << e << std::endl;
-                return false;
-            }
-        }
-    }
-
-    if (std::abs(value + excess(G, s)) > FLOATING_POINT_EPSILON) {
-        std::cerr << "Excess at source = " << excess(G, s) << std::endl;
-        std::cerr << "Max flow         = " << value << std::endl;
-        return false;
-    }
-    if (std::abs(value - excess(G, t)) > FLOATING_POINT_EPSILON) {
-        std::cerr << "Excess at sink   = " << excess(G, t) << std::endl;
-        std::cerr << "Max flow         = " << value << std::endl;
-        return false;
-    }
-    for (int v = 0; v < G.getV(); v++) {
-        if (v == s || v == t) continue;
-        else if (std::abs(excess(G, v)) > FLOATING_POINT_EPSILON) {
-            std::cerr << "Net flow out of " << v << " doesn't equal zero" << std::endl;
-            return false;
-        }
-    }
-    return true;
-}
-
-bool FordFulkerson::check(const FlowNetwork& G, int s, int t) const {
-    if (!isFeasible(G, s, t)) {
-        std::cerr << "Flow is infeasible" << std::endl;
-        return false;
-    }
-
-    if (!inCut(s)) {
-        std::cerr << "source " << s << " is not on source side of min cut" << std::endl;
-        return false;
-    }
-    if (inCut(t)) {
-        std::cerr << "sink " << t << " is on source side of min cut" << std::endl;
-        return false;
-    }
-
-    double mincutValue = 0.0;
-    for (int v = 0; v < G.getV(); v++) {
-        for (const FlowEdge& e : G.getadj(v)) {
-            if ((v == e.from()) && inCut(e.from()) && !inCut(e.to()))
-                mincutValue += e.getcapacity();
-        }
-    }
-
-    if (std::abs(mincutValue - value) > FLOATING_POINT_EPSILON) {
-        std::cerr << "Max flow value = " << value << ", min cut value = " << mincutValue << std::endl;
-        return false;
-    }
-
-    return true;
-}
-```
-
-<p>Python</p>
-
-```Python
-from collections import deque
-
-class FordFulkerson:
-    FLOATING_POINT_EPSILON = 1e-11
-
-    def __init__(self, G, s, t):
-        self._V = G.V()
-        self._validate(s)
-        self._validate(t)
-        if s == t:
-            raise ValueError("Source equals sink")
-        if not self._is_feasible(G, s, t):
-            raise ValueError("Initial flow is infeasible")
-
-        self._value = self._excess(G, t)
-        while self._has_augmenting_path(G, s, t):
-            # compute bottleneck capacity
-            bottle = float('inf')
-            for v in range(t, s -1, -1):
-                if v != s:
-                    bottle = min(bottle, self._edgeTo[v].residualCapacityTo(v))
-                    v = self._edgeTo[v].other(v)
-
-            # augment flow
-            for v in range(t, s-1, -1):
-                if v != s:
-                    self._edgeTo[v].addResidualFlowTo(v, bottle)
-                    v = self._edgeTo[v].other(v)
-
-            self._value += bottle
-
-        # check optimality conditions
-        assert self._check(G, s, t)
-
-    def value(self):
-        return self._value
-
-    def in_cut(self, v):
-        self._validate(v)
-        return self._marked[v]
-
-    def _validate(self, v):
-        if v < 0 or v >= self._V:
-            raise ValueError(f"vertex {v} is not between 0 and {self._V - 1}")
-
-    def _has_augmenting_path(self, G, s, t):
-        self._edgeTo = [None] * G.V()
-        self._marked = [False] * G.V()
-
-        queue = deque()
-        queue.append(s)
-        self._marked[s] = True
-        while queue and not self._marked[t]:
-            v = queue.popleft()
-
-            for e in G.adj(v):
-                w = e.other(v)
-
-                if e.residualCapacityTo(w) > 0:
-                    if not self._marked[w]:
-                        self._edgeTo[w] = e
-                        self._marked[w] = True
-                        queue.append(w)
-
-        return self._marked[t]
-
-    def _excess(self, G, v):
-        excess = 0.0
-        for e in G.adj(v):
-            if v == e.from_():
-                excess -= e.flow()
-            else:
-                excess += e.flow()
-        return excess
-
-    def _is_feasible(self, G, s, t):
-        for v in range(G.V()):
-            for e in G.adj(v):
-                if e.flow() < -self.FLOATING_POINT_EPSILON or e.flow() > e.capacity() + self.FLOATING_POINT_EPSILON:
-                    print(f"Edge does not satisfy capacity constraints: {e}")
-                    return False
-
-        if abs(self._value + self._excess(G, s)) > self.FLOATING_POINT_EPSILON:
-            print(f"Excess at source = {self._excess(G, s)}")
-            print(f"Max flow         = {self._value}")
-            return False
-        if abs(self._value - self._excess(G, t)) > self.FLOATING_POINT_EPSILON:
-            print(f"Excess at sink   = {self._excess(G, t)}")
-            print(f"Max flow         = {self._value}")
-            return False
-        for v in range(G.V()):
-            if v == s or v == t:
-                continue
-            elif abs(self._excess(G, v)) > self.FLOATING_POINT_EPSILON:
-                print(f"Net flow out of {v} doesn't equal zero")
-                return False
-        return True
-
-    def _check(self, G, s, t):
-        if not self._is_feasible(G, s, t):
-            print("Flow is infeasible")
-            return False
-
-        if not self.in_cut(s):
-            print(f"source {s} is not on source side of min cut")
-            return False
-        if self.in_cut(t):
-            print(f"sink {t} is on source side of min cut")
-            return False
-
-        mincut_value = 0.0
-        for v in range(G.V()):
-            for e in G.adj(v):
-                if v == e.from_() and self.in_cut(e.from_()) and not self.in_cut(e.to()):
-                    mincut_value += e.capacity()
-
-        if abs(mincut_value - self._value) > self.FLOATING_POINT_EPSILON:
-            print(f"Max flow value = {self._value}, min cut value = {mincut_value}")
-            return False
-
-        return True
-```
-
-### 18.6 Maxflow Applications
-
-<p><format color="BlueViolet">Applications:</format> </p>
-
-<list>
-<li>Data mining.</li>
-<li>Open-pit mining.</li>
-<li><format color="OrangeRed">Bipartite matching.</format></li>
-<li>Network reliability.</li>
-<li><format color="OrangeRed">Baseball elimination.</format></li>
-<li>Image segmentation.</li>
-<li>Network connectivity.</li>
-<li>Distributed computing.</li>
-<li>Security of statistical data.</li>
-<li>Egalitarian stable matching.</li>
-<li>Multi-camera scene reconstruction.</li>
-<li>Sensor placement for homeland security.</li>
-<li>Many, many, more.</li>
-</list>
-
-#### 18.6.1 Bipartite Matching
-
-<p>N students apply for N jobs. Given a bipartite graph, find a 
-perfect matching.</p>
-
-<img src="../images_data/d18-6-1.png" alt="Bipartite Matching"/>
-
-<procedure title="Bipartite Matching">
-<step>
-    <p>Create <math>s</math>, <math>t</math>, one vertex for each 
-    student, and one vertex for each job.</p>
-</step>
-<step>
-    <p>Add edge from <math>s</math> to each student (capacity 1).</p>
-</step>
-<step>
-    <p>Add edge from each job to <math>t</math> (capacity 1).</p>
-</step>
-<step>
-    <p>Add edge from student to each job offered (infinite capacity).
-    </p>
-</step>
-<step>
-    <p>1-1 correspondence between perfect matchings in bipartite graph
-    and integer-valued maxflows of value <math>N</math>.</p>
-</step>
-</procedure>
-
-<img src="../images_data/d18-6-2.png" alt="Bipartite Matching"/>
-
-<p><format color="BlueViolet">When no perfect matching, mincut 
-explains why:</format> </p>
-
-<p>Consider mincut (<math>A</math>, <math>B</math>): </p>
-
-<list>
-<li>Let <math>S</math> = students on <math>s</math> side of cut.</li>
-<li>Let <math>T</math> = companies on <math>s</math> side of cut.</li>
-<li>Fact: <math>\left| S \right| > \left| T \right|</math>; students 
-in <math>S</math> can be matched only to companies in <math>T</math>.
-</li>
-</list>
-
-<img src="../images_data/d18-6-3.png" alt="Mincut"/>
-
-#### 18.6.2 Baseball Elimination
-
-<p><format color="BlueViolet">Problem:</format> Which teams have a 
-chance of finishing the season with the most wins?</p>
-
-<img src="../images_data/d18-6-4.png" alt="Baseball Elimination"/>
-
-<img src="../images_data/d18-6-5.png" alt="Baseball Elimination"/>
-
-<p>Team 4 not eliminated iff all edges pointing from s are full in 
-maxflow.</p>
-
-<warning>
-Team 4 not eliminated iff all edges pointing from s are full in 
-maxflow.
-</warning>
-
-<note>
-Push-relabel method with gap relabeling: <math>E^{\frac {3}{2}}
-</math>.
-</note>
