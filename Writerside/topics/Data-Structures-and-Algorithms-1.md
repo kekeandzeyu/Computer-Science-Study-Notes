@@ -3960,94 +3960,79 @@ def quicksort(arr, comparator=lambda x, y: x &lt; y):
 
 <img src="../images_data/d7-2-1.png" alt="Quick Select"/>
 
-Java
+<p><format color="BlueViolet">Property:</format> Quick-select takes
+<format color="OrangeRed">linear</format> time on average.</p>
 
-```Java
-public static Comparable select(Comparable[] a, int k) {
+<p><format color="LawnGreen">Proof:</format> </p>
+
+<list type="bullet">
+<li>
+    <p>Intuitively, each partitioning step splits array 
+    approximately in half: <math>N + \frac {N}{2} + \frac {N}{4}
+    + \text{...} + 1 \sim 2N</math> compares.</p>
+</li>
+<li>
+    <p>Formal analysis similar to quicksort analysis yields:</p>
+    <code-block lang="tex">
+    C_{N} = 2N + 2k \ln \frac {N}{k} + 2(N - k) \ln \frac {N}{N - k}
+    </code-block>
+    <p><math>(2 + 2 \ln 2)N</math> to find the median</p>
+</li>
+</list>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+public static &lt;T&gt; T select(T[] a, int k, Comparator&lt;? super T&gt; comparator) {
     int lo = 0, hi = a.length - 1;
-    while (hi > lo) {
-        int j = partition(a, lo, hi);
-        if (j < k) lo = j + 1;
-        else if (j > k) hi = j - 1;
+    while (hi &gt; lo) {
+        int j = partition(a, lo, hi, comparator);
+        if (j &lt; k) lo = j + 1;
+        else if (j &gt; k) hi = j - 1;
         else return a[k];
     }
     return a[k];
 }
-```
-
-C++
-
-```C++
-#include <algorithm>
-#include <vector>
-
-int partition(std::vector<int>& nums, int left, int right) {
-    int pivot = nums[right];
-    int i = left - 1;
-
-    for (int j = left; j <= right - 1; j++) {
-        if (nums[j] <= pivot) {
-            i++;
-            std::swap(nums[i], nums[j]);
-        }
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+template &lt;typename T, typename Comparator = std::less&lt;&gt;&gt;
+T select(T arr[], int k, int lo, int hi, Comparator comparator = {}) {
+    while (hi &gt; lo) {
+        int j = partition(arr, lo, hi, comparator);
+        if (j &lt; k) lo = j + 1;
+        else if (j &gt; k) hi = j - 1;
+        else return arr[k];
     }
-    std::swap(nums[i + 1], nums[right]);
-    return (i + 1);
+    return arr[k];
 }
-
-int quickSelect(std::vector<int>& nums, int left, int right, int k) {
-    if (left == right) {
-        return nums[left];
-    }
-
-    int pivotIndex = partition(nums, left, right);
-
-    if (k == pivotIndex) {
-        return nums[k];
-    } else if (k < pivotIndex) {
-        return quickSelect(nums, left, pivotIndex - 1, k);
-    } else {
-        return quickSelect(nums, pivotIndex + 1, right, k);
-    }
+\/
+template &lt;typename T, typename Comparator = std::less&lt;&gt;&gt;
+T select(T arr[], const int n, int k, Comparator comparator = {}) {
+    return select(arr, k, 0, n - 1, comparator);
 }
-
-int findKthSmallest(std::vector<int>& nums, int k) {
-    return quickSelect(nums, 0, nums.size() - 1, k - 1);
-}
-```
-
-Python
-
-```Python
-def partition(nums, low, high):
-    pivot = nums[high]
-    i = low - 1
-    for j in range(low, high):
-        if nums[j] <= pivot:
-            i += 1
-            nums[i], nums[j] = nums[j], nums[i]
-    nums[i + 1], nums[high] = nums[high], nums[i + 1]
-    return i + 1
-
-
-def quick_select(nums, k, low, high):
-    if low == high:
-        return nums[low]
-
-    pivot_index = partition(nums, low, high)
-    if k == pivot_index:
-        return nums[k]
-    elif k < pivot_index:
-        return quick_select(nums, k, low, pivot_index - 1)
-    else:
-        return quick_select(nums, k, pivot_index + 1, high)
-
-
-def find_kth_smallest(nums, k):
-    if k < 0 or k >= len(nums):
-        raise IndexError('k is out of bounds')
-    return quick_select(nums, k, 0, len(nums) - 1)
-```
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+def select(arr, k, lo, hi, comparator):
+    while hi &gt; lo:
+        j = partition(arr, lo, hi, comparator)
+        if j &lt; k:
+            lo = j + 1
+        elif j &gt; k:
+            hi = j - 1
+        else:
+            return arr[k]
+    return arr[k]
+\/
+\/
+def quickselect(arr, k, comparator=lambda x, y: x &lt; y):
+    return select(arr, k, 0, len(arr) - 1, comparator)
+    </code-block>
+    </tab>
+</tabs>
 
 ### 7.3 Duplicate Keys
 
