@@ -4,7 +4,7 @@
 
 ## &#8544; C++ Fundamentals
 
-### 1 C & C++ Introduction {id = "intro"}
+### 1 C & C++ Introduction {id="intro"}
 
 <p><format color="BlueViolet">Properties:</format> </p>
 
@@ -17,20 +17,21 @@
     <p>C/C++ <format style="italic">compilers</format> map C/C++ 
     programs into architecture-specific machine code (string of 0s 
     and 1s).</p>
-<list type="bullet">
-<li>
-    <p>Unlike Java, which converts to architecture-independent 
-    bytecode (run by JVM => Java Virtual Machine).</p>
-</li>
-<li>
-    <p>Unlike Python, which directly <format style="italic">interprets
-    </format> the code.</p>
-</li>
-<li>
-    <p>Main difference is when your program is mapped to low-level 
-    machine instructions, CPU will directly interprets and runs.</p>
-</li>
-</list>
+    <list type="bullet">
+    <li>
+        <p>Unlike Java, which converts to architecture-independent 
+        bytecode (run by JVM => Java Virtual Machine).</p>
+    </li>
+    <li>
+        <p>Unlike Python, which directly <format style="italic">
+        interprets</format> the code.</p>
+    </li>
+    <li>
+        <p>Main difference is when your program is mapped to low-level 
+        machine instructions, CPU will directly interprets and runs.
+        </p>
+    </li>
+    </list>
 </li>
 </list>
 
@@ -41,7 +42,7 @@
     <p><format color="Fuchsia">Excellent run-time performance: 
     </format></p>
     <p>Generally much faster than Python or Java for comparable code 
-    because it <format color = "OrangeRed">optimizes for the given 
+    because it <format color="OrangeRed">optimizes for the given 
     architecture</format>.</p>
 </li>
 <li>
@@ -60,11 +61,11 @@
     specific(CPU type and OS).</p>
     <list type="bullet">
     <li>
-    <p>Executable must be <format color = "OrangeRed">rebuilt</format> 
-    on each new system.</p>
+        <p>Executable must be <format color="OrangeRed">rebuilt
+        </format> on each new system.</p>
     </li>
     <li>
-    <p>i.e. "porting your code" to a new architecture.</p>
+        <p>i.e. "porting your code" to a new architecture.</p>
     </li>
     </list>
 </li>

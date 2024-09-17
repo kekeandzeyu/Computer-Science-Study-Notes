@@ -3615,45 +3615,101 @@ items with equal keys.</p>
 
 ### 7.1 Quicksort
 
-<p><format color="BlueViolet">Properties:</format> </p>
-
-<list>
-<li>
-    <p>Time complexity: <math>O(N log N)</math>.</p>
-</li>
-<li>
-    <p>Best case: Number of compares is <math>\sim NlgN</math>.</p>
-</li>
-<li>
-    <p>Worst case: Number of compares is <math>\sim \frac{1}{2} N^{2}</math>.</p>
-</li>
-<li>
-    <p>The average number of compares <math>C_N</math> to
-    quicksort an array of <math>N</math> distinct keys is <math>\sim 2N ln N </math> 
-    (and the number of exchanges is <math>\sim \frac{1}{3} NlnN </math>).</p>
-    <p>Proof: <math>C_N</math> satisfies the recurrence <math>C_0 = C_1 = 0</math> 
-    and for <math>N \leq 2</math>:</p>
-    <code-block lang = "tex">
-    C_N = (N + 1) + \frac{C_0 + C_{N-1}}{N} + \frac{C_1 + C_{N-2}}{N} + \ldots + \frac{C_{N-1} + C_0}{N}
-    </code-block>
-    <p>while <math>N + 1</math> stands for partititoning, and the rest stands for
-    partitioning probability.</p>
+<procedure title="Quicksort">
+<step>
+    <format color="OrangeRed">Shuffle</format> the array.
+</step>
+<step>
+    <format color="OrangeRed">Partition</format> so that, for some 
+    <math>j</math>:
     <list>
     <li>
+        <p>Entry <code>a[j]</code> is in place;</p>
+    </li>
+    <li>
+        <p>No larger entry to the left of <math>j</math>;</p>
+    </li>
+    <li>
+        <p>No smaller entry to the right of <math>j</math>.</p>
+    </li>
+    </list>
+</step>
+<step>
+    <p><format color="OrangeRed">Sort</format> each piece recursively
+    .</p>
+</step>
+</procedure>
+
+<procedure title="Quicksort Partitioning">
+<step>
+    <p>Scan <math>i</math> from left to right so long as 
+    (a[i] &lt; a[lo]).</p>
+</step>
+<step>
+    <p>Scan <math>j</math> from right to left so long as (a[j] &gt; 
+    a[lo]).</p>
+</step>
+<step>
+    <p>Exchange a[i] with a[j], repeat until <math>i</math> and 
+    <math>j</math> pointers cross.</p>
+</step>
+<step>
+    <p>When pointers cross, Exchange a[lo] with a[j].</p>
+</step>
+</procedure>
+
+<p><format color="BlueViolet">Runtime Analysis:</format> </p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Time complexity:</format> <math>
+    O(N log N)</math>.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Best case:</format> Number of compares
+    is <math>\sim N \lg N</math>.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Worst case:</format> Number of 
+    compares is <math>\sim \frac{1}{2} N^{2}</math>.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Property:</format> The average number of 
+compares <math>C_{N}</math> to quicksort an array of <math>N</math> 
+distinct keys is <math>\sim 2N \ln N </math> (and the number of 
+exchanges is <math>\sim \frac{1}{3} N \ln N </math>).</p>
+
+<p><format color="LawnGreen">Proof:</format> </p>
+
+<p><math>C_{N}</math> satisfies the recurrence <math>C_0 = C_1 = 0
+</math> and for <math>N \leq 2</math>:</p>
+
+<code-block lang="tex">
+C_N = (N + 1) + \frac{C_0 + C_{N-1}}{N} + \frac{C_1 + C_{N-2}}{N} + \ldots + \frac{C_{N-1} + C_0}{N}
+</code-block>
+
+<note>
+<p><math>N + 1</math> stands for partititoning, and the rest stands 
+for partitioning probability.</p>
+</note>
+
+<list type="bullet">
+<li>
     <p>Multiply both sides by <math>N</math> and collect terms:</p>
-    <code-block lang = "tex" style = "inline">
+    <code-block lang="tex">
     NC_{N} = N(N+1) + 2(C_0 + C_1 + \ldots + C_{N-1})
     </code-block>
-    </li>
-    <li>
+</li>
+<li>
     <p>Subtract this from the same equation for <em>N</em> - 1:</p>
-    <code-block lang = "tex" style = "inline">
+    <code-block lang="tex">
     NC_{N} - (N-1)C_{N-1} = 2N + 2C_{N-1}
     </code-block>
-    </li>
-    <li>
+</li>
+<li>
     <p>Repeatedly apply above equation:</p>
-    <code-block lang = "tex" style = "inline">
+    <code-block lang="tex">
     \begin{align*}
     \frac{C_{N}}{N+1} &= \frac{C_{N-1}}{N} + \frac{2}{N+1} \\
     &= \frac{C_{N-2}}{N-1} + \frac{2}{N} + \frac{2}{N+1} \\
@@ -3661,208 +3717,248 @@ items with equal keys.</p>
     &= \frac{2}{3} + \frac{2}{4} + \frac{2}{5} + \ldots + \frac{2}{N+1}
     \end{align*}
     </code-block>
-    </li>
-    <li>
+</li>
+<li>
     <p>Approximate sum by integral:</p>
-    <code-block lang = "tex" style = "inline">
+    <code-block lang="tex">
     \begin{align*}
     C_{N} &= 2(N + 1)\left(\frac{1}{3} + \frac{1}{4} + \frac{1}{5} + \ldots + \frac{1}{N + 1}\right) \\
     &\sim 2(N + 1) \int_{3}^{N+1} \frac{1}{x} dx
     \end{align*}
     </code-block>
-    </li>
-    <li>
+</li>
+<li>
     <p>Finally, desired result:</p>
-    <code-block lang = "tex" style = "inline">
+    <code-block lang="tex">
     C_{N} \sim 2N \ln N \approx 1.39N \ln N
     </code-block>
 </li>
 </list>
+
+<p>Quicksort is an in-place, non-stable sorting algorithm.</p>
+
+<p><format color="BlueViolet">Summary of performance characteristics:
+</format></p>
+
+<list type="alpha-lower">
+<li>
+    <p><format color="Fuchsia">Worst case:</format> Number of 
+    compares are quadratic.</p>
+    <list type="bullet">
+    <li>
+        <code-block lang="tex">
+        N + (N - 1) + (N - 2) + \text{...} + 1  \sim \frac{1}{2} N^{2}
+        </code-block>
+    </li>
+    <li>
+        <p>More likely that your computer is struck by lightning bolt.</p>
+    </li>
+    </list>
 </li>
 <li>
-    <p>Quicksort is an in-place, non-stable sorting algorithm.</p>
+    <p><format color="Fuchsia">Average case:</format> Number of 
+    compares is <math>\sim 1.39 N \lg N</math>.</p>
+    <list type="bullet">
+    <li>
+        <p>39% more compares than mergesort.</p>
+    </li>
+    <li>
+        <p><format color="OrangeRed">But</format> faster than 
+        mergesort in practice because of less data movement.</p>
+    </li>
+    </list>
+</li>
+<li>
+    <p><format color="Fuchsia">Random shuffle:</format> </p>
+    <list type="bullet">
+    <li>
+        <p>Probabilistic guarantee against worst case.</p>
+    </li>
+    <li>
+        <p>Basis for math model that can be validated with experiments
+        .</p>
+    </li>
+    </list>
+</li>
+<li>
+    <p><format color="Fuchsia">Caveat emptor:</format> </p>
+    <p>Many textbook implementations go <format color="OrangeRed">
+    quadratic</format> if array:</p>
+    <list type="bullet">
+    <li>
+        <p>Is sorted or reverse sorted.</p>
+    </li>
+    <li>
+        <p>Has many duplicates (even if randomized!)</p>
+    </li>
+    </list>
 </li>
 </list>
 
-<tip>
-    <p>
-    Summary of performance characteristics:
-    </p>
-<list type = "alpha-lower">
-    <li>
-        <p>Average case:</p>
-        <list type = "bullet">
-            <li>
-                39% more compares than mergesort.
-            </li>
-            <li>
-                <format color = "OrangeRed">But</format> faster than mergesort in
-                practice because of less data movement.
-            </li>
-        </list>
-    </li>
-    <li>
-        Random shuffle:
-        <list type = "bullet">
-            <li>
-                Probabilistic guarantee against worst case.
-            </li>
-            <li>
-                Basis for math model that can be validated with experiments.
-            </li>
-        </list>
-    </li>
-    <li>
-        Caveat emptor:
-        <list type = "bullet">
-            <li>
-                Many textbook implementations go <format color = "OrangeRed">quadratic</format>
-                if array:
-                <list type = "bullet">
-                    <li>
-                        Is sorted or reverse sorted.
-                    </li>
-                    <li>
-                        Has many duplicates (even if randomized!)
-                    </li>
-                </list>
-            </li>
-        </list>
-    </li>
-</list>
-</tip>
-
-<procedure title = "Basic Plan for Quicksort">
-<step>
-    <format color = "OrangeRed">Shuffle</format> the array.
-</step>
-<step>
-    <format color = "OrangeRed">Partition</format> so that, for some <math>j</math>:
-    <list>
-        <li>
-            Entry <code>a[j]</code> is in place;
-        </li>
-        <li>
-            No larger entry to the left of <math>j</math>;
-        </li>
-        <li>
-            No smaller entry to the right of <math>j</math>.
-        </li>
-    </list>
-</step>
-<step>
-    <format color = "OrangeRed">Sort</format> each piece recursively.
-</step>
-</procedure>
-
 <note>
-For information about the performance of quicksort, please refer
-to the <a href="Data-Structures-and-Algorithms-3.md" anchor="sortperf" 
-summary="Table for Comparing Performance of Sorting Algorithm">table 
-for sorting performance</a>.
+<p>For more information about the performance of quicksort, please 
+refer to the <a href="Data-Structures-and-Algorithms-3.md" 
+anchor="sortperf" summary="Table for Comparing Performance of Sorting
+Algorithm">table for sorting performance</a>.</p>
 </note>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Comparator;
+\/
 public class Quick {
-    private static int partition(Comparable[]a, int lo, int hi) {
+    private static final int CUTOFF = 10;
+\/
+    private static &lt;T&gt; int partition(T[] a, int lo, int hi, Comparator&lt;? super T&gt; comparator) {
         int i = lo, j = hi + 1;
         while (true) {
-            while (less(a[++i], a[lo])) {
+            while (comparator.compare(a[++i], a[lo]) &lt; 0) {
                 if (i == hi) break;
             }
-            while (less(a[lo], a[--j])) {
+            while (j &gt; lo && comparator.compare(a[lo], a[--j]) &lt; 0) {
                 if (j == lo) break;
             }
-            if (i >= j) break;
+            if (i &gt;= j) break;
             exch(a, i, j);
         }
         exch(a, lo, j);
         return j;
     }
-
-    public static void sort(Comparable[] a) {
-        sort(a, 0, a.length - 1);
+\/
+    public static &lt;T&gt; void sort(T[] a, Comparator&lt;? super T&gt; comparator) {
+        sort(a, 0, a.length - 1, comparator);
     }
-
-    private static void sort(Comparable[] a, int lo, int hi) {
-        if (hi <= lo) return;
-        int j = partition(a, lo, hi);
-        sort(a, lo, j - 1);
-        sort(a, j + 1, hi);
+\/
+    private static &lt;T&gt; void sort(T[] a, int lo, int hi, Comparator&lt;? super T&gt; comparator) {
+        if (hi &lt;= lo + CUTOFF - 1) {
+            insertionSort(a, lo, hi, comparator);
+            return;
+        }
+        int j = partition(a, lo, hi, comparator);
+        sort(a, lo, j - 1, comparator);
+        sort(a, j + 1, hi, comparator);
     }
-
-    private static boolean less(Comparable v, Comparable w) {
-        if (v == w) return false; // optimization when reference equals
-        return v.compareTo(w) < 0;
+\/
+    private static &lt;T&gt; void insertionSort(T[] a, int lo, int hi, Comparator&lt;? super T&gt; comparator) {
+        for (int i = lo + 1; i &lt;= hi; i++) {
+            for (int j = i; j &gt; lo && comparator.compare(a[j], a[j - 1]) &lt; 0; j--) {
+                exch(a, j, j - 1);
+            }
+        }
     }
-
-    private static void exch(Object[] a, int i, int j) {
-        Object swap = a[i];
+\/
+    private static &lt;T&gt; void exch(T[] a, int i, int j) {
+        T swap = a[i];
         a[i] = a[j];
         a[j] = swap;
     }
 }
-```
-
-C++
-
-```C++
-#include <algorithm>
-
-int partition (int arr[], int low, int high) {
-    int pivot = arr[high];
-    int i = (low - 1);
-
-    for (int j = low; j <= high - 1; j++) {
-        if (arr[j] < pivot) {
-            i++;
-            std::swap(arr[i], arr[j]);
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;functional&gt;
+#include &lt;algorithm&gt;
+\/
+template &lt;typename T, typename Comparator = std::less&lt;&gt;&gt;
+int partition(T arr[], int lo, const int hi, Comparator comparator = {}) {
+    int i = lo, j = hi + 1;
+    while (true) {
+        while (comparator(arr[++i], arr[lo])) {
+            if (i == hi) break;
         }
+        while (j &gt; lo && comparator(arr[lo], arr[--j])) {
+            if (j == lo) break;
+        }
+        if (i &gt;= j) break;
+        std::swap(arr[i], arr[j]);
     }
-    std::swap(arr[i + 1], arr[high]);
-    return (i + 1);
+    std::swap(arr[lo], arr[j]);
+    return j;
 }
-
-void quickSort(int arr[], int low, int high) {
-    if (low < high) {
-        int pi = partition(arr, low, high);
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+\/
+template &lt;typename T, typename Comparator = std::less&lt;&gt;&gt;
+void sort(T arr[], int lo, int hi, Comparator comparator = {}) {
+    constexpr int CUTOFF = 10;
+    if (hi &lt;= lo + CUTOFF - 1) {
+        std::sort(arr + lo, arr + hi + 1, comparator);
+        return;
     }
+    const int j = partition(arr, lo, hi, comparator);
+    sort(arr, lo, j - 1, comparator);
+    sort(arr, j + 1, hi, comparator);
 }
-```
-
-Python
-
-```Python
-def quick_sort(arr):
-    if len(arr) <= 1:
-        return arr
-    pivot = arr[len(arr) // 2]
-    left = [x for x in arr if x < pivot]
-    middle = [x for x in arr if x == pivot]
-    right = [x for x in arr if x > pivot]
-    return quick_sort(left) + middle + quick_sort(right)
-```
+\/
+template &lt;typename T, typename Comparator = std::less&lt;&gt;&gt;
+void sort(T arr[], const int n, Comparator comparator = {}) {
+    sort(arr, 0, n - 1, comparator);
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+def partition(arr, lo, hi, comparator):
+    i, j = lo, hi + 1
+    while True:
+        while comparator(arr[i + 1], arr[lo]) &lt; 0:
+            i += 1
+            if i == hi:
+                break
+        while comparator(arr[lo], arr[j - 1]) &lt; 0 and j &gt; lo:
+            j -= 1
+            if j == lo:
+                break
+        if i &gt;= j:
+            break
+        arr[i], arr[j] = arr[j], arr[i]
+    arr[lo], arr[j] = arr[j], arr[lo]
+    return j
+\/
+\/
+def insertion_sort(arr, lo, hi, comparator):
+    for i in range(lo + 1, hi + 1):
+        j = i
+        while j &gt; lo and comparator(arr[j], arr[j - 1]) &lt; 0:
+            arr[j], arr[j - 1] = arr[j - 1], arr[j]
+            j -= 1
+\/
+\/
+def sort(arr, lo, hi, comparator):
+    CUTOFF = 10
+    if hi &lt;= lo + CUTOFF - 1:
+        insertion_sort(arr, lo, hi, comparator)
+        return
+    j = partition(arr, lo, hi, comparator)
+    sort(arr, lo, j - 1, comparator)
+    sort(arr, j + 1, hi, comparator)
+\/
+\/
+def quicksort(arr, comparator=lambda x, y: x &lt; y):
+    sort(arr, 0, len(arr) - 1, comparator)
+    </code-block>
+    </tab>
+</tabs>
 
 ### 7.2 Selection
 
-<p>Goal: Given an array of <math>N</math> items, 
-find the <math>k ^ {th}</math> largest.</p>
+<p>Goal: Given an array of <math>N</math> items, find the 
+<math>k ^ {\text{th}}</math> largest.</p>
 
-<procedure title = "Basic Plan for Quick Selection">
+<procedure title="Quick Selection">
 <step>
-    Partition array so that entry <code>a[j]</code> is in place.
+    <p>Partition array so that entry <code>a[j]</code> is in place.
+    </p>
 </step>
 <step>
-    Repeat in <format color = "OrangeRed">one</format> subarray, depending 
-    on <math>j</math>; finished when <math>j</math> equals <math>k</math>.
+    <p>Repeat in <format color="OrangeRed">one</format> subarray, 
+    depending on <math>j</math>; finished when <math>j</math> equals
+    <math>k</math>.</p>
 </step>
 </procedure>
 
-<img src="../images_data/d7-2-1.png" alt="Quick Select" width="450"/>
+<img src="../images_data/d7-2-1.png" alt="Quick Select"/>
 
 Java
 
