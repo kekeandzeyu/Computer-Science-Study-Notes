@@ -3158,216 +3158,206 @@ class GrahamScan:
     </tab>
 </tabs>
 
-## 6. Mergesort {id = "mergesort"}
+## 6. Mergesort {id="mergesort"}
 
 ### 6.1 Mergesort
 
-<p><format color="BlueViolet">Properties:</format> </p>
-
-<list>
+<list type="bullet">
 <li>
-    <p>Time complexity: <math>O(N log N)</math>.</p>
+    <p>Time complexity: <math>O(N \log N)</math>.</p>
 </li>
 <li>
     <p>Space complexity: <math>O(N)</math>.</p>
-    <tip>
-    <p>Def: A sorting algorithm is <format color = "OrangeRed"> in-place</format> 
-    if it uses ≤ <math>c log N</math> extra memory.</p>
-    <p>Example: Bubble sort, Insertion sort, Selection sort, Shellsort,
-    Quicksort.</p>
-    </tip>
-</li>
-<li>
-    <p>Mergesort uses at most <math>N lg N</math> compares
-    and <math>6N lg N</math> array accesses to sort any array of
-    size <em>N</em>.</p>
-    <p>Proof (Sketch):</p>
-    <p>The number of compares <math>C(N)</math> and array accesses
-    <math>A</math> (<math>N</math>) to mergesort an array of size 
-    <math>N</math> satisfies the recurrences:</p>
-    <code-block lang = "tex" style = "inline"> 
-        C(N) \leq C(\lceil \frac {N}{2} \rceil) + C(\lfloor \frac {N}{2} \rfloor) + N, N > 1, C(1) = 0
-    </code-block>
-    <code-block lang = "tex" style = "inline">
-        A(N) \leq A(\lceil \frac {N}{2} \rceil) + A(\lfloor \frac {N}{2} \rfloor) + N, N > 1, A(1) = 0
-    </code-block>
-    <p>-&gt;</p>
-    <code-block lang = "tex" style = "inline">
-        D(N) = 2D(\frac {N}{2}) + N, D(1) = 0 => D(N) = N lg N
-    </code-block>
-    <p>Proof:</p>
-    <code-block lang = "tex" style = "inline">
-        D(N) = 2D(\frac {N}{2}) + N
-    </code-block>
-    <p>And we have:</p>
-    <code-block lang = "tex" style = "inline">
-    \begin{align*}
-    D(N)/N &= \frac {2D(\frac {N}{2})}{N} + 1 \\
-           &= \frac {D(\frac {N}{2})}{\frac {N}{2}} + 1 \\
-           &= \frac {D(\frac {N}{4})}{\frac {N}{4}} + 1 + 1 \\
-           &= \frac {D(\frac {N}{8})}{\frac {N}{8}} + 1 + 1 + 1 \\
-           &= ... \\
-           &= \frac {D(\frac {N}{N})}{\frac {N}{N}} + 1 + 1 + ... + 1 \\
-           &= lg N \\
-    (QED)
-    \end{align*}
-    </code-block>
 </li>
 </list>
 
-<procedure title = "Basic Plan for Merge Sort">
+<procedure title="Merge Sort">
 <step>
-    Divide the array into two halves.
+    <p>Divide the array into two halves.</p>
 </step>
 <step>
-    <format color = "OrangeRed">Recursively</format> sort each half.
+    <p><format color="OrangeRed">Recursively</format> sort each half.
+    </p>
 </step>
 <step>
-    Merge two halves.
+    <p>Merge two halves.</p>
 </step>
 </procedure>
 
-> Assertion: Statement to test assumptions about your program.
->
-> * Help detect bugs.
->
-> * Documents code.
->
-{style = "tip"}
+<p><format color="DarkOrange">In-place:</format> A sorting algorithm 
+is <format color="OrangeRed"> in-place</format> if it uses 
+<math>\leq c \log N</math> extra memory.</p>
+
+<p>Example: Insertion sort, selection sort, shellsort.</p>
+
+<p><format color="BlueViolet">Property:</format> Mergesort uses at 
+most <math>N \lg N</math> compares and <math>6N \lg N</math> array 
+accesses to sort any array of size <math>N</math>.</p>
+
+<p><format color="LawnGreen">Proof:</format> </p>
+
+<p>The number of compares <math>C(N)</math> and array accesses
+<math>A(N)</math> to mergesort an array of size 
+<math>N</math> satisfies the recurrences:</p>
+
+<code-block lang="tex"> 
+C(N) \leq C(\lceil \frac {N}{2} \rceil) + C(\lfloor \frac {N}{2} \rfloor) + N, N > 1, C(1) = 0
+</code-block>
+
+<code-block lang="tex">
+A(N) \leq A(\lceil \frac {N}{2} \rceil) + A(\lfloor \frac {N}{2} \rfloor) + N, N > 1, A(1) = 0
+</code-block>
+
+<p>-&gt;</p>
+
+<code-block lang="tex">
+D(N) = 2D(\frac {N}{2}) + N, D(1) = 0 => D(N) = N lg N
+</code-block>
+
+<p><format color="LawnGreen">Prove <math>D(N) = N \lg N</math>:
+</format> </p>
+
+<code-block lang="tex">
+D(N) = 2D(\frac {N}{2}) + N
+</code-block>
+
+<p>And we have:</p>
+
+<code-block lang="tex">
+\begin{align*}
+D(N)/N &= \frac {2D(\frac {N}{2})}{N} + 1 \\
+       &= \frac {D(\frac {N}{2})}{\frac {N}{2}} + 1 \\
+       &= \frac {D(\frac {N}{4})}{\frac {N}{4}} + 1 + 1 \\
+       &= \frac {D(\frac {N}{8})}{\frac {N}{8}} + 1 + 1 + 1 \\
+       &= ... \\
+       &= \frac {D(\frac {N}{N})}{\frac {N}{N}} + 1 + 1 + ... + 1 \\
+       &= \lg N \\
+(QED)
+\end{align*}
+</code-block>
+
+<tip>
+<p>Assertion: Statement to test assumptions about your program.</p>
+<list type="bullet">
+<li>
+    <p>Help detect bugs.</p>
+</li>
+<li>
+    <p>Documents code.</p>
+</li>
+</list>
+</tip>
 
 <note>
-For information about the performance of mergesort, please refer
-to the <a href="Data-Structures-and-Algorithms-3.md" anchor="sortperf" 
-summary="Table for Comparing Performance of Sorting Algorithm">table 
-for sorting performance</a>.
+For more information about the performance of mergesort, please 
+visit the <a href="Data-Structures-and-Algorithms-3.md" 
+anchor="sortperf" summary="Table for Comparing Performance of Sorting
+Algorithm">table for sorting performance</a>.
 </note>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Comparator;
+\/
 public class Merge {
-    private static void merge(Comparable[]a, Comparable[] aux, int lo, int mid, int hi) {
-        assert isSorted(a, lo, mid); // precondition: a[lo...mid] is sorted
-        assert isSorted(a, mid+1, hi); // precondition: a[mid+1...hi] is sorted
-
-        for (int k = lo; k <= hi; k++) {
-            aux[k] = a[k];
-        }
-
-        int i = lo, j = mid+1;
-        for (int k = lo; k <= hi; k++) {
-            if (i > mid) a[k] = aux[j++];
-            else if (j > hi) a[k] = aux[i++];
-            else if (less(aux[j], aux[i])) a[k] = aux[j++];
+    private static &lt;T&gt; void merge(T[] a, T[] aux, int lo, int mid, int hi, Comparator&lt;T&gt; comparator) {
+        System.arraycopy(a, lo, aux, lo, hi - lo + 1);
+\/
+        int i = lo, j = mid + 1;
+        for (int k = lo; k &lt;= hi; k++) {
+            if (i &gt; mid) a[k] = aux[j++];
+            else if (j &gt; hi) a[k] = aux[i++];
+            else if (comparator.compare(aux[j], aux[i]) &lt; 0) a[k] = aux[j++]; // Correct comparison
             else a[k] = aux[i++];
         }
-
-        assert isSorted(a, lo, hi); // postcondition: a[lo...hi] is sorted
     }
-    
-    private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
-    }
-
-    private static void sort(Comparable[]a, Comparable[] aux, int lo, int hi) {
-        if (hi <= lo) return;
+\/
+    private static &lt;T&gt; void sort(T[] a, T[] aux, int lo, int hi, Comparator&lt;T&gt; comparator) {
+        if (hi &lt;= lo) return;
         int mid = lo + (hi - lo) / 2;
-        sort(a, aux, lo, mid);
-        sort(a, aux, mid+1, hi);
-        merge(a, aux, lo, mid, hi);
+        sort(a, aux, lo, mid, comparator); 
+        sort(a, aux, mid + 1, hi, comparator); 
+        merge(a, aux, lo, mid, hi, comparator); 
     }
-
-    public static void sort(Comparable[]a) {
-        Comparable[] aux = new Comparable[a.length];
-        sort(a, aux, 0, a.length-1);
-    }
-
-    private static boolean isSorted(Comparable[] a, int lo, int hi) {
-        for (int i = lo + 1; i <= hi; i++)
-            if (less(a[i], a[i-1])) return false;
-        return true;
+\/
+    public static &lt;T&gt; void sort(T[] a, Comparator&lt;T&gt; comparator) {
+        T[] aux = (T[]) new Object[a.length];
+        sort(a, aux, 0, a.length - 1, comparator);
     }
 }
-```
-
-C++
-
-```C++
-#include <vector>
-#include <algorithm>
-
-class MergeSort {
-public:
-    static void sort(std::vector<int>& arr) {
-        if (arr.size() < 2) return;
-        std::vector<int> aux(arr.size());
-        sort(arr, aux, 0, arr.size() - 1);
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;functional&gt; // For std::less (optional)
+\/
+template &lt;typename T, typename Comparator = std::less&lt;&gt;&gt;
+void merge(T arr[], T aux[], const int lo, const int mid, const int hi, Comparator comparator = {}) {
+    for (int k = lo; k &lt;= hi; k++) {
+        aux[k] = arr[k];
     }
-
-private:
-    static void merge(std::vector<int>& arr, std::vector<int>& aux, int lo, int mid, int hi) {
-        std::copy(arr.begin() + lo, arr.begin() + hi + 1, aux.begin() + lo);
-
-        int i = lo, j = mid + 1;
-        for (int k = lo; k <= hi; k++) {
-            if (i > mid) arr[k] = aux[j++];
-            else if (j > hi) arr[k] = aux[i++];
-            else if (aux[j] < aux[i]) arr[k] = aux[j++];
-            else arr[k] = aux[i++];
-        }
+\/
+    int i = lo, j = mid + 1;
+    for (int k = lo; k &lt;= hi; k++) {
+        if (i &gt; mid) arr[k] = aux[j++];
+        else if (j &gt; hi) arr[k] = aux[i++];
+        else if (comparator(aux[j], aux[i])) arr[k] = aux[j++];
+        else arr[k] = aux[i++];
     }
-
-    static void sort(std::vector<int>& arr, std::vector<int>& aux, int lo, int hi) {
-        if (hi <= lo) return;
-        int mid = lo + (hi - lo) / 2;
-        sort(arr, aux, lo, mid);
-        sort(arr, aux, mid + 1, hi);
-        merge(arr, aux, lo, mid, hi);
-    }
-};
-```
-
-Python
-
-```Python
-def merge(arr, aux, lo, mid, hi):
-    assert sorted(arr[lo:mid+1]) == arr[lo:mid+1]  # precondition: arr[lo...mid] is sorted
-    assert sorted(arr[mid+1:hi+1]) == arr[mid+1:hi+1]  # precondition: arr[mid+1...hi] is sorted
-
-    for k in range(lo, hi+1):
-        aux[k] = arr[k]
-
-    i, j = lo, mid+1
-    for k in range(lo, hi+1):
-        if i > mid:
-            arr[k] = aux[j]
-            j += 1
-        elif j > hi:
-            arr[k] = aux[i]
+}
+\/
+template &lt;typename T, typename Comparator&gt;
+void mergeSort(T arr[], T aux[], int lo, int hi, Comparator comparator) {
+    if (hi &lt;= lo) return;
+    int mid = lo + (hi - lo) / 2;
+    mergeSort(arr, aux, lo, mid, comparator);
+    mergeSort(arr, aux, mid + 1, hi, comparator);
+    merge(arr, aux, lo, mid, hi, comparator);
+}
+\/
+template &lt;typename T, typename Comparator = std::less&lt;&gt;&gt;
+void mergeSort(T arr[], const int size, Comparator comparator = {}) {
+    T* aux = new T[size];
+    mergeSort(arr, aux, 0, size - 1, comparator); // Call the correct overload
+    delete[] aux;
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+def merge_sort(arr, comparator=lambda x, y: x &lt; y):
+    if len(arr) &gt; 1:
+        mid = len(arr) // 2
+        left_half = arr[:mid]
+        right_half = arr[mid:]
+\/
+        merge_sort(left_half, comparator)
+        merge_sort(right_half, comparator)
+\/
+        i = j = k = 0
+        while i &lt; len(left_half) and j &lt; len(right_half):
+            if comparator(left_half[i], right_half[j]):
+                arr[k] = left_half[i]
+                i += 1
+            else:
+                arr[k] = right_half[j]
+                j += 1
+            k += 1
+\/
+        while i &lt; len(left_half):
+            arr[k] = left_half[i]
             i += 1
-        elif aux[j] < aux[i]:
-            arr[k] = aux[j]
+            k += 1
+\/
+        while j &lt; len(right_half):
+            arr[k] = right_half[j]
             j += 1
-        else:
-            arr[k] = aux[i]
-            i += 1
-
-    assert sorted(arr[lo:hi+1]) == arr[lo:hi+1]  # postcondition: arr[lo...hi] is sorted
-
-
-def sort(arr, aux, lo, hi):
-    if hi <= lo:
-        return
-    mid = lo + (hi - lo) // 2
-    sort(arr, aux, lo, mid)
-    sort(arr, aux, mid+1, hi)
-    merge(arr, aux, lo, mid, hi)
-
-
-def merge_sort(arr):
-    aux = arr.copy()
-    sort(arr, aux, 0, len(arr)-1)
-```
+            k += 1
+    </code-block>
+    </tab>
+</tabs>
 
 ### 6.2 Bottom-Up Mergesort
 
