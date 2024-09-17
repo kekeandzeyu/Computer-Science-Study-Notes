@@ -3255,6 +3255,11 @@ anchor="sortperf" summary="Table for Comparing Performance of Sorting
 Algorithm">table for sorting performance</a>.
 </note>
 
+<tip>
+<p>Use <format color="OrangeRed">Comparable interface</format> in Java
+to compare objects.</p>
+</tip>
+
 <tabs>
     <tab title="Java">
     <code-block lang="java" collapsible="true">
@@ -3489,69 +3494,122 @@ def sort(a):
 
 <list type="bullet">
 <li>
-<p><format color="DarkOrange">Computational complexity:</format> 
-Framework to study efficiency of algorithms for solving a particular 
-problem <math>X</math>.</p>
+    <p><format color="DarkOrange">Computational complexity:</format> 
+    Framework to study efficiency of algorithms for solving a 
+    particular problem <math>X</math>.</p>
 </li>
 <li>
-<p><format color="DarkOrange">Model of computation:</format> 
-Allowable operations.</p>
+    <p><format color="DarkOrange">Model of computation:</format> 
+    Allowable operations.</p>
 </li>
 <li>
-<p><format color="DarkOrange">Cost model:</format> Operation count(s)
-.</p>
+    <p><format color="DarkOrange">Cost model:</format> Operation 
+    count(s).</p>
 </li>
 <li>
-<p><format color="DarkOrange">Upper bound:</format> Cost guarantee 
-provided by <format color="OrangeRed">some</format> algorithm for 
-<math>X</math>.</p>
+    <p><format color="DarkOrange">Upper bound:</format> Cost guarantee 
+    provided by <format color="OrangeRed">some</format> algorithm for 
+    <math>X</math>.</p>
 </li>
 <li>
-<p><format color="DarkOrange">Lower bound:</format> Proven limit on 
-cost guarantee of <format color="OrangeRed">all</format> algorithms 
-for <math>X</math>.</p>
+    <p><format color="DarkOrange">Lower bound:</format> Proven limit 
+    on cost guarantee of <format color="OrangeRed">all</format> 
+    algorithms for <math>X</math>.</p>
 </li>
 <li>
-<p><format color="DarkOrange">Optimal algorithm:</format> Algorithm 
-with best possible cost guarantee for <math>X</math>.</p>
+    <p><format color="DarkOrange">Optimal algorithm:</format> 
+    Algorithm with best possible cost guarantee for <math>X</math>.
+    </p>
 </li>
 </list>
 
-Example: sorting
+<p><format color="BlueViolet">Example: sorting</format></p>
 
-* Model of computation: decision tree (can access information only through compares).
-* Cost model: # compares.
-* Upper bound: ~ <math>NlgN</math> from mergesort.
-* Lower bound: ~ <math>NlgN</math>.
-* <format color = "OrangeRed">Optimal algorithm = mergesort</format>.
+<list>
+<li>
+    <p><format color="Fuchsia">Model of computation:</format> decision
+    tree (can access information only through compares).</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Cost model:</format> Number of compares
+    .</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Upper bound:</format> <math>
+    \sim N \lg N</math> from mergesort.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Lower bound:</format> <math>
+    N \lg N</math>.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Optimal algorithm</format> = mergesort.</p></li>
+</list>
 
-Property: Any compare-based sorting algorithm must use at least
-<math>lg(N!) \sim NlgN</math> compares in the worst case.
+<p><format color="BlueViolet">Property:</format> Any compare-based 
+sorting algorithm must use at least <math>\lg(N!) \sim N \lg N</math> 
+compares in the worst case.</p>
 
-Proof:
+<p><format color="BlueViolet">Proof:</format> </p>
 
-* Assume array consists of <math>N</math> distinct values
-  <math>a_{1}</math> through <math>a_{N}</math>.
-* Worst case dictated by <format color = "OrangeRed">height</format> <em>h</em>
-  of decision tree.
-* Binary tree of height <math>h</math> has at most <math>2^h</math> leaves.
-* <math>N!</math> different orderings => at least <math>N!</math> leaves.
+<list>
+<li>
+    <p>Assume array consists of <math>N</math> distinct values</p>
+    <math>a_{1}</math> through <math>a_{N}</math>.
+</li>
+<li>
+    <p>Worst case dictated by <format color="OrangeRed">height
+    </format> <math>h</math> of decision tree.</p>
+</li>
+<li>
+    <p>Binary tree of height <math>h</math> has at most 
+    <math>2^h</math> leaves.</p>
+</li>
+<li>
+    <p><math>N!</math> different orderings => at least <math>N!</math>
+    leaves.</p>
+</li>
+</list>
+
+<code-block lang="tex">
+\begin{align*}
+& 2^{h} \geq \text{\# leaves} \geq N! \\
+\Rightarrow & h \geq \lg(N!) \sim N \lg N \\
+\end{align*}
+</code-block>
 
 ### 6.4 Stability
 
-A <format color = "OrangeRed">stable</format> sort preserves the relative
-order of items with equal keys.
+<p><format color="DarkOrange">Stability:</format> A <format color
+="OrangeRed">stable</format> sort preserves the relative order of 
+items with equal keys.</p>
 
-Methods:
+<p><format color="BlueViolet">Methods:</format> </p>
 
-1. Need to carefully check the code ("less than" vs "less than or
-   equal to"). Equal items never move past each other -> stable sort.
-2. Counterexample: Long-distance exchange might move an item past
-   some equal item.
+<list type="decimal">
+<li>
+    <p>Need to carefully check the code (&quot;less than&quot; vs 
+    &quot; less than or equal to&quot;). Equal items never move past
+    each other -&gt; stable sort.</p>
+</li>
+<li>
+    <p>Counterexample: Long-distance exchange might move an item past
+    some equal item.</p>
+</li>
+</list>
 
-Stable sort: Insertion sort, mergesort, bubble sort, radix sort, etc.
+<p><format color="BlueViolet">Conclusion:</format> </p>
 
-Unstable sort: Selection sort, shellsort, quicksort, heapsort, etc.
+<list>
+<li>
+    <p><format color="Fuchsia">Stable sort:</format> Insertion sort, 
+    mergesort, bubble sort, radix sort, etc.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Unstable sort:</format> Selection sort,
+    shellsort, quicksort, heapsort, etc.</p>
+</li>
+</list>
 
 ## 7 Quicksort {id="quicksort"}
 
