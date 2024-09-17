@@ -2118,9 +2118,9 @@ for (Item item : collection) {
 <p>The implementation above has already taken iterators into account.
 </p>
 
-<p>For more information on iterators, please visit <a href=
-"C-Programming.md" anchor="iterators" summary="Iterators in C++">
-Iterators in C++</a>.</p>
+<p>For more information on iterators, please visit <a 
+href="C-Programming.md" anchor="inheritance" summary
+="Iterators in C++">Iterators in C++</a>.</p>
 
 ### 4.5 Bag (Princeton)
 
@@ -2204,7 +2204,7 @@ public class Bag&lt;Item&gt; implements Iterable&lt;Item&gt; {
 </li>
 </list>
 
-<procedure title = "Selection Sort">
+<procedure title="Selection Sort">
 <step>
     <p>In iteration <math>i</math>, find index <math>min</math> of 
     smallest remaining entry.</p>
@@ -2296,137 +2296,163 @@ def selection_sort(arr):
 
 <list type = "bullet">
 <li> 
-    Time Complexity: <math>O(N^2)</math>.
+    <p>Time Complexity: <math>O(N^2)</math>.</p>
 </li>
 <li>
-    Space Complexity: <math>O(1)</math>.
+    <p>Space Complexity: <math>O(1)</math>.</p>
 </li>
 </list>
 
-<procedure title = "Basic Plan of Insertion Sort">
+<procedure title="Insertion Sort">
 <step>
-    In iteration <math>i</math>, swap <math>a[i]</math> with each larger entry to its left.
+    <p>In iteration <math>i</math>, swap <math>a[i]</math> with each 
+    larger entry to its left.</p>
 </step>
 <step>
-    Entries to the left of <math>i</math> are in ascending order.
+    <p>Entries to the left of <math>i</math> are in ascending order.
+    </p>
 </step>
 </procedure>
 
-<p><format color="BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Definitions:</format> </p>
 
-<list>
+<list type="bullet">
 <li>
-<p>Definition: An array is partially sorted if each entry is not far
-from its final position.</p>
+    <p><format color="DarkOrange">Inversion:</format> A pair of 
+    keys that are out of order.</p>
+    <p><format color="LawnGreen">Example:</format> A E E L M O 
+    T R X P S</p>
+    <p>Six inversions: T-R T-P T-S R-P X-P X-S</p>
 </li>
 <li>
-<p>To sort a randomly-ordered array with distinct keys, insertion sort uses <math>\frac {N^{2}}{4}</math> compares and
-<math>\frac {N^{2}}{4}</math> exchanges on average.</p>
+    <p><format color="DarkOrange">Partially Sorted:</format> An array
+    is partially sorted if the number of inversions is <math>\leq cN
+    </math>.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Property:</format> For partially-sorted
+arrays, insertion sort runs in linear time.</p>
+
+<p><format color="LawnGreen">Proof:</format> Number of exchanges
+equals the number of inversions (number of compares = exchanges + (N 
+– 1)).</p>
+
+<p><format color="BlueViolet">Running Time Analysis:</format> </p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">On average:</format> To sort a 
+    randomly-ordered array with distinct keys, insertion sort uses 
+    <math>\frac {N^{2}}{4}</math> compares and <math>\frac 
+    {N^{2}}{4}</math> exchanges on average.</p>
 </li>
 <li>
-<p>For partially-sorted arrays, insertion sort runs in linear time.</p>
-<tip>
-<p>Proof: The number of exchanges is equal to the number of inversions.</p>
-</tip>
+    <p><format color="Fuchsia">Best case:</format> If the array is in
+    ascending order, insertion sort makes <math>N-1</math> compares 
+    and <math>0</math> exchanges.</p>
 </li>
 <li>
-<p>Best case: If the array is in ascending order, insertion sort
-makes <math>N-1</math> compares and <math>0</math> exchanges.</p>
-</li>
-<li>
-<p>Worst case: If the array is in descending order (and no duplicates
-), insertion sort makes <math>\frac {N^{2}}{2}</math> compares and
-<math>\frac {N^{2}}{2}</math> exchanges.</p>
+    <p><format color="Fuchsia">Worst Case:</format> If the array is in 
+    descending order (and no duplicates), insertion sort makes 
+    <math>\sim \frac {1}{2} N^{2}</math> compares and <math>\sim
+    \frac {1}{2} N^{2}</math> exchanges.</p>
 </li>
 </list>
 
 <note>
-For information about the performance of insertion sort, please refer
-to the <a href="Data-Structures-and-Algorithms-3.md" anchor="sortperf" 
-summary="Table for Comparing Performance of Sorting Algorithm">table 
-for sorting performance</a>.
+For more information about the performance of insertion sort, please 
+visit the <a href="Data-Structures-and-Algorithms-3.md" 
+anchor="sortperf" summary="Table for Comparing Performance of Sorting
+Algorithm">table for sorting performance</a>.
 </note>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class Insertion {
     public static void sort(Comparable[] a) {
         int n = a.length;
-
-        for (int i = 1; i < n; i++) {
-            for (int j = i; j > 0 && less(a[j], a[j - 1]); j--) {
+\/
+        for (int i = 1; i &lt; n; i++) {
+            for (int j = i; j &gt; 0 && less(a[j], a[j - 1]); j--) {
                 exch(a, j, j - 1);
             }
         }
     }
-
+\/
     private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
+        return v.compareTo(w) &lt; 0;
     }
-
+\/
     private static void exch(Comparable[] a, int i, int j) {
         Comparable temp = a[i];
         a[i] = a[j];
         a[j] = temp;
     }
 }
-```
-
-C++
-
-```C++
-#include <algorithm>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;algorithm&gt;
+\/
 void insertionSort(int arr[], int n) {
-    for (int i = 1; i < n; i++) {
+    for (int i = 1; i &lt; n; i++) {
         int key = arr[i];
         int j = i - 1;
-
-        while (j >= 0 && arr[j] > key) {
+\/
+        while (j &gt;= 0 && arr[j] &gt; key) {
             arr[j + 1] = arr[j];
             j = j - 1;
         }
         arr[j + 1] = key;
     }
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 def insertion_sort(arr):
     for i in range(1, len(arr)):
         key = arr[i]
         j = i - 1
-        while j >= 0 and arr[j] > key:
+        while j &gt;= 0 and arr[j] &gt; key:
             arr[j + 1] = arr[j]
             j -= 1
         arr[j + 1] = key
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 5.3 Shell Sort
 
-<procedure title = "Basic Plan of Shell Sort">
+<procedure title="Shell Sort">
 <step>
-    Move entries more than one position at a time 
-    by <format color = "OrangeRed"><math>h</math>-sorting</format> the array.
+    <p>Move entries more than one position at a time 
+    by <format color="OrangeRed"><math>h</math>-sorting</format> the
+    array.</p>
 </step>
 <step>
-    <math>h</math>-sort the array: Insertion sort, with stride <math>h</math>.
+    <p><math>h</math>-sort the array: Insertion sort, with stride 
+    <math>h</math>.</p>
 </step>
 </procedure>
 
-Increment Sequence:
+<p>Increment Sequence:</p>
 
-<list>
+<list type="decimal">
 <li>
-    Knuth's increment sequence: 1, 4, 13, 40, 121, 364, 1093, ...
-    (OK, easy to compute).
+    <p><format color="Fuchsia">Knuth's increment sequence (3x+1):
+    </format> 1, 4, 13, 40, 121, 364, 1093, ... (OK, easy to compute)
+    </p>
 </li>
 <li>
-    Sedgewick's increment sequence: 1, 5, 19, 41, 109, 209, 505, 929, 2161, ...
-    (Good, tough to beat empirical studies).
+    <p><format color="Fuchsia">Sedgewick's increment sequence: (
+    merging of <math>9 \times 4^{\text{i}} - 9 \times 2^{\text{i}} + 
+    1</math> and <math>4^{\text{i}} - (3 \times 2^{\text{i}}) + 1
+    </math></format> 1, 5, 19, 41, 109, 209, 505, 929, 2161, ... 
+    (Good, tough to beat empirical studies).</p>
 </li>
 </list>
 
