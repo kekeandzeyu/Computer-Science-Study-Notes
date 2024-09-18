@@ -2281,9 +2281,6 @@ variable.</p>
 
 <p><format color="BlueViolet">Examples:</format> </p>
 
-<code-block lang="c++" collapsible="true">
-</code-block>
-
 ```C++
 /** Problem with the following code:
  * When the vectors go out of scope, their destructor tries to free the array.
