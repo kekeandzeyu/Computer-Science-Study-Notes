@@ -1390,12 +1390,12 @@ void sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
 
 <p><format color="BlueViolet">Example:</format> </p>
 
-```C++
-std::vector<int> numbers = {3, 1, 4, 1, 5};
+<code-block lang="c++">
+std::vector&lt;int&gt; numbers = {3, 1, 4, 1, 5};
 std::sort(numbers.begin(), numbers.end()); // Sort the entire vector
-
-std::sort(numbers.begin(), numbers.end(), std::greater<int>()); // Sort in descending order
-```
+\/
+std::sort(numbers.begin(), numbers.end(), std::greater&lt;int&gt;()); // Sort in descending order
+</code-block>
 
 <p><format color="BlueViolet">Parameters:</format> </p>
 
@@ -2064,7 +2064,7 @@ as member (allows easy access to lhs private members). Examples: +=
 <li>Always think about const-ness of parameters.</li>
 <li>Return reference to support chaining &lt;&lt; calls.</li>
 <li>Here we are overloading &lt;&lt; so our class works as the rhs...
-but we can’t change the class of lhs (stream library).</li>
+but we can't change the class of lhs (stream library).</li>
 </list>
 </tip>
 
@@ -2072,78 +2072,78 @@ but we can’t change the class of lhs (stream library).</li>
 
 <p><format color="Fuchsia">Member Function: </format></p>
 
-```C++
-#include <iostream>
-
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+\/
 class MyClass {
 private:
-    int data[10]; 
+    int data[10];
 public:
     // Subscript operator ([])
-    int& operator[](int index) { 
+    int& operator[](int index) {
         return data[index];
     }
-
+\/
     // Function call operator ()
     int operator()(int a, int b) {
         return data[a] + data[b]; 
     }
-
+\/
     // Assignment operator (=)
     MyClass& operator=(const MyClass& other) {
         if (this != &other) { // Avoid self-assignment
-            for (int i = 0; i < 10; ++i) {
+            for (int i = 0; i &lt; 10; ++i) {
                 data[i] = other.data[i];
             }
         }
         return *this;
     } 
 };
-
+\/
 int main() {
     MyClass obj;
     obj[2] = 5; // Using the subscript operator
     obj[3] = 10; // Using the subscript operator
     int sum = obj(2, 3); // Using the function call operator
-    std::cout << "Sum: " << sum << std::endl; 
-
+    std::cout &lt;&lt; "Sum: " &lt;&lt; sum &lt;&lt; std::endl;
+\/
     MyClass obj2;
     obj2 = obj; // Using the assignment operator
     return 0;
 }
-```
+</code-block>
 
 <p><format color="Fuchsia">Non-Member Function:</format> </p>
 
-```C++
-#include <iostream>
-
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+\/
 class Point {
 private:
     int x, y;
 public:
     Point(int xVal, int yVal) : x(xVal), y(yVal) {}
-
+\/
     // Friend declaration for the output stream operator
-    friend std::ostream& operator<<(std::ostream& out, const Point& p);
+    friend std::ostream& operator&lt;&lt;(std::ostream& out, const Point& p);
 };
-
-// Non-member output stream operator (<<)
-std::ostream& operator<<(std::ostream& out, const Point& p) {
-    out << "(" << p.x << ", " << p.y << ")";
+\/
+// Non-member output stream operator (&lt;&lt;)
+std::ostream& operator&lt;&lt;(std::ostream& out, const Point& p) {
+    out &lt;&lt; "(" &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; ")";
     return out;
 }
-
+\/
 int main() {
     Point p(5, 10);
-    std::cout << "Point coordinates: " << p << std::endl; // Using the overloaded << 
+    std::cout &lt;&lt; "Point coordinates: " &lt;&lt; p &lt;&lt; std::endl; // Using the overloaded &lt;&lt;
     return 0;
 }
-```
+</code-block>
 
 <note>
-Declare non-member functions as friends of a class to give them 
-access to private members.
+<p>Declare non-member functions as friends of a class to give them 
+access to private members.</p>
 </note>
 
 #### 10.3 Principle of Least Astonishment (POLA)
@@ -2152,16 +2152,30 @@ access to private members.
 ):</format></p>
 
 <list type="bullet">
-<li>Design operators primarily to mimic conventional usage.</li>
-<li>Use nonmember functions for symmetric operators.</li>
+<li>
+    <p>Design operators primarily to mimic conventional usage.</p>
+</li>
+<li>
+    <p>Use nonmember functions for symmetric operators.</p>
+</li>
 <li>
     <p>Use nonmember functions for symmetric operators.</p>
     <list type="bullet">
-    <li>Compound operators return reference to *this</li>
-    <li>Arithmetic operators return copies</li>
-    <li>In/decrement prefix vs. postfix rules</li>
-    <li>Indexing requires const and non-const versions</li>
-    <li>Look at the C++ reference for common patterns!</li>
+    <li>
+        <p>Compound operators return reference to *this</p>
+    </li>
+    <li>
+        <p>Arithmetic operators return copies</p>
+    </li>
+    <li>
+        <p>In/decrement prefix vs. postfix rules</p>
+    </li>
+    <li>
+        <p>Indexing requires const and non-const versions</p>
+    </li>
+    <li>
+        <p>Look at the C++ reference for common patterns!</p>
+    </li>
     </list>
 </li>
 <li>Always provide all out of a set of related operators.</li>
@@ -2172,20 +2186,20 @@ access to private members.
 <p><format color="BlueViolet">Advanced Multithreading Support (C++ 20)
 :</format> </p>
 
-```C++
+<code-block lang="c++" collapsible="true">
 awaiter operator co_await() const noexcept { 
     return awaiter{ *this }; 
 }
-```
+</code-block>
 
 <p><format color="BlueViolet">Spaceship operator (C++20):</format> 
 </p>
 
-```C++
-std::strong_ordering operator<=> (const Time& rhs) {
-    return hour <=> rhs.hour; 
+<code-block lang="c++" collapsible="true">
+std::strong_ordering operator&lt;=&gt; (const Time& rhs) {
+    return hour &lt;=&gt; rhs.hour; 
 }
-```
+</code-block>
 
 ### 11 Special Member Functions
 
@@ -2226,19 +2240,19 @@ another.</p>
 
 <p><format color="BlueViolet">Example:</format> </p>
 
-```C++
-MyVector<int> function(MyVector<int> vec0) { // copy constructor
-    MyVector<int> vec1;                      // default constructor
-    MyVector<int> vec2{3, 4, 5};             // initializer list constructor
-    MyVector<int> vec3();                    // function declaration - C++’s most vexing parse
-    MyVector<int> vec4(vec2);                // copy constructor
-    MyVector<int> vec5{};                    // default constructor
-    MyVector<int> vec6{vec3 + vec4};         // move constructor
-    MyVector<int> vec7 = vec4;               // copy constructor
+<code-block lang="c++" collapsible="true">
+MyVector&lt;int&gt; function(MyVector&lt;int&gt; vec0) { // copy constructor
+    MyVector&lt;int&gt; vec1;                      // default constructor
+    MyVector&lt;int&gt; vec2{3, 4, 5};             // initializer list constructor
+    MyVector&lt;int&gt; vec3();                    // function declaration - C++’s most vexing parse
+    MyVector&lt;int&gt; vec4(vec2);                // copy constructor
+    MyVector&lt;int&gt; vec5{};                    // default constructor
+    MyVector&lt;int&gt; vec6{vec3 + vec4};         // move constructor
+    MyVector&lt;int&gt; vec7 = vec4;               // copy constructor
     vec7 = vec2;                             // copy assignment operator
     return vec7;                             // move constructor
 }
-```
+</code-block>
 
 <note>
 <p>About the return value:</p>
@@ -2266,6 +2280,9 @@ copying them.</p>
 variable.</p>
 
 <p><format color="BlueViolet">Examples:</format> </p>
+
+<code-block lang="c++" collapsible="true">
+</code-block>
 
 ```C++
 /** Problem with the following code:
