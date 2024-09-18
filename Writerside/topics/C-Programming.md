@@ -918,95 +918,108 @@ which provide access to sequences of elements.</p>
 
 <list type = "bullet">
 <li>
-<p><code>std::vector&lt;T&gt;</code></p>
+    <p><code>std::vector&lt;T&gt;</code></p>
 </li>
 <li>
-<p><code>std::deque&lt;T&gt;</code></p>
+    <p><code>std::deque&lt;T&gt;</code></p>
 </li>
 <li>
-<p><code>std::array&lt;T&gt;</code></p>
+    <p><code>std::array&lt;T&gt;</code></p>
 </li>
 <li>
-<p><code>std::list&lt;T&gt;</code></p>
+    <p><code>std::list&lt;T&gt;</code></p>
 </li>
 <li>
-<p><code>std::forward_list&lt;T&gt;</code></p>
+    <p><code>std::forward_list&lt;T&gt;</code></p>
 </li>
 </list>
 
 ##### 6.1.1 Vector
 
-<p><format color = "DarkOrange">Vector:</format> An array with 
+<p><format color="DarkOrange">Vector:</format> An array with 
 changeable size.</p>
 
-<table style = "both">
-<tr><td></td><td><code>vec[index]</code></td><td><code>vec.at(index)
-</code></td></tr>
-<tr><td>Bounds Checking</td><td>No</td><td>Yes</td></tr>
-<tr><td>Speed</td><td>Fast</td><td>Slow</td></tr>
+<table style="both">
+<tr>
+    <td></td>
+    <td><code>vec[index]</code></td>
+    <td><code>vec.at(index)</code></td>
+</tr>
+<tr>
+    <td>Bounds Checking</td>
+    <td>No</td>
+    <td>Yes</td>
+</tr>
+<tr>
+    <td>Speed</td>
+    <td>Fast</td>
+    <td>Slow</td>
+</tr>
 </table>
 
 <warning>
-<p>If you write your program <format color = "GreenYellow">correctly
-</format>, bounds checking will just <format color = "OrangeRed">slow
+<p>If you write your program <format color="GreenYellow">correctly
+</format>, bounds checking will just <format color="OrangeRed">slow
 </format> you down.</p>
 </warning>
 
-<p><format color = "BlueViolet">Advantages:</format> </p>
+<p><format color="BlueViolet">Advantages:</format> </p>
 
-<list>
+<list type="bullet">
 <li>
-<p>Fast, lightweight & intuitive.</p>
+    <p>Fast, lightweight & intuitive.</p>
 </li>
 <li>
-<p>Grow efficiently <format color = "GreenYellow">in one direction
-</format>.</p>
+    <p>Grow efficiently <format color = "GreenYellow">in one direction
+    </format>.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Disadvantages:</format> </p>
+<p><format color="BlueViolet">Disadvantages:</format> </p>
 
-<list>
+<list type="bullet">
 <li>
-<p>cannot push_front!</p>
+    <p>cannot push_front!</p>
 </li>
 </list>
 
 ##### 6.1.2 Deque
 
-<p><format color = "DarkOrange">Deque:</format> A deque is a doubly 
+<p><format color="DarkOrange">Deque:</format> A deque is a doubly 
 ended queue.</p>
 
-<p><format color = "BlueViolet">Implementation:</format> </p>
+<p><format color="BlueViolet">Implementation:</format> </p>
+
 <p>Instead of storing all elements in a single contiguous block, deque 
 internally manages a collection of fixed-size arrays called "chunks" 
 or "buffers."</p>
+
 <p>Deque maintains a dynamic array (usually a small array or a 
-tree-like structure) called a "map" or "central index". This map stores
-pointers to the beginning of each chunk.</p>
+tree-like structure) called a "map" or "central index". This map 
+stores pointers to the beginning of each chunk.</p>
 
-<p><format color = "BlueViolet">Advantages:</format> </p>
+<p><format color="BlueViolet">Advantages:</format> </p>
 
-<list>
+<list type="bullet">
 <li>
-<p>Can push_front!</p>
+    <p>Can push_front!</p>
 </li>
 </list>
 
 <p><format color = "BlueViolet">Disadvantages:</format> </p>
 
-<list>
+<list type="bullet">
 <li>
-<p>For other operations, vector outperform deque.</p>
+    <p>For other operations, vector outperform deque.</p>
 </li>
 </list>
 
 #### 6.2 Container Adapters
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "Fuchsia">Stacks:</format> </p>
-    <list type = "bullet">
+    <p><format color="Fuchsia">Stacks:</format> </p>
+    <list type="bullet">
     <li>
     <p>The standard containers <code>std::vector</code>, <code>
     std::deque</code>, <code>std::list</code> satisfy these 
@@ -1019,8 +1032,8 @@ pointers to the beginning of each chunk.</p>
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">Queues:</format> </p>
-    <list type = "bullet">
+    <p><format color="Fuchsia">Queues:</format> </p>
+    <list type="bullet">
     <li>
     <p>The standard containers <code>std::deque</code> and <code>
     std::list</code> satisfy these requirements.</p>
@@ -1035,8 +1048,8 @@ pointers to the beginning of each chunk.</p>
 
 #### 6.3 Associative Containers
 
-<p><format color = "DarkOrange">Associative containers:</format> Data is
-accessed using the <format color = "OrangeRed">key</format> instead of
+<p><format color="DarkOrange">Associative containers:</format> Data is
+accessed using the <format color="OrangeRed">key</format> instead of
 index.</p>
 
 ```plantuml
@@ -1055,12 +1068,12 @@ index.</p>
 
 #### 6.4 Iterators {id="iterators"}
 
-<p><format color = "BlueViolet">Four iterator operations:</format> </p>
+<p><format color="BlueViolet">Four iterator operations:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "Fuchsia">Create iterator:</format> </p>
-<p><code>std::set&lt;int&gt;::iterator iter = mySet.begin()</code></p>
+    <p><format color="Fuchsia">Create iterator:</format> </p>
+    <p><code>std::set&lt;int&gt;::iterator iter = mySet.begin()</code></p>
 </li>
 <li>
 <p><format color = "Fuchsia">Dereference iterator to read value 
@@ -1068,26 +1081,26 @@ currently pointed to:</format> </p>
 <p><code>int val = *iter</code></p>
 </li>
 <li>
-<p><format color = "Fuchsia">Advance iterator:</format> </p>
-<p><code>iter++</code>; or <code>++iter</code></p>
+    <p><format color="Fuchsia">Advance iterator:</format> </p>
+    <p><code>iter++</code>; or <code>++iter</code></p>
 </li>
 <li>
-<p><format color = "Fuchsia">Compare against another iterator</format> 
-(especially <code>.end()</code> iterator)</p>
+    <p><format color="Fuchsia">Compare against another iterator</format> 
+    (especially <code>.end()</code> iterator)</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Map Iterators:</format> </p>
+<p><format color="BlueViolet">Map Iterators:</format> </p>
 
-```C++
-    map<int, int> m;
-    map<int, int>::iterator i = m.begin();
-    map<int, int>::iterator end = m.end();
-    while (i != end) {
-        cout << (*i).first << " " << (*i).second << endl;
-        i++;
-    }
-```
+<code-block lang="c++" collapsible="true">
+map&lt;int, int&gt; m;
+map&lt;int, int&gt;::iterator i = m.begin();
+map&lt;int, int&gt;::iterator end = m.end();
+while (i != end) {
+    cout &lt;&lt; (*i).first &lt;&lt; " " &lt;&lt; (*i).second &lt;&lt; endl;
+    i++;
+}
+</code-block>
 
 ```mermaid
 stateDiagram
@@ -1102,25 +1115,29 @@ stateDiagram
 
 <p>For sequential, single-pass input.</p>
 
-<p>Read only, i.e. can only be dereferenced on <format color = 
+<p>Read only, i.e. can only be dereferenced on <format color= 
 "OrangeRed">right</format> side of expression.</p>
 
-```C++
-vector<int>::iterator iter = myVector.begin();
+<p><format color="BlueViolet">Example:</format> </p>
+
+<code-block lang="c++" collapsible="true">
+vector&lt;int&gt;::iterator iter = myVector.begin();
 int val = *iter;
-```
+</code-block>
 
 ##### 6.4.2 Output Iterators
 
 <p>For sequential, single-pass output.</p>
 
-<p>Read only, i.e. can only be dereferenced on <format color = 
-"OrangeRed">left</format> side of expression.</p>
+<p>Read only, i.e. can only be dereferenced on <format 
+color="OrangeRed">left</format> side of expression.</p>
 
-```C++
-vector<int>::iterator iter = myVector.begin();
+<p><format color="BlueViolet">Example:</format> </p>
+
+<code-block lang="c++">
+vector&lt;int&gt;::iterator iter = myVector.begin();
 *iter = 5;
-```
+</code-block>
 
 ##### 6.4.3 Forward Iterators
 
@@ -1128,14 +1145,16 @@ vector<int>::iterator iter = myVector.begin();
 
 <p>Can read from and write to (if not const iterator).</p>
 
-```C++
+<p><format color="BlueViolet">Example:</format> </p>
+
+<code-block lang="c++">
 // multiple passes
-vector<int>::iterator iter1 = myVector.begin();
-vector<int>::iterator iter2 = myVector.begin();
+vector&lt;int&gt;::iterator iter1 = myVector.begin();
+vector&lt;int&gt;::iterator iter2 = myVector.begin();
 iter1++;
 iter2++;
-if (iter1 == iter2) { cout << "Equal" << endl; } // Equal
-```
+if (iter1 == iter2) { cout &lt;&lt; "Equal" &lt;&lt; endl; } // Equal
+</code-block>
 
 ##### 6.4.4 Bidirectional Iterators
 
@@ -1157,44 +1176,46 @@ decremented by arbitrary amounts using + and -.</p>
 
 #### 7.1 Template Functions
 
-```C++
-template <typename T>
-std::pair<T, T> my_minmax(T a, T b) {
-    if (a < b) return {a, b};
+<p><format color="BlueViolet">Examples:</format> </p>
+
+<code-block lang="c++">
+template &lt;typename T&gt;
+std::pair&lt;T, T&gt; my_minmax(T a, T b) {
+    if (a &lt; b) return {a, b};
     else return {b, a};
 }
-```
+</code-block>
 
 <p>The following code: </p>
 
-```C++
+<code-block lang="c++">
 my_minmax(cout, cout);
-```
+</code-block>
 
-<p><format color = "Fuchsia">Semantic error:</format> you can’t call 
+<p><format color="Fuchsia">Semantic error:</format> you can’t call 
 operator &lt; on two streams.</p>
 
-<p><format color = "Fuchsia">Conceptual error:</format> you can’t 
+<p><format color="Fuchsia">Conceptual error:</format> you can’t 
 find the min or max of two streams.</p>
 
 <p>The compiler deduces the types and literally replaces the types.
 Compiler will produce semantic errors, not conceptual error.</p>
 
-```C++
-template <typename Collection, typename DataType>
+<code-block lang="c++" collapsible="true">
+template &lt;typename Collection, typename DataType&gt;
 int countOccurences(const Collection& list, DataType val) {
     int count = 0;
-    for (size_t i = 0; i < list.size(); ++i) {
+    for (size_t i = 0; i &lt; list.size(); ++i) {
         if (list[i] == val) ++count;
     }
     return count;
 }
-```
+</code-block>
 
 <p>Problem lies in indexing <code>list[i]</code>.</p>
 
-```C++
-template <typename Collection, typename DataType>
+<code-block lang="c++" collapsible="true">
+template &lt;typename Collection, typename DataType&gt;
 int countOccurences(const Collection& list, DataType val) {
     int count = 0;
     for (auto iter = list.begin(); iter != list.end(); ++iter) {
@@ -1202,12 +1223,12 @@ int countOccurences(const Collection& list, DataType val) {
     }
     return count;
 }
-```
+</code-block>
 
 <p>Or: </p>
 
-```C++
-template <typename Collection, typename DataType>
+<code-block lang="c++" collapsible="true">
+template &lt;typename Collection, typename DataType&gt;
 int countOccurences(const Collection& collection, const DataType& val) {
     int count = 0;
     for (const auto& element : collection) {
@@ -1217,65 +1238,74 @@ int countOccurences(const Collection& collection, const DataType& val) {
     }
     return count;
 }
-```
+</code-block>
 
 #### 7.2 Template Classes
 
 <procedure title="Template Class">
-<step>Add template declaration for class</step>
-<step>Add all the member type aliases</step>
-<step>Add the template declaration to every single class member</step>
-<step>Move everything to the .h file => separate compilation template
-classes are not classes themselves</step>
+<step>
+    <p>Add template declaration for class</p>
+</step>
+<step>
+    <p>Add all the member type aliases</p>
+</step>
+<step>
+    <p>Add the template declaration to every single class member</p>
+</step>
+<step>
+    <p>Move everything to the .h file => separate compilation template
+    classes are not classes themselves</p>
+</step>
 </procedure>
 
 ### 8 Functions and Algorithms
 
-#### 8.1 Lambda Functions {id = "Lambda"}
+#### 8.1 Lambda Functions {id="Lambda"}
 
-```C++
-auto isLessThanLimit = [limit](auto val) -> bool {
-    return val < limit;
+<code-block lang="c++">
+auto isLessThanLimit = [limit](auto val) -&gt; bool {
+    return val &lt; limit;
 };
-```
+</code-block>
 
-<list>
+<list type="bullet">
 <li>
-<p><code>auto</code>: We don't know the type, ask compiler.</p>
+    <p><code>auto</code>: We don't know the type, ask compiler.</p>
 </li>
 <li>
-<p><code>[limit]</code>: Capture clause, gives access to outside 
-variables.</p>
+    <p><code>[limit]</code>: Capture clause, gives access to outside 
+    variables.</p>
 </li>
 <li>
-<p><code>(auto)</code>: Parameter list, can use auto!</p>
+    <p><code>(auto)</code>: Parameter list, can use auto!</p>
 </li>
 <li>
-<p><code>-> bool</code>: Return type, optional.</p>
+    <p><code>-> bool</code>: Return type, optional.</p>
 </li>
 </list>
 
 <p>Two types of capture clause: By reference or by value.</p>
 
-```C++
+<code-block lang="c++" collapsible="true">
 // capture all by value, except teas is by reference 
-auto func1 = [=, &teas](parameters) -> return-value {   
+auto func1 = [=, &teas](parameters) -&gt; return-value {   
     // body 
 };
-
-// capture all by reference, except banned is by value 
-auto func2 = [&, banned](parameters) -> return-value {   
-    // body 
+\/
+// capture all by reference, except banned is by value
+auto func2 = [&, banned](parameters) -&gt; return-value {   
+    // body
 };
-```
+</code-block>
 
 <tip>
 <p><code>std::function&lt;R(Args…)&gt;</code> is a generic 
 wrapper for all things callable.</p>
-<code-block lang = "C++">
+<code-block lang="c++">
 int add(int a, int b) { 
     return a + b; 
 }
+\/
 int main() {
     std::function&lt;int(int, int)&gt; func; // initially empty
     func = add; // Assign a regular function
@@ -1287,40 +1317,40 @@ int main() {
 </code-block>
 <p>In this context, <code>std::function&lt;int(int, int)&gt;</code> can 
 store any callable object as long as it matches the signature.</p>
-<p><format color = "BlueViolet">Benefit: </format></p>
-<list type = "alpha-lower">
-<li>
-<p><format color = "Fuchsia">Type Erasure for Flexibility:</format> It 
-lets you work with different callable objects through a common 
-interface. You can pass <code>std::function</code> objects to functions
-or store them in data structures without knowing the exact type of the
-underlying callable.</p>
-</li>
-<li>
-<p><format color = "Fuchsia">Enables Polymorphism with Callables:
-</format> You can have a function that accepts a std::function as a 
-parameter, allowing it to work with different lambda functions or other
-callable types at runtime.</p>
-</li>
-</list>
+<p><format color="BlueViolet">Benefit: </format></p>
+    <list type="alpha-lower">
+    <li>
+    <p><format color = "Fuchsia">Type Erasure for Flexibility:</format> It 
+    lets you work with different callable objects through a common 
+    interface. You can pass <code>std::function</code> objects to functions
+    or store them in data structures without knowing the exact type of the
+    underlying callable.</p>
+    </li>
+    <li>
+    <p><format color = "Fuchsia">Enables Polymorphism with Callables:
+    </format> You can have a function that accepts a std::function as a 
+    parameter, allowing it to work with different lambda functions or other
+    callable types at runtime.</p>
+    </li>
+    </list>
 </tip>
 
 <p><code>std::bind</code> adapts existing function objects to create new 
 ones with specific argument values pre-filled.</p>
 
-```C++
+<code-block lang="c++">
 int multiplyAndAdd(int a, int b, int c) {
     return (a * b) + c;
 }
-
+\/
 int main() {
-    auto operation = std::bind(multiplyAndAdd, std::placeholders::_1, 
-                                std::placeholders::_2, 4);
-    std::cout << operation(2, 3) << std::endl; // Output: 10 ((2*3) + 4)
+    auto operation = std::bind(multiplyAndAdd, std::placeholders::_1,
+    std::placeholders::_2, 4);
+    std::cout &lt;&lt; operation(2, 3) &lt;&lt; std::endl; // Output: 10 ((2*3) + 4)
 }
-```
+</code-block>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p><code>std::placeholders::_1</code> means "take the first argument 
 passed to operation".</p>
@@ -1344,21 +1374,21 @@ that behave like functions. => Lambdas are a type of function object.
 
 ##### 8.2.1 std::sort
 
-<p><format color = "BlueViolet">Syntax:</format> </p>
+<p><format color="BlueViolet">Syntax:</format> </p>
 
-```C++
-#include <algorithm> // Required header
-
-// 1. Basic Usage (Sorting using < operator)
-template <class RandomAccessIterator>
+<code-block lang="c++" collapsible="true">
+#include &lt;algorithm&gt; // Required header
+\/
+// 1. Basic Usage (Sorting using &lt; operator)
+template &lt;class RandomAccessIterator&gt;
 void sort(RandomAccessIterator first, RandomAccessIterator last);
+\/
+// 2. Custom Comparison Function
+template &lt;class RandomAccessIterator, class Compare&gt;
+void sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+</code-block>
 
-// 2. Custom Comparison Function 
-template <class RandomAccessIterator, class Compare>
-void sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp); 
-```
-
-<p><format color = "BlueViolet">Example usage:</format> </p>
+<p><format color="BlueViolet">Example:</format> </p>
 
 ```C++
 std::vector<int> numbers = {3, 1, 4, 1, 5};
@@ -1727,35 +1757,35 @@ element from the range) and returns:</p>
 
 #### 9.1 Classes
 
-<p><format color = "BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "DarkOrange">Class:</format> a template for
-a new type of objects, defines how objects of a particular 
-type behave.</p>
+    <p><format color="DarkOrange">Class:</format> a template for
+    a new type of objects, defines how objects of a particular 
+    type behave.</p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Object:</format> Entity that 
+    <p><format color="DarkOrange">Object:</format> Entity that 
     combines state and behavior, instance of a class.</p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Member variables (instance 
+    <p><format color="DarkOrange">Member variables (instance 
     variables, fields):</format> Define state inside each object.
     </p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Member functions (methods):
+    <p><format color="DarkOrange">Member functions (methods):
     </format> Define behavior inside each object.</p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Constructor:</format> 
+    <p><format color="DarkOrange">Constructor:</format> 
     Initializes the state of newly created objects.</p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Destructor:</format> Called when the
+    <p><format color="DarkOrange">Destructor:</format> Called when the
     object is deleted by the program.</p>
-    <list type = "bullet">
+    <list type="bullet">
         <li>
             <p>Delete any pointers stored as private members.</p>
         </li>
@@ -1765,26 +1795,26 @@ type behave.</p>
     </list>
 </li>
 <li>
-    <p><format color = "DarkOrange">Client code:</format> Code 
+    <p><format color="DarkOrange">Client code:</format> Code 
     that uses the objects defind.</p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Encapsulation:</format> Hiding 
+    <p><format color="DarkOrange">Encapsulation:</format> Hiding 
     implementation details from the client code.</p>
 </li>
 </list>
 
 <p>C++ separates classes into two kinds of files: </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-    <p><format color = "Fuchsia">Header File (
-    <format color = "OrangeRed">.h</format>, .hh, .hpp):</format> 
+    <p><format color="Fuchsia">Header File (
+    <format color="OrangeRed">.h</format>, .hh, .hpp):</format> 
     Containing the interface (declarations).</p>
 </li>
 <li>
-    <p><format color = "Fuchsia">Source File (
-    <format color = "OrangeRed">.cpp</format>, .cc, .cxx, .c++, 
+    <p><format color="Fuchsia">Source File (
+    <format color="OrangeRed">.cpp</format>, .cc, .cxx, .c++, 
     .C):</format> Containing definitions (method bodies).</p>
 </li>
     
@@ -1793,19 +1823,19 @@ type behave.</p>
 <p>Classes have <format color="OrangeRed">three</format> main parts:
 </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color="Fuchsia">Constructor and destructor</format></p>
+    <p><format color="Fuchsia">Constructor and destructor</format></p>
 </li>
 <li>
-<p><format color="Fuchsia">Member variables</format></p>
+    <p><format color="Fuchsia">Member variables</format></p>
 </li>
 <li>
-<p><format color="Fuchsia">Member functions</format></p>
+    <p><format color="Fuchsia">Member functions</format></p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Example (header file):</format> </p>
+<p><format color="BlueViolet">Example (header file):</format> </p>
 
 ```C++
 // Protection in case multiple .cpp files include this header, so 
