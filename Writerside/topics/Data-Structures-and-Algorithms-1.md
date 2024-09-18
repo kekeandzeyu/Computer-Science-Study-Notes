@@ -2709,7 +2709,7 @@ turn?</p>
 \end{equation}
 </code-block>
 
-<img src="../images_data/d5-5-4.png" alt="Determinant and 
+<img src="../images_data/d5-5-3.png" alt="Determinant and 
 Positions"/>
 
 <p><format color="BlueViolet">Applications:</format> </p>

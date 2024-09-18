@@ -1397,43 +1397,46 @@ std::sort(numbers.begin(), numbers.end()); // Sort the entire vector
 std::sort(numbers.begin(), numbers.end(), std::greater<int>()); // Sort in descending order
 ```
 
-<p><format color = "BlueViolet">Parameters:</format> </p>
+<p><format color="BlueViolet">Parameters:</format> </p>
 
-<list type = "decimal">
+<list type="decimal">
 <li>
-<p>first (iterator): An iterator pointing to the beginning of the range
-you want to sort.</p>
+    <p><format color="Fuchsia">first (iterator):</format> An iterator 
+    pointing to the beginning of the range you want to sort.</p>
 </li>
 <li>
-<p>last (iterator): An iterator pointing to one position past the end 
-of the range to be sorted.</p>
+    <p><format color="Fuchsia">last (iterator):</format> An iterator 
+    pointing to one position past the end of the range to be sorted.
+    </p>
 </li>
 <li>
-<p>comp (comparison function) (optional): A binary function (takes two
-arguments) that defines the sorting criterion. It should return true if
-the first argument should come before the second in the sorted order,
-and false otherwise.</p>
+    <p><format color="Fuchsia">comp (comparison function) (optional):
+    </format> A binary function (takes two arguments) that defines 
+    the sorting criterion. It should return true if the first argument
+    should come before the second in the sorted order, and false 
+    otherwise.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Important notes:</format> </p>
+<p><format color="BlueViolet">Important notes:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p>You can sort a portion of the entire vector, array, etc.</p>
-<code-block>
-std::vector&lt;int&gt; data = {5, 2, 8, 1, 9, 3};
-std::sort(data.begin(), data.begin() + 4); // Result: data = {1, 2, 5, 8, 9, 3}
-</code-block>
+    <p>You can sort a portion of the entire vector, array, etc.</p>
+    <code-block lang="c++">
+    std::vector&lt;int&gt; data = {5, 2, 8, 1, 9, 3};
+    std::sort(data.begin(), data.begin() + 4); // Result: data = {1, 2, 5, 8, 9, 3}
+    </code-block>
 </li>
 <li>
-<p>You can overload operator &lt; to define default sorting behavior.
-</p>
-<code-block lang = "C++">
+    <p>You can overload operator &lt; to define default sorting behavior.
+    </p>
+    <code-block lang="c++">
 struct Item {
     int id;
     std::string name;
 };
+\/
 // Stable Comparison
 bool compareByNameStable(const Item& a, const Item& b) {
     if (a.name == b.name) {
@@ -1441,6 +1444,7 @@ bool compareByNameStable(const Item& a, const Item& b) {
     }
     return a.name &lt; b.name;
 }
+\/
 int main() {
     std::vector&lt;Item&gt; items = {
         {1, "Apple"},
@@ -1449,118 +1453,125 @@ int main() {
     };
     std::sort(items.begin(), items.end(), compareByNameStable);
 }
-</code-block>
+    </code-block>
 </li>
 <li>
-<p>Average case: <math>O(N \log N)</math></p>
+    <p><format color="Fuchsia">Average case:</format> <math>
+    O(N \log N)</math></p>
 </li>
 </list>
 
 ##### 8.2.2 std::nth_element
 
-<p><format color = "BlueViolet">Syntax:</format> </p>
+<p><format color="BlueViolet">Syntax:</format> </p>
 
-```C++
-#include <algorithm>
-
-template <class RandomAccessIterator>
-void nth_element (RandomAccessIterator first, RandomAccessIterator nth, 
-                  RandomAccessIterator last);
-
-// Optional: You can provide a custom comparison function
-template <class RandomAccessIterator, class Compare>
+<code-block lang="c++" collapsible="true">
+#include &lt;algorithm&gt;
+\/
+template &lt;class RandomAccessIterator&gt;
 void nth_element (RandomAccessIterator first, RandomAccessIterator nth,
-                  RandomAccessIterator last, Compare comp);
-```
+RandomAccessIterator last);
+\/
+// Optional: You can provide a custom comparison function
+template &lt;class RandomAccessIterator, class Compare&gt;
+void nth_element (RandomAccessIterator first, RandomAccessIterator nth,
+RandomAccessIterator last, Compare comp);
+</code-block>
 
-<p><format color = "BlueViolet">Example usage:</format> </p>
+<p><format color="BlueViolet">Example:</format> </p>
 
-```C++
-std::vector<int> numbers = {5, 2, 8, 1, 9, 3};
-
+<code-block lang="c++" collapsible="true">
+std::vector&lt;int&gt; numbers = {5, 2, 8, 1, 9, 3};
+\/
 std::nth_element(numbers.begin(), numbers.begin() + 2, numbers.end());
-// Output: 2 1 3 8 9 5 (The element at index 2 is now '3', 
+// Output: 2 1 3 8 9 5 (The element at index 2 is now '3',
 //          which is the 3rd smallest, but the rest are not sorted)
-```
+</code-block>
 
-<p><format color = "BlueViolet">Parameters:</format> </p>
+<p><format color="BlueViolet">Parameters:</format> </p>
 
-<list type = "decimal">
+<list type="decimal">
 <li>
-<p>first: Iterator to the beginning of the range.</p>
+    <p><format color="Fuchsia">first:</format> Iterator to the 
+    beginning of the range.</p>
 </li>
 <li>
-<p>nth: Iterator pointing to the position you want the nth element to
-be placed in.</p>
+    <p><format color="Fuchsia">nth:</format> Iterator pointing to the
+    position you want the nth element to be placed in.</p>
 </li>
 <li>
-<p>last: Iterator to one past the end of the range.</p>
+    <p><format color="Fuchsia">last:</format> Iterator to one past 
+    the end of the range.</p>
 </li>
 <li>
-<p>comp (optional): A binary comparison function, similar to 
-std::sort.</p>
+    <p><format color="Fuchsia">comp (optional):</format> A binary 
+    comparison function, similar to std::sort.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Important notes:</format> </p>
+<p><format color="BlueViolet">Important notes:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p>With this, you can efficiently find the median of a dataset without
-fully sorting it, or determine the <math>k ^ {\text{th}}</math> 
-smallest or largest element.</p>
+    <p>With this, you can efficiently find the median of a dataset 
+    without fully sorting it, or determine the <math>k^{\text{th}}
+    </math> smallest or largest element.</p>
 </li>
 <li>
-<p>It sorts so <math>n ^ {\text{th}}</math> element is in correct 
-position, and all elements smaller to left, larger to right, but the 
-elements before the <math>n ^ {\text{th}}</math> element are not 
-guaranteed to be sorted among themselves, and neither are the elements
-after it.</p>
+    <p>It sorts so <math>n^{\text{th}}</math> element is in correct 
+    position, and all elements smaller to left, larger to right, but 
+    the elements before the <math>n ^ {\text{th}}</math> element are
+    not guaranteed to be sorted among themselves, and neither are the
+    elements after it.</p>
 </li>
 <li>
-<p>Average case: <math>O(N)</math></p>
+    <p><format color="Fuchsia">Average case:</format> <math>O(N)</math></p>
 </li>
 </list>
 
 ##### 8.2.3 std::stable_partition
 
-<p><format color = "BlueViolet">Syntax:</format> </p>
+<p><format color="BlueViolet">Syntax:</format> </p>
 
-```C++
-#include <algorithm> // Required header
-
-template <class BidirectionalIterator, class UnaryPredicate>
+<code-block lang="c++" collapsible="true">
+#include &lt;algorithm&gt; // Required header
+\/
+template &lt;class BidirectionalIterator, class UnaryPredicate&gt;
 BidirectionalIterator stable_partition (BidirectionalIterator first,
-                                       BidirectionalIterator last, 
-                                       UnaryPredicate pred); 
-```
+BidirectionalIterator last,
+UnaryPredicate pred);
+</code-block>
 
-<p><format color = "BlueViolet">Parameters:</format> </p>
+<p><format color="BlueViolet">Parameters:</format> </p>
 
-<list type = "decimal">
+<list type="decimal">
 <li>
-<p>BidirectionalIterator: A template parameter indicating the type of 
-iterators used. These iterators must support bidirectional movement 
-(like those from std::list, std::vector, std::deque).</p>
+    <p><format color="Fuchsia">BidirectionalIterator:</format> A 
+    template parameter indicating the type of iterators used. These 
+    iterators must support bidirectional movement (like those from 
+    std::list, std::vector, std::deque).</p>
 </li>
 <li>
-<p>first (BidirectionalIterator): An iterator to the beginning of the 
-range you want to partition.</p>
+    <p><format color="Fuchsia">first (BidirectionalIterator):
+    </format> An iterator to the beginning of the range you want to 
+    partition.</p>
 </li>
 <li>
-<p>last (BidirectionalIterator): An iterator to one past the end of 
-the range to be partitioned.</p>
+    <p><format color="Fuchsia">last (BidirectionalIterator):
+    </format> An iterator to one past the end of the range to be 
+    partitioned.</p>
 </li>
 <li>
-<p>UnaryPredicate: A template parameter representing the type of the 
-predicate function.</p>
+    <p><format color="Fuchsia">UnaryPredicate:</format> A template 
+    parameter representing the type of the predicate function.</p>
 </li>
 <li>
-<p>pred (UnaryPredicate): A function that takes a single argument (an 
-element from the range) and returns a bool:</p>
+    <p><format color="Fuchsia">pred (UnaryPredicate):</format> A 
+    function that takes a single argument (an element from the range)
+    and returns a bool:</p>
 </li>
 <li>
-    <list type = "bullet">
+    <list type="bullet">
     <li>
     <p>true: The element satisfies the partitioning criterion.</p>
     </li>
@@ -1571,89 +1582,97 @@ element from the range) and returns a bool:</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Example Usage:</format> </p>
+<p><format color="BlueViolet">Example:</format> </p>
 
-```C++
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
-
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+\/
 // A simple struct to represent a course (you can customize this)
 struct Course {
     std::string name;
 };
-
+\/
 int main() {
-    // Sample course data
-    std::vector<Course> courses = {
-        {"CS101"},
-        {"MATH101"},
-        {"CS202"},
-        {"PHYS101"},
-        {"CS301"}
-    };
-
+// Sample course data
+std::vector&lt;Course&gt; courses = {
+    {"CS101"},
+    {"MATH101"},
+    {"CS202"},
+    {"PHYS101"},
+    {"CS301"}
+};
+\/
     std::string dep = "CS";
-
+\/
     // Lambda function to check if a course belongs to the "CS" department
     auto isDep = [dep](const Course& course) {
         return course.name.size() >= dep.size() && 
                course.name.substr(0, dep.size()) == dep;
     };
-
+\/
     // Partition the courses vector, keeping "CS" courses at the beginning
     auto iter = std::stable_partition(courses.begin(), courses.end(), isDep);
-
+\/
     // Remove non-"CS" courses
     courses.erase(iter, courses.end());
-
+\/
     // Output the remaining "CS" courses
-    std::cout << "CS Courses:\n";
+    std::cout &lt;&lt; "CS Courses:\n";
     for (const Course& course : courses) {
-        std::cout << course.name << std::endl;
+        std::cout &lt;&lt; course.name &lt;&lt; std::endl;
     }
-
+\/
     return 0;
 }
-```
+</code-block>
 
 ##### 8.2.4 std::copy_if
 
-<p><format color = "BlueViolet">Syntax:</format> </p>
+<p><format color="BlueViolet">Syntax:</format> </p>
 
-```C++
-#include <algorithm> // Required header
-
-template <class InputIterator, class OutputIterator, class UnaryPredicate>
+<code-block lang="c++" collapsible="true">
+#include &lt;algorithm&gt; // Required header
+\/
+template &lt;class InputIterator, class OutputIterator, class UnaryPredicate&gt;
 OutputIterator copy_if (InputIterator first, InputIterator last,
-                        OutputIterator result, UnaryPredicate pred);
-```
+OutputIterator result, UnaryPredicate pred);
+</code-block>
 
-<list type = "decimal">
+<list type="decimal">
 <li>
-<p>InputIterator: Type of iterator used for the input range.</p>
+    <p><format color="Fuchsia">InputIterator:</format> Type of 
+    iterator used for the input range.</p>
 </li>
 <li>
-<p>OutputIterator: Type of iterator used for the output range (where copied elements go).</p>
+    <p><format color="Fuchsia">OutputIterator:</format> Type of 
+    iterator used for the output range (where copied elements go).</p>
 </li>
 <li>
-<p>first (InputIterator): An iterator to the beginning of the input range.</p>
+    <p><format color="Fuchsia">first (InputIterator):</format> An 
+    iterator to the beginning of the input range.</p>
 </li>
 <li>
-<p>last (InputIterator): An iterator to one past the end of the input range.</p>
+    <p><format color="Fuchsia">last (InputIterator):</format> An 
+    iterator to one past the end of the input range.</p>
 </li>
 <li>
-<p>result (OutputIterator): An iterator to the beginning of the output range.</p>
+    <p><format color="Fuchsia">result (OutputIterator):</format> An 
+    iterator to the beginning of the output range.</p>
 </li>
 <li>
-<p>UnaryPredicate: Type of the predicate function.</p>
+    <p><format color="Fuchsia">UnaryPredicate:</format> Type of the 
+    predicate function.</p>
 </li>
 <li>
-<p>pred (UnaryPredicate): A function that takes a single argument (an element from the input range) and returns:</p>
+    <p><format color="Fuchsia">pred (UnaryPredicate):</format> A 
+    function that takes a single argument (an element from the input 
+    range) and returns:</p>
 </li>
 <li>
-    <list type = "bullet">
+    <list type="bullet">
     <li>
     <p>true: Copy the element to the output range.</p>
     </li>
@@ -1664,88 +1683,91 @@ OutputIterator copy_if (InputIterator first, InputIterator last,
 </li>
 </list>
 
-<p><format color = "BlueViolet">Example Usage:</format> </p>
+<p><format color="BlueViolet">Example:</format> </p>
 
-```C++
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
-
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+\/
 struct Course {
     std::string name;
 };
-
+\/
 int main() {
-    std::vector<Course> csCourses = {
+    std::vector&lt;Course&gt; csCourses = {
         {"CS101"},
         {"MATH101"},
         {"CS202"},
         {"PHYS101"},
         {"CS301"}
     };
-
-    std::vector<Course> filteredCourses; 
+\/
+    std::vector&lt;Course&gt; filteredCourses; 
     std::string dep = "CS";
-
+\/
     auto isDep = [dep](const Course& course) {
-        return course.name.size() >= dep.size() && 
+        return course.name.size() &gt;= dep.size() && 
                course.name.substr(0, dep.size()) == dep;
     };
-
+\/
     // Copy matching courses to 'filteredCourses'
     // Use back_inserter to add more space!
     std::copy_if(csCourses.begin(), csCourses.end(), 
                  std::back_inserter(filteredCourses), isDep);
-
-    std::cout << "Filtered CS Courses:\n";
+\/
+    std::cout &lt;&lt; "Filtered CS Courses:\n";
     for (const Course& course : filteredCourses) {
-        std::cout << course.name << std::endl;
+        std::cout &lt;&lt; course.name &lt;&lt; std::endl;
     }
-
+\/
     return 0;
 }
-```
+</code-block>
 
 ##### 8.2.5 std::remove_if
 
-<p><format color = "BlueViolet">Syntax:</format> </p>
+<p><format color="BlueViolet">Syntax:</format> </p>
 
-```C++
-#include <algorithm> // Required header
-
-template <class ForwardIterator, class UnaryPredicate>
+<code-block lang="c++" collapsible="true">
+#include &lt;algorithm&gt; // Required header
+\/
+template &lt;class ForwardIterator, class UnaryPredicate&gt;
 ForwardIterator remove_if (ForwardIterator first, ForwardIterator last,
-                           UnaryPredicate pred);
-```
+UnaryPredicate pred);
+</code-block>
 
-<list type = "decimal">
+<list type="decimal">
 <li>
-<p>ForwardIterator: Type of iterator used for the range. Must support 
-forward movement.</p>
+    <p><format color="Fuchsia">ForwardIterator:</format> Type of 
+    iterator used for the range. Must support forward movement.</p>
 </li>
 <li>
-<p>first (ForwardIterator): An iterator to the beginning of the range.
+    <p><format color="Fuchsia">first (ForwardIterator):</format> An 
+    iterator to the beginning of the range.
 </p>
 </li>
 <li>
-<p>last (ForwardIterator): An iterator to one past the end of the range
-.</p>
+    <p><format color="Fuchsia">last (ForwardIterator):</format> An 
+    iterator to one past the end of the range.</p>
 </li>
 <li>
-<p>UnaryPredicate: Type of the predicate function.</p>
+    <p><format color="Fuchsia">UnaryPredicate:</format> Type of the 
+    predicate function.</p>
 </li>
 <li>
-<p>pred (UnaryPredicate): A function that takes a single argument (an
-element from the range) and returns:</p>
+    <p><format color="Fuchsia">pred (UnaryPredicate):</format> A 
+    function that takes a single argument (an element from the range)
+    and returns:</p>
 </li>
 <li>
-    <list type = "bullet">
+    <list type="bullet">
     <li>
-    <p>true: The element should be &quot;removed.&quot;</p>
+        <p>true: The element should be &quot;removed.&quot;</p>
     </li>
     <li>
-    <p>false: The element should be kept.</p>
+        <p>false: The element should be kept.</p>
     </li>
     </list>
 </li>
@@ -1808,14 +1830,14 @@ element from the range) and returns:</p>
 
 <list type="bullet">
 <li>
-    <p><format color="Fuchsia">Header File (
-    <format color="OrangeRed">.h</format>, .hh, .hpp):</format> 
+    <p><format color="Fuchsia">Header File </format> (
+    <format color="OrangeRed">.h</format>, .hh, .hpp):
     Containing the interface (declarations).</p>
 </li>
 <li>
-    <p><format color="Fuchsia">Source File (
+    <p><format color="Fuchsia">Source File </format> (
     <format color="OrangeRed">.cpp</format>, .cc, .cxx, .c++, 
-    .C):</format> Containing definitions (method bodies).</p>
+    .C): Containing definitions (method bodies).</p>
 </li>
     
 </list>
@@ -1837,51 +1859,51 @@ element from the range) and returns:</p>
 
 <p><format color="BlueViolet">Example (header file):</format> </p>
 
-```C++
+<code-block lang="c++" collapsible="true">
 // Protection in case multiple .cpp files include this header, so 
 // that its contents won't get declared twice.
 #ifndef MYCLASS_H
 #define MYCLASS_H
-
+\/
 class MyClass {
 public:
     MyClass(); // Constructor
     ~MyClass(); // Destructor
     void myMethod(); // Member function (behavior inside each function)
-    int getMyVariable(); 
+    int getMyVariable();
 private:
     int myVariable; // Member variable (data inside each object)
 };  // Semicolons!
+\/
+#endif // MYCLASS_H
+</code-block>
 
-#endif
-```
+<p><format color="BlueViolet">Example (source file):</format> </p>
 
-<p><format color = "BlueViolet">Example (source file):</format> </p>
-
-```C++
-# include "MyClass.h"
-
+<code-block lang="c++" collapsible="true">
+#include "MyClass.h"
+\/
 MyClass::MyClass() {
     myVariable = 0; // Initialize member variable
 }
-
+\/
 void MyClass::myMethod() {
     myVariable++;
 }
-
+\/
 MyClass::~MyClass() {
     // Simple destructor implementation
 }
-
+\/
 int MyClass::getMyVariable() {
     return myVariable;
 }
-```
+</code-block>
 
 <note>
 <p>Why so many extensions?</p>
 <p>Depend on the compilers!</p>
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Historically, used .C</p>
 </li>
@@ -1910,59 +1932,59 @@ non-const member functions (if the parameter is an object) or modify
 the value (if it's a fundamental type or a pointer to const data) of 
 that parameter.</p>
 
-<p><format color = "BlueViolet">Example for value:</format> </p>
+<p><format color="BlueViolet">Example for value:</format> </p>
 
-```C++
+<code-block lang="c++" collapsible="true">
 int plus(const int& x) {
     return x + 1; // Error: x is const
 }
-
+\/
 int plus(const int x) {
-    return x + 1; // OK: x is a copy
+return x + 1; // OK: x is a copy
 }
-```
+</code-block>
 
-<p><format color = "BlueViolet">Example for member functions:</format>
+<p><format color="BlueViolet">Example for member functions:</format>
 </p>
 
-```C++
+<code-block lang="c++" collapsible="true">
 struct Planet { 
     int countPopulation() const; 
     void deathStar(); 
 };
-
-int Planet::countPopulation() const { 
+\/
+int Planet::countPopulation() const {
     return 42;
 }
-
-void Planet::deathStar() { 
-    cout << "BOOM" << endl; 
+\/
+void Planet::deathStar() {
+    std::cout &lt;&lt; "BOOM" &lt;&lt; std::endl;
 }
-
-void evil(const Planet &p) { 
-    // OK: countPopulation is const 
-    cout << p.countPopulation() << endl; 
-    // ERROR: deathStar isn't const 
-    p.deathStar(); 
+\/
+void evil(const Planet &p) {
+    // OK: countPopulation is const
+    std::cout &lt;&lt; p.countPopulation() &lt;&lt; std::endl;
+    // ERROR: deathStar isn't const
+    p.deathStar();
 }
-```
+</code-block>
 
 ##### 9.2.1 Const Pointers
 
-```C++
+<code-block lang="c++" collapsible="true">
 // constant pointer to a non-constant int
 // (*p)++; OK! 
 // p++; NOT allowed!
 int * const p;
-
-// non-constant pointer to a constant 
+\/
+// non-constant pointer to a constant
 int const int* p;
 int const* p;
-
-// constant pointer to a constant 
-int const int* const p; 
+\/
+// constant pointer to a constant
+int const int* const p;
 int const* const p;
-```
+</code-block>
 
 <warning>
 <p>When in doubt, read from right to left!</p>
@@ -1971,16 +1993,16 @@ int const* const p;
 
 ##### 9.2.2 Const Iterators
 
-```C++
-const vector<int>::iterator itr = v.begin(); 
+<code-block lang="c++" collapsible="true">
+const vector&lt;int&gt;::iterator itr = v.begin(); 
 *itr = 5; // OK! changing what itr points to 
 ++itr; // ERROR! can’t modify itr
-
-vector<int>::const_iterator itr = v.begin(); 
-*itr = 5; //ERROR! can’t change value of itr 
-++itr; //OK! changing v 
+\/
+vector&lt;int&gt;::const_iterator itr = v.begin();
+*itr = 5; //ERROR! can’t change value of itr
+++itr; //OK! changing v
 int value = *itr; //OK! reading from itr
-```
+</code-block>
 
 ### 10 Operators
 
@@ -2008,14 +2030,15 @@ behaviors:</format> </p>
 
 <p>In STL, </p>
 
-```C++
-    ostream& operator<<(ostream& s, const string& val) { 
-        ...
-    }
-    string& vector<string>::operator[](size_t index) const { 
-        ...
-    }
-```
+<code-block lang="c++">
+ostream& operator&lt;&lt;(ostream& s, const string& val) { 
+    ...
+}
+\/
+string& vector&lt;string&gt;::operator[](size_t index) const { 
+    ...
+}
+</code-block>
 
 #### 10.2 Operator Overloading
 
