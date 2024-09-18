@@ -687,7 +687,7 @@ really have to!</p>
 
 #### 4.4 Output Streams
 
-<p><format color="BlueViolet">Cerr & Clog</format></p>
+<p><format color="BlueViolet">cerr & clog</format></p>
 
 <code-block lang="c++" collapsible="true">
 #include &lt;iostream&gt;
@@ -791,20 +791,20 @@ int main() {
 
 <list type = "bullet">
 <li>
-<p>When a type name is too long and a simpler alias makes the
-code more readable, use it.</p>
+    <p>When a type name is too long and a simpler alias makes the
+    code more readable, use it.</p>
 </li>
 <li>
-<p>In libraries there is a common name for a type within each
-class. Example:</p>
-<list tyep = "bullet">
-<li>
-<p>vector::iterator, map::iterator, string::iterator</p>
-</li>
-<li>
-<p>vector::reference, map::reference, string::reference</p>
-</li>
-</list>
+    <p>In libraries there is a common name for a type within each
+    class. Example:</p>
+    <list type = "bullet">
+    <li>
+        <p>vector::iterator, map::iterator, string::iterator</p>
+    </li>
+    <li>
+        <p>vector::reference, map::reference, string::reference</p>
+    </li>
+    </list>
 </li>
 </list>
 
@@ -820,85 +820,92 @@ class. Example:</p>
 <p>Remember to include &lt; utility &gt; and &lt; tuple &gt;</p>
 </note>
 
-```C++
-    std::pair<double, int> price(3.4, 5);
+<p><format color="BlueViolet">Examples:</format> </p>
 
-    // make_pair/tuple (C++ 11) automatically deduces the type!
-    auto prices = std::make_pair(3.4, 5);
-    auto values = std::make_tuple(3, 4, "hi");
-
-    // access via get/set
-    prices.first = prices.second;           // prices = {5, 5}
-    get<0>(values) = get<1>(values);  // values = {4, 4, "hi"}
-
-    // structured binding (C++ 17) - extract each binding
-    auto [a, b] = prices;       // a = 5, b = 5
-    const auto& [c, d, e] = values; // c = 4, d = 4, e = "hi"
-```
+<code-block lang="c++" collapsible="true">
+std::pair&lt;double, int&gt; price(3.4, 5);
+\/
+// make_pair/tuple (C++ 11) automatically deduces the type!
+auto prices = std::make_pair(3.4, 5);
+auto values = std::make_tuple(3, 4, "hi");
+\/
+// access via get/set
+prices.first = prices.second;           // prices = {5, 5}
+get&lt;0&gt;(values) = get&lt;1&gt;(values);  // values = {4, 4, "hi"}
+\/
+// structured binding (C++ 17) - extract each binding
+auto [a, b] = prices;       // a = 5, b = 5
+const auto& [c, d, e] = values; // c = 4, d = 4, e = "hi"
+</code-block>
 
 #### 5.3 Conversions
 
-```C++
-int v1 = static_cast<double>(3.14);
-double v2 = 6;
-```
+<p><format color="BlueViolet">Examples:</format> </p>
 
-```C++
+<code-block lang="c++" collapsible="true">
+int v1 = static_cast&lt;double&gt;(3.14); // v1 = 3
+</code-block>
+
+<code-block lang="c++" collapsible="true">
 const int v3 = 3;
-int* v4 = const_cast<int*> (&v3);
-```
+int* v4 = const_cast&lt;int*&gt; (&v3); // v4 = 3
+</code-block>
 
 #### 5.4 initializer_list
 
-<p><format color = "BlueViolet">Definition</format>: An initializer 
+<p><format color="BlueViolet">Definition</format>: An initializer 
 list is a lightweight vector that can be used as a parameter.</p>
 
-```C++
-#include <iostream>
-#include <vector>
-#include <initializer_list>
+<p><format color="BlueViolet">Example:</format> </p>
 
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;initializer_list&gt;
+\/
 class MyContainer {
 private:
-    std::vector<int> data; 
-
+    std::vector&lt;int&gt; data;
+\/
 public:
     // Constructor using initializer_list
-    MyContainer(std::initializer_list<int> values) {
+    MyContainer(std::initializer_list&lt;int&gt; values) {
         // Iterate through the initializer_list and populate the vector
         for (int value : values) {
             data.push_back(value);
         }
     }
-
+\/
     void print() const {
         for (int value : data) {
-            std::cout << value << " ";
+            std::cout &lt;&lt; value &lt;&lt; " ";
         }
-        std::cout << std::endl;
+        std::cout &lt;&lt; std::endl;
     }
 };
-
+\/
 int main() {
     // Using initializer_list to initialize MyContainer
-    MyContainer container1 = {1, 2, 3, 4, 5}; 
-    container1.print();  
-
+    MyContainer container1 = {1, 2, 3, 4, 5};
+    container1.print();
+\/
     MyContainer container2{6, 7, 8};
     container2.print(); 
-
+\/
     return 0;
 }
-```
+</code-block>
 
-<warning><p>C++ 11 provides a uniform initialization syntax. Using the uniform 
+<warning>
+<p>C++ 11 provides a uniform initialization syntax. Using the uniform 
 initialization syntax, the initializer list constructor is preferred 
-over constructor.</p></warning>
+over constructor.</p>
+</warning>
 
-```C++
-std::vector<int> v1(3, 10) // v1 = {10, 10, 10}
-std::vector<int> v2{3, 10} // v2 = {3, 10}
-```
+<code-block lang="c++" collapsible="true">
+std::vector&lt;int&gt; v1(3, 10) // v1 = {10, 10, 10}
+std::vector&lt;int&gt; v2{3, 10} // v2 = {3, 10}
+</code-block>
 
 ## &#8545; Standard Template Library (STL)
 
