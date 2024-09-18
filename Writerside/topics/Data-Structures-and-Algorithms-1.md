@@ -2191,7 +2191,7 @@ public class Bag&lt;Item&gt; implements Iterable&lt;Item&gt; {
 
 ## 5 Elementary Sorts
 
-### 5.1 Selection Sort
+### 5.1 Selection Sort {id="selection-sort"}
 
 <list type="bullet">
 <li>
@@ -2229,6 +2229,12 @@ public class Bag&lt;Item&gt; implements Iterable&lt;Item&gt; {
     suitable for small number of data.</p>
 </li>
 </list>
+
+<note>
+<p>For more information about the performance of selection sort, 
+please refer to the <a anchor="conclusion" summary="Conclusion">
+conclusion table</a>.</p>
+</note>
 
 <tabs>
     <tab title="Java">
@@ -2362,9 +2368,10 @@ equals the number of inversions (number of compares = exchanges + (N
 
 <note>
 <p>For more information about the performance of insertion sort, 
-please visit the <a href="Data-Structures-and-Algorithms-3.md" 
+please refer to the <a href="Data-Structures-and-Algorithms-3.md" 
 anchor="sortperf" summary="Table for Comparing Performance of Sorting
-Algorithm">table for sorting performance</a>.</p>
+Algorithm">table for sorting performance</a> or the <a 
+anchor="conclusion" summary="Conclusion">conclusion table</a>.</p>
 </note>
 
 <tabs>
@@ -2425,7 +2432,7 @@ def insertion_sort(arr):
     </tab>
 </tabs>
 
-### 5.3 Shell Sort
+### 5.3 Shell Sort {id="shell-sort"}
 
 <procedure title="Shell Sort">
 <step>
@@ -2459,6 +2466,12 @@ def insertion_sort(arr):
 <p><format color="BlueViolet">Property:</format> With the <math>3x+1
 </math> increments, the worst-case number of compares is <math>
 O(N^{\frac{3}{2}})</math>.</p>
+
+<note>
+<p>For more information about the performance of quicksort, please 
+refer to  the <a anchor="conclusion" summary="Conclusion">
+conclusion table</a>.</p>
+</note>
 
 <tabs>
     <tab title="Java">
@@ -3249,10 +3262,11 @@ D(N)/N &= \frac {2D(\frac {N}{2})}{N} + 1 \\
 </tip>
 
 <note>
-For more information about the performance of mergesort, please 
-visit the <a href="Data-Structures-and-Algorithms-3.md" 
+<p>For more information about the performance of mergesort, please 
+refer to the <a href="Data-Structures-and-Algorithms-3.md" 
 anchor="sortperf" summary="Table for Comparing Performance of Sorting
-Algorithm">table for sorting performance</a>.
+Algorithm">table for sorting performance</a> or the <a 
+anchor="conclusion" summary="Conclusion">conclusion table</a>.</p>
 </note>
 
 <tip>
@@ -3799,7 +3813,8 @@ for partitioning probability.</p>
 <p>For more information about the performance of quicksort, please 
 refer to the <a href="Data-Structures-and-Algorithms-3.md" 
 anchor="sortperf" summary="Table for Comparing Performance of Sorting
-Algorithm">table for sorting performance</a>.</p>
+Algorithm">table for sorting performance</a> or the <a 
+anchor="conclusion" summary="Conclusion">conclusion table</a>.</p>
 </note>
 
 <tabs>
@@ -4034,134 +4049,267 @@ def quickselect(arr, k, comparator=lambda x, y: x &lt; y):
     </tab>
 </tabs>
 
-### 7.3 Duplicate Keys
+### 7.3 Duplicate Keys {id="3-way-partitioning"}
 
-* Mergesort with duplicate keys: Always between
-  <math>\frac {1}{2} NlgN</math>and <math>NlgN</math> compares.
-* Quicksort with duplicate keys: Algorithm goes <format color = "OrangeRed">quadratic</format>
-  unless partitioning stops on equal keys.
-* Goal: Partitioning array into 3 parts so that:
-    * Entries between <math>lt</math> and <math>gt</math> equal to partitioning item <math>v</math>.
-    * No larger entries to left of <math>lt</math>.
-    * No smaller entries to right of <math>gt</math>.
+<p><format color="BlueViolet">Problem of quicksort with duplicate 
+keys</format> </p>
 
-Sorting lower bound: If there are <em>n</em> distinct keys and the
-<math>i ^ {th}</math> one occurs <math>x_{i}</math>, any compare-based
-sorting algorithm must use at least
+<list type="bullet">
+<li>
+    <p>Mergesort with duplicate keys: Always between
+    <math>\frac {1}{2} N \lg N</math> and <math>N \lg N</math> 
+    compares.</p>
+</li>
+<li>
+    <p>Quicksort with duplicate keys: Algorithm goes <format 
+    color="OrangeRed">quadratic</format> unless partitioning stops on
+    equal keys.</p>
+</li>
+</list>
 
-```tex
-\lg\left(\frac{N!}{x_1!x_2!\ldots x_n!}\right) \sim \sum_{i=1}^{n} x_i \lg\left(\frac{x_i}{N}\right)
-```
+<p><format color="BlueViolet">Goal:</format> Partitioning array into 
+3 parts so that:</p>
 
-compares in the worst case. (linear when only a constant number
-of distinctive keys)
+<list type="bullet">
+<li>
+    <p>Entries between lt and gt equal to partitioning item v.</p>
+</li>
+<li>
+    <p>No larger entries to left of lt.</p>
+</li>
+<li>
+    <p>No smaller entries to right of gt.</p>
+</li>
+</list>
 
-Property: Quicksort with 3-way partitioning is entropy-optimal.
-
-<procedure title = "Dijkstra 3-way Partitioning">
+<procedure title="Dijkstra 3-way Partitioning">
 <step>
-    Let <math>v</math> be partitioning item a[lo].
+    <p>Let v be partitioning item a[lo].</p>
 </step>
 <step>
-    Scan <math>i</math> from left to right.
-    a[i] &lt; v: exchange a[lt] with a[i]; increment both <math>lt</math> and <math>i</math>.
-    a[i] &gt; v: exchange a[gt] with a[i]; decrement <math>gt</math>.
-    a[i] == v: increment <math>i</math>.
+    <p>Scan i from left to right.</p>
+    <list type="bullet">
+    <li>
+        <p><format color="Fuchsia">a[i] &lt; v:</format> exchange 
+        a[lt] with a[i]; increment both <math>lt</math> and <math>i
+        </math>.</p>
+    </li>
+    <li>
+        <p><format color="Fuchsia">a[i] &gt; v:</format> exchange 
+        a[gt] with a[i]; decrement <math>gt</math>.</p>
+    </li>
+    <li>
+        <p><format color="Fuchsia">a[i] == v:</format> increment 
+        <math>i</math>.</p>
+    </li>
+    </list>
 </step>
 </procedure>
 
-Java
+<img src="../images_data/d7-3-1.png" alt="3-way Partitioning"/>
 
-```Java
-private static void sort(Comparable[] a, int lo, int hi) {
-    if (hi <= lo) return;
-    int lt = lo, gt = hi;
-    Comparable v = a[lo];
-    int i = lo;
-    while (i <= gt) {
-        int cmp = a[i].compareTo(v);
-        if (cmp < 0) exch(a, lt++, i++);
-        else if (cmp > 0) exch(a, i, gt--);
-        else i++;
+<p>Sorting lower bound: If there are <math>n</math> distinct keys and
+the <math>i ^ {\text{th}}</math> one occurs <math>x_{i}</math>, any 
+compare-based sorting algorithm must use at least</p>
+
+<code-block lang="tex">
+\lg\left(\frac{N!}{x_1!x_2!\ldots x_n!}\right) \sim \sum_{i=1}^{n} x_i \lg\left(\frac{x_i}{N}\right)
+</code-block>
+
+<p>compares in the worst case (<math>N \log N</math> when all distinct
+; linear when only a constant number of distinctive keys).</p>
+
+<p><format color="BlueViolet">Property:</format> Quicksort with 3-way
+partitioning is entropy-optimal.</p>
+
+<note>
+<p>For more information about the performance of quicksort, please 
+refer to the <a anchor="conclusion" summary="Conclusion">
+conclusion table</a>.</p>
+</note>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Comparator;
+\/
+public class Dijkstra3WayPartition {
+    private static final int CUTOFF = 10;
+\/
+    private static &lt;T&gt; void sort(T[] a, Comparator&lt;? super T&gt; comparator) {
+        sort(a, 0, a.length - 1, comparator);
+    }
+\/
+    private static &lt;T&gt; void sort(T[] a, int lo, int hi, Comparator&lt;? super T&gt; comparator) {
+        if (hi &lt;= lo + CUTOFF - 1) {
+            insertionSort(a, lo, hi, comparator);
+            return;
         }
-
-    sort(a, lo, lt - 1);
-    sort(a, gt + 1, hi);
-}
-```
-
-C++
-
-```C++
-#include <random>
-#include <vector>
-#include <algorithm>
-
-void threeWayQuickSort(std::vector<int>& arr, int low, int high) {
-    if (high <= low) return;
-
-    int lt = low;
-    int gt = high;
-    int pivot = arr[low];
-    int i = low;
-
-    while (i <= gt) {
-        if (arr[i] < pivot) {
-            std::swap(arr[lt++], arr[i++]);
-        } else if (arr[i] > pivot) {
-            std::swap(arr[i], arr[gt--]);
-        } else {
-            i++;
+        int lt = lo, gt = hi;
+        T v = a[lo];
+        int i = lo + 1;
+        while (i &lt;= gt) {
+            int cmp = comparator.compare(a[i], v);
+            if (cmp &lt; 0) exch(a, lt++, i++);
+            else if (cmp &gt; 0) exch(a, i, gt--);
+            else i++;
+        }
+\/
+        sort(a, lo, lt - 1, comparator);
+        sort(a, gt + 1, hi, comparator);
+    }
+\/
+    private static &lt;T&gt; void insertionSort(T[] a, int lo, int hi, Comparator&lt;? super T&gt; comparator) {
+        for (int i = lo + 1; i &lt;= hi; i++) {
+            for (int j = i; j &gt; lo && comparator.compare(a[j], a[j - 1]) &lt; 0; j--) {
+                exch(a, j, j - 1);
+            }
         }
     }
-
-    threeWayQuickSort(arr, low, lt - 1);
-    threeWayQuickSort(arr, gt + 1, high);
+\/
+    private static &lt;T&gt; void exch(T[] a, int i, int j) {
+        T swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
 }
-
-void threeWayQuickSort(std::vector<int>& arr) {
-    std::shuffle(arr.begin(), arr.end(), std::mt19937(std::random_device()()));
-    threeWayQuickSort(arr, 0, arr.size() - 1);
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;functional&gt;
+#include &lt;algorithm&gt;
+\/
+template &lt;typename T, typename Comparator = std::less&lt;&gt;&gt;
+void sort(T arr[], int lo, int hi, Comparator comparator = {}) {
+    constexpr int CUTOFF = 10;
+    if (hi &lt;= lo + CUTOFF - 1) {
+        std::sort(arr + lo, arr + hi + 1, comparator);
+        return;
+    }
+    int lt = lo, gt = hi;
+    T v = arr[lo];
+    int i = lo + 1;
+    while (i &lt;= gt) {
+        if (comparator(arr[i], v)) std::swap(arr[lt++], arr[i++]);
+        else if (comparator(v, arr[i])) std::swap(arr[i], arr[gt--]);
+        else i++;
+    }
+\/
+    sort(arr, lo, lt - 1, comparator);
+    sort(arr, gt + 1, hi, comparator);
 }
-```
-
-Python
-
-```Python
-def quicksort3(arr, low, high):
-    if low < high:
-        # pivot is partitioning index, arr[pivot] is now at right place
-        pivot, lt, gt = partition3(arr, low, high)
-
-        # Separately sort elements before pivot and after pivot
-        quicksort3(arr, low, lt - 1)
-        quicksort3(arr, gt + 1, high)
-
-
-def partition3(arr, low, high):
-    pivot = arr[low]
-    lt = low  # index for less than pivot
-    gt = high  # index for greater than pivot
-    i = low  # index for the current element
-
-    while i <= gt:
-        if arr[i] < pivot:
+\/
+template &lt;typename T, typename Comparator = std::less&lt;&gt;&gt;
+void sort(T arr[], const int n, Comparator comparator = {}) {
+    sort(arr, 0, n - 1, comparator);
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+def sort(arr: list, lo: int, hi: int):
+    CUTOFF = 10
+    if hi &lt;= lo + CUTOFF - 1:
+        arr[lo:hi+1] = sorted(arr[lo:hi+1])
+        return
+\/
+    lt = lo
+    gt = hi
+    v = arr[lo]
+    i = lo + 1
+    while i &lt;= gt:
+        if arr[i] &lt; v:
             arr[lt], arr[i] = arr[i], arr[lt]
             lt += 1
             i += 1
-        elif arr[i] > pivot:
+        elif arr[i] &gt; v:
             arr[i], arr[gt] = arr[gt], arr[i]
             gt -= 1
         else:
             i += 1
+\/
+    sort(arr, lo, lt - 1)
+    sort(arr, gt + 1, hi)
+\/
+\/
+def sort_all(arr: list):
+    sort(arr, 0, len(arr) - 1)
+    </code-block>
+    </tab>
+</tabs>
 
-    return pivot, lt, gt
+<p><format color="BlueViolet">Conclusion:</format> </p>
 
-
-def quicksort3_entry(arr):
-    quicksort3(arr, 0, len(arr) - 1)
-    return arr
-```
+<table style="both" id="conclusion">
+<tr>
+    <td></td>
+    <td>In place?</td>
+    <td>Stable?</td>
+    <td>Worst</td>
+    <td>Average</td>
+    <td>Best</td>
+    <td>Remarks</td>
+</tr>
+<tr>
+    <td><a anchor="selection-sort" summary="Selection Sort">Selection
+    </a></td>
+    <td>&checkmark;</td>
+    <td></td>
+    <td><math>\frac {N^{2}}{2}</math></td>
+    <td><math>\frac {N^{2}}{2}</math></td>
+    <td><math>\frac {N^{2}}{2}</math></td>
+    <td><math>N</math> exchanges</td>
+</tr>
+<tr>
+    <td><a anchor="insertion-sort" summary="Insertion Sort">Insertion
+    </a></td>
+    <td>&checkmark;</td>
+    <td>&checkmark;</td>
+    <td><math>N</math></td>
+    <td><math>\frac {N^{2}}{4}</math></td>
+    <td><math>N</math></td>
+    <td>Use for small <math>N</math> or partially ordered</td>
+</tr>
+<tr>
+    <td><a anchor="shell-sort" summary="Shell Sort">Shell</a></td>
+    <td>&checkmark;</td>
+    <td></td>
+    <td>?</td>
+    <td>?</td>
+    <td><math>N</math></td>
+    <td>Tight code, subquadratic</td>
+</tr>
+<tr>
+    <td><a anchor="mergesort" summary="Mergesort">Merge</a></td>
+    <td></td>
+    <td>&checkmark;</td>
+    <td><math>N \lg N</math></td>
+    <td><math>N \lg N</math></td>
+    <td><math>N \lg N</math></td>
+    <td><math>N \lg N</math> guarantee, stable</td>
+</tr>
+<tr>
+    <td><a anchor="quicksort" summary="Quicksort">Quick</a></td>
+    <td>&checkmark;</td>
+    <td></td>
+    <td><math>\frac {N^{2}}{2}</math></td>
+    <td>2 <math>N \lg N</math></td>
+    <td><math>N \lg N</math></td>
+    <td><p><math>N \log N</math> probabilistic guarantee</p>
+    <p>Fastest in practice</p></td>
+</tr>
+<tr>
+    <td><a anchor="3-way-partitioning" summary="3-way Quicksort">
+    3-way quick</a></td>
+    <td>&checkmark;</td>
+    <td></td>
+    <td><math>\frac {N^{2}}{2}</math></td>
+    <td>2 <math>N \ln N</math></td>
+    <td><math>N</math></td>
+    <td>Improves quicksort in presence of duplicate keys</td>
+</tr>
+</table>
 
 ## 8 Priority Queues
 
