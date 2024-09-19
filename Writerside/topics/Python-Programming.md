@@ -22,33 +22,37 @@ interpreter.</li>
 <list type="alpha-lower">
 
 <li>
-<p><format color="Fuchsia">repr:</format> Provides a string 
-representation that can be used to recreate the object. It's designed
-for debugging and introspection. It aims for a more precise and 
-detailed description, often including the object's type.</p>
-<p><format color="BlueViolet">Examples:</format> </p>
-<code-block lang="python">
+    <p><format color="Fuchsia">repr:</format> Provides a string 
+    representation that can be used to recreate the object. It's 
+    designed for debugging and introspection. It aims for a more 
+    precise and detailed description, often including the object's 
+    type.</p>
+    <p><format color="BlueViolet">Examples:</format> </p>
+
+<code-block lang="python" collapsible="true">
 class MyClass:
     def __init__(self, value):
         self.value = value
     def __repr__(self):
         return f"MyClass({self.value})"
+\/
 obj = MyClass(10)
 print(repr(obj))  # Output: MyClass(10)
 </code-block>
 </li>
 
 <li>
-<p><format color="Fuchsia">repr:</format> Provides a human-readable 
-string representation of the object. It's designed to be easily 
-understood by humans.</p>
-<p><format color="BlueViolet">Examples:</format> </p>
-<code-block lang="python">
+    <p><format color="Fuchsia">repr:</format> Provides a human-
+    readable string representation of the object. It's designed to be
+    easily understood by humans.</p>
+    <p><format color="BlueViolet">Examples:</format> </p>
+    <code-block lang="python" collapsible="true">
 class MyClass:
     def __init__(self, value):
         self.value = value
     def __str__(self):
         return f"MyClass with value: {self.value}"
+\/
 obj = MyClass(10)
 print(str(obj))  # Output: MyClass with value: 10
 </code-block> 
@@ -58,48 +62,48 @@ print(str(obj))  # Output: MyClass with value: 10
 
 #### 1.1.2 Strings in Python
 
-<p>For more detailed introduction on strings, please visit 
+<p>For more information on strings, please visit 
 <a href="Data-Structures-and-Algorithms-3.md" anchor="strings-in-java" 
 summary="Strings in Java">strings in Java</a>.</p>
 
 <p><format color="BlueViolet">Examples in Python:</format> </p>
 
-```Python
+<code-block lang="python" collapsible="true">
 name = "Nate"
 age = 19
-
+\/
 s = "My name is %s and I am %d years old" % (name, age)
 s1 = "My name is {} and I am {} years old".format(name, age)
-s2 = f"My name is {name} and I am {age} years old"  
-
+s2 = f"My name is {name} and I am {age} years old"
+\/
 print(f"2 + 2 = {(lambda x: x + x)(2)}") # 2 + 2 = 4
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 s = "I have a dream!"
 print(s[2:6]) # "have"
 print(s[2:]) # "have a dream!"
 print(s[-3:-1]) # "am"
 print(s[-1:-3]) # "" No result!
 print(s[::-1]) # "!maerd a evah I", -1 refers to the step
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 s = "dream"
 s1 = s.captialize() # "Dream"
 s2 = "i have a dream!"
 s3 = s2.title() # "I Have A Dream!"
 s4 = "I HAVE A DREAM!"
 s5 = s4.lower() # "i have a dream!"
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 s = "    I have a dream!    "
 s1 = s.strip() # "I have a dream!" strip() can remove whitespace, \n, \t
 s2 = "I have a dream!"
 s3 = s2.replace("dream", "car") # "I have a car!"
 s4 = s2.split(" ") # ["I", "have", "a", "dream!"]
-
+\/
 s5 = "I have a dream!"
 ret = s5.find("dream") # 9
 ret = s5.find("car") # -1
@@ -107,129 +111,133 @@ ret = s5.index("dream") # 9
 ret = s5.index("car") # ValueError
 print("I" in s5) # True
 print(s5.startswith("I")) # True
-
+\/
 s6 = "123"
 ret = s6.isdigit() # True
-```
+</code-block>
 
 ### 1.2 Lists
 
-```Python
+<p><format color="BlueViolet">Examples:</format> </p>
+
+<code-block lang="python" collapsible="true">
 lst = ["I", "have", "a", "dream!"]
 s = " ".join(lst) # "I have a dream!"
 for item in lst:
     print(item) # I have a dream!
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 lst = []
 lst.append("I") # ["I"]
 lst.insert(0, "have") # ["have", "I"]
 lst.extend(["a", "dream!"]) # ["have", "I", "a", "dream!"]
-
+\/
 lst.pop() # "dream!"
 lst.pop(0) # "have"
 lst.remove("I") # ["a"]
 lst.[0] = "me" # ["me"]
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 lst = [1, 2, 4, 3, 5]
 lst.sort() # [1, 2, 3, 4, 5]
 lst.sort(reverse=True) # [5, 4, 3, 2, 1]
-
+\/
 lst = ["I", "have", "a", "dream!"]
 lst[1] = lst[1].upper() # string operations must return a new string
 print(lst) # ["I", "HAVE", "a", "dream!"]
-```
+</code-block>
 
 ### 1.3 Tuple
 
-```Python
+<p><format color="BlueViolet">Examples:</format> </p>
+
+<code-block lang="python" collapsible="true">
 t = ()
 t = (1, 2, 3)
 t[1] = 4 # TypeError -> Tuple is unchangeable!
-
+\/
 t = ("I have a dream!")
-print(type(t)) # <class 'str'>
+print(type(t)) # &lt;class 'str'&gt;
 t = ("I have a dream!",)
-print(type(t)) # <class 'tuple'>
-
+print(type(t)) # &lt;class 'tuple'&gt;
+\/
 t = ("I", "have", ["a", "dream"])
 t[2].append("!")
-print(t) # ("I", "have", ["a", "dream", "!"]) 
+print(t) # ("I", "have", ["a", "dream", "!"])
 # "Tuple is unchangeable" means the cache address of the tuple is unchangeable.
-```
+</code-block>
 
-### 1.4 Set {id = "sets"}
+### 1.4 Set {id="sets"}
 
-```Python
+<code-block lang="python" collapsible="true">
 s = {}
-print(type(s)) # <class 'dict'>
+print(type(s)) # &lt;class 'dict'&gt;
 s = {1, 2, 3}
 s = set()
-```
+</code-block>
 
 <p>Set cannot contain unhashable type aka mutable type.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "Fuchsia">Hashable type:</format> int, float, 
-string, tuple, bool.</p>
+    <p><format color="Fuchsia">Hashable type:</format> int, float, 
+    string, tuple, bool.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Unhashable type:</format> list, set, 
-dict.</p>
+    <p><format color="Fuchsia">Unhashable type:</format> list, set, 
+    dict.</p>
 </li>
 </list>
 
-```Python
+<code-block lang="python">
 s = {1, 2, 3, []} # TypeError: unhashable type: 'list'
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 s = set()
 s.add(1)
 s.add(2)
 s.add(3)
-
-s.pop() 
+\/
+s.pop()
 s.remove(2)
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 s1 = {1, 2, 3}
 s2 = {3, 4, 5}
 print(s1 & s2) # {3}
 print(s1.intersection(s2)) # {3}
-
+\/
 print(s1 | s2) # {1, 2, 3, 4, 5}
 print(s1.union(s2)) # {1, 2, 3, 4, 5}
-
+\/
 print(s1 - s2) # {1, 2}
 print(s1.difference(s2)) # {1, 2}
-```
+</code-block>
 
-### 1.5 Dictionary {id = "dictionaries"}
+### 1.5 Dictionary {id="dictionaries"}
 
 <note>
 <p>Some important notes: </p>
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p>A key of a dictionary cannot be a list or a dictionary (or any 
-mutable type).</p>
+    <p>A key of a dictionary cannot be a list or a dictionary (or any 
+    mutable type).</p>
 </li>
 <li>
-<p>Two keys cannnot be equal.</p>
+    <p>Two keys cannnot be equal.</p>
 </li>
 </list>
 </note>
 
-```Python
+<code-block lang="python">
 dic = {1: "I", 2: "have", 3: "a", 4: "dream!"}
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 dic = {} # dic = dict()
 dic[1] = "I"
 dic[2] = "have" # {1: "I", 2: "have"}
@@ -238,92 +246,98 @@ dic.setdefault(3, "a") # {1: "I", 2: "have", 3: "a"}
 If the key exists, skip; 
 otherwise, add and set the key-value pair to default in dictionary.
 '''
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 dict = {1: "I", 2: "have", 3: "a", 4: "dream!"}
 dict.pop(4) # {1: "I", 2: "have", 3: "a"}
-
+\/
 print(dict[0]) # KeyError
 print(dict.get(0)) # None
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 dict = {1: "I", 2: "have", 3: "a", 4: "dream!"}
 for key in dict:
     print(key, dict[key])
-    
+\/
 print(list(dict.keys())) # [1, 2, 3, 4]
 print(list(dict.values())) # ["I", "have", "a", "dream!"]
-
+\/
 for item in dict.items():
     print(item)
-    
+\/
 for key, value in dict.items():
     print(key, value)
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 dict = {1: "I", 2: "have", 3: "a", 4: "dream!"}
 for key in dict:
     dict.pop(key) # RuntimeError: dictionary changed size during iteration
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 dict = {1: "I", 2: "have", 3: "a", 4: "dream!"}
 for key in list(dict.keys()):
     dict.pop(key) # No error
-```
+</code-block>
 
 ### 1.6 Bytes
 
-<list type = "decimal">
+<list type="decimal">
 <li>
-<p><format color = "Fuchsia">ASCII:</format> 1 bytes, 8 bits.</p>
+    <p><format color="Fuchsia">ASCII:</format> 1 bytes, 8 bits.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">ANSI:</format> A standard. 2 bytes, 16 
-bits.</p>
-<list type = "bullet">
-<li>
-<p>Mainland China: GB2312 => GBK (Windows).</p>
+    <p><format color="Fuchsia">ANSI:</format> A standard. 2 bytes, 16 
+    bits.</p>
+    <list type="bullet">
+    <li>
+        <p><format color="LawnGreen">Mainland China:</format>
+        GB2312 => GBK (Windows).</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Taiwan, China:</format> Big5.</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Japan:</format> JIS.</p>
+    </li>
+    </list>
 </li>
 <li>
-<p>Taiwan, China: Big5.</p>
+    <p><format color="Fuchsia">Unicode:</format> </p>
+    <list type="bullet">
+    <li>
+        <p><format color="LawnGreen">UCS-2:</format> 2 bytes, 16 bits
+        .</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">UCS-4:</format> 4 bytes, 32 bits
+        .</p>
+    </li>
+    </list>
 </li>
 <li>
-<p>Japan: JIS.</p>
-</li>
-</list>
-</li>
-<li>
-<p><format color = "Fuchsia">Unicode:</format> </p>
-<list type = "bullet">
-<li>
-<p>UCS-2: 2 bytes, 16 bits.</p>
-</li>
-<li>
-<p>UCS-4: 4 bytes, 32 bits.</p>
-</li>
-</list>
-</li>
-<li>
-<p><format color = "Fuchsia">UTF:</format> All the same as Unicode, 
-except that the length is changeable.</p>
-<list type = "bullet">
-<li>
-<p>English: 1 byte, 8 bits.</p>
+    <p><format color="Fuchsia">UTF:</format> All the same as Unicode, 
+    except that the length is changeable.</p>
+    <list type="bullet">
+    <li>
+        <p><format color="LawnGreen">English:</format> 1 byte, 8 bits
+        .</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Some of European languages:
+        </format> 2 bytes, 16 bits.</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Chinese:</format> 3 bytes, 24 
+        bits.</p>
+    </li>
+    </list>
 </li>
 <li>
-<p>Some of European languages: 2 bytes, 16 bits.</p>
-</li>
-<li>
-<p>Chinese: 3 bytes, 24 bits.</p>
-</li>
-</list>
-</li>
-<li>
-<p><format color = "Fuchsia">UTF-16:</format> Shortest length is 16 
+<p><format color="Fuchsia">UTF-16:</format> Shortest length is 16 
 bits.</p>
 </li>
 </list>
@@ -336,49 +350,51 @@ bits.</p>
 
 ## 2 Higher-Order Function
 
-<p><format color = "DarkOrange">Higher-order function:</format> 
+<p><format color="DarkOrange">Higher-order function:</format> 
 A function that takes a function as an argument value or returns
 a function as a return value.</p>
 
 ### 2.1 Higher-Order Function (Functions as Arguments)
 
-```Python
+<p><format color="BlueViolet">Examples:</format> </p>
+
+<code-block lang="python" collapsible="true">
 def summation(n, term):
     total, k = 0, 1
-    while k <= n:
+    while k &lt;= n:
         total, k = total + term(k), k + 1
     return total
-
-
+\/
+\/
 def cube(k):
     return k * k * k
-
-
+\/
+\/
 def sum_cubes(n):
     return summation(n, cube)
-```
+</code-block>
 
-```Python
+<code-block lang="python" collapsible="true">
 def apply_twice(f, x):
     return f(f(x))
-
-
+\/
+\/
 def square(x):
     return x * x
-
-
+\/
+\/
 result = apply_twice(square, 2)
-```
+</code-block>
 
-<procedure title = "Apply a User-Defined Function">
+<procedure title="Apply a User-Defined Function">
 <step>
-<p>Create a new frame.</p>
+    <p>Create a new frame.</p>
 </step>
 <step>
-<p>Bind formal parameters (f & x) to arguments.</p>
+    <p>Bind formal parameters (f & x) to arguments.</p>
 </step>
 <step>
-<p>Execute the body: return f(f(x)).</p>
+    <p>Execute the body: return f(f(x)).</p>
 </step>
 </procedure>
 
@@ -386,181 +402,199 @@ result = apply_twice(square, 2)
 <p>This is the environment frame for the code above.</p>
 </note>
 
-<img src = "../images_python/p2-1-1.png" alt = "Environments for Higher
+<img src = "../images_python/p2-1-1.png" alt="Environments for Higher
 -Order Functions"/>
 
 ### 2.2 Nested Definitions (Functions as Returned Values)
 
-```Python
+<code-block lang="python" collapsible="true">
 def make_adder(n):
     def adder(x):
         return x + n
     return adder
-```
+</code-block>
 
 <p>Propositions:</p>
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p>Every user-defined function has a parent frame (often global).</p>
+    <p>Every user-defined function has a parent frame (often global).
+    </p>
 </li>
 <li>
-<p>The parent of a function is the frame in which it was defined.</p>
+    <p>The parent of a function is the frame in which it was defined.
+    </p>
 </li>
 <li>
-<p>Every local frame has a parent frame (often global).</p>
+    <p>Every local frame has a parent frame (often global).</p>
 </li>
 <li>
-<p>The parent of a frame is the parent of function called.</p>
+    <p>The parent of a frame is the parent of function called.</p>
 </li>
 </list>
 
-<img src = "../images_python/p2-1-2.png" alt = "Environments for Nested Definitions" 
-height = "450"/>
+<img src = "../images_python/p2-1-2.png" alt="Environments for Nested
+Definitions"/>
 
 ### 2.3 Lambda Expressions
 
-<p>Important notes:</p>
+<p><format color="BlueViolet">Important notes:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p>No "return" keyword!</p>
+    <p>No "return" keyword!</p>
 </li>
 <li>
-<p>Lambda expressions are not common in Python, but important in 
-general.</p>
+    <p>Lambda expressions are not common in Python, but important in 
+    general.</p>
 </li>
 <li>
-<p>Lambda expressions in Python cannot contain statements at all!</p>
+    <p>Lambda expressions in Python cannot contain statements at all!
+    </p>
 </li>
 </list>
 
-Python
-
-```Python
+<tabs>
+    <tab title="Python">
+    <code-block lang="python">
 square = lambda x: x * x
-```
-
-<p>Lambda expressions (or similar) in other programming languages.</p>
-
-<p>C++ (Multiple Lines of Codes Permitted)</p>
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
 auto lambda = [](int x, int y) {
     int sum = x + y;
     int product = x * y;
     return sum + product;
 };
+\/
 int result = lambda(5, 7);  // result will be 47
-```
-
-<p>For more information on lambda functions in C++, please refer to 
-<a href = "C-Programming.md" anchor = "Lambda" summary = 
-"Lambda Functions in C++">C++ Programming</a>.</p>
-
-<p>Java</p>
-
-```Java
-    public static void main(String[] args) {
-        IntBinaryOperator add = (x, y) -> x + y;
-        System.out.println(add.applyAsInt(10, 20));  // Output: 30
-    }
-```
-
-<p>JavaScript (Arrow Function, Multiple Lines of Codes Permitted)</p>
-
-```Javascript
+    </code-block>
+    </tab>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+public static void main(String[] args) {
+    IntBinaryOperator addAndMultiply = (x, y) -> {
+        int sum = x + y;
+        int product = x * y;
+        return sum + product;
+    };
+\/
+    int result = addAndMultiply.applyAsInt(5, 7);  // result will be 47
+    System.out.println(result);
+}    
+    </code-block>
+    </tab>
+    <tab title="JavaScript">
+    <code-block lang="javascript" collapsible="true">
 let myFunction = (x, y) => {
     let sum = x + y;
     let product = x * y;
     return sum + product;
 };
-
+\/
 let result = myFunction(5, 7);  // result will be 47
-```
+    </code-block>
+    </tab>
+</tabs>
+
+<tip>
+<list type="decimal">
+<li>
+    <p>C++, Java and JavaScript all support multiple lines of code in
+    the lambda expression.</p>
+</li>
+<li>
+    <p>For more information on lambda functions in C++, please visit 
+    <a href="C-Programming.md" anchor="Lambda" summary= 
+    "Lambda Functions in C++">C++ Programming</a>.</p>
+</li>
+</list>
+</tip>
 
 ### 2.4 Currying
 
-```Python
+<p><format color="BlueViolet">Examples:</format> </p>
+
+<code-block lang="python" collapsible="true">
 def curry2(f):
     def g(x):
         def h(y):
             return f(x, y)
-
+\/
         return h
-
+\/
     return g
-
-
+\/
+\/
 def add(x, y):
     return x + y
-
-
+\/
+\/
 s = curry2(add)(1)(2)
-```
+</code-block>
 
 ## 3 Recursion
 
-<p><format color = "DarkOrange">Recursive Function:</format> 
-A function is called <format style = "italic">recursive</format> 
+<p><format color="DarkOrange">Recursive Function:</format> 
+A function is called <format style="italic">recursive</format> 
 if the body of that function calls itself, either directly or 
 indirectly.</p>
 
 ### 3.1 Self-Reference: Return by its own name
 
-```Python
+<code-block lang="python" collapsible="true">
 def print_all(x):
     print(x)
     return print_all
-    
+\/  
 print_all(1)(3)(5)
-```
+</code-block>
 
-<img src = "../images_python/p3-1-1.png" alt = "environment diagram"/>
+<img src="../images_python/p3-1-1.png" alt="Environment Diagram"/>
 
-```Python
+<code-block lang="python" collapsible="true">
 def print_sums(x):
     print(x)
     def next_sum(y):
         return print_sums(x + y)
     return next_sum
-    
+\/
 print_sums(1)(3)(5)
-```
+</code-block>
 
-<img src = "../images_python/p3-1-2.png" alt = "environment diagram"/>
+<img src="../images_python/p3-1-2.png" alt="Environment Diagram"/>
 
 ### 3.2 Recursion & Environment Diagrams
 
-<p>Example 1: </p>
+<p><format color="BlueViolet">Example 1:</format> </p>
 
-```Python
+<code-block lang="python" collapsible="true">
 def split(n):
     return n // 10, n % 10
-    
+\/
 def sum_digits(n):
     # Base Cases
-    if n < 10:
+    if n &lt; 10:
         return n
     else:
         all_but_last, last = split(n)
         return sum_digits(all_but_last) + last
-```
+</code-block>
 
 <img src = "../images_python/p3-2-1.png" alt = "environment diagram 
 for example 1"/>
 
 <p>Example 2: </p>
 
-```Python
+<code-block lang="python" collapsible="true">
 def fact(n):
     if n == 0:
         return 1
     else:
         return n * fact(n - 1)
-```
+</code-block>
 
-<img src = "../images_python/p3-2-2.png" alt = "environment diagram 
-for example 2"/>
+<img src="../images_python/p3-2-2.png" alt="Environment Diagram"/>
 
 ### 3.3 Iteration & Recursion
 
@@ -568,11 +602,16 @@ for example 2"/>
 <p>Iteration is a special case of recursion!</p>
 </warning>
 
-<table style = "both">
-<tr><td></td><td>Iteration</td><td>Recursion</td></tr>
-<tr><td>Sample Implementation</td>
-<td><p>Using while: </p>
-<code-block lang = "python">
+<table style="both">
+<tr>
+    <td></td>
+    <td>Iteration</td>
+    <td>Recursion</td>
+</tr>
+<tr>
+    <td>Sample Implementation</td>
+    <td><p>Using while: </p>
+<code-block lang="python" collapsible="true">
 def fact_iter(n):
     total, k = 1, 1
     while k &lt;= n:
@@ -580,24 +619,25 @@ def fact_iter(n):
     return total
 </code-block>
 </td>
-<td>
-<p>Using recursion: </p>
-<code-block lang = "python">
+<td><p>Using recursion: </p>
+<code-block lang="python" collapsible="true">
 def fact(n):
     if n == 0:
         return 1
     else:
         return n * fact(n - 1)
 </code-block>
-</td></tr>
+</td>
+</tr>
 <tr>
-<td>Math</td><td>
-<code-block lang = "tex">
+    <td>Math</td>
+<td>
+<code-block lang="tex">
 n! = \prod_{\substack{k = 1}} ^ {\substack{n}} k
 </code-block>
 </td>
 <td>
-<code-block lang = "tex">
+<code-block lang="tex">
 n! = 
 \left\{
 \begin{array}{ll}
@@ -608,22 +648,24 @@ n \cdot (n - 1)! & \text{otherwise} \\
 </code-block>
 </td>
 </tr>
-<tr><td><p>Conversion</p><p>(to another)</p></td>
-<td><p>More formulaic: </p>
-<p>The <format style = "italic">state</format> of an iteration can
-be passed as arguments.</p></td>
-<td><p>Can be tricky: </p>
-<p>Find out what state must be maintained by the iterative function.
-</p></td>
+<tr>
+    <td><p>Conversion</p>
+    <p>(to another)</p></td>
+    <td><p>More formulaic: </p>
+    <p>The <format style="italic">state</format> of an iteration can
+    be passed as arguments.</p></td>
+    <td><p>Can be tricky: </p>
+    <p>Find out what state must be maintained by the iterative 
+    function.</p></td>
 </tr>
 </table>
 
 ### 3.4 Mutual Recursion
 
-<p><format color = "DarkOrange">Luhn Algorithm</format> - Used to 
+<p><format color="DarkOrange">Luhn Algorithm</format> - Used to 
 verify credit card numbers.</p>
 
-<list type = "decimal">
+<list type="decimal">
 <li>
 <p>From the rightmost digit, which is the check digit, moving left, 
 double the value of every second digit; if product of this doubling 
@@ -637,7 +679,7 @@ card number is a multiple of 10.</p>
 </li>
 </list>
 
-<img src = "../images_python/p3-4-1.png" alt = "Luhn Algorithm"/>
+<img src="../images_python/p3-4-1.png" alt="Luhn Algorithm"/>
 
 ```Python
 def luhn_sum(n):
