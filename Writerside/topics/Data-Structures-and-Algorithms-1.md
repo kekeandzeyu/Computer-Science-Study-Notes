@@ -4313,138 +4313,442 @@ def sort_all(arr: list):
 
 ## 8 Priority Queues
 
-<p><format color = "BlueViolet">Applications:</format> </p>
-<list type = "bullet">
+### 8.1 API and Elementary Implementations
+
+<p><format color="BlueViolet">Applications:</format> </p>
+
+<list type="bullet">
 <li>
-<p>Event-driven simulation</p>
+    <p>Event-driven simulation [customers in a line, colliding 
+    particles]</p>
 </li>
 <li>
-<p>Numerical computation</p>
+    <p>Numerical computation [reducing roundoff error]</p>
 </li>
 <li>
-<p>Data compression</p>
+    <p>Data compression [Huffman codes]</p>
 </li>
 <li>
-<p>Graph searching</p>
+    <p>Graph searching [Dijkstra's algorithm, Prim's algorithm]</p>
+</li>
+<li>
+    <p>Number theory [sum of powers]</p>
+</li>
+<li>
+    <p>Artificial intelligence [A* search]</p>
+</li>
+<li>
+    <p>Statistics [maintain largest M values in a sequence]</p>
+</li>
+<li>
+    <p>Operating systems [load balancing, interrupt handling]</p>
+</li>
+<li>
+    <p>Discrete optimization [bin packing, scheduling]</p>
+</li>
+<li>
+    <p>Spam filtering [Bayesian spam filter]</p>
 </li>
 </list>
 
-### 8.1 Binary Heap & Priority Queue Implementation
+<p><format color="BlueViolet">Built-in Implementation</format></p>
 
-#### 8.1.1 Concepts & Built-In Implementations
-
-<list type="decimal">
-<li>
-<p><format color = "BlueViolet">Binary tree</format>: Empty or node with links
-to left and right binary trees.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Complete binary tree</format>: Perfectly
-balanced, except for bottom level.</p>
-<img src="../images_data/d8-1-1.png" alt="Complete binary tree" width="450" style = "inline"/>
-<p>Property: Height of complete binary tree with <math>N</math> nodes is
-<math>\lfloor lg N \rfloor</math>.</p>
-<p>Proof: Height only increases when <math>N</math> is a power of <math>2</math>.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Binary heap</format>: Array representation of
-a heap-ordered complete binary tree.</p>
-<p>Properties:</p>
-    <list type = "bullet">
-    <li>
-    <p>Key in nodes.</p>
-    </li>
-    <li>
-    <p>Parent's key no smaller than children's keys.</p>
-    </li>
-    <li>
-    <p>Largest key is <code>a[1]</code>, which is root of binary tree.</p>
-    </li>
-    <li>
-    <p>Can use array indices to move through tree.</p>
-    </li>   
-    <li>
-    <p>Parent of node at <math>k</math> is at <math>\frac {k}{2}</math>.</p>
-    </li>
-    <li>
-    Children of node at <math>k</math> are at <math>2k</math> and <math>2k + 1</math>.
-    </li>
-</list>
-</li>
-</list>
-<img src="../images_data/d8-1-2.png" alt="Alt text" width="450" style = "inline"/>
-
-> This is the use of built-in priority queues.
->
-{style = "note"}
-
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.PriorityQueue;
-
-public class test {
+\/
+public class PQ {
     public static void main(String[] args) {
-        PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
-
+        PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;Integer&gt;();
+\/
         pq.add(10);
         pq.add(20);
         pq.add(15);
-
+\/
         System.out.println(pq.peek()); // Outputs 10
         System.out.println(pq.poll()); // Outputs 10 (Contains Removal)
         System.out.println(pq.peek()); // Outputs 15
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <queue>
-#include <vector>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;queue&gt;
+#include &lt;vector&gt;
+\/
 int main() {
-    std::priority_queue<std::pair<int, int>> pq;
-    
+    std::priority_queue&lt;std::pair&lt;int, int&gt;&gt; pq;
+\/
     pq.emplace(3, 100); // 100 has priority 3
     pq.emplace(1, 40);  // 40 has priority 1
     pq.emplace(2, 60);  // 60 has priority 2
-    
+\/
     while (!pq.empty()) {
-        std::cout << "Value: " << pq.top().second << ", Priority: " << pq.top().first << std::endl;
+        std::cout &lt;&lt; "Value: " &lt;&lt; pq.top().second &lt;&lt; ", Priority: " &lt;&lt; pq.top().first &lt;&lt; std::endl;
         pq.pop();
     }
-
+\/
     return 0;
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 import heapq
-
+\/
 # Create a priority queue
 priority_queue = []
-
+\/
 # Add elements with priorities
 heapq.heappush(priority_queue, (2, 'code'))
 heapq.heappush(priority_queue, (1, 'eat'))
 heapq.heappush(priority_queue, (3, 'sleep'))
-
+\/
 # Remove and return the highest priority task
 task = heapq.heappop(priority_queue)[1]
-
+\/
 print(task)  # Outputs: 'eat'
-```
+    </code-block>
+    </tab>
+</tabs>
+
+<p><format color="BlueViolet">Unordered Array Implementation</format>
+</p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Comparator;
+\/
+public class UnorderedArrayMaxPQ&lt;Key&gt; {
+    private final Key[] pq;
+    private int n;
+    private final Comparator&lt;Key&gt; comparator;
+\/
+    public UnorderedArrayMaxPQ(int capacity, Comparator&lt;Key&gt; comparator) {
+        pq = (Key[]) new Object[capacity];
+        n = 0;
+        this.comparator = comparator;
+    }
+\/
+    public boolean isEmpty() {
+        return n == 0;
+    }
+\/
+    public int size() {
+        return n;
+    }
+\/
+    public void insert(Key x) {
+        pq[n++] = x;
+    }
+\/
+    public Key delMax() {
+        int max = 0;
+        for (int i = 1; i &lt; n; i++)
+            if (comparator.compare(pq[max], pq[i]) &lt; 0) max = i;
+        exch(max, n - 1);
+\/
+        return pq[--n];
+    }
+\/
+    private void exch(int i, int j) {
+        Key swap = pq[i];
+        pq[i] = pq[j];
+        pq[j] = swap;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;functional&gt;
+#include &lt;algorithm&gt;
+\/
+template &lt;typename Key, typename Comparator = std::less&lt;Key&gt;&gt;
+class UnorderedArrayMaxPQ {
+private:
+    Key* pq;
+    int n;
+    Comparator comparator;
+\/
+public:
+    explicit UnorderedArrayMaxPQ(const int capacity, Comparator comparator = {}) :
+        pq(new Key[capacity]), n(0), comparator(comparator) {}
+\/
+    ~UnorderedArrayMaxPQ() { delete[] pq; }
+\/
+    [[nodiscard]] bool isEmpty() const { return n == 0; }
+    [[nodiscard]] int size() const { return n; }
+\/
+    void insert(const Key& x) { pq[n++] = x; }
+\/
+    Key delMax() {
+        int max = 0;
+        for (int i = 1; i &lt; n; i++) {
+            if (comparator(pq[max], pq[i])) {
+                max = i;
+            }
+        }
+        std::swap(pq[max], pq[n - 1]);
+        return pq[--n];
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+from typing import Generic, TypeVar, Callable, Optional
+\/
+Key = TypeVar("Key")
+\/
+\/
+class UnorderedArrayMaxPQ(Generic[Key]):
+    def __init__(self, capacity: int, comparator: Optional[Callable[[Key, Key], bool]] = None) -&gt; None:
+        self.pq: list[Key] = [None] * capacity
+        self.n: int = 0
+        if comparator is None:
+            self.comparator = lambda a, b: a &lt; b  # Default to less-than comparison
+        else:
+            self.comparator = comparator
+\/
+    def isEmpty(self) -&gt; bool:
+        return self.n == 0
+\/
+    def size(self) -&gt; int:
+        return self.n
+\/
+    def insert(self, x: Key) -&gt; None:
+        self.pq[self.n] = x
+        self.n += 1
+\/
+    def delMax(self) -&gt; Key:
+        max_index: int = 0
+        for i in range(1, self.n):
+            if self.comparator(self.pq[max_index], self.pq[i]):
+                max_index = i
+        self.pq[max_index], self.pq[self.n - 1] = self.pq[self.n - 1], self.pq[max_index]
+        self.n -= 1
+        return self.pq[self.n]
+    </code-block>
+    </tab>
+</tabs>
+
+<p><format color="BlueViolet">Ordered Array Implementation</format>
+</p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Comparator;
+\/
+public class OrderedArrayMaxPQ&lt;Key&gt; {
+    private final Key[] pq;
+    private int n;
+    private final Comparator&lt;Key&gt; comparator;
+\/
+    public OrderedArrayMaxPQ(int capacity, Comparator&lt;Key&gt; comparator) {
+        pq = (Key[]) new Object[capacity];
+        n = 0;
+        this.comparator = comparator;
+    }
+\/
+    public boolean isEmpty() {
+        return n == 0;
+    }
+\/
+    public int size() {
+        return n;
+    }
+\/
+    public Key delMax() {
+        return pq[--n];
+    }
+\/
+    public void insert(Key key) {
+        int i = n - 1;
+        while (i &gt;= 0 && comparator.compare(key, pq[i]) &lt; 0) { // Use comparator
+            pq[i + 1] = pq[i];
+            i--;
+        }
+        pq[i + 1] = key;
+        n++;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;functional&gt;
+\/
+template &lt;typename Key, typename Comparator = std::less&lt;Key&gt;&gt;
+class OrderedArrayMaxPQ {
+private:
+    Key* pq;
+    int n;
+    Comparator comparator;
+\/
+public:
+    explicit OrderedArrayMaxPQ(const int capacity, Comparator comparator = {}) :
+     pq(new Key[capacity]), n(0), comparator(comparator) {}
+\/
+    ~OrderedArrayMaxPQ() { delete[] pq; }
+\/
+    [[nodiscard]] bool isEmpty() const { return n == 0; }
+    [[nodiscard]] int size() const { return n; }
+    Key delMax() { return pq[--n]; }
+\/
+    void insert(const Key& key) {
+        int i = n - 1;
+        while (i &gt;= 0 && comparator(key, pq[i])) { // Use comparator
+            pq[i + 1] = pq[i];
+            i--;
+        }
+        pq[i + 1] = key;
+        n++;
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+from typing import Generic, TypeVar, Callable, Optional
+\/
+Key = TypeVar("Key")
+\/
+\/
+class OrderedArrayMaxPQ(Generic[Key]):
+    def __init__(self, capacity: int, comparator: Optional[Callable[[Key, Key], bool]] = None) -&gt; None:
+        self.pq: list[Key] = [None] * capacity
+        self.n: int = 0
+        if comparator is None:
+            self.comparator = lambda a, b: a &lt; b
+        else:
+            self.comparator = comparator
+\/
+    def isEmpty(self) -&gt; bool:
+        return self.n == 0
+\/
+    def size(self) -&gt; int:
+        return self.n
+\/
+    def delMax(self) -&gt; Key:
+        self.n -= 1
+        return self.pq[self.n]
+\/
+    def insert(self, key: Key) -&gt; None:
+        i: int = self.n - 1
+        while i &gt;= 0 and self.comparator(key, self.pq[i]):
+            self.pq[i + 1] = self.pq[i]
+            i -= 1
+        self.pq[i + 1] = key
+        self.n += 1
+    </code-block>
+    </tab>
+</tabs>
+
+### 8.2 Binary Heap
+
+#### 8.1.1 Concepts & Properties
+
+<p><format color="BlueViolet">Definitions:</format></p>
+
+<list type="bullet">
+<li>
+    <p><format color="DarkOrange">Binary tree</format>: Empty or node 
+    with links to left and right binary trees.</p>
+</li>
+<li>
+    <p><format color="DarkOrange">Complete binary tree</format>: 
+    Perfectly balanced, except for bottom level.</p>
+    <img src="../images_data/d8-1-1.png" alt="Complete binary tree"/>
+</li>
+<li>
+    <p><format color="DarkOrange">Binary heap</format>: Array 
+    representation of a heap-ordered complete binary tree.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Property of complete binary tree:
+</format> Height of complete binary tree with <math>N</math> nodes
+is <math>\lfloor \lg N \rfloor</math>.</p>
+
+<p><format color="LawnGreen">Proof:</format> Height only increases
+when <math>N</math> is a power of <math>2</math>.</p>
+
+<p><format color="BlueViolet">Properties of Binary Heap:</format>
+</p>
+
+<list type = "bullet">
+<li>
+    <p>Key in nodes.</p>
+</li>
+<li>
+    <p>Parent's key no smaller than children's keys.</p>
+</li>
+<li>
+    <p>Largest key is <code>a[1]</code>, which is root of binary 
+    tree.</p>
+</li>
+<li>
+    <p>Can use array indices to move through tree.</p>
+</li>   
+<li>
+    <p>Parent of node at <math>k</math> is at <math>\frac {k}{2}
+    </math>.</p>
+</li>
+<li>
+    <p>Children of node at <math>k</math> are at <math>2k</math> 
+    and <math>2k + 1</math>.</p>
+</li>
+</list>
+
+<img src="../images_data/d8-1-2.png" alt="Binary Heap"/>
 
 #### 8.1.2 Binary-Heap Implementation of Priority Queues
 
-> This is the binary-heap implementation of priority queues.
->
-{style = "note"}
+<procedure title="Violation in Binary Heap (Child's key becomes 
+larger key than its parent's key">
+<step>
+    <p>Exchange key in child with key in parent.</p>
+</step>
+<step>
+    <p>Repeat until heap order restored.</p>
+</step>
+</procedure>
+
+<procedure title="Insertion in Binary Heap" type="choices">
+<step>
+    <p>Add node at end, then swim it up.</p>
+</step>
+<step>
+    <p>At most <math>1 + \lg N</math> compares.</p>
+</step>
+</procedure>
+
+<procedure title="Demotion in Binary Heap (Parent's key becomes 
+smaller than one (or both) of its children's">
+<step>
+    <p>Exchange key in parent with key in larger child.</p>
+</step>
+<step>
+    <p>Repeat until heap order restored.</p>
+</step>
+</procedure>
+
+<procedure title="Deletion in Binary Heap" type="choices">
+<step>
+    <p>Exchange root with node at end, then sink it down.</p>
+</step>
+<step>
+    <p>At most <math>2 \lg N</math> compares.</p>
+</step>
+</procedure>
 
 Java
 
@@ -4619,7 +4923,7 @@ class PriorityQueue:
         return retval
 ```
 
-### 8.2 Indexed Priority Queue
+### 8.3 Indexed Priority Queue
 
 <p><format color = "DarkOrange">Indexed Priority Queue:</format> 
 Associate an index between <math>0</math> and <math>N - 1</math> 
@@ -4931,7 +5235,7 @@ class IndexedPriorityQueue:
             k = j
 ```
 
-### 8.3 Heapsort {id="heapsort"}
+### 8.4 Heapsort {id="heapsort"}
 
 <procedure title = "Heapsort">
     <step>
