@@ -3373,48 +3373,40 @@ class KMP:
 
 #### 21.3.3 NFA
 
-Example: A B A B A C
+<note>
+    <p>nfa[i] or next[i] array represent the checkpoint for the 
+    longest prefix <format color="OrangeRed">probable</format> of 
+    pat[0...i] that is also the suffix of txt[0...i]</p>
+    <p><format color="Fuchsia">Example:</format> </p>
+    <p>pattern: ABABAC next[5] = 3</p>
+    <p>When text is ABABA_ and the char on _ is not C, check if the 
+    char on _ is equal to pattern[3] = B.</p>
+    <list type="bullet">
+    <li>
+    <p>If equal, go to state 3 (longest prefix and also suffix is 
+    'ABAB'</p>
+    </li>
+    <li>
+    <p>If not, roll back to next[3] and continue checking.</p>
+    </li>
+    </list>
+</note>
 
-lps: 0 0 1 2 3 0
-
-<p><format color = "BlueViolet">Explanantion for k = lps&#91;k - 1&#93; 
-in computePrefix:</format> </p>
-
-<list type = "bullet">
-<li>
-<p>When k reaches 3, q = 5, the position now is <math>C</math>.
-The current prefix (also the suffix, without considering <math>C
-</math>) is "ABA".</p>
-<p><format color = "OrangeRed">ABA</format> BA</p>
-<p>AB <format color = "OrangeRed">ABA</format></p>
-</li>
-<li>
-<p>Since <em>C</em> is a mismatch for pattern&#91;3&#93; = <math>B
-</math>, we need to first find the longest prefix in "ABA" that is 
-also a suffix.</p>
-<p><format color = "OrangeRed">ABA</format><format color = "Gold">B
-</format> AC</p>
-<p>AB <format color = "OrangeRed">ABA</format><format color = "Gold">C
-</format></p>
-</li>
-<li>
-<p>The longest prefix and suffix in <math>ABA</math> is <math>A</math>,
-  which is given by lps&#91;q - 1&#93; = lps&#91;2&#93; = 1.</p>
-</li>
-<li>
-<p>At this time, we need to try again if <math>C</math> is a match for
-the character behind the pattern&#91;1&#93; = <math>B</math>,
-which is not.</p>
-<p><format color = "OrangeRed">A</format><format color = "Gold">B
-</format> ABAC</p>
-<p>ABAB <format color = "OrangeRed">A</format><format color = "Gold">C
-</format></p>
-</li>
-<li>
-<p>The longest prefix and suffix in "A" is "", k = 0, 
-lps&#91;5&#93; = 0.</p>
-</li>
-</list>
+<procedure title="NFA Construction">
+<step>
+    <p>Use pointer j for comparison.</p>
+</step>
+<step>
+    <p>If i = 0, next[i] = -1.</p>
+</step>
+<step>
+    <p>If pat[i] != pat[j], it means current state j is possible.</p>
+</step>
+<step>
+    <p>If pat[i] == pat[j], it means current state j is impossible, 
+    roll back.</p>
+</step>
+</procedure>
 
 <tabs>
     <tab title="Java">
@@ -3428,22 +3420,20 @@ public class KMPplus {
         int m = pattern.length();
         next = new int[m];
         int j = -1;
-        for (int i = 0; i & lt; m ;
-        i++){
+        for (int i = 0; i &lt; m; i++) {
             if (i == 0) next[i] = -1;
             else if (pattern.charAt(i) != pattern.charAt(j)) next[i] = j;
             else next[i] = next[j];
-            while ( j & gt;=0 && pattern.charAt(i) != pattern.charAt(j)){
+            while (j &gt;= 0 && pattern.charAt(i) != pattern.charAt(j)) {
                 j = next[j];
             }
             j++;
         }
-\/
-        for (int i = 0; i & lt; m ;
-        i++)
-        System.out.println("next[" + i + "] = " + next[i]);
+\/        
+        for (int i = 0; i &lt; m; i++)
+            System.out.println("next[" + i + "] = " + next[i]);
     }
-\/    
+\/
     public int search(String text) {
         int m = pattern.length();
         int n = text.length();
@@ -4252,6 +4242,8 @@ notation to specify a set of strings.</p>
     <p>Can be difficult to debug.</p>
 </li>
 </list>
+
+
 
 ## 30 Catalan Number
 
