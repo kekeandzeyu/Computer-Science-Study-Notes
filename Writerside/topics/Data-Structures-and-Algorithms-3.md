@@ -4041,13 +4041,225 @@ class RabinKarp:
 
 <p>*: probabilisitic guarantee, with uniform hash function</p>
 
-## 22 Catalan Number
+## 22 Regular Expressions
 
-### 22.1 Properties and Formulas
+### 22.1 Regular Expressions
 
-<list type = "decimal">
+<p><format color="BlueViolet">Pattern Searching:</format> Find one of
+a specified set of strings in text.</p>
+
+<p><format color="BlueViolet">Applications:</format> </p>
+
+<list type="bullet">
 <li>
-    <code-block lang = "tex" style = "inline">
+    <p>Genomics: test for certain pattrn of base sequence</p>
+</li>
+<li>
+    <p>Syntax highlighting</p>
+</li>
+<li>
+    <p>Google code search</p>
+</li>
+<li>
+    <p>Scan for virus signatures</p>
+</li>
+<li>
+    <p>Process natural language</p>
+</li>
+<li>
+    <p>Specify a programming language</p>
+</li>
+<li>
+    <p>Access information in digital libraries</p>
+</li>
+<li>
+    <p>Search genome using PROSITE patterns</p>
+</li>
+<li>
+    <p>Filter text (spam, NetNanny, Carnivore, malware)</p>
+</li>
+<li>
+    <p>Validate data-entry fields (dates, email, URL, credit card)</p>
+</li>
+<li>
+    <p>Compile a Java program</p>
+</li>
+<li>
+    <p>Crawl and index the Web</p>
+</li>
+<li>
+    <p>Read in data stored in ad hoc input file format</p>
+</li>
+<li>
+    <p>Create Java documentation from Javadoc comments</p>
+</li>
+<li>
+    <p>...</p>
+</li>
+</list>
+
+<p><format color="DarkOrange">Regular Expressions:</format> A 
+notation to specify a set of strings.</p>
+
+<table style="header-row">
+<tr>
+    <td>Operation</td>
+    <td>Order</td>
+    <td>Example RE</td>
+    <td>Matches</td>
+    <td>Does not Match</td>
+</tr>
+<tr>
+    <td>Concatenaion</td>
+    <td>3</td>
+    <td>AABAAB</td>
+    <td>AABAAB</td>
+    <td>every other string</td>
+</tr>
+<tr>
+    <td>Or</td>
+    <td>4</td>
+    <td>AA|BAAB</td>
+    <td><p>AA</p>
+    <p>BAAB</p></td>
+    <td>every other string</td>
+</tr>
+<tr>
+    <td>Closure</td>
+    <td>2</td>
+    <td>AB*A</td>
+    <td><p>AA</p>
+    <p>ABA</p>
+    <p>ABBA</p>
+    <p>ABBBBBBBBA</p></td>
+    <td><p>AB</p>
+    <p>ABABA</p></td>
+</tr>
+<tr>
+    <td rowspan="2">Parenthesis</td>
+    <td rowspan="2">1</td>
+    <td>A(A|B)AAB</td>
+    <td><p>AAAAB</p>
+    <p>ABAAB</p></td>
+    <td>every other string</td>
+</tr>
+<tr>
+    <td>(AB)*A</td>
+    <td><p>A</p>
+    <p>ABABABABABA</p></td>
+    <td><p>AA</p>
+    <p>ABBA</p></td>
+</tr>
+</table>
+
+<p><format color="BlueViolet">Shortcuts:</format> </p>
+
+<table style="header-row">
+<tr>
+    <td>Operation</td>
+    <td>Example RE</td>
+    <td>Matches</td>
+    <td>Does not Match</td>
+</tr>
+<tr>
+    <td>Wildcard</td>
+    <td>.U.U.U.</td>
+    <td><p>CUMULUS</p>
+    <p>JUGULUM</p></td>
+    <td><p>SUCCUBUS</p>
+    <p>TUMULTUOUS</p></td>
+</tr>
+<tr>
+    <td>Character Class</td>
+    <td>[A-Za-z][a-z]*</td>
+    <td><p>Word</p>
+    <p>Capitalized</p></td>
+    <td><p>camelCase</p>
+    <p>4illegal</p></td>
+</tr>
+<tr>
+    <td>At Least 1</td>
+    <td>A(BC)+DE</td>
+    <td><p>ABCDE</p>
+    <p>ABCBCDE</p></td>
+    <td><p>ADE</p>
+    <p>BCDE</p></td>
+</tr>
+<tr>
+    <td>Exactly k</td>
+    <td>[0-9]{5}-[0-9]{4}</td>
+    <td><p>08540-1321</p>
+    <p>19072-5541</p></td>
+    <td><p>111111111</p>
+    <p>166-54-111</p></td>
+</tr>
+</table>
+
+<p><format color="BlueViolet">Examples:</format> </p>
+
+<table style="header-row">
+<tr>
+    <td>Regular Expression</td>
+    <td>Matches</td>
+    <td>Does not Match</td>
+</tr>
+<tr>
+    <td><p>.*SPB.*</p>
+    <p>(substring search)</p></td>
+    <td><p>RASPBERRY</p>
+    <p>CRISPBREAD</p></td>
+    <td><p>SUBSPACE</p>
+    <p>SUBSPECIES</p></td>
+</tr>
+<tr>
+    <td><p>[0-9]{3}-[0-9]{2}-[0-9]{4}</p>
+    <p>(U.S. Social Security numbers)</p></td>
+    <td><p>166-11-4433</p>
+    <p>166-45-1111</p></td>
+    <td><p>11-55555555</p>
+    <p>8675309</p></td>
+</tr>
+<tr>
+    <td><p>[a-z]+@([a-z]+\.)+(edu|com)</p>
+    <p>(simplified email addresses)</p></td>
+    <td><p>wayne@princeton.edu</p>
+    <p>rs@princeton.edu</p></td>
+    <td>spam@nowhere</td>
+</tr>
+<tr>
+    <td><p>[$_A-Za-z][$_A-Za-z0-9]*</p>
+    <p>(Java identifiers)</p></td>
+    <td><p>ident3</p>
+    <p>PatternMatcher</p></td>
+    <td><p>3a</p>
+    <p>ident#3</p></td>
+</tr>
+</table>
+
+<p><format color="BlueViolet">Caveat:</format> </p>
+
+<list type="bullet">
+<li>
+    <p>Writing a RE is like writing a program.</p>
+</li>
+<li>
+    <p>Need to understand programming model.</p>
+</li>
+<li>
+    <p>Can be easier to write than read.</p>
+</li>
+<li>
+    <p>Can be difficult to debug.</p>
+</li>
+</list>
+
+## 30 Catalan Number
+
+### 30.1 Properties and Formulas
+
+<list type="decimal">
+<li>
+    <code-block lang="tex">
         C_n = \frac{1}{n+1} \binom{2n}{n} = \frac{(2n)!}{(n + 1)!n!} 
     </code-block>
 </li>
@@ -4068,7 +4280,7 @@ class RabinKarp:
 </li>
 </list>
 
-### 22.2 Applications
+### 30.2 Applications
 
 <list type = "decimal">
 <li>
@@ -4134,51 +4346,51 @@ can be achieved.</p>
 </li>
 </list>
 
-### 22.3 Implementation
+### 30.3 Implementation
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public static BigInteger catalan(int n) {
     BigInteger res = BigInteger.ONE;
-
-    for (int i = 0; i < n; i++) {
+\/
+    for (int i = 0; i &lt; n; i++) {
         res = res.multiply(BigInteger.valueOf(2L * n - i));
         res = res.divide(BigInteger.valueOf(i + 1));
     }
-
+\/
     return res.divide(BigInteger.valueOf(n + 1));
 }
-```
-
-C++
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
 unsigned long int binomialCoeff(unsigned int n, unsigned int k) {
-    if (k > n) return 0;
+    if (k &gt; n) return 0;
     if (k == 0 || k == n) return 1;
-
+\/
     unsigned long int res = 1;
-    for (int i = 0; i < k; i++) {
+    for (int i = 0; i &lt; k; i++) {
         res *= (n - i);
         res /= (i + 1);
     }
-
+\/
     return res;
 }
-
+\/
 unsigned long int catalan(unsigned int n) {
     unsigned long int c = binomialCoeff(2*n, n);
     return c/(n+1);
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 import math
-
-
+\/
+\/
 def catalan_number(n):
-    return math.comb(2 * n, n) // (n + 1)
-```
+return math.comb(2 * n, n) // (n + 1)
+    </code-block>
+    </tab>
+</tabs>
