@@ -2570,11 +2570,11 @@ class RWayTrie:
 
 <list type="bullet">
 <li>
-<p>Store characters and values in nodes (not keys).</p>
+    <p>Store characters and values in nodes (not keys).</p>
 </li>
 <li>
-<p>Each node has 3 children: smaller (left), equal (middle), larger 
-(right).</p>
+    <p>Each node has 3 children: smaller (left), equal (middle), 
+    larger (right).</p>
 </li>
 </list>
 
@@ -2608,18 +2608,18 @@ class RWayTrie:
 </step>
 </procedure>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class TernarySearchTree {
-
+\/
     private Node root;
-
+\/
     private static class Node {
         char data;
         boolean isEndOfString;
         Node left, equal, right;
-
+\/
         public Node(char data) {
             this.data = data;
             this.isEndOfString = false;
@@ -2628,28 +2628,28 @@ public class TernarySearchTree {
             this.right = null;
         }
     }
-
+\/
     public TernarySearchTree() {
         root = null;
     }
-
+\/
     public void insert(String word) {
         root = insertRecursive(root, word, 0);
     }
-
+\/
     private Node insertRecursive(Node node, String word, int index) {
         char c = word.charAt(index);
-
+\/
         if (node == null) {
             node = new Node(c);
         }
-
-        if (c < node.data) {
+\/
+        if (c &lt; node.data) {
             node.left = insertRecursive(node.left, word, index);
-        } else if (c > node.data) {
+        } else if (c &gt; node.data) {
             node.right = insertRecursive(node.right, word, index);
         } else {
-            if (index < word.length() - 1) {
+            if (index &lt; word.length() - 1) {
                 node.equal = insertRecursive(node.equal, word, index + 1);
             } else {
                 node.isEndOfString = true;
@@ -2657,21 +2657,21 @@ public class TernarySearchTree {
         }
         return node;
     }
-
+\/
     public boolean search(String word) {
         return searchRecursive(root, word, 0);
     }
-
+\/
     private boolean searchRecursive(Node node, String word, int index) {
         if (node == null) {
             return false;
         }
-
+\/
         char c = word.charAt(index);
-
-        if (c < node.data) {
+\/
+        if (c &lt; node.data) {
             return searchRecursive(node.left, word, index);
-        } else if (c > node.data) {
+        } else if (c &gt; node.data) {
             return searchRecursive(node.right, word, index);
         } else {
             if (index == word.length() - 1) {
@@ -2681,24 +2681,24 @@ public class TernarySearchTree {
             }
         }
     }
-
+\/
     public void getWordsWithPrefix(String prefix) {
         Node node = getPrefixNode(root, prefix, 0);
         if (node != null) {
             traverseAndPrint(node, prefix);
         }
     }
-
+\/
     private Node getPrefixNode(Node node, String prefix, int index) {
         if (node == null) {
             return null;
         }
-
+\/
         char c = prefix.charAt(index);
-
-        if (c < node.data) {
+\/
+        if (c &lt; node.data) {
             return getPrefixNode(node.left, prefix, index);
-        } else if (c > node.data) {
+        } else if (c &gt; node.data) {
             return getPrefixNode(node.right, prefix, index);
         } else {
             if (index == prefix.length() - 1) {
@@ -2708,93 +2708,92 @@ public class TernarySearchTree {
             }
         }
     }
-
+\/
     private void traverseAndPrint(Node node, String prefix) {
         if (node == null) {
             return;
         }
-
+\/
         if (node.isEndOfString) {
             System.out.println(prefix);
         }
-
+\/
         traverseAndPrint(node.left, prefix);
         traverseAndPrint(node.equal, prefix + node.data);
         traverseAndPrint(node.right, prefix);
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <string>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+\/
 class TernarySearchTree {
 private:
     struct Node {
         char data;
         bool isEndOfString;
         Node *left, *equal, *right;
-
+\/
         explicit Node(const char data) : data(data), isEndOfString(false), left(nullptr), equal(nullptr), right(nullptr) {}
     };
-
+\/
     Node *root;
-
+\/
     static Node* insertRecursive(Node* node, const std::string& word, const int index) {
         const char c = word[index];
-
+\/
         if (node == nullptr) {
             node = new Node(c);
         }
-
-        if (c < node->data) {
-            node->left = insertRecursive(node->left, word, index);
-        } else if (c > node->data) {
-            node->right = insertRecursive(node->right, word, index);
+\/
+        if (c &lt; node-&gt;data) {
+            node-&gt;left = insertRecursive(node-&gt;left, word, index);
+        } else if (c &gt; node-&gt;data) {
+            node-&gt;right = insertRecursive(node-&gt;right, word, index);
         } else {
-            if (index < word.length() - 1) {
-                node->equal = insertRecursive(node->equal, word, index + 1);
+            if (index &lt; word.length() - 1) {
+                node-&gt;equal = insertRecursive(node-&gt;equal, word, index + 1);
             } else {
-                node->isEndOfString = true;
+                node-&gt;isEndOfString = true;
             }
         }
         return node;
     }
-
+\/
     static bool searchRecursive(const Node* node, const std::string& word, const int index) {
         if (node == nullptr) {
             return false;
         }
-
+\/
         const char c = word[index];
-
-        if (c < node->data) {
+\/
+        if (c &lt; node-&gt;data) {
             return searchRecursive(node->left, word, index);
-        } else if (c > node->data) {
+        } else if (c &gt; node-&gt;data) {
             return searchRecursive(node->right, word, index);
         } else {
             if (index == word.length() - 1) {
-                return node->isEndOfString;
+                return node-&gt;isEndOfString;
             } else {
-                return searchRecursive(node->equal, word, index + 1);
+                return searchRecursive(node-&gt;equal, word, index + 1);
             }
         }
     }
-
+\/
     static Node* getPrefixNode(Node* node, const std::string& prefix, const int index) {
         if (node == nullptr) {
             return nullptr;
         }
-
+\/
         const char c = prefix[index];
-
-        if (c < node->data) {
-            return getPrefixNode(node->left, prefix, index);
-        } else if (c > node->data) {
-            return getPrefixNode(node->right, prefix, index);
+\/
+        if (c &lt; node-&gt;data) {
+            return getPrefixNode(node-&gt;left, prefix, index);
+        } else if (c &gt; node-&gt;data) {
+            return getPrefixNode(node-&gt;right, prefix, index);
         } else {
             if (index == prefix.length() - 1) {
                 return node;
@@ -2803,58 +2802,57 @@ private:
             }
         }
     }
-
+\/
     static void traverseAndPrint(const Node* node, const std::string& prefix) {
         if (node == nullptr) {
             return;
         }
-
-        if (node->isEndOfString) {
-            std::cout << prefix << std::endl;
+\/
+        if (node-&gt;isEndOfString) {
+            std::cout &lt;&lt; prefix &lt;&lt; std::endl;
         }
-
-        traverseAndPrint(node->left, prefix);
-        traverseAndPrint(node->equal, prefix + node->data);
-        traverseAndPrint(node->right, prefix);
+\/
+        traverseAndPrint(node-&gt;left, prefix);
+        traverseAndPrint(node-&gt;equal, prefix + node-&gt;data);
+        traverseAndPrint(node-&gt;right, prefix);
     }
-
+\/
     static void deleteNodes(const Node* node) {
         if (node == nullptr) {
             return;
         }
-        deleteNodes(node->left);
-        deleteNodes(node->equal);
-        deleteNodes(node->right);
+        deleteNodes(node-&gt;left);
+        deleteNodes(node-&gt;equal);
+        deleteNodes(node-&gt;right);
         delete node;
     }
-
+\/
 public:
     TernarySearchTree() : root(nullptr) {}
-
+\/
     void insert(const std::string& word) {
         root = insertRecursive(root, word, 0);
     }
-
+\/
     [[nodiscard]] bool search(const std::string& word) const{
         return searchRecursive(root, word, 0);
     }
-
+\/
     void getWordsWithPrefix(const std::string& prefix) const {
         Node* node = getPrefixNode(root, prefix, 0);
         if (node != nullptr) {
             traverseAndPrint(node, prefix);
         }
     }
-
+\/
     ~TernarySearchTree() {
         deleteNodes(root);
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class Node:
     def __init__(self, data):
         self.data = data
@@ -2862,92 +2860,94 @@ class Node:
         self.left = None
         self.equal = None
         self.right = None
-
+\/
 class TernarySearchTree:
     def __init__(self):
         self.root = None
-
+\/
     def insert(self, word):
         self.root = self._insert_recursive(self.root, word, 0)
-
+\/
     def _insert_recursive(self, node, word, index):
         c = word[index]
-
+\/
         if node is None:
             node = Node(c)
-
-        if c < node.data:
+\/
+        if c &lt; node.data:
             node.left = self._insert_recursive(node.left, word, index)
-        elif c > node.data:
+        elif c &gt; node.data:
             node.right = self._insert_recursive(node.right, word, index)
         else:
-            if index < len(word) - 1:
+            if index &lt; len(word) - 1:
                 node.equal = self._insert_recursive(node.equal, word, index + 1)
             else:
                 node.isEndOfString = True
         return node
-
+\/
     def search(self, word):
         return self._search_recursive(self.root, word, 0)
-
+\/
     def _search_recursive(self, node, word, index):
         if node is None:
             return False
-
+\/
         c = word[index]
-
-        if c < node.data:
+\/
+        if c &lt; node.data:
             return self._search_recursive(node.left, word, index)
-        elif c > node.data:
+        elif c &gt; node.data:
             return self._search_recursive(node.right, word, index)
         else:
             if index == len(word) - 1:
                 return node.isEndOfString
             else:
                 return self._search_recursive(node.equal, word, index + 1)
-
+\/
     def get_words_with_prefix(self, prefix):
         node = self._get_prefix_node(self.root, prefix, 0)
         if node is not None:
             self._traverse_and_print(node, prefix)
-
+\/
     def _get_prefix_node(self, node, prefix, index):
         if node is None:
             return None
-
+\/
         c = prefix[index]
-
-        if c < node.data:
+\/
+        if c &lt; node.data:
             return self._get_prefix_node(node.left, prefix, index)
-        elif c > node.data:
+        elif c &gt; node.data:
             return self._get_prefix_node(node.right, prefix, index)
         else:
             if index == len(prefix) - 1:
                 return node
             else:
                 return self._get_prefix_node(node.equal, prefix, index + 1)
-
+\/
     def _traverse_and_print(self, node, prefix):
         if node is None:
             return
-
+\/
         if node.isEndOfString:
             print(prefix)
-
+\/
         self._traverse_and_print(node.left, prefix)
         self._traverse_and_print(node.equal, prefix + node.data)
         self._traverse_and_print(node.right, prefix)
-```
+    </code-block>
+    </tab>
+</tabs>
 
 <p id="tst-with-r2"><format color="BlueViolet">TST with <math>R^{2}
 </math> branching at root:</format> Hybrid of R-way trie and TST</p>
 
 <list type="bullet">
 <li>
-<p>Do <math>R^{2}</math>-way branching at root.</p>
+    <p>Do <math>R^{2}</math>-way branching at root.</p>
 </li>
 <li>
-<p>Each of <math>R^{2}</math> root nodes points to a TST.</p>
+    <p>Each of <math>R^{2}</math> root nodes points to a TST.</p>
 </li>
 </list>
 
@@ -2980,10 +2980,10 @@ class TernarySearchTree:
 <p>TSTs are: </p>
 <list type="bullet">
 <li>
-<p>Faster than hashing (especially for search misses).</p>
+    <p>Faster than hashing (especially for search misses).</p>
 </li>
 <li>
-<p>More flexible than red-black BSTs.</p>
+    <p>More flexible than red-black BSTs.</p>
 </li>
 </list>
 </note>
@@ -2991,7 +2991,7 @@ class TernarySearchTree:
 <table style="none">
 <tr>
     <td rowspan="2">Implementation</td>
-    <td>Character Accesses (typical case)</td>
+    <td colspan="4">Character Accesses (typical case)</td>
 </tr>
 <tr>
     <td>Search Hit</td>
@@ -3031,8 +3031,8 @@ class TernarySearchTree:
     <td><math>4N</math></td>
 </tr>
 <tr>
-    <td><a anchor="tst-with-r2" summary="TST with R^2">TST with <math>
-    R^{2}</math></a></td>
+    <td><a anchor="tst-with-r2" summary="TST with R^2">TST with R^2
+    </a></td>
     <td><math>L+\ln N</math></td>
     <td><math>\ln N</math></td>
     <td><math>L+\ln N</math></td>
@@ -3044,48 +3044,54 @@ class TernarySearchTree:
 
 ### 21.1 Introduction
 
-<p><format color = "BlueViolet">Goal</format>: Find pattern of length 
+<p><format color="BlueViolet">Goal</format>: Find pattern of length 
 <math>M</math> in text of length <math>N</math> (typically 
-<math>N \leq \leq M</math>).</p>
+<math>N \ll M</math>).</p>
 
-<p><format color = "BlueViolet">Applications</format>: </p>
+<p><format color="BlueViolet">Applications</format>: </p>
 
 <list type="bullet">
 <li>
-<p>Find & replace</p>
+    <p>Find & replace</p>
 </li>
 <li>
-<p>Computer forensics</p>
+    <p>Computer forensics</p>
 </li>
 <li>
-<p>Identify patterns indicative of spam</p>
+    <p>Identify patterns indicative of spam</p>
 </li>
 <li>
-<p>Electronic surveillance</p>
+    <p>Electronic surveillance</p>
 </li>
 <li>
-<p>Screen scraping</p>
+    <p>Screen scraping</p>
 </li>
 </list>
 
 ### 21.2 Brute-Force Substring Search {id="brute-force"}
 
-<list>
-<li>Theoretical challenge: Linear-time guarantee.
-(Worst case: <math>\sim MN</math>)</li>
-<li>Practical challenge: Avoid backup in text stream. (Brute-force
-algorithm needs backup for every mismatch)</li>
+<p><format color="BlueViolet">Disadvantages:</format> </p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Theoretical challenge:</format> Linear
+    -time guarantee (Worst case: <math>\sim MN</math>).</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Practical challenge:</format> Avoid 
+    backup in text stream (Brute-force algorithm needs backup for 
+    every mismatch).</p></li>
 </list>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public static int search (String pat, String txt) {
     int M = pat.length();
     int N = txt.length();
     int i, j;
-    for (i = 0; i <= N - M; i++) {
-        for (j = 0; j < M; j++) {
+    for (i = 0; i &lt;= N - M; i++) {
+        for (j = 0; j &lt; M; j++) {
             if (txt.charAt(i + j) != pat.charAt(j)) {
                 break;
             }
@@ -3096,24 +3102,14 @@ public static int search (String pat, String txt) {
     }
     return N;
 }
-```
-
-Java (Alternate Implementation)
-
-```Java
-/**
- * Same sequence of char compares as previous implementation.
- * <p>
- * {@code i} points to end of sequence of already-matched chars
- * in text.
- * <p>
- * {@code j} stores number of already-matchedchars (end of
- * sequence in pattern).
- */
+    </code-block>
+    </tab>
+    <tab title="Java (alternate implementation)">
+    <code-block lang="java" collapsible="true">
 public static int search(String pat, String txt) {
     int i, M = pat.length();
     int j, N = txt.length();
-    for (i = 0, j = 0; i < N && j < M; i++) {
+    for (i = 0, j = 0; i &lt; N && j &lt; M; i++) {
         if (txt.charAt(i) == pat.charAt(j)) {
             j++;
         } 
@@ -3129,18 +3125,17 @@ public static int search(String pat, String txt) {
         return N;
     }
 }
-```
-
-C++
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
 int bruteForceSubstringSearch(const std::string& text, const std::string& pattern) {
     int n = text.length();
     int m = pattern.length();
-
-    for (int i = 0; i <= n - m; i++) {
+\/
+    for (int i = 0; i &lt;= n - m; i++) {
         int j;
-        for (j = 0; j < m; j++) {
+        for (j = 0; j &lt; m; j++) {
             if (text[i + j] != pattern[j]) {
                 break;
             }
@@ -3151,28 +3146,29 @@ int bruteForceSubstringSearch(const std::string& text, const std::string& patter
     }
     return -1; 
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 def brute_force_search(main_string, sub_string):
     len_main = len(main_string)
     len_sub = len(sub_string)
-
+\/
     for i in range(len_main - len_sub + 1):
         j = 0
-
-        while(j < len_sub):
+\/
+        while(j &lt; len_sub):
             if (main_string[i + j] != sub_string[j]):
                 break
             j += 1
-
+\/
         if (j == len_sub):
             return i
-
+\/
     return -1
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 21.3 Knuth-Morris-Pratt {id="KMP"}
 
@@ -3198,13 +3194,13 @@ pattern length.</p>
 
 <list type="bullet">
 <li>
-<p>Finite number of states (including start and halt).</p>
+    <p>Finite number of states (including start and halt).</p>
 </li>
 <li>
-<p>Exactly one transition for each char in alphabet.</p>
+    <p>Exactly one transition for each char in alphabet.</p>
 </li>
 <li>
-<p>Accept if sequence of transitions lead to halt state.</p>
+    <p>Accept if sequence of transitions lead to halt state.</p>
 </li>
 </list>
 
@@ -3253,117 +3249,127 @@ constant time!</p>
 </step>
 </procedure>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class KMP {
+    private final int R;
+    private final int m;
     private final int[][] dfa;
-    private final String pattern;
-
-    public KMP(String pattern) {
-        this.pattern = pattern;
-        int M = pattern.length();
-        int R = 256;
-
-        dfa = new int[R][M];
-        dfa[pattern.charAt(0)][0] = 1;
-
-        for (int X = 0, j = 1; j < M; j++) {
-            for (int c = 0; c < R; c++) {
-                dfa[c][j] = dfa[c][X];
-            }
-            dfa[pattern.charAt(j)][j] = j + 1;
-            X = dfa[pattern.charAt(j)][X];
+\/
+    public KMP(String pat) {
+        this.R = 256;
+        this.m = pat.length();
+\/
+        dfa = new int[R][m];
+        dfa[pat.charAt(0)][0] = 1;
+        for (int x = 0, j = 1; j &lt; m; j++) {
+            for (int c = 0; c &lt; R; c++)
+                dfa[c][j] = dfa[c][x];
+            dfa[pat.charAt(j)][j] = j + 1;
+            x = dfa[pat.charAt(j)][x];
         }
     }
-
-    public int search(String text) {
-        int M = pattern.length();
-        int N = text.length();
-        int i, j;
-        for (i = 0, j = 0; i < N && j < M; i++) {
-            j = dfa[text.charAt(i)][j];
-        }
-        if (j == M) return i - M;
-        else return N;
-    }
-}
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <string>
-#include <vector>
-
-class KMP {
-private:
-    std::vector<std::vector<int>> dfa;
-    std::string pattern;
-
-public:
-    explicit KMP(const std::string& pattern) : pattern(pattern) {
-        const int M = static_cast<int>(pattern.length());
-        constexpr int R = 256;
-
-        dfa.resize(R, std::vector<int>(M));
+\/
+    public KMP(char[] pattern, int R) {
+        this.R = R;
+        this.m = pattern.length;
+\/
+        int m = pattern.length;
+        dfa = new int[R][m];
         dfa[pattern[0]][0] = 1;
-
-        for (int X = 0, j = 1; j < M; j++) {
-            for (int c = 0; c < R; c++) {
-                dfa[c][j] = dfa[c][X];
-            }
+        for (int x = 0, j = 1; j &lt; m; j++) {
+            for (int c = 0; c &lt; R; c++)
+                dfa[c][j] = dfa[c][x];
             dfa[pattern[j]][j] = j + 1;
-            X = dfa[pattern[j]][X];
+            x = dfa[pattern[j]][x];
         }
     }
-
-    [[nodiscard]] int search(const std::string& text) const
-    {
-        const int M = static_cast<int>(pattern.length());
-        const int N = static_cast<int>(text.length());
+\/
+    public int search(String txt) {
+        int n = txt.length();
         int i, j;
-        for (i = 0, j = 0; i < N && j < M; i++) {
+        for (i = 0, j = 0; i &lt; n && j &lt; m; i++) {
+            j = dfa[txt.charAt(i)][j];
+        }
+        if (j == m) return i - m;
+        return n;
+    }
+\/
+    public int search(char[] text) {
+        int n = text.length;
+        int i, j;
+        for (i = 0, j = 0; i &lt; n && j &lt; m; i++) {
             j = dfa[text[i]][j];
         }
-        if (j == M) return i - M;
-        else return N;
+        if (j == m) return i - m;
+        return n;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;string&gt;
+#include &lt;vector&gt;
+\/
+class KMP {
+private:
+    const int R;
+    const int m;
+    std::vector&lt;std::vector&lt;int&gt;&gt; dfa;
+\/
+public:
+explicit KMP(const std::string& pat) : R(256), m(static_cast&lt;int&gt;(pat.length())), dfa(R, std::vector&lt;int&gt;(m)) {
+    dfa[pat[0]][0] = 1;
+    for (int x = 0, j = 1; j &lt; m; j++) {
+        for (int c = 0; c &lt; R; c++)
+            dfa[c][j] = dfa[c][x];
+        dfa[pat[j]][j] = j + 1;
+        x = dfa[pat[j]][x];
+    }
+}
+\/
+    [[nodiscard]] int search(const std::string& txt) const {
+        const int n = static_cast&lt;int&gt;(txt.length());
+        int i, j;
+        for (i = 0, j = 0; i &lt; n && j &lt; m; i++) {
+            j = dfa[txt[i]][j];
+        }
+        if (j == m) return i - m;
+        return n;
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class KMP:
-    def __init__(self, pattern):
-        self.pattern = pattern
-        M = len(pattern)
-        R = 256
-
-        self.dfa = [[0] * M for _ in range(R)]
-        self.dfa[ord(pattern[0])][0] = 1
-
-        X = 0
-        for j in range(1, M):
-            for c in range(R):
-                self.dfa[c][j] = self.dfa[c][X]
-            self.dfa[ord(pattern[j])][j] = j + 1
-            X = self.dfa[ord(pattern[j])][X]
-
-    def search(self, text):
-        M = len(self.pattern)
-        N = len(text)
+    def __init__(self, pat):
+        self.R = 256
+        self.m = len(pat)
+        self.dfa = [[0] * self.m for _ in range(self.R)]
+\/
+        self.dfa[ord(pat[0])][0] = 1
+        x = 0
+        for j in range(1, self.m):
+            for c in range(self.R):
+                self.dfa[c][j] = self.dfa[c][x]
+            self.dfa[ord(pat[j])][j] = j + 1
+            x = self.dfa[ord(pat[j])][x]
+\/
+    def search(self, txt):
+        n = len(txt)
         i, j = 0, 0
-        while i < N and j < M:
-            j = self.dfa[ord(text[i])][j]
+        while i &lt; n and j &lt; self.m:
+            j = self.dfa[ord(txt[i])][j]
             i += 1
-        if j == M:
-            return i - M
-        else:
-            return N
-```
+        if j == self.m:
+            return i - self.m
+        return n
+    </code-block>
+    </tab>
+</tabs>
 
 #### 21.3.3 NFA
 
@@ -3410,139 +3416,131 @@ lps&#91;5&#93; = 0.</p>
 </li>
 </list>
 
-> This is the implementation using NFA.
->
-{style = "tip"}
-
-Java
-
-```Java
-public class KMP {
-    private int[] computeTemporaryArray(char pattern[]) {
-        int[] lps = new int[pattern.length];
-        int index = 0;
-        for (int i = 1; i < pattern.length;) {
-            if (pattern[i] == pattern[index]) {
-                lps[i] = index + 1;
-                index++;
-                i++;
-            } else {
-                if (index != 0) {
-                    index = lps[index - 1];
-                } else {
-                    lps[i] = 0;
-                    i++;
-                }
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+public class KMPplus {
+    private final String pattern;
+    private final int[] next;
+\/
+    public KMPplus(String pattern) {
+        this.pattern = pattern;
+        int m = pattern.length();
+        next = new int[m];
+        int j = -1;
+        for (int i = 0; i & lt; m ;
+        i++){
+            if (i == 0) next[i] = -1;
+            else if (pattern.charAt(i) != pattern.charAt(j)) next[i] = j;
+            else next[i] = next[j];
+            while ( j & gt;=0 && pattern.charAt(i) != pattern.charAt(j)){
+                j = next[j];
             }
+            j++;
         }
-        return lps;
+\/
+        for (int i = 0; i & lt; m ;
+        i++)
+        System.out.println("next[" + i + "] = " + next[i]);
     }
-
-    public boolean KMP(char text[], char pattern[]) {
-        int lps[] = computeTemporaryArray(pattern);
-        int i = 0;
-        int j = 0;
-        while (i < text.length && j < pattern.length) {
-            if (text[i] == pattern[j]) {
-                i++;
-                j++;
-            } else {
-                if (j != 0) {
-                    j = lps[j - 1];
-                } else {
-                    i++;
-                }
+\/    
+    public int search(String text) {
+        int m = pattern.length();
+        int n = text.length();
+        int i, j;
+        for (i = 0, j = 0; i &lt; n && j &lt; m; i++) {
+            while (j &gt;= 0 && text.charAt(i) != pattern.charAt(j))
+                j = next[j];
+            j++;
+        }
+        if (j == m) return i - m;
+        return n;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+\/
+class KMPplus {
+private:
+    const std::string pattern;
+    std::vector&lt;int&gt; next;
+\/
+public:
+    explicit KMPplus(const std::string& pattern) : pattern(pattern) {
+        const int m = static_cast&lt;int&gt;(pattern.length());
+        next.resize(m);
+        int j = -1;
+        for (int i = 0; i &lt; m; i++) {
+            if (i == 0) next[i] = -1;
+            else if (pattern[i] != pattern[j]) next[i] = j;
+            else next[i] = next[j];
+            while (j &gt;= 0 && pattern[i] != pattern[j]) {
+                j = next[j];
             }
+            j++;
         }
-        if (j == pattern.length) {
-            return true;
+\/
+        for (int i = 0; i &lt; m; i++)
+            std::cout &lt;&lt; "next[" &lt;&lt; i &lt;&lt; "] = " &lt;&lt; next[i] &lt;&lt; std::endl;
+    }
+\/
+    [[nodiscard]] int search(const std::string& text) const {
+        const int m = static_cast&lt;int&gt;(pattern.length());
+        const int n = static_cast&lt;int&gt;(text.length());
+        int i, j;
+        for (i = 0, j = 0; i &lt; n && j &lt; m; i++) {
+            while (j &gt;= 0 && text[i] != pattern[j])
+                j = next[j];
+            j++;
         }
-        return false;
+        if (j == m) return i - m;
+        return n;
     }
-}
-```
-
-C++
-
-```C++
-#include <vector>
-#include <string>
-
-std::vector<int> computePrefixFunction(const std::string& pattern) {
-    int m = pattern.length();
-    std::vector<int> lps(m);
-    lps[0] = 0;
-
-    int k = 0; // Length of the longest prefix & suffix
-    for (int q = 1; q < m; q++) { // q is the position 
-        while (k > 0 && pattern[k] != pattern[q])
-            k = lps[k-1];  
-
-        if (pattern[k] == pattern[q])
-            k++;
-
-        lps[q] = k;
-    }
-
-    return lps;
-}
-
-std::vector<int> KMP(const std::string& text, const std::string& pattern) {
-    int n = text.length();
-    int m = pattern.length();
-    std::vector<int> longestPrefix = computePrefixFunction(pattern);
-    std::vector<int> occurrences;
-
-    int q = 0;
-    for (int i = 0; i < n; i++) {
-        while (q > 0 && pattern[q] != text[i])
-            q = longestPrefix[q-1];
-
-        if (pattern[q] == text[i])
-            q++;
-
-        if (q == m) {
-            occurrences.push_back(i - m + 1);
-            q = longestPrefix[q-1];
-        }
-    }
-
-    return occurrences;
-}
-```
-
-Python
-
-```Python
-class KMP:
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class KMPplus:
     def __init__(self, pattern):
-        self.table = None
         self.pattern = pattern
-        self.build_table()
-
-    def build_table(self):
-        self.table = [-1] + [0] * len(self.pattern)
+        m = len(pattern)
+        self.next = [0] * m
         j = -1
-        for i in range(len(self.pattern)):
-            while j >= 0 and self.pattern[j] != self.pattern[i]:
-                j = self.table[j]
-            j += 1
-            if i + 1 < len(self.pattern) and self.pattern[j] != self.pattern[i + 1]:
-                self.table[i + 1] = j
+        for i in range(m):
+            if i == 0:
+                self.next[i] = -1
+            elif pattern[i] != pattern[j]:
+                self.next[i] = j
             else:
-                self.table[i + 1] = self.table[j]
-
-    def search(self, text):
-        i = j = 0
-        while i < len(text):
-            while j >= 0 and text[i] != self.pattern[j]:
-                j = self.table[j]
-            i += 1
+                self.next[i] = self.next[j]
+            while j &gt;= 0 and pattern[i] != pattern[j]:
+                j = self.next[j]
             j += 1
-            if j == len(self.pattern):
-                return i - j
-        return -1
-```
+\/
+        for i in range(m):
+            print(f"next[{i}] = {self.next[i]}")
+\/
+    def search(self, text):
+        m = len(self.pattern)
+        n = len(text)
+        i, j = 0, 0
+        while i &lt; n and j &lt; m:
+            while j &gt;= 0 and text[i] != self.pattern[j]:
+                j = self.next[j]
+            j += 1
+            i += 1
+        if j == m:
+            return i - m
+        return n
+    </code-block>
+    </tab>
+</tabs>
 
 ### 21.4 Boyer-Moore {id="Boyer-Moore"}
 
@@ -3560,20 +3558,21 @@ class KMP:
 
 <list type="alpha-lower">
 <li>
-<p><format color="Fuchsia">Mismatch character not in pattern.
-</format></p>
-<img src="../images_data/d21-4-1.png" alt="Case 1"/>
+    <p><format color="Fuchsia">Mismatch character not in pattern.
+    </format></p>
+    <img src="../images_data/d21-4-1.png" alt="Case 1"/>
 </li>
 
 <li>
-<p><format color="Fuchsia">Mismatch character in pattern.</format></p>
-<img src="../images_data/d21-4-2.png" alt="Case 2"/>
+    <p><format color="Fuchsia">Mismatch character in pattern.</format>
+    </p>
+    <img src="../images_data/d21-4-2.png" alt="Case 2"/>
 </li>
 
 <li>
-<p><format color="Fuchsia">Mismatch character in pattern (but 
-heuristic no help).</format></p>
-<img src="../images_data/d21-4-3.png" alt="Case 3"/>
+    <p><format color="Fuchsia">Mismatch character in pattern (but 
+    heuristic no help).</format></p>
+    <img src="../images_data/d21-4-3.png" alt="Case 3"/>
 </li>
 
 </list>
@@ -3596,45 +3595,45 @@ a pattern of length <math>M</math> in a text of length <math>N</math>
 improve worst case to <math>\sim 3N</math> character compares
 by adding a KMP-like rule to guard against repetitive patterns.</p>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class BoyerMoore {
     private final int R;
     private final int[] right;
     private char[] pattern;
     private String pat;
-
+\/
     public BoyerMoore(String pat) {
         this.R = 256;
         this.pat = pat;
-
+\/
         right = new int[R];
-        for (int c = 0; c < R; c++)
+        for (int c = 0; c &lt; R; c++)
             right[c] = -1;
-        for (int j = 0; j < pat.length(); j++)
+        for (int j = 0; j &lt; pat.length(); j++)
             right[pat.charAt(j)] = j;
     }
-
+\/
     public BoyerMoore(char[] pattern, int R) {
         this.R = R;
         this.pattern = new char[pattern.length];
         System.arraycopy(pattern, 0, this.pattern, 0, pattern.length);
-
+\/
         right = new int[R];
-        for (int c = 0; c < R; c++)
+        for (int c = 0; c &lt; R; c++)
             right[c] = -1;
-        for (int j = 0; j < pattern.length; j++)
+        for (int j = 0; j &lt; pattern.length; j++)
             right[pattern[j]] = j;
     }
-
+\/
     public int search(String txt) {
         int M = pat.length();
         int N = txt.length();
         int skip;
-        for (int i = 0; i <= N - M; i += skip) {
+        for (int i = 0; i &lt;= N - M; i += skip) {
             skip = 0;
-            for (int j = M - 1; j >= 0; j--) {
+            for (int j = M - 1; j &gt;= 0; j--) {
                 if (pat.charAt(j) != txt.charAt(i + j)) {
                     skip = Math.max(1, j - right[txt.charAt(i + j)]);
                     break;
@@ -3644,14 +3643,14 @@ public class BoyerMoore {
         }
         return N;
     }
-
+\/
     public int search(char[] text) {
         int M = pattern.length;
         int N = text.length;
         int skip;
-        for (int i = 0; i <= N - M; i += skip) {
+        for (int i = 0; i &lt;= N - M; i += skip) {
             skip = 0;
-            for (int j = M - 1; j >= 0; j--) {
+            for (int j = M - 1; j &gt;= 0; j--) {
                 if (pattern[j] != text[i + j]) {
                     skip = Math.max(1, j - right[text[i + j]]);
                     break;
@@ -3662,39 +3661,38 @@ public class BoyerMoore {
         return N;
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <string>
-#include <vector>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+\/
 class BoyerMoore {
 private:
     int R;
-    std::vector<int> right;
+    std::vector&lt;int&gt; right;
     std::string pat;
-
+\/
 public:
     explicit BoyerMoore(const std::string& pat) {
-        this->R = 256;
-        this->pat = pat;
-
-        this->right.resize(R, -1);
-        for (int j = 0; j < pat.size(); j++) {
-            this->right[pat[j]] = j;
+        this-&gt;R = 256;
+        this-&gt;pat = pat;
+\/
+        this-&gt;right.resize(R, -1);
+        for (int j = 0; j &lt; pat.size(); j++) {
+            this-&gt;right[pat[j]] = j;
         }
     }
-
+\/
     [[nodiscard]] int search(const std::string& txt) const {
-        const int M = static_cast<int>(pat.size());
-        const int N = static_cast<int>(txt.size());
+        const int M = static_cast&lt;int&gt;(pat.size());
+        const int N = static_cast&lt;int&gt;(txt.size());
         int skip;
-        for (int i = 0; i <= N - M; i += skip) {
+        for (int i = 0; i &lt;= N - M; i += skip) {
             skip = 0;
-            for (int j = M - 1; j >= 0; j--) {
+            for (int j = M - 1; j &gt;= 0; j--) {
                 if (pat[j] != txt[i + j]) {
                     skip = std::max(1, j - right[txt[i + j]]);
                     break;
@@ -3705,25 +3703,24 @@ public:
         return N;
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class BoyerMoore:
     def __init__(self, pat):
         self.R = 256
         self.pat = pat
         self.right = [-1] * self.R
-
+\/
         for j in range(len(pat)):
             self.right[ord(pat[j])] = j
-
+\/
     def search(self, txt):
         M = len(self.pat)
         N = len(txt)
         skip = 1 
-
+\/
         for i in range(0, N - M + 1, skip):
             skip = 0
             for j in range(M - 1, -1, -1):
@@ -3733,7 +3730,9 @@ class BoyerMoore:
             if skip == 0:
                 return i
         return N
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 21.5 Rabin-Karp
 
@@ -3775,74 +3774,73 @@ x_{i+1} = (x_{i} - t_{i} R^{M-1}) R + t_{i+M}
 
 <img src="../images_data/d21-5-2.png" alt="Substring Search Example"/>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class RabinKarp {
     private final long patHash;
     private final int M;
     private final long Q;
     private final int R;
     private long RM;
-
+\/
     public RabinKarp(String pat) {
         M = pat.length();
         R = 256;
         Q = longRandomPrime();
         RM = 1;
-        for (int i = 1; i <= M - 1; i++)
+        for (int i = 1; i &lt;= M - 1; i++)
             RM = (R * RM) % Q;
         patHash = hash(pat, M);
     }
-
+\/
     private long hash(String key, int M) {
         long h = 0;
-        for (int j = 0; j < M; j++)
+        for (int j = 0; j &lt; M; j++)
             h = (R * h + key.charAt(j)) % Q;
         return h;
     }
-
+\/
     // Las Vegas version: does pat[] match txt[i..i-M+1] ?
     private boolean check(String txt, int i) {
-        for (int j = 0; j < M; j++)
+        for (int j = 0; j &lt; M; j++)
             if (patHash != hash(txt.substring(i, i + M), M))
                 return false;
         return true;
     }
-
+\/
     // Monte Carlo version: always return true
     private static long longRandomPrime() {
-        return (1L << 31) - 1;
+        return (1L &lt;&lt; 31) - 1;
     }
-
+\/
     public int search(String txt) {
         int N = txt.length();
-        if (N < M) return N;
+        if (N &lt; M) return N;
         long txtHash = hash(txt, M);
-
+\/
         if ((patHash == txtHash) && check(txt, 0))
             return 0;
-
-        for (int i = M; i < N; i++) {
+\/
+        for (int i = M; i &lt; N; i++) {
             txtHash = (txtHash + Q - RM * txt.charAt(i - M) % Q) % Q;
             txtHash = (txtHash * R + txt.charAt(i)) % Q;
-
+\/
             int offset = i - M + 1;
             if ((patHash == txtHash) && check(txt, offset))
                 return offset;
         }
-
+\/
         return N;
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <string>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+\/
 class RabinKarp {
 private:
     long long patHash;
@@ -3851,68 +3849,67 @@ private:
     int R;
     long long RM;
     std::string pat;
-
+\/
 public:
-    explicit RabinKarp(const std::string& pat) : pat(pat) { 
-        M = static_cast<int>(pat.length());
+    explicit RabinKarp(const std::string& pat) : pat(pat) {
+        M = static_cast&lt;int&gt;(pat.length());
         R = 256;
         Q = longRandomPrime();
         RM = 1;
-        for (int i = 1; i <= M - 1; i++)
+        for (int i = 1; i &lt;= M - 1; i++)
             RM = (R * RM) % Q;
         patHash = hash(pat, M);
     }
-
+\/
     [[nodiscard]] long long hash(const std::string& key, const int M) const {
         long long h = 0;
-        for (int j = 0; j < M; j++)
+        for (int j = 0; j &lt; M; j++)
             h = (R * h + key[j]) % Q;
         return h;
     }
-
+\/
     // Las Vegas version: does pat[] match txt[i..i-M+1] ?
     [[nodiscard]] bool check(const std::string& txt, const int i) const {
-        for (int j = 0; j < M; j++)
+        for (int j = 0; j &lt; M; j++)
             if (txt[i + j] != pat[j])
                 return false;
         return true;
     }
-
+\/
     // Monte Carlo version: always return true
-
+\/
     static long long longRandomPrime() {
         return 16777213;
     }
-
+\/
     [[nodiscard]] int search(const std::string& txt) const {
-        const int N = static_cast<int>(txt.length());
-        if (N < M) return N;
+        const int N = static_cast&lt;int&gt;(txt.length());
+        if (N &lt; M) return N;
         long long txtHash = hash(txt, M);
-
+\/
         if ((patHash == txtHash) && check(txt, 0))
             return 0;
-
-        for (int i = M; i < N; i++) {
+\/
+        for (int i = M; i &lt; N; i++) {
             txtHash = (txtHash + Q - RM * txt[i - M] % Q) % Q;
             txtHash = (txtHash * R + txt[i]) % Q;
-
+\/
             int offset = i - M + 1;
             if ((patHash == txtHash) && check(txt, offset))
                 return offset;
         }
-
+\/
         return N;
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 def long_random_prime():
-    return (1 << 31) - 1
-
-
+    return (1 &lt;&lt; 31) - 1
+\/
+\/
 class RabinKarp:
     def __init__(self, pat):
         self.pat = pat
@@ -3923,41 +3920,43 @@ class RabinKarp:
         for i in range(1, self.M):
             self.RM = (self.R * self.RM) % self.Q
         self.pat_hash = self.hash(pat, self.M)
-
+\/
     def hash(self, key, M):
         h = 0
         for j in range(M):
             h = (self.R * h + ord(key[j])) % self.Q
         return h
-
+\/
     # Las Vegas version: does pat[] match txt[i..i-M+1] ?
     def check(self, txt, i):
         for j in range(self.M):
             if self.pat_hash != self.hash(txt[i:i+self.M], self.M):
                 return False
         return True
-
+\/
     # Monte Carlo version: always return true
-
+\/
     def search(self, txt):
         N = len(txt)
-        if N < self.M:
+        if N &lt; self.M:
             return N
         txt_hash = self.hash(txt, self.M)
-
+\/
         if (self.pat_hash == txt_hash) and self.check(txt, 0):
             return 0
-
+\/
         for i in range(self.M, N):
             txt_hash = (txt_hash + self.Q - self.RM * ord(txt[i - self.M]) % self.Q) % self.Q
             txt_hash = (txt_hash * self.R + ord(txt[i])) % self.Q
-
+\/
             offset = i - self.M + 1
             if (self.pat_hash == txt_hash) and self.check(txt, offset):
                 return offset
-
+\/
         return N
-```
+    </code-block>
+    </tab>
+</tabs>
 
 <p><format color="BlueViolet">Cost of searching for an <math>M</math>
 -character pattern in an <math>N</math>-character text</format></p>
