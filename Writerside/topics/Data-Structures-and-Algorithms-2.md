@@ -4,6 +4,1539 @@
 
 <primary-label ref="finish"></primary-label>
 
+## 10 Balanced Search Trees
+
+<table style="none">
+<tr>
+    <td rowspan = "2">Implementation</td>
+    <td colspan="3">Worst-Case Cost (after <math>N</math> inserts)
+    </td>
+    <td colspan = "3">Average Case (after <math>N</math> random 
+    inserts)</td>
+    <td rowspan = "2">Ordered Iteration?</td>
+    <td rowspan = "2">Key Interface</td>
+</tr>
+<tr>
+    <td>Search</td>
+    <td>Insert</td>
+    <td>Delete</td>
+    <td>Search Hit</td>
+    <td>Insert</td>
+    <td>Delete</td>
+</tr>
+<tr>
+    <td>Sequential Search (unordered list)</td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>\frac {N}{2}</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td>no</td>
+    <td><code>equals()</code></td>
+</tr>
+<tr>
+    <td>Binary Search (ordered list)</td>
+    <td><math>\lg N</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>\lg N</math></td>
+    <td><math>\frac {N}{2}</math></td>
+    <td><math>\frac {N}{2}</math></td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td>BST</td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>N</math></td>
+    <td><math>1.39 \log N</math></td>
+    <td><math>1.39 \log N</math></td>
+    <td>?</td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td>2-3 Tree</td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td><math>c \log N</math></td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+<tr>
+    <td>Red-Black BST</td>
+    <td><math>2 \log N</math></td>
+    <td><math>2 \log N</math></td>
+    <td><math>2 \log N</math></td>
+    <td><math>1.00 \lg N</math></td>
+    <td><math>1.00 \lg N</math></td>
+    <td><math>1.00 \lg N</math></td>
+    <td>yes</td>
+    <td><code>compareTo()</code></td>
+</tr>
+</table>
+
+### 10.1 2-3 Trees {id="2-3-trees"}
+
+<p>Basic properties: </p>
+
+<list type = "bullet">
+<li>
+<p>Allow 1 or 2 keys per node.</p>
+</li>
+<li>
+<p>2-node: one key, two children.</p>
+</li>
+<li>
+<p>3-node: two keys, three children.</p>
+</li>
+</list>
+
+<p><img src = "../images_data/d10-1-1.png" alt = "2-3 Tree"/></p>
+
+<procedure title = "Basic Plan for Searching in 2-3 Tree">
+<step>
+<p>Compare search key against keys in node.</p>
+</step>
+<step>
+<p>Find interval containing search key.</p>
+</step>
+<step>
+<p>Follow associated key (recursively).</p>
+</step>
+</procedure>
+
+<procedure title = "Basic Plan for Inserting into a 2-node At Bottom">
+<step>
+<p>Search for key, as usual.</p>
+</step>
+<step>
+<p>Replace 2-node with 3-node.</p>
+</step>
+</procedure>
+
+<procedure title = "Basic Plan for Inserting into a 3-node At Bottom">
+<step>
+<p>Add new key to 3-node to create a temporary 4-node.</p>
+</step>
+<step>
+<p>Move middle key in 4-node into a parent.</p>
+</step>
+<step>
+<p>Repeat up the tree, as necessary.</p>
+</step>
+<step>
+<p>If you reach the root and it's a 4-node, split it into three 2-nodes.</p>
+</step>
+</procedure>
+
+<p>Properties: </p>
+
+<list type = "bullet">
+<li>
+<p>Maintain symmetric order and perfect balance: Every path from 
+root to null link has same length.</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Worst case</format>: 
+<math>\lg N</math> => all 2-nodes</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Best case</format>: 
+<math>\log_{3} N \approx 0.631 \lg N</math> </p>
+</li>
+<li>
+<p>Between 12 and 20 for a million nodes.</p>
+</li>
+<li>
+<p>Between 18 and 30 for a billion nodes.</p>
+</li>
+<li>
+<p>Guaranteed <format color = "OrangeRed">logarithmic</format> performance
+for search and insert.</p>
+</li>
+</list>
+
+<tip>
+<p>But direct implementation is complicated, because:</p>
+<list type = "bullet">
+<li>
+<p>Maintaining multiple node types is cumbersome.</p>
+</li>
+<li>
+<p>Need multiple compares to move down tree.</p>
+</li>
+<li>
+<p>Need to move back up the tree to split 4-nodes.</p>
+</li>
+<li>
+<p>Large number of cases for splitting.</p>
+</li>
+</list>
+</tip>
+
+### 10.2 Red-Black BSTs {id="red-black-bsts"}
+
+#### 10.2.1 Left-Leaning Red-Black BSTs
+
+<list type = "alpha-lower">
+<li>
+<p><format color = "BlueViolet">Definition 1</format>: </p>
+<list type = "bullet">
+<li>
+<p>Represent 2–3 tree as a BST.</p>
+</li>
+<li>
+<p>Use "internal" left-leaning links as "glue" for 3–nodes.</p>
+</li>
+</list>
+</li>
+<li>
+<p><format color = "BlueViolet">Definition 2</format>: A BST such 
+that: </p>
+<list type = "bullet">
+<li>
+<p>No node has two red links connected to it.</p>
+</li>
+<li>
+<p>Every path from root to null link has the same number of black links.</p>
+</li>
+<li>
+<p>Red links lean left.</p>
+</li>
+</list>
+</li>
+</list>
+<img src = "../images_data/d10-2-1.png" alt = "Red-Black BST"/>
+
+<note><p>1–1 correspondence between 2–3 and LLRB!</p></note>
+
+#### 10.2.2 Elementary Red-Black BST Operations
+
+<list type = "alpha-lower">
+<li>
+<p><format color = "BlueViolet">Left rotation:</format> Orient a 
+(temporarily) right-leaning red link to lean left.</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Right rotation:</format> Orient a 
+left-leaning red link to (temporarily) lean right.</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Color flip:</format> Recolor to split
+a (temporary) 4-node.</p>
+</li>
+</list>
+
+<img src = "../images_data/d10-2-2.png" alt = "Left Rotation"/>
+
+<img src = "../images_data/d10-2-3.png" alt = "Right Rotation"/>
+
+#### 10.2.3 Red-Black BST Operations
+
+<warning><p>Most ops (e.g., search, floor, iteration, selection)
+are the same as for elementary BST, but run faster because of better 
+performance.</p></warning>
+
+<procedure title = "Case 1: Insert into a 2-node at the bottom | 
+Insert into a tree with exactly 1 node.">
+<step>
+<p>Do standard BST insert; color new link red.</p>
+</step>
+<step>
+<p>If new red link is a right link, rotate left.</p>
+</step>
+</procedure>
+
+<procedure title = "Case 2: Insert into a 3-node at the bottom | 
+Insert into a tree with exactly 2 nodes.">
+<step>
+<p>Do standard BST insert; color new link red.</p>
+</step>
+<step>
+<p>Rotate to balance the 4-node (if needed).</p>
+</step>
+<step>
+<p>Flip colors to pass red link up one level.</p>
+</step>
+<step>
+<p>Rotate to make lean left (if needed).</p>
+</step>
+<step>
+<p>Repeat case 1 or case 2 up the tree (if needed).</p>
+</step>
+</procedure>
+
+<img src = "../images_data/d10-2-4.png" alt = "Insert into a 3-node 
+at the bottom"/>
+
+<procedure title = "Insertion for Red-Black BSTs" type = "choices">
+<step>
+<p>Right child red, left child black: <format color = "OrangeRed">rotate 
+left</format>.</p>
+</step>
+<step>
+<p>Left child, left-left grandchild red: <format color = "OrangeRed">rotate
+right</format>.</p>
+</step>
+<step>
+<p>Both children red: <format color = "OrangeRed">flip colors</format>.</p>
+</step>
+</procedure>
+
+#### 10.2.4 Red-Black BST Implementations
+
+Java
+
+```Java
+import java.util.NoSuchElementException;
+
+public class RedBlackBST<Key extends Comparable<Key>, Value> {
+
+    private static final boolean RED   = true;
+    private static final boolean BLACK = false;
+
+    private Node root;   
+
+    // BST helper node data type
+    private class Node {
+        private Key key;          
+        private Value val;         
+        private Node left, right;  
+        private boolean color;  
+        private int size;          
+
+        public Node(Key key, Value val, boolean color, int size) {
+            this.key = key;
+            this.val = val;
+            this.color = color;
+            this.size = size;
+        }
+    }
+
+    public RedBlackBST() {
+    }
+
+    // is node x red; false if x is null ?
+    private boolean isRed(Node x) {
+        if (x == null) return false;
+        return x.color == RED;
+    }
+
+    // number of node in subtree rooted at x; 0 if x is null
+    private int size(Node x) {
+        if (x == null) return 0;
+        return x.size;
+    }
+    
+    // Returns the number of key-value pairs in this symbol table.
+    public int size() {
+        return size(root);
+    }
+
+    // Is this symbol table empty?
+    public boolean isEmpty() {
+        return root == null;
+    }
+
+    // value associated with the given key in subtree rooted at x; null if no such key
+    public Value get(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to get() is null");
+        return get(root, key);
+    }
+    
+    private Value get(Node x, Key key) {
+        while (x != null) {
+            int cmp = key.compareTo(x.key);
+            if      (cmp < 0) x = x.left;
+            else if (cmp > 0) x = x.right;
+            else              return x.val;
+        }
+        return null;
+    }
+
+    // Does this symbol table contain the given key?
+    public boolean contains(Key key) {
+        return get(key) != null;
+    }
+    
+    // Inserts the specified key-value pair into the symbol table, overwriting the old
+    // value with the new value if the symbol table already contains the specified key.
+    // Deletes the specified key (and its associated value) from this symbol table
+    // if the specified value is null.
+     
+    public void put(Key key, Value val) {
+        if (key == null) throw new IllegalArgumentException("first argument to put() is null");
+        if (val == null) {
+            delete(key);
+            return;
+        }
+
+        root = put(root, key, val);
+        root.color = BLACK;
+    }
+    
+    private Node put(Node h, Key key, Value val) {
+        if (h == null) return new Node(key, val, RED, 1);
+
+        int cmp = key.compareTo(h.key);
+        if      (cmp < 0) h.left  = put(h.left,  key, val);
+        else if (cmp > 0) h.right = put(h.right, key, val);
+        else              h.val   = val;
+
+        if (isRed(h.right) && !isRed(h.left))      h = rotateLeft(h);
+        if (isRed(h.left)  &&  isRed(h.left.left)) h = rotateRight(h);
+        if (isRed(h.left)  &&  isRed(h.right))     flipColors(h);
+        h.size = size(h.left) + size(h.right) + 1;
+
+        return h;
+    }
+
+    // delete the key-value pair with the minimum key rooted at h
+    public void deleteMin() {
+        if (isEmpty()) throw new NoSuchElementException("BST underflow");
+
+        // if both children of root are black, set root to red
+        if (!isRed(root.left) && !isRed(root.right))
+            root.color = RED;
+
+        root = deleteMin(root);
+        if (!isEmpty()) root.color = BLACK;
+    }
+
+    private Node deleteMin(Node h) {
+        if (h.left == null)
+            return null;
+
+        if (!isRed(h.left) && !isRed(h.left.left))
+            h = moveRedLeft(h);
+
+        h.left = deleteMin(h.left);
+        return balance(h);
+    }
+
+    // delete the key-value pair with the maximum key rooted at h
+    public void deleteMax() {
+        if (isEmpty()) throw new NoSuchElementException("BST underflow");
+
+        // if both children of root are black, set root to red
+        if (!isRed(root.left) && !isRed(root.right))
+            root.color = RED;
+
+        root = deleteMax(root);
+        if (!isEmpty()) root.color = BLACK;
+    }
+
+    private Node deleteMax(Node h) {
+        if (isRed(h.left))
+            h = rotateRight(h);
+
+        if (h.right == null)
+            return null;
+
+        if (!isRed(h.right) && !isRed(h.right.left))
+            h = moveRedRight(h);
+
+        h.right = deleteMax(h.right);
+
+        return balance(h);
+    }
+
+    public void delete(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+        if (!contains(key)) return;
+
+        // if both children of root are black, set root to red
+        if (!isRed(root.left) && !isRed(root.right))
+            root.color = RED;
+
+        root = delete(root, key);
+        if (!isEmpty()) root.color = BLACK;
+    }
+
+    // delete the key-value pair with the given key rooted at h
+    private Node delete(Node h, Key key) {
+        if (key.compareTo(h.key) < 0)  {
+            if (!isRed(h.left) && !isRed(h.left.left))
+                h = moveRedLeft(h);
+            h.left = delete(h.left, key);
+        }
+        else {
+            if (isRed(h.left))
+                h = rotateRight(h);
+            if (key.compareTo(h.key) == 0 && (h.right == null))
+                return null;
+            if (!isRed(h.right) && !isRed(h.right.left))
+                h = moveRedRight(h);
+            if (key.compareTo(h.key) == 0) {
+                Node x = min(h.right);
+                h.key = x.key;
+                h.val = x.val;
+                h.right = deleteMin(h.right);
+            }
+            else h.right = delete(h.right, key);
+        }
+        return balance(h);
+    }
+
+    // make a left-leaning link lean to the right
+    private Node rotateRight(Node h) {
+        assert (h != null) && isRed(h.left);
+        Node x = h.left;
+        h.left = x.right;
+        x.right = h;
+        x.color = h.color;
+        h.color = RED;
+        x.size = h.size;
+        h.size = size(h.left) + size(h.right) + 1;
+        return x;
+    }
+
+    // make a right-leaning link lean to the left
+    private Node rotateLeft(Node h) {
+        assert (h != null) && isRed(h.right);
+        Node x = h.right;
+        h.right = x.left;
+        x.left = h;
+        x.color = h.color;
+        h.color = RED;
+        x.size = h.size;
+        h.size = size(h.left) + size(h.right) + 1;
+        return x;
+    }
+
+    // flip the colors of a node and its two children
+    private void flipColors(Node h) {
+        h.color = !h.color;
+        h.left.color = !h.left.color;
+        h.right.color = !h.right.color;
+    }
+
+    // Assuming that h is red and both h.left and h.left.left
+    // are black, make h.left or one of its children red.
+    private Node moveRedLeft(Node h) {
+        flipColors(h);
+        if (isRed(h.right.left)) {
+            h.right = rotateRight(h.right);
+            h = rotateLeft(h);
+            flipColors(h);
+        }
+        return h;
+    }
+
+    // Assuming that h is red and both h.right and h.right.left
+    // are black, make h.right or one of its children red.
+    private Node moveRedRight(Node h) {
+        flipColors(h);
+        if (isRed(h.left.left)) {
+            h = rotateRight(h);
+            flipColors(h);
+        }
+        return h;
+    }
+
+    // restore red-black tree invariant
+    private Node balance(Node h) {
+        if (isRed(h.right) && !isRed(h.left))    h = rotateLeft(h);
+        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
+        if (isRed(h.left) && isRed(h.right))     flipColors(h);
+
+        h.size = size(h.left) + size(h.right) + 1;
+        return h;
+    }
+
+    // Returns the height of the BST (for debugging).
+    public int height() {
+        return height(root);
+    }
+
+    private int height(Node x) {
+        if (x == null) return -1;
+        return 1 + Math.max(height(x.left), height(x.right));
+    }
+
+    // the smallest key in subtree rooted at x; null if no such key
+    public Key min() {
+        if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
+        return min(root).key;
+    }
+
+    private Node min(Node x) {
+        // assert x != null;
+        if (x.left == null) return x;
+        else                return min(x.left);
+    }
+
+    // the largest key in the subtree rooted at x; null if no such key
+    public Key max() {
+        if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
+        return max(root).key;
+    }
+
+    private Node max(Node x) {
+        if (x.right == null) return x;
+        else                 return max(x.right);
+    }
+
+    // the largest key in the subtree rooted at x less than or equal to the given key
+    public Key floor(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to floor() is null");
+        if (isEmpty()) throw new NoSuchElementException("calls floor() with empty symbol table");
+        Node x = floor(root, key);
+        if (x == null) throw new NoSuchElementException("argument to floor() is too small");
+        else           return x.key;
+    }
+
+    private Node floor(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp == 0) return x;
+        if (cmp < 0)  return floor(x.left, key);
+        Node t = floor(x.right, key);
+        if (t != null) return t;
+        else           return x;
+    }
+
+    // the smallest key in the subtree rooted at x greater than or equal to the given key
+    public Key ceiling(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
+        if (isEmpty()) throw new NoSuchElementException("calls ceiling() with empty symbol table");
+        Node x = ceiling(root, key);
+        if (x == null) throw new NoSuchElementException("argument to ceiling() is too large");
+        else           return x.key;
+    }
+
+    private Node ceiling(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp == 0) return x;
+        if (cmp > 0)  return ceiling(x.right, key);
+        Node t = ceiling(x.left, key);
+        if (t != null) return t;
+        else           return x;
+    }
+
+    // Return key in BST rooted at x of given rank.
+    public Key select(int rank) {
+        if (rank < 0 || rank >= size()) {
+            throw new IllegalArgumentException("argument to select() is invalid: " + rank);
+        }
+        return select(root, rank);
+    }
+
+    private Key select(Node x, int rank) {
+        if (x == null) return null;
+        int leftSize = size(x.left);
+        if      (leftSize > rank) return select(x.left,  rank);
+        else if (leftSize < rank) return select(x.right, rank - leftSize - 1);
+        else                      return x.key;
+    }
+
+    // Return the number of keys in the BST strictly less than key.
+    public int rank(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to rank() is null");
+        return rank(key, root);
+    }
+
+    private int rank(Key key, Node x) {
+        if (x == null) return 0;
+        int cmp = key.compareTo(x.key);
+        if      (cmp < 0) return rank(key, x.left);
+        else if (cmp > 0) return 1 + size(x.left) + rank(key, x.right);
+        else              return size(x.left);
+    }
+
+    public int size(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
+
+        if (lo.compareTo(hi) > 0) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else              return rank(hi) - rank(lo);
+    }
+}
+```
+
+C++
+
+```C++
+#include <iostream>
+#include <exception>
+#include <stdexcept>
+
+template <typename Key, typename Value>
+class RedBlackBST {
+private:
+    struct Node {
+        Key key;
+        Value val;
+        Node *left, *right;
+        bool color;
+        int size;
+
+        Node(const Key& key, const Value& val, bool color, int size) : 
+            key(key), val(val), left(nullptr), right(nullptr), color(color), size(size) {}
+    };
+
+    static const bool RED = true;
+    static const bool BLACK = false;
+
+    Node* root;
+
+    // Helper functions for recursion
+    bool isRed(Node* x) const {
+        if (x == nullptr) return false;
+        return x->color == RED;
+    }
+
+    int size(Node* x) const {
+        if (x == nullptr) return 0;
+        return x->size;
+    }
+
+    Node* rotateRight(Node* h) {
+        if (h == nullptr || !isRed(h->left)) {
+            throw std::runtime_error("Invalid rotateRight() call"); 
+        }
+        Node* x = h->left;
+        h->left = x->right;
+        x->right = h;
+        x->color = h->color;
+        h->color = RED;
+        x->size = h->size;
+        h->size = size(h->left) + size(h->right) + 1;
+        return x;
+    }
+
+    Node* rotateLeft(Node* h) {
+        if (h == nullptr || !isRed(h->right)) {
+            throw std::runtime_error("Invalid rotateLeft() call"); 
+        }
+        Node* x = h->right;
+        h->right = x->left;
+        x->left = h;
+        x->color = h->color;
+        h->color = RED;
+        x->size = h->size;
+        h->size = size(h->left) + size(h->right) + 1;
+        return x;
+    }
+
+    void flipColors(Node* h) {
+        if (h == nullptr || h->left == nullptr || h->right == nullptr) {
+            throw std::runtime_error("Invalid flipColors() call"); 
+        }
+        h->color = !h->color;
+        h->left->color = !h->left->color;
+        h->right->color = !h->right->color;
+    }
+
+    Node* moveRedLeft(Node* h) {
+        flipColors(h);
+        if (isRed(h->right->left)) {
+            h->right = rotateRight(h->right);
+            h = rotateLeft(h);
+            flipColors(h);
+        }
+        return h;
+    }
+
+    Node* moveRedRight(Node* h) {
+        flipColors(h);
+        if (isRed(h->left->left)) { 
+            h = rotateRight(h);
+            flipColors(h);
+        }
+        return h;
+    }
+
+    Node* balance(Node* h) {
+        if (isRed(h->right) && !isRed(h->left))    h = rotateLeft(h);
+        if (isRed(h->left) && isRed(h->left->left)) h = rotateRight(h);
+        if (isRed(h->left) && isRed(h->right))     flipColors(h);
+
+        h->size = size(h->left) + size(h->right) + 1;
+        return h;
+    }
+
+    Node* put(Node* h, const Key& key, const Value& val) {
+        if (h == nullptr) return new Node(key, val, RED, 1);
+
+        if (key < h->key) h->left  = put(h->left, key, val);
+        else if (key > h->key) h->right = put(h->right, key, val);
+        else h->val = val; 
+
+        // Fix right-leaning red links and restore balance
+        if (isRed(h->right) && !isRed(h->left)) h = rotateLeft(h);
+        if (isRed(h->left)  && isRed(h->left->left)) h = rotateRight(h);
+        if (isRed(h->left)  && isRed(h->right)) flipColors(h);
+
+        h->size = 1 + size(h->left) + size(h->right);
+        return h;
+    }
+
+    Node* deleteMin(Node* h) {
+        if (h->left == nullptr) {
+            delete h; 
+            return nullptr;
+        }
+
+        if (!isRed(h->left) && !isRed(h->left->left))
+            h = moveRedLeft(h);
+
+        h->left = deleteMin(h->left);
+        return balance(h);
+    }
+
+    Node* deleteMax(Node* h) {
+        if (isRed(h->left))
+            h = rotateRight(h);
+
+        if (h->right == nullptr) {
+            delete h;
+            return nullptr; 
+        }
+
+        if (!isRed(h->right) && !isRed(h->right->left))
+            h = moveRedRight(h);
+
+        h->right = deleteMax(h->right);
+        return balance(h);
+    }
+
+    Node* deleteNode(Node* h, const Key& key) {
+        if (key < h->key)  {
+            if (!isRed(h->left) && !isRed(h->left->left))
+                h = moveRedLeft(h);
+            h->left = deleteNode(h->left, key);
+        }
+        else {
+            if (isRed(h->left))
+                h = rotateRight(h);
+            if (key == h->key && (h->right == nullptr)) {
+                delete h; 
+                return nullptr; 
+            }
+            if (!isRed(h->right) && !isRed(h->right->left))
+                h = moveRedRight(h);
+            if (key == h->key) {
+                Node* x = min(h->right);
+                h->key = x->key;
+                h->val = x->val; 
+                h->right = deleteMin(h->right);
+            }
+            else h->right = deleteNode(h->right, key);
+        }
+        return balance(h);
+    }
+
+    Node* min(Node* x) const {
+        if (x->left == nullptr) return x;
+        else                return min(x->left);
+    }
+
+    Node* max(Node* x) const {
+        if (x->right == nullptr) return x;
+        else                 return max(x->right);
+    }
+
+    Node* floor(Node* x, const Key& key) const {
+        if (x == nullptr) return nullptr;
+        if (key < x->key)  return floor(x->left, key);
+        if (key == x->key) return x; 
+        Node* t = floor(x->right, key);
+        if (t != nullptr) return t;
+        else           return x;
+    }
+
+    Node* ceiling(Node* x, const Key& key) const {
+        if (x == nullptr) return nullptr;
+        if (key > x->key)  return ceiling(x->right, key);
+        if (key == x->key) return x;
+        Node* t = ceiling(x->left, key);
+        if (t != nullptr) return t;
+        else           return x;
+    }
+
+    Key select(Node* x, int rank) const {
+        if (x == nullptr) return Key(); // Return a default-constructed Key
+        int leftSize = size(x->left);
+        if (leftSize > rank) return select(x->left, rank);
+        else if (leftSize < rank) return select(x->right, rank - leftSize - 1);
+        else return x->key;
+    }
+
+    int rank(const Key& key, Node* x) const {
+        if (x == nullptr) return 0;
+        if (key < x->key) return rank(key, x->left);
+        else if (key > x->key) return 1 + size(x->left) + rank(key, x->right);
+        else return size(x->left);
+    }
+
+    int height(Node* x) const {
+        if (x == nullptr) return -1;
+        return 1 + std::max(height(x->left), height(x->right));
+    }
+
+    // Helper function to recursively delete all nodes in a subtree
+    void deleteAllNodes(Node* node) {
+        if (node == nullptr) return;
+        deleteAllNodes(node->left);
+        deleteAllNodes(node->right);
+        delete node;
+    }
+
+public:
+    RedBlackBST() : root(nullptr) {}
+
+    ~RedBlackBST() {
+        deleteAllNodes(root); 
+    }
+
+    int size() const {
+        return size(root);
+    }
+
+    bool isEmpty() const {
+        return root == nullptr;
+    }
+
+    Value get(const Key& key) const {
+        if (key == Key()) throw std::invalid_argument("argument to get() is null");
+        Node* x = root;
+        while (x != nullptr) {
+            if (key < x->key) x = x->left;
+            else if (key > x->key) x = x->right;
+            else return x->val;
+        }
+        return Value(); // Return a default-constructed Value if not found
+    }
+
+    bool contains(const Key& key) const {
+        return get(key) != Value(); 
+    }
+
+    void put(const Key& key, const Value& val) {
+        if (key == Key()) throw std::invalid_argument("argument to put() is null");
+        root = put(root, key, val);
+        root->color = BLACK;
+    }
+
+    void deleteMin() {
+        if (isEmpty()) throw std::runtime_error("BST underflow");
+
+        if (!isRed(root->left) && !isRed(root->right))
+            root->color = RED;
+
+        root = deleteMin(root);
+        if (!isEmpty()) root->color = BLACK;
+    }
+
+    void deleteMax() {
+        if (isEmpty()) throw std::runtime_error("BST underflow");
+
+        if (!isRed(root->left) && !isRed(root->right))
+            root->color = RED;
+
+        root = deleteMax(root);
+        if (!isEmpty()) root->color = BLACK;
+    }
+
+    void deleteKey(const Key& key) { 
+        if (key == Key()) throw std::invalid_argument("argument to delete() is null");
+        if (!contains(key)) return;
+
+        if (!isRed(root->left) && !isRed(root->right))
+            root->color = RED;
+
+        root = deleteNode(root, key); 
+        if (!isEmpty()) root->color = BLACK;
+    }
+
+    int height() const {
+        return height(root);
+    }
+
+    Key min() const {
+        if (isEmpty()) throw std::runtime_error("calls min() with empty symbol table");
+        return min(root)->key;
+    }
+
+    Key max() const {
+        if (isEmpty()) throw std::runtime_error("calls max() with empty symbol table");
+        return max(root)->key;
+    }
+
+    Key floor(const Key& key) const {
+        if (key == Key()) throw std::invalid_argument("argument to floor() is null");
+        if (isEmpty()) throw std::runtime_error("calls floor() with empty symbol table");
+        Node* x = floor(root, key);
+        if (x == nullptr) throw std::runtime_error("argument to floor() is too small");
+        else           return x->key;
+    }
+
+    Key ceiling(const Key& key) const {
+        if (key == Key()) throw std::invalid_argument("argument to ceiling() is null");
+        if (isEmpty()) throw std::runtime_error("calls ceiling() with empty symbol table");
+        Node* x = ceiling(root, key);
+        if (x == nullptr) throw std::runtime_error("argument to ceiling() is too large");
+        else           return x->key;
+    }
+
+    Key select(int rank) const {
+        if (rank < 0 || rank >= size()) {
+            throw std::invalid_argument("argument to select() is invalid: " + std::to_string(rank));
+        }
+        return select(root, rank);
+    }
+
+    int rank(const Key& key) const {
+        if (key == Key()) throw std::invalid_argument("argument to rank() is null");
+        return rank(key, root);
+    }
+
+    int size(const Key& lo, const Key& hi) const {
+        if (lo == Key()) throw std::invalid_argument("first argument to size() is null");
+        if (hi == Key()) throw std::invalid_argument("second argument to size() is null");
+
+        if (lo > hi) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else              return rank(hi) - rank(lo);
+    }
+};
+```
+
+Python
+
+```Python
+class Node:
+    def __init__(self, key, val, color, size):
+        self.key = key
+        self.val = val
+        self.left = None
+        self.right = None
+        self.color = color
+        self.size = size
+
+
+class RedBlackBST:
+    RED = True
+    BLACK = False
+
+    def __init__(self):
+        self.root = None
+
+    def is_red(self, x):
+        if x is None:
+            return False
+        return x.color == RedBlackBST.RED
+
+    def size(self, x=None):
+        if x is None:
+            x = self.root
+        if x is None:
+            return 0
+        return x.size
+
+    def rotate_right(self, h):
+        if not self.is_red(h.left):
+            raise Exception("BST error")
+        x = h.left
+        h.left = x.right
+        x.right = h
+        x.color = h.color
+        h.color = RedBlackBST.RED
+        x.size = h.size
+        h.size = 1 + self.size(h.left) + self.size(h.right)
+        return x
+
+    def rotate_left(self, h):
+        if not self.is_red(h.right):
+            raise Exception("BST error")
+        x = h.right
+        h.right = x.left
+        x.left = h
+        x.color = h.color
+        h.color = RedBlackBST.RED
+        x.size = h.size
+        h.size = 1 + self.size(h.left) + self.size(h.right)
+        return x
+
+    def flip_colors(self, h):
+        h.color = not h.color
+        h.left.color = not h.left.color
+        h.right.color = not h.right.color
+
+    def move_red_left(self, h):
+        self.flip_colors(h)
+        if self.is_red(h.right.left):
+            h.right = self.rotate_right(h.right)
+            h = self.rotate_left(h)
+            self.flip_colors(h)
+        return h
+
+    def move_red_right(self, h):
+        self.flip_colors(h)
+        if self.is_red(h.left.left):
+            h = self.rotate_right(h)
+            self.flip_colors(h)
+        return h
+
+    def balance(self, h):
+        if self.is_red(h.right) and not self.is_red(h.left):
+            h = self.rotate_left(h)
+        if self.is_red(h.left) and self.is_red(h.left.left):
+            h = self.rotate_right(h)
+        if self.is_red(h.left) and self.is_red(h.right):
+            self.flip_colors(h)
+        h.size = 1 + self.size(h.left) + self.size(h.right)
+        return h
+
+    def put(self, key, val):
+        if key is None:
+            raise Exception("argument to put() is null")
+        self.root = self._put(self.root, key, val)
+        self.root.color = RedBlackBST.BLACK
+
+    def _put(self, h, key, val):
+        if h is None:
+            return Node(key, val, RedBlackBST.RED, 1)
+        if key < h.key:
+            h.left = self._put(h.left, key, val)
+        elif key > h.key:
+            h.right = self._put(h.right, key, val)
+        else:
+            h.val = val
+
+        if self.is_red(h.right) and not self.is_red(h.left):
+            h = self.rotate_left(h)
+        if self.is_red(h.left) and self.is_red(h.left.left):
+            h = self.rotate_right(h)
+        if self.is_red(h.left) and self.is_red(h.right):
+            self.flip_colors(h)
+
+        h.size = 1 + self.size(h.left) + self.size(h.right)
+        return h
+
+    def get(self, key):
+        if key is None:
+            raise Exception("argument to get() is null")
+        return self._get(self.root, key)
+
+    def _get(self, x, key):
+        while x is not None:
+            if key < x.key:
+                x = x.left
+            elif key > x.key:
+                x = x.right
+            else:
+                return x.val
+        return None
+
+    def contains(self, key):
+        return self.get(key) is not None
+
+    def delete_min(self):
+        if self.isEmpty():
+            raise Exception("BST underflow")
+        if not self.is_red(self.root.left) and not self.is_red(self.root.right):
+            self.root.color = RedBlackBST.RED
+        self.root = self._delete_min(self.root)
+        if not self.isEmpty():
+            self.root.color = RedBlackBST.BLACK
+
+    def _delete_min(self, h):
+        if h.left is None:
+            return None
+        if not self.is_red(h.left) and not self.is_red(h.left.left):
+            h = self.move_red_left(h)
+        h.left = self._delete_min(h.left)
+        return self.balance(h)
+
+    def delete_max(self):
+        if self.isEmpty():
+            raise Exception("BST underflow")
+        if not self.is_red(self.root.left) and not self.is_red(self.root.right):
+            self.root.color = RedBlackBST.RED
+        self.root = self._delete_max(self.root)
+        if not self.isEmpty():
+            self.root.color = RedBlackBST.BLACK
+
+    def _delete_max(self, h):
+        if self.is_red(h.left):
+            h = self.rotate_right(h)
+        if h.right is None:
+            return None
+        if not self.is_red(h.right) and not self.is_red(h.right.left):
+            h = self.move_red_right(h)
+        h.right = self._delete_max(h.right)
+        return self.balance(h)
+
+    def delete(self, key):
+        if key is None:
+            raise Exception("argument to delete() is null")
+        if not self.contains(key):
+            return
+        if not self.is_red(self.root.left) and not self.is_red(self.root.right):
+            self.root.color = RedBlackBST.RED
+        self.root = self._delete(self.root, key)
+        if not self.isEmpty():
+            self.root.color = RedBlackBST.BLACK
+
+    def _delete(self, h, key):
+        if key < h.key:
+            if not self.is_red(h.left) and not self.is_red(h.left.left):
+                h = self.move_red_left(h)
+            h.left = self._delete(h.left, key)
+        else:
+            if self.is_red(h.left):
+                h = self.rotate_right(h)
+            if key == h.key and h.right is None:
+                return None
+            if not self.is_red(h.right) and not self.is_red(h.right.left):
+                h = self.move_red_right(h)
+            if key == h.key:
+                x = self.min(h.right)
+                h.key = x.key
+                h.val = x.val
+                h.right = self._delete_min(h.right)
+            else:
+                h.right = self._delete(h.right, key)
+        return self.balance(h)
+
+    def isEmpty(self):
+        return self.root is None
+
+    def height(self):
+        return self._height(self.root)
+
+    def _height(self, x):
+        if x is None:
+            return -1
+        return 1 + max(self._height(x.left), self._height(x.right))
+
+    def min(self, x=None):  # Add x as an argument
+        if x is None:
+            x = self.root  # Start from root if x is not provided
+        if self.isEmpty():
+            raise Exception("calls min() with empty symbol table")
+        if x.left is None:
+            return x
+        else:
+            return self.min(x.left)
+
+    def _min(self, x):
+        if x.left is None:
+            return x
+        else:
+            return self._min(x.left)
+
+    def max(self):
+        if self.isEmpty():
+            raise Exception("calls max() with empty symbol table")
+        return self._max(self.root).key
+
+    def _max(self, x):
+        if x.right is None:
+            return x
+        else:
+            return self._max(x.right)
+
+    def floor(self, key):
+        if key is None:
+            raise Exception("argument to floor() is null")
+        if self.isEmpty():
+            raise Exception("calls floor() with empty symbol table")
+        x = self._floor(self.root, key)
+        if x is None:
+            raise Exception("argument to floor() is too small")
+        else:
+            return x.key
+
+    def _floor(self, x, key):
+        if x is None:
+            return None
+        if key == x.key:
+            return x
+        elif key < x.key:
+            return self._floor(x.left, key)
+        t = self._floor(x.right, key)
+        if t is not None:
+            return t
+        else:
+            return x
+
+    def ceiling(self, key):
+        if key is None:
+            raise Exception("argument to ceiling() is null")
+        if self.isEmpty():
+            raise Exception("calls ceiling() with empty symbol table")
+        x = self._ceiling(self.root, key)
+        if x is None:
+            raise Exception("argument to ceiling() is too large")
+        else:
+            return x.key
+
+    def _ceiling(self, x, key):
+        if x is None:
+            return None
+        if key == x.key:
+            return x
+        elif key > x.key:
+            return self._ceiling(x.right, key)
+        t = self._ceiling(x.left, key)
+        if t is not None:
+            return t
+        else:
+            return x
+
+    def select(self, rank):
+        if rank < 0 or rank >= self.size():
+            raise Exception("argument to select() is invalid: " + str(rank))
+        return self._select(self.root, rank)
+
+    def _select(self, x, rank):
+        if x is None:
+            return None
+        left_size = self.size(x.left)
+        if left_size > rank:
+            return self._select(x.left, rank)
+        elif left_size < rank:
+            return self._select(x.right, rank - left_size - 1)
+        else:
+            return x.key
+
+    def rank(self, key):
+        if key is None:
+            raise Exception("argument to rank() is null")
+        return self._rank(key, self.root)
+
+    def _rank(self, key, x):
+        if x is None:
+            return 0
+        if key < x.key:
+            return self._rank(key, x.left)
+        elif key > x.key:
+            return 1 + self.size(x.left) + self._rank(key, x.right)
+        else:
+            return self.size(x.left)
+
+    def size_between(self, lo, hi):
+        if lo is None:
+            raise Exception("first argument to size() is null")
+        if hi is None:
+            raise Exception("second argument to size() is null")
+        if lo > hi:
+            return 0
+        if self.contains(hi):
+            return self.rank(hi) - self.rank(lo) + 1
+        else:
+            return self.rank(hi) - self.rank(lo)
+```
+
+#### 10.2.5 Red-Black BST Properties and Applications
+
+<p>Properties: </p>
+
+<list type = "alpha-lower">
+<li>
+<p>Height of tree is <math>\leq 2 \lg N</math> in the worst case.</p>
+<p>Proof: Every path from root to null link has same number of black
+links. Never two red links in-a-row.</p>
+</li>
+<li>
+<p>Height of tree is <math>\sim 1.00 \lg N</math> in typical
+applications.</p>
+</li>
+</list>
+
+<p>Applications: Red-black trees are widely used as system symbol 
+tables.</p>
+<list>
+<li>
+<p><format color = "BlueViolet">Java</format>: 
+java.util.TreeMap, java.util.TreeSet.</p>
+</li>
+<li>
+<p><format color = "BlueViolet">C++ STL</format>: 
+map, multimap, multiset.</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Linux kernel</format>: 
+completely fair scheduler, linux/rbtree.h.
+</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Emacs</format>: 
+conservative stack scanning.</p>
+</li>
+</list>
+
+### 10.3 B-Trees
+
+<list type = "decimal">
+<li>
+<p>Background Information:</p>
+
+<list type = "bullet">
+<li>
+<p><format color = "BlueViolet">Page</format>: Continuous block of
+data (e.g., a file or 4,096-byte chunk).</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Probe</format>: First access to a 
+page (e.g., from disk to memory).</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Property</format>: Time required for
+a probe is much higher than time to access data within a page.</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Goal</format>: Access data using
+minimum number of probes.</p>
+</li>
+</list>
+</li>
+<li>
+<p>Definition:</p>
+
+<p><format color = "BlueViolet">B-tree (Bayer-McCreight, 1972)</format>: 
+Generalize 2-3 trees by allowing up to <math>M - 1</math> key-link
+pairs per node.</p>
+<list type = "bullet">
+<li>
+<p>At least 2 key-link pairs at root.</p>
+</li>
+<li>
+<p>At least <math>\frac {M}{2}</math> key-link pairs in other 
+nodes.</p>
+</li>
+<li>
+<p>External nodes contain client keys.</p>
+</li>
+<li>
+<p>Internal nodes contain copies of keys to guide search.</p>
+</li>
+</list>
+<img src = "../images_data/d10-3-1.png" alt = "B-Tree" style="inline"/>
+</li>
+<li>
+<p>Property: </p>
+
+<p>A search or an insertion in a B-tree of order 
+<math>M</math> with <math>N</math> keys requires between 
+<math>log_{M-1} N</math> and <math>log_{M/2} N</math> probes.</p>
+
+<p><format color = "BlueViolet">Proof</format>: All internal nodes 
+(besides root) have between <math>\frac {M}{2}</math> and 
+<math>M - 1</math> links.</p>
+
+<p><format color = "BlueViolet">In practice</format>: Number of 
+probes is at most 4.</p>
+
+<p><format color = "BlueViolet">Optimization</format>: Always keep 
+page root in memory.</p>
+</li>
+<li>
+<p>Applications:</p>
+
+<p>B-trees (and variants B+ Tree, B <sup>*</sup> Tree, B# Tree) are 
+widely used for file systems and databases.</p>
+
+<list>
+<li>
+<p><format color = "BlueViolet">Windows</format>: NTFS.</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Mac</format>: HFS, HFS+.</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Linux</format>: ReiserFS, XFS, Ext3FS, 
+JFS.</p>
+</li>
+<li>
+<p><format color = "BlueViolet">Databases</format>: ORACLE, DB2, 
+INGRES, SQL, PostgreSQL.</p>
+</li>
+</list>
+</li>
+</list>
+
+<procedure title = "Search in B-Tree">
+    <step>
+        <p>Start at root.</p>
+    </step>
+    <step>
+        <p>Find interval containing search key.</p>
+    </step>
+    <step>
+        <p>Follow associated link (recursively).</p>
+    </step>
+<img src = "../images_data/d10-3-2.png" alt = "Search in B-Tree"/>
+</procedure>
+
+<procedure title = "Insert in B-Tree">
+    <step>
+        <p>Search for new key.</p>
+    </step>
+    <step>
+        <p>Insert at bottom.</p>
+    </step>
+    <step>
+        <p>Split nodes with <math>M</math> key-link pairs on the way up
+        the tree.</p>
+    </step>
+<img src = "../images_data/d10-3-3.png" alt = "Insert in B-Tree"/>
+</procedure>
+
+### 10.4 AVL Trees
+
+<p>AVL trees maintain <format style = "bold">height-balance</format> 
+(also called the <format style = "bold">AVL Property</format>).</p>
+
+<list type = "alpha-lower">
+<li>
+<p><format color = "DarkOrange">Skew of a node:</format> The height of
+of its right subtree minus that of its left subtree.</p>
+
+<p>A node is height-blanced if <math>\text {skew} \in \{-1, 0, 1\}
+</math>.</p>
+
+<p><format color = "BlueViolet">Properties:</format> A binary tree 
+with height-balanced nodes has height <math>h = O(\log n)</math>.</p>
+
+<p>Proof: </p>
+
+<code-block lang = "tex" style = "inline">
+\begin{align}
+F(0) = 1, F(1) = 2, F(h) &= 1 + F(h - 1) + F(h - 2) \\
+&\geq 2F(h - 2) \\
+F(h) \geq 2 ^ {\frac {h}{2}}
+\end{align}
+</code-block>
+</li>
+<li>
+<p>Suppose adding or removing leaf from a height-balanced tree results
+in imbalance, skews still have magnitude <math>\leq 2</math>.</p>
+
+<p><format color = "Fuchsia">Case 1:</format> skew of F is 0 
+or <format color = "Fuchsia">Case 2:</format> skew of F is 1
+</p>
+<p>=> Perform a left rotation on B.</p>
+<img src = "../images_data/d10-4-1.png" alt = "Balancing AVL Trees"/>
+
+<p><format color = "Fuchsia">Case 3:</format> skew of F is −1
+</p>
+<p>Perform a right rotation on F, then a left rotation on B</p>
+<img src = "../images_data/d10-4-2.png" alt = "Balancing AVL Trees"/>
+</li>
+</list>
+
 ## 11 Geometric Applications of BSTs
 
 <p><format color = "BlueViolet">Topic</format>: Intersections among 
@@ -432,8 +1965,7 @@ rectangles.</p>
     <td><code>compareTo()</code></td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
-    "2-3-trees" summary="2-3 Tree">2-3 Tree</a></td>
+    <td><a anchor="2-3-trees" summary="2-3 Tree">2-3 Tree</a></td>
     <td><math>c \log N</math></td>
     <td><math>c \log N</math></td>
     <td><math>c \log N</math></td>
@@ -444,8 +1976,8 @@ rectangles.</p>
     <td><code>compareTo()</code></td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
-    "red-black-bsts" summary="Red-Black BST">Red-Black BST</a></td>
+    <td><a anchor="red-black-bsts" summary="Red-Black BST">
+    Red-Black BST</a></td>
     <td><math>2 \log N</math></td>
     <td><math>2 \log N</math></td>
     <td><math>2 \log N</math></td>
@@ -3514,12 +5046,13 @@ between <math>v</math> and <math>w</math></td><td><math>v</math> and
 </math></td></tr>
 <tr><td>Implementation</td><td>DFS</td><td>DFS & Reverse DFS</td></tr>
 <tr><td>Detail</td><td><img src = "../images_data/d15-5-1.png" 
-alt = "Connected Components"/></td><td><img src = 
-"../images_data/d15-5-2.png" alt = "Strongly-Connected Components"/>
+alt = "Connected Components"/></td>
+<td><img src="../images_data/d15-5-2.png" alt="Strongly-Connected 
+Components"/>
 </td></tr>
 </table>
 
-<procedure title = "Strongly-Connected Components">
+<procedure title="Strongly-Connected Components">
 <step>
 <p>Computer topological order (reverse postorder) in kernel DAG.</p>
 </step>
@@ -5015,1510 +6548,3 @@ quasars, galaxies.</p>
     </p>
 </li>
 </list>
-
-## 17 Shortest Paths
-
-### 17.1 Shortest Paths APIs
-
-<p><format color = "BlueViolet">Goal:</format> Given an edge-weighted
-digraph, find the shortest path from <math>s</math> to <math>t</math>
-.</p>
-
-<list type = "bullet">
-<li>
-<p>Navigation.</p>
-</li>
-<li>
-<p>PERT/CPM.</p>
-</li>
-<li>
-<p>Map routing.</p>
-</li>
-<li>
-<p>Seam carving.</p>
-</li>
-<li>
-<p>Robot navigation.</p>
-</li>
-<li>
-<p>Texture mapping.</p>
-</li>
-<li>
-<p>Typesetting in TeX.</p>
-</li>
-<li>
-<p>Urban traffic planning.</p>
-</li>
-<li>
-<p>Optimal pipelining of VLSI chip.</p>
-</li>
-<li>
-<p>Telemarketer operator scheduling.</p>
-</li>
-<li>
-<p>Routing of telecommunications messages.</p>
-</li>
-<li>
-<p>Network routing protocols (OSPF, BGP, RIP).</p>
-</li>
-<li>
-<p>Exploiting arbitrage opportunities in currency exchange.</p>
-</li>
-<li>
-<p>Optimal truck routing through given traffic congestion pattern.</p>
-</li>
-</list>
-
-<note>
-<p>Here are the implementations of Edge Weighted Digraphs.</p>
-</note>
-
-Java (DirectedEdge.java)
-
-```Java
-public class DirectedEdge { 
-    private final int v; 
-    private final int w; 
-    private final double weight;
-
-    public DirectedEdge(int v, int w, double weight) {
-        this.v = v;
-        this.w = w;
-        this.weight = weight;
-    }
-
-    public int from() {
-        return v;
-    }
-
-    public int to() {
-        return w;
-    }
-
-    public double weight() {
-        return weight;
-    }
-
-    @Override
-    public String toString() {
-        return v + "->" + w + " " + String.format("%5.2f", weight);
-    }
-}
-```
-
-Java (EdgeWeightedDigraph.java)
-
-```Java
-import java.util.ArrayList;
-import java.util.List;
-
-public class EdgeWeightedDigraph {
-    private final int V;
-    private final List<DirectedEdge>[] adj;
-
-    public EdgeWeightedDigraph(int V) {
-        this.V = V;
-        adj = (List<DirectedEdge>[]) new ArrayList[V];
-        for (int v = 0; v < V; v++)
-            adj[v] = new ArrayList<DirectedEdge>();
-    }
-
-    public void addEdge(int source, int destination, double weight) {
-        DirectedEdge e = new DirectedEdge(source, destination, weight);
-        adj[source].add(e);
-    }
-
-    public Iterable<DirectedEdge> adj(int v) {
-        return adj[v];
-    }
-
-    public int V() {
-        return V;
-    }
-
-    public int E() {
-        int count = 0;
-        for (int v = 0; v < V; v++)
-            count += adj[v].size();
-        return count;
-    }
-
-    public String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append(V).append(" vertices, ").append(E()).append(" edges ").append("\n");
-        for (int v = 0; v < V; v++) {
-            s.append(v).append(": ");
-            for (DirectedEdge e : adj[v]) {
-                s.append(e).append("  ");
-            }
-            s.append("\n");
-        }
-        return s.toString();
-    }
-}
-```
-
-C++ (DirectedEdge.h)
-
-```C++
-#ifndef DIRECTEDEDGE_H
-#define DIRECTEDEDGE_H
-
-#include <ostream>
-
-class DirectedEdge {
-private:
-    int v;
-    int w;
-    double weight;
-
-public:
-    explicit DirectedEdge(int v = -1, int w = -1, double weight = 0.0); // Default constructor added
-    [[nodiscard]] int from() const;
-    [[nodiscard]] int to() const;
-    [[nodiscard]] double getWeight() const;
-    friend std::ostream& operator<<(std::ostream& out, const DirectedEdge& e);
-};
-
-#endif // DIRECTEDEDGE_H
-```
-
-C++ (DirectedEdge.cpp)
-
-```C++
-#include "DirectedEdge.h"
-#include <iostream>
-
-DirectedEdge::DirectedEdge(const int v, const int w, const double weight)
-: v(v), w(w), weight(weight) {}
-
-int DirectedEdge::from() const {
-    return v;
-}
-
-int DirectedEdge::to() const {
-    return w;
-}
-
-double DirectedEdge::getWeight() const {
-    return weight;
-}
-
-std::ostream& operator<<(std::ostream& out, const DirectedEdge& e) {
-    out << e.v << "->" << e.w << " " << e.weight;
-    return out;
-}
-```
-
-C++ (EdgeWeightedDigraph.h)
-
-```C++
-#ifndef EDGEWEIGHTEDDIGRAPH_H
-#define EDGEWEIGHTEDDIGRAPH_H
-
-#include "DirectedEdge.h"
-#include <vector>
-#include <iostream>
-
-class EdgeWeightedDigraph {
-private:
-    int V;
-    std::vector<std::vector<DirectedEdge>> adj;
-
-public:
-    explicit EdgeWeightedDigraph(int V);
-    void addEdge(int source, int destination, double weight);
-    [[nodiscard]] std::vector<DirectedEdge> getAdj(int v) const;
-    [[nodiscard]] int getV() const;
-    [[nodiscard]] int getE() const;
-    friend std::ostream& operator<<(std::ostream& out, const EdgeWeightedDigraph& G);
-};
-
-#endif // EDGEWEIGHTEDDIGRAPH_H
-```
-
-C++ (EdgeWeightedDigraph.cpp)
-
-```C++
-#include "EdgeWeightedDigraph.h"
-
-EdgeWeightedDigraph::EdgeWeightedDigraph(const int V) : V(V), adj(V) {}
-
-void EdgeWeightedDigraph::addEdge(const int source, const int destination,
-    const double weight) {
-    const DirectedEdge e(source, destination, weight);
-    adj[source].push_back(e);
-}
-
-std::vector<DirectedEdge> EdgeWeightedDigraph::getAdj(const int v) const {
-    return adj[v];
-}
-
-int EdgeWeightedDigraph::getV() const {
-    return V;
-}
-
-int EdgeWeightedDigraph::getE() const {
-    std::size_t count = 0;
-    for (int v = 0; v < V; ++v) {
-        count += adj[v].size();
-    }
-    return static_cast<int>(count);
-}
-
-std::ostream& operator<<(std::ostream& out, const EdgeWeightedDigraph& G) {
-    out << G.V << " vertices, " << G.getE() << " edges\n";
-    for (int v = 0; v < G.V; ++v) {
-        out << v << ": ";
-        for (const auto& e : G.adj[v]) {
-            out << e << "  ";
-        }
-        out << "\n";
-    }
-    return out;
-}
-```
-
-Python (DirectedEdge.py)
-
-```Python
-class DirectedEdge:
-    def __init__(self, v, w, weight):
-        self.v = v
-        self.w = w
-        self.weight = weight
-
-    def from_vertex(self):
-        return self.v
-
-    def to_vertex(self):
-        return self.w
-
-    def get_weight(self):
-        return self.weight
-
-    def __str__(self):
-        return f"{self.v}->{self.w} ({self.weight})"
-```
-
-Python (EdgeWeightedDigraph.py)
-
-```Python
-from DirecteEdge import DirectedEdge
-
-
-class EdgeWeightedDigraph:
-    def __init__(self, V):
-        self.V = V
-        self.adj = [[] for _ in range(V)]
-
-    def add_edge(self, source, destination, weight):
-        e = DirectedEdge(source, destination, weight)
-        self.adj[source].append(e)
-
-    def get_adj(self, v):
-        return self.adj[v]
-
-    def get_V(self):
-        return self.V
-
-    def get_E(self):
-        count = 0
-        for v in range(self.V):
-            count += len(self.adj[v])
-        return count
-
-    def __str__(self):
-        s = f"{self.V} vertices, {self.get_E()} edges\n"
-        for v in range(self.V):
-            s += f"{v}: "
-            for e in self.adj[v]:
-                s += f"{e}  "
-            s += "\n"
-        return s
-```
-
-### 17.2 Shortest Path Properties
-
-<procedure title = "Edge Relaxation" type = "choices">
-    <step>
-        <p><code>distTo[v]</code> is length of shortest <format color 
-        = "OrangeRed">known</format> path from <math>s</math> to 
-        <math>v</math>.</p>
-    </step>
-    <step>
-        <p><code>distTo[w]</code> is length of shortest <format color 
-        = "OrangeRed">known</format> path from <math>s</math> to 
-        <math>w</math>.</p>
-    </step>
-    <step>
-        <p><code>edgeTo[w]</code> is last edge on shortest <format color 
-        = "OrangeRed">known</format> path from <math>s</math> to 
-        <math>w</math>.</p>
-    </step>
-    <step>
-        <p>If <math>e = v→w</math> gives shorter path to <math>w
-        </math> through <math>v</math>, update both <code>distTo[w]
-        </code> and <code>edgeTo[w]</code>.</p>
-    </step>
-</procedure>
-
-<img src = "../images_data/d17-2-1.png" alt = "Edge Relaxation"/>
-
-<p><format color = "BlueViolet">Correctness Proof:</format> 
-Shortest-paths optimality conditions</p>
-
-<p>Let <math>G</math> be an edge-weighted digraph.</p>
-<p>Then <code>distTo[]</code> are the shortest path distances from 
-<math>s</math> iff:</p>
-
-<list>
-<li>
-<p>distTo[s] = 0.</p>
-</li>
-<li>
-<p>For each vertex v, distTo[v] is the length of some path from 
-<math>s</math> to <math>v</math>.</p>
-</li>
-<li>
-<p>For each edge <math>e = v→w</math>, 
-distTo[w] &leq; distTo[v] + e.weight().</p>
-</li>
-</list>
-
-<p><format color = "IndianRed">Proof:</format> </p>
-
-<list type = "bullet">
-<li>
-<p>Suppose that <math>s = v_{0} → v_{1} → v_{2} → … → v_{k} = w</math> 
-is a shortest path from <math>s</math> to <math>w</math>.</p>
-</li>
-<li>
-<p>Then, </p>
-<code-block lang = "tex">
-\begin{align*}
-\text{distTo}[v_{1}] & = \text{distTo}[v_{0}] + \text{e}_{1}.\text{weight}() \\
-\text{distTo}[v_{2}] & = \text{distTo}[v_{2}] + \text{e}_{2}.\text{weight}() \\
-... \\
-\text{distTo}[v_{k}] & = \text{distTo}[v_{k - 1}] + \text{e}_{k}.\text{weight}() \\
-\end{align*}
-</code-block>
-<p><math>\text{e}_{i}</math> = <math>\text{i}^{\text{th}}</math> edge
-on shortest path from <math>s</math> to <math>w</math>.</p>
-</li>
-<li>
-<p>Add inequalities; simplify; and substitute 
-<math>\text{distTo}[v_{0}] = \text{distTo}[s] = 0</math></p>
-<code-block lang = "tex">
-\text{distTo}[w] = \text{distTo}[v_{k}] \leq \text{e}_{1}.\text{weight}()
-+ \text{e}_{2}.\text{weight}() + ... + \text{e}_{k}.\text{weight}()
-</code-block>
-<p><math>\text{e}_{1}.\text{weight}() + \text{e}_{2}.\text{weight}() 
-+ ... + \text{e}_{k}.\text{weight}()</math> is the weight of shortest 
-path from <math>s</math> to <math>w</math>.</p>
-</li>
-<li>
-<p>Thus, <code>distTo[w]</code> is the weight of shortest path to 
-<math>w</math>.</p>
-</li>
-</list>
-
-<p><format color = "BlueViolet">Different Implementations:</format> 
-</p>
-
-<list type = "bullet">
-<li>
-    <p>Dijkstra's algorithm (nonnegative weights).</p>
-</li>
-<li>
-    <p>Topological sort algorithm (no directed cycles).</p>
-</li>
-<li>
-    <p>Bellman-Ford algorithm (no negative cycles).</p>
-</li>
-</list>
-
-### 17.3 Dijkstra's Algorithm
-
-<procedure title = "Dijkstra's Algorithm">
-<step>
-    <p>Consider vertices in increasing order of distance from s.</p>
-    <p>(non-tree vertex with the lowest <code>distTo[]</code> value)
-    </p>
-</step>
-<step>
-    <p>Add vertex to tree and relaw all edges pointing from that vertex.
-    </p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Correctness Proof:</format> Dijkstra's 
-algorithm computes a SPT in any edge-weighted digraph with 
-<format color = "OrangeRed">nonnegative</format> weights.</p>
-
-<list type = "bullet">
-<li>
-    <p>Each edge <math>e = v→w</math> is relaxed exactly once 
-    (when v is relaxed), leaving 
-    <math>\text{distTo}[w] ≤ \text{distTo}[v] + \text{e.weight()}</math>.</p>
-</li>
-<li>
-    <p>Inequality holds until algorithm terminates because: </p>
-    <list type = "bullet">
-    <li>
-        <p><code>distTo[w]</code> cannot increase => <code>distTo[]
-        </code> values are monotone decreasing.</p>
-    </li>
-    <li>
-        <p><code>distTo[v]</code> will not change => we choose lowest
-        <code>distTo[]</code> value at each step and edge weights are
-        nonnegative)</p>
-    </li>
-    </list>
-</li>
-<li>
-    <p>Thus, upon termination, shortest-paths optimality conditions 
-    hold.</p>
-</li>
-</list>
-
-<p><format color = "BlueViolet">Prim’s algorithm is essentially the 
-same algorithm as Dijkstra’s algorithm</format></p>
-
-<list type = "bullet">
-<li>
-    <p>Both are in a family of algorithms that compute a graph's 
-    spanning tree.</p>
-</li>
-<li>
-    <p><format color = "Fuchsia">Prim's</format>: Closest vertex to 
-    the <format color = "OrangeRed">tree</format> (via an undirected 
-    edge).</p>
-</li>
-<li>
-    <p><format color = "Fuchsia">Dijkstra's</format>: Closest vertex 
-    to the <format color = "OrangeRed">source</format> (via a 
-    directed path).</p>
-</li>
-</list>
-
-<note>
-<p>DFS and BFS are also in this family of algorithms.</p>
-</note>
-
-Java
-
-```Java
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
-
-public class Dijkstra {
-
-    private final double[] distTo; 
-    private final DirectedEdge[] edgeTo; 
-    private final boolean[] marked; 
-    private final PriorityQueue<Integer> pq;
-
-    public Dijkstra(EdgeWeightedDigraph G, int s) {
-        distTo = new double[G.V()];
-        edgeTo = new DirectedEdge[G.V()];
-        marked = new boolean[G.V()];
-        for (int v = 0; v < G.V(); v++)
-            distTo[v] = Double.POSITIVE_INFINITY;
-        distTo[s] = 0.0;
-        pq = new PriorityQueue<>(Comparator.comparingDouble(v -> distTo[v]));
-        pq.offer(s);
-        while (!pq.isEmpty()) {
-            int v = pq.poll();
-            marked[v] = true;
-            for (DirectedEdge e : G.adj(v)) {
-                relax(e);
-            }
-        }
-    }
-
-    private void relax(DirectedEdge e) {
-        int v = e.from();
-        int w = e.to();
-        if (distTo[w] > distTo[v] + e.weight()) {
-            distTo[w] = distTo[v] + e.weight();
-            edgeTo[w] = e;
-            if (!marked[w]) {
-                pq.offer(w);
-            }
-        }
-    }
-
-    public double distTo(int v) {
-        return distTo[v];
-    }
-
-    public boolean hasPathTo(int v) {
-        return distTo[v] < Double.POSITIVE_INFINITY;
-    }
-
-    public Iterable<DirectedEdge> pathTo(int v) {
-        if (!hasPathTo(v)) return null;
-        List<DirectedEdge> path = new ArrayList<>();
-        for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
-            path.add(e);
-        }
-        return path;
-    }
-}
-```
-
-C++ (Dijkstra.h)
-
-```C++
-#ifndef DIJKSTRA_H
-#define DIJKSTRA_H
-
-#include "EdgeWeightedDigraph.h"
-#include <vector>
-#include <queue>
-
-class Dijkstra {
-private:
-    std::vector<double> distTo;
-    std::vector<DirectedEdge> edgeTo;
-    std::vector<bool> marked;
-    std::priority_queue<std::pair<double, int>, std::vector<std::pair<double, int>>,
-                        std::greater<>> pq; // Min-heap
-
-    void relax(const DirectedEdge& e);
-
-public:
-    explicit Dijkstra(const EdgeWeightedDigraph& G, int s);
-
-    [[nodiscard]] double getdistTo(int v) const;
-    [[nodiscard]] bool hasPathTo(int v) const;
-    [[nodiscard]] std::vector<DirectedEdge> pathTo(int v) const;
-};
-
-#endif // DIJKSTRA_H
-```
-
-C++ (Dijkstra.cpp)
-
-```C++
-#include "dijkstra.h"
-#include <limits>
-
-Dijkstra::Dijkstra(const EdgeWeightedDigraph& G, int s) :
-    distTo(G.getV(), std::numeric_limits<double>::infinity()),
-    edgeTo(G.getV(), DirectedEdge()),
-    marked(G.getV(), false)
-{
-    distTo[s] = 0.0;
-    pq.emplace(0.0, s);
-
-    while (!pq.empty()) {
-        int v = pq.top().second;
-        pq.pop();
-
-        if (marked[v]) continue; // Already processed
-
-        marked[v] = true;
-        for (const auto& e : G.getAdj(v)) {
-            relax(e);
-        }
-    }
-}
-
-void Dijkstra::relax(const DirectedEdge& e) {
-    int v = e.from();
-    int w = e.to();
-    if (distTo[w] > distTo[v] + e.getWeight()) {
-        distTo[w] = distTo[v] + e.getWeight();
-        edgeTo[w] = e;
-        pq.emplace(distTo[w], w);
-    }
-}
-
-double Dijkstra::getdistTo(int v) const {
-    return distTo[v];
-}
-
-bool Dijkstra::hasPathTo(int v) const {
-    return distTo[v] < std::numeric_limits<double>::infinity();
-}
-
-std::vector<DirectedEdge> Dijkstra::pathTo(int v) const {
-    if (!hasPathTo(v)) return {};
-    std::vector<DirectedEdge> path;
-    for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
-        path.push_back(e);
-    }
-    return path;
-}
-```
-
-Python
-
-```Python
-from EdgeWeightedDigraph import EdgeWeightedDigraph
-import heapq
-
-
-class Dijkstra:
-    def __init__(self, G, s):
-        self.distTo = [float('inf')] * G.get_V()
-        self.edgeTo = [None] * G.get_V()
-        self.marked = [False] * G.get_V()
-        self.pq = []  # Priority queue (min-heap)
-
-        self.distTo[s] = 0.0
-        heapq.heappush(self.pq, (0.0, s))
-
-        while self.pq:
-            _, v = heapq.heappop(self.pq)
-
-            if self.marked[v]:
-                continue
-
-            self.marked[v] = True
-            for e in G.get_adj(v):
-                self.relax(e)
-
-    def relax(self, e):
-        v = e.from_vertex()
-        w = e.to_vertex()
-        if self.distTo[w] > self.distTo[v] + e.get_weight():
-            self.distTo[w] = self.distTo[v] + e.get_weight()
-            self.edgeTo[w] = e
-            heapq.heappush(self.pq, (self.distTo[w], w))
-
-    def dist_to(self, v):
-        return self.distTo[v]
-
-    def has_path_to(self, v):
-        return self.distTo[v] < float('inf')
-
-    def path_to(self, v):
-        if not self.has_path_to(v):
-            return None
-        path = []
-        # Correct the for loop syntax
-        for e in reversed(self.edgeTo[v:v + 1]):  # Reverse the path
-            if e is not None:
-                path.append(e)
-        return path
-```
-
-<p><format color = "BlueViolet">Property:</format> </p>
-
-<p>Running time depends on PQ implementation: <math>V</math> insert, 
-<math>V</math> delete-min, <math>E</math> decrease-key.</p>
-
-<table style = "header-row">
-<tr><td>PQ Implementation</td><td>Insert</td><td>Delete-Min</td><td>
-Decrease-Key</td><td>Total</td></tr>
-<tr><td>Array</td><td><math>1</math></td><td><math>V</math></td><td>
-<math>1</math></td><td><math>V ^ {2}</math></td></tr>
-<tr><td>Binary Heap</td><td><math>\log V</math></td><td><math>\log V
-</math></td><td><math>\log V</math></td><td><math>E \log V</math>
-</td></tr>
-<tr><td><p>d-way Heap</p><p>(Johnson 1975)</p></td><td><math>
-\log_{d} V</math></td><td><math>d \log_{d} V</math></td><td><math>
-\log_{d} V</math></td><td><math>E \log_{\frac {E}{V}} V</math></td>
-</tr>
-<tr><td><p>Fibonacci Heap</p><p>(Fredman-Tarjan 1984)</p></td>
-<td><math>1^{*}</math></td><td><math>\log V ^ {*}</math></td>
-<td><math>1^{*}</math></td><td><math>E + \log V</math></td></tr>
-</table>
-
-<p>*: amortized</p>
-
-<p><format color = "BlueViolet">Bottom Line:</format> </p>
-
-<list type = "bullet">
-<li>
-    <p>Array implementation optimal for dense graph.</p>
-</li>
-<li>
-    <p>Binary heap much faster for sparse graphs.</p>
-</li>
-<li>
-    <p>4-way heap worth the trouble in performance-critical 
-    situations.</p>
-</li>
-<li>
-    <p>Fibonacci heap best in theory, but not worth implementing.</p>
-</li>
-</list>
-
-### 17.4 Edge-Weighted DAGs
-
-<procedure title = "Topological Sort Algorithm for Shortest Path">
-    <step>Consider all vertices in topological order.</step>
-    <step>Relax all edges pointing from that vertex.</step>
-</procedure>
-
-<format color = "BlueViolet">Property:</format> Topological sort 
-algorithm computes SPT in any edgeweighted DAG in time proportional 
-to <math>E + V</math>.
-
-<list type = "bullet">
-<li>
-    <p>Each edge <math>e = v→w</math> is relaxed exactly once 
-    (when v is relaxed), leaving 
-    <math>\text{distTo}[w] ≤ \text{distTo}[v] + \text{e.weight()}</math>.</p>
-</li>
-<li>
-    <p>Inequality holds until algorithm terminates because: </p>
-    <list type = "bullet">
-    <li>
-        <p><code>distTo[w]</code> cannot increase => <code>distTo[]
-        </code> values are monotone decreasing.</p>
-    </li>
-    <li>
-        <p><code>distTo[v]</code> will not change => we choose lowest
-        <code>distTo[]</code> value at each step and edge weights are
-        nonnegative)</p>
-    </li>
-    </list>
-</li>
-<li>
-    <p>Thus, upon termination, shortest-paths optimality conditions 
-    hold.</p>
-</li>
-</list>
-
-<p><format color = "BlueViolet">Longest paths in edge-weighted DAGs:
-</format> </p>
-
-<p>Formulate as a shortest paths problem in edge-weighted DAGs.</p>
-
-<list type = "bullet">
-<li>
-    <p>Negate all weights.</p>
-</li>
-<li>
-    <p>Find shortest paths.</p>
-</li>
-<li>
-    <p>Negate weights in result.</p>
-</li>
-</list>
-
-<note>
-<p>Topological sort algorithm works even with negative weights.</p>
-</note>
-
-Java
-
-```Java
-import java.util.*;
-
-public class ShortestPathTopological {
-
-    private final EdgeWeightedDigraph graph;
-    private final int source;
-    private final double[] distTo;
-    private final DirectedEdge[] edgeTo;
-
-    public ShortestPathTopological(EdgeWeightedDigraph graph, int source) {
-        this.graph = graph;
-        this.source = source;
-        distTo = new double[graph.V()];
-        edgeTo = new DirectedEdge[graph.V()];
-
-        for (int v = 0; v < graph.V(); v++) {
-            distTo[v] = Double.POSITIVE_INFINITY;
-        }
-        distTo[source] = 0.0;
-
-        TopologicalSort topologicalSort = new TopologicalSort();
-        List<Integer> sorted = topologicalSort.sort(graph);
-
-        for (int v : sorted) {
-            relax(v);
-        }
-    }
-
-    private void relax(int v) {
-        for (DirectedEdge edge : graph.adj(v)) {
-            int w = edge.to();
-            if (distTo[w] > distTo[v] + edge.weight()) {
-                distTo[w] = distTo[v] + edge.weight();
-                edgeTo[w] = edge;
-            }
-        }
-    }
-
-    public double distTo(int v) {
-        return distTo[v];
-    }
-
-    public boolean hasPathTo(int v) {
-        return distTo[v] < Double.POSITIVE_INFINITY;
-    }
-
-    public Iterable<DirectedEdge> pathTo(int v) {
-        if (!hasPathTo(v)) return null;
-        List<DirectedEdge> path = new ArrayList<>();
-        for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
-            path.addFirst(e); 
-        }
-        return path;
-    }
-
-    private static class TopologicalSort {
-        public List<Integer> sort(EdgeWeightedDigraph graph) {
-            int V = graph.V();
-            List<Integer> sorted = new ArrayList<>();
-            int[] inDegree = new int[V];
-            Queue<Integer> queue = new LinkedList<>();
-
-            for (int v = 0; v < V; v++) {
-                for (DirectedEdge edge : graph.adj(v)) {
-                    inDegree[edge.to()]++;
-                }
-            }
-
-            for (int v = 0; v < V; v++) {
-                if (inDegree[v] == 0) {
-                    queue.offer(v);
-                }
-            }
-
-            while (!queue.isEmpty()) {
-                int u = queue.poll();
-                sorted.add(u);
-
-                for (DirectedEdge edge : graph.adj(u)) {
-                    int v = edge.to();
-                    inDegree[v]--;
-                    if (inDegree[v] == 0) {
-                        queue.offer(v);
-                    }
-                }
-            }
-
-            if (sorted.size() != V) {
-                throw new IllegalArgumentException("Graph contains a cycle.");
-            }
-
-            return sorted;
-        }
-    }
-}
-```
-
-C++ (ShortestPathTopological.h)
-
-```C++
-#ifndef SHORTESTPATHTOPOLOGICAL_H
-#define SHORTESTPATHTOPOLOGICAL_H
-
-#include "EdgeWeightedDigraph.h"
-#include <vector>
-
-class ShortestPathTopological {
-private:
-    const EdgeWeightedDigraph& graph;
-    int source;
-    std::vector<double> distTo;
-    std::vector<DirectedEdge> edgeTo;
-
-    class TopologicalSort {
-    public:
-        explicit TopologicalSort(const EdgeWeightedDigraph& graph);
-        [[nodiscard]] std::vector<int> sort() const;
-    private:
-        const EdgeWeightedDigraph& graph;
-    };
-
-    void relax(int v);
-
-public:
-    explicit ShortestPathTopological(const EdgeWeightedDigraph& graph, int source);
-
-    [[nodiscard]] double getdistTo(int v) const; // Declaration marked const
-
-    [[nodiscard]] bool hasPathTo(int v) const; // Declaration marked const
-
-    [[nodiscard]] std::vector<DirectedEdge> pathTo(int v) const; // Declaration marked const
-};
-
-#endif // SHORTESTPATHTOPOLOGICAL_H
-```
-
-C++ (ShortestPathTopological.cpp)
-
-```C++
-#include "ShortestPathTopological.h"
-
-#include <algorithm>
-#include <iostream>
-#include <queue>
-#include <limits>
-
-ShortestPathTopological::ShortestPathTopological(const EdgeWeightedDigraph &graph, int source)
-    : graph(graph), source(source), distTo(graph.getV(), std::numeric_limits<double>::infinity()),
-      edgeTo(graph.getV()) {
-    distTo[source] = 0.0;
-
-    TopologicalSort topologicalSort(graph);
-    std::vector<int> sorted = topologicalSort.sort();
-
-    for (int v : sorted) {
-        relax(v);
-    }
-}
-
-void ShortestPathTopological::relax(const int v) {
-    for (const DirectedEdge& edge : graph.getAdj(v)) {
-        int w = edge.to();
-        if (distTo[w] > distTo[v] + edge.getWeight()) {
-            distTo[w] = distTo[v] + edge.getWeight();
-            edgeTo[w] = edge;
-        }
-    }
-}
-
-double ShortestPathTopological::getdistTo(const int v) const {
-    return distTo[v];
-}
-
-bool ShortestPathTopological::hasPathTo(const int v) const {
-    return distTo[v] < std::numeric_limits<double>::infinity();
-}
-
-std::vector<DirectedEdge> ShortestPathTopological::pathTo(const int v) const {
-    std::vector<DirectedEdge> path;
-    if (!hasPathTo(v)) {
-        return path;
-    }
-
-    for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
-        path.push_back(e);
-    }
-    std::ranges::reverse(path);
-    return path;
-}
-
-ShortestPathTopological::TopologicalSort::TopologicalSort(const EdgeWeightedDigraph &graph) : graph(graph) {}
-
-std::vector<int> ShortestPathTopological::TopologicalSort::sort() const {
-    const int V = graph.getV();
-    std::vector<int> sorted;
-    std::vector<int> inDegree(V, 0);
-    std::queue<int> queue;
-
-    for (int v = 0; v < V; ++v) {
-        for (const DirectedEdge& e : graph.getAdj(v)) {
-            inDegree[e.to()]++;
-        }
-    }
-
-    for (int v = 0; v < V; ++v) {
-        if (inDegree[v] == 0) {
-            queue.push(v);
-        }
-    }
-
-    while (!queue.empty()) {
-        int u = queue.front();
-        queue.pop();
-        sorted.push_back(u);
-
-        for (const DirectedEdge& e : graph.getAdj(u)) {
-            int w = e.to();
-            if (--inDegree[w] == 0) {
-                queue.push(w);
-            }
-        }
-    }
-
-    if (sorted.size() != static_cast<size_t>(V)) {
-        throw std::runtime_error("Graph contains a cycle!");
-    }
-    return sorted;
-}
-```
-
-Python
-
-```Python
-from collections import deque
-from typing import List, Optional
-
-from DirectedEdge import DirectedEdge
-from EdgeWeightedDigraph import EdgeWeightedDigraph
-
-
-class ShortestPathTopological:
-    def __init__(self, graph: EdgeWeightedDigraph, source: int):
-        self.graph = graph
-        self.source = source
-        self.dist_to = [float('inf')] * graph.get_V()
-        self.edge_to: List[Optional[DirectedEdge]] = [None] * graph.get_V()
-        self.dist_to[source] = 0.0
-
-        topological_order = self._topological_sort()
-        for v in topological_order:
-            self._relax(v)
-
-    def _relax(self, v: int):
-        for edge in self.graph.get_adj(v):
-            w = edge.to_vertex()
-            if self.dist_to[w] > self.dist_to[v] + edge.get_weight():
-                self.dist_to[w] = self.dist_to[v] + edge.get_weight()
-                self.edge_to[w] = edge
-
-    def get_dist_to(self, v: int) -> float:
-        return self.dist_to[v]
-
-    def has_path_to(self, v: int) -> bool:
-        return self.dist_to[v] < float('inf')
-
-    def path_to(self, v: int) -> Optional[List[str]]:
-        if not self.has_path_to(v):
-            return None
-        path: List[DirectedEdge] = []
-        e = self.edge_to[v]
-        while e is not None:
-            path.append(e)
-            e = self.edge_to[e.from_vertex()]
-        return [str(edge) for edge in path[::-1]]
-
-    def _topological_sort(self) -> List[int]:
-        V = self.graph.get_V()
-        in_degree = [0] * V
-        for v in range(V):
-            for edge in self.graph.get_adj(v):
-                in_degree[edge.to_vertex()] += 1
-
-        queue = deque([v for v in range(V) if in_degree[v] == 0])
-        sorted_order = []
-        while queue:
-            u = queue.popleft()
-            sorted_order.append(u)
-            for edge in self.graph.get_adj(u):
-                v = edge.to_vertex()
-                in_degree[v] -= 1
-                if in_degree[v] == 0:
-                    queue.append(v)
-
-        if len(sorted_order) != V:
-            raise ValueError("Graph contains a cycle.")
-
-        return sorted_order
-```
-
-<p><format color = "BlueViolet">Application &#8544; - Content-Aware 
-Resizing</format></p>
-
-<p><format color = "DarkOrange">Seam Carving:</format> Resize an image 
-without distortion for display on cell phones and web browsers.</p>
-
-<list type = "bullet">
-<li>
-    <p>Grid DAG: vertex = pixel; edge = from pixel to 3 downward 
-    neighbors.</p>
-</li>
-<li>
-    <p>Weight of pixel = energy function of 8 neighboring pixels.
-    </p>
-</li>
-<li>
-    <p>Seam = shortest path (sum of vertex weights) from top to 
-    bottom.</p>
-</li>
-</list>
-
-<img src = "../images_data/d17-4-1.png" alt = "Seam Carving"/>
-
-<p><format color = "BlueViolet">Application &#8545; - Parallel Job 
-Scheduling</format></p>
-
-<p><format color = "DarkOrange">Parallel Job Scheduling:</format> 
-Given a set of jobs with durations and precedence constraints, 
-schedule the jobs (by finding a start time for each) so as to achieve
-the minimum completion time, while respecting the constraints.</p>
-
-<p>To solve a parallel job-scheduling problem, create edge-weighted 
-DAG, use <format color = "OrangeRed">longest path</format> from the 
-source to schedule each job:</p>
-
-<list>
-<li>
-<p>Source and sink vertices.</p>
-</li>
-<li>
-<p>Two vertices (begin and end) for each job.</p>
-</li>
-<li>
-<p>Three edges for each job.</p>
-    <list>
-    <li>
-    <p>begin to end (weighted by duration)</p>
-    </li>
-    <li>
-    <p>source to begin (0 weight)</p>
-    </li>
-    <li>
-    <p>end to sink (0 weight)</p>
-    </li>
-    </list>
-</li>
-<li>One edge for each precedence constraint (0 weight).</li>
-</list>
-
-<img src = "../images_data/d17-4-2.png" alt = "Parallel Job Scheduling"
-/>
-
-<img src = "../images_data/d17-4-3.png" alt = "Parallel Job Scheduling"
-/>
-
-### 17.5 Negative Weights
-
-<p><format color = "DarkOrange">Negative Cycle:</format> A <format 
-color = "OrangeRed">negative cycle</format> is a directed cycle whose
-sum of edge weights is negative.</p>
-
-<note>
-<p>Assuming all vertices reachable from s, a SPT exists iff no 
-negative cycles.</p>
-</note>
-
-<procedure title = "Bellman-Ford Algorithm">
-<step>
-    <p>Initialize distTo[s] = 0 and distTo[v] = &infin; for all 
-    other vertices.</p>
-</step>
-<step>
-    <p>Repeat V times, relax each edge.</p>
-</step>
-</procedure>
-
-<p><format color = "BlueViolet">Practical Improvement:</format> If 
-distTo[v] does not change during pass <math>i</math>, no need to 
-relax any edge pointing from v in pass <math>i+1</math> => 
-maintain <format color = "OrangeRed">queue</format> of vertices 
-whose distTo[] changed.</p>
-
-<table style = "header-row">
-<tr><td>Algorithm</td><td>Restriction</td><td>Typical Case</td>
-<td>Worst Case</td><td>Extra Space</td></tr>
-<tr><td><format style = "bold">Topological Sort</format></td>
-<td>No Directed Cycles</td><td><math>E + V</math></td>
-<td><math>E + V</math></td><td><math>V</math>
-</td></tr>
-<tr><td><format style = "bold"><p>Dijkstra</p><p>(Binary Heap)</p>
-</format></td><td>No Negative Weights</td><td><math>E \log V</math>
-</td><td><math>E \log V</math></td><td><math>V</math></td></tr>
-<tr><td><format style = "bold">Bellman-Ford</format></td><td 
-rowspan="2">No Negative Cycles</td><td><math>EV</math></td><td>
-<math>EV</math></td><td><math>V</math></td></tr>
-<tr><td><format style = "bold"><p>Bellman-Ford</p><p>(queue-based)</p>
-</format></td><td><math>E + V</math></td><td><math>EV</math></td>
-<td><math>V</math></td></tr></table>
-
-<warning>
-<list type = "alpha-lower">
-<li>
-<p>Directed cycles make the problem harder.</p>
-</li>
-<li>
-<p>Negative weights make the problem harder.</p>
-</li>
-<li>
-<p>Negative cycles makes the problem intractable.</p>
-</li>
-</list>
-</warning>
-
-<p>Java</p>
-
-```Java
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
-public class BellmanFordSP {
-    private final double[] distTo;
-    private final DirectedEdge[] edgeTo;
-    private final boolean[] onQueue;
-    private final int[] cost;
-    private final int s;
-    private boolean hasNegativeCycle;
-
-    private final Queue<Integer> q;
-
-    public BellmanFordSP(EdgeWeightedDigraph G, int s) {
-        this.s = s;
-        distTo = new double[G.V()];
-        edgeTo = new DirectedEdge[G.V()];
-        onQueue = new boolean[G.V()];
-        cost = new int[G.V()];
-        for (int v = 0; v < G.V(); v++)
-            distTo[v] = Double.POSITIVE_INFINITY;
-        distTo[s] = 0.0;
-
-        q = new LinkedList<>();
-        q.add(s);
-        onQueue[s] = true;
-
-        while (!q.isEmpty()) {
-            int v = q.remove();
-            onQueue[v] = false;
-            relax(G, v);
-        }
-    }
-
-    private void relax(EdgeWeightedDigraph G, int v) {
-        for (DirectedEdge e : G.adj(v)) {
-            int w = e.to();
-            if (distTo[w] > distTo[v] + e.weight()) {
-                distTo[w] = distTo[v] + e.weight();
-                edgeTo[w] = e;
-                cost[w]++;
-
-                if (!onQueue[w]) {
-                    q.add(w);
-                    onQueue[w] = true;
-                }
-
-                if (cost[w] >= G.V()) {
-                    hasNegativeCycle = true;
-                    return;
-                }
-            }
-        }
-    }
-
-    public double distTo(int v) {
-        return distTo[v];
-    }
-
-    public boolean hasPathTo(int v) {
-        return distTo[v] < Double.POSITIVE_INFINITY;
-    }
-
-    public Iterable<DirectedEdge> pathTo(int v) {
-        if (!hasPathTo(v)) return null;
-        List<DirectedEdge> path = new ArrayList<>();
-        for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
-            path.add(e);
-        }
-        return path;
-    }
-
-    public boolean hasNegativeCycle() {
-        return hasNegativeCycle;
-    }
-}
-```
-
-<p>C++ (BellmanFordSP.h)</p>
-
-```C++
-#ifndef BELLMANFORDSP_H
-#define BELLMANFORDSP_H
-
-#include "EdgeWeightedDigraph.h"
-#include <vector>
-#include <queue>
-
-class BellmanFordSP {
-private:
-    std::vector<double> distTo;  // distTo[v] = distance of shortest s->v path
-    std::vector<DirectedEdge> edgeTo; // edgeTo[v] = last edge on shortest s->v path
-    std::vector<bool> onQueue;  // onQueue[v] = is v on the queue?
-    std::vector<int> cost;     // cost[v] = number of relaxations performed on v
-    int s;                    // source vertex
-    bool hasNegativeCycle;     // flag to detect negative cycle
-
-    std::queue<int> q;
-
-public:
-    BellmanFordSP(const EdgeWeightedDigraph& G, int s);
-    [[nodiscard]] double getdistTo(int v) const;
-    [[nodiscard]] bool hasPathTo(int v) const;
-    [[nodiscard]] std::vector<DirectedEdge> pathTo(int v) const;
-    [[nodiscard]] bool NegativeCycle() const;
-
-private:
-    void relax(const EdgeWeightedDigraph& G, int v);
-};
-
-#endif // BELLMANFORDSP_H
-```
-
-<p>C++ (BellmanFordSP.cpp)</p>
-
-```C++
-#include "BellmanFordSP.h"
-#include <limits>
-
-BellmanFordSP::BellmanFordSP(const EdgeWeightedDigraph& G, const int s) :
-    distTo(G.getV(), std::numeric_limits<double>::infinity()),
-    edgeTo(G.getV(), DirectedEdge(-1, -1, 0.0)),
-    onQueue(G.getV(), false),
-    cost(G.getV(), 0),
-    s(s),
-    hasNegativeCycle(false) {
-
-    distTo[s] = 0.0;
-    q.push(s);
-    onQueue[s] = true;
-
-    while (!q.empty()) {
-        int v = q.front();
-        q.pop();
-        onQueue[v] = false;
-        relax(G, v);
-    }
-}
-
-double BellmanFordSP::getdistTo(const int v) const {
-    return distTo[v];
-}
-
-bool BellmanFordSP::hasPathTo(const int v) const {
-    return distTo[v] < std::numeric_limits<double>::infinity();
-}
-
-std::vector<DirectedEdge> BellmanFordSP::pathTo(const int v) const {
-    if (!hasPathTo(v)) {
-        return {};
-    }
-    std::vector<DirectedEdge> path;
-    for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
-        path.push_back(e);
-    }
-    return path;
-}
-
-bool BellmanFordSP::NegativeCycle() const {
-    return hasNegativeCycle;
-}
-
-void BellmanFordSP::relax(const EdgeWeightedDigraph& G, const int v) {
-    for (const DirectedEdge& e : G.getAdj(v)) {
-        int w = e.to();
-        if (distTo[w] > distTo[v] + e.getWeight()) {
-            distTo[w] = distTo[v] + e.getWeight();
-            edgeTo[w] = e;
-            cost[w]++;
-
-            if (!onQueue[w]) {
-                q.push(w);
-                onQueue[w] = true;
-            }
-
-            if (cost[w] >= G.getV()) {
-                hasNegativeCycle = true;
-                return;
-            }
-        }
-    }
-}
-```
-
-<p>Python</p>
-
-```Python
-from EdgeWeightedDigraph import EdgeWeightedDigraph
-
-class BellmanFordSP:
-    def __init__(self, G, s):
-        self.distTo = [float("inf") for _ in range(G.get_V())]
-        self.edgeTo = [None for _ in range(G.get_V())]
-        self.onQueue = [False for _ in range(G.get_V())]
-        self.cost = [0 for _ in range(G.get_V())]
-        self.s = s
-        self.hasNegativeCycle = False
-
-        self.distTo[s] = 0.0
-        self.q = [s]
-        self.onQueue[s] = True
-
-        while self.q:
-            v = self.q.pop(0)
-            self.onQueue[v] = False
-            self.relax(G, v)
-
-    def distTo(self, v):
-        return self.distTo[v]
-
-    def hasPathTo(self, v):
-        return self.distTo[v] != float("inf")
-
-    def pathTo(self, v):
-        if not self.hasPathTo(v):
-            return None
-        path = []
-        e = self.edgeTo[v]
-        while e is not None:
-            path.append(e)
-            e = self.edgeTo[e.from_vertex()]
-        return path
-
-    def hasNegativeCycle(self):
-        return self.hasNegativeCycle
-
-    def relax(self, G, v):
-        for e in G.get_adj(v):
-            w = e.to_vertex()
-            if self.distTo[w] > self.distTo[v] + e.get_weight():
-                self.distTo[w] = self.distTo[v] + e.get_weight()
-                self.edgeTo[w] = e
-                self.cost[w] += 1
-
-                if not self.onQueue[w]:
-                    self.q.append(w)
-                    self.onQueue[w] = True
-
-                if self.cost[w] >= G.get_V():
-                    self.hasNegativeCycle = True
-                    return
-```
-
-<p><format color = "BlueViolet">Find A Negative Cycle:</format> </p>
-
-<p>If there is a negative cycle, Bellman-Ford gets stuck in loop,
-updating distTo[] and edgeTo[] entries of vertices in the cycle.</p>
-
-<p>If any vertex v is updated in phase V, there exists a negative
-cycle (and can trace back edgeTo[v] entries to find it).</p>
-
-<p><format color = "BlueViolet">Application - Arbitrage Detection
-</format></p>
-
-<p>Currency exchange graph.</p>
-
-<list>
-<li>
-<p>Vertex = currency.</p>
-</li>
-<li>
-<p>Edge = transaction, with weight equal to exchange rate.</p>
-</li>
-<li>
-<p>Find a directed cycle whose product of edge weights is &gt; 1.</p>
-</li>
-</list>
-
-<img src = "../images_data/d17-5-1.png" alt = "Arbitrage Detection"/>
-
-<procedure title = "">
-<step>
-    <p>Let weight of edge <math>v→w</math> be <math>- ln</math> 
-    (exchange rate from currency <math>v</math> to <math>w</math>).</p>
-</step>
-<step>
-    <p>Multiplication turns to addition; <math>\gt 1</math> turns to 
-    <math>\lt 0.</math></p>
-</step>
-<step>
-    <p>Find a directed cycle whose sum of edge weights is <math>\lt 0
-    </math> (negative cycle).</p>
-</step>
-</procedure>

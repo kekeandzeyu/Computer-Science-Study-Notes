@@ -4750,186 +4750,322 @@ smaller than one (or both) of its children's">
 </step>
 </procedure>
 
-Java
-
-```Java
-public class MaxPQ<Key extends Comparable<Key>> {
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Comparator;
+import java.util.NoSuchElementException;
+\/
+public class MaxPQ&lt;Key&gt; {
     private Key[] pq;
     private int n;
-
-    public MaxPQ(int capacity) {
-        pq = (Key[]) new Comparable[capacity + 1];
+    private Comparator&lt;Key&gt; comparator;
+\/
+    public MaxPQ(int initCapacity) {
+        pq = (Key[]) new Object[initCapacity + 1];
+        n = 0;
     }
-
+\/
+    public MaxPQ() {
+        this(1);
+    }
+\/
+    public MaxPQ(int initCapacity, Comparator&lt;Key&gt; comparator) {
+        this.comparator = comparator;
+        pq = (Key[]) new Object[initCapacity + 1];
+        n = 0;
+    }
+\/
+    public MaxPQ(Comparator&lt;Key&gt; comparator) {
+        this(1, comparator);
+    }
+\/
+    public MaxPQ(Key[] keys) {
+        n = keys.length;
+        pq = (Key[]) new Object[keys.length + 1];
+        for (int i = 0; i &lt; n; i++)
+            pq[i+1] = keys[i];
+        for (int k = n/2; k &gt;= 1; k--)
+            sink(k);
+        assert isMaxHeap();
+    }
+\/
     public boolean isEmpty() {
         return n == 0;
     }
-
-    public void insert(Key key) {
-        if (n == pq.length - 1) {
-            resize(2 * pq.length);
-        }
-        pq[++n] = key;
-        swim(n);
+\/
+    public int size() {
+        return n;
     }
-
+\/
+    public Key max() {
+        if (isEmpty()) throw new NoSuchElementException("Priority queue underflow");
+        return pq[1];
+    }
+\/
+    private void resize(int capacity) {
+        assert capacity &gt; n;
+        Key[] temp = (Key[]) new Object[capacity];
+        if (n &gt;= 0) System.arraycopy(pq, 1, temp, 1, n);
+        pq = temp;
+    }
+\/
+    public void insert(Key x) {
+\/
+        if (n == pq.length - 1) resize(2 * pq.length);
+\/
+        pq[++n] = x;
+        swim(n);
+        assert isMaxHeap();
+    }
+\/
     public Key delMax() {
+        if (isEmpty()) throw new NoSuchElementException("Priority queue underflow");
         Key max = pq[1];
         exch(1, n--);
         sink(1);
         pq[n+1] = null;
-        if ((n > 0) && (n == (pq.length - 1) / 4)) {
-            resize(pq.length / 2);
-        }
+        if ((n &gt; 0) && (n == (pq.length - 1) / 4)) resize(pq.length / 2);
+        assert isMaxHeap();
         return max;
     }
-
+\/    
     private void swim(int k) {
-        while (k > 1 && less(k/2, k)) {
-            exch(k, k/2);
+        while (k &gt; 1 && less(k/2, k)) {
+            exch(k/2, k);
             k = k/2;
         }
     }
-
+\/
     private void sink(int k) {
-        while (2*k <= n) {
+        while (2*k &lt;= n) {
             int j = 2*k;
-            if (j < n && less(j, j+1)) j++;
+            if (j &lt; n && less(j, j+1)) j++;
             if (!less(k, j)) break;
             exch(k, j);
             k = j;
         }
     }
-
+\/
     private boolean less(int i, int j) {
-        return pq[i].compareTo(pq[j]) < 0;
+        if (comparator == null) {
+            return ((Comparable&lt;Key&gt;) pq[i]).compareTo(pq[j]) &lt; 0;
+        }
+        else {
+            return comparator.compare(pq[i], pq[j]) &lt; 0;
+        }
     }
-
+\/
     private void exch(int i, int j) {
         Key swap = pq[i];
         pq[i] = pq[j];
         pq[j] = swap;
     }
-
-    private void resize(int capacity) {
-        Key[] temp = (Key[]) new Comparable[capacity];
-        for (int i = 1; i <= n; i++) {
-            temp[i] = pq[i];
+\/
+    private boolean isMaxHeap() {
+        for (int i = 1; i &lt;= n; i++) {
+            if (pq[i] == null) return false;
         }
-        pq = temp;
+        for (int i = n+1; i &lt; pq.length; i++) {
+            if (pq[i] != null) return false;
+        }
+        if (pq[0] != null) return false;
+        return isMaxHeapOrdered(1);
+    }
+\/    
+    private boolean isMaxHeapOrdered(int k) {
+        if (k &gt; n) return true;
+        int left = 2*k;
+        int right = 2*k + 1;
+        if (left  &lt;= n && less(k, left))  return false;
+        if (right &lt;= n && less(k, right)) return false;
+        return isMaxHeapOrdered(left) && isMaxHeapOrdered(right);
     }
 }
-```
-
-C++
-
-```C++
-#include <vector>
-#include <stdexcept>
-
-class BinaryHeap {
-public:
-    BinaryHeap() : data(1) {} // Start indexing from 1 for easier calculations
-
-    void insert(int value) {
-        data.push_back(value); // Add the new value to the end
-        swim(data.size() - 1); // Swim it up to its correct position
-    }
-
-    int delMax() {
-        if (isEmpty()) {
-            throw std::runtime_error("Heap is empty");
-        }
-
-        int max = data[1]; // The root is the max value
-        std::swap(data[1], data.back()); // Swap it with the last value
-        data.pop_back(); // Remove the last value (which is now the max)
-        sink(1); // Sink the root down to its correct position
-
-        return max;
-    }
-
-    bool isEmpty() const {
-        return data.size() == 1;
-    }
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;functional&gt;
+#include &lt;algorithm&gt;
+#include &lt;cassert&gt;
+#include &lt;stdexcept&gt;
+\/
+template &lt;typename Key, typename Comparator = std::less&lt;Key&gt;&gt;
+class MaxPQ {
 private:
-    std::vector<int> data;
-
+    Key* pq;
+    int n;
+    Comparator comparator;
+\/
+    void resize(const int capacity) {
+        assert(capacity &gt; n);
+        Key* temp = new Key[capacity];
+        std::copy(pq + 1, pq + n + 1, temp + 1);
+        delete[] pq;
+        pq = temp;
+    }
+\/
     void swim(int k) {
-        while (k > 1 && data[k / 2] < data[k]) {
-            std::swap(data[k], data[k / 2]);
+        while (k &gt; 1 && comparator(pq[k / 2], pq[k])) {
+            std::swap(pq[k / 2], pq[k]);
             k = k / 2;
         }
     }
-
+\/
     void sink(int k) {
-        while (2 * k <= data.size() - 1) {
+        while (2 * k &lt;= n) {
             int j = 2 * k;
-            if (j < data.size() - 1 && data[j] < data[j + 1]) {
-                j++;
-            }
-            if (data[k] >= data[j]) {
-                break;
-            }
-            std::swap(data[k], data[j]);
+            if (j &lt; n && comparator(pq[j], pq[j + 1])) j++;
+            if (!comparator(pq[k], pq[j])) break;
+            std::swap(pq[k], pq[j]);
             k = j;
         }
     }
+\/
+    bool isMaxHeap() {
+        for (int i = 1; i &lt;= n; i++) {
+            if (pq[i] == nullptr) return false;
+        }
+        for (int i = n+1; i &lt; pq.length; i++) {
+            if (pq[i] != nullptr) return false;
+        }
+        if (pq[0] != nullptr) return false;
+        return isMaxHeapOrdered(1);
+    }
+\/
+    bool isMaxHeapOrdered(int k) {
+        if (k &gt; n) return true;
+        int left = 2 * k;
+        int right = 2 * k + 1;
+        if (left &lt;= n && comparator(pq[k], pq[left])) return false;
+        if (right &lt;= n && comparator(pq[k], pq[right])) return false;
+        return isMaxHeapOrdered(left) && isMaxHeapOrdered(right);
+    }
+\/
+public:
+    explicit MaxPQ(const int initCapacity, Comparator comparator = {}) :
+        pq(new Key[initCapacity + 1]), n(0), comparator(comparator) {}
+\/
+    explicit MaxPQ(int initCapacity) : MaxPQ(initCapacity, Comparator{}) {}
+\/
+    explicit MaxPQ(Comparator comparator) : MaxPQ(1, comparator) {}
+\/
+    MaxPQ() : MaxPQ(1, Comparator{}) {}
+\/
+    MaxPQ(const Key* keys, int size) : MaxPQ(size) {
+        n = size;
+        std::copy(keys, keys + size, pq + 1);
+        for (int k = n / 2; k &gt;= 1; k--)
+            sink(k);
+        assert(isMaxHeap());
+    }
+\/
+    ~MaxPQ() { delete[] pq; }
+\/
+    [[nodiscard]] bool isEmpty() const { return n == 0; }
+    [[nodiscard]] int size() const { return n; }
+\/
+    Key max() {
+        if (isEmpty()) throw std::runtime_error("Priority queue underflow");
+        return pq[1];
+    }
+\/
+    void insert(const Key& x) {
+        if (n == pq.length - 1) resize(2 * pq.length);
+        pq[++n] = x;
+        swim(n);
+        assert(isMaxHeap());
+    }
+\/
+    Key delMax() {
+        if (isEmpty()) throw std::runtime_error("Priority queue underflow");
+        Key max = pq[1];
+        std::swap(pq[1], pq[n--]);
+        sink(1);
+        if ((n &gt; 0) && (n == (pq.length - 1) / 4)) resize(pq.length / 2);
+        assert(isMaxHeap());
+        return max;
+    }
 };
-```
-
-Python
-
-```Python
-class PriorityQueue:
-    def __init__(self):
-        self.heap = [0]
-        self.size = 0
-
-    def float(self, k):
-        while k // 2 > 0:
-            if self.heap[k] < self.heap[k // 2]:  # If current node is smaller than parent
-                self.heap[k], self.heap[k // 2] = self.heap[k // 2], self.heap[k]  # Swap them
-            k //= 2
-
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class MaxPQ:
+    def __init__(self, capacity, key=lambda x: x):
+        self.pq = [None] * (capacity + 1) 
+        self.n = 0
+        self.key = key
+\/
+    def is_empty(self):
+        return self.n == 0
+\/
+    def size(self):
+        return self.n
+\/
     def insert(self, item):
-        self.heap.append(item)
-        self.size += 1
-        self.float(self.size)
-
-    def sink(self, k):
-        while k * 2 <= self.size:
-            mc = self.min_child(k)
-            if self.heap[k] > self.heap[mc]:
-                self.heap[k], self.heap[mc] = self.heap[mc], self.heap[k]
-            k = mc
-
-    def min_child(self, k):
-        if k * 2 + 1 > self.size:
-            return k * 2
-        else:
-            if self.heap[k*2] < self.heap[k*2+1]:
-                return k * 2
-            else:
-                return k * 2 + 1
-
-    def pop(self):
-        retval = self.heap[1]
-        self.heap[1] = self.heap[self.size]
-        self.size -= 1
-        self.heap.pop()
-        self.sink(1)
-        return retval
-```
+        if self.n == len(self.pq) - 1:
+            self._resize(2 * len(self.pq))
+        self.n += 1
+        self.pq[self.n] = item
+        self._swim(self.n)
+\/
+    def max(self):
+        if self.is_empty():
+            raise IndexError("Priority queue is empty")
+        return self.pq[1]
+\/
+    def del_max(self):
+        if self.is_empty():
+            raise IndexError("Priority queue is empty")
+        max_item = self.pq[1]
+        self._exch(1, self.n)
+        self.n -= 1
+        self.pq[self.n + 1] = None 
+        self._sink(1)
+        if self.n &gt; 0 and self.n == (len(self.pq) - 1) // 4:
+            self._resize(len(self.pq) // 2)
+        return max_item
+\/
+    def _swim(self, k):
+        while k &gt; 1 and self._less(k // 2, k):
+            self._exch(k // 2, k)
+            k //= 2
+\/
+    def _sink(self, k):
+        while 2 * k &lt;= self.n:
+            j = 2 * k
+            if j &lt; self.n and self._less(j, j + 1):
+                j += 1
+            if not self._less(k, j):
+                break
+            self._exch(k, j)
+            k = j
+\/
+    def _less(self, i, j):
+        return self.key(self.pq[i]) &lt; self.key(self.pq[j])
+\/
+    def _exch(self, i, j):
+        self.pq[i], self.pq[j] = self.pq[j], self.pq[i]
+\/
+    def _resize(self, capacity):
+        temp = [None] * capacity
+        for i in range(1, self.n + 1):
+            temp[i] = self.pq[i]
+        self.pq = temp
+    </code-block>
+    </tab>
+</tabs>
 
 ### 8.3 Indexed Priority Queue
 
-<p><format color = "DarkOrange">Indexed Priority Queue:</format> 
+<p><format color="DarkOrange">Indexed Priority Queue:</format> 
 Associate an index between <math>0</math> and <math>N - 1</math> 
 with each key in the priority queue.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Client can insert and delete-the-minimum.</p>
 </li>
@@ -4938,7 +5074,7 @@ with each key in the priority queue.</p>
 </li>
 </list>
 
-<procedure title = "Indexed Priority Queue">
+<procedure title="Indexed Priority Queue">
     <step>
         <p>Start with same code as MinPQ.</p>
     </step>
@@ -4958,40 +5094,40 @@ with each key in the priority queue.</p>
     </step>
 </procedure>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.NoSuchElementException;
-
+\/
 public class IndexedPriorityQueue {
     private final int maxN;
     private int n;
     private final int[] pq;
     private final int[] qp;
     private final double[] keys;
-
+\/
     public IndexedPriorityQueue(int maxN) {
-        if (maxN < 0) throw new IllegalArgumentException();
+        if (maxN &lt; 0) throw new IllegalArgumentException();
         this.maxN = maxN;
         n = 0;
         keys = new double[maxN + 1];
         pq = new int[maxN + 1];
         qp = new int[maxN + 1];
-        for (int i = 0; i <= maxN; i++) qp[i] = -1;
+        for (int i = 0; i &lt;= maxN; i++) qp[i] = -1;
     }
-
+\/
     public boolean isEmpty() {
         return n == 0;
     }
-
+\/
     public boolean contains(int i) {
         return qp[i] != -1;
     }
-
+\/
     public int size() {
         return n;
     }
-
+\/
     public void insert(int i, double key) {
         if (contains(i)) throw new IllegalArgumentException("Index is already in the priority queue");
         n++;
@@ -5000,7 +5136,7 @@ public class IndexedPriorityQueue {
         keys[i] = key;
         swim(n);
     }
-
+\/
     public int delMin() {
         if (n == 0) throw new NoSuchElementException("Priority queue underflow");
         int min = pq[1];
@@ -5010,18 +5146,18 @@ public class IndexedPriorityQueue {
         pq[n + 1] = -1;
         return min;
     }
-
+\/
     public void decreaseKey(int i, double key) {
         if (!contains(i)) throw new NoSuchElementException("Index is not in the priority queue");
-        if (keys[i] <= key) throw new IllegalArgumentException("Calling decreaseKey() with a key greater than or equal to the key in the priority queue");
+        if (keys[i] &lt;= key) throw new IllegalArgumentException("Calling decreaseKey() with a key greater than or equal to the key in the priority queue");
         keys[i] = key;
         swim(qp[i]);
     }
-
+\/
     private boolean greater(int i, int j) {
-        return keys[pq[i]] > keys[pq[j]];
+        return keys[pq[i]] &gt; keys[pq[j]];
     }
-
+\/
     private void exch(int i, int j) {
         int swap = pq[i];
         pq[i] = pq[j];
@@ -5029,34 +5165,33 @@ public class IndexedPriorityQueue {
         qp[pq[i]] = i;
         qp[pq[j]] = j;
     }
-
+\/
     private void swim(int k) {
-        while (k > 1 && greater(k / 2, k)) {
+        while (k &gt; 1 && greater(k / 2, k)) {
             exch(k, k / 2);
             k = k / 2;
         }
     }
-
+\/
     private void sink(int k) {
-        while (2 * k <= n) {
+        while (2 * k &lt;= n) {
             int j = 2 * k;
-            if (j < n && greater(j, j + 1)) j++;
+            if (j &lt; n && greater(j, j + 1)) j++;
             if (!greater(k, j)) break;
             exch(k, j);
             k = j;
         }
     }
 }
-```
-
-C++ (IndexedPriorityQueue.h)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (IndexedPriorityQueue.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef INDEXED_PRIORITY_QUEUE_H
 #define INDEXED_PRIORITY_QUEUE_H
-
-#include <vector>
-
+\/
+#include &lt;vector&gt;
+\/
 class IndexedPriorityQueue {
 public:
     explicit IndexedPriorityQueue(int maxN);
@@ -5066,45 +5201,44 @@ public:
     void insert(int i, double key);
     int delMin();
     void decreaseKey(int i, double key);
-
+\/
 private:
     int maxN;
     int n;
-    std::vector<int> pq;
-    std::vector<int> qp;
-    std::vector<double> keys;
-
+    std::vector&lt;int&gt; pq;
+    std::vector&lt;int&gt; qp;
+    std::vector&lt;double&gt; keys;
+\/
     [[nodiscard]] bool greater(int i, int j) const;
     void exch(int i, int j);
     void swim(int k);
     void sink(int k);
 };
-
+\/
 #endif // INDEXED_PRIORITY_QUEUE_H
-```
-
-C++ (IndexedPriorityQueue.cpp)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (IndexedPriorityQueue.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "IndexedPriorityQueue.h"
-#include <stdexcept>
-
+#include &lt;stdexcept&gt;
+\/
 IndexedPriorityQueue::IndexedPriorityQueue(const int maxN) : maxN(maxN), n(0), pq(maxN + 1), qp(maxN + 1, -1), keys(maxN + 1) {
-    if (maxN < 0) throw std::invalid_argument("maxN must be non-negative");
+    if (maxN &lt; 0) throw std::invalid_argument("maxN must be non-negative");
 }
-
+\/
 bool IndexedPriorityQueue::isEmpty() const {
     return n == 0;
 }
-
+\/
 bool IndexedPriorityQueue::contains(int i) const {
     return qp[i] != -1;
 }
-
+\/
 int IndexedPriorityQueue::size() const {
     return n;
 }
-
+\/
 void IndexedPriorityQueue::insert(const int i, const double key) {
     if (contains(i)) throw std::invalid_argument("Index is already in the priority queue");
     n++;
@@ -5113,7 +5247,7 @@ void IndexedPriorityQueue::insert(const int i, const double key) {
     keys[i] = key;
     swim(n);
 }
-
+\/
 int IndexedPriorityQueue::delMin() {
     if (n == 0) throw std::out_of_range("Priority queue underflow");
     const int min = pq[1];
@@ -5123,18 +5257,18 @@ int IndexedPriorityQueue::delMin() {
     pq[n + 1] = -1;
     return min;
 }
-
+\/
 void IndexedPriorityQueue::decreaseKey(const int i, const double key) {
     if (!contains(i)) throw std::out_of_range("Index is not in the priority queue");
-    if (keys[i] <= key) throw std::invalid_argument("Calling decreaseKey() with a key greater than or equal to the key in the priority queue");
+    if (keys[i] &lt;= key) throw std::invalid_argument("Calling decreaseKey() with a key greater than or equal to the key in the priority queue");
     keys[i] = key;
     swim(qp[i]);
 }
-
+\/
 bool IndexedPriorityQueue::greater(const int i, const int j) const {
-    return keys[pq[i]] > keys[pq[j]];
+    return keys[pq[i]] &gt; keys[pq[j]];
 }
-
+\/
 void IndexedPriorityQueue::exch(const int i, const int j) {
     int swap = pq[i];
     pq[i] = pq[j];
@@ -5142,47 +5276,46 @@ void IndexedPriorityQueue::exch(const int i, const int j) {
     qp[pq[i]] = i;
     qp[pq[j]] = j;
 }
-
+\/
 void IndexedPriorityQueue::swim(int k) {
-    while (k > 1 && greater(k / 2, k)) {
+    while (k &gt; 1 && greater(k / 2, k)) {
         exch(k, k / 2);
         k = k / 2;
     }
 }
-
+\/
 void IndexedPriorityQueue::sink(int k) {
-    while (2 * k <= n) {
+    while (2 * k &lt;= n) {
         int j = 2 * k;
-        if (j < n && greater(j, j + 1)) j++;
+        if (j &lt; n && greater(j, j + 1)) j++;
         if (!greater(k, j)) break;
         exch(k, j);
         k = j;
     }
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class IndexedPriorityQueue:
     def __init__(self, maxN):
-        if maxN < 0:
+        if maxN &lt; 0:
             raise ValueError("maxN must be non-negative")
         self.maxN = maxN
         self.n = 0
         self.keys = [None] * (maxN + 1)
         self.pq = [0] * (maxN + 1)
         self.qp = [-1] * (maxN + 1)
-
+\/
     def is_empty(self):
         return self.n == 0
-
+\/
     def contains(self, i):
         return self.qp[i] != -1
-
+\/
     def size(self):
         return self.n
-
+\/
     def insert(self, i, key):
         if self.contains(i):
             raise ValueError("Index is already in the priority queue")
@@ -5191,7 +5324,7 @@ class IndexedPriorityQueue:
         self.pq[self.n] = i
         self.keys[i] = key
         self.swim(self.n)
-
+\/
     def del_min(self):
         if self.n == 0:
             raise IndexError("Priority queue underflow")
@@ -5202,53 +5335,55 @@ class IndexedPriorityQueue:
         self.qp[min_index] = -1
         self.pq[self.n + 1] = -1
         return min_index
-
+\/
     def decrease_key(self, i, key):
         if not self.contains(i):
             raise IndexError("Index is not in the priority queue")
-        if self.keys[i] <= key:
+        if self.keys[i] &lt;= key:
             raise ValueError("Calling decrease_key() with a key greater than or equal to the key in the priority queue")
         self.keys[i] = key
         self.swim(self.qp[i])
-
+\/
     def greater(self, i, j):
         return self.keys[self.pq[i]] > self.keys[self.pq[j]]
-
+\/
     def exch(self, i, j):
         self.pq[i], self.pq[j] = self.pq[j], self.pq[i]
         self.qp[self.pq[i]] = i
         self.qp[self.pq[j]] = j
-
+\/
     def swim(self, k):
-        while k > 1 and self.greater(k // 2, k):
+        while k &gt; 1 and self.greater(k // 2, k):
             self.exch(k, k // 2)
             k //= 2
-
+\/
     def sink(self, k):
-        while 2 * k <= self.n:
+        while 2 * k &lt;= self.n:
             j = 2 * k
-            if j < self.n and self.greater(j, j + 1):
+            if j &lt; self.n and self.greater(j, j + 1):
                 j += 1
             if not self.greater(k, j):
                 break
             self.exch(k, j)
             k = j
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 8.4 Heapsort {id="heapsort"}
 
-<procedure title = "Heapsort">
-    <step>
-        <p><format color = "Fuchsia">Heap construction</format>: 
-        Build max heap using bottom-up method.</p>
-    </step>
-    <step>
-        <p><format color = "Fuchsia">Sortdown</format>: Repeatedly
-        delete the largest remaining item.</p>
-    </step>
+<procedure title="Heapsort">
+<step>
+    <p><format color="Fuchsia">Heap construction</format>: 
+    Build max heap using bottom-up method.</p>
+</step>
+<step>
+    <p><format color="Fuchsia">Sortdown</format>: Repeatedly
+    delete the largest remaining item.</p>
+</step>
 </procedure>
 
-<p><format color = "BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties:</format> </p>
 
 <list>
 <li>
@@ -5265,135 +5400,174 @@ class IndexedPriorityQueue:
 </li>
 </list>
 
+<note>
+<p>For mergesort and quicksort:</p>
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Mergesort:</format> no, linear extra 
+    space (in-place merge possible, not practical).</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Quicksort:</format> no, quadratic time
+    in worst case (<math>N \log N</math> worst-case quicksort possible
+    , not practical).</p>
+</li>
+</list>
+</note>
+
 <tip>
 <p>It is optimal for both time and space, but:</p>
 <list>
-    <li>
-        <p>Inner loop longer than quick sort's.</p>
-    </li>
-    <li>
-        <p>Makes poor use of cache memory.</p>
-    </li>
-    <li>
-        <p>Not stable.</p>
-    </li>
+<li>
+    <p>Inner loop longer than quicksort's.</p>
+</li>
+<li>
+    <p>Makes poor use of cache memory.</p>
+</li>
+<li>
+    <p>Not stable.</p>
+</li>
 </list>
 </tip>
 
 <note>
-For information about the performance of heapsort, please refer
+<p>For information about the performance of heapsort, please refer
 to the <a href="Data-Structures-and-Algorithms-3.md" anchor="sortperf" 
 summary="Table for Comparing Performance of Sorting Algorithm">table 
-for sorting performance</a>.
+for sorting performance</a>.</p>
 </note>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Comparator;
+\/
 public class Heap {
-
-    private Heap() { }
-
-    public static void sort(Comparable[] pq) {
+    private Heap() {
+    }
+\/
+    public static &lt;T&gt; void sort(T[] pq, Comparator&lt;T&gt; comparator) {
         int n = pq.length;
-        for (int k = n/2; k >= 1; k--)
-            sink(pq, k, n);
+\/
+        for (int k = n / 2; k &gt;= 1; k--)
+            sink(pq, k, n, comparator);
+\/
         int k = n;
-        while (k > 1) {
+        while (k &gt; 1) {
             exch(pq, 1, k--);
-            sink(pq, 1, k);
+            sink(pq, 1, k, comparator);
         }
     }
-
-    private static void sink(Comparable[] pq, int k, int n) {
-        while (2 * k <= n) {
+\/
+    private static &lt;T&gt; void sink(T[] pq, int k, int n, Comparator&lt;T&gt; comparator) {
+        while (2 * k &lt;= n) {
             int j = 2 * k;
-            if (j < n && less(pq, j, j+1)) j++;
-            if (!less(pq, k, j)) break;
+            if (j &lt; n && comparator.compare(pq[j - 1], pq[j]) &lt; 0) j++;
+            if (comparator.compare(pq[k - 1], pq[j - 1]) &gt;= 0) break; // Not less
             exch(pq, k, j);
             k = j;
         }
     }
-
-    private static boolean less(Comparable[] pq, int i, int j) {
-        return pq[i-1].compareTo(pq[j-1]) < 0;
-    }
-
+\/
     private static void exch(Object[] pq, int i, int j) {
-        Object swap = pq[i-1];
-        pq[i-1] = pq[j-1];
-        pq[j-1] = swap;
+        Object swap = pq[i - 1];
+        pq[i - 1] = pq[j - 1];
+        pq[j - 1] = swap;
     }
-
-}
-```
-
-C++
-
-```C++
-#include <iostream>
-
-void heapify(int arr[], int n, int i) {
-    int largest = i;
-    int left = 2 * i + 1;
-    int right = 2 * i + 2;
-
-    if (left < n && arr[left] > arr[largest])
-        largest = left;
-
-    if (right < n && arr[right] > arr[largest])
-        largest = right;
-
-    if (largest != i) {
-        std::swap(arr[i], arr[largest]);
-        heapify(arr, n, largest);
+\/
+    private static &lt;T&gt; void show(T[] a) {
+        for (T t : a) {
+            System.out.println(t);
+        }
     }
 }
-
-void heapSort(int arr[], int n) {
-    for (int i = n / 2 - 1; i >= 0; i--)
-        heapify(arr, n, i);
-
-    for (int i = n - 1; i >= 0; i--) {
-        std::swap(arr[0], arr[i]);
-        heapify(arr, i, 0);
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;functional&gt;
+#include &lt;algorithm&gt;
+\/
+template &lt;typename T, typename Comparator = std::less&lt;T&gt;&gt;
+class Heap {
+private:
+    Heap() = default;
+\/
+public:
+    static void sort(T* pq, const int n, Comparator comparator = {}) {
+        for (int k = n / 2; k &gt;= 1; k--)
+            sink(pq, k, n, comparator);
+\/
+        int k = n;
+        while (k &gt; 1) {
+            std::swap(pq[0], pq[k - 1]);
+            k--;
+            sink(pq, 1, k, comparator);
+        }
     }
-}
-```
-
-Python
-
-```Python
-def heapify(arr, n, i):
-    largest = i
-    left = 2 * i + 1
-    right = 2 * i + 2
-
-    if left < n and arr[i] < arr[left]:
-        largest = left
-
-    if right < n and arr[largest] < arr[right]:
-        largest = right
-
-    if largest != i:
-        arr[i], arr[largest] = arr[largest], arr[i]
-        heapify(arr, n, largest)
-
-def heapSort(arr):
-    n = len(arr)
-
-    for i in range(n, -1, -1):
-        heapify(arr, n, i)
-
-    for i in range(n-1, 0, -1):
-        arr[i], arr[0] = arr[0], arr[i]
-        heapify(arr, i, 0)
-
-def printArray(arr):
-    for i in arr:
-        print(i, end=" ")
-    print()
-```
+\/
+private:
+    static void sink(T* pq, int k, int n, Comparator comparator) {
+        while (2 * k &lt;= n) {
+            int j = 2 * k;
+            if (j &lt; n && comparator(pq[j - 1], pq[j])) j++; 
+            if (!comparator(pq[k - 1], pq[j - 1])) break;
+            std::swap(pq[k - 1], pq[j - 1]);
+            k = j;
+        }
+    }
+\/
+public:
+    static void show(T* a, const int n) {
+        for (int i = 0; i &lt; n; i++) {
+            std::cout &lt;&lt; a[i] &lt;&lt; std::endl;
+        }
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class Heap:
+\/
+    def __init__(self):
+        pass
+\/
+    @staticmethod
+    def sort(pq, comparator=lambda x, y: x &lt; y):
+        n = len(pq)
+        for k in range(n // 2, 0, -1):
+            Heap._sink(pq, k, n, comparator)
+\/
+        k = n
+        while k &gt; 1:
+            Heap._exch(pq, 1, k)
+            k -= 1
+            Heap._sink(pq, 1, k, comparator)
+\/
+    @staticmethod
+    def _sink(pq, k, n, comparator):
+        while 2 * k &lt;= n:
+            j = 2 * k
+            if j &lt; n and comparator(pq[j - 1], pq[j]):
+                j += 1
+            if not comparator(pq[k - 1], pq[j - 1]):
+                break
+            Heap._exch(pq, k, j)
+            k = j
+\/
+    @staticmethod
+    def _exch(pq, i, j):
+        pq[i - 1], pq[j - 1] = pq[j - 1], pq[i - 1]
+\/
+    @staticmethod
+    def show(a):
+        for item in a:
+            print(item)
+    </code-block>
+    </tab>
+</tabs>
 
 ## 9 Symbol Table & Binary Search Tree
 
@@ -5510,15 +5684,15 @@ of compares for a search/insert is <math>\sim 2 \ln N</math>.
 
 <p>Proof: 1-1 correspondence with quicksort partitioning.</p>
 
-<p><format color = "BlueViolet">Floor</format>: Largest key &le; to a 
+<p><format color="BlueViolet">Floor</format>: Largest key &le; to a 
 given key.</p>
 
-<p><format color = "BlueViolet">Ceiling</format>: Smallest key &ge; to
+<p><format color="BlueViolet">Ceiling</format>: Smallest key &ge; to
 a given key.</p>
 
-<p><format color = "BlueViolet">Rank</format>: How many keys &lt; k</p>
+<p><format color="BlueViolet">Rank</format>: How many keys &lt; k</p>
 
-<procedure title = "Basic Plan for Computing the Floor" type = "choices">
+<procedure title="Computing the Floor" type="choices">
 <step>
 <p>
 <math>k</math> equals to the key at the root. => The floor of 
@@ -5540,7 +5714,7 @@ otherwise, it is the key at the root.
 </step>
 </procedure>
 
-<procedure title = "Basic Plan for Deleting the Minimum" type = "choices">
+<procedure title="Deleting the Minimum" type="choices">
 <step>
 <p>Go left until finding a node with a null left link.</p>
 </step>
@@ -6015,1584 +6189,51 @@ class BST:
 <p>To traverse binary trees with depth-first search, execute the 
 following three operations in a certain order: </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "Fuchsia">N:</format> Visit the current node.</p>
+    <p><format color="Fuchsia">N:</format> Visit the current node.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">L:</format> Recursively traverse the 
-current node's left subtree.</p>
+    <p><format color="Fuchsia">L:</format> Recursively traverse the 
+    current node's left subtree.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">R:</format> Recursively traverse the 
-current node's right subtree.</p>
+    <p><format color="Fuchsia">R:</format> Recursively traverse the 
+    current node's right subtree.</p>
 </li>
 </list>
 
-<p>Three types of traversal: </p>
+<p><format color="BlueViolet">Three types of traversal:</format> </p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "Red">Pre-order</format> => NLR</p>
+    <p><format color="#ff0000">Pre-order</format> => NLR</p>
 </li>
 <li>
-<p><format color = "Green">Post-order</format> => LRN</p>
+    <p><format color="#00ff00">Post-order</format> => LRN</p>
 </li>
 <li>
-<p><format color = "Blue">In-order</format> => LNR</p>
+    <p><format color="#2a7fff">In-order</format> => LNR</p>
 </li>
 </list>
 
 <img src = "../images_data/d9-3-1.png" alt = "Traversal"/>
 
 <p>Depth-first traversal (dotted path) of a binary tree:</p>
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "Red">Pre-order</format> <format style = "italic">
-(node visited at position red)</format>:</p>
+    <p><format color="#ff0000">Pre-order</format> <format style="italic">
+    (node visited at position red)</format>:</p>
 <p>F, B, A, D, C, E, G, I, H;</p>
 </li>
 <li>
-<p><format color = "Green">In-order</format> <format style = "italic">
-(node visited at position green)</format>:</p>
+    <p><format color="#00ff00">In-order</format> <format style="italic">
+    (node visited at position green)</format>:</p>
 <p>A, B, C, D, E, F, G, H, I;</p>
 </li>
 <li>
-<p><format color = "Blue">Post-order</format> <format style = "italic">
-(node visited at position blue)</format>:</p>
-<p>A, C, E, D, B, H, I, G, F.</p>
-</li>
-</list>
-
-## 10 Balanced Search Trees
-
-<table style = "none">
-<tr>
-    <td rowspan = "2">Implementation</td>
-    <td colspan="3">Worst-Case Cost (after <math>N</math> inserts)
-    </td>
-    <td colspan = "3">Average Case (after <math>N</math> random 
-    inserts)</td>
-    <td rowspan = "2">Ordered Iteration?</td>
-    <td rowspan = "2">Key Interface</td>
-</tr>
-<tr>
-    <td>Search</td>
-    <td>Insert</td>
-    <td>Delete</td>
-    <td>Search Hit</td>
-    <td>Insert</td>
-    <td>Delete</td>
-</tr>
-<tr>
-    <td>Sequential Search (unordered list)</td>
-    <td><math>N</math></td>
-    <td><math>N</math></td>
-    <td><math>N</math></td>
-    <td><math>\frac {N}{2}</math></td>
-    <td><math>N</math></td>
-    <td><math>N</math></td>
-    <td>no</td>
-    <td><code>equals()</code></td>
-</tr>
-<tr>
-    <td>Binary Search (ordered list)</td>
-    <td><math>\lg N</math></td>
-    <td><math>N</math></td>
-    <td><math>N</math></td>
-    <td><math>\lg N</math></td>
-    <td><math>\frac {N}{2}</math></td>
-    <td><math>\frac {N}{2}</math></td>
-    <td>yes</td>
-    <td><code>compareTo()</code></td>
-</tr>
-<tr>
-    <td>BST</td>
-    <td><math>N</math></td>
-    <td><math>N</math></td>
-    <td><math>N</math></td>
-    <td><math>1.39 \log N</math></td>
-    <td><math>1.39 \log N</math></td>
-    <td>?</td>
-    <td>yes</td>
-    <td><code>compareTo()</code></td>
-</tr>
-<tr>
-    <td>2-3 Tree</td>
-    <td><math>c \log N</math></td>
-    <td><math>c \log N</math></td>
-    <td><math>c \log N</math></td>
-    <td><math>c \log N</math></td>
-    <td><math>c \log N</math></td>
-    <td><math>c \log N</math></td>
-    <td>yes</td>
-    <td><code>compareTo()</code></td>
-</tr>
-<tr>
-    <td>Red-Black BST</td>
-    <td><math>2 \log N</math></td>
-    <td><math>2 \log N</math></td>
-    <td><math>2 \log N</math></td>
-    <td><math>1.00 \lg N</math></td>
-    <td><math>1.00 \lg N</math></td>
-    <td><math>1.00 \lg N</math></td>
-    <td>yes</td>
-    <td><code>compareTo()</code></td>
-</tr>
-</table>
-
-### 10.1 2-3 Trees {id="2-3-trees"}
-
-<p>Basic properties: </p>
-
-<list type = "bullet">
-<li>
-<p>Allow 1 or 2 keys per node.</p>
-</li>
-<li>
-<p>2-node: one key, two children.</p>
-</li>
-<li>
-<p>3-node: two keys, three children.</p>
-</li>
-</list>
-
-<p><img src = "../images_data/d10-1-1.png" alt = "2-3 Tree"/></p>
-
-<procedure title = "Basic Plan for Searching in 2-3 Tree">
-<step>
-<p>Compare search key against keys in node.</p>
-</step>
-<step>
-<p>Find interval containing search key.</p>
-</step>
-<step>
-<p>Follow associated key (recursively).</p>
-</step>
-</procedure>
-
-<procedure title = "Basic Plan for Inserting into a 2-node At Bottom">
-<step>
-<p>Search for key, as usual.</p>
-</step>
-<step>
-<p>Replace 2-node with 3-node.</p>
-</step>
-</procedure>
-
-<procedure title = "Basic Plan for Inserting into a 3-node At Bottom">
-<step>
-<p>Add new key to 3-node to create a temporary 4-node.</p>
-</step>
-<step>
-<p>Move middle key in 4-node into a parent.</p>
-</step>
-<step>
-<p>Repeat up the tree, as necessary.</p>
-</step>
-<step>
-<p>If you reach the root and it's a 4-node, split it into three 2-nodes.</p>
-</step>
-</procedure>
-
-<p>Properties: </p>
-
-<list type = "bullet">
-<li>
-<p>Maintain symmetric order and perfect balance: Every path from 
-root to null link has same length.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Worst case</format>: 
-<math>\lg N</math> => all 2-nodes</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Best case</format>: 
-<math>\log_{3} N \approx 0.631 \lg N</math> </p>
-</li>
-<li>
-<p>Between 12 and 20 for a million nodes.</p>
-</li>
-<li>
-<p>Between 18 and 30 for a billion nodes.</p>
-</li>
-<li>
-<p>Guaranteed <format color = "OrangeRed">logarithmic</format> performance
-for search and insert.</p>
-</li>
-</list>
-
-<tip>
-<p>But direct implementation is complicated, because:</p>
-<list type = "bullet">
-<li>
-<p>Maintaining multiple node types is cumbersome.</p>
-</li>
-<li>
-<p>Need multiple compares to move down tree.</p>
-</li>
-<li>
-<p>Need to move back up the tree to split 4-nodes.</p>
-</li>
-<li>
-<p>Large number of cases for splitting.</p>
-</li>
-</list>
-</tip>
-
-### 10.2 Red-Black BSTs {id="red-black-bsts"}
-
-#### 10.2.1 Left-Leaning Red-Black BSTs
-
-<list type = "alpha-lower">
-<li>
-<p><format color = "BlueViolet">Definition 1</format>: </p>
-<list type = "bullet">
-<li>
-<p>Represent 2–3 tree as a BST.</p>
-</li>
-<li>
-<p>Use "internal" left-leaning links as "glue" for 3–nodes.</p>
-</li>
-</list>
-</li>
-<li>
-<p><format color = "BlueViolet">Definition 2</format>: A BST such 
-that: </p>
-<list type = "bullet">
-<li>
-<p>No node has two red links connected to it.</p>
-</li>
-<li>
-<p>Every path from root to null link has the same number of black links.</p>
-</li>
-<li>
-<p>Red links lean left.</p>
-</li>
-</list>
-</li>
-</list>
-<img src = "../images_data/d10-2-1.png" alt = "Red-Black BST"/>
-
-<note><p>1–1 correspondence between 2–3 and LLRB!</p></note>
-
-#### 10.2.2 Elementary Red-Black BST Operations
-
-<list type = "alpha-lower">
-<li>
-<p><format color = "BlueViolet">Left rotation:</format> Orient a 
-(temporarily) right-leaning red link to lean left.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Right rotation:</format> Orient a 
-left-leaning red link to (temporarily) lean right.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Color flip:</format> Recolor to split
-a (temporary) 4-node.</p>
-</li>
-</list>
-
-<img src = "../images_data/d10-2-2.png" alt = "Left Rotation"/>
-
-<img src = "../images_data/d10-2-3.png" alt = "Right Rotation"/>
-
-#### 10.2.3 Red-Black BST Operations
-
-<warning><p>Most ops (e.g., search, floor, iteration, selection)
-are the same as for elementary BST, but run faster because of better 
-performance.</p></warning>
-
-<procedure title = "Case 1: Insert into a 2-node at the bottom | 
-Insert into a tree with exactly 1 node.">
-<step>
-<p>Do standard BST insert; color new link red.</p>
-</step>
-<step>
-<p>If new red link is a right link, rotate left.</p>
-</step>
-</procedure>
-
-<procedure title = "Case 2: Insert into a 3-node at the bottom | 
-Insert into a tree with exactly 2 nodes.">
-<step>
-<p>Do standard BST insert; color new link red.</p>
-</step>
-<step>
-<p>Rotate to balance the 4-node (if needed).</p>
-</step>
-<step>
-<p>Flip colors to pass red link up one level.</p>
-</step>
-<step>
-<p>Rotate to make lean left (if needed).</p>
-</step>
-<step>
-<p>Repeat case 1 or case 2 up the tree (if needed).</p>
-</step>
-</procedure>
-
-<img src = "../images_data/d10-2-4.png" alt = "Insert into a 3-node 
-at the bottom"/>
-
-<procedure title = "Insertion for Red-Black BSTs" type = "choices">
-<step>
-<p>Right child red, left child black: <format color = "OrangeRed">rotate 
-left</format>.</p>
-</step>
-<step>
-<p>Left child, left-left grandchild red: <format color = "OrangeRed">rotate
-right</format>.</p>
-</step>
-<step>
-<p>Both children red: <format color = "OrangeRed">flip colors</format>.</p>
-</step>
-</procedure>
-
-#### 10.2.4 Red-Black BST Implementations
-
-Java
-
-```Java
-import java.util.NoSuchElementException;
-
-public class RedBlackBST<Key extends Comparable<Key>, Value> {
-
-    private static final boolean RED   = true;
-    private static final boolean BLACK = false;
-
-    private Node root;   
-
-    // BST helper node data type
-    private class Node {
-        private Key key;          
-        private Value val;         
-        private Node left, right;  
-        private boolean color;  
-        private int size;          
-
-        public Node(Key key, Value val, boolean color, int size) {
-            this.key = key;
-            this.val = val;
-            this.color = color;
-            this.size = size;
-        }
-    }
-
-    public RedBlackBST() {
-    }
-
-    // is node x red; false if x is null ?
-    private boolean isRed(Node x) {
-        if (x == null) return false;
-        return x.color == RED;
-    }
-
-    // number of node in subtree rooted at x; 0 if x is null
-    private int size(Node x) {
-        if (x == null) return 0;
-        return x.size;
-    }
-    
-    // Returns the number of key-value pairs in this symbol table.
-    public int size() {
-        return size(root);
-    }
-
-    // Is this symbol table empty?
-    public boolean isEmpty() {
-        return root == null;
-    }
-
-    // value associated with the given key in subtree rooted at x; null if no such key
-    public Value get(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to get() is null");
-        return get(root, key);
-    }
-    
-    private Value get(Node x, Key key) {
-        while (x != null) {
-            int cmp = key.compareTo(x.key);
-            if      (cmp < 0) x = x.left;
-            else if (cmp > 0) x = x.right;
-            else              return x.val;
-        }
-        return null;
-    }
-
-    // Does this symbol table contain the given key?
-    public boolean contains(Key key) {
-        return get(key) != null;
-    }
-    
-    // Inserts the specified key-value pair into the symbol table, overwriting the old
-    // value with the new value if the symbol table already contains the specified key.
-    // Deletes the specified key (and its associated value) from this symbol table
-    // if the specified value is null.
-     
-    public void put(Key key, Value val) {
-        if (key == null) throw new IllegalArgumentException("first argument to put() is null");
-        if (val == null) {
-            delete(key);
-            return;
-        }
-
-        root = put(root, key, val);
-        root.color = BLACK;
-    }
-    
-    private Node put(Node h, Key key, Value val) {
-        if (h == null) return new Node(key, val, RED, 1);
-
-        int cmp = key.compareTo(h.key);
-        if      (cmp < 0) h.left  = put(h.left,  key, val);
-        else if (cmp > 0) h.right = put(h.right, key, val);
-        else              h.val   = val;
-
-        if (isRed(h.right) && !isRed(h.left))      h = rotateLeft(h);
-        if (isRed(h.left)  &&  isRed(h.left.left)) h = rotateRight(h);
-        if (isRed(h.left)  &&  isRed(h.right))     flipColors(h);
-        h.size = size(h.left) + size(h.right) + 1;
-
-        return h;
-    }
-
-    // delete the key-value pair with the minimum key rooted at h
-    public void deleteMin() {
-        if (isEmpty()) throw new NoSuchElementException("BST underflow");
-
-        // if both children of root are black, set root to red
-        if (!isRed(root.left) && !isRed(root.right))
-            root.color = RED;
-
-        root = deleteMin(root);
-        if (!isEmpty()) root.color = BLACK;
-    }
-
-    private Node deleteMin(Node h) {
-        if (h.left == null)
-            return null;
-
-        if (!isRed(h.left) && !isRed(h.left.left))
-            h = moveRedLeft(h);
-
-        h.left = deleteMin(h.left);
-        return balance(h);
-    }
-
-    // delete the key-value pair with the maximum key rooted at h
-    public void deleteMax() {
-        if (isEmpty()) throw new NoSuchElementException("BST underflow");
-
-        // if both children of root are black, set root to red
-        if (!isRed(root.left) && !isRed(root.right))
-            root.color = RED;
-
-        root = deleteMax(root);
-        if (!isEmpty()) root.color = BLACK;
-    }
-
-    private Node deleteMax(Node h) {
-        if (isRed(h.left))
-            h = rotateRight(h);
-
-        if (h.right == null)
-            return null;
-
-        if (!isRed(h.right) && !isRed(h.right.left))
-            h = moveRedRight(h);
-
-        h.right = deleteMax(h.right);
-
-        return balance(h);
-    }
-
-    public void delete(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
-        if (!contains(key)) return;
-
-        // if both children of root are black, set root to red
-        if (!isRed(root.left) && !isRed(root.right))
-            root.color = RED;
-
-        root = delete(root, key);
-        if (!isEmpty()) root.color = BLACK;
-    }
-
-    // delete the key-value pair with the given key rooted at h
-    private Node delete(Node h, Key key) {
-        if (key.compareTo(h.key) < 0)  {
-            if (!isRed(h.left) && !isRed(h.left.left))
-                h = moveRedLeft(h);
-            h.left = delete(h.left, key);
-        }
-        else {
-            if (isRed(h.left))
-                h = rotateRight(h);
-            if (key.compareTo(h.key) == 0 && (h.right == null))
-                return null;
-            if (!isRed(h.right) && !isRed(h.right.left))
-                h = moveRedRight(h);
-            if (key.compareTo(h.key) == 0) {
-                Node x = min(h.right);
-                h.key = x.key;
-                h.val = x.val;
-                h.right = deleteMin(h.right);
-            }
-            else h.right = delete(h.right, key);
-        }
-        return balance(h);
-    }
-
-    // make a left-leaning link lean to the right
-    private Node rotateRight(Node h) {
-        assert (h != null) && isRed(h.left);
-        Node x = h.left;
-        h.left = x.right;
-        x.right = h;
-        x.color = h.color;
-        h.color = RED;
-        x.size = h.size;
-        h.size = size(h.left) + size(h.right) + 1;
-        return x;
-    }
-
-    // make a right-leaning link lean to the left
-    private Node rotateLeft(Node h) {
-        assert (h != null) && isRed(h.right);
-        Node x = h.right;
-        h.right = x.left;
-        x.left = h;
-        x.color = h.color;
-        h.color = RED;
-        x.size = h.size;
-        h.size = size(h.left) + size(h.right) + 1;
-        return x;
-    }
-
-    // flip the colors of a node and its two children
-    private void flipColors(Node h) {
-        h.color = !h.color;
-        h.left.color = !h.left.color;
-        h.right.color = !h.right.color;
-    }
-
-    // Assuming that h is red and both h.left and h.left.left
-    // are black, make h.left or one of its children red.
-    private Node moveRedLeft(Node h) {
-        flipColors(h);
-        if (isRed(h.right.left)) {
-            h.right = rotateRight(h.right);
-            h = rotateLeft(h);
-            flipColors(h);
-        }
-        return h;
-    }
-
-    // Assuming that h is red and both h.right and h.right.left
-    // are black, make h.right or one of its children red.
-    private Node moveRedRight(Node h) {
-        flipColors(h);
-        if (isRed(h.left.left)) {
-            h = rotateRight(h);
-            flipColors(h);
-        }
-        return h;
-    }
-
-    // restore red-black tree invariant
-    private Node balance(Node h) {
-        if (isRed(h.right) && !isRed(h.left))    h = rotateLeft(h);
-        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
-        if (isRed(h.left) && isRed(h.right))     flipColors(h);
-
-        h.size = size(h.left) + size(h.right) + 1;
-        return h;
-    }
-
-    // Returns the height of the BST (for debugging).
-    public int height() {
-        return height(root);
-    }
-
-    private int height(Node x) {
-        if (x == null) return -1;
-        return 1 + Math.max(height(x.left), height(x.right));
-    }
-
-    // the smallest key in subtree rooted at x; null if no such key
-    public Key min() {
-        if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
-        return min(root).key;
-    }
-
-    private Node min(Node x) {
-        // assert x != null;
-        if (x.left == null) return x;
-        else                return min(x.left);
-    }
-
-    // the largest key in the subtree rooted at x; null if no such key
-    public Key max() {
-        if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
-        return max(root).key;
-    }
-
-    private Node max(Node x) {
-        if (x.right == null) return x;
-        else                 return max(x.right);
-    }
-
-    // the largest key in the subtree rooted at x less than or equal to the given key
-    public Key floor(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to floor() is null");
-        if (isEmpty()) throw new NoSuchElementException("calls floor() with empty symbol table");
-        Node x = floor(root, key);
-        if (x == null) throw new NoSuchElementException("argument to floor() is too small");
-        else           return x.key;
-    }
-
-    private Node floor(Node x, Key key) {
-        if (x == null) return null;
-        int cmp = key.compareTo(x.key);
-        if (cmp == 0) return x;
-        if (cmp < 0)  return floor(x.left, key);
-        Node t = floor(x.right, key);
-        if (t != null) return t;
-        else           return x;
-    }
-
-    // the smallest key in the subtree rooted at x greater than or equal to the given key
-    public Key ceiling(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
-        if (isEmpty()) throw new NoSuchElementException("calls ceiling() with empty symbol table");
-        Node x = ceiling(root, key);
-        if (x == null) throw new NoSuchElementException("argument to ceiling() is too large");
-        else           return x.key;
-    }
-
-    private Node ceiling(Node x, Key key) {
-        if (x == null) return null;
-        int cmp = key.compareTo(x.key);
-        if (cmp == 0) return x;
-        if (cmp > 0)  return ceiling(x.right, key);
-        Node t = ceiling(x.left, key);
-        if (t != null) return t;
-        else           return x;
-    }
-
-    // Return key in BST rooted at x of given rank.
-    public Key select(int rank) {
-        if (rank < 0 || rank >= size()) {
-            throw new IllegalArgumentException("argument to select() is invalid: " + rank);
-        }
-        return select(root, rank);
-    }
-
-    private Key select(Node x, int rank) {
-        if (x == null) return null;
-        int leftSize = size(x.left);
-        if      (leftSize > rank) return select(x.left,  rank);
-        else if (leftSize < rank) return select(x.right, rank - leftSize - 1);
-        else                      return x.key;
-    }
-
-    // Return the number of keys in the BST strictly less than key.
-    public int rank(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to rank() is null");
-        return rank(key, root);
-    }
-
-    private int rank(Key key, Node x) {
-        if (x == null) return 0;
-        int cmp = key.compareTo(x.key);
-        if      (cmp < 0) return rank(key, x.left);
-        else if (cmp > 0) return 1 + size(x.left) + rank(key, x.right);
-        else              return size(x.left);
-    }
-
-    public int size(Key lo, Key hi) {
-        if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
-        if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
-
-        if (lo.compareTo(hi) > 0) return 0;
-        if (contains(hi)) return rank(hi) - rank(lo) + 1;
-        else              return rank(hi) - rank(lo);
-    }
-}
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <exception>
-#include <stdexcept>
-
-template <typename Key, typename Value>
-class RedBlackBST {
-private:
-    struct Node {
-        Key key;
-        Value val;
-        Node *left, *right;
-        bool color;
-        int size;
-
-        Node(const Key& key, const Value& val, bool color, int size) : 
-            key(key), val(val), left(nullptr), right(nullptr), color(color), size(size) {}
-    };
-
-    static const bool RED = true;
-    static const bool BLACK = false;
-
-    Node* root;
-
-    // Helper functions for recursion
-    bool isRed(Node* x) const {
-        if (x == nullptr) return false;
-        return x->color == RED;
-    }
-
-    int size(Node* x) const {
-        if (x == nullptr) return 0;
-        return x->size;
-    }
-
-    Node* rotateRight(Node* h) {
-        if (h == nullptr || !isRed(h->left)) {
-            throw std::runtime_error("Invalid rotateRight() call"); 
-        }
-        Node* x = h->left;
-        h->left = x->right;
-        x->right = h;
-        x->color = h->color;
-        h->color = RED;
-        x->size = h->size;
-        h->size = size(h->left) + size(h->right) + 1;
-        return x;
-    }
-
-    Node* rotateLeft(Node* h) {
-        if (h == nullptr || !isRed(h->right)) {
-            throw std::runtime_error("Invalid rotateLeft() call"); 
-        }
-        Node* x = h->right;
-        h->right = x->left;
-        x->left = h;
-        x->color = h->color;
-        h->color = RED;
-        x->size = h->size;
-        h->size = size(h->left) + size(h->right) + 1;
-        return x;
-    }
-
-    void flipColors(Node* h) {
-        if (h == nullptr || h->left == nullptr || h->right == nullptr) {
-            throw std::runtime_error("Invalid flipColors() call"); 
-        }
-        h->color = !h->color;
-        h->left->color = !h->left->color;
-        h->right->color = !h->right->color;
-    }
-
-    Node* moveRedLeft(Node* h) {
-        flipColors(h);
-        if (isRed(h->right->left)) {
-            h->right = rotateRight(h->right);
-            h = rotateLeft(h);
-            flipColors(h);
-        }
-        return h;
-    }
-
-    Node* moveRedRight(Node* h) {
-        flipColors(h);
-        if (isRed(h->left->left)) { 
-            h = rotateRight(h);
-            flipColors(h);
-        }
-        return h;
-    }
-
-    Node* balance(Node* h) {
-        if (isRed(h->right) && !isRed(h->left))    h = rotateLeft(h);
-        if (isRed(h->left) && isRed(h->left->left)) h = rotateRight(h);
-        if (isRed(h->left) && isRed(h->right))     flipColors(h);
-
-        h->size = size(h->left) + size(h->right) + 1;
-        return h;
-    }
-
-    Node* put(Node* h, const Key& key, const Value& val) {
-        if (h == nullptr) return new Node(key, val, RED, 1);
-
-        if (key < h->key) h->left  = put(h->left, key, val);
-        else if (key > h->key) h->right = put(h->right, key, val);
-        else h->val = val; 
-
-        // Fix right-leaning red links and restore balance
-        if (isRed(h->right) && !isRed(h->left)) h = rotateLeft(h);
-        if (isRed(h->left)  && isRed(h->left->left)) h = rotateRight(h);
-        if (isRed(h->left)  && isRed(h->right)) flipColors(h);
-
-        h->size = 1 + size(h->left) + size(h->right);
-        return h;
-    }
-
-    Node* deleteMin(Node* h) {
-        if (h->left == nullptr) {
-            delete h; 
-            return nullptr;
-        }
-
-        if (!isRed(h->left) && !isRed(h->left->left))
-            h = moveRedLeft(h);
-
-        h->left = deleteMin(h->left);
-        return balance(h);
-    }
-
-    Node* deleteMax(Node* h) {
-        if (isRed(h->left))
-            h = rotateRight(h);
-
-        if (h->right == nullptr) {
-            delete h;
-            return nullptr; 
-        }
-
-        if (!isRed(h->right) && !isRed(h->right->left))
-            h = moveRedRight(h);
-
-        h->right = deleteMax(h->right);
-        return balance(h);
-    }
-
-    Node* deleteNode(Node* h, const Key& key) {
-        if (key < h->key)  {
-            if (!isRed(h->left) && !isRed(h->left->left))
-                h = moveRedLeft(h);
-            h->left = deleteNode(h->left, key);
-        }
-        else {
-            if (isRed(h->left))
-                h = rotateRight(h);
-            if (key == h->key && (h->right == nullptr)) {
-                delete h; 
-                return nullptr; 
-            }
-            if (!isRed(h->right) && !isRed(h->right->left))
-                h = moveRedRight(h);
-            if (key == h->key) {
-                Node* x = min(h->right);
-                h->key = x->key;
-                h->val = x->val; 
-                h->right = deleteMin(h->right);
-            }
-            else h->right = deleteNode(h->right, key);
-        }
-        return balance(h);
-    }
-
-    Node* min(Node* x) const {
-        if (x->left == nullptr) return x;
-        else                return min(x->left);
-    }
-
-    Node* max(Node* x) const {
-        if (x->right == nullptr) return x;
-        else                 return max(x->right);
-    }
-
-    Node* floor(Node* x, const Key& key) const {
-        if (x == nullptr) return nullptr;
-        if (key < x->key)  return floor(x->left, key);
-        if (key == x->key) return x; 
-        Node* t = floor(x->right, key);
-        if (t != nullptr) return t;
-        else           return x;
-    }
-
-    Node* ceiling(Node* x, const Key& key) const {
-        if (x == nullptr) return nullptr;
-        if (key > x->key)  return ceiling(x->right, key);
-        if (key == x->key) return x;
-        Node* t = ceiling(x->left, key);
-        if (t != nullptr) return t;
-        else           return x;
-    }
-
-    Key select(Node* x, int rank) const {
-        if (x == nullptr) return Key(); // Return a default-constructed Key
-        int leftSize = size(x->left);
-        if (leftSize > rank) return select(x->left, rank);
-        else if (leftSize < rank) return select(x->right, rank - leftSize - 1);
-        else return x->key;
-    }
-
-    int rank(const Key& key, Node* x) const {
-        if (x == nullptr) return 0;
-        if (key < x->key) return rank(key, x->left);
-        else if (key > x->key) return 1 + size(x->left) + rank(key, x->right);
-        else return size(x->left);
-    }
-
-    int height(Node* x) const {
-        if (x == nullptr) return -1;
-        return 1 + std::max(height(x->left), height(x->right));
-    }
-
-    // Helper function to recursively delete all nodes in a subtree
-    void deleteAllNodes(Node* node) {
-        if (node == nullptr) return;
-        deleteAllNodes(node->left);
-        deleteAllNodes(node->right);
-        delete node;
-    }
-
-public:
-    RedBlackBST() : root(nullptr) {}
-
-    ~RedBlackBST() {
-        deleteAllNodes(root); 
-    }
-
-    int size() const {
-        return size(root);
-    }
-
-    bool isEmpty() const {
-        return root == nullptr;
-    }
-
-    Value get(const Key& key) const {
-        if (key == Key()) throw std::invalid_argument("argument to get() is null");
-        Node* x = root;
-        while (x != nullptr) {
-            if (key < x->key) x = x->left;
-            else if (key > x->key) x = x->right;
-            else return x->val;
-        }
-        return Value(); // Return a default-constructed Value if not found
-    }
-
-    bool contains(const Key& key) const {
-        return get(key) != Value(); 
-    }
-
-    void put(const Key& key, const Value& val) {
-        if (key == Key()) throw std::invalid_argument("argument to put() is null");
-        root = put(root, key, val);
-        root->color = BLACK;
-    }
-
-    void deleteMin() {
-        if (isEmpty()) throw std::runtime_error("BST underflow");
-
-        if (!isRed(root->left) && !isRed(root->right))
-            root->color = RED;
-
-        root = deleteMin(root);
-        if (!isEmpty()) root->color = BLACK;
-    }
-
-    void deleteMax() {
-        if (isEmpty()) throw std::runtime_error("BST underflow");
-
-        if (!isRed(root->left) && !isRed(root->right))
-            root->color = RED;
-
-        root = deleteMax(root);
-        if (!isEmpty()) root->color = BLACK;
-    }
-
-    void deleteKey(const Key& key) { 
-        if (key == Key()) throw std::invalid_argument("argument to delete() is null");
-        if (!contains(key)) return;
-
-        if (!isRed(root->left) && !isRed(root->right))
-            root->color = RED;
-
-        root = deleteNode(root, key); 
-        if (!isEmpty()) root->color = BLACK;
-    }
-
-    int height() const {
-        return height(root);
-    }
-
-    Key min() const {
-        if (isEmpty()) throw std::runtime_error("calls min() with empty symbol table");
-        return min(root)->key;
-    }
-
-    Key max() const {
-        if (isEmpty()) throw std::runtime_error("calls max() with empty symbol table");
-        return max(root)->key;
-    }
-
-    Key floor(const Key& key) const {
-        if (key == Key()) throw std::invalid_argument("argument to floor() is null");
-        if (isEmpty()) throw std::runtime_error("calls floor() with empty symbol table");
-        Node* x = floor(root, key);
-        if (x == nullptr) throw std::runtime_error("argument to floor() is too small");
-        else           return x->key;
-    }
-
-    Key ceiling(const Key& key) const {
-        if (key == Key()) throw std::invalid_argument("argument to ceiling() is null");
-        if (isEmpty()) throw std::runtime_error("calls ceiling() with empty symbol table");
-        Node* x = ceiling(root, key);
-        if (x == nullptr) throw std::runtime_error("argument to ceiling() is too large");
-        else           return x->key;
-    }
-
-    Key select(int rank) const {
-        if (rank < 0 || rank >= size()) {
-            throw std::invalid_argument("argument to select() is invalid: " + std::to_string(rank));
-        }
-        return select(root, rank);
-    }
-
-    int rank(const Key& key) const {
-        if (key == Key()) throw std::invalid_argument("argument to rank() is null");
-        return rank(key, root);
-    }
-
-    int size(const Key& lo, const Key& hi) const {
-        if (lo == Key()) throw std::invalid_argument("first argument to size() is null");
-        if (hi == Key()) throw std::invalid_argument("second argument to size() is null");
-
-        if (lo > hi) return 0;
-        if (contains(hi)) return rank(hi) - rank(lo) + 1;
-        else              return rank(hi) - rank(lo);
-    }
-};
-```
-
-Python
-
-```Python
-class Node:
-    def __init__(self, key, val, color, size):
-        self.key = key
-        self.val = val
-        self.left = None
-        self.right = None
-        self.color = color
-        self.size = size
-
-
-class RedBlackBST:
-    RED = True
-    BLACK = False
-
-    def __init__(self):
-        self.root = None
-
-    def is_red(self, x):
-        if x is None:
-            return False
-        return x.color == RedBlackBST.RED
-
-    def size(self, x=None):
-        if x is None:
-            x = self.root
-        if x is None:
-            return 0
-        return x.size
-
-    def rotate_right(self, h):
-        if not self.is_red(h.left):
-            raise Exception("BST error")
-        x = h.left
-        h.left = x.right
-        x.right = h
-        x.color = h.color
-        h.color = RedBlackBST.RED
-        x.size = h.size
-        h.size = 1 + self.size(h.left) + self.size(h.right)
-        return x
-
-    def rotate_left(self, h):
-        if not self.is_red(h.right):
-            raise Exception("BST error")
-        x = h.right
-        h.right = x.left
-        x.left = h
-        x.color = h.color
-        h.color = RedBlackBST.RED
-        x.size = h.size
-        h.size = 1 + self.size(h.left) + self.size(h.right)
-        return x
-
-    def flip_colors(self, h):
-        h.color = not h.color
-        h.left.color = not h.left.color
-        h.right.color = not h.right.color
-
-    def move_red_left(self, h):
-        self.flip_colors(h)
-        if self.is_red(h.right.left):
-            h.right = self.rotate_right(h.right)
-            h = self.rotate_left(h)
-            self.flip_colors(h)
-        return h
-
-    def move_red_right(self, h):
-        self.flip_colors(h)
-        if self.is_red(h.left.left):
-            h = self.rotate_right(h)
-            self.flip_colors(h)
-        return h
-
-    def balance(self, h):
-        if self.is_red(h.right) and not self.is_red(h.left):
-            h = self.rotate_left(h)
-        if self.is_red(h.left) and self.is_red(h.left.left):
-            h = self.rotate_right(h)
-        if self.is_red(h.left) and self.is_red(h.right):
-            self.flip_colors(h)
-        h.size = 1 + self.size(h.left) + self.size(h.right)
-        return h
-
-    def put(self, key, val):
-        if key is None:
-            raise Exception("argument to put() is null")
-        self.root = self._put(self.root, key, val)
-        self.root.color = RedBlackBST.BLACK
-
-    def _put(self, h, key, val):
-        if h is None:
-            return Node(key, val, RedBlackBST.RED, 1)
-        if key < h.key:
-            h.left = self._put(h.left, key, val)
-        elif key > h.key:
-            h.right = self._put(h.right, key, val)
-        else:
-            h.val = val
-
-        if self.is_red(h.right) and not self.is_red(h.left):
-            h = self.rotate_left(h)
-        if self.is_red(h.left) and self.is_red(h.left.left):
-            h = self.rotate_right(h)
-        if self.is_red(h.left) and self.is_red(h.right):
-            self.flip_colors(h)
-
-        h.size = 1 + self.size(h.left) + self.size(h.right)
-        return h
-
-    def get(self, key):
-        if key is None:
-            raise Exception("argument to get() is null")
-        return self._get(self.root, key)
-
-    def _get(self, x, key):
-        while x is not None:
-            if key < x.key:
-                x = x.left
-            elif key > x.key:
-                x = x.right
-            else:
-                return x.val
-        return None
-
-    def contains(self, key):
-        return self.get(key) is not None
-
-    def delete_min(self):
-        if self.isEmpty():
-            raise Exception("BST underflow")
-        if not self.is_red(self.root.left) and not self.is_red(self.root.right):
-            self.root.color = RedBlackBST.RED
-        self.root = self._delete_min(self.root)
-        if not self.isEmpty():
-            self.root.color = RedBlackBST.BLACK
-
-    def _delete_min(self, h):
-        if h.left is None:
-            return None
-        if not self.is_red(h.left) and not self.is_red(h.left.left):
-            h = self.move_red_left(h)
-        h.left = self._delete_min(h.left)
-        return self.balance(h)
-
-    def delete_max(self):
-        if self.isEmpty():
-            raise Exception("BST underflow")
-        if not self.is_red(self.root.left) and not self.is_red(self.root.right):
-            self.root.color = RedBlackBST.RED
-        self.root = self._delete_max(self.root)
-        if not self.isEmpty():
-            self.root.color = RedBlackBST.BLACK
-
-    def _delete_max(self, h):
-        if self.is_red(h.left):
-            h = self.rotate_right(h)
-        if h.right is None:
-            return None
-        if not self.is_red(h.right) and not self.is_red(h.right.left):
-            h = self.move_red_right(h)
-        h.right = self._delete_max(h.right)
-        return self.balance(h)
-
-    def delete(self, key):
-        if key is None:
-            raise Exception("argument to delete() is null")
-        if not self.contains(key):
-            return
-        if not self.is_red(self.root.left) and not self.is_red(self.root.right):
-            self.root.color = RedBlackBST.RED
-        self.root = self._delete(self.root, key)
-        if not self.isEmpty():
-            self.root.color = RedBlackBST.BLACK
-
-    def _delete(self, h, key):
-        if key < h.key:
-            if not self.is_red(h.left) and not self.is_red(h.left.left):
-                h = self.move_red_left(h)
-            h.left = self._delete(h.left, key)
-        else:
-            if self.is_red(h.left):
-                h = self.rotate_right(h)
-            if key == h.key and h.right is None:
-                return None
-            if not self.is_red(h.right) and not self.is_red(h.right.left):
-                h = self.move_red_right(h)
-            if key == h.key:
-                x = self.min(h.right)
-                h.key = x.key
-                h.val = x.val
-                h.right = self._delete_min(h.right)
-            else:
-                h.right = self._delete(h.right, key)
-        return self.balance(h)
-
-    def isEmpty(self):
-        return self.root is None
-
-    def height(self):
-        return self._height(self.root)
-
-    def _height(self, x):
-        if x is None:
-            return -1
-        return 1 + max(self._height(x.left), self._height(x.right))
-
-    def min(self, x=None):  # Add x as an argument
-        if x is None:
-            x = self.root  # Start from root if x is not provided
-        if self.isEmpty():
-            raise Exception("calls min() with empty symbol table")
-        if x.left is None:
-            return x
-        else:
-            return self.min(x.left)
-
-    def _min(self, x):
-        if x.left is None:
-            return x
-        else:
-            return self._min(x.left)
-
-    def max(self):
-        if self.isEmpty():
-            raise Exception("calls max() with empty symbol table")
-        return self._max(self.root).key
-
-    def _max(self, x):
-        if x.right is None:
-            return x
-        else:
-            return self._max(x.right)
-
-    def floor(self, key):
-        if key is None:
-            raise Exception("argument to floor() is null")
-        if self.isEmpty():
-            raise Exception("calls floor() with empty symbol table")
-        x = self._floor(self.root, key)
-        if x is None:
-            raise Exception("argument to floor() is too small")
-        else:
-            return x.key
-
-    def _floor(self, x, key):
-        if x is None:
-            return None
-        if key == x.key:
-            return x
-        elif key < x.key:
-            return self._floor(x.left, key)
-        t = self._floor(x.right, key)
-        if t is not None:
-            return t
-        else:
-            return x
-
-    def ceiling(self, key):
-        if key is None:
-            raise Exception("argument to ceiling() is null")
-        if self.isEmpty():
-            raise Exception("calls ceiling() with empty symbol table")
-        x = self._ceiling(self.root, key)
-        if x is None:
-            raise Exception("argument to ceiling() is too large")
-        else:
-            return x.key
-
-    def _ceiling(self, x, key):
-        if x is None:
-            return None
-        if key == x.key:
-            return x
-        elif key > x.key:
-            return self._ceiling(x.right, key)
-        t = self._ceiling(x.left, key)
-        if t is not None:
-            return t
-        else:
-            return x
-
-    def select(self, rank):
-        if rank < 0 or rank >= self.size():
-            raise Exception("argument to select() is invalid: " + str(rank))
-        return self._select(self.root, rank)
-
-    def _select(self, x, rank):
-        if x is None:
-            return None
-        left_size = self.size(x.left)
-        if left_size > rank:
-            return self._select(x.left, rank)
-        elif left_size < rank:
-            return self._select(x.right, rank - left_size - 1)
-        else:
-            return x.key
-
-    def rank(self, key):
-        if key is None:
-            raise Exception("argument to rank() is null")
-        return self._rank(key, self.root)
-
-    def _rank(self, key, x):
-        if x is None:
-            return 0
-        if key < x.key:
-            return self._rank(key, x.left)
-        elif key > x.key:
-            return 1 + self.size(x.left) + self._rank(key, x.right)
-        else:
-            return self.size(x.left)
-
-    def size_between(self, lo, hi):
-        if lo is None:
-            raise Exception("first argument to size() is null")
-        if hi is None:
-            raise Exception("second argument to size() is null")
-        if lo > hi:
-            return 0
-        if self.contains(hi):
-            return self.rank(hi) - self.rank(lo) + 1
-        else:
-            return self.rank(hi) - self.rank(lo)
-```
-
-#### 10.2.5 Red-Black BST Properties and Applications
-
-<p>Properties: </p>
-
-<list type = "alpha-lower">
-<li>
-<p>Height of tree is <math>\leq 2 \lg N</math> in the worst case.</p>
-<p>Proof: Every path from root to null link has same number of black
-links. Never two red links in-a-row.</p>
-</li>
-<li>
-<p>Height of tree is <math>\sim 1.00 \lg N</math> in typical
-applications.</p>
-</li>
-</list>
-
-<p>Applications: Red-black trees are widely used as system symbol 
-tables.</p>
-<list>
-<li>
-<p><format color = "BlueViolet">Java</format>: 
-java.util.TreeMap, java.util.TreeSet.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">C++ STL</format>: 
-map, multimap, multiset.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Linux kernel</format>: 
-completely fair scheduler, linux/rbtree.h.
-</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Emacs</format>: 
-conservative stack scanning.</p>
-</li>
-</list>
-
-### 10.3 B-Trees
-
-<list type = "decimal">
-<li>
-<p>Background Information:</p>
-
-<list type = "bullet">
-<li>
-<p><format color = "BlueViolet">Page</format>: Continuous block of
-data (e.g., a file or 4,096-byte chunk).</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Probe</format>: First access to a 
-page (e.g., from disk to memory).</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Property</format>: Time required for
-a probe is much higher than time to access data within a page.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Goal</format>: Access data using
-minimum number of probes.</p>
-</li>
-</list>
-</li>
-<li>
-<p>Definition:</p>
-
-<p><format color = "BlueViolet">B-tree (Bayer-McCreight, 1972)</format>: 
-Generalize 2-3 trees by allowing up to <math>M - 1</math> key-link
-pairs per node.</p>
-<list type = "bullet">
-<li>
-<p>At least 2 key-link pairs at root.</p>
-</li>
-<li>
-<p>At least <math>\frac {M}{2}</math> key-link pairs in other 
-nodes.</p>
-</li>
-<li>
-<p>External nodes contain client keys.</p>
-</li>
-<li>
-<p>Internal nodes contain copies of keys to guide search.</p>
-</li>
-</list>
-<img src = "../images_data/d10-3-1.png" alt = "B-Tree" style="inline"/>
-</li>
-<li>
-<p>Property: </p>
-
-<p>A search or an insertion in a B-tree of order 
-<math>M</math> with <math>N</math> keys requires between 
-<math>log_{M-1} N</math> and <math>log_{M/2} N</math> probes.</p>
-
-<p><format color = "BlueViolet">Proof</format>: All internal nodes 
-(besides root) have between <math>\frac {M}{2}</math> and 
-<math>M - 1</math> links.</p>
-
-<p><format color = "BlueViolet">In practice</format>: Number of 
-probes is at most 4.</p>
-
-<p><format color = "BlueViolet">Optimization</format>: Always keep 
-page root in memory.</p>
-</li>
-<li>
-<p>Applications:</p>
-
-<p>B-trees (and variants B+ Tree, B <sup>*</sup> Tree, B# Tree) are 
-widely used for file systems and databases.</p>
-
-<list>
-<li>
-<p><format color = "BlueViolet">Windows</format>: NTFS.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Mac</format>: HFS, HFS+.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Linux</format>: ReiserFS, XFS, Ext3FS, 
-JFS.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Databases</format>: ORACLE, DB2, 
-INGRES, SQL, PostgreSQL.</p>
-</li>
-</list>
-</li>
-</list>
-
-<procedure title = "Search in B-Tree">
-    <step>
-        <p>Start at root.</p>
-    </step>
-    <step>
-        <p>Find interval containing search key.</p>
-    </step>
-    <step>
-        <p>Follow associated link (recursively).</p>
-    </step>
-<img src = "../images_data/d10-3-2.png" alt = "Search in B-Tree"/>
-</procedure>
-
-<procedure title = "Insert in B-Tree">
-    <step>
-        <p>Search for new key.</p>
-    </step>
-    <step>
-        <p>Insert at bottom.</p>
-    </step>
-    <step>
-        <p>Split nodes with <math>M</math> key-link pairs on the way up
-        the tree.</p>
-    </step>
-<img src = "../images_data/d10-3-3.png" alt = "Insert in B-Tree"/>
-</procedure>
-
-### 10.4 AVL Trees
-
-<p>AVL trees maintain <format style = "bold">height-balance</format> 
-(also called the <format style = "bold">AVL Property</format>).</p>
-
-<list type = "alpha-lower">
-<li>
-<p><format color = "DarkOrange">Skew of a node:</format> The height of
-of its right subtree minus that of its left subtree.</p>
-
-<p>A node is height-blanced if <math>\text {skew} \in \{-1, 0, 1\}
-</math>.</p>
-
-<p><format color = "BlueViolet">Properties:</format> A binary tree 
-with height-balanced nodes has height <math>h = O(\log n)</math>.</p>
-
-<p>Proof: </p>
-
-<code-block lang = "tex" style = "inline">
-\begin{align}
-F(0) = 1, F(1) = 2, F(h) &= 1 + F(h - 1) + F(h - 2) \\
-&\geq 2F(h - 2) \\
-F(h) \geq 2 ^ {\frac {h}{2}}
-\end{align}
-</code-block>
-</li>
-<li>
-<p>Suppose adding or removing leaf from a height-balanced tree results
-in imbalance, skews still have magnitude <math>\leq 2</math>.</p>
-
-<p><format color = "Fuchsia">Case 1:</format> skew of F is 0 
-or <format color = "Fuchsia">Case 2:</format> skew of F is 1
-</p>
-<p>=> Perform a left rotation on B.</p>
-<img src = "../images_data/d10-4-1.png" alt = "Balancing AVL Trees"/>
-
-<p><format color = "Fuchsia">Case 3:</format> skew of F is −1
-</p>
-<p>Perform a right rotation on F, then a left rotation on B</p>
-<img src = "../images_data/d10-4-2.png" alt = "Balancing AVL Trees"/>
+    <p><format color="#2a7fff">Post-order</format> <format style="italic">
+    (node visited at position blue)</format>:</p>
+    <p>A, C, E, D, B, H, I, G, F.</p>
 </li>
 </list>
