@@ -6452,7 +6452,253 @@ class BinarySearchST:
     </tab>
 </tabs>
 
-### 9.2 Binary Search Trees {id="BST"}
+### 9.2 Ordered Operation
+
+<p>Provide an interface that can give clients ordered symbol 
+tables!</p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.TreeMap;
+\/
+public class ST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; implements Iterable&lt;Key&gt; {
+\/
+    private final TreeMap&lt;Key, Value&gt; st;
+\/
+    public ST() {
+        st = new TreeMap&lt;Key, Value&gt;();
+    }
+\/
+    public Value get(Key key) {
+        if (key == null) throw new IllegalArgumentException("called get() with null key");
+        return st.get(key);
+    }
+\/
+    public void put(Key key, Value val) {
+        if (key == null) throw new IllegalArgumentException("called put() with null key");
+        if (val == null) st.remove(key);
+        else             st.put(key, val);
+    }
+\/
+    @Deprecated
+    public void delete(Key key) {
+        if (key == null) throw new IllegalArgumentException("called delete() with null key");
+        st.remove(key);
+    }
+\/
+    public void remove(Key key) {
+        if (key == null) throw new IllegalArgumentException("called remove() with null key");
+        st.remove(key);
+    }
+\/
+    public boolean contains(Key key) {
+        if (key == null) throw new IllegalArgumentException("called contains() with null key");
+        return st.containsKey(key);
+    }
+\/
+    public int size() {
+        return st.size();
+    }
+\/
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+\/
+    public Iterable&lt;Key&gt; keys() {
+        return st.keySet();
+    }
+\/
+    @Deprecated
+    public Iterator&lt;Key&gt; iterator() {
+        return st.keySet().iterator();
+    }
+\/
+    public Key min() {
+        if (isEmpty()) throw new NoSuchElementException("called min() with empty symbol table");
+        return st.firstKey();
+    }
+\/
+    public Key max() {
+        if (isEmpty()) throw new NoSuchElementException("called max() with empty symbol table");
+        return st.lastKey();
+    }
+\/
+    public Key ceiling(Key key) {
+        if (key == null) throw new IllegalArgumentException("called ceiling() with null key");
+        Key k = st.ceilingKey(key);
+        if (k == null) throw new NoSuchElementException("all keys are less than " + key);
+        return k;
+    }
+\/
+    public Key floor(Key key) {
+        if (key == null) throw new IllegalArgumentException("called floor() with null key");
+        Key k = st.floorKey(key);
+        if (k == null) throw new NoSuchElementException("all keys are greater than " + key);
+        return k;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;vector&gt;
+#include &lt;stdexcept&gt;
+\/
+template &lt;typename Key, typename Value&gt;
+class ST {
+private:
+    std::map&lt;Key, Value&gt; st;
+\/
+public:
+    ST() = default;
+\/
+    [[nodiscard]] Value get(const Key& key) const {
+        auto it = st.find(key);
+        if (it == st.end()) {
+            return Value{};
+        }
+        return it-&gt;second;
+    }
+\/
+    void put(const Key& key, const Value& val) {
+        st.insert_or_assign(key, val);
+    }
+\/
+    void remove(const Key& key) {
+        st.erase(key);
+    }
+\/
+    [[nodiscard]] bool contains(const Key& key) const {
+        return st.contains(key);
+    }
+\/
+    [[nodiscard]] int size() const {
+        return st.size();
+    }
+\/
+    [[nodiscard]] bool isEmpty() const {
+        return size() == 0;
+    }
+\/
+    [[nodiscard]] auto keys() const {
+        std::vector&lt;Key&gt; keysVec;
+        for (const auto& pair : st) {
+            keysVec.push_back(pair.first);
+        }
+        return keysVec;
+    }
+\/
+    [[nodiscard]] auto begin() const {
+        return st.begin();
+    }
+\/
+    [[nodiscard]] auto end() const {
+        return st.end();
+    }
+\/
+    [[nodiscard]] const Key& min() const {
+        if (isEmpty()) {
+            throw std::runtime_error("called min() with empty symbol table");
+        }
+        return st.begin()-&gt;first;
+    }
+\/
+    [[nodiscard]] const Key& max() const {
+        if (isEmpty()) {
+            throw std::runtime_error("called max() with empty symbol table");
+        }
+        return st.rbegin()-&gt;first;
+    }
+\/
+    [[nodiscard]] const Key& ceiling(const Key& key) const {
+        auto it = st.lower_bound(key);
+        return it-&gt;first;
+    }
+\/
+    [[nodiscard]] const Key& floor(const Key& key) const {
+        auto it = st.upper_bound(key);
+        --it;
+        return it-&gt;first;
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class ST:
+    def __init__(self):
+        self.st = {} 
+\/
+    def get(self, key):
+        if key is None:
+            raise ValueError("called get() with null key")
+        return self.st.get(key)
+\/    
+    def put(self, key, val):
+        if key is None:
+            raise ValueError("called put() with null key")
+        if val is None:
+            del self.st[key]
+        else:
+            self.st[key] = val
+\/
+    def remove(self, key):
+        if key is None:
+            raise ValueError("called remove() with null key")
+        del self.st[key]
+\/
+    def contains(self, key):
+        if key is None:
+            raise ValueError("called contains() with null key")
+        return key in self.st
+\/
+    def size(self):
+        return len(self.st)
+\/
+    def is_empty(self):
+        return self.size() == 0
+\/
+    def keys(self):
+        return list(self.st.keys())
+\/
+    def __iter__(self):  
+        return iter(self.st.keys())
+\/
+    def min(self):
+        if self.is_empty():
+            raise RuntimeError("called min() with empty symbol table")
+        return min(self.st.keys())
+\/
+    def max(self):
+        if self.is_empty():
+            raise RuntimeError("called max() with empty symbol table")
+        return max(self.st.keys())
+\/
+    def ceiling(self, key):
+        if key is None:
+            raise ValueError("called ceiling() with null key")
+        keys_greater_equal = [k for k in self.st.keys() if k &gt;= key]
+        if not keys_greater_equal:
+            raise RuntimeError("all keys are less than {}".format(key))
+        return min(keys_greater_equal)
+\/
+    def floor(self, key):
+        if key is None:
+            raise ValueError("called floor() with null key")
+        keys_less_equal = [k for k in self.st.keys() if k &lt;= key]
+        if not keys_less_equal:
+            raise RuntimeError("all keys are greater than {}".format(key))
+        return max(keys_less_equal)
+    </code-block>
+    </tab>
+</tabs>
+
+### 9.3 Binary Search Trees {id="BST"}
 
 <p>Def: A BST is a <format color="OrangeRed">binary tree</format> in 
 <format color = "OrangeRed">symmetric order.</format></p>
@@ -6574,7 +6820,7 @@ otherwise, it is the key at the root.
 <p>Put <math>x</math> in <math>t</math>'s spot.</p>
 </li>
 </list>
-<img src = "../images_data/d9-2-4.png" alt = "Habbard Deletion 2 children" style = "inline"/>
+<img src="../images_data/d9-2-4.png" alt="Habbard Deletion 2 children"/>
 </step>
 </procedure>
 
@@ -7009,7 +7255,7 @@ class BST:
             return self._min(x.left)
 ```
 
-### 9.3 Traversal
+### 9.4 Traversal
 
 <p>To traverse binary trees with depth-first search, execute the 
 following three operations in a certain order: </p>
