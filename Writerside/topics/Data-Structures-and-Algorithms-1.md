@@ -5573,66 +5573,891 @@ class Heap:
 
 ### 9.1 Symbol Table & Elementary Implementation
 
-<p><format color = "BlueViolet">Symbol table</format>: Key-value pair
+<p><format color="BlueViolet">Symbol table</format>: Key-value pair
 abstraction.</p>
 
-<list>
+<list type="bullet">
 <li>
-<p>Insert a value with a specified key.</p>
+    <p><format color="OrangeRed">Insert</format> a value with a 
+    specified key.</p>
 </li>
 <li>
-<p>Given a key, <format color = "OrangeRed">search</format> for the 
-corresponding value.</p>
+    <p>Given a key, <format color="OrangeRed">search</format> for the 
+    corresponding value.</p>
+</li>
+</list>
+
+
+
+#### 9.1.1 Unordered List Implementation {id="sequential-search"}
+
+<p><format color="BlueViolet">Method:</format> Maintain an (unordered)
+linked list of key-value pairs.</p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Search</format>: Scan through all keys 
+    until find a match (sequential search).</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Insert</format>: Scan through all keys 
+    until find a match; if no match add to front.</p>
 </li>
 </list>
 
-#### 9.1.1 Sequential Search (unordered list) {id="sequential-search"}
-
-<p>Method: Maintain an (unordered) linked list of key-value pairs.</p>
-
-<list type = "bullet">
-<li>
-<p><format color = "BlueViolet">Search</format>: Scan through all keys 
-until find a match.</p>
-</li>
-<li>
-<p><format color = "BlueViolet">Search</format>: Scan through all keys 
-until find a match; if no match add to front.</p>
-</li>
-</list>
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.ArrayList;
+import java.util.List;
+\/
+public class SequentialSearchST&lt;Key, Value&gt; {
+    private int n;
+    private Node first;
+\/
+    private class Node {
+        private final Key key;
+        private Value val;
+        private Node next;
+\/
+        public Node(Key key, Value val, Node next)  {
+            this.key  = key;
+            this.val  = val;
+            this.next = next;
+        }
+    }
+\/
+    public SequentialSearchST() {
+    }
+\/
+    public int size() {
+        return n;
+    }
+\/
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+\/
+    public boolean contains(Key key) {
+        return get(key) != null;
+    }
+\/
+    public Value get(Key key) {
+        for (Node x = first; x != null; x = x.next) {
+            if (key.equals(x.key))
+                return x.val;
+        }
+        return null;
+    }
+\/
+    public void put(Key key, Value val) {
+        if (val == null) {
+            delete(key);
+            return;
+        }
+\/
+        for (Node x = first; x != null; x = x.next) {
+            if (key.equals(x.key)) {
+                x.val = val;
+                return;
+            }
+        }
+        first = new Node(key, val, first);
+        n++;
+    }
+\/
+    public void delete(Key key) {
+        first = delete(first, key);
+    }
+\/
+    private Node delete(Node x, Key key) {
+        if (x == null) return null;
+        if (key.equals(x.key)) {
+            n--;
+            return x.next;
+        }
+        x.next = delete(x.next, key);
+        return x;
+    }
+\/
+    public Iterable&lt;Key&gt; keys()  {
+        List&lt;Key&gt; list = new ArrayList&lt;&gt;(); // Use ArrayList instead of Queue
+        for (Node x = first; x != null; x = x.next)
+            list.add(x.key);
+        return list;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+\/
+template &lt;typename Key, typename Value&gt;
+class SequentialSearchST {
+private:
+    struct Node {
+        Key key;
+        Value val;
+        Node* next;
+\/
+        Node(Key key, Value val, Node* next) : key(key), val(val), next(next) {}
+    };
+\/
+    Node* first;
+    int n;
+\/
+public:
+    SequentialSearchST() : first(nullptr), n(0) {}
+\/
+    [[nodiscard]] int size() const {
+        return n;
+    }
+\/
+    [[nodiscard]] bool isEmpty() const {
+        return size() == 0;
+    }
+\/
+    bool contains(const Key& key) {
+        Node* x = first;
+        while (x != nullptr) {
+            if (x-&gt;key == key) {
+                return true;
+            }
+            x = x-&gt;next;
+        }
+        return false;
+    }
+\/
+    Value get(const Key& key) {
+        Node* x = first;
+        while (x != nullptr) {
+            if (x-&gt;key == key) {
+                return x-&gt;val;
+            }
+            x = x-&gt;next;
+        }
+        throw std::runtime_error("Key not found");
+    }
+\/
+    void put(const Key& key, const Value& val) {
+        Node* x = first;
+        while (x != nullptr) {
+            if (x-&gt;key == key) {
+                x-&gt;val = val;
+                return;
+            }
+            x = x-&gt;next;
+        }
+        first = new Node(key, val, first);
+        n++;
+    }
+\/
+    void remove(const Key& key) {
+        first = remove(first, key);
+    }
+\/
+    Node* remove(Node* x, const Key& key) {
+        if (x == nullptr) {
+            return nullptr;
+        }
+        if (x-&gt;key == key) {
+            n--;
+            Node* temp = x-&gt;next;
+            delete x;
+            return temp;
+        }
+        x-&gt;next = remove(x-&gt;next, key);
+        return x;
+    }
+\/
+    std::vector&lt;Key&gt; keys() {
+        std::vector&lt;Key&gt; keys;
+        Node* x = first;
+        while (x != nullptr) {
+            keys.push_back(x-&gt;key);
+            x = x-&gt;next;
+        }
+        return keys;
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class SequentialSearchST:
+    class Node:
+        def __init__(self, key, val, next_node=None):
+            self.key = key
+            self.val = val
+            self.next = next_node
+\/
+    def __init__(self):
+        self.n = 0
+        self.first = None
+\/
+    def size(self):
+        return self.n
+\/
+    def is_empty(self):
+        return self.size() == 0
+\/
+    def contains(self, key):
+        return self.get(key) is not None
+\/
+    def get(self, key):
+        x = self.first
+        while x is not None:
+            if key == x.key:
+                return x.val
+            x = x.next
+        return None
+\/
+    def put(self, key, val):
+        if val is None:
+            self.delete(key)
+            return
+\/
+        x = self.first
+        while x is not None:
+            if key == x.key:
+                x.val = val
+                return
+            x = x.next
+\/
+        self.first = self.Node(key, val, self.first)
+        self.n += 1
+\/
+    def delete(self, key):
+        self.first = self._delete(self.first, key)
+\/
+    def _delete(self, x, key):
+        if x is None:
+            return None
+        if key == x.key:
+            self.n -= 1
+            return x.next
+        x.next = self._delete(x.next, key)
+        return x
+\/
+    def keys(self):
+        keys_list = []
+        x = self.first
+        while x is not None:
+            keys_list.append(x.key)
+            x = x.next
+        return keys_list
+    </code-block>
+    </tab>
+</tabs>
 
 #### 9.1.2 Ordered Array {id="ordered-array"}
 
-<p><format color = "BlueViolet">Method</format>: Maintain an ordered 
+<p><format color="BlueViolet">Method</format>: Maintain an ordered 
 array of key-value pairs.</p>
 
-```Java
-    public Value get(Key key) {
-        if(isEmpty) return null;
-        int i = rank(key);
-        if (i < N && keys[i].compareTo(key) == 0) return vals[i];
-        else return null;
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Search:</format> Binary search.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Insert:</format> Need to shift 
+    all greater keys over.</p>
+</li>
+</list>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.LinkedList;
+\/
+public class BinarySearchST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
+    private static final int INIT_CAPACITY = 2;
+    private Key[] keys;
+    private Value[] vals;
+    private int n = 0;
+\/
+    public BinarySearchST() {
+        this(INIT_CAPACITY);
     }
-    
-    private int rank(Key key) {
-        int lo = 0, hi = N - 1;
-        while (lo <= hi) {
+\/
+    public BinarySearchST(int capacity) {
+        keys = (Key[]) new Comparable[capacity];
+        vals = (Value[]) new Object[capacity];
+    }
+\/
+    private void resize(int capacity) {
+        assert capacity &gt;= n;
+        Key[] tempk = (Key[]) new Comparable[capacity];
+        Value[] tempv = (Value[]) new Object[capacity];
+        for (int i = 0; i &lt; n; i++) {
+            tempk[i] = keys[i];
+            tempv[i] = vals[i];
+        }
+        vals = tempv;
+        keys = tempk;
+    }
+\/
+    public int size() {
+        return n;
+    }
+\/
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+\/
+    public boolean contains(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to contains() is null");
+        return get(key) != null;
+    }
+\/
+    public Value get(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to get() is null");
+        if (isEmpty()) return null;
+        int i = rank(key);
+        if (i &lt; n && keys[i].compareTo(key) == 0) return vals[i];
+        return null;
+    }
+\/
+    public int rank(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to rank() is null");
+\/
+        int lo = 0, hi = n - 1;
+        while (lo &lt;= hi) {
             int mid = lo + (hi - lo) / 2;
             int cmp = key.compareTo(keys[mid]);
-            if (cmp < 0) hi = mid - 1;
-            else if (cmp > 0) lo = mid + 1;
+            if (cmp &lt; 0) hi = mid - 1;
+            else if (cmp &gt; 0) lo = mid + 1;
             else return mid;
         }
         return lo;
     }
-```
+\/
+    public void put(Key key, Value val) {
+        if (key == null) throw new IllegalArgumentException("first argument to put() is null");
+\/
+        if (val == null) {
+            delete(key);
+            return;
+        }
+\/
+        int i = rank(key);
+\/
+        if (i &lt; n && keys[i].compareTo(key) == 0) {
+            vals[i] = val;
+            return;
+        }
+\/
+        if (n == keys.length) resize(2 * keys.length);
+\/        
+        for (int j = n; j &gt; i; j--) {
+            keys[j] = keys[j - 1];
+            vals[j] = vals[j - 1];
+        }
+        keys[i] = key;
+        vals[i] = val;
+        n++;
+\/
+        assert check();
+    }
+\/
+    public void delete(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+        if (isEmpty()) return;
+\/
+        int i = rank(key);
+\/
+        if (i == n || keys[i].compareTo(key) != 0) {
+            return;
+        }
+\/
+        for (int j = i; j &lt; n - 1; j++) {
+            keys[j] = keys[j + 1];
+            vals[j] = vals[j + 1];
+        }
+\/
+        n--;
+        keys[n] = null;
+        vals[n] = null;
+\/
+        if (n &gt; 0 && n == keys.length / 4) resize(keys.length / 2);
+\/        
+        assert check();
+    }
+\/
+    public void deleteMin() {
+        if (isEmpty()) throw new NoSuchElementException("Symbol table underflow error");
+        delete(min());
+    }
+\/
+    public void deleteMax() {
+        if (isEmpty()) throw new NoSuchElementException("Symbol table underflow error");
+        delete(max());
+    }
+\/
+    public Key min() {
+        if (isEmpty()) throw new NoSuchElementException("called min() with empty symbol table");
+        return keys[0];
+    }
+\/
+    public Key max() {
+        if (isEmpty()) throw new NoSuchElementException("called max() with empty symbol table");
+        return keys[n - 1];
+    }
+\/    
+    public Key select(int k) {
+        if (k &lt; 0 || k &gt;= size()) {
+            throw new IllegalArgumentException("called select() with invalid argument: " + k);
+        }
+        return keys[k];
+    }
+\/
+    public Key floor(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to floor() is null");
+        int i = rank(key);
+        if (i &lt; n && key.compareTo(keys[i]) == 0) return keys[i];
+        if (i == 0) throw new NoSuchElementException("argument to floor() is too small");
+        else return keys[i - 1];
+    }
+\/
+    public Key ceiling(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
+        int i = rank(key);
+        if (i == n) throw new NoSuchElementException("argument to ceiling() is too large");
+        else return keys[i];
+    }
+\/
+    public int size(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
+\/
+        if (lo.compareTo(hi) &gt; 0) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else return rank(hi) - rank(lo);
+    }
+\/
+    public Iterable&lt;Key&gt; keys() {
+        return keys(min(), max());
+    }
+\/
+    public Iterable&lt;Key&gt; keys(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to keys() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
+\/
+        LinkedList&lt;Key&gt; queue = new LinkedList&lt;&gt;();
+        if (lo.compareTo(hi) &gt; 0) return queue;
+        queue.addAll(Arrays.asList(keys).subList(rank(lo), rank(hi)));
+        if (contains(hi)) queue.add(keys[rank(hi)]);
+        return queue;
+    }
+\/
+    private boolean check() {
+        return isSorted() && rankCheck();
+    }
+\/    
+    private boolean isSorted() {
+        for (int i = 1; i &lt; size(); i++)
+            if (keys[i].compareTo(keys[i - 1]) &lt; 0) return false;
+        return true;
+    }
+\/
+    private boolean rankCheck() {
+        for (int i = 0; i &lt; size(); i++)
+            if (i != rank(select(i))) return false;
+        for (int i = 0; i &lt; size(); i++)
+            if (keys[i].compareTo(select(rank(keys[i]))) != 0) return false;
+        return true;
+    }
+\/
+    public static void main(String[] args) {
+        BinarySearchST&lt;String, Integer&gt; st = new BinarySearchST&lt;&gt;();
+        String[] input = {"S", "E", "A", "R", "C", "H", "E", "X", "A", "M", "P", "L", "E"};
+        for (int i = 0; i &lt; input.length; i++) {
+            String key = input[i];
+            st.put(key, i);
+        }
+        for (String s : st.keys())
+            System.out.println(s + " " + st.get(s));
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cassert&gt;
+#include &lt;stdexcept&gt;
+#include &lt;optional&gt;
+\/
+template &lt;typename Key, typename Value&gt;
+class BinarySearchST {
+private:
+    static constexpr int INIT_CAPACITY = 2;
+    std::vector&lt;Key&gt; keys;
+    std::vector&lt;Value&gt; vals;
+    int n;
+    const Value MISSING_VALUE = -1;
+\/    
+    void resize(int capacity) {
+        assert(capacity &gt;= n);
+        std::vector&lt;Key&gt; tempk(capacity);
+        std::vector&lt;Value&gt; tempv(capacity);
+        for (int i = 0; i &lt; n; i++) {
+            tempk[i] = keys[i];
+            tempv[i] = vals[i];
+        }
+        vals = tempv;
+        keys = tempk;
+    }
+\/
+public:
+    BinarySearchST() : BinarySearchST(INIT_CAPACITY) {}
+\/
+    explicit BinarySearchST(int capacity) : keys(capacity), vals(capacity), n(0) {}
+\/
+    [[nodiscard]] int size() const { return n; }
+\/
+    [[nodiscard]] bool isEmpty() const { return size() == 0; }
+\/
+    [[nodiscard]] bool contains(const Key& key) const {
+        return get(key).has_value();
+    }
+\/
+    [[nodiscard]] std::optional&lt;Value&gt; get(const Key& key) const {
+        if (isEmpty()) return std::nullopt;
+        int i = rank(key);
+        if (i &lt; n && keys[i] == key) return vals[i];
+        return std::nullopt;
+    }
+\/
+    [[nodiscard]] int rank(const Key& key) const {
+        int lo = 0, hi = n - 1;
+        while (lo &lt;= hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (key &lt; keys[mid]) hi = mid - 1;
+            else if (key &gt; keys[mid]) lo = mid + 1;
+            else return mid;
+        }
+        return lo;
+    }
+\/
+    void put(const Key& key, const Value& val) {
+        if (val == MISSING_VALUE) {
+            delete_(key);
+            return;
+        }
+\/
+        int i = rank(key);
+\/
+        if (i &lt; n && keys[i] == key) {
+            vals[i] = val;
+            return;
+        }
+\/
+        if (n == keys.size()) resize(2 * keys.size());
+\/
+        for (int j = n; j &gt; i; j--) {
+            keys[j] = keys[j - 1];
+            vals[j] = vals[j - 1];
+        }
+        keys[i] = key;
+        vals[i] = val;
+        n++;
+\/
+        assert(check());
+    }
+\/
+    void delete_(const Key& key) {
+        if (isEmpty()) return;
+\/
+        int i = rank(key);
+\/
+        if (i == n || keys[i] != key) {
+            return;
+        }
+\/
+        for (int j = i; j &lt; n - 1; ++j) {
+            keys[j] = keys[j + 1];
+            vals[j] = vals[j + 1];
+        }
+\/
+        n--;
+        if (n &gt; 0 && n == keys.size() / 4) resize(keys.size() / 2);
+\/
+        assert(check());
+    }
+\/
+    void deleteMin() {
+        if (isEmpty()) throw std::runtime_error("Symbol table underflow error");
+        delete_(min());
+    }
+\/
+    void deleteMax() {
+        if (isEmpty()) throw std::runtime_error("Symbol table underflow error");
+        delete_(max());
+    }
+\/
+    [[nodiscard]] Key min() const {
+        if (isEmpty()) throw std::runtime_error("called min() with empty symbol table");
+        return keys[0];
+    }
+\/
+    [[nodiscard]] Key max() const {
+        if (isEmpty()) throw std::runtime_error("called max() with empty symbol table");
+        return keys[n - 1];
+    }
+\/
+    [[nodiscard]] Key select(int k) const {
+        if (k &lt; 0 || k &gt;= size()) {
+            throw std::invalid_argument("called select() with invalid argument: " + std::to_string(k));
+        }
+        return keys[k];
+    }
+\/
+    [[nodiscard]] Key floor(const Key& key) const {
+        int i = rank(key);
+        if (i &lt; n && key == keys[i]) return keys[i];
+        if (i == 0) throw std::runtime_error("argument to floor() is too small");
+        else return keys[i - 1];
+    }
+\/
+    [[nodiscard]] Key ceiling(const Key& key) const {
+        int i = rank(key);
+        if (i == n) throw std::runtime_error("argument to ceiling() is too large");
+        else return keys[i];
+    }
+\/
+    [[nodiscard]] int size(const Key& lo, const Key& hi) const {
+        if (lo &gt; hi) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else return rank(hi) - rank(lo);
+    }
+\/
+    [[nodiscard]] std::vector&lt;Key&gt; getkeys() const {
+        return getkeys(min(), max());
+    }
+\/
+    [[nodiscard]] std::vector&lt;Key&gt; getkeys(const Key& lo, const Key& hi) const {
+        std::vector&lt;Key&gt; queue;
+        if (lo &gt; hi) return queue;
+        for (int i = rank(lo); i &lt; rank(hi); ++i)
+            queue.push_back(keys[i]);
+        if (contains(hi)) queue.push_back(keys[rank(hi)]);
+        return queue;
+    }
+\/
+private:
+    [[nodiscard]] bool check() const {
+        return isSorted() && rankCheck();
+    }
+\/
+    [[nodiscard]] bool isSorted() const {
+        for (int i = 1; i &lt; size(); i++)
+            if (keys[i] &lt; keys[i - 1]) return false;
+        return true;
+    }
+\/
+    [[nodiscard]] bool rankCheck() const {
+        for (int i = 0; i &lt; size(); i++)
+            if (i != rank(select(i))) return false;
+        for (int i = 0; i &lt; size(); i++)
+            if (keys[i] != select(rank(keys[i]))) return false;
+        return true;
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class BinarySearchST:
+    INIT_CAPACITY = 2
+    MISSING_VALUE = -1
+\/
+    def __init__(self, capacity=INIT_CAPACITY):
+        self.keys = [None] * capacity
+        self.vals = [None] * capacity
+        self.n = 0
+\/
+    def size(self):
+        return self.n
+\/
+    def isEmpty(self):
+        return self.size() == 0
+\/
+    def contains(self, key):
+        return self.get(key) is not None
+\/
+    def get(self, key):
+        if self.isEmpty():
+            return None
+        i = self.rank(key)
+        if i &lt; self.n and self.keys[i] == key:
+            return self.vals[i]
+        return None
+\/
+    def rank(self, key):
+        lo = 0
+        hi = self.n - 1
+        while lo &lt;= hi:
+            mid = lo + (hi - lo) // 2
+            if key &lt; self.keys[mid]:
+                hi = mid - 1
+            elif key &gt; self.keys[mid]:
+                lo = mid + 1
+            else:
+                return mid
+        return lo
+\/
+    def put(self, key, val):
+        if val == self.MISSING_VALUE:
+            self.delete(key)
+            return
+\/
+        i = self.rank(key)
+\/
+        if i &lt; self.n and self.keys[i] == key:
+            self.vals[i] = val
+            return
+\/
+        if self.n == len(self.keys):
+            self.resize(2 * len(self.keys))
+\/
+        for j in range(self.n, i, -1):
+            self.keys[j] = self.keys[j - 1]
+            self.vals[j] = self.vals[j - 1]
+        self.keys[i] = key
+        self.vals[i] = val
+        self.n += 1
+\/    
+        assert self.check()
+\/
+    def delete(self, key):
+        if self.isEmpty():
+            return
+\/
+        i = self.rank(key)
+\/
+        if i == self.n or self.keys[i] != key:
+            return
+\/
+        for j in range(i, self.n - 1):
+            self.keys[j] = self.keys[j + 1]
+            self.vals[j] = self.vals[j + 1]
+\/
+        self.n -= 1
+        self.keys[self.n] = None
+        self.vals[self.n] = None
+\/
+        if self.n &gt; 0 and self.n == len(self.keys) // 4:
+            self.resize(len(self.keys) // 2)
+\/
+        assert self.check()
+\/
+    def deleteMin(self):
+        if self.isEmpty():
+            raise Exception("Symbol table underflow error")
+        self.delete(self.min())
+\/
+    def deleteMax(self):
+        if self.isEmpty():
+            raise Exception("Symbol table underflow error")
+        self.delete(self.max())
+\/
+    def min(self):
+        if self.isEmpty():
+            return
+        return self.keys[0]
+\/
+    def max(self):
+        if self.isEmpty():
+            return
+        return self.keys[self.n - 1]
+\/
+    def select(self, k):
+        if k &lt; 0 or k &gt;= self.size():
+            raise ValueError(f"called select() with invalid argument: {k}")
+        return self.keys[k]
+\/
+    def floor(self, key):
+        i = self.rank(key)
+        if i &lt; self.n and key == self.keys[i]:
+            return self.keys[i]
+        if i == 0:
+            raise Exception("argument to floor() is too small")
+        else:
+            return self.keys[i - 1]
+\/
+    def ceiling(self, key):
+        i = self.rank(key)
+        if i == self.n:
+            raise Exception("argument to ceiling() is too large")
+        else:
+            return self.keys[i]
+\/
+    def size_range(self, lo, hi):
+        if lo &gt; hi:
+            return 0
+        if self.contains(hi):
+            return self.rank(hi) - self.rank(lo) + 1
+        else:
+            return self.rank(hi) - self.rank(lo)
+\/
+    def getkeys(self):
+        if self.isEmpty():
+            return []
+        return self.keys_range(self.min(), self.max())
+\/
+    def keys_range(self, lo, hi):
+        queue = []
+        if lo &gt; hi:
+            return queue
+        for i in range(self.rank(lo), self.rank(hi)):
+            queue.append(self.keys[i])
+        if self.contains(hi):
+            queue.append(self.keys[self.rank(hi)])
+        return queue
+\/
+    def resize(self, capacity):
+        assert capacity &gt;= self.n
+        tempk = [None] * capacity
+        tempv = [None] * capacity
+        for i in range(self.n):
+            tempk[i] = self.keys[i]
+            tempv[i] = self.vals[i]
+        self.vals = tempv
+        self.keys = tempk
+\/
+    def check(self):
+        return self.isSorted() and self.rankCheck()
+\/
+    def isSorted(self):
+        for i in range(1, self.size()):
+            if self.keys[i] &lt; self.keys[i - 1]:
+                return False
+        return True
+\/    
+    def rankCheck(self):
+        for i in range(self.size()):
+            if i != self.rank(self.select(i)):
+                return False
+        for i in range(self.size()):
+            if self.keys[i] != self.select(self.rank(self.keys[i])):
+                return False
+        return True
+    </code-block>
+    </tab>
+</tabs>
 
 ### 9.2 Binary Search Trees {id="BST"}
 
-<p>Def: A BST is a <format color = "OrangeRed">binary tree</format> in 
+<p>Def: A BST is a <format color="OrangeRed">binary tree</format> in 
 <format color = "OrangeRed">symmetric order.</format></p>
 
-<p>A <format color = "BlueViolet">binary tree</format> is either:</p>
+<p>A <format color="BlueViolet">binary tree</format> is either:</p>
 <list type = "bullet">
 <li>Empty.</li>
 <li>Two disjoint binary trees (left and right).</li>

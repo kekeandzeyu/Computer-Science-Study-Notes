@@ -8,13 +8,13 @@
 
 <table style="none">
 <tr>
-    <td rowspan = "2">Implementation</td>
+    <td rowspan="2">Implementation</td>
     <td colspan="3">Worst-Case Cost (after <math>N</math> inserts)
     </td>
-    <td colspan = "3">Average Case (after <math>N</math> random 
+    <td colspan="3">Average Case (after <math>N</math> random 
     inserts)</td>
-    <td rowspan = "2">Ordered Iteration?</td>
-    <td rowspan = "2">Key Interface</td>
+    <td rowspan="2">Ordered Iteration?</td>
+    <td rowspan="2">Key Interface</td>
 </tr>
 <tr>
     <td>Search</td>
@@ -25,7 +25,9 @@
     <td>Delete</td>
 </tr>
 <tr>
-    <td>Sequential Search (unordered list)</td>
+    <td><a href="Data-Structures-and-Algorithms-1.md" 
+    anchor="sequential-search" summary="Unordered List 
+    Implementation">Sequential Search (unordered list)</a></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
