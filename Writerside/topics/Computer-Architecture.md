@@ -9,13 +9,530 @@
 
 ### 1 Introduction to C
 
-<p>For this part, please refer to <a href = "C-Programming.md" 
-anchor = "intro" summary = "C++ Introduction">introduction in
-C++ programming</a> for more details.</p>
+<note>
+<p>For this part, please refer to <a href="C-Programming.md" 
+anchor="intro" summary="C++ Introduction">introduction in
+C++ programming</a>.</p>
+</note>
+
+#### 1.1 Number Base
+
+<p><format color="BlueViolet">Commonly Used Number Bases:</format> </p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Decimal (base 10)</format></p>
+    <list type="bullet">
+    <li>
+        <p><format color="LawnGreen">Symbols:</format> 0, 1, 2, 3, 4,
+        5, 6, 7, 8, 9</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Notation:</format> <math>
+        9472_{10} = 9472</math></p>
+    </li>
+    <li>
+        <p>Understandable by humans.</p>
+    </li>
+    </list>
+</li>
+<li>
+    <p><format color="Fuchsia">Binary (base 2)</format></p>
+    <list type="bullet">
+    <li>
+        <p><format color="LawnGreen">Symbols:</format> 0, 1</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Notation:</format> <math>
+        101011_{2} = 0\text{b}101011</math></p>
+    </li>
+    <li>
+        <p>Converting numbers to base 2 lets us represent numbers as 
+        bits!</p>
+    </li>
+    </list>
+</li>
+<li>
+    <p><format color="Fuchsia">Hexadecimal (base 16)</format></p>
+    <list type="bullet">
+    <li>
+        <p><format color="LawnGreen">Symbols:</format> 0, 1, 2, 3, 4,
+        5, 6, 7, 8, 9, A, B, C, D, E, F</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Notation:</format> <math>
+        2\text{A}5\text{D}_{16} = 0\text{x}22400</math></p>
+    </li>
+    <li>
+        <p>A convenient shorthand for writing long sequences of bits.
+        </p>
+    </li>
+    </list>
+</li>
+</list>
+
+<p><format color="BlueViolet">Group of bits:</format> </p>
+
+<list type="bullet">
+<li>
+    <p>1 byte = 8 bits&nbsp;&nbsp;&nbsp;&nbsp;2 hex digits&nbsp;
+    <math>2^{8}=256</math> different values</p>
+</li>
+<li>
+    <p>1 nibble = 4 bits&nbsp;1 hex digit&nbsp;&nbsp;&nbsp;<math>
+    2^{4}=16</math> different values</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Conversions from ten to other bases:
+</format> The leftover algorithm</p>
+
+<img src="../images_architecture/a1-1-2.png" alt="Number Base 
+Conversion"/>
+
+<list type="bullet">
+<li>
+    <p>Check the powers of the base. For base-4: 256, 64, 16, 4, 1.
+    </p>
+</li>
+<li>
+    <p>How many multiples of 64 fit in my number (73)?</p>
+    <p><math>73 – 64 = 9</math> left over.</p>
+</li>
+<li>
+    <p>How many multiples of 16 fit in my remaining number (9)?</p>
+    <p>Still 9 left over.</p>
+</li>
+<li>
+    <p>How many multiples of 4 fit in my remaining number (9)?</p>
+    <p><math>9 – (2 \times 4) = 1</math> left over.</p>
+</li>
+<li>
+    <p>How many multiples of 1 fit in my remaining number (1)?</p>
+    <p><math>1 – 1 = 0</math> left over, which means we're done!</p>
+</li>
+</list>
+
+<p>Converting from base 10 to base 2 will create unsigned integers.
+</p>
+
+<p><format color="BlueViolet">N-bit unsigned integers:</format> </p>
+
+<list type="bullet">
+<li>
+    <p>Can represent <math>2N</math> different numbers.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Smallest number:</format> <math>
+    0\text{b}0000...000</math> represents <math>0</math>.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Largest number:</format> <math>
+    0\text{b}1111...111</math> represents <math>2N – 1</math>.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Overflow:</format> </p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Overflow:</format> 11111111 + 
+    00000001 = 00000000.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Negative overflow:</format> 
+    00000001 – 00000010 = 11111111.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Conclusion:</format> </p>
+
+<table style="header-row">
+<tr>
+    <td colspan="2">Unsigned Integer</td>
+</tr>
+<tr>
+    <td>Can represent negative numbers</td>
+    <td>&chi;</td>
+</tr>
+<tr>
+    <td>Doing math is easy</td>
+    <td>&checkmark;</td>
+</tr>
+<tr>
+    <td>Every bit sequence represents a unique number</td>
+    <td>&checkmark;</td>
+</tr>
+</table>
+
+#### 1.2 Signed Integers
+
+<p><format color="BlueViolet">Idea:</format> Use the left-most bit 
+to indicate if the number is positive (0) or negative (1). This is 
+called <format color="OrangeRed">sign-magnitude</format> 
+representation.</p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Smallest number:</format> <math>
+    0\text{b}1111...111</math> represents <math>–(2^{N – 1} – 1)
+    </math>.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Largest number:</format> <math>
+    0\text{b}0111...111</math> represents <math>+(2^{N – 1} – 1)
+    </math>.</p>
+</li>
+</list>
+
+<table style="header-row">
+<tr>
+    <td colspan="2">Sign-Magnitude</td>
+</tr>
+<tr>
+    <td>Can represent negative numbers</td>
+    <td>&checkmark;</td>
+</tr>
+<tr>
+    <td>Doing math is easy</td>
+    <td>&chi;</td>
+</tr>
+<tr>
+    <td>Every bit sequence represents a unique number</td>
+    <td>&chi;</td>
+</tr>
+</table>
+
+#### 1.3 One's Complement
+
+<p><format color="BlueViolet">Idea:</format> If the number is 
+negative, flip the bits.</p>
+
+<list type="bullet">
+<li>
+    <p>+7 is <math>0\text{b}00111</math>.</p>
+</li>
+<li>
+    <p>-7 is <math>0\text{b}11000</math>.</p>
+</li>
+<li>
+    <p>Left-most bit acts like a sign bit. If it's 1, someone 
+    flipped the bits, so number must be negative.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Smallest number:</format> 
+    <math>0\text{b}1000...000</math> represents <math>
+    –(2^{N – 1} – 1)</math>.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Largest number:</format> 
+    <math>0\text{b}0111...111</math> represents <math>
+    +(2^{N – 1} – 1)</math>.</p>
+</li>
+</list>
+
+<note>
+<p>If we count upwards in base-2, the resulting numbers are always 
+increasing.</p>
+<p>Two representations of zero: 1111 and 0000.</p>
+</note>
+
+<table style="header-row">
+<tr>
+    <td colspan="2">One's Complement</td>
+</tr>
+<tr>
+    <td>Can represent negative numbers</td>
+    <td>&checkmark;</td>
+</tr>
+<tr>
+    <td>Doing math is easy</td>
+    <td>&checkmark;</td>
+</tr>
+<tr>
+    <td>Every bit sequence represents a unique number</td>
+    <td>&chi;</td>
+</tr>
+</table>
+
+#### 1.4 Two's Complement
+
+<p><format color="BlueViolet">Idea:</format> If the number is 
+negative, flip the bits, and add one (because we shifted to avoid 
+double-zero).</p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Smallest number:</format> 
+    <math>0\text{b}1000...000</math> represents <math>
+    –(2^{N – 1})</math>.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Largest number:</format> 
+    <math>0\text{b}0111...111</math> represents <math>
+    +(2^{N – 1} – 1)</math>.</p>
+</li>
+</list>
+
+<note>
+<p><format color="BlueViolet">Another definition:</format> The 
+left-most power of 2 is now negative, not positive.</p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Left-most bit 0:</format> Read the 
+    rest of the number as an unsigned integer.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Left-most bit 1:</format> Subtract a 
+    big power of 2. Resulting number is negative!</p>
+</li>
+<li>
+    <p>For example, 0000-0111 represent 0->7, while 1000-1111 
+    represent -8->-1.</p>
+</li>
+</list>
+</note>
+
+<p><format color="BlueViolet">To convert two's complement to a 
+signed decimal number:</format> </p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">If left-most digit is 0:</format> 
+    Positive number.</p>
+    <list type="bullet">
+    <li>
+        <p>Just read it as unsigned.</p>
+    </li>
+    </list>
+</li>
+<li>
+    <p><format color="Fuchsia">If left-most digit is 1:</format> 
+    Negative number.</p>
+    <list type="bullet">
+    <li>
+        <p>Flip the bits, and add 1.</p>
+    </li>
+    <li>
+        <p>Convert to base-10, and stick a negative sign in front.
+        </p>
+    </li>
+    </list>
+</li>
+</list>
+
+<p>Example: What is 0b1110 1100 in decimal?</p>
+
+<list>
+<li>
+    <p>Flip the bits: 0b0001 0011</p>
+</li>
+<li>
+    <p>Add one: 0b0001 0100</p>
+</li>
+<li>
+    <p>In base-10: –20</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">To convert two's complement to a 
+signed decimal number:</format> </p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">IIf number is positive:</format> </p>
+    <list type="bullet">
+    <li>
+        <p>Just convert it to base-2.</p>
+    </li>
+    </list>
+</li>
+<li>
+    <p><format color="Fuchsia">If number is negative:</format></p>
+    <list type="bullet">
+    <li>
+        <p>Pretend it's unsigned, and convert to base-2.</p>
+    </li>
+    <li>
+        <p>Flip the bits, and add 1.</p>
+    </li>
+    </list>
+</li>
+</list>
+
+<p>Example: What is –20 in two's complement binary?</p>
+
+<list type="bullet">
+<li>
+    <p>In base-2: 0b0001 0100</p>
+</li>
+<li>
+    <p>Flip the bits: 0b1110 1011</p>
+</li>
+<li>
+    <p>Add one: 0b1110 1100</p>
+</li>
+</list>
+
+<table style="header-row">
+<tr>
+    <td colspan="2">Two's Complement</td>
+</tr>
+<tr>
+    <td>Can represent negative numbers</td>
+    <td>&checkmark;</td>
+</tr>
+<tr>
+    <td>Doing math is easy</td>
+    <td>&checkmark;</td>
+</tr>
+<tr>
+    <td>Every bit sequence represents a unique number</td>
+    <td>&checkmark;</td>
+</tr>
+</table>
+
+<note>
+    <p>Because of overflow, addition behaves like modular arithmetic
+    .</p>
+    <p>11 and –5 are the same number in mod land: 11 mod 16.</p>
+</note>
+
+#### 1.5 Bias Notation
+
+<p><format color="BlueViolet">Idea:</format> Just like unsigned, 
+but shifted on the number line.</p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Smallest number:</format>
+    0b0000...000 represents <math>\text{bias}</math>.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Largest number:</format>
+    0b1111...111 represents <math>2^{N – 1} + \text{bias}</math>.
+    </p>
+</li>
+</list>
+
+<img src="../images_architecture/a1-1-3.png" alt="Bias Notation"/>
+
+<p><format color="BlueViolet">To convert from bias to decimal:
+</format></p>
+
+<list type="bullet">
+<li>
+    <p>Read as unsigned decimal.</p>
+</li>
+<li>
+    <p>Add the bias.</p>
+</li>
+</list>
+
+<p>Example: Assuming standard bias, what is 0b00000001 in decimal?</p>
+
+<list type="bullet">
+<li>
+    <p><math>N = 8</math>, so standard bias is: <math>–(2^{8–1} – 1) 
+    = –127</math>.</p>
+</li>
+<li>
+    <p>Read as unsigned: 1</p>
+</li>
+<li>
+    <p>Add the bias: <math>1 + (--127) = –126</math></p>
+</li>
+</list>
+
+<p><format color="BlueViolet">To convert from decimal to bias notation:
+</format></p>
+
+<list type="bullet">
+<li>
+    <p>Subtract the bias.</p>
+</li>
+<li>
+    <p>Convert to unsigned binary.</p>
+</li>
+</list>
+
+<p>Example: What is –126 in 8-bit biased notation?</p>
+
+<list>
+<li>
+    <p><math>N = 8</math>, so standard bias is: <math>–(2^{8–1} – 1) 
+    = –127</math>.</p>
+</li>
+<li>
+    <p>Subtract the bias: –126 – (–127) = 1</p>
+</li>
+<li>
+    <p>Write in base-2: 0b00000001</p>
+</li>
+</list>
+
+<table style="header-row">
+<tr>
+    <td colspan="2">Bias Notation</td>
+</tr>
+<tr>
+    <td>Can represent negative numbers</td>
+    <td>&checkmark;</td>
+</tr>
+<tr>
+    <td>Doing math is easy</td>
+    <td>&chi;</td>
+</tr>
+<tr>
+    <td>Every bit sequence represents a unique number</td>
+    <td>&checkmark;</td>
+</tr>
+</table>
+
+#### 1.6 Sign Extension
+
+<p>Leftmost is the most significant bit (MSB).</p>
+
+<p>Rightmost is the least significant bit (LSB).</p>
+
+<list type="bullet">
+<li>
+    <p>Want to represent the same number using more bits than 
+    before.</p>
+    <list type="bullet">
+    <li>
+        <p>Easy for positive numbers (add leading 0's), more 
+        complicated for negative numbers.</p>
+    </li>
+    <li>
+        <p><format color="Fuchsia">Sign and magnitude:</format>
+        add 0's after the sign bit.</p>
+    </li>
+    <li>
+        <p><format color="Fuchsia">One's/Two's Complement:</format>
+        copy MSB.</p>
+    </li>
+    </list>
+</li>
+<li>
+    <p><format color="Fuchsia">Example:</format></p>
+    <list type="bullet">
+    <li>
+        <p><format color="LawnGreen">Sign and magnitude:</format> 
+        0b1101 = 0b10000101.</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">One's/Two's complement:</format> 
+        0b1100 = 0b11111100.</p>
+    </li>
+    </list>
+</li>
+</list>
 
 ### 2 C Memory Layout
 
-<p>Program's <format color = "OrangeRed" style = "italic">address space
+<p>Program's <format color="OrangeRed" style="italic">address space
 </format> contains 4 regions: </p>
 <list>
 <li>

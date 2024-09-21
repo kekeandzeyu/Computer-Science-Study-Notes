@@ -300,7 +300,7 @@ FROM Students [AS] S
 WHERE S.dept = 'CS'
 ORDER BY S.gpa DESC, S.name ASC, a2;
 LIMIT 3;
-</code-block>>
+</code-block>
 
 <list type="alpha-lower">
 <li>
