@@ -38,7 +38,9 @@
     <td><code>equals()</code></td>
 </tr>
 <tr>
-    <td>Binary Search (ordered list)</td>
+    <td><a href="Data-Structures-and-Algorithms-1.md" 
+    anchor="ordered-array" summary="Ordered Array Implementation">
+    Binary Search (ordered list)</a></td>
     <td><math>\lg N</math></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
@@ -49,7 +51,8 @@
     <td><code>compareTo()</code></td>
 </tr>
 <tr>
-    <td>BST</td>
+    <td><a href="Data-Structures-and-Algorithms-1.md" 
+    anchor="BST" summary="Binary Search Tree">BST</a></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
@@ -60,7 +63,7 @@
     <td><code>compareTo()</code></td>
 </tr>
 <tr>
-    <td>2-3 Tree</td>
+    <td><a anchor="2-3-trees" summary="2-3 Tree">2-3 Tree</a></td>
     <td><math>c \log N</math></td>
     <td><math>c \log N</math></td>
     <td><math>c \log N</math></td>
@@ -71,7 +74,8 @@
     <td><code>compareTo()</code></td>
 </tr>
 <tr>
-    <td>Red-Black BST</td>
+    <td><a anchor="red-black-bsts" summary="Red-Black BSTs">
+    Red-Black BST</a></td>
     <td><math>2 \log N</math></td>
     <td><math>2 \log N</math></td>
     <td><math>2 \log N</math></td>
@@ -87,7 +91,7 @@
 
 <p>Basic properties: </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Allow 1 or 2 keys per node.</p>
 </li>

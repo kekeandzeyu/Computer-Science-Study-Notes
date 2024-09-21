@@ -5852,7 +5852,7 @@ class SequentialSearchST:
     </tab>
 </tabs>
 
-#### 9.1.2 Ordered Array {id="ordered-array"}
+#### 9.1.2 Ordered Array Implementation {id="ordered-array"}
 
 <p><format color="BlueViolet">Method</format>: Maintain an ordered 
 array of key-value pairs.</p>
