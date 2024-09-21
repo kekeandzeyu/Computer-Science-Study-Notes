@@ -70,7 +70,7 @@ For English version please check [here](README.md)
 
 ### Topic 4: 计算机体系结构
 
-1. CS61C: Great Ideas in Computer Architecture (UC Berkeley) by Instructors Stephan Kaminsky, Sean Farhat, Jenny Song, and the rest of CS61C staff.
+1. CS61C: Great Ideas in Computer Architecture (UC Berkeley) by Professors Stephan Kaminsky, Sean Farhat, Jenny Song, Dan Garcia, Peyrin Kao, and the rest of CS61C staff.
 
 ### Topic 5: 操作系统
 

@@ -2410,22 +2410,24 @@ StringVector findAllWords(const string& filename) {
 
 #### 12.1 lvalues & rvalues
 
-<p><format color = "BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "DarkOrange">lvalue:</format> An l-value is an 
-expression that has a name (identity).</p>
+    <p><format color="DarkOrange">lvalue:</format> An l-value is an 
+    expression that has a name (identity).</p>
 </li>
 <li>
-<p><format color = "DarkOrange">rvalue:</format> An r-value is an 
-expression that does not have a name (identity).</p>
+    <p><format color="DarkOrange">rvalue:</format> An r-value is an 
+    expression that does not have a name (identity).</p>
 </li>
 </list>
 
-<table style = "both">
+<table style="both">
     <tr>
-        <td></td><td>l-value</td><td>r-value</td>
+        <td></td>
+        <td>l-value</td>
+        <td>r-value</td>
     </tr>
     <tr>
         <td>Find address using address-of operator (&var)</td>
@@ -2447,22 +2449,22 @@ expression that does not have a name (identity).</p>
         <td rowspan="2">Value References</td>
         <td><p>An <format color = "OrangeRed">l-value</format> 
         reference can bind to an l-value.</p>
-        <code-block lang = "C++">
+        <code-block lang="C++">
             auto& ptr2 = (ptr += 3);
         </code-block>
         </td>
-        <td><p>An <format color = "OrangeRed">r-value</format> 
+        <td><p>An <format color="OrangeRed">r-value</format> 
         reference can bind to an r-value.</p>
-        <code-block lang = "C++">
+        <code-block lang="C++">
             auto&& v4 = v1 + v2;
         </code-block>
         </td>
     </tr>
     <tr>
         <td colspan="2"><p>A <format color = "Plum">const</format> 
-        <format color = "OrangeRed">l-value</format> reference can bind to 
+        <format color="OrangeRed">l-value</format> reference can bind to 
         either l or r-value.</p>
-        <code-block lang = "C++">
+        <code-block lang="C++">
             const auto& ptr2 = (ptr += 3);
             const auto& v4 = v1 + v2;
         </code-block>
@@ -2493,7 +2495,7 @@ val = static_cast<int>(size); // val: lvalue, static_cast<int>(size): rvalue
 <p>BUT the r-value reference itself is an l-value</p>
 </warning>
 
-<img src = "../images_c/c10-1.png" alt = "Value References"/>
+<img src = "../images_c/c12-1.png" alt = "Value References"/>
 
 #### 12.2 Move Semantics
 
