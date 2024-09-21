@@ -6700,266 +6700,264 @@ class ST:
 
 ### 9.3 Binary Search Trees {id="BST"}
 
-<p>Def: A BST is a <format color="OrangeRed">binary tree</format> in 
-<format color = "OrangeRed">symmetric order.</format></p>
+<p><format color="DarkOrange">Binary Saerch Tree</format>: A BST is a
+<format color="OrangeRed">binary tree</format> in <format color=
+"OrangeRed">symmetric order</format>.</p>
 
-<p>A <format color="BlueViolet">binary tree</format> is either:</p>
-<list type = "bullet">
-<li>Empty.</li>
-<li>Two disjoint binary trees (left and right).</li>
+<p>A binary tree is either:</p>
+
+<list type="bullet">
+<li>
+    <p>Empty.</p>
+</li>
+<li>
+    <p>Two disjoint binary trees (left and right).</p>
+</li>
 </list>
 
-<p><format color = "BlueViolet">Symmetric order</format>: Each node has
-a key, and every node's key is:</p>
-<list>
-<li>Larger than all keys in the left subtree.</li>
-<li>Smaller than all keys in the right subtree.</li>
+<img src="../images_data/d9-3-1.png" alt="Binary Search Tree"/>
+
+<p><format color="BlueViolet">Symmetric order</format>: Each node 
+has a key, and every node's key is:</p>
+
+<list type="bullet">
+<li>
+    <p>Larger than all keys in the left subtree.</p>
+</li>
+<li>
+    <p>Smaller than all keys in the right subtree.</p>
+</li>
 </list>
 
-<procedure title = "Basic Plan for BST Search" type = "choices">
+<img src="../images_data/d9-3-2.png" alt="Symmetric Order"/>
+
+<procedure title="BST Search">
 <step>
-If less, go left.
+    <p>If less, go left.</p>
 </step>
 <step>
-If greater, go right.
+    <p>If greater, go right.</p>
 </step>
 <step>
-If equal, search hit.
+    <p>If equal, search hit.</p>
 </step>
 </procedure>
 
-<procedure title = "Basic Plan for BST Insertion" type = "choices">
+<procedure title="BST Insertion">
 <step>
-If less, go left.
-</step>
-<step>
-If greater, go right.
-</step>
-<step>
-Search for keys, then two cases；
-<list type = "bullet">
-<li>
-Key in tree => reset value
-</li>
-<li>
-Key not in tree => add new node
-</li>
-</list>
+    <p>Search for keys, then two cases:</p>
+    <list type="bullet">
+    <li>
+        <p>Key in tree => reset value</p>
+    </li>
+    <li>
+        <p>Key not in tree => add new node</p>
+    </li>
+    </list>
 </step>
 </procedure>
 
-<p>Property: If <math>N</math> distinct keys are inserted into a BST
-in <format color = "OrangeRed">random order</format>, the expected number 
-of compares for a search/insert is <math>\sim 2 \ln N</math>.
+<p><format color="BlueViolet">Property:</format> If <math>N</math> 
+distinct keys are inserted into a BST in <format color="OrangeRed">
+random order</format>, the expected number of compares for a search
+/insert is <math>\sim 2 \ln N</math>.
 </p>
 
-<p>Proof: 1-1 correspondence with quicksort partitioning.</p>
+<p><format color="LawnGreen">Proof:</format> 1-1 correspondence 
+with quicksort partitioning.</p>
 
-<p><format color="BlueViolet">Floor</format>: Largest key &le; to a 
-given key.</p>
-
-<p><format color="BlueViolet">Ceiling</format>: Smallest key &ge; to
-a given key.</p>
-
-<p><format color="BlueViolet">Rank</format>: How many keys &lt; k</p>
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Floor</format>: Largest key &le; to 
+    a given key.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Ceiling</format>: Smallest key &ge; to
+    a given key.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Rank</format>: How many keys &lt; k</p>
+</li>
+</list>
 
 <procedure title="Computing the Floor" type="choices">
 <step>
-<p>
-<math>k</math> equals to the key at the root. => The floor of 
-<math>k</math> is <math>k</math>.
-</p>
+    <p><math>k</math> equals to the key at the root. => The floor of 
+    <math>k</math> is <math>k</math>.</p>
 </step>
 <step>
-<p>
-<math>k</math> is less than the key at the root. => The floor of
-<math>k</math> is in the left subtree.
-</p>
+    <p><math>k</math> is less than the key at the root. => The floor
+    of <math>k</math> is in the left subtree.</p>
 </step>
 <step>
-<p>
-<math>k</math> is greater than the key at the root. => The floor of
-<math>k</math> is in the right subtree (if there is any key &le; <math> k</math>); 
-otherwise, it is the key at the root.
-</p>
+    <p><math>k</math> is greater than the key at the root. => The 
+    floor of <math>k</math> is in the right subtree (if there is any
+    key <math>\leq; k</math>); otherwise, it is the key at the root.
+    </p>
+</step>
+<img src="../images_data/d9-3-3.png" alt="Computing the Floor"/>
+</procedure>
+
+<procedure title="Deleting the Minimum">
+<step>
+    <p>Go left until finding a node with a null left link.</p>
+</step>
+<step>
+    <p>Replace that node by its right link.</p>
+</step>
+<step>
+    <p>Update subtree counts.</p>
+</step>
+<img src="../images_data/d9-3-4.png" alt="Delete the minimum"/>
+</procedure>
+
+<procedure title="Habbard Deletion" type="choices">
+<step>
+    <p><format color="Fuchsia">0 children:</format> Delete <math>t
+    </math> by setting parent link to null.</p>
+    <img src="../images_data/d9-3-5.png" alt="Habbard Deletion 0 
+    children"/>
+</step>
+<step>
+    <p><format color="Fuchsia">1 child:</format> Delete <math>t
+    </math> by replacing parent link.</p>
+    <img src="../images_data/d9-3-6.png" alt="Habbard Deletion 1 
+    child"/>
+</step>
+<step>
+    <p><format color="Fuchsia">2 children:</format></p>
+    <list type="bullet">
+    <li>
+        <p>Find successor <math>x</math> of <math>t</math>.</p>
+    </li>
+    <li>
+        <p>Delete the minimum in its <math>t</math>'s right subtree
+        .</p>
+    </li>
+    <li>
+        <p>Put <math>x</math> in <math>t</math>'s spot.</p>
+    </li>
+    </list>
+    <img src="../images_data/d9-3-7.png" alt="Habbard Deletion 2 
+    children"/>
 </step>
 </procedure>
 
-<procedure title="Deleting the Minimum" type="choices">
-<step>
-<p>Go left until finding a node with a null left link.</p>
-</step>
-<step>
-<p>Replace that node by its right link.</p>
-</step>
-<step>
-<p>Update subtree counts.</p>
-</step>
-<img src = "../images_data/d9-2-1.png" alt = "Delete the minimum" style = "inline"/>
-</procedure>
-
-<procedure title = "Basic Plan for Habbard Deletion" type = "choices">
-<step>
-<p>0 children: Delete <math>t</math> by setting parent link to null.</p>
-<img src = "../images_data/d9-2-2.png" alt = "Habbard Deletion 0 children" style = "inline"/>
-</step>
-<step>
-<p>1 child: Delete <math>t</math> by replacing parent link.</p>
-<img src = "../images_data/d9-2-3.png" alt = "Habbard Deletion 1 child" style = "inline"/>
-</step>
-<step>
-<p>2 children:</p>
-<list type = "bullet">
-<li>
-<p>Find successor <math>x</math> of <math>t</math>.</p>
-</li>
-<li>
-<p>Delete the minimum in its <math>t</math>'s right subtree.</p>
-</li>
-<li>
-<p>Put <math>x</math> in <math>t</math>'s spot.</p>
-</li>
-</list>
-<img src="../images_data/d9-2-4.png" alt="Habbard Deletion 2 children"/>
-</step>
-</procedure>
-
-Java
-
-```Java
-public class BST<Key extends Comparable<Key>, Value> {
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.LinkedList;
+\/
+public class BST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
     private Node root;
-
+\/
     private class Node {
-        private Key key;
+        private final Key key;
         private Value val;
         private Node left, right;
         private int size;
-
+\/
         public Node(Key key, Value val, int size) {
             this.key = key;
             this.val = val;
             this.size = size;
         }
     }
-
-    // BST Search
-    public Value get(Key key) {
-        Node x = root;
-        while (x != null) {
-            int cmp = key.compareTo(x.key);
-            if (cmp < 0) x = x.left;
-            else if (cmp > 0) x = x.right;
-            else return x.val;
-        }
-        return null;
+\/
+    public BST() {
     }
-
-    // BST Insertion
-    public void put (Key key, Value val) {
-        root = put(root, key, val);
+\/
+    public boolean isEmpty() {
+        return size() == 0;
     }
-
-    private Node put(Node x, Key key, Value val) {
-        if (x == null) return new Node(key, val, 1);
-        int cmp = key.compareTo(x.key);
-        if (cmp < 0) x.left = put(x.left, key, val);
-        else if (cmp > 0) x.right = put(x.right, key, val);
-        else x.val = val;
-        x.size = 1 + size(x.left) + size(x.right);
-        return x;
-    }
-
-    // Largest Key <= to a given key
-    public Key floor(Key key) {
-        Node x = floor(root, key);
-        if (x == null) return null;
-        return x.key;
-    }
-
-    private Node floor(Node x, Key key) {
-        if (x == null) return null;
-        int cmp = key.compareTo(x.key);
-        if (cmp == 0) return x;
-        if (cmp < 0) return floor(x.left, key);
-        Node t = floor(x.right, key);
-        if (t != null) return t;
-        else return x;
-    }
-    
-    public Key ceiling(Key key) {
-        Node x = ceiling(root, key);
-        if (x == null) return null;
-        else return x.key;
-    }
-
-    private Node ceiling(Node x, Key key) {
-        if (x == null) return null;
-        int cmp = key.compareTo(x.key);
-        if (cmp == 0) return x;
-        if (cmp < 0) {
-            Node t = ceiling(x.left, key);
-            if (t != null) return t;
-            else return x;
-        }
-        return ceiling(x.right, key);
-    }
-
-    // Number of nodes in the tree
+\/
     public int size() {
         return size(root);
     }
-
+\/
     private int size(Node x) {
         if (x == null) return 0;
         else return x.size;
     }
-
-    // How many keys < k
-    public int rank(Key key) {
-        return rank(key, root);
+\/
+    public boolean contains(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to contains() is null");
+        return get(key) != null;
     }
-
-    private int rank(Key key, Node x) {
-        if (x == null) return 0;
+\/
+    public Value get(Key key) {
+        return get(root, key);
+    }
+\/
+    private Value get(Node x, Key key) {
+        if (key == null) throw new IllegalArgumentException("calls get() with a null key");
+        if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if (cmp < 0) return rank(key, x.left);
-        else if (cmp > 0) return 1 + size(x.left) + rank(key, x.right);
-        else return size(x.left);
+        if (cmp &lt; 0) return get(x.left, key);
+        else if (cmp &gt; 0) return get(x.right, key);
+        else return x.val;
     }
-
-    public void deleteMin(Key key) {
+\/
+    public void put(Key key, Value val) {
+        if (key == null) throw new IllegalArgumentException("calls put() with a null key");
+        if (val == null) {
+            delete(key);
+            return;
+        }
+        root = put(root, key, val);
+        assert check();
+    }
+\/
+    private Node put(Node x, Key key, Value val) {
+        if (x == null) return new Node(key, val, 1);
+        int cmp = key.compareTo(x.key);
+        if (cmp &lt; 0) x.left = put(x.left, key, val);
+        else if (cmp &gt; 0) x.right = put(x.right, key, val);
+        else x.val = val;
+        x.size = 1 + size(x.left) + size(x.right);
+        return x;
+    }
+\/
+    public void deleteMin() {
+        if (isEmpty()) throw new NoSuchElementException("Symbol table underflow");
         root = deleteMin(root);
+        assert check();
     }
-
+\/
     private Node deleteMin(Node x) {
         if (x.left == null) return x.right;
         x.left = deleteMin(x.left);
         x.size = size(x.left) + size(x.right) + 1;
         return x;
     }
-
+\/
     public void deleteMax() {
+        if (isEmpty()) throw new NoSuchElementException("Symbol table underflow");
         root = deleteMax(root);
+        assert check();
     }
-
+\/
     private Node deleteMax(Node x) {
         if (x.right == null) return x.left;
         x.right = deleteMax(x.right);
         x.size = size(x.left) + size(x.right) + 1;
         return x;
     }
-
+\/
     public void delete(Key key) {
+        if (key == null) throw new IllegalArgumentException("calls delete() with a null key");
         root = delete(root, key);
+        assert check();
     }
-
-    // Hibbard Deletion
+\/
     private Node delete(Node x, Key key) {
         if (x == null) return null;
+\/
         int cmp = key.compareTo(x.key);
-        if (cmp < 0) x.left = delete(x.left, key);
-        else if (cmp > 0) x.right = delete(x.right, key);
+        if (cmp &lt; 0) x.left = delete(x.left, key);
+        else if (cmp &gt; 0) x.right = delete(x.right, key);
         else {
             if (x.right == null) return x.left;
             if (x.left == null) return x.right;
@@ -6971,270 +6969,566 @@ public class BST<Key extends Comparable<Key>, Value> {
         x.size = size(x.left) + size(x.right) + 1;
         return x;
     }
-}
-```
-
-C++
-
-```C++
-#include <iostream>
-
+\/
+    public Key min() {
+        if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
+        return min(root).key;
+    }
+\/
+    private Node min(Node x) {
+        if (x.left == null) return x;
+        else return min(x.left);
+    }
+\/
+    public Key max() {
+        if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
+        return max(root).key;
+    }
+\/
+    private Node max(Node x) {
+        if (x.right == null) return x;
+        else return max(x.right);
+    }
+\/
+    public Key floor(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to floor() is null");
+        if (isEmpty()) throw new NoSuchElementException("calls floor() with empty symbol table");
+        Node x = floor(root, key);
+        if (x == null) throw new NoSuchElementException("argument to floor() is too small");
+        else return x.key;
+    }
+\/
+    private Node floor(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp == 0) return x;
+        if (cmp &lt; 0) return floor(x.left, key);
+        Node t = floor(x.right, key);
+        if (t != null) return t;
+        else return x;
+    }
+\/
+    public Key floor2(Key key) {
+        Key x = floor2(root, key, null);
+        if (x == null) throw new NoSuchElementException("argument to floor() is too small");
+        else return x;
+    }
+\/
+    private Key floor2(Node x, Key key, Key best) {
+        if (x == null) return best;
+        int cmp = key.compareTo(x.key);
+        if (cmp &lt; 0) return floor2(x.left, key, best);
+        else if (cmp &gt; 0) return floor2(x.right, key, x.key);
+        else return x.key;
+    }
+\/
+    public Key ceiling(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
+        if (isEmpty()) throw new NoSuchElementException("calls ceiling() with empty symbol table");
+        Node x = ceiling(root, key);
+        if (x == null) throw new NoSuchElementException("argument to ceiling() is too large");
+        else return x.key;
+    }
+\/
+    private Node ceiling(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp == 0) return x;
+        if (cmp &lt; 0) {
+            Node t = ceiling(x.left, key);
+            if (t != null) return t;
+            else return x;
+        }
+        return ceiling(x.right, key);
+    }
+\/
+    public Key select(int rank) {
+        if (rank &lt; 0 || rank &gt;= size()) {
+            throw new IllegalArgumentException("argument to select() is invalid: " + rank);
+        }
+        return select(root, rank);
+    }
+\/
+    private Key select(Node x, int rank) {
+        if (x == null) return null;
+        int leftSize = size(x.left);
+        if (leftSize &gt; rank) return select(x.left, rank);
+        else if (leftSize &lt; rank) return select(x.right, rank - leftSize - 1);
+        else return x.key;
+    }
+\/
+    public int rank(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to rank() is null");
+        return rank(key, root);
+    }
+\/
+    private int rank(Key key, Node x) {
+        if (x == null) return 0;
+        int cmp = key.compareTo(x.key);
+        if (cmp &lt; 0) return rank(key, x.left);
+        else if (cmp &gt; 0) return 1 + size(x.left) + rank(key, x.right);
+        else return size(x.left);
+    }
+\/
+    public Iterable&lt;Key&gt; keys() {
+        if (isEmpty()) return new LinkedList&lt;&gt;();
+        return keys(min(), max());
+    }
+\/
+    public Iterable&lt;Key&gt; keys(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to keys() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
+\/
+        Queue&lt;Key&gt; queue = new LinkedList&lt;&gt;();
+        keys(root, queue, lo, hi);
+        return queue;
+    }
+\/
+    private void keys(Node x, Queue&lt;Key&gt; queue, Key lo, Key hi) {
+        if (x == null) return;
+        int cmplo = lo.compareTo(x.key);
+        int cmphi = hi.compareTo(x.key);
+        if (cmplo &lt; 0) keys(x.left, queue, lo, hi);
+        if (cmplo &lt;= 0 && cmphi &gt;= 0) queue.add(x.key);
+        if (cmphi &gt; 0) keys(x.right, queue, lo, hi);
+    }
+\/
+    public int size(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
+\/
+        if (lo.compareTo(hi) &gt; 0) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else return rank(hi) - rank(lo);
+    }
+\/
+    public int height() {
+        return height(root);
+    }
+\/
+    private int height(Node x) {
+        if (x == null) return -1;
+        return 1 + Math.max(height(x.left), height(x.right));
+    }
+\/
+    public Iterable&lt;Key&gt; levelOrder() {
+        Queue&lt;Key&gt; keys = new LinkedList&lt;&gt;();
+        Queue&lt;Node&gt; queue = new LinkedList&lt;&gt;();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node x = queue.remove();
+            if (x == null) continue;
+            keys.add(x.key);
+            queue.add(x.left);
+            queue.add(x.right);
+        }
+        return keys;
+    }
+\/
+    private boolean check() {
+        if (!isBST()) System.out.println("Not in symmetric order");
+        if (!isSizeConsistent()) System.out.println("Subtree counts not consistent");
+        if (!isRankConsistent()) System.out.println("Ranks not consistent");
+        return isBST() && isSizeConsistent() && isRankConsistent();
+    }
+\/
+    private boolean isBST() {
+        return isBST(root, null, null);
+    }
+\/
+    private boolean isBST(Node x, Key min, Key max) {
+        if (x == null) return true;
+        if (min != null && x.key.compareTo(min) &lt;= 0) return false;
+        if (max != null && x.key.compareTo(max) &gt;= 0) return false;
+        return isBST(x.left, min, x.key) && isBST(x.right, x.key, max);
+    }
+\/
+    private boolean isSizeConsistent() {
+        return isSizeConsistent(root);
+    }
+\/
+    private boolean isSizeConsistent(Node x) {
+        if (x == null) return true;
+        if (x.size != size(x.left) + size(x.right) + 1) return false;
+        return isSizeConsistent(x.left) && isSizeConsistent(x.right);
+    }
+\/
+    private boolean isRankConsistent() {
+        for (int i = 0; i &lt; size(); i++)
+            if (i != rank(select(i))) return false;
+        for (Key key : keys())
+            if (key.compareTo(select(rank(key))) != 0) return false;
+        return true;
+    }
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;queue&gt;
+#include &lt;stdexcept&gt;
+#include &lt;utility&gt;
+\/
+template &lt;typename Key, typename Value&gt;
 class BST {
 private:
     struct Node {
-        int key;
-        int val;
-        Node* left;
-        Node* right;
+        Key key;
+        Value val;
+        Node *left, *right;
         int size;
-
-        Node(int key, int val, int size) : key(key), val(val), size(size), left(nullptr), right(nullptr) {}
+\/
+        Node(Key  key, const Value& val, const int size) :
+            key(std::move(key)), val(val), left(nullptr), right(nullptr), size(size) {}
     };
-
+\/
     Node* root;
-
-    Node* put(Node* x, int key, int val) {
+\/
+    static int size(Node* x) {
+        if (x == nullptr) return 0;
+        return x-&gt;size;
+    }
+\/
+    Value get(Node* x, const Key& key) const {
+        if (x == nullptr) return Value(); // Return default value for Value type
+        if (key &lt; x-&gt;key) return get(x-&gt;left, key);
+        if (key &gt; x-&gt;key) return get(x-&gt;right, key);
+        return x-&gt;val;
+    }
+\/
+    Node* put(Node* x, const Key& key, const Value& val) {
         if (x == nullptr) return new Node(key, val, 1);
-        if (key < x->key) x->left = put(x->left, key, val);
-        else if (key > x->key) x->right = put(x->right, key, val);
-        else x->val = val;
-        x->size = 1 + size(x->left) + size(x->right);
+        if (key &lt; x-&gt;key) x-&gt;left = put(x-&gt;left, key, val);
+        else if (key &gt; x-&gt;key) x-&gt;right = put(x-&gt;right, key, val);
+        else x-&gt;val = val;
+        x-&gt;size = 1 + size(x-&gt;left) + size(x-&gt;right);
         return x;
     }
-
-    Node* floor(Node* x, int key) {
-        if (x == nullptr) return nullptr;
-        if (key == x->key) return x;
-        if (key < x->key) return floor(x->left, key);
-        Node* t = floor(x->right, key);
-        if (t != nullptr) return t;
-        else return x;
-    }
-
-    Node* ceiling(Node* x, int key) {
-        if (x == nullptr) return nullptr;
-        if (key == x->key) return x;
-        if (key < x->key) {
-            Node* t = ceiling(x->left, key);
-            if (t != nullptr) return t;
-            else return x;
-        }
-        return ceiling(x->right, key);
-    }
-
-    int size(Node* x) {
-        if (x == nullptr) return 0;
-        else return x->size;
-    }
-
-    int rank(int key, Node* x) {
-        if (x == nullptr) return 0;
-        if (key < x->key) return rank(key, x->left);
-        else if (key > x->key) return 1 + size(x->left) + rank(key, x->right);
-        else return size(x->left);
-    }
-
+\/
     Node* deleteMin(Node* x) {
-        if (x->left == nullptr) return x->right;
-        x->left = deleteMin(x->left);
-        x->size = size(x->left) + size(x->right) + 1;
-        return x;
-    }
-
-    Node* deleteMax(Node* x) {
-        if (x->right == nullptr) return x->left;
-        x->right = deleteMax(x->right);
-        x->size = size(x->left) + size(x->right) + 1;
-        return x;
-    }
-
-    Node* deleteKey(Node* x, int key) {
-        if (x == nullptr) return nullptr;
-        if (key < x->key) x->left = deleteKey(x->left, key);
-        else if (key > x->key) x->right = deleteKey(x->right, key);
-        else {
-            if (x->right == nullptr) return x->left;
-            if (x->left == nullptr) return x->right;
-            Node* t = x;
-            x = min(t->right);
-            x->right = deleteMin(t->right);
-            x->left = t->left;
+        if (x-&gt;left == nullptr) {
+            Node* temp = x-&gt;right;
+            delete x;
+            return temp;
         }
-        x->size = size(x->left) + size(x->right) + 1;
+        x-&gt;left = deleteMin(x-&gt;left);
+        x-&gt;size = size(x-&gt;left) + size(x-&gt;right) + 1;
         return x;
     }
-
-    Node* min(Node* x) {
-        if (x->left == nullptr) return x;
-        else return min(x->left);
+\/
+    Node* deleteMax(Node* x) {
+        if (x-&gt;right == nullptr) {
+            Node* temp = x-&gt;left;
+            delete x;
+            return temp;
+        }
+        x-&gt;right = deleteMax(x-&gt;right);
+        x-&gt;size = size(x-&gt;left) + size(x-&gt;right) + 1;
+        return x;
     }
-
+\/
+    Node* deleteKey(Node* x, const Key& key) {
+        if (x == nullptr) return nullptr;
+        if (key &lt; x-&gt;key) x-&gt;left = deleteKey(x-&gt;left, key);
+        else if (key &gt; x-&gt;key) x-&gt;right = deleteKey(x-&gt;right, key);
+        else {
+            if (x-&gt;right == nullptr) return x-&gt;left;
+            if (x-&gt;left == nullptr) return x-&gt;right;
+            Node* t = x;
+            x = min(t-&gt;right);
+            x-&gt;right = deleteMin(t-&gt;right);
+            x-&gt;left = t-&gt;left;
+        }
+        x-&gt;size = size(x-&gt;left) + size(x-&gt;right) + 1;
+        return x;
+    }
+\/
+    Node* min(Node* x) const {
+        if (x-&gt;left == nullptr) return x;
+        return min(x-&gt;left);
+    }
+\/
+    Node* max(Node* x) const {
+        if (x-&gt;right == nullptr) return x;
+        return max(x-&gt;right);
+    }
+\/
+    Node* floor(Node* x, const Key& key) const {
+        if (x == nullptr) return nullptr;
+        if (key &lt; x-&gt;key) return floor(x-&gt;left, key);
+        if (key &gt; x-&gt;key) {
+            Node* t = floor(x-&gt;right, key);
+            if (t != nullptr) return t;
+            return x;
+        }
+        return x;
+    }
+\/
+    Node* ceiling(Node* x, const Key& key) const {
+        if (x == nullptr) return nullptr;
+        if (key &gt; x-&gt;key) return ceiling(x-&gt;right, key);
+        if (key &lt; x-&gt;key) {
+            Node* t = ceiling(x-&gt;left, key);
+            if (t != nullptr) return t;
+            return x;
+        }
+        return x;
+    }
+\/
+    Key select(Node* x, int rank) const {
+        if (x == nullptr) return Key(); // Return default value for Key type
+        int leftSize = size(x-&gt;left);
+        if (leftSize &gt; rank) return select(x-&gt;left, rank);
+        else if (leftSize &lt; rank) return select(x-&gt;right, rank - leftSize - 1);
+        else return x-&gt;key;
+    }
+\/
+    int rank(const Key& key, Node* x) const {
+        if (x == nullptr) return 0;
+        if (key &lt; x-&gt;key) return rank(key, x-&gt;left);
+        else if (key &gt; x-&gt;key) return 1 + size(x-&gt;left) + rank(key, x-&gt;right);
+        else return size(x-&gt;left);
+    }
+\/
+    void keys(Node* x, std::queue&lt;Key&gt;& queue, const Key& lo, const Key& hi) const {
+        if (x == nullptr) return;
+        if (lo &lt; x-&gt;key) keys(x-&gt;left, queue, lo, hi);
+        if (lo &lt;= x-&gt;key && x-&gt;key &lt;= hi) queue.push(x-&gt;key);
+        if (hi &gt; x-&gt;key) keys(x-&gt;right, queue, lo, hi);
+    }
+\/
+    int height(Node* x) const {
+        if (x == nullptr) return -1;
+        return 1 + std::max(height(x-&gt;left), height(x-&gt;right));
+    }
+\/
 public:
     BST() : root(nullptr) {}
-
-    void put(int key, int val) {
-        root = put(root, key, val);
+\/
+    ~BST() {
+        destroy(root); 
     }
-
-    int floor(int key) {
-        Node* x = floor(root, key);
-        if (x == nullptr) return -1;
-        return x->key;
+\/
+    void destroy(Node* node) {
+        if (node == nullptr) return; 
+        destroy(node-&gt;left);
+        destroy(node-&gt;right);
+        delete node;
     }
-    
-    int ceiling(int key) {
-        Node* x = ceiling(root, key);
-        if (x == nullptr) return nullptr;
-        else return x->key;
+\/
+    [[nodiscard]] bool isEmpty() const {
+        return size() == 0;
     }
-
-    int size() {
+\/
+    [[nodiscard]] int size() const {
         return size(root);
     }
-
-    int rank(int key) {
-        return rank(key, root);
+\/
+    [[nodiscard]] bool contains(const Key& key) const {
+        return get(key) != Value(); // Compare with default value
     }
-
+\/
+    [[nodiscard]] Value get(const Key& key) const {
+        return get(root, key);
+    }
+\/
+    void put(const Key& key, const Value& val) {
+        root = put(root, key, val);
+    }
+\/
     void deleteMin() {
+        if (isEmpty()) throw std::runtime_error("Symbol table underflow");
         root = deleteMin(root);
     }
-
+\/
     void deleteMax() {
+        if (isEmpty()) throw std::runtime_error("Symbol table underflow");
         root = deleteMax(root);
     }
-
-    void deleteKey(int key) {
+\/
+    void deleteKey(const Key& key) {
         root = deleteKey(root, key);
     }
+\/
+    [[nodiscard]] Key min() const {
+        if (isEmpty()) throw std::runtime_error("calls min() with empty symbol table");
+        return min(root)-&gt;key;
+    }
+\/
+    [[nodiscard]] Key max() const {
+        if (isEmpty()) throw std::runtime_error("calls max() with empty symbol table");
+        return max(root)-&gt;key;
+    }
+\/
+    [[nodiscard]] Key floor(const Key& key) const {
+        if (isEmpty()) throw std::runtime_error("calls floor() with empty symbol table");
+        Node* x = floor(root, key);
+        if (x == nullptr) throw std::runtime_error("argument to floor() is too small");
+        else return x-&gt;key;
+    }
+\/
+    [[nodiscard]] Key ceiling(const Key& key) const {
+        if (isEmpty()) throw std::runtime_error("calls ceiling() with empty symbol table");
+        Node* x = ceiling(root, key);
+        if (x == nullptr) throw std::runtime_error("argument to ceiling() is too large");
+        else return x-&gt;key;
+    }
+\/
+    [[nodiscard]] Key select(int rank) const {
+        if (rank &lt; 0 || rank &gt;= size()) {
+            throw std::runtime_error("argument to select() is invalid: " + std::to_string(rank));
+        }
+        return select(root, rank);
+    }
+\/
+    [[nodiscard]] int rank(const Key& key) const {
+        return rank(key, root);
+    }
+\/
+    [[nodiscard]] std::queue&lt;Key&gt; keys() const {
+        if (isEmpty()) return std::queue&lt;Key&gt;();
+        return keys(min(), max());
+    }
+\/    
+    [[nodiscard]] std::queue&lt;Key&gt; keys(const Key& lo, const Key& hi) const {
+        std::queue&lt;Key&gt; queue;
+        keys(root, queue, lo, hi);
+        return queue;
+    }
+\/
+    [[nodiscard]] int size(const Key& lo, const Key& hi) const {
+        if (lo &gt; hi) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else return rank(hi) - rank(lo);
+    }
+\/
+    [[nodiscard]] int height() const {
+        return height(root);
+    }
+\/
+    [[nodiscard]] std::queue&lt;Key&gt; levelOrder() const {
+        std::queue&lt;Key&gt; keys;
+        std::queue&lt;Node*&gt; queue;
+        queue.push(root);
+        while (!queue.empty()) {
+            Node* x = queue.front();
+            queue.pop();
+            if (x == nullptr) continue;
+            keys.push(x-&gt;key);
+            queue.push(x-&gt;left);
+            queue.push(x-&gt;right);
+        }
+        return keys;
+    }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class Node:
     def __init__(self, key, val, size):
         self.key = key
         self.val = val
-        self.size = size
         self.left = None
         self.right = None
-
-
+        self.size = size
+\/
 class BST:
     def __init__(self):
         self.root = None
-
-    def get(self, key):
-        x = self.root
-        while x is not None:
-            if key < x.key:
-                x = x.left
-            elif key > x.key:
-                x = x.right
-            else:
-                return x.val
-        return None
-
-    def put(self, key, val):
-        self.root = self._put(self.root, key, val)
-
-    def _put(self, x, key, val):
-        if x is None:
-            return Node(key, val, 1)
-        if key < x.key:
-            x.left = self._put(x.left, key, val)
-        elif key > x.key:
-            x.right = self._put(x.right, key, val)
-        else:
-            x.val = val
-        x.size = 1 + self.size(x.left) + self.size(x.right)
-        return x
-
-    def floor(self, key):
-        x = self._floor(self.root, key)
-        if x is None:
-            return None
-        return x.key
-
-    def _floor(self, x, key):
-        if x is None:
-            return None
-        if key == x.key:
-            return x
-        if key < x.key:
-            return self._floor(x.left, key)
-        t = self._floor(x.right, key)
-        if t is not None:
-            return t
-        else:
-            return x
-            
-    def ceiling(self, key):
-        x = self._ceiling(self.root, key)
-        return None if x is None else x.key
-
-    def _ceiling(self, x, key):
-        if x is None:
-            return None
-        if key == x.key:
-            return x
-        if key < x.key:
-            t = self._ceiling(x.left, key)
-            return x if t is None else t
-        return self._ceiling(x.right, key)
-
-    def size(self, x=None):
-        if x is None:
-            x = self.root
+\/
+    def isEmpty(self):
+        return self.size() == 0
+\/
+    def size(self):
+        return self._size(self.root)
+\/
+    def _size(self, x):
         if x is None:
             return 0
         else:
             return x.size
-
-    def rank(self, key):
-        return self._rank(key, self.root)
-
-    def _rank(self, key, x):
+\/
+    def contains(self, key):
+        if key is None:
+            raise ValueError("argument to contains() is None")
+        return self.get(key) is not None
+\/
+    def get(self, key):
+        return self._get(self.root, key)
+\/
+    def _get(self, x, key):
+        if key is None:
+            raise ValueError("calls get() with a None key")
         if x is None:
-            return 0
-        if key < x.key:
-            return self._rank(key, x.left)
-        elif key > x.key:
-            return 1 + self.size(x.left) + self._rank(key, x.right)
+            return None
+        if key &lt; x.key:
+            return self._get(x.left, key)
+        elif key &gt; x.key:
+            return self._get(x.right, key)
         else:
-            return self.size(x.left)
-
+            return x.val
+\/
+    def put(self, key, val):
+        if key is None:
+            raise ValueError("calls put() with a None key")
+        if val is None:
+            self.delete(key)
+            return
+        self.root = self._put(self.root, key, val)
+        assert self._check()
+\/
+    def _put(self, x, key, val):
+        if x is None:
+            return Node(key, val, 1)
+        if key &lt; x.key:
+            x.left = self._put(x.left, key, val)
+        elif key &gt; x.key:
+            x.right = self._put(x.right, key, val)
+        else:
+            x.val = val
+        x.size = 1 + self._size(x.left) + self._size(x.right)
+        return x
+\/
     def deleteMin(self):
+        if self.isEmpty():
+            raise IndexError("Symbol table underflow")
         self.root = self._deleteMin(self.root)
-
+        assert self._check()
+\/
     def _deleteMin(self, x):
         if x.left is None:
             return x.right
         x.left = self._deleteMin(x.left)
-        x.size = self.size(x.left) + self.size(x.right) + 1
+        x.size = self._size(x.left) + self._size(x.right) + 1
         return x
-
+\/
     def deleteMax(self):
+        if self.isEmpty():
+            raise IndexError("Symbol table underflow")
         self.root = self._deleteMax(self.root)
-
+        assert self._check()
+\/
     def _deleteMax(self, x):
         if x.right is None:
             return x.left
         x.right = self._deleteMax(x.right)
-        x.size = self.size(x.left) + self.size(x.right) + 1
+        x.size = self._size(x.left) + self._size(x.right) + 1
         return x
-
+\/
     def delete(self, key):
+        if key is None:
+            raise ValueError("calls delete() with a None key")
         self.root = self._delete(self.root, key)
-
+        assert self._check()
+\/
     def _delete(self, x, key):
         if x is None:
             return None
-        if key < x.key:
+\/
+        if key &lt; x.key:
             x.left = self._delete(x.left, key)
-        elif key > x.key:
+        elif key &gt; x.key:
             x.right = self._delete(x.right, key)
         else:
             if x.right is None:
@@ -7242,18 +7536,230 @@ class BST:
             if x.left is None:
                 return x.right
             t = x
-            x = self._min(t.right)
+            x = self.min(t.right)
             x.right = self._deleteMin(t.right)
             x.left = t.left
-        x.size = self.size(x.left) + self.size(x.right) + 1
+        x.size = self._size(x.left) + self._size(x.right) + 1
         return x
-
+\/
+    def min(self):
+        if self.isEmpty():
+            raise IndexError("calls min() with empty symbol table")
+        return self._min(self.root).key
+\/
     def _min(self, x):
         if x.left is None:
             return x
         else:
             return self._min(x.left)
-```
+\/
+    def max(self):
+        if self.isEmpty():
+            raise IndexError("calls max() with empty symbol table")
+        return self._max(self.root).key
+\/
+    def _max(self, x):
+        if x.right is None:
+            return x
+        else:
+            return self._max(x.right)
+\/
+    def floor(self, key):
+        if key is None:
+            raise ValueError("argument to floor() is None")
+        if self.isEmpty():
+            raise IndexError("calls floor() with empty symbol table")
+        x = self._floor(self.root, key)
+        if x is None:
+            raise IndexError("argument to floor() is too small")
+        else:
+            return x.key
+\/
+    def _floor(self, x, key):
+        if x is None:
+            return None
+        if key == x.key:
+            return x
+        if key &lt; x.key:
+            return self._floor(x.left, key)
+        t = self._floor(x.right, key)
+        if t is not None:
+            return t
+        else:
+            return x
+\/
+    def floor2(self, key):
+        x = self._floor2(self.root, key, None)
+        if x is None:
+            raise IndexError("argument to floor() is too small")
+        else:
+            return x
+\/
+    def _floor2(self, x, key, best):
+        if x is None:
+            return best
+        if key &lt; x.key:
+            return self._floor2(x.left, key, best)
+        elif key &gt; x.key:
+            return self._floor2(x.right, key, x.key)
+        else:
+            return x.key
+\/
+    def ceiling(self, key):
+        if key is None:
+            raise ValueError("argument to ceiling() is None")
+        if self.isEmpty():
+            raise IndexError("calls ceiling() with empty symbol table")
+        x = self._ceiling(self.root, key)
+        if x is None:
+            raise IndexError("argument to ceiling() is too large")
+        else:
+            return x.key
+\/
+    def _ceiling(self, x, key):
+        if x is None:
+            return None
+        if key == x.key:
+            return x
+        if key &lt; x.key:
+            t = self._ceiling(x.left, key)
+            if t is not None:
+                return t
+            else:
+                return x
+        return self._ceiling(x.right, key)
+\/
+    def select(self, rank):
+        if rank &lt; 0 or rank &gt;= self.size():
+            raise ValueError("argument to select() is invalid: " + str(rank))
+        return self._select(self.root, rank)
+\/
+    def _select(self, x, rank):
+        if x is None:
+            return None
+        leftSize = self._size(x.left)
+        if leftSize &gt; rank:
+            return self._select(x.left, rank)
+        elif leftSize &lt; rank:
+            return self._select(x.right, rank - leftSize - 1)
+        else:
+            return x.key
+\/
+    def rank(self, key):
+        if key is None:
+            raise ValueError("argument to rank() is None")
+        return self._rank(key, self.root)
+\/
+    def _rank(self, key, x):
+        if x is None:
+            return 0
+        if key &lt; x.key:
+            return self._rank(key, x.left)
+        elif key &gt; x.key:
+            return 1 + self._size(x.left) + self._rank(key, x.right)
+        else:
+            return self._size(x.left)
+\/
+    def keys(self):
+        if self.isEmpty():
+            return []
+        return self.keysInRange(self.min(), self.max())
+\/
+    def keysInRange(self, lo, hi):
+        if lo is None:
+            raise ValueError("first argument to keys() is None")
+        if hi is None:
+            raise ValueError("second argument to keys() is None")
+\/
+        queue = []
+        self._keys(self.root, queue, lo, hi)
+        return queue
+\/
+    def _keys(self, x, queue, lo, hi):
+        if x is None:
+            return
+        if lo &lt; x.key:
+            self._keys(x.left, queue, lo, hi)
+        if lo &lt;= x.key &lt;= hi:
+            queue.append(x.key)
+        if hi &gt; x.key:
+            self._keys(x.right, queue, lo, hi)
+\/
+    def sizeInRange(self, lo, hi):
+        if lo is None:
+            raise ValueError("first argument to size() is None")
+        if hi is None:
+            raise ValueError("second argument to size() is None")
+\/
+        if lo &gt; hi:
+            return 0
+        if self.contains(hi):
+            return self.rank(hi) - self.rank(lo) + 1
+        else:
+            return self.rank(hi) - self.rank(lo)
+\/
+    def height(self):
+        return self._height(self.root)
+\/
+    def _height(self, x):
+        if x is None:
+            return -1
+        return 1 + max(self._height(x.left), self._height(x.right))
+\/
+    def levelOrder(self):
+        keys = []
+        queue = [self.root]  # Using a list as a queue
+        while queue:
+            x = queue.pop(0)  # Dequeue from the front
+            if x is None:
+                continue
+            keys.append(x.key)
+            queue.append(x.left)
+            queue.append(x.right)
+        return keys
+\/
+    def _check(self):
+        if not self._isBST():
+            print("Not in symmetric order")
+        if not self._isSizeConsistent():
+            print("Subtree counts not consistent")
+        if not self._isRankConsistent():
+            print("Ranks not consistent")
+        return self._isBST() and self._isSizeConsistent() and self._isRankConsistent()
+\/
+    def _isBST(self):
+        return self._isBSTHelper(self.root, None, None)
+\/
+    def _isBSTHelper(self, x, minKey, maxKey):
+        if x is None:
+            return True
+        if minKey is not None and x.key &lt;= minKey:
+            return False
+        if maxKey is not None and x.key &gt;= maxKey:
+            return False
+        return self._isBSTHelper(x.left, minKey, x.key) and self._isBSTHelper(x.right, x.key, maxKey)
+\/
+    def _isSizeConsistent(self):
+        return self._isSizeConsistentHelper(self.root)
+\/
+    def _isSizeConsistentHelper(self, x):
+        if x is None:
+            return True
+        if x.size != self._size(x.left) + self._size(x.right) + 1:
+            return False
+        return self._isSizeConsistentHelper(x.left) and self._isSizeConsistentHelper(x.right)
+\/
+    def _isRankConsistent(self):
+        for i in range(self.size()):
+            if i != self.rank(self.select(i)):
+                return False
+        for key in self.keys():
+            if key != self.select(self.rank(key)):
+                return False
+        return True
+    </code-block>
+    </tab>
+</tabs>
 
 ### 9.4 Traversal
 
@@ -7288,7 +7794,7 @@ following three operations in a certain order: </p>
 </li>
 </list>
 
-<img src = "../images_data/d9-3-1.png" alt = "Traversal"/>
+<img src = "../images_data/d9-4-1.png" alt="Traversal"/>
 
 <p>Depth-first traversal (dotted path) of a binary tree:</p>
 <list type="alpha-lower">
@@ -7308,3 +7814,20 @@ following three operations in a certain order: </p>
     <p>A, C, E, D, B, H, I, G, F.</p>
 </li>
 </list>
+
+<p><format color="BlueViolet">Level Order (breadth-first traversal)
+:</format> Visit all the nodes of a tree data structure level by 
+level.</p>
+
+<procedure title="Level Order Traversal">
+<step>
+    <p>Start at the root node.</p>
+</step>
+<step>
+    <p>Visit all the nodes at the current level.</p>
+</step>
+<step>
+    <p>Move to the next level, repeat steps 2 and 3 until all levels 
+    of the tree have been visited.</p>
+</step>
+</procedure>
