@@ -5956,6 +5956,34 @@ public class DirectedDFS {
 }
     </code-block>
     </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class DirectedDFS:
+    def __init__(self, graph, source):
+        self.marked = [False] * graph.get_num_vertices()
+        self.count = 0
+\/
+        if isinstance(source, int):
+            self._dfs(graph, source)
+        elif isinstance(source, list):
+            for s in source:
+                if not self.marked[s]:
+                    self._dfs(graph, s)
+\/
+    def _dfs(self, graph, v):
+        self.count += 1
+        self.marked[v] = True
+        for w in graph.adjacency_list[v]:
+            if not self.marked[w]:
+                self._dfs(graph, w)
+\/
+    def marked_vertex(self, v):
+        return self.marked[v]
+\/
+    def get_count(self):
+        return self.count
+    </code-block>
+    </tab>
 </tabs>
 
 <p><format color="BlueViolet">NFA Implementation</format></p>
@@ -6035,6 +6063,74 @@ public class NFA {
         return false;
     }
 }
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+from DirectedGraph import DirectedGraph
+from DirectedDFS import DirectedDFS
+\/
+class NFA:
+    def __init__(self, regexp):
+        self.regexp = regexp
+        self.m = len(regexp)
+        self.graph = DirectedGraph(self.m + 1)
+        ops = []
+\/
+        for i in range(self.m):
+            lp = i
+            if regexp[i] == '(' or regexp[i] == '|':
+                ops.append(i)
+            elif regexp[i] == ')':
+                or_op = ops.pop()
+                if regexp[or_op] == '|':
+                    lp = ops.pop()
+                    self.graph.add_edge(lp, or_op + 1)
+                    self.graph.add_edge(or_op, i)
+                elif regexp[or_op] == '(':
+                    lp = or_op
+                else:
+                    assert False
+\/
+            if i &lt; self.m - 1 and regexp[i + 1] == '*':
+                self.graph.add_edge(lp, i + 1)
+                self.graph.add_edge(i + 1, lp)
+\/
+            if regexp[i] == '(' or regexp[i] == '*' or regexp[i] == ')':
+                self.graph.add_edge(i, i + 1)
+\/
+        if ops:
+            raise ValueError("Invalid regular expression")
+\/
+    def recognizes(self, txt):
+        dfs = DirectedDFS(self.graph, 0)
+        pc = [v for v in range(self.graph.get_num_vertices()) if dfs.marked_vertex(v)]
+\/
+        for i in range(len(txt)):
+            if txt[i] in ['*', '|', '(', ')']:
+                raise ValueError(f"text contains the metacharacter '{txt[i]}'")
+\/
+            match = []
+            for v in pc:
+                if v == self.m:
+                    continue
+                if (self.regexp[v] == txt[i]) or self.regexp[v] == '.':
+                    match.append(v + 1)
+\/
+            if not match:
+                continue
+\/
+            dfs = DirectedDFS(self.graph, match)
+            pc = [v for v in range(self.graph.get_num_vertices()) if dfs.marked_vertex(v)]
+\/
+            if not pc:
+                return False
+\/
+        for v in pc:
+            if v == self.m:
+                return True
+\/
+        return False
     </code-block>
     </tab>
 </tabs>

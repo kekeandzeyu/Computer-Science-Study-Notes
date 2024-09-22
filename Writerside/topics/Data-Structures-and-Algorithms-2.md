@@ -4223,101 +4223,98 @@ public class DirectedGraph {
 }
     </code-block>
     </tab>
-</tabs>
-
-C++ (DirectedGraph.h)
-
-```C++
+    <tab title="C++ (DirectedGraph.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef DIRECTEDGRAPH_H
 #define DIRECTEDGRAPH_H
 #pragma once
-
-#include <vector>
-#include <list>
-
+\/
+#include &lt;vector&gt;
+#include &lt;list&gt;
+\/
 class DirectedGraph {
 private:
     int numVertices;
-    std::vector<std::list<int>> adjacencyList;
-
+    std::vector&lt;std::list&lt;int&gt;&gt; adjacencyList;
+\/
 public:
     explicit DirectedGraph(const int& numVertices);
     void addEdge(const int& source, const int& destination);
     [[nodiscard]] bool hasEdge(const int& source, const int& destination) const;
     [[nodiscard]] int getNumVertices() const;
-    [[nodiscard]] const std::vector<std::list<int>>& getAdjacencyList() const;
+    [[nodiscard]] const std::vector&lt;std::list&lt;int&gt;&gt;& getAdjacencyList() const;
     void printGraph() const;
 };
-
+\/
 #endif //DIRECTEDGRAPH_H
-```
-
-C++ (DirectedGraph.cpp)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (DirectedGraph.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "DirectedGraph.h"
-#include <iostream>
-#include <algorithm>
-
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+\/
 DirectedGraph::DirectedGraph(const int& numVertices) :
     numVertices(numVertices), adjacencyList(numVertices) {}
-
+\/
 void DirectedGraph::addEdge(const int& source, const int& destination) {
     adjacencyList[source].push_back(destination);
 }
-
+\/
 bool DirectedGraph::hasEdge(const int& source, const int& destination) const {
     return std::ranges::any_of(adjacencyList[source],
-                               [&destination](const int& neighbor) {
-                                   return neighbor == destination;
-                               });
+    [&destination](const int& neighbor) {
+        return neighbor == destination;
+    });
 }
-
+\/
 int DirectedGraph::getNumVertices() const {
     return numVertices;
 }
-
-const std::vector<std::list<int>>& DirectedGraph::getAdjacencyList() const {
+\/
+const std::vector&lt;std::list&lt;int&gt;&gt;& DirectedGraph::getAdjacencyList() const {
     return adjacencyList;
 }
-
+\/
 void DirectedGraph::printGraph() const {
-    for (int i = 0; i < numVertices; ++i) {
-        std::cout << "Vertex " << i << ":";
+    for (int i = 0; i &lt; numVertices; ++i) {
+        std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
         for (const int& neighbor : adjacencyList[i]) {
-            std::cout << " -> " << neighbor;
+            std::cout &lt;&lt; " -> " &lt;&lt; neighbor;
         }
-        std::cout << std::endl;
+        std::cout &lt;&lt; std::endl;
     }
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class DirectedGraph:
     def __init__(self, num_vertices):
         self.num_vertices = num_vertices
         self.num_edges = 0
         self.adjacency_list = [[] for _ in range(num_vertices)]
-
+\/
     def add_edge(self, source, destination):
         self.adjacency_list[source].append(destination)
         self.num_edges += 1
-
+\/
     def get_num_vertices(self):
         return self.num_vertices
-
+\/
     def get_num_edges(self):
         return self.num_edges
-
+\/
     def print_graph(self):
         for v in range(self.num_vertices):
             print(f"Adjacency list of vertex {v} : ", end="")
             for neighbor in self.adjacency_list[v]:
                 print(f"{neighbor} ", end="")
             print()
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 15.3 Digraph Search
 
