@@ -5750,7 +5750,294 @@ notation to specify a set of strings.</p>
 </li>
 </list>
 
+### 22.2 REs and NFAs
 
+<p><format color="BlueViolet">Kleene's theorem:</format> </p>
+
+<list type="bullet">
+<li>
+    <p>For any DFA, there exists a RE that describes the same set of 
+    strings.</p>
+</li>
+<li>
+    <p>For any RE, there exists a DFA that recognizes the same set of
+    strings.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Regular-expression-matching NFA:
+</format> </p>
+
+<list type="bullet">
+<li>
+    <p>We assume RE enclosed in parentheses.</p>
+</li>
+<li>
+    <p>One state per RE character (start = 0, accept = M).</p>
+</li>
+<li>
+    <p>Red <format color="OrangeRed">&epsilon;-transition</format> 
+    (change state, but don't scan text).</p>
+</li>
+<li>
+    <p>Black match transition (change state and scan to next text 
+    char).</p>
+</li>
+<li>
+    <p>Accept if <format color="OrangeRed">any</format> sequence of 
+    transitions ends in accept state after scanning all text 
+    characters.</p>
+</li>
+</list>
+
+<img src="../images_data/d22-2-1.png" alt="NFA"/>
+
+<procedure title="NFA Simulation">
+<step>
+    <p>Check whether input matches all possible states that NFA could
+    be.</p>
+</step>
+<step>
+    <p>Reject otherwise.</p>
+</step>
+</procedure>
+
+<p><format color="BlueViolet">Construction:</format> </p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Parenthesis:</format> Add &epsilon;
+    -transition edge from parentheses to next state.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Closure:</format> Add three &epsilon;
+    -transition edges for each * operator.</p>
+    <img src="../images_data/d22-2-2.png" alt="Closure"/>
+</li>
+<li>
+    <p><format color="Fuchsia">Or:</format> Add two &epsilon;-
+    transition edges for each | operator.</p>
+</li>
+</list>
+
+<procedure title="NFA Construction" type="choices">
+<step>
+    <p><format color="Fuchsia">Left parenthesis:</format> </p>
+    <list type="bullet">
+    <li>
+        <p>Add &epsilon;-transition to next state.</p>
+    </li>
+    <li>
+        <p>Push index of state corresponding to ( onto stack.</p>
+    </li>
+    </list>
+</step>
+<step>
+    <p><format color="Fuchsia">Alphabet symbol:</format> </p>
+    <list type="bullet">
+    <li>
+        <p>Add match transition to next state.</p>
+    </li>
+    <li>
+        <p>Do one-character lookahead: add &epsilon;-transition if 
+        next character is *.</p>
+    </li>
+    </list>
+</step>
+<step>
+    <p><format color="Fuchsia">Or symbol:</format> </p>
+    <list type="bullet">
+    <li>
+        <p>Push index of state corresponding to | onto stack.</p>
+    </li>
+    </list>
+</step>
+<step>
+    <p><format color="Fuchsia">Right parenthesis:</format> </p>
+    <list type="bullet">
+    <li>
+        <p>Add &epsilon;-transition to next state.</p>
+    </li>
+    <li>
+        <p>Pop correponding ( and possibly intervening |; add 
+        &epsilon;-transition edges for or.</p>
+    </li>
+    <li>
+        <p>Do one-character lookahead: add &epsilon;-transition if 
+        next character is *.</p>
+    </li>
+    </list>
+</step>
+</procedure>
+
+<p><format color="BlueViolet">Property:</format> Determining whether 
+an <math>N</math>-character text is recognized by the NFA 
+corresponding to an <math>M</math>-character pattern takes time 
+proportional to <math>M N</math> in the worst case.</p>
+
+<p><format color="LawnGreen">Proof:</format> For each of the <math>N
+</math> text characters, we iterate through a set of states of
+size no more than <math>M</math> and run DFS on the graph of 
+&epsilon;-transitions.</p>
+
+<p><format color="BlueViolet">Property:</format> Building the NFA
+corresponding to an <math>M</math>-character RE takes time and space 
+proportional to <math>M</math>.</p>
+
+<p><format color="LawnGreen">Proof:</format> For each of the <math>M
+</math> characters in the RE, we add at most three &epsilon;-transitions and 
+execute at most two stack operations.</p>
+
+<p><format color="BlueViolet">Directed DFS Implementation</format></p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.List;
+\/
+public class DirectedDFS {
+    private final boolean[] marked;
+    private int count;
+\/
+    public DirectedDFS(DirectedGraph G, int s) {
+        marked = new boolean[G.getNumVertices()];
+        validateVertex(s);
+        dfs(G, s);
+    }
+\/    
+    public DirectedDFS(DirectedGraph G, Iterable&lt;Integer&gt; sources) {
+        marked = new boolean[G.getNumVertices()];
+        validateVertices(sources);
+        for (int v : sources) {
+            if (!marked[v]) dfs(G, v);
+        }
+    }
+\/
+    private void dfs(DirectedGraph G, int v) {
+        count++;
+        marked[v] = true;
+        List&lt;Integer&gt; neighbors = G.getAdjacencyList().get(v);
+        for (int w : neighbors) {
+            if (!marked[w]) dfs(G, w);
+        }
+    }
+\/
+    public boolean marked(int v) {
+        validateVertex(v);
+        return marked[v];
+    }
+\/
+    public int count() {
+        return count;
+    }
+\/
+    private void validateVertex(int v) {
+        int V = marked.length;
+        if (v &lt; 0 || v &gt;= V)
+            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V - 1));
+    }
+\/
+    private void validateVertices(Iterable&lt;Integer&gt; vertices) {
+        if (vertices == null) {
+            throw new IllegalArgumentException("argument is null");
+        }
+        int vertexCount = 0;
+        for (Integer v : vertices) {
+            vertexCount++;
+            if (v == null) {
+                throw new IllegalArgumentException("vertex is null");
+            }
+            validateVertex(v);
+        }
+        if (vertexCount == 0) {
+            throw new IllegalArgumentException("zero vertices");
+        }
+    }
+}
+    </code-block>
+    </tab>
+</tabs>
+
+<p><format color="BlueViolet">NFA Implementation</format></p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+\/
+public class NFA {
+    private final DirectedGraph graph;
+    private final String regexp;
+    private final int m;
+\/
+    public NFA(String regexp) {
+        this.regexp = regexp;
+        m = regexp.length();
+        Stack&lt;Integer&gt; ops = new Stack&lt;&gt;();
+        graph = new DirectedGraph(m + 1);
+        for (int i = 0; i &lt; m; i++) {
+            int lp = i;
+            if (regexp.charAt(i) == '(' || regexp.charAt(i) == '|')
+                ops.push(i);
+            else if (regexp.charAt(i) == ')') {
+                int or = ops.pop();
+\/
+                if (regexp.charAt(or) == '|') {
+                    lp = ops.pop();
+                    graph.addEdge(lp, or + 1);
+                    graph.addEdge(or, i);
+                } else if (regexp.charAt(or) == '(')
+                    lp = or;
+                else assert false;
+            }
+\/
+            if (i &lt; m - 1 && regexp.charAt(i + 1) == '*') {
+                graph.addEdge(lp, i + 1);
+                graph.addEdge(i + 1, lp);
+            }
+            if (regexp.charAt(i) == '(' || regexp.charAt(i) == '*' || regexp.charAt(i) == ')')
+                graph.addEdge(i, i + 1);
+        }
+        if (!ops.isEmpty())
+            throw new IllegalArgumentException("Invalid regular expression");
+    }
+\/
+    public boolean recognizes(String txt) {
+        DirectedDFS dfs = new DirectedDFS(graph, 0);
+        List&lt;Integer&gt; pc = new ArrayList&lt;&gt;();
+        for (int v = 0; v &lt; graph.getNumVertices(); v++)
+            if (dfs.marked(v)) pc.add(v);
+\/
+        for (int i = 0; i &lt; txt.length(); i++) {
+            if (txt.charAt(i) == '*' || txt.charAt(i) == '|' || txt.charAt(i) == '(' || txt.charAt(i) == ')')
+                throw new IllegalArgumentException("text contains the metacharacter '" + txt.charAt(i) + "'");
+\/
+            List&lt;Integer&gt; match = new ArrayList&lt;&gt;();
+            for (int v : pc) {
+                if (v == m) continue;
+                if ((regexp.charAt(v) == txt.charAt(i)) || regexp.charAt(v) == '.')
+                    match.add(v + 1);
+            }
+            if (match.isEmpty()) continue;
+\/
+            dfs = new DirectedDFS(graph, match);
+            pc = new ArrayList&lt;&gt;();
+            for (int v = 0; v &lt; graph.getNumVertices(); v++)
+                if (dfs.marked(v)) pc.add(v);
+\/
+            if (pc.isEmpty()) return false;
+        }
+\/
+        for (int v : pc)
+            if (v == m) return true;
+        return false;
+    }
+}
+    </code-block>
+    </tab>
+</tabs>
 
 ## 30 Catalan Number
 

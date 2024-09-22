@@ -4173,46 +4173,46 @@ piece together the cycles you discover.</p>
 
 ### 15.2 Directed Graph API
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.List;
-
+\/
 public class DirectedGraph {
-
+\/
     private final int numVertices;
     private int numEdges;
-    private final List<List<Integer>> adjacencyList;
-
+    private final List&lt;List&lt;Integer&gt;&gt; adjacencyList;
+\/
     public DirectedGraph(int numVertices) {
         this.numVertices = numVertices;
         this.numEdges = 0;
-        this.adjacencyList = new ArrayList<>();
-        for (int i = 0; i < numVertices; i++) {
-            adjacencyList.add(i, new ArrayList<>());
+        this.adjacencyList = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; numVertices; i++) {
+            adjacencyList.add(i, new ArrayList&lt;&gt;());
         }
     }
-
+\/
     public void addEdge(int source, int destination) {
         adjacencyList.get(source).add(destination);
         numEdges++;
     }
-
+\/
     public int getNumVertices() {
         return numVertices;
     }
-
+\/
     public int getNumEdges() {
         return numEdges;
     }
-
-    public List<List<Integer>> getAdjacencyList() {
+\/
+    public List&lt;List&lt;Integer&gt;&gt; getAdjacencyList() {
         return adjacencyList;
     }
-
+\/
     public void printGraph() {
-        for (int v = 0; v < numVertices; v++) {
+        for (int v = 0; v &lt; numVertices; v++) {
             System.out.print("Adjacency list of vertex " + v + " : ");
             for (Integer neighbor : adjacencyList.get(v)) {
                 System.out.print(neighbor + " ");
@@ -4221,7 +4221,9 @@ public class DirectedGraph {
         }
     }
 }
-```
+    </code-block>
+    </tab>
+</tabs>
 
 C++ (DirectedGraph.h)
 
