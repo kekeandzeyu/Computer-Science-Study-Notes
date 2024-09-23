@@ -11,4 +11,8 @@
         </description>
         <accepts>starter-topic.html</accepts>
     </rule>
+    <rule id="61b85e6c">
+        <description>Created after removal of "Get Started" from Computer Science Study Notes</description>
+        <accepts>Get-Started.html</accepts>
+    </rule>
 </rules>

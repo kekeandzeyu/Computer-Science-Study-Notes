@@ -6,23 +6,6 @@ switcher-label: Language
 
 # Postscript
 
-## Some Words For the Readers {switcher-key = "English"}
-
-<p>When you reach here, thank you for reading through all my notes!</p>
-
-<p>If you want to learn more about me, please visit <a href =
-"https://kkzy.pages.dev/">my website</a> for more!</p>
-
-<p>Want to know more about the notes and the references behind? Please 
-visit the <a href = "https://github.com/kekeandzeyu/Computer-Science-Study-Notes">link
-</a> and read through README file for more information!</p>
-
-<p>Lastly, if you find the notes helpful, please visit the <a href = 
-"https://github.com/kekeandzeyu/Computer-Science-Study-Notes">link</a> 
-and give me a star, thank you!</p>
-
-<img src = "../images_final/upvote.png" alt = "Please UPVOTE!!!"/>
-
 ## 致读者的几句话 {switcher-key="Chinese"}
 
 <p>当您读到这里时，感谢您阅读完我所有的笔记！</p>
@@ -39,3 +22,20 @@ and give me a star, thank you!</p>
 中给我一颗星星，谢谢！</p>
 
 <img src = "../images_final/upvote_zh.jpg" alt = "给颗星星吧！！！"/>
+
+## Some Words For the Readers {switcher-key = "English"}
+
+<p>When you reach here, thank you for reading through all my notes!</p>
+
+<p>If you want to learn more about me, please visit <a href =
+"https://kkzy.pages.dev/">my website</a> for more!</p>
+
+<p>Want to know more about the notes and the references behind? Please 
+visit the <a href = "https://github.com/kekeandzeyu/Computer-Science-Study-Notes">link
+</a> and read through README file for more information!</p>
+
+<p>Lastly, if you find the notes helpful, please visit the <a href = 
+"https://github.com/kekeandzeyu/Computer-Science-Study-Notes">link</a> 
+and give me a star, thank you!</p>
+
+<img src = "../images_final/upvote.png" alt = "Please UPVOTE!!!"/>
