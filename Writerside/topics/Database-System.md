@@ -441,4 +441,160 @@ HAVING COUNT(*) &gt; 2
 </li>
 </list>
 
-<img src="../images_database/b2-1.png" alt="SQL Queries"/>
+<img src="../images_database/b1-2.png" alt="SQL Queries"/>
+
+### 1.5 Join Queries
+
+<p><format color="BlueViolet">Join:</format> Form cross product of the 
+tables, output all tuples and select specific columns.</p>
+
+<p><format color="BlueViolet">Example:</format> </p>
+
+<p>Sailors</p>
+
+<table style="header-row">
+<tr>
+    <td>sid</td>
+    <td>sname</td>
+    <td>rating</td>
+    <td>age</td>
+</tr>
+<tr>
+    <td>1</td>
+    <td>Popeye</td>
+    <td>10</td>
+    <td>22</td>
+</tr>
+<tr>
+    <td>2</td>
+    <td>OliveOyl</td>
+    <td>11</td>
+    <td>39</td>
+</tr>
+<tr>
+    <td>3</td>
+    <td>Garfield</td>
+    <td>1</td>
+    <td>27</td>
+</tr>
+<tr>
+    <td>4</td>
+    <td>Bob</td>
+    <td>5</td>
+    <td>19</td>
+</tr>
+</table>
+
+<p>Reserves</p>
+
+<table style="header-row">
+<tr>
+    <td>sid</td>
+    <td>bid</td>
+    <td>day</td>
+</tr>
+<tr>
+    <td>1</td>
+    <td>102</td>
+    <td>9/12</td>
+</tr>
+<tr>
+    <td>2</td>
+    <td>102</td>
+    <td>9/13</td>
+</tr>
+<tr>
+    <td>1</td>
+    <td>101</td>
+    <td>10/01</td>
+</tr>
+</table>
+
+<compare type="left-right" first-title="No Alias" second-title="Use Alias">
+<code-block lang="sql">
+SELECT S.sid, S.sname, R.bid
+FROM Sailors, Reserves
+WHERE Sailors.sid=Reserves.sid;
+</code-block>
+<code-block lang="sql">
+SELECT S.sid, S.sname, R.bid
+FROM Sailors AS S, Reserves AS R
+WHERE S.sid=R.sid;
+</code-block>
+</compare>
+
+<img src="../images_database/b1-3.png" alt="Join Queries"/>
+
+<table style="header-row">
+<tr>
+    <td>sid</td>
+    <td>sname</td>
+    <td>bid</td>
+</tr>
+<tr>
+    <td>1</td>
+    <td>Popeye</td>
+    <td>102</td>
+</tr>
+<tr>
+    <td>2</td>
+    <td>OliveOyl</td>
+    <td>102</td>
+</tr>
+</table>
+
+<p><format color="BlueViolet">Self-Joins</format></p>
+
+<code-block lang="sql" collapsible="true">
+SELECT x.sname AS sname1,
+    x.age AS age1,
+    y.sname AS sname2,
+    y.age AS age2
+FROM Sailors AS x, Sailors AS y
+WHERE x.age > y.age;
+</code-block>
+
+<table style="header-row">
+<tr>
+    <td>sname1</td>
+    <td>age1</td>
+    <td>sname2</td>
+    <td>age2</td>
+</tr>
+<tr>
+    <td>Popeye</td>
+    <td>22</td>
+    <td>Bob</td>
+    <td>19</td>
+</tr>
+<tr>
+    <td>OliveOyl</td>
+    <td>39</td>
+    <td>Popeye</td>
+    <td>22</td>
+</tr>
+<tr>
+    <td>OliveOyl</td>
+    <td>39</td>
+    <td>Garfield</td>
+    <td>27</td>
+</tr>
+<tr>
+    <td>OliveOyl</td>
+    <td>39</td>
+    <td>Bob</td>
+    <td>19</td>
+</tr>
+<tr>
+    <td>Garfield</td>
+    <td>27</td>
+    <td>Popeye</td>
+    <td>22</td>
+</tr>
+<tr>
+    <td>Garfield</td>
+    <td>27</td>
+    <td>Bob</td>
+    <td>19</td>
+</tr>
+</table>
