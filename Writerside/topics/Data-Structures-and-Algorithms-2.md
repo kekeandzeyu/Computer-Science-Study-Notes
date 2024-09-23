@@ -89,168 +89,175 @@
 
 ### 10.1 2-3 Trees {id="2-3-trees"}
 
-<p>Basic properties: </p>
+<p><format color="BlueViolet">2-3 Tree</format></p>
 
 <list type="bullet">
 <li>
-<p>Allow 1 or 2 keys per node.</p>
+    <p>Allow 1 or 2 keys per node.</p>
 </li>
 <li>
-<p>2-node: one key, two children.</p>
+    <p>2-node: one key, two children.</p>
 </li>
 <li>
-<p>3-node: two keys, three children.</p>
+    <p>3-node: two keys, three children.</p>
 </li>
 </list>
 
-<p><img src = "../images_data/d10-1-1.png" alt = "2-3 Tree"/></p>
+<img src="../images_data/d10-1-1.png" alt="2-3 Tree"/>
 
-<procedure title = "Basic Plan for Searching in 2-3 Tree">
+<procedure title="Searching in 2-3 Tree">
 <step>
-<p>Compare search key against keys in node.</p>
+    <p>Compare search key against keys in node.</p>
 </step>
 <step>
-<p>Find interval containing search key.</p>
+    <p>Find interval containing search key.</p>
 </step>
 <step>
-<p>Follow associated key (recursively).</p>
+    <p>Follow associated key (recursively).</p>
 </step>
 </procedure>
 
-<procedure title = "Basic Plan for Inserting into a 2-node At Bottom">
+<procedure title="Inserting into a 2-node At Bottom">
 <step>
-<p>Search for key, as usual.</p>
+    <p>Search for key, as usual.</p>
 </step>
 <step>
-<p>Replace 2-node with 3-node.</p>
-</step>
-</procedure>
-
-<procedure title = "Basic Plan for Inserting into a 3-node At Bottom">
-<step>
-<p>Add new key to 3-node to create a temporary 4-node.</p>
-</step>
-<step>
-<p>Move middle key in 4-node into a parent.</p>
-</step>
-<step>
-<p>Repeat up the tree, as necessary.</p>
-</step>
-<step>
-<p>If you reach the root and it's a 4-node, split it into three 2-nodes.</p>
+    <p>Replace 2-node with 3-node.</p>
 </step>
 </procedure>
 
-<p>Properties: </p>
+<procedure title="Inserting into a 3-node At Bottom">
+<step>
+    <p>Add new key to 3-node to create a temporary 4-node.</p>
+</step>
+<step>
+    <p>Move middle key in 4-node into a parent.</p>
+</step>
+<step>
+    <p>Repeat up the tree, as necessary.</p>
+</step>
+<step>
+    <p>If you reach the root and it's a 4-node, split it into three 2-
+    nodes.</p>
+</step>
+</procedure>
 
-<list type = "bullet">
+<p><format color="BlueViolet">Properties</format></p>
+
+<list type="bullet">
 <li>
-<p>Maintain symmetric order and perfect balance: Every path from 
-root to null link has same length.</p>
+    <p><format color="Fuchsia">Maintain symmetric order and perfect 
+    balance:</format> Every path from root to null link has same length.
+    </p>
+    <p><format color="LawnGreen">Proof:</format> </p>
 </li>
 <li>
-<p><format color = "BlueViolet">Worst case</format>: 
-<math>\lg N</math> => all 2-nodes</p>
+    <p><format color="Fuchsia">Worst case</format>: 
+    <math>\lg N</math> => all 2-nodes</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Best case</format>: 
-<math>\log_{3} N \approx 0.631 \lg N</math> </p>
+    <p><format color="Fuchsia">Best case</format>: <math>
+    \log_{3} N \approx 0.631 \lg N</math> => all 3-nodes</p>
 </li>
 <li>
-<p>Between 12 and 20 for a million nodes.</p>
+    <p>Between 12 and 20 for a million nodes.</p>
 </li>
 <li>
-<p>Between 18 and 30 for a billion nodes.</p>
+    <p>Between 18 and 30 for a billion nodes.</p>
 </li>
 <li>
-<p>Guaranteed <format color = "OrangeRed">logarithmic</format> performance
-for search and insert.</p>
+    <p>Guaranteed <format color="OrangeRed">logarithmic</format> 
+    performance for search and insert.</p>
 </li>
 </list>
 
 <tip>
-<p>But direct implementation is complicated, because:</p>
-<list type = "bullet">
-<li>
-<p>Maintaining multiple node types is cumbersome.</p>
-</li>
-<li>
-<p>Need multiple compares to move down tree.</p>
-</li>
-<li>
-<p>Need to move back up the tree to split 4-nodes.</p>
-</li>
-<li>
-<p>Large number of cases for splitting.</p>
-</li>
-</list>
+    <p>But direct implementation is complicated, because:</p>
+    <list type="bullet">
+    <li>
+        <p>Maintaining multiple node types is cumbersome.</p>
+    </li>
+    <li>
+        <p>Need multiple compares to move down tree.</p>
+    </li>
+    <li>
+        <p>Need to move back up the tree to split 4-nodes.</p>
+    </li>
+    <li>
+        <p>Large number of cases for splitting.</p>
+    </li>
+    </list>
 </tip>
 
 ### 10.2 Red-Black BSTs {id="red-black-bsts"}
 
 #### 10.2.1 Left-Leaning Red-Black BSTs
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "BlueViolet">Definition 1</format>: </p>
-<list type = "bullet">
-<li>
-<p>Represent 2–3 tree as a BST.</p>
+    <p><format color="Fuchsia">Definition 1</format>: </p>
+    <list type="bullet">
+    <li>
+        <p>Represent 2–3 tree as a BST.</p>
+    </li>
+    <li>
+        <p>Use "internal" left-leaning links as "glue" for 3–nodes.</p>
+    </li>
+    </list>
 </li>
+
 <li>
-<p>Use "internal" left-leaning links as "glue" for 3–nodes.</p>
+    <p><format color="Fuchsia">Definition 2</format>: A BST such that:</p>
+    <list type="bullet">
+    <li>
+        <p>No node has two red links connected to it.</p>
+    </li>
+    <li>
+        <p>Every path from root to null link has the same number of black
+        links.</p>
+    </li>
+    <li>
+        <p>Red links lean left.</p>
+    </li>
+    </list>
 </li>
+
 </list>
-</li>
-<li>
-<p><format color = "BlueViolet">Definition 2</format>: A BST such 
-that: </p>
-<list type = "bullet">
-<li>
-<p>No node has two red links connected to it.</p>
-</li>
-<li>
-<p>Every path from root to null link has the same number of black links.</p>
-</li>
-<li>
-<p>Red links lean left.</p>
-</li>
-</list>
-</li>
-</list>
-<img src = "../images_data/d10-2-1.png" alt = "Red-Black BST"/>
+
+<img src="../images_data/d10-2-1.png" alt="Red-Black BST"/>
 
 <note><p>1–1 correspondence between 2–3 and LLRB!</p></note>
 
 #### 10.2.2 Elementary Red-Black BST Operations
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "BlueViolet">Left rotation:</format> Orient a 
-(temporarily) right-leaning red link to lean left.</p>
+    <p><format color="Fuchsia">Left rotation:</format> Orient a 
+    (temporarily) right-leaning red link to lean left.</p>
+    <img src="../images_data/d10-2-2.png" alt="Left Rotation"/>
 </li>
 <li>
-<p><format color = "BlueViolet">Right rotation:</format> Orient a 
-left-leaning red link to (temporarily) lean right.</p>
+    <p><format color="Fuchsia">Right rotation:</format> Orient a 
+    left-leaning red link to (temporarily) lean right.</p>
+    <img src="../images_data/d10-2-3.png" alt="Right Rotation"/>
 </li>
 <li>
-<p><format color = "BlueViolet">Color flip:</format> Recolor to split
-a (temporary) 4-node.</p>
+    <p><format color="Fuchsia">Color flip:</format> Recolor to split
+    a (temporary) 4-node.</p>
+    <img src="../images_data/d10-2-4.png" alt="Color Flip"/>
 </li>
 </list>
 
-<img src = "../images_data/d10-2-2.png" alt = "Left Rotation"/>
-
-<img src = "../images_data/d10-2-3.png" alt = "Right Rotation"/>
-
 #### 10.2.3 Red-Black BST Operations
 
-<warning><p>Most ops (e.g., search, floor, iteration, selection)
+<warning>
+<p>Most ops (e.g., search, floor, iteration, selection)
 are the same as for elementary BST, but run faster because of better 
-performance.</p></warning>
+performance.</p>
+</warning>
 
-<procedure title = "Case 1: Insert into a 2-node at the bottom | 
-Insert into a tree with exactly 1 node.">
+<procedure title="Case 1: Insert into a 2-node at the bottom | 
+Insert into a tree with exactly 1 node">
 <step>
 <p>Do standard BST insert; color new link red.</p>
 </step>
@@ -259,64 +266,66 @@ Insert into a tree with exactly 1 node.">
 </step>
 </procedure>
 
-<procedure title = "Case 2: Insert into a 3-node at the bottom | 
+<procedure title="Case 2: Insert into a 3-node at the bottom | 
 Insert into a tree with exactly 2 nodes.">
 <step>
-<p>Do standard BST insert; color new link red.</p>
+    <p>Do standard BST insert; color new link red.</p>
 </step>
 <step>
-<p>Rotate to balance the 4-node (if needed).</p>
+    <p>Rotate to balance the 4-node (if needed).</p>
 </step>
 <step>
-<p>Flip colors to pass red link up one level.</p>
+    <p>Flip colors to pass red link up one level.</p>
 </step>
 <step>
-<p>Rotate to make lean left (if needed).</p>
+    <p>Rotate to make lean left (if needed).</p>
 </step>
 <step>
-<p>Repeat case 1 or case 2 up the tree (if needed).</p>
+    <p>Repeat case 1 or case 2 up the tree (if needed).</p>
 </step>
 </procedure>
 
-<img src = "../images_data/d10-2-4.png" alt = "Insert into a 3-node 
+<img src="../images_data/d10-2-5.png" alt="Insert into a 3-node 
 at the bottom"/>
 
-<procedure title = "Insertion for Red-Black BSTs" type = "choices">
+<procedure title="Insertion for Red-Black BSTs" type="choices">
 <step>
-<p>Right child red, left child black: <format color = "OrangeRed">rotate 
-left</format>.</p>
+    <p>Right child red, left child black: <format color="OrangeRed">rotate 
+    left</format>.</p>
 </step>
 <step>
-<p>Left child, left-left grandchild red: <format color = "OrangeRed">rotate
-right</format>.</p>
+    <p>Left child, left-left grandchild red: <format color="OrangeRed">
+    rotate right</format>.</p>
 </step>
 <step>
-<p>Both children red: <format color = "OrangeRed">flip colors</format>.</p>
+    <p>Both children red: <format color="OrangeRed">flip colors</format>.
+    </p>
 </step>
 </procedure>
 
 #### 10.2.4 Red-Black BST Implementations
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
-
-public class RedBlackBST<Key extends Comparable<Key>, Value> {
-
-    private static final boolean RED   = true;
+import java.util.Queue;
+\/
+public class RedBlackBST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
+\/
+    private static final boolean RED = true;
     private static final boolean BLACK = false;
-
-    private Node root;   
-
-    // BST helper node data type
+\/
+    private Node root;
+\/
     private class Node {
-        private Key key;          
-        private Value val;         
-        private Node left, right;  
-        private boolean color;  
-        private int size;          
-
+        private Key key;
+        private Value val;
+        private Node left, right;
+        private boolean color;
+        private int size;
+\/
         public Node(Key key, Value val, boolean color, int size) {
             this.key = key;
             this.val = val;
@@ -324,155 +333,137 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             this.size = size;
         }
     }
-
+\/
     public RedBlackBST() {
     }
-
-    // is node x red; false if x is null ?
+\/
     private boolean isRed(Node x) {
         if (x == null) return false;
         return x.color == RED;
     }
-
-    // number of node in subtree rooted at x; 0 if x is null
+\/
     private int size(Node x) {
         if (x == null) return 0;
         return x.size;
     }
-    
-    // Returns the number of key-value pairs in this symbol table.
+\/
     public int size() {
         return size(root);
     }
-
-    // Is this symbol table empty?
+\/
     public boolean isEmpty() {
         return root == null;
     }
-
-    // value associated with the given key in subtree rooted at x; null if no such key
+\/
     public Value get(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
         return get(root, key);
     }
-    
+\/
     private Value get(Node x, Key key) {
         while (x != null) {
             int cmp = key.compareTo(x.key);
-            if      (cmp < 0) x = x.left;
-            else if (cmp > 0) x = x.right;
-            else              return x.val;
+            if (cmp &lt; 0) x = x.left;
+            else if (cmp &gt; 0) x = x.right;
+            else return x.val;
         }
         return null;
     }
-
-    // Does this symbol table contain the given key?
+\/
     public boolean contains(Key key) {
         return get(key) != null;
     }
-    
-    // Inserts the specified key-value pair into the symbol table, overwriting the old
-    // value with the new value if the symbol table already contains the specified key.
-    // Deletes the specified key (and its associated value) from this symbol table
-    // if the specified value is null.
-     
+\/
     public void put(Key key, Value val) {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
         if (val == null) {
             delete(key);
             return;
         }
-
+\/
         root = put(root, key, val);
         root.color = BLACK;
     }
-    
+\/
     private Node put(Node h, Key key, Value val) {
         if (h == null) return new Node(key, val, RED, 1);
-
+\/
         int cmp = key.compareTo(h.key);
-        if      (cmp < 0) h.left  = put(h.left,  key, val);
-        else if (cmp > 0) h.right = put(h.right, key, val);
-        else              h.val   = val;
-
-        if (isRed(h.right) && !isRed(h.left))      h = rotateLeft(h);
-        if (isRed(h.left)  &&  isRed(h.left.left)) h = rotateRight(h);
-        if (isRed(h.left)  &&  isRed(h.right))     flipColors(h);
+        if (cmp &lt; 0) h.left = put(h.left, key, val);
+        else if (cmp &gt; 0) h.right = put(h.right, key, val);
+        else h.val = val;
+\/
+        if (isRed(h.right) && !isRed(h.left)) h = rotateLeft(h);
+        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
+        if (isRed(h.left) && isRed(h.right)) flipColors(h);
         h.size = size(h.left) + size(h.right) + 1;
-
+\/
         return h;
     }
-
-    // delete the key-value pair with the minimum key rooted at h
+\/
     public void deleteMin() {
         if (isEmpty()) throw new NoSuchElementException("BST underflow");
-
-        // if both children of root are black, set root to red
+\/
         if (!isRed(root.left) && !isRed(root.right))
             root.color = RED;
-
+\/
         root = deleteMin(root);
         if (!isEmpty()) root.color = BLACK;
     }
-
+\/
     private Node deleteMin(Node h) {
         if (h.left == null)
             return null;
-
+\/
         if (!isRed(h.left) && !isRed(h.left.left))
             h = moveRedLeft(h);
-
+\/
         h.left = deleteMin(h.left);
         return balance(h);
     }
-
-    // delete the key-value pair with the maximum key rooted at h
+\/
     public void deleteMax() {
         if (isEmpty()) throw new NoSuchElementException("BST underflow");
-
-        // if both children of root are black, set root to red
+\/
         if (!isRed(root.left) && !isRed(root.right))
             root.color = RED;
-
+\/
         root = deleteMax(root);
         if (!isEmpty()) root.color = BLACK;
     }
-
+\/
     private Node deleteMax(Node h) {
         if (isRed(h.left))
             h = rotateRight(h);
-
+\/
         if (h.right == null)
             return null;
-
+\/
         if (!isRed(h.right) && !isRed(h.right.left))
             h = moveRedRight(h);
-
+\/
         h.right = deleteMax(h.right);
-
+\/
         return balance(h);
     }
-
+\/
     public void delete(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to delete() is null");
         if (!contains(key)) return;
-
-        // if both children of root are black, set root to red
+\/
         if (!isRed(root.left) && !isRed(root.right))
             root.color = RED;
-
+\/
         root = delete(root, key);
         if (!isEmpty()) root.color = BLACK;
     }
-
-    // delete the key-value pair with the given key rooted at h
+\/
     private Node delete(Node h, Key key) {
-        if (key.compareTo(h.key) < 0)  {
+        if (key.compareTo(h.key) &lt; 0) {
             if (!isRed(h.left) && !isRed(h.left.left))
                 h = moveRedLeft(h);
             h.left = delete(h.left, key);
-        }
-        else {
+        } else {
             if (isRed(h.left))
                 h = rotateRight(h);
             if (key.compareTo(h.key) == 0 && (h.right == null))
@@ -484,13 +475,11 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
                 h.key = x.key;
                 h.val = x.val;
                 h.right = deleteMin(h.right);
-            }
-            else h.right = delete(h.right, key);
+            } else h.right = delete(h.right, key);
         }
         return balance(h);
     }
-
-    // make a left-leaning link lean to the right
+\/
     private Node rotateRight(Node h) {
         assert (h != null) && isRed(h.left);
         Node x = h.left;
@@ -502,8 +491,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         h.size = size(h.left) + size(h.right) + 1;
         return x;
     }
-
-    // make a right-leaning link lean to the left
+\/
     private Node rotateLeft(Node h) {
         assert (h != null) && isRed(h.right);
         Node x = h.right;
@@ -515,16 +503,13 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         h.size = size(h.left) + size(h.right) + 1;
         return x;
     }
-
-    // flip the colors of a node and its two children
+\/
     private void flipColors(Node h) {
         h.color = !h.color;
         h.left.color = !h.left.color;
         h.right.color = !h.right.color;
     }
-
-    // Assuming that h is red and both h.left and h.left.left
-    // are black, make h.left or one of its children red.
+\/
     private Node moveRedLeft(Node h) {
         flipColors(h);
         if (isRed(h.right.left)) {
@@ -534,9 +519,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         }
         return h;
     }
-
-    // Assuming that h is red and both h.right and h.right.left
-    // are black, make h.right or one of its children red.
+\/
     private Node moveRedRight(Node h) {
         flipColors(h);
         if (isRed(h.left.left)) {
@@ -545,657 +528,680 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         }
         return h;
     }
-
-    // restore red-black tree invariant
+\/
     private Node balance(Node h) {
-        if (isRed(h.right) && !isRed(h.left))    h = rotateLeft(h);
+        if (isRed(h.right) && !isRed(h.left)) h = rotateLeft(h);
         if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
-        if (isRed(h.left) && isRed(h.right))     flipColors(h);
-
+        if (isRed(h.left) && isRed(h.right)) flipColors(h);
+\/
         h.size = size(h.left) + size(h.right) + 1;
         return h;
     }
-
-    // Returns the height of the BST (for debugging).
+\/
     public int height() {
         return height(root);
     }
-
+\/
     private int height(Node x) {
         if (x == null) return -1;
         return 1 + Math.max(height(x.left), height(x.right));
     }
-
-    // the smallest key in subtree rooted at x; null if no such key
+\/
     public Key min() {
         if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
         return min(root).key;
     }
-
+\/
     private Node min(Node x) {
-        // assert x != null;
         if (x.left == null) return x;
-        else                return min(x.left);
+        else return min(x.left);
     }
-
-    // the largest key in the subtree rooted at x; null if no such key
+\/
     public Key max() {
         if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
         return max(root).key;
     }
-
+\/
     private Node max(Node x) {
         if (x.right == null) return x;
-        else                 return max(x.right);
+        else return max(x.right);
     }
-
-    // the largest key in the subtree rooted at x less than or equal to the given key
+\/
     public Key floor(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to floor() is null");
         if (isEmpty()) throw new NoSuchElementException("calls floor() with empty symbol table");
         Node x = floor(root, key);
         if (x == null) throw new NoSuchElementException("argument to floor() is too small");
-        else           return x.key;
+        else return x.key;
     }
-
+\/
     private Node floor(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
         if (cmp == 0) return x;
-        if (cmp < 0)  return floor(x.left, key);
+        if (cmp &lt; 0) return floor(x.left, key);
         Node t = floor(x.right, key);
         if (t != null) return t;
-        else           return x;
+        else return x;
     }
-
-    // the smallest key in the subtree rooted at x greater than or equal to the given key
+\/
     public Key ceiling(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
         if (isEmpty()) throw new NoSuchElementException("calls ceiling() with empty symbol table");
         Node x = ceiling(root, key);
         if (x == null) throw new NoSuchElementException("argument to ceiling() is too large");
-        else           return x.key;
+        else return x.key;
     }
-
+\/
     private Node ceiling(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
         if (cmp == 0) return x;
-        if (cmp > 0)  return ceiling(x.right, key);
+        if (cmp &gt; 0) return ceiling(x.right, key);
         Node t = ceiling(x.left, key);
         if (t != null) return t;
-        else           return x;
+        else return x;
     }
-
-    // Return key in BST rooted at x of given rank.
+\/
     public Key select(int rank) {
-        if (rank < 0 || rank >= size()) {
+        if (rank &lt; 0 || rank &gt;= size()) {
             throw new IllegalArgumentException("argument to select() is invalid: " + rank);
         }
         return select(root, rank);
     }
-
+\/
     private Key select(Node x, int rank) {
         if (x == null) return null;
         int leftSize = size(x.left);
-        if      (leftSize > rank) return select(x.left,  rank);
-        else if (leftSize < rank) return select(x.right, rank - leftSize - 1);
-        else                      return x.key;
+        if (leftSize &gt; rank) return select(x.left, rank);
+        else if (leftSize &lt; rank) return select(x.right, rank - leftSize - 1);
+        else return x.key;
     }
-
-    // Return the number of keys in the BST strictly less than key.
+\/
     public int rank(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to rank() is null");
         return rank(key, root);
     }
-
+\/
     private int rank(Key key, Node x) {
         if (x == null) return 0;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) return rank(key, x.left);
-        else if (cmp > 0) return 1 + size(x.left) + rank(key, x.right);
-        else              return size(x.left);
+        if (cmp &lt; 0) return rank(key, x.left);
+        else if (cmp &gt; 0) return 1 + size(x.left) + rank(key, x.right);
+        else return size(x.left);
     }
-
+\/
+    public Iterable&lt;Key&gt; keys() {
+        if (isEmpty()) return new LinkedList&lt;&gt;();
+        return keys(min(), max());
+    }
+\/
+    public Iterable&lt;Key&gt; keys(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to keys() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
+\/
+        Queue&lt;Key&gt; queue = new LinkedList&lt;&gt;();
+        keys(root, queue, lo, hi);
+        return queue;
+    }
+\/
+    private void keys(Node x, Queue&lt;Key&gt; queue, Key lo, Key hi) {
+        if (x == null) return;
+        int cmplo = lo.compareTo(x.key);
+        int cmphi = hi.compareTo(x.key);
+        if (cmplo &lt; 0) keys(x.left, queue, lo, hi);
+        if (cmplo &lt;= 0 && cmphi &gt;= 0) queue.add(x.key);
+        if (cmphi &gt; 0) keys(x.right, queue, lo, hi);
+    }
+\/
     public int size(Key lo, Key hi) {
         if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
         if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
-
-        if (lo.compareTo(hi) > 0) return 0;
+\/
+        if (lo.compareTo(hi) &gt; 0) return 0;
         if (contains(hi)) return rank(hi) - rank(lo) + 1;
-        else              return rank(hi) - rank(lo);
+        else return rank(hi) - rank(lo);
+    }
+\/
+    private boolean check() {
+        if (!isBST()) System.out.println("Not in symmetric order");
+        if (!isSizeConsistent()) System.out.println("Subtree counts not consistent");
+        if (!isRankConsistent()) System.out.println("Ranks not consistent");
+        if (!is23()) System.out.println("Not a 2-3 tree");
+        if (!isBalanced()) System.out.println("Not balanced");
+        return isBST() && isSizeConsistent() && isRankConsistent() && is23() && isBalanced();
+    }
+\/
+    private boolean isBST() {
+        return isBST(root, null, null);
+    }
+\/
+    private boolean isBST(Node x, Key min, Key max) {
+        if (x == null) return true;
+        if (min != null && x.key.compareTo(min) &lt;= 0) return false;
+        if (max != null && x.key.compareTo(max) &gt;= 0) return false;
+        return isBST(x.left, min, x.key) && isBST(x.right, x.key, max);
+    }
+\/
+    private boolean isSizeConsistent() {
+        return isSizeConsistent(root);
+    }
+\/
+    private boolean isSizeConsistent(Node x) {
+        if (x == null) return true;
+        if (x.size != size(x.left) + size(x.right) + 1) return false;
+        return isSizeConsistent(x.left) && isSizeConsistent(x.right);
+    }
+\/
+    private boolean isRankConsistent() {
+        for (int i = 0; i &lt; size(); i++)
+            if (i != rank(select(i))) return false;
+        for (Key key : keys())
+            if (key.compareTo(select(rank(key))) != 0) return false;
+        return true;
+    }
+\/
+    private boolean is23() {
+        return is23(root);
+    }
+\/
+    private boolean is23(Node x) {
+        if (x == null) return true;
+        if (isRed(x.right)) return false;
+        if (x != root && isRed(x) && isRed(x.left))
+            return false;
+        return is23(x.left) && is23(x.right);
+    }
+\/
+    private boolean isBalanced() {
+        int black = 0;
+        Node x = root;
+        while (x != null) {
+            if (!isRed(x)) black++;
+            x = x.left;
+        }
+        return isBalanced(root, black);
+    }
+\/
+    private boolean isBalanced(Node x, int black) {
+        if (x == null) return black == 0;
+        if (!isRed(x)) black--;
+        return isBalanced(x.left, black) && isBalanced(x.right, black);
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <exception>
-#include <stdexcept>
-
-template <typename Key, typename Value>
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#ifndef REDBLACKBST_H
+#define REDBLACKBST_H
+\/
+#include &lt;iostream&gt;
+#include &lt;queue&gt;
+#include &lt;stdexcept&gt;
+#include &lt;cassert&gt;
+\/
+template &lt;typename Key, typename Value&gt;
 class RedBlackBST {
 private:
+    static constexpr bool RED = true;
+    static constexpr bool BLACK = false;
+\/
     struct Node {
         Key key;
         Value val;
         Node *left, *right;
         bool color;
         int size;
-
+\/
         Node(const Key& key, const Value& val, bool color, int size) : 
             key(key), val(val), left(nullptr), right(nullptr), color(color), size(size) {}
     };
-
-    static const bool RED = true;
-    static const bool BLACK = false;
-
+\/
     Node* root;
-
-    // Helper functions for recursion
-    bool isRed(Node* x) const {
+\/
+    static bool isRed(Node* x) {
         if (x == nullptr) return false;
-        return x->color == RED;
+        return x-&gt;color == RED;
     }
-
-    int size(Node* x) const {
+\/
+    static int size(Node* x) {
         if (x == nullptr) return 0;
-        return x->size;
+        return x-&gt;size;
     }
-
+\/
+    Node* put(Node* h, const Key& key, const Value& val) {
+        if (h == nullptr) return new Node(key, val, RED, 1);
+\/
+        if (key &lt; h-&gt;key) h-&gt;left = put(h-&gt;left, key, val);
+        else if (key &gt; h-&gt;key) h-&gt;right = put(h-&gt;right, key, val);
+        else h-&gt;val = val;
+\/
+        if (isRed(h-&gt;right) && !isRed(h-&gt;left)) h = rotateLeft(h);
+        if (isRed(h-&gt;left) && isRed(h-&gt;left-&gt;left)) h = rotateRight(h);
+        if (isRed(h-&gt;left) && isRed(h-&gt;right)) flipColors(h);
+        h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
+\/
+        return h;
+    }
+\/
+    Node* deleteMin(Node* h) {
+        if (h-&gt;left == nullptr)
+            return nullptr;
+\/
+        if (!isRed(h-&gt;left) && !isRed(h-&gt;left-&gt;left))
+            h = moveRedLeft(h);
+\/
+        h-&gt;left = deleteMin(h-&gt;left);
+        return balance(h);
+    }
+\/
+    Node* deleteMax(Node* h) {
+        if (isRed(h-&gt;left))
+            h = rotateRight(h);
+\/
+        if (h-&gt;right == nullptr)
+            return nullptr;
+\/
+        if (!isRed(h-&gt;right) && !isRed(h-&gt;right-&gt;left))
+            h = moveRedRight(h);
+\/
+        h-&gt;right = deleteMax(h-&gt;right);
+\/
+        return balance(h);
+    }
+\/
+    Node* deleteNode(Node* h, const Key& key) {
+        if (key &lt; h-&gt;key) {
+            if (!isRed(h-&gt;left) && !isRed(h-&gt;left-&gt;left))
+                h = moveRedLeft(h);
+            h-&gt;left = deleteNode(h-&gt;left, key);
+        } else {
+            if (isRed(h-&gt;left))
+                h = rotateRight(h);
+            if (key == h-&gt;key && (h-&gt;right == nullptr))
+                return nullptr;
+            if (!isRed(h-&gt;right) && !isRed(h-&gt;right-&gt;left))
+                h = moveRedRight(h);
+            if (key == h-&gt;key) {
+                Node* x = min(h-&gt;right);
+                h-&gt;key = x-&gt;key;
+                h-&gt;val = x-&gt;val;
+                h-&gt;right = deleteMin(h-&gt;right);
+            } else h-&gt;right = deleteNode(h-&gt;right, key);
+        }
+        return balance(h);
+    }
+\/
     Node* rotateRight(Node* h) {
-        if (h == nullptr || !isRed(h->left)) {
-            throw std::runtime_error("Invalid rotateRight() call"); 
-        }
-        Node* x = h->left;
-        h->left = x->right;
-        x->right = h;
-        x->color = h->color;
-        h->color = RED;
-        x->size = h->size;
-        h->size = size(h->left) + size(h->right) + 1;
+        assert(h != nullptr && isRed(h-&gt;left));
+        Node* x = h-&gt;left;
+        h-&gt;left = x-&gt;right;
+        x-&gt;right = h;
+        x-&gt;color = h-&gt;color;
+        h-&gt;color = RED;
+        x-&gt;size = h-&gt;size;
+        h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
         return x;
     }
-
+\/
     Node* rotateLeft(Node* h) {
-        if (h == nullptr || !isRed(h->right)) {
-            throw std::runtime_error("Invalid rotateLeft() call"); 
-        }
-        Node* x = h->right;
-        h->right = x->left;
-        x->left = h;
-        x->color = h->color;
-        h->color = RED;
-        x->size = h->size;
-        h->size = size(h->left) + size(h->right) + 1;
+        assert(h != nullptr && isRed(h-&gt;right));
+        Node* x = h-&gt;right;
+        h-&gt;right = x-&gt;left;
+        x-&gt;left = h;
+        x-&gt;color = h-&gt;color;
+        h-&gt;color = RED;
+        x-&gt;size = h-&gt;size;
+        h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
         return x;
     }
-
-    void flipColors(Node* h) {
-        if (h == nullptr || h->left == nullptr || h->right == nullptr) {
-            throw std::runtime_error("Invalid flipColors() call"); 
-        }
-        h->color = !h->color;
-        h->left->color = !h->left->color;
-        h->right->color = !h->right->color;
+\/
+    static void flipColors(Node* h) {
+        h-&gt;color = !h-&gt;color;
+        h-&gt;left-&gt;color = !h-&gt;left-&gt;color;
+        h-&gt;right-&gt;color = !h-&gt;right-&gt;color;
     }
-
+\/
     Node* moveRedLeft(Node* h) {
         flipColors(h);
-        if (isRed(h->right->left)) {
-            h->right = rotateRight(h->right);
+        if (isRed(h-&gt;right-&gt;left)) {
+            h-&gt;right = rotateRight(h-&gt;right);
             h = rotateLeft(h);
             flipColors(h);
         }
         return h;
     }
-
+\/
     Node* moveRedRight(Node* h) {
         flipColors(h);
-        if (isRed(h->left->left)) { 
+        if (isRed(h-&gt;left-&gt;left)) {
             h = rotateRight(h);
             flipColors(h);
         }
         return h;
     }
-
+\/
     Node* balance(Node* h) {
-        if (isRed(h->right) && !isRed(h->left))    h = rotateLeft(h);
-        if (isRed(h->left) && isRed(h->left->left)) h = rotateRight(h);
-        if (isRed(h->left) && isRed(h->right))     flipColors(h);
-
-        h->size = size(h->left) + size(h->right) + 1;
+        if (isRed(h-&gt;right) && !isRed(h-&gt;left)) h = rotateLeft(h);
+        if (isRed(h-&gt;left) && isRed(h-&gt;left-&gt;left)) h = rotateRight(h);
+        if (isRed(h-&gt;left) && isRed(h-&gt;right)) flipColors(h);
+\/
+        h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
         return h;
     }
-
-    Node* put(Node* h, const Key& key, const Value& val) {
-        if (h == nullptr) return new Node(key, val, RED, 1);
-
-        if (key < h->key) h->left  = put(h->left, key, val);
-        else if (key > h->key) h->right = put(h->right, key, val);
-        else h->val = val; 
-
-        // Fix right-leaning red links and restore balance
-        if (isRed(h->right) && !isRed(h->left)) h = rotateLeft(h);
-        if (isRed(h->left)  && isRed(h->left->left)) h = rotateRight(h);
-        if (isRed(h->left)  && isRed(h->right)) flipColors(h);
-
-        h->size = 1 + size(h->left) + size(h->right);
-        return h;
-    }
-
-    Node* deleteMin(Node* h) {
-        if (h->left == nullptr) {
-            delete h; 
-            return nullptr;
-        }
-
-        if (!isRed(h->left) && !isRed(h->left->left))
-            h = moveRedLeft(h);
-
-        h->left = deleteMin(h->left);
-        return balance(h);
-    }
-
-    Node* deleteMax(Node* h) {
-        if (isRed(h->left))
-            h = rotateRight(h);
-
-        if (h->right == nullptr) {
-            delete h;
-            return nullptr; 
-        }
-
-        if (!isRed(h->right) && !isRed(h->right->left))
-            h = moveRedRight(h);
-
-        h->right = deleteMax(h->right);
-        return balance(h);
-    }
-
-    Node* deleteNode(Node* h, const Key& key) {
-        if (key < h->key)  {
-            if (!isRed(h->left) && !isRed(h->left->left))
-                h = moveRedLeft(h);
-            h->left = deleteNode(h->left, key);
-        }
-        else {
-            if (isRed(h->left))
-                h = rotateRight(h);
-            if (key == h->key && (h->right == nullptr)) {
-                delete h; 
-                return nullptr; 
-            }
-            if (!isRed(h->right) && !isRed(h->right->left))
-                h = moveRedRight(h);
-            if (key == h->key) {
-                Node* x = min(h->right);
-                h->key = x->key;
-                h->val = x->val; 
-                h->right = deleteMin(h->right);
-            }
-            else h->right = deleteNode(h->right, key);
-        }
-        return balance(h);
-    }
-
+\/
     Node* min(Node* x) const {
-        if (x->left == nullptr) return x;
-        else                return min(x->left);
+        if (x-&gt;left == nullptr) return x;
+        else return min(x-&gt;left);
     }
-
+\/
     Node* max(Node* x) const {
-        if (x->right == nullptr) return x;
-        else                 return max(x->right);
+        if (x-&gt;right == nullptr) return x;
+        else return max(x-&gt;right);
     }
-
+\/
     Node* floor(Node* x, const Key& key) const {
         if (x == nullptr) return nullptr;
-        if (key < x->key)  return floor(x->left, key);
-        if (key == x->key) return x; 
-        Node* t = floor(x->right, key);
+        if (key == x-&gt;key) return x;
+        if (key &lt; x-&gt;key) return floor(x-&gt;left, key);
+        Node* t = floor(x-&gt;right, key);
         if (t != nullptr) return t;
-        else           return x;
+        else return x;
     }
-
+\/
     Node* ceiling(Node* x, const Key& key) const {
         if (x == nullptr) return nullptr;
-        if (key > x->key)  return ceiling(x->right, key);
-        if (key == x->key) return x;
-        Node* t = ceiling(x->left, key);
+        if (key == x-&gt;key) return x;
+        if (key &gt; x-&gt;key) return ceiling(x-&gt;right, key);
+        Node* t = ceiling(x-&gt;left, key);
         if (t != nullptr) return t;
-        else           return x;
+        else return x;
     }
-
-    Key select(Node* x, int rank) const {
-        if (x == nullptr) return Key(); // Return a default-constructed Key
-        int leftSize = size(x->left);
-        if (leftSize > rank) return select(x->left, rank);
-        else if (leftSize < rank) return select(x->right, rank - leftSize - 1);
-        else return x->key;
+\/
+    Key select(Node* x, const int rank) const {
+        if (x == nullptr) return Key(); 
+        int leftSize = size(x-&gt;left);
+        if (leftSize &gt; rank) return select(x-&gt;left, rank);
+        else if (leftSize &lt; rank) return select(x-&gt;right, rank - leftSize - 1);
+        else return x-&gt;key;
     }
-
+\/
     int rank(const Key& key, Node* x) const {
         if (x == nullptr) return 0;
-        if (key < x->key) return rank(key, x->left);
-        else if (key > x->key) return 1 + size(x->left) + rank(key, x->right);
-        else return size(x->left);
+        if (key &lt; x-&gt;key) return rank(key, x-&gt;left);
+        else if (key &gt; x-&gt;key) return 1 + size(x-&gt;left) + rank(key, x-&gt;right);
+        else return size(x-&gt;left);
     }
-
+\/
+    void keys(Node* x, std::queue&lt;Key&gt;& queue, const Key& lo, const Key& hi) const {
+        if (x == nullptr) return;
+        if (lo &lt; x-&gt;key) keys(x-&gt;left, queue, lo, hi);
+        if (lo &lt;= x-&gt;key && x-&gt;key &lt;= hi) queue.push(x-&gt;key);
+        if (hi &gt; x-&gt;key) keys(x-&gt;right, queue, lo, hi);
+    }
+\/
     int height(Node* x) const {
         if (x == nullptr) return -1;
-        return 1 + std::max(height(x->left), height(x->right));
+        return 1 + std::max(height(x-&gt;left), height(x-&gt;right));
     }
-
-    // Helper function to recursively delete all nodes in a subtree
-    void deleteAllNodes(Node* node) {
-        if (node == nullptr) return;
-        deleteAllNodes(node->left);
-        deleteAllNodes(node->right);
-        delete node;
-    }
-
+\/
 public:
     RedBlackBST() : root(nullptr) {}
-
-    ~RedBlackBST() {
-        deleteAllNodes(root); 
-    }
-
-    int size() const {
+\/
+    [[nodiscard]] int size() const {
         return size(root);
     }
-
-    bool isEmpty() const {
+\/
+    [[nodiscard]] bool isEmpty() const {
         return root == nullptr;
     }
-
+\/
     Value get(const Key& key) const {
-        if (key == Key()) throw std::invalid_argument("argument to get() is null");
         Node* x = root;
         while (x != nullptr) {
-            if (key < x->key) x = x->left;
-            else if (key > x->key) x = x->right;
-            else return x->val;
+            if (key &lt; x-&gt;key) x = x-&gt;left;
+            else if (key &gt; x-&gt;key) x = x-&gt;right;
+            else return x-&gt;val;
         }
-        return Value(); // Return a default-constructed Value if not found
+        return Value();
     }
-
+\/
     bool contains(const Key& key) const {
         return get(key) != Value(); 
     }
-
+\/
     void put(const Key& key, const Value& val) {
-        if (key == Key()) throw std::invalid_argument("argument to put() is null");
         root = put(root, key, val);
-        root->color = BLACK;
+        root-&gt;color = BLACK;
     }
-
+\/
     void deleteMin() {
         if (isEmpty()) throw std::runtime_error("BST underflow");
-
-        if (!isRed(root->left) && !isRed(root->right))
-            root->color = RED;
-
+\/
+        if (!isRed(root-&gt;left) && !isRed(root-&gt;right))
+            root-&gt;color = RED;
+\/
         root = deleteMin(root);
-        if (!isEmpty()) root->color = BLACK;
+        if (!isEmpty()) root-&gt;color = BLACK;
     }
-
+\/
     void deleteMax() {
         if (isEmpty()) throw std::runtime_error("BST underflow");
-
-        if (!isRed(root->left) && !isRed(root->right))
-            root->color = RED;
-
+\/
+        if (!isRed(root-&gt;left) && !isRed(root-&gt;right))
+            root-&gt;color = RED;
+\/
         root = deleteMax(root);
-        if (!isEmpty()) root->color = BLACK;
+        if (!isEmpty()) root-&gt;color = BLACK;
     }
-
-    void deleteKey(const Key& key) { 
-        if (key == Key()) throw std::invalid_argument("argument to delete() is null");
+\/
+    void deleteNode(const Key& key) {
         if (!contains(key)) return;
-
-        if (!isRed(root->left) && !isRed(root->right))
-            root->color = RED;
-
-        root = deleteNode(root, key); 
-        if (!isEmpty()) root->color = BLACK;
+\/
+        if (!isRed(root-&gt;left) && !isRed(root-&gt;right))
+            root-&gt;color = RED;
+\/
+        root = deleteNode(root, key);
+        if (!isEmpty()) root-&gt;color = BLACK;
     }
-
-    int height() const {
+\/
+    [[nodiscard]] int height() const {
         return height(root);
     }
-
+\/
     Key min() const {
         if (isEmpty()) throw std::runtime_error("calls min() with empty symbol table");
-        return min(root)->key;
+        return min(root)-&gt;key;
     }
-
+\/
     Key max() const {
         if (isEmpty()) throw std::runtime_error("calls max() with empty symbol table");
-        return max(root)->key;
+        return max(root)-&gt;key;
     }
-
+\/
     Key floor(const Key& key) const {
-        if (key == Key()) throw std::invalid_argument("argument to floor() is null");
         if (isEmpty()) throw std::runtime_error("calls floor() with empty symbol table");
         Node* x = floor(root, key);
         if (x == nullptr) throw std::runtime_error("argument to floor() is too small");
-        else           return x->key;
+        else return x-&gt;key;
     }
-
+\/
     Key ceiling(const Key& key) const {
-        if (key == Key()) throw std::invalid_argument("argument to ceiling() is null");
         if (isEmpty()) throw std::runtime_error("calls ceiling() with empty symbol table");
         Node* x = ceiling(root, key);
         if (x == nullptr) throw std::runtime_error("argument to ceiling() is too large");
-        else           return x->key;
+        else return x-&gt;key;
     }
-
+\/
     Key select(int rank) const {
-        if (rank < 0 || rank >= size()) {
+        if (rank &lt; 0 || rank &gt;= size()) {
             throw std::invalid_argument("argument to select() is invalid: " + std::to_string(rank));
         }
         return select(root, rank);
     }
-
+\/
     int rank(const Key& key) const {
-        if (key == Key()) throw std::invalid_argument("argument to rank() is null");
         return rank(key, root);
     }
-
+\/
+    std::queue&lt;Key&gt; keys() const {
+        if (isEmpty()) return std::queue&lt;Key&gt;();
+        return keys(min(), max());
+    }
+\/
+    std::queue&lt;Key&gt; keys(const Key& lo, const Key& hi) const {
+        if (isEmpty() || lo &gt; hi) return std::queue&lt;Key&gt;(); 
+\/
+        std::queue&lt;Key&gt; queue;
+        keys(root, queue, lo, hi);
+        return queue;
+    }
+\/
     int size(const Key& lo, const Key& hi) const {
-        if (lo == Key()) throw std::invalid_argument("first argument to size() is null");
-        if (hi == Key()) throw std::invalid_argument("second argument to size() is null");
-
-        if (lo > hi) return 0;
+        if (lo &gt; hi) return 0;
         if (contains(hi)) return rank(hi) - rank(lo) + 1;
-        else              return rank(hi) - rank(lo);
+        else return rank(hi) - rank(lo);
     }
 };
-```
-
-Python
-
-```Python
+\/
+#endif // REDBLACKBST_H
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class Node:
     def __init__(self, key, val, color, size):
         self.key = key
         self.val = val
         self.left = None
         self.right = None
-        self.color = color
+        self.color = color  # True for RED, False for BLACK
         self.size = size
-
-
+\/
+\/
 class RedBlackBST:
     RED = True
     BLACK = False
-
+\/
     def __init__(self):
         self.root = None
-
+\/
     def is_red(self, x):
         if x is None:
             return False
         return x.color == RedBlackBST.RED
-
-    def size(self, x=None):
-        if x is None:
-            x = self.root
+\/
+    def size(self, x):
         if x is None:
             return 0
         return x.size
-
-    def rotate_right(self, h):
-        if not self.is_red(h.left):
-            raise Exception("BST error")
-        x = h.left
-        h.left = x.right
-        x.right = h
-        x.color = h.color
-        h.color = RedBlackBST.RED
-        x.size = h.size
-        h.size = 1 + self.size(h.left) + self.size(h.right)
-        return x
-
-    def rotate_left(self, h):
-        if not self.is_red(h.right):
-            raise Exception("BST error")
-        x = h.right
-        h.right = x.left
-        x.left = h
-        x.color = h.color
-        h.color = RedBlackBST.RED
-        x.size = h.size
-        h.size = 1 + self.size(h.left) + self.size(h.right)
-        return x
-
-    def flip_colors(self, h):
-        h.color = not h.color
-        h.left.color = not h.left.color
-        h.right.color = not h.right.color
-
-    def move_red_left(self, h):
-        self.flip_colors(h)
-        if self.is_red(h.right.left):
-            h.right = self.rotate_right(h.right)
-            h = self.rotate_left(h)
-            self.flip_colors(h)
-        return h
-
-    def move_red_right(self, h):
-        self.flip_colors(h)
-        if self.is_red(h.left.left):
-            h = self.rotate_right(h)
-            self.flip_colors(h)
-        return h
-
-    def balance(self, h):
-        if self.is_red(h.right) and not self.is_red(h.left):
-            h = self.rotate_left(h)
-        if self.is_red(h.left) and self.is_red(h.left.left):
-            h = self.rotate_right(h)
-        if self.is_red(h.left) and self.is_red(h.right):
-            self.flip_colors(h)
-        h.size = 1 + self.size(h.left) + self.size(h.right)
-        return h
-
-    def put(self, key, val):
-        if key is None:
-            raise Exception("argument to put() is null")
-        self.root = self._put(self.root, key, val)
-        self.root.color = RedBlackBST.BLACK
-
-    def _put(self, h, key, val):
-        if h is None:
-            return Node(key, val, RedBlackBST.RED, 1)
-        if key < h.key:
-            h.left = self._put(h.left, key, val)
-        elif key > h.key:
-            h.right = self._put(h.right, key, val)
-        else:
-            h.val = val
-
-        if self.is_red(h.right) and not self.is_red(h.left):
-            h = self.rotate_left(h)
-        if self.is_red(h.left) and self.is_red(h.left.left):
-            h = self.rotate_right(h)
-        if self.is_red(h.left) and self.is_red(h.right):
-            self.flip_colors(h)
-
-        h.size = 1 + self.size(h.left) + self.size(h.right)
-        return h
-
+\/
+    def __len__(self): 
+        return self.size(self.root)
+\/
+    def is_empty(self):
+        return self.root is None
+\/
     def get(self, key):
-        if key is None:
-            raise Exception("argument to get() is null")
-        return self._get(self.root, key)
-
-    def _get(self, x, key):
+        x = self.root
         while x is not None:
-            if key < x.key:
+            if key &lt; x.key:
                 x = x.left
-            elif key > x.key:
+            elif key &gt; x.key:
                 x = x.right
             else:
                 return x.val
         return None
-
-    def contains(self, key):
+\/
+    def __contains__(self, key): 
         return self.get(key) is not None
-
+\/
+    def put(self, key, val):
+        self.root = self._put(self.root, key, val)
+        self.root.color = RedBlackBST.BLACK
+\/
+    def _put(self, h, key, val):
+        if h is None:
+            return Node(key, val, RedBlackBST.RED, 1)
+\/
+        if key &lt; h.key:
+            h.left = self._put(h.left, key, val)
+        elif key &gt; h.key:
+            h.right = self._put(h.right, key, val)
+        else:
+            h.val = val
+\/
+        if self.is_red(h.right) and not self.is_red(h.left):
+            h = self.rotate_left(h)
+        if self.is_red(h.left) and self.is_red(h.left.left):
+            h = self.rotate_right(h)
+        if self.is_red(h.left) and self.is_red(h.right):
+            self.flip_colors(h)
+\/
+        h.size = self.size(h.left) + self.size(h.right) + 1
+        return h
+\/
     def delete_min(self):
-        if self.isEmpty():
+        if self.is_empty():
             raise Exception("BST underflow")
+\/
         if not self.is_red(self.root.left) and not self.is_red(self.root.right):
             self.root.color = RedBlackBST.RED
+\/
         self.root = self._delete_min(self.root)
-        if not self.isEmpty():
+        if not self.is_empty():
             self.root.color = RedBlackBST.BLACK
-
+\/
     def _delete_min(self, h):
         if h.left is None:
             return None
+\/
         if not self.is_red(h.left) and not self.is_red(h.left.left):
             h = self.move_red_left(h)
+\/
         h.left = self._delete_min(h.left)
         return self.balance(h)
-
+\/
     def delete_max(self):
-        if self.isEmpty():
+        if self.is_empty():
             raise Exception("BST underflow")
+\/
         if not self.is_red(self.root.left) and not self.is_red(self.root.right):
             self.root.color = RedBlackBST.RED
+\/
         self.root = self._delete_max(self.root)
-        if not self.isEmpty():
+        if not self.is_empty():
             self.root.color = RedBlackBST.BLACK
-
+\/
     def _delete_max(self, h):
         if self.is_red(h.left):
             h = self.rotate_right(h)
+\/
         if h.right is None:
             return None
+\/
         if not self.is_red(h.right) and not self.is_red(h.right.left):
             h = self.move_red_right(h)
+\/
         h.right = self._delete_max(h.right)
         return self.balance(h)
-
+\/
     def delete(self, key):
         if key is None:
             raise Exception("argument to delete() is null")
-        if not self.contains(key):
+        if not self.__contains__(key):
             return
+\/
         if not self.is_red(self.root.left) and not self.is_red(self.root.right):
             self.root.color = RedBlackBST.RED
+\/
         self.root = self._delete(self.root, key)
-        if not self.isEmpty():
+        if not self.is_empty():
             self.root.color = RedBlackBST.BLACK
-
+\/
     def _delete(self, h, key):
-        if key < h.key:
+        if key &lt; h.key:
             if not self.is_red(h.left) and not self.is_red(h.left.left):
                 h = self.move_red_left(h)
             h.left = self._delete(h.left, key)
@@ -1203,183 +1209,262 @@ class RedBlackBST:
             if self.is_red(h.left):
                 h = self.rotate_right(h)
             if key == h.key and h.right is None:
-                return None
+                return None 
             if not self.is_red(h.right) and not self.is_red(h.right.left):
                 h = self.move_red_right(h)
             if key == h.key:
-                x = self.min(h.right)
-                h.key = x.key
-                h.val = x.val
-                h.right = self._delete_min(h.right)
+                if h.right is not None: 
+                    x = self._min(h.right) 
+                    h.key = x.key
+                    h.val = x.val
+                    h.right = self._delete_min(h.right) 
+                else:  
+                    return h.left  
             else:
                 h.right = self._delete(h.right, key)
+\/
         return self.balance(h)
-
-    def isEmpty(self):
-        return self.root is None
-
+\/
+    def rotate_right(self, h):
+        assert h is not None and self.is_red(h.left)
+        x = h.left
+        h.left = x.right
+        x.right = h
+        x.color = h.color
+        h.color = RedBlackBST.RED
+        x.size = h.size
+        h.size = self.size(h.left) + self.size(h.right) + 1
+        return x
+\/
+    def rotate_left(self, h):
+        assert h is not None and self.is_red(h.right)
+        x = h.right
+        h.right = x.left
+        x.left = h
+        x.color = h.color
+        h.color = RedBlackBST.RED
+        x.size = h.size
+        h.size = self.size(h.left) + self.size(h.right) + 1
+        return x
+\/
+    def flip_colors(self, h):
+        assert h is not None and h.left is not None and h.right is not None
+        h.color = not h.color
+        h.left.color = not h.left.color
+        h.right.color = not h.right.color
+\/
+    def move_red_left(self, h):
+        self.flip_colors(h)
+        if self.is_red(h.right.left):
+            h.right = self.rotate_right(h.right)
+            h = self.rotate_left(h)
+            self.flip_colors(h)
+        return h
+\/
+    def move_red_right(self, h):
+        self.flip_colors(h)
+        if self.is_red(h.left.left):
+            h = self.rotate_right(h)
+            self.flip_colors(h)
+        return h
+\/
+    def balance(self, h):
+        if self.is_red(h.right) and not self.is_red(h.left):
+            h = self.rotate_left(h)
+        if self.is_red(h.left) and self.is_red(h.left.left):
+            h = self.rotate_right(h)
+        if self.is_red(h.left) and self.is_red(h.right):
+            self.flip_colors(h)
+\/
+        h.size = self.size(h.left) + self.size(h.right) + 1
+        return h
+\/
     def height(self):
         return self._height(self.root)
-
+\/
     def _height(self, x):
         if x is None:
             return -1
         return 1 + max(self._height(x.left), self._height(x.right))
-
-    def min(self, x=None):  # Add x as an argument
-        if x is None:
-            x = self.root  # Start from root if x is not provided
-        if self.isEmpty():
+\/
+    def min(self):
+        if self.is_empty():
             raise Exception("calls min() with empty symbol table")
-        if x.left is None:
-            return x
-        else:
-            return self.min(x.left)
-
+        return self._min(self.root).key
+\/
     def _min(self, x):
         if x.left is None:
             return x
         else:
             return self._min(x.left)
-
+\/
     def max(self):
-        if self.isEmpty():
+        if self.is_empty():
             raise Exception("calls max() with empty symbol table")
         return self._max(self.root).key
-
+\/
     def _max(self, x):
         if x.right is None:
             return x
         else:
             return self._max(x.right)
-
+\/
     def floor(self, key):
         if key is None:
             raise Exception("argument to floor() is null")
-        if self.isEmpty():
+        if self.is_empty():
             raise Exception("calls floor() with empty symbol table")
         x = self._floor(self.root, key)
         if x is None:
             raise Exception("argument to floor() is too small")
         else:
             return x.key
-
+\/
     def _floor(self, x, key):
         if x is None:
             return None
         if key == x.key:
             return x
-        elif key < x.key:
+        if key &lt; x.key:
             return self._floor(x.left, key)
         t = self._floor(x.right, key)
         if t is not None:
             return t
         else:
             return x
-
+\/
     def ceiling(self, key):
         if key is None:
             raise Exception("argument to ceiling() is null")
-        if self.isEmpty():
+        if self.is_empty():
             raise Exception("calls ceiling() with empty symbol table")
         x = self._ceiling(self.root, key)
         if x is None:
             raise Exception("argument to ceiling() is too large")
         else:
             return x.key
-
+\/
     def _ceiling(self, x, key):
         if x is None:
             return None
         if key == x.key:
             return x
-        elif key > x.key:
+        if key &gt; x.key:
             return self._ceiling(x.right, key)
         t = self._ceiling(x.left, key)
         if t is not None:
             return t
         else:
             return x
-
+\/
     def select(self, rank):
-        if rank < 0 or rank >= self.size():
+        if rank &lt; 0 or rank &gt;= len(self):
             raise Exception("argument to select() is invalid: " + str(rank))
-        return self._select(self.root, rank)
-
+        return self._select(self.root, rank).key
+\/
     def _select(self, x, rank):
         if x is None:
             return None
         left_size = self.size(x.left)
-        if left_size > rank:
+        if left_size &gt; rank:
             return self._select(x.left, rank)
-        elif left_size < rank:
+        elif left_size &lt; rank:
             return self._select(x.right, rank - left_size - 1)
         else:
-            return x.key
-
+            return x
+\/
     def rank(self, key):
         if key is None:
             raise Exception("argument to rank() is null")
         return self._rank(key, self.root)
-
+\/
     def _rank(self, key, x):
         if x is None:
             return 0
-        if key < x.key:
+        if key &lt; x.key:
             return self._rank(key, x.left)
-        elif key > x.key:
+        elif key &gt; x.key:
             return 1 + self.size(x.left) + self._rank(key, x.right)
         else:
             return self.size(x.left)
-
-    def size_between(self, lo, hi):
+\/
+    def keys(self):
+        if self.is_empty():
+            return []
+        return self.keys_in_range(self.min(), self.max())
+\/
+    def keys_in_range(self, lo, hi):
+        if lo is None:
+            raise Exception("first argument to keys() is null")
+        if hi is None:
+            raise Exception("second argument to keys() is null")
+\/
+        queue = []
+        self._keys_in_range(self.root, queue, lo, hi)
+        return queue
+\/
+    def _keys_in_range(self, x, queue, lo, hi):
+        if x is None:
+            return
+        if lo &lt; x.key:
+            self._keys_in_range(x.left, queue, lo, hi)
+        if lo &lt;= x.key &lt;= hi:
+            queue.append(x.key)
+        if hi &gt; x.key:
+            self._keys_in_range(x.right, queue, lo, hi)
+\/
+    def size_in_range(self, lo, hi):
         if lo is None:
             raise Exception("first argument to size() is null")
         if hi is None:
             raise Exception("second argument to size() is null")
-        if lo > hi:
+\/
+        if lo &gt; hi:
             return 0
-        if self.contains(hi):
+        if self.__contains__(hi):
             return self.rank(hi) - self.rank(lo) + 1
         else:
             return self.rank(hi) - self.rank(lo)
-```
+    </code-block>
+    </tab>
+</tabs>
 
 #### 10.2.5 Red-Black BST Properties and Applications
 
-<p>Properties: </p>
+<p><format color="BlueViolet">Properties</format></p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p>Height of tree is <math>\leq 2 \lg N</math> in the worst case.</p>
-<p>Proof: Every path from root to null link has same number of black
-links. Never two red links in-a-row.</p>
+    <p>Height of tree is <math>\leq 2 \lg N</math> in the worst case.</p>
+    <p><format color="LawnGreen">Proof:</format> Every path from root to 
+    null link has same number of black links. Never two red links in-a-row
+    .</p>
 </li>
 <li>
-<p>Height of tree is <math>\sim 1.00 \lg N</math> in typical
-applications.</p>
+    <p>Height of tree is <math>\sim 1.00 \lg N</math> in typical
+    applications.</p>
 </li>
 </list>
 
-<p>Applications: Red-black trees are widely used as system symbol 
-tables.</p>
-<list>
+<p><format color="BlueViolet">Applications:</format> Red-black trees are
+widely used as system symbol tables.</p>
+
+<list type="bullet">
 <li>
-<p><format color = "BlueViolet">Java</format>: 
-java.util.TreeMap, java.util.TreeSet.</p>
+    <p><format color="Fuchsia">Java:</format> java.util.TreeMap, 
+    java.util.TreeSet</p>
 </li>
 <li>
-<p><format color = "BlueViolet">C++ STL</format>: 
-map, multimap, multiset.</p>
+    <p><format color="Fuchsia">C++ STL:</format> map, multimap, multiset
+    </p>
 </li>
 <li>
-<p><format color = "BlueViolet">Linux kernel</format>: 
-completely fair scheduler, linux/rbtree.h.
-</p>
+    <p><format color="Fuchsia">Linux kernel:</format> completely fair 
+    scheduler, linux/rbtree.h</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Emacs</format>: 
-conservative stack scanning.</p>
+    <p><format color="Fuchsia">Emacs:</format> conservative stack 
+    scanning</p>
 </li>
 </list>
 
