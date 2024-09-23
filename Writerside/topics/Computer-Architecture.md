@@ -530,17 +530,144 @@ but shifted on the number line.</p>
 </li>
 </list>
 
-### 2 C Memory Layout
+### 2 C Introduction
+
+#### 2.1 Variable C Types
+
+<p><format color="BlueViolet">char:</format> A char takes up to 1 
+byte.</p>
+
+<p>7 bits are enough to store a char (<math>2^{7}=128</math>), but 
+we add a bit to round up to 1 byte since computers usually deal with 
+multiple of bytes.</p>
+
+<p><format color="BlueViolet">Typecasting in C:</format> C is a "
+weakly" typed language, you can <format color="OrangeRed">typecast
+</format> from any type to any other.</p>
+
+<p><format color="BlueViolet">Struct Alignment and Padding</format>
+</p>
+
+<p>C provide enough space and <format style="bold, italic">aligns
+</format> the data with padding!</p>
+
+<code-block lang="c">
+Struct foo {
+    int a; 
+    char b;
+    struct foo *c;
+}
+</code-block>
+
+<p>The actual layout on a 32-bit architecture would be: </p>
+
+<list type="bullet">
+<li>
+    <p>4 bytes for a</p>
+</li>
+<li>
+    <p>1 byte for b</p>
+</li>
+<li>
+    <p>3 unused bytes</p>
+</li>
+<li>
+    <p>4 bytes for c</p>
+</li>
+<li>
+    <p>sizeof(struct foo) == 12</p>
+</li>
+</list>
+
+<note>
+<p>For more information on struct, please visit <a 
+href="C-Programming.md" anchor="structs" summary="Struct in C++">
+struct in C++</a>.</p>
+</note>
+
+<p><format color="BlueViolet">Union</format></p>
+
+<p>Unions are similar to structs, but all members share the same
+memory location, and union only provides enough space for the largest 
+element.</p>
+
+<code-block lang="c++" collapsible="true">
+#include &lt;stdio.h&gt;
+\/
+union Shape {
+    int radius; // For circle
+    struct {
+        int width;
+        int height;
+    } rectangle; // For rectangle
+};
+\/
+int main() {
+    union Shape shape;
+    shape.radius = 5;
+    printf("Radius: %d\n", shape.radius); // Radius: 5
+\/
+    shape.rectangle.width = 10;
+    shape.rectangle.height = 20;
+    printf("Width: %d, Height: %d\n", shape.rectangle.width, shape.rectangle.height);
+    // Width: 10, Height: 20
+\/
+    printf("Radius: %d\n", shape.radius); // No meaning, the radius has been overwritten!
+\/
+    return 0;
+}
+</code-block>
+
+<p><format color="DarkOrange">Enum:</format> A group of related integer 
+constants.</p>
+
+<code-block lang="c++" collapsible="true">
+enum enum_name {
+  constant1, // Assigned 0 by default
+  constant2, // Assigned 1 by default
+  constant3, // Assigned 2 by default
+  ...
+};
+</code-block>
+
+<p><format color="BlueViolet">CPP (C Preprocessor) Macro</format></p>
+
+<p>Prior to compilation, preprocess by performing string replacement in 
+the program based on all #define macros.</p>
+
+<p>For example, #define PI 3.14159 => Replace all PI with (3.14159) => 
+In effect, makes PI a "constant".</p>
+
+#### 2.2 Addresses & Pointers
+
+<note>
+<p>Don't confuse the address referring to a memory location with the 
+value stored there.</p>
+</note>
+
+<p><format color="DarkOrange">Pointers:</format> A pointer is a variable
+that contains an address referring to a particular memory location, 
+usually also associated with a variable name.</p>
+
+<code-block lang="c" collapsible="true">
+int *x; // Declare variable x as the address of an int
+\/
+x = &amp;y; // Assign the address of y to x, & is called the "address operator" in this context
+\/
+z = *x; // Assign the value at the address stored in x to z, * is called the "dereference operator" in this context
+</code-block>
+
+### 3 C Memory Layout
 
 <p>Program's <format color="OrangeRed" style="italic">address space
 </format> contains 4 regions: </p>
 <list>
 <li>
-<p><format color = "Fuchsia">Stack:</format> local variables,
+<p><format color="Fuchsia">Stack:</format> local variables,
 grow downwards.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Heap:</format> space requested via
+<p><format color="Fuchsia">Heap:</format> space requested via
 <code>malloc()</code> and used with pointers; resizes dynamically, 
 grow upward.</p>
 </li>
@@ -582,7 +709,7 @@ starts, does not change.</p>
 </li>
 </list>
 
-#### 2.1 Stack
+#### 3.1 Stack
 
 <list type = "bullet">
 <li>
@@ -609,7 +736,7 @@ future stack frames;</p>
 </li>
 </list>
 
-#### 2.2 Static Data
+#### 3.2 Static Data
 
 <list type = "bullet">
 <li>
@@ -629,7 +756,7 @@ global variables.</p>
 <p>String literals cannot change!</p>
 </warning>
 
-#### 2.3 Code
+#### 3.3 Code
 
 <list type = "bullet">
 <li>
@@ -640,7 +767,7 @@ global variables.</p>
 </li>
 </list>
 
-#### 2.4 Addressing & Endianness
+#### 3.4 Addressing & Endianness
 
 <p><format color = "BlueViolet">Addresses:</format> </p>
 
@@ -678,7 +805,7 @@ numerical significance with ascending memory addresses.</p>
 </p>
 </warning>
 
-#### 2.5 Heap
+#### 3.5 Heap
 
 <p>Dynamically allocated memory goes on the 
 <format color = "OrangeRed">Heap</format>, more permanent and 

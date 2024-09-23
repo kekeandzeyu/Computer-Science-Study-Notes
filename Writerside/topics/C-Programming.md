@@ -58,7 +58,7 @@
 <list type="bullet">
 <li>
     <p>Compiled files, including the executable, are arcitecture-
-    specific(CPU type and OS).</p>
+    specific (CPU type and OS).</p>
     <list type="bullet">
     <li>
         <p>Executable must be <format color="OrangeRed">rebuilt
@@ -122,7 +122,7 @@
 </tr>
 </table>
 
-#### 2.2 Structs
+#### 2.2 Structs {id="structs"}
 
 <p><format color="BlueViolet">Definition:</format> </p>
 
@@ -134,7 +134,8 @@ to <format style="bold">bundle different types</format> together!</p>
 
 <p><format color="BlueViolet">Example:</format> </p>
 
-<code-block lang="c++" collapsible="true">
+<compare type="top-bottom" first-title="C++" second-title="C">
+<code-block lang="c++">
 struct Student { 
     string name; // these are called fields 
     string state; // separate these by semicolons 
@@ -146,6 +147,19 @@ s.name = "Haven";
 s.state = "AR"; 
 s.age = 22; // use . to access fields
 </code-block>
+<code-block lang="c">
+typedef struct {
+    char name[50];
+    char state[3];
+    int age;
+} Student;
+\/
+Student s;
+strcpy(s.name, "Haven");
+strcpy(s.state, "AR");
+s.age = 22; // use . to access fields
+</code-block>
+</compare>
 
 ### 3 Initialization & References
 
