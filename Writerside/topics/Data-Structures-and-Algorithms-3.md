@@ -9,11 +9,11 @@
 
 ### 17.1 Shortest Paths APIs
 
-<p><format color = "BlueViolet">Goal:</format> Given an edge-weighted
+<p><format color="BlueViolet">Goal:</format> Given an edge-weighted
 digraph, find the shortest path from <math>s</math> to <math>t</math>
 .</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Navigation.</p>
 </li>
@@ -58,84 +58,157 @@ digraph, find the shortest path from <math>s</math> to <math>t</math>
 </li>
 </list>
 
-<note>
-<p>Here are the implementations of Edge Weighted Digraphs.</p>
-</note>
+<p><format color="BlueViolet">Directed Edge</format></p>
 
-Java (DirectedEdge.java)
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class DirectedEdge { 
     private final int v; 
     private final int w; 
     private final double weight;
-
+\/
     public DirectedEdge(int v, int w, double weight) {
         this.v = v;
         this.w = w;
         this.weight = weight;
     }
-
+\/
     public int from() {
         return v;
     }
-
+\/
     public int to() {
         return w;
     }
-
+\/
     public double weight() {
         return weight;
     }
-
+\/
     @Override
     public String toString() {
-        return v + "->" + w + " " + String.format("%5.2f", weight);
+        return v + "-&gt;" + w + " " + String.format("%5.2f", weight);
     }
 }
-```
+    </code-block>
+    </tab>
+    <tab title="C++ (DirectedEdge.h)">
+    <code-block lang="c++" collapsible="true">
+#ifndef DIRECTEDEDGE_H
+#define DIRECTEDEDGE_H
+\/
+#include &lt;iostream&gt;
+\/
+class DirectedEdge {
+private:
+    int v;
+    int w;
+    double weight;
+\/
+public:
+    explicit DirectedEdge(int v = -1, int w = -1, double weight = 0.0); 
+    [[nodiscard]] int from() const;
+    [[nodiscard]] int to() const;
+    [[nodiscard]] double getWeight() const;
+    friend std::ostream& operator&lt;&lt;(std::ostream& out, const DirectedEdge& e);
+};
+\/
+#endif // DIRECTEDEDGE_H
+    </code-block>
+    </tab>
+    <tab title="C++ (DirectedEdge.cpp)">
+    <code-block lang="c++" collapsible="true">
+#include "DirectedEdge.h"
+#include &lt;iostream&gt;
+\/
+DirectedEdge::DirectedEdge(const int v, const int w, const double weight)
+: v(v), w(w), weight(weight) {}
+\/
+int DirectedEdge::from() const {
+    return v;
+}
+\/
+int DirectedEdge::to() const {
+    return w;
+}
+\/
+double DirectedEdge::getWeight() const {
+    return weight;
+}
+\/
+std::ostream& operator&lt;&lt;(std::ostream& out, const DirectedEdge& e) {
+    out &lt;&lt; e.v &lt;&lt; "->" &lt;&lt; e.w &lt;&lt; " " &lt;&lt; e.weight;
+    return out;
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class DirectedEdge:
+    def __init__(self, v, w, weight):
+        self.v = v
+        self.w = w
+        self.weight = weight
+\/
+    def from_vertex(self):
+        return self.v
+\/
+    def to_vertex(self):
+        return self.w
+\/
+    def get_weight(self):
+        return self.weight
+\/
+    def __str__(self):
+        return f"{self.v}-&gt;{self.w} ({self.weight})"
+    </code-block>
+    </tab>
+</tabs>
 
-Java (EdgeWeightedDigraph.java)
+<p><format color="BlueViolet">Edge-Weighted Digraph</format></p>
 
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.List;
-
+\/
 public class EdgeWeightedDigraph {
     private final int V;
-    private final List<DirectedEdge>[] adj;
-
+    private final List&lt;DirectedEdge&gt;[] adj;
+\/
     public EdgeWeightedDigraph(int V) {
         this.V = V;
-        adj = (List<DirectedEdge>[]) new ArrayList[V];
-        for (int v = 0; v < V; v++)
-            adj[v] = new ArrayList<DirectedEdge>();
+        adj = (List&lt;DirectedEdge&gt;[]) new ArrayList[V];
+        for (int v = 0; v &lt; V; v++)
+            adj[v] = new ArrayList&lt;DirectedEdge&gt;();
     }
-
+\/
     public void addEdge(int source, int destination, double weight) {
         DirectedEdge e = new DirectedEdge(source, destination, weight);
         adj[source].add(e);
     }
-
-    public Iterable<DirectedEdge> adj(int v) {
+\/
+    public Iterable&lt;DirectedEdge&gt; adj(int v) {
         return adj[v];
     }
-
+\/
     public int V() {
         return V;
     }
-
+\/
     public int E() {
         int count = 0;
-        for (int v = 0; v < V; v++)
+        for (int v = 0; v &lt; V; v++)
             count += adj[v].size();
         return count;
     }
-
+\/
     public String toString() {
         StringBuilder s = new StringBuilder();
         s.append(V).append(" vertices, ").append(E()).append(" edges ").append("\n");
-        for (int v = 0; v < V; v++) {
+        for (int v = 0; v &lt; V; v++) {
             s.append(v).append(": ");
             for (DirectedEdge e : adj[v]) {
                 s.append(e).append("  ");
@@ -145,178 +218,101 @@ public class EdgeWeightedDigraph {
         return s.toString();
     }
 }
-```
-
-C++ (DirectedEdge.h)
-
-```C++
-#ifndef DIRECTEDEDGE_H
-#define DIRECTEDEDGE_H
-
-#include <ostream>
-
-class DirectedEdge {
-private:
-    int v;
-    int w;
-    double weight;
-
-public:
-    explicit DirectedEdge(int v = -1, int w = -1, double weight = 0.0); // Default constructor added
-    [[nodiscard]] int from() const;
-    [[nodiscard]] int to() const;
-    [[nodiscard]] double getWeight() const;
-    friend std::ostream& operator<<(std::ostream& out, const DirectedEdge& e);
-};
-
-#endif // DIRECTEDEDGE_H
-```
-
-C++ (DirectedEdge.cpp)
-
-```C++
-#include "DirectedEdge.h"
-#include <iostream>
-
-DirectedEdge::DirectedEdge(const int v, const int w, const double weight)
-: v(v), w(w), weight(weight) {}
-
-int DirectedEdge::from() const {
-    return v;
-}
-
-int DirectedEdge::to() const {
-    return w;
-}
-
-double DirectedEdge::getWeight() const {
-    return weight;
-}
-
-std::ostream& operator<<(std::ostream& out, const DirectedEdge& e) {
-    out << e.v << "->" << e.w << " " << e.weight;
-    return out;
-}
-```
-
-C++ (EdgeWeightedDigraph.h)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (EdgeWeightedDigraph.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef EDGEWEIGHTEDDIGRAPH_H
 #define EDGEWEIGHTEDDIGRAPH_H
-
+\/
 #include "DirectedEdge.h"
-#include <vector>
-#include <iostream>
-
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+\/
 class EdgeWeightedDigraph {
 private:
     int V;
-    std::vector<std::vector<DirectedEdge>> adj;
-
+    std::vector&lt;std::vector&lt;DirectedEdge&gt;&gt; adj;
+\/
 public:
     explicit EdgeWeightedDigraph(int V);
     void addEdge(int source, int destination, double weight);
-    [[nodiscard]] std::vector<DirectedEdge> getAdj(int v) const;
+    [[nodiscard]] std::vector&lt;DirectedEdge&gt; getAdj(int v) const;
     [[nodiscard]] int getV() const;
     [[nodiscard]] int getE() const;
-    friend std::ostream& operator<<(std::ostream& out, const EdgeWeightedDigraph& G);
+    friend std::ostream& operator&lt;&lt;(std::ostream& out, const EdgeWeightedDigraph& G);
 };
-
+\/
 #endif // EDGEWEIGHTEDDIGRAPH_H
-```
-
-C++ (EdgeWeightedDigraph.cpp)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (EdgeWeightedDigraph.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "EdgeWeightedDigraph.h"
-
+\/
 EdgeWeightedDigraph::EdgeWeightedDigraph(const int V) : V(V), adj(V) {}
-
+\/
 void EdgeWeightedDigraph::addEdge(const int source, const int destination,
     const double weight) {
     const DirectedEdge e(source, destination, weight);
     adj[source].push_back(e);
 }
-
-std::vector<DirectedEdge> EdgeWeightedDigraph::getAdj(const int v) const {
+\/
+std::vector&lt;DirectedEdge&gt; EdgeWeightedDigraph::getAdj(const int v) const {
     return adj[v];
 }
-
+\/
 int EdgeWeightedDigraph::getV() const {
     return V;
 }
-
+\/
 int EdgeWeightedDigraph::getE() const {
     std::size_t count = 0;
-    for (int v = 0; v < V; ++v) {
+    for (int v = 0; v &lt; V; ++v) {
         count += adj[v].size();
     }
-    return static_cast<int>(count);
+    return static_cast&lt;int&gt;(count);
 }
-
-std::ostream& operator<<(std::ostream& out, const EdgeWeightedDigraph& G) {
-    out << G.V << " vertices, " << G.getE() << " edges\n";
-    for (int v = 0; v < G.V; ++v) {
-        out << v << ": ";
+\/
+std::ostream& operator&lt;&lt;(std::ostream& out, const EdgeWeightedDigraph& G) {
+    out &lt;&lt; G.V &lt;&lt; " vertices, " &lt;&lt; G.getE() &lt;&lt; " edges\n";
+    for (int v = 0; v &lt; G.V; ++v) {
+        out &lt;&lt; v &lt;&lt; ": ";
         for (const auto& e : G.adj[v]) {
-            out << e << "  ";
+            out &lt;&lt; e &lt;&lt; "  ";
         }
-        out << "\n";
+        out &lt;&lt; "\n";
     }
     return out;
 }
-```
-
-Python (DirectedEdge.py)
-
-```Python
-class DirectedEdge:
-    def __init__(self, v, w, weight):
-        self.v = v
-        self.w = w
-        self.weight = weight
-
-    def from_vertex(self):
-        return self.v
-
-    def to_vertex(self):
-        return self.w
-
-    def get_weight(self):
-        return self.weight
-
-    def __str__(self):
-        return f"{self.v}->{self.w} ({self.weight})"
-```
-
-Python (EdgeWeightedDigraph.py)
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from DirecteEdge import DirectedEdge
-
-
+\/
+\/
 class EdgeWeightedDigraph:
     def __init__(self, V):
         self.V = V
         self.adj = [[] for _ in range(V)]
-
+\/
     def add_edge(self, source, destination, weight):
         e = DirectedEdge(source, destination, weight)
         self.adj[source].append(e)
-
+\/
     def get_adj(self, v):
         return self.adj[v]
-
+\/
     def get_V(self):
         return self.V
-
+\/
     def get_E(self):
         count = 0
         for v in range(self.V):
             count += len(self.adj[v])
         return count
-
+\/
     def __str__(self):
         s = f"{self.V} vertices, {self.get_E()} edges\n"
         for v in range(self.V):
@@ -325,14 +321,16 @@ class EdgeWeightedDigraph:
                 s += f"{e}  "
             s += "\n"
         return s
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 17.2 Shortest Path Properties
 
 <procedure title = "Edge Relaxation" type = "choices">
     <step>
         <p><code>distTo[v]</code> is length of shortest <format color 
-        = "OrangeRed">known</format> path from <math>s</math> to 
+        ="OrangeRed">known</format> path from <math>s</math> to 
         <math>v</math>.</p>
     </step>
     <step>
@@ -6134,6 +6132,60 @@ class NFA:
     </code-block>
     </tab>
 </tabs>
+
+### 23 Data Compression
+
+### 23.1 Data Compression Introduction
+
+<p><format color="BlueViolet">Application</format></p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Generic file compression</format></p>
+    <list type="bullet">
+    <li>
+        <p><format color="LawnGreen">Files:</format> GZIP, BZIP, 7z</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Archivers:</format> PKZIP</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">File systems:</format> NTFS, HFS+, 
+        ZFS</p>
+    </li>
+    </list>
+</li>
+<li>
+    <p><format color="Fuchsia">Multimedia</format></p>
+    <list type="bullet">
+    <li>
+        <p><format color="LawnGreen">Images:</format> GIF, JPEG</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Sound:</format> MP3</p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Video:</format> MPEG, DivX™, HDTV</p>
+    </li>
+    </list>
+</li>
+<li>
+    <p><format color="Fuchsia">Communication</format></p>
+    <list type="bullet">
+    <li>
+        <p><format color="LawnGreen">ITU-T T4 Group 3 Fax</format></p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">V.42bis modem</format></p>
+    </li>
+    <li>
+        <p><format color="LawnGreen">Skype</format></p>
+    </li>
+    </list>
+</li>
+</list>
+
+
 
 ## 30 Catalan Number
 

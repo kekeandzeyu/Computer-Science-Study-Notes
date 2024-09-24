@@ -3375,11 +3375,11 @@ there is a path between them.</p>
 
 ### 14.2 Graph API
 
-<p><format color = "BlueViolet">Representation Types:</format> </p>
+<p><format color="BlueViolet">Representation Types:</format> </p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "Fuchsia">Set-of-edges graph representation: 
+<p><format color="Fuchsia">Set-of-edges graph representation: 
 </format> Maintain a list of the edges (linked list or array).</p>
 </li>
 <li>
@@ -3407,144 +3407,143 @@ representation:</format> Maintain vertex-indexed array of lists.</p>
 </li>
 </list>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
+\/
 public class UndirectedGraph {
-
+\/
     private final int numVertices;
-    private final List<List<Integer>> adjacencyList;
-
+    private final List&lt;List&lt;Integer&gt;&gt; adjacencyList;
+\/
     public UndirectedGraph(int numVertices) {
         this.numVertices = numVertices;
-        adjacencyList = new ArrayList<>(numVertices);
-        for (int i = 0; i < numVertices; i++) {
-            adjacencyList.add(new LinkedList<>());
+        adjacencyList = new ArrayList&lt;&gt;(numVertices);
+        for (int i = 0; i &lt; numVertices; i++) {
+            adjacencyList.add(new LinkedList&lt;&gt;());
         }
     }
-
+\/
     public void addEdge(int source, int destination) {
         adjacencyList.get(source).add(destination);
         adjacencyList.get(destination).add(source);
     }
-
+\/
     public int getNumVertices() {
         return numVertices;
     }
-
-    public List<List<Integer>> getAdjacencyList() {
+\/
+    public List&lt;List&lt;Integer&gt;&gt; getAdjacencyList() {
         return adjacencyList;
     }
-
+\/
     public void printGraph() {
-        for (int i = 0; i < numVertices; i++) {
+        for (int i = 0; i &lt; numVertices; i++) {
             System.out.print("Vertex " + i + ":");
             for (Integer vertex : adjacencyList.get(i)) {
-                System.out.print(" -> " + vertex);
+                System.out.print(" -&gt; " + vertex);
             }
             System.out.println();
         }
     }
 }
-```
-
-C++ (UndirectedGraph.h)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (UndirectedGraph.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef UNDIRECTEDGRAPH_H
 #define UNDIRECTEDGRAPH_H
 #pragma once
-
-#include <vector>
-#include <list>
-
+\/
+#include &lt;vector&gt;
+#include &lt;list&gt;
+\/
 class UndirectedGraph {
 private:
     int numVertices;
-    std::vector<std::list<int>> adjacencyList;
-
+    std::vector&lt;std::list&lt;int&gt;&gt; adjacencyList;
+\/
 public:
     explicit UndirectedGraph(const int& numVertices);
     void addEdge(const int& source, const int& destination);
     [[nodiscard]] bool hasEdge(const int& source, const int& destination) const;
     [[nodiscard]] int getNumVertices() const;
-    [[nodiscard]] const std::vector<std::list<int>>& getAdjacencyList() const;
+    [[nodiscard]] const std::vector&lt;std::list&lt;int&gt;&gt;& getAdjacencyList() const;
     void printGraph() const;
 };
-
+\/
 #endif //UNDIRECTEDGRAPH_H
-```
-
-C++ (UndirectedGraph.cpp)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (UndirecteGraph.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "UndirectedGraph.h"
-#include <iostream>
-#include <algorithm>
-
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+\/
 UndirectedGraph::UndirectedGraph(const int& numVertices) :
     numVertices(numVertices), adjacencyList(numVertices) {}
-
+\/
 void UndirectedGraph::addEdge(const int& source, const int& destination) {
     adjacencyList[source].push_back(destination);
     adjacencyList[destination].push_back(source);
 }
-
+\/
 bool UndirectedGraph::hasEdge(const int& source, const int& destination) const {
     return std::ranges::any_of(adjacencyList[source],
                                [&destination](const int& neighbor) {
                                    return neighbor == destination;
                                });
 }
-
+\/
 int UndirectedGraph::getNumVertices() const {
     return numVertices;
 }
-
-const std::vector<std::list<int>>& UndirectedGraph::getAdjacencyList() const {
+\/
+const std::vector&lt;std::list&lt;int&gt;&gt;& UndirectedGraph::getAdjacencyList() const {
     return adjacencyList;
 }
-
+\/
 void UndirectedGraph::printGraph() const {
-    for (int i = 0; i < numVertices; ++i) {
-        std::cout << "Vertex " << i << ":";
+    for (int i = 0; i &lt; numVertices; ++i) {
+        std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
         for (const int& neighbor : adjacencyList[i]) {
-            std::cout << " -> " << neighbor;
+            std::cout &lt;&lt; " -&gt; " &lt;&lt; neighbor;
         }
-        std::cout << std::endl;
+        std::cout &lt;&lt; std::endl;
     }
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class UndirectedGraph:
     def __init__(self, num_vertices):
         self.num_vertices = num_vertices
         self.adjacency_list = [[] for _ in range(num_vertices)]
-
+\/
     def add_edge(self, source, destination):
         self.adjacency_list[source].append(destination)
         self.adjacency_list[destination].append(source)
-
+\/
     def get_num_vertices(self):
         return self.num_vertices
-
+\/
     def get_adjacency_list(self):
         return self.adjacency_list
-
+\/
     def print_graph(self):
         for i in range(self.num_vertices):
             print(f"Vertex {i}:", end="")
             for vertex in self.adjacency_list[i]:
-                print(f" -> {vertex}", end="")
+                print(f" -&gt; {vertex}", end="")
             print()
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 14.3 Depth-First Search
 
@@ -3586,30 +3585,30 @@ proportional to its length.</p>
 </li>
 </list>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.Stack;
-
+\/
 public class DepthFirstSearch {
     private final boolean[] marked;
     private final int[] edgeTo;
-
+\/
     public DepthFirstSearch(UndirectedGraph graph, int source) {
         this.marked = new boolean[graph.getNumVertices()];
         this.edgeTo = new int[graph.getNumVertices()];
         dfs(graph, source);
     }
-
+\/
     private void dfs(UndirectedGraph graph, int source) {
-        Stack<Integer> stack = new Stack<>();
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
         marked[source] = true;
         stack.push(source);
-
+\/
         while (!stack.isEmpty()) {
             int v = stack.pop();
             System.out.print(v + " ");
-
+\/
             for (int w : graph.getAdjacencyList().get(v)) {
                 if (!marked[w]) {
                     marked[w] = true;
@@ -3619,67 +3618,65 @@ public class DepthFirstSearch {
             }
         }
     }
-    
+\/    
     public void hasPathTo(int v) {
         return marked[v];
     }
-
+\/
     public void printPathTo(int v) {
         if (!marked[v]) {
             System.out.println("No path from source to " + v);
             return;
         }
-        Stack<Integer> path = new Stack<>();
+        Stack&lt;Integer&gt; path = new Stack&lt;&gt;();
         for (int x = v; x != 0; x = edgeTo[x]) {
             path.push(x);
         }
         path.push(0); 
-
+\/
         System.out.print("Path: ");
         while (!path.isEmpty()) {
             System.out.print(path.pop());
             if (!path.isEmpty()) {
-                System.out.print(" -> ");
+                System.out.print(" -&gt; ");
             }
         }
         System.out.println();
     }
 }
-```
-
-C++ (DepthFirstSearch.h)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (DepthFirstSearch.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef DEPTHFIRSTSEARCH_H
 #define DEPTHFIRSTSEARCH_H
 #pragma once
-
-#include <vector>
+\/
+#include &lt;vector&gt;
 #include "UndirectedGraph.h"
-
+\/
 class DepthFirstSearch {
 private:
     const UndirectedGraph& graph;
-    std::vector<bool> marked;
-    std::vector<int> edgeTo;
-
+    std::vector&lt;bool&gt; marked;
+    std::vector&lt;int&gt; edgeTo;
+\/
 public:
     DepthFirstSearch(const UndirectedGraph& graph, int source);
     void dfs(int v);
     [[nodiscard]] bool hasPathTo(int v) const;
     void printPathTo(int v) const;
 };
-
+\/
 #endif //DEPTHFIRSTSEARCH_H
-```
-
-C++ (DepthFirstSearch.cpp)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (DepthFirstSearch.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "DepthFirstSearch.h"
-#include <iostream>
-#include <stack>
-
+#include &lt;iostream&gt;
+#include &lt;stack&gt;
+\/
 DepthFirstSearch::DepthFirstSearch(const UndirectedGraph& graph, const int source) :
     graph(graph),
     marked(graph.getNumVertices(), false),
@@ -3687,18 +3684,18 @@ DepthFirstSearch::DepthFirstSearch(const UndirectedGraph& graph, const int sourc
 {
     dfs(source);
 }
-
+\/
 void DepthFirstSearch::dfs(const int v) {
-    std::stack<int> stack;
+    std::stack&lt;int&gt; stack;
     marked[v] = true;
     stack.push(v);
-
+\/
     while (!stack.empty()) {
         const int current = stack.top();
         stack.pop();
-        std::cout << current << " ";
-
-        for (int neighbor : this->graph.getAdjacencyList()[current]) {
+        std::cout &lt;&lt; current &lt;&lt; " ";
+\/
+        for (int neighbor : this-&gt;graph.getAdjacencyList()[current]) {
             if (!marked[neighbor]) {
                 marked[neighbor] = true;
                 edgeTo[neighbor] = current;
@@ -3707,96 +3704,97 @@ void DepthFirstSearch::dfs(const int v) {
         }
     }
 }
-
+\/
 bool DepthFirstSearch::hasPathTo(const int v) const {
     return marked[v];
 }
-
+\/
 void DepthFirstSearch::printPathTo(const int v) const {
     if (!hasPathTo(v)) {
-        std::cout << "No path from source to " << v << std::endl;
+        std::cout &lt;&lt; "No path from source to " &lt;&lt; v &lt;&lt; std::endl;
         return;
     }
-    std::stack<int> path;
+    std::stack&lt;int&gt; path;
     for (int x = v; x != edgeTo[v]; x = edgeTo[x]) {
         path.push(x);
     }
     path.push(edgeTo[v]);
-
-    std::cout << "Path: ";
+\/
+    std::cout &lt;&lt; "Path: ";
     while (!path.empty()) {
-        std::cout << path.top();
+        std::cout &lt;&lt; path.top();
         path.pop();
         if (!path.empty()) {
-            std::cout << " -> ";
+            std::cout &lt;&lt; " -> ";
         }
     }
-    std::cout << std::endl;
+    std::cout &lt;&lt; std::endl;
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from UndirectedGraph import UndirectedGraph
-
-
+\/
+\/
 class DepthFirstSearch:
     def __init__(self, graph: UndirectedGraph, source: int):
         self.marked = [False] * graph.get_num_vertices()
         self.edge_to = [None] * graph.get_num_vertices()
         self.dfs(graph, source)
-
+\/
     def dfs(self, graph, source):
         stack = [source]
         self.marked[source] = True
-
+\/
         while stack:
             v = stack.pop()
             print(v, end=" ")
-
+\/
             for w in graph.get_adjacency_list()[v]:
                 if not self.marked[w]:
                     self.marked[w] = True
                     self.edge_to[w] = v
                     stack.append(w)
-
+\/
     def has_path_to(self, v):
         return self.marked[v]
-
+\/ 
     def print_path_to(self, v):
         if not self.marked[v]:
             print(f"No path from source to {v}")
             return
-
+\/
         path = []
         x = v
         while x is not None:
             path.append(x)
             x = self.edge_to[x]
-
-        print("Path:", " -> ".join(map(str, path[::-1])))
-```
+\/
+        print("Path:", " -&gt; ".join(map(str, path[::-1])))
+    </code-block>
+    </tab>
+</tabs>
 
 ### 14.4 Breadth-First Search
 
-<procedure title = "Breadth-First Search">
+<procedure title="Breadth-First Search">
 <step>
-<p>Put s onto a FIFO queue, and mark s as visited.</p>
+    <p>Put s onto a FIFO queue, and mark s as visited.</p>
 </step>
 <step>
-<p>Repeat until the queue is empty.</p>
+    <p>Repeat until the queue is empty.</p>
 </step>
 <step>
-<p>Remove the least recently added vertex v.</p>
+    <p>Remove the least recently added vertex v.</p>
 </step>
 <step>
-<p>Add each of v's unvisited neighbors to the queue, and mark them as 
-visited.</p>
+    <p>Add each of v's unvisited neighbors to the queue, and mark them as 
+    visited.</p>
 </step>
 </procedure>
 
-<p><format color = "BlueViolet">Property:</format> </p>
+<p><format color="BlueViolet">Property:</format> </p>
 
 <p>BFS computes shortest paths (fewest number of edges) from s to 
 all other vertices in a graph in time proportional to <math>E + V
@@ -3814,33 +3812,33 @@ put unvisited vertices on <format color = "OrangeRed">queue</format>
 </li>
 </list>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
-
+\/
 public class BreadthFirstSearch {
     private boolean[] marked;
     private int[] edgeTo;
     private int[] distanceTo;
-
+\/
     public void bfs(UndirectedGraph graph, int startVertex) {
         marked = new boolean[graph.getNumVertices()];
         edgeTo = new int[graph.getNumVertices()];
         distanceTo = new int[graph.getNumVertices()];
-
-        Queue<Integer> queue = new ArrayDeque<>();
-
+\/
+        Queue&lt;Integer&gt; queue = new ArrayDeque&lt;&gt;();
+\/
         marked[startVertex] = true;
         distanceTo[startVertex] = 0;
         queue.offer(startVertex);
-
+\/
         while (!queue.isEmpty()) {
             int currentVertex = queue.poll();
-
-            List<List<Integer>> adjList = graph.getAdjacencyList();
+\/
+            List&lt;List&lt;Integer&gt;&gt; adjList = graph.getAdjacencyList();
             for (int adjacentVertex : adjList.get(currentVertex)) {
                 if (!marked[adjacentVertex]) {
                     marked[adjacentVertex] = true;
@@ -3851,81 +3849,79 @@ public class BreadthFirstSearch {
             }
         }
     }
-
+\/
     public int getDistance(int destination) {
         if (!marked[destination]) { 
             return -1; 
         }
         return distanceTo[destination];
     }
-
+\/
     public void printPath(int start, int end) {
         if (start == end) {
             System.out.print(start);
             return;
         }
-
+\/
         if (edgeTo[end] == 0) {
             System.out.print("No path exists");
             return;
         }
-
+\/
         printPath(start, edgeTo[end]);
-        System.out.print(" -> " + end);
+        System.out.print(" -&gt; " + end);
     }
 }
-```
-
-C++ (BreadthFirstSearch.h)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (BreadthFirstSearch.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef BREADTHFIRSTSEARCH_H
 #define BREADTHFIRSTSEARCH_H
 #pragma once
-
+\/
 #include "UndirectedGraph.h"
-#include <vector>
-
+#include &lt;vector&gt;
+\/
 class BreadthFirstSearch {
 private:
     const UndirectedGraph& graph;
     int startVertex;
-    std::vector<bool> marked;
-    std::vector<int> edgeTo;
-    std::vector<int> distanceTo;
-
+    std::vector&lt;bool&gt; marked;
+    std::vector&lt;int&gt; edgeTo;
+    std::vector&lt;int&gt; distanceTo;
+\/
 public:
     BreadthFirstSearch(const UndirectedGraph& graph, int startVertex);
     void bfs();
     [[nodiscard]] int getDistance(int destination) const;
     void printPath(int destination) const;
 };
-
+\/
 #endif //BREADTHFIRSTSEARCH_H
-```
-
-C++ (BreadthFirstSearch.cpp)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (BreadthFirstSearch.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "BreadthFirstSearch.h"
-#include <iostream>
-#include <queue>
-
+#include &lt;iostream&gt;
+#include &lt;queue&gt;
+\/
 BreadthFirstSearch::BreadthFirstSearch(const UndirectedGraph& graph, const int startVertex) :
     graph(graph), startVertex(startVertex),
     marked(graph.getNumVertices(), false),
     edgeTo(graph.getNumVertices(), -1),
     distanceTo(graph.getNumVertices(), 0) {}
-
+\/
 void BreadthFirstSearch::bfs() {
-    std::queue<int> queue;
+    std::queue&lt;int&gt; queue;
     marked[startVertex] = true;
     queue.push(startVertex);
-
+\/
     while (!queue.empty()) {
         const int currentVertex = queue.front();
         queue.pop();
-
+\/
         for (const int& neighbor : graph.getAdjacencyList()[currentVertex]) {
             if (!marked[neighbor]) {
                 marked[neighbor] = true;
@@ -3936,78 +3932,79 @@ void BreadthFirstSearch::bfs() {
         }
     }
 }
-
+\/
 int BreadthFirstSearch::getDistance(const int destination) const {
     if (!marked[destination]) {
         return -1;
     }
     return distanceTo[destination];
 }
-
+\/
 void BreadthFirstSearch::printPath(const int destination) const {
     if (startVertex == destination) {
-        std::cout << startVertex;
+        std::cout &lt;&lt; startVertex;
         return;
     }
-
+\/
     if (edgeTo[destination] == -1) {
-        std::cout << "No path exists";
+        std::cout &lt;&lt; "No path exists";
         return;
     }
-
+\/
     printPath(edgeTo[destination]);
-    std::cout << " -> " << destination;
+    std::cout &lt;&lt; " -&gt; " &lt;&lt; destination;
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from collections import deque
 from UndirectedGraph import UndirectedGraph
 import sys
-
-
+\/
+\/
 class BreadthFirstSearch:
     def __init__(self, graph: UndirectedGraph, start_vertex: int):
         self.marked = [False] * graph.get_num_vertices()
         self.edge_to = [None] * graph.get_num_vertices()
         self.distance_to = [sys.maxsize] * graph.get_num_vertices()
-
+\/
         self.bfs(graph, start_vertex)
-
+\/
     def bfs(self, graph: UndirectedGraph, start_vertex: int):
         queue = deque([start_vertex])
         self.marked[start_vertex] = True
         self.distance_to[start_vertex] = 0
-
+\/
         while queue:
             current_vertex = queue.popleft()
-
+\/
             for adjacent_vertex in graph.get_adjacency_list()[current_vertex]:
                 if not self.marked[adjacent_vertex]:
                     self.marked[adjacent_vertex] = True
                     self.edge_to[adjacent_vertex] = current_vertex
                     self.distance_to[adjacent_vertex] = self.distance_to[current_vertex] + 1
                     queue.append(adjacent_vertex)
-
+\/
     def get_distance(self, destination: int) -> int:
         if not self.marked[destination]:
             return -1
         return self.distance_to[destination]
-
+\/
     def print_path(self, start: int, end: int):
         if start == end:
             print(start, end="")
             return
-
+\/
         if self.edge_to[end] is None:
             print("No path exists")
             return
-
+\/
         self.print_path(start, self.edge_to[end])
-        print(f" -> {end}", end="")
-```
+        print(f" -&gt; {end}", end="")
+    </code-block>
+    </tab>
+</tabs>
 
 ### 14.5 Connected Components
 
@@ -4024,34 +4021,34 @@ connected component is maximal set of connected vertices.</p>
 </step>
 </procedure>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.List;
-
+\/
 public class ConnectedComponents {
-
+\/
     private final int[] id;
     private int count; 
-
+\/
     public ConnectedComponents(UndirectedGraph graph) {
         int numVertices = graph.getNumVertices();
         id = new int[numVertices];
         count = 0;
-        
-        for (int i = 0; i < numVertices; i++) {
+\/  
+        for (int i = 0; i &lt; numVertices; i++) {
             id[i] = i;
         }
-        
-        for (int i = 0; i < numVertices; i++) {
+\/        
+        for (int i = 0; i &lt; numVertices; i++) {
             if (id[i] == i) { 
                 dfs(graph, i);
                 count++;
             }
         }
     }
-
+\/
     private void dfs(UndirectedGraph graph, int v) {
         id[v] = count;
         for (int w : graph.getAdjacencyList().get(v)) {
@@ -4060,79 +4057,77 @@ public class ConnectedComponents {
             }
         }
     }
-
+\/
     public boolean isConnected(int v, int w) {
         return id[v] == id[w];
     }
-
+\/
     public int getCount() {
         return count;
     }
-
+\/
     public void printComponents() {
         System.out.println("Number of connected components: " + count);
-        List<List<Integer>> components = new ArrayList<>(count);
-        for (int i = 0; i < count; i++) {
-            components.add(new ArrayList<>());
+        List&lt;List&lt;Integer&gt;&gt; components = new ArrayList&lt;&gt;(count);
+        for (int i = 0; i &lt; count; i++) {
+            components.add(new ArrayList&lt;&gt;());
         }
-        for (int i = 0; i < id.length; i++) {
+        for (int i = 0; i &lt; id.length; i++) {
             components.get(id[i]).add(i);
         }
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i &lt; count; i++) {
             System.out.println("Component " + i + ": " + components.get(i));
         }
     }
 }
-```
-
-C++ (ConnectedComponents.h)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (ConnectedComponents.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef CONNECTEDCOMPONENTS_H 
 #define CONNECTEDCOMPONENTS_H
-
-#include <vector>
+\/
+#include &lt;vector>&gt;
 #include "UndirectedGraph.h" 
-
+\/
 class ConnectedComponents {
 private:
-    std::vector<int> id;
+    std::vector&lt;int&gt; id;
     int count;
-
+\/
     void dfs(const UndirectedGraph& graph, int v); 
-
+\/
 public:
     explicit ConnectedComponents(const UndirectedGraph& graph);
     [[nodiscard]] bool isConnected(int v, int w) const;
     [[nodiscard]] int getCount() const; 
     void printComponents() const;
 };
-
+\/
 #endif // CONNECTEDCOMPONENTS_H 
-```
-
-C++ (ConnectedComponents.cpp)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (ConnectedComponents.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "ConnectedComponents.h"
-#include <iostream>
-
+#include &lt;iostream&gt;
+\/
 ConnectedComponents::ConnectedComponents(const UndirectedGraph& graph) : count(0) {
     const int numVertices = graph.getNumVertices();
     id.resize(numVertices);
-
-    for (int i = 0; i < numVertices; ++i) {
+\/
+    for (int i = 0; i &lt; numVertices; ++i) {
         id[i] = i; 
     }
-
-    for (int i = 0; i < numVertices; ++i) {
+\/    
+    for (int i = 0; i &lt; numVertices; ++i) {
         if (id[i] == i) {
             dfs(graph, i);
             ++count;
         }
     }
 }
-
+\/
 void ConnectedComponents::dfs(const UndirectedGraph& graph, int v) {
     id[v] = count;
     for (const int& w : graph.getAdjacencyList()[v]) {
@@ -4141,71 +4136,72 @@ void ConnectedComponents::dfs(const UndirectedGraph& graph, int v) {
         }
     }
 }
-
+\/
 bool ConnectedComponents::isConnected(int v, int w) const {
     return id[v] == id[w];
 }
-
+\/
 int ConnectedComponents::getCount() const {
     return count;
 }
-
+\/
 void ConnectedComponents::printComponents() const {
-    std::cout << "Number of connected components: " << count << std::endl;
-
-    std::vector<std::vector<int>> components(count);
-    for (int i = 0; i < id.size(); ++i) {
+    std::cout &lt;&lt; "Number of connected components: " &lt;&lt; count &lt;&lt; std::endl;
+\/
+    std::vector&lt;std::vector&lt;int&gt;&gt; components(count);
+    for (int i = 0; i &lt; id.size(); ++i) {
         components[id[i]].push_back(i);
     }
-
-    for (int i = 0; i < count; ++i) {
-        std::cout << "Component " << i << ": ";
+\/
+    for (int i = 0; i &lt; count; ++i) {
+        std::cout &lt;&lt; "Component " &lt;&lt; i &lt;&lt; ": ";
         for (const int& vertex : components[i]) {
-            std::cout << vertex << " ";
+            std::cout &lt;&lt; vertex &lt;&lt; " ";
         }
-        std::cout << std::endl;
+        std::cout &lt;&lt; std::endl;
     }
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from UndirectedGraph import UndirectedGraph  
-
-
+\/
+\/
 class ConnectedComponents:
     def __init__(self, graph: UndirectedGraph):
         self.id = list(range(graph.get_num_vertices()))  
         self.count = 0
-
+\/
         for i in range(graph.get_num_vertices()):
             if self.id[i] == i:  
                 self.dfs(graph, i)
                 self.count += 1
-
+\/
     def dfs(self, graph: UndirectedGraph, v: int):
         self.id[v] = self.count
         for w in graph.get_adjacency_list()[v]:
             if self.id[w] == w:
                 self.dfs(graph, w)
-
+\/
     def is_connected(self, v: int, w: int) -> bool:
         return self.id[v] == self.id[w]
-
-    def get_count(self) -> int:
+\/
+    def get_count(self) -&gt; int:
         return self.count
-
+\/
     def print_components(self):
         print("Number of connected components:", self.count)
         components = [[] for _ in range(self.count)]
-
+\/
         for i in range(len(self.id)):
             components[self.id[i]].append(i)
-
+\/
         for i, component in enumerate(components):
             print(f"Component {i}: {component}")
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 14.6 Important Questions
 
@@ -4412,30 +4408,30 @@ directions).</p>
 same method as for undirected graphs!</p>
 </note>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.Stack;
-
+\/
 public class DirectedDepthFirstSearch {
     private final boolean[] marked;
     private final int[] edgeTo;
-
+\/
     public DirectedDepthFirstSearch(DirectedGraph graph, int source) {
         this.marked = new boolean[graph.getNumVertices()];
         this.edgeTo = new int[graph.getNumVertices()];
         dfs(graph, source);
     }
-
+\/
     private void dfs(DirectedGraph graph, int source) {
-        Stack<Integer> stack = new Stack<>();
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
         marked[source] = true;
         stack.push(source);
-
+\/
         while (!stack.isEmpty()) {
             int v = stack.pop();
             System.out.print(v + " ");
-
+\/
             for (int w : graph.getAdjacencyList().get(v)) {
                 if (!marked[w]) {
                     marked[w] = true;
@@ -4445,67 +4441,65 @@ public class DirectedDepthFirstSearch {
             }
         }
     }
-
+\/
     public boolean hasPathTo(int v) {
         return marked[v];
     }
-
+\/
     public void printPathTo(int v) {
         if (!marked[v]) {
             System.out.println("No path from source to " + v);
             return;
         }
-        Stack<Integer> path = new Stack<>();
+        Stack&lt;Integer&gt; path = new Stack&lt;&gt;();
         for (int x = v; x != 0; x = edgeTo[x]) {
             path.push(x);
         }
         path.push(0);
-
+\/
         System.out.print("Path: ");
         while (!path.isEmpty()) {
             System.out.print(path.pop());
             if (!path.isEmpty()) {
-                System.out.print(" -> ");
+                System.out.print(" -&gt; ");
             }
         }
         System.out.println();
     }
 }
-```
-
-C++ (DirectedDepthFirstSearch.h)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (DirectedDepthFirstSearch.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef DIRECTEDDEPTHFIRSTSEARCH_H
 #define DIRECTEDDEPTHFIRSTSEARCH_H
 #pragma once
-
-#include <vector>
+\/
+#include &lt;vector&gt;
 #include "DirectedGraph.h"
-
+\/
 class DirectedDepthFirstSearch {
 private:
     const DirectedGraph& graph;
-    std::vector<bool> marked;
-    std::vector<int> edgeTo;
-
+    std::vector&lt;bool&gt; marked;
+    std::vector&lt;int&gt; edgeTo;
+\/
 public:
     DirectedDepthFirstSearch(const DirectedGraph& graph, int source);
     void dfs(int v);
     [[nodiscard]] bool hasPathTo(int v) const;
     void printPathTo(int v) const;
 };
-
+\/
 #endif //DIRECTEDDEPTHFIRSTSEARCH_H
-```
-
-C++ (DirectedDepthFirstSearch.cpp)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (DirectedDepthFirstSearch.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "DirectedDepthFirstSearch.h"
-#include <iostream>
-#include <stack>
-
+#include &lt;iostream&gt;
+#include &lt;stack&gt;
+\/
 DirectedDepthFirstSearch::DirectedDepthFirstSearch(const DirectedGraph& graph, const int source) :
     graph(graph),
     marked(graph.getNumVertices(), false),
@@ -4513,18 +4507,18 @@ DirectedDepthFirstSearch::DirectedDepthFirstSearch(const DirectedGraph& graph, c
 {
     dfs(source);
 }
-
+\/
 void DirectedDepthFirstSearch::dfs(const int v) {
-    std::stack<int> stack;
+    std::stack&lt;int&gt; stack;
     marked[v] = true;
     stack.push(v);
-
+\/
     while (!stack.empty()) {
         const int current = stack.top();
         stack.pop();
-        std::cout << current << " ";
-
-        for (int neighbor : this->graph.getAdjacencyList()[current]) {
+        std::cout &lt;&lt; current &lt;&lt; " ";
+\/
+        for (int neighbor : this-&gt;graph.getAdjacencyList()[current]) {
             if (!marked[neighbor]) {
                 marked[neighbor] = true;
                 edgeTo[neighbor] = current;
@@ -4533,76 +4527,77 @@ void DirectedDepthFirstSearch::dfs(const int v) {
         }
     }
 }
-
+\/
 bool DirectedDepthFirstSearch::hasPathTo(const int v) const {
     return marked[v];
 }
-
+\/
 void DirectedDepthFirstSearch::printPathTo(const int v) const {
     if (!hasPathTo(v)) {
-        std::cout << "No path from source to " << v << std::endl;
+        std::cout &lt;&lt; "No path from source to " &lt;&lt; v &lt;&lt; std::endl;
         return;
     }
-    std::stack<int> path;
+    std::stack&lt;int&gt; path;
     for (int x = v; x != edgeTo[v]; x = edgeTo[x]) {
         path.push(x);
     }
     path.push(edgeTo[v]);
-
-    std::cout << "Path: ";
+\/
+    std::cout &lt;&lt; "Path: ";
     while (!path.empty()) {
-        std::cout << path.top();
+        std::cout &lt;&lt; path.top();
         path.pop();
         if (!path.empty()) {
-            std::cout << " -> ";
+            std::cout &lt;&lt; " -> ";
         }
     }
-    std::cout << std::endl;
+    std::cout &lt;&lt; std::endl;
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from DirectedGraph import DirectedGraph
-
-
+\/
+\/
 class DirectedDepthFirstSearch:
     def __init__(self, graph: DirectedGraph, source: int):
         self.marked = [False] * graph.get_num_vertices()
         self.edge_to = [None] * graph.get_num_vertices()
         self.dfs(graph, source)
-
+\/
     def dfs(self, graph, source):
         stack = [source]
         self.marked[source] = True
-
+\/
         while stack:
             v = stack.pop()
             print(v, end=" ")
-
+\/
             for w in graph.get_adjacency_list()[v]:
                 if not self.marked[w]:
                     self.marked[w] = True
                     self.edge_to[w] = v
                     stack.append(w)
-
+\/
     def has_path_to(self, v):
         return self.marked[v]
-
+\/
     def print_path_to(self, v):
         if not self.marked[v]:
             print(f"No path from source to {v}")
             return
-
+\/
         path = []
         x = v
         while x is not None:
             path.append(x)
             x = self.edge_to[x]
-
-        print("Path:", " -> ".join(map(str, path[::-1])))
-```
+\/
+        print("Path:", " -&gt; ".join(map(str, path[::-1])))
+    </code-block>
+    </tab>
+</tabs>
 
 #### 15.3.2 Breadth-First Search for Digraph
 
@@ -5358,101 +5353,98 @@ class StronglyConnectedComponents:
 
 ### 16.1 Introduction to MSTs
 
-<p><format color = "DarkOrange">Spanning tree:</format> A <format 
-color = "OrangeRed">spanning tree</format> is a subgraph <math>T
-</math> that is both a <format color = "OrangeRed">tree</format> 
-(connected and acyclic) and <format color = "OrangeRed">spanning
+<p><format color="DarkOrange">Spanning tree:</format> A <format 
+color="OrangeRed">spanning tree</format> is a subgraph <math>T
+</math> that is both a <format color="OrangeRed">tree</format> 
+(connected and acyclic) and <format color="OrangeRed">spanning
 </format> (includes all of the vertices).</p>
 
-<img src = "../images_data/d16-1-1.png" alt = "Spanning Tree"/>
+<img src="../images_data/d16-1-1.png" alt="Spanning Tree"/>
 
-<p><format color = "BlueViolet">Application:</format></p>
+<p><format color="BlueViolet">Application:</format></p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p>Dithering</p>
+    <p>Dithering</p>
 </li>
 <li>
-<p>Cluster analysis</p>
+    <p>Cluster analysis</p>
 </li>
 <li>
-<p>Max bottleneck paths</p>
+    <p>Max bottleneck paths</p>
 </li>
 <li>
-<p>Real-time face verification</p>
+    <p>Real-time face verification</p>
 </li>
 <li>
-<p>LDPC codes for error correction</p>
+    <p>LDPC codes for error correction</p>
 </li>
 <li>
-<p>Image registration with Renyi entropy</p>
+    <p>Image registration with Renyi entropy</p>
 </li>
 <li>
-<p>Find road networks in satellite and aerial imagery</p>
+    <p>Find road networks in satellite and aerial imagery</p>
 </li>
 <li>
-<p>Reducing data storage in sequencing amino acids in a protein</p>
+    <p>Reducing data storage in sequencing amino acids in a protein</p>
 </li>
 <li>
-<p>Model locality of particle interactions in turbulent fluid flows
-</p>
+    <p>Model locality of particle interactions in turbulent fluid flows
+    </p>
 </li>
 <li>
-<p>Autoconfig protocol for Ethernet bridging to avoid cycles in a 
-network</p>
+    <p>Autoconfig protocol for Ethernet bridging to avoid cycles in a 
+    network</p>
 </li>
 <li>
-<p>Approximation algorithms for NP-hard problems (e.g., TSP, Steiner 
-tree)</p>
+    <p>Approximation algorithms for NP-hard problems (e.g., TSP, Steiner 
+    tree)</p>
 </li>
 <li>
-<p>Network design (communication, electrical, hydraulic, computer, 
-road).</p>
+    <p>Network design (communication, electrical, hydraulic, computer, 
+    road).</p>
 </li>
 </list>
 
 ### 16.2 Greedy Algorithm
 
-<p><format color = "BlueViolet">Definition:</format> </p>
+<p><format color="BlueViolet">Definitions:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "DarkOrange">Cut:</format> A cut in a graph is a 
-partition of its vertices into two (nonempty) sets.</p>
+    <p><format color="DarkOrange">Cut:</format> A cut in a graph is a 
+    partition of its vertices into two (nonempty) sets.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Crossing edge:</format> A crossing 
-edge connects a vertex in one set with a vertex in the other.</p>
+    <p><format color="DarkOrange">Crossing edge:</format> A crossing 
+    edge connects a vertex in one set with a vertex in the other.</p>
 </li>
 </list>
 
-<img src = "../images_data/d16-2-1.png" alt = "Greedy Algorithm"/>
+<img src="../images_data/d16-2-1.png" alt="Greedy Algorithm"/>
 
-<procedure title = "Greedy Algorithm for MST">
-    <step>
-        <p>Start with all edges colored gray.</p>
-    </step>
-    <step>
-        <p>Find cut with no black crossing edges; color its 
-          min-weight edge black.</p>
-    </step>
-    <step>
-        <p>Repeat until <math>V - 1</math> edges are colored black.
-        </p>
-    </step>
+<procedure title="Greedy Algorithm for MST">
+<step>
+    <p>Start with all edges colored gray.</p>
+</step>
+<step>
+    <p>Find cut with no black crossing edges; color its 
+    min-weight edge black.</p>
+</step>
+<step>
+    <p>Repeat until <math>V - 1</math> edges are colored black.</p>
+</step>
 </procedure>
 
-<p><format color = "BlueViolet">Correctness Proof:</format> </p>
+<p><format color="BlueViolet">Correctness Proof</format> </p>
 
-<list type = "decimal">
+<list type="decimal">
 <li>
-<p>Given any cut, the crossing edge of min weight is in MST.</p>
-
-<p><format color = "MediumVioletRed">Proof:</format> </p>
-
-<p>Suppose min-weight crossing edge <math>e</math> is not in the 
-MST.</p>
-    <list type = "bullet">
+    <p>Given any cut, the crossing edge of min weight is in MST.</p>
+    <p><format color="LawnGreen">Proof:</format> </p>
+    <p>Suppose min-weight crossing edge <math>e</math> is not in the 
+    MST.</p>
+    <list type="bullet">
     <li>
     <p>Adding <math>e</math> to the MST creates a cycle.</p>
     </li>
@@ -5493,7 +5485,7 @@ MST.</p>
 
 <warning>
 <p>The proof above is under the simplifying assumptions below: </p>
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Edge weights are distinct.</p>
 </li>
@@ -5503,26 +5495,28 @@ MST.</p>
 </list>
 </warning>
 
-### 16.3 Edge-weighted Graph API
+### 16.3 Edge-weighted Graph Implementation
 
-Java (Edge.java)
+<p><format color="BlueViolet">Edge</format></p>
 
-```Java
-public class Edge implements Comparable<Edge> {
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+public class Edge implements Comparable&lt;Edge&gt; {
     private final int source;
     private final int destination;
     private final double weight;
-
+\/
     public Edge(int source, int destination, double weight) {
         this.source = source;
         this.destination = destination;
         this.weight = weight;
     }
-
+\/
     public int getEitherVertex() {
         return source;
     }
-
+\/
     public int getOtherVertex(int vertex) {
         if (vertex == source) {
             return destination;
@@ -5532,108 +5526,62 @@ public class Edge implements Comparable<Edge> {
             throw new IllegalArgumentException("Invalid vertex");
         }
     }
-
+\/
     public double getWeight() {
         return weight;
     }
-
+\/
     @Override
     public String toString() {
         return "(" + source + " - " + destination + " : " + weight + ")";
     }
-
+\/
     @Override
     public int compareTo(Edge other) {
         return Double.compare(this.weight, other.weight);
     }
 }
-```
-
-Java (EdgeWeightedGraph.java)
-
-```Java
-import java.util.ArrayList;
-import java.util.List;
-
-public class EdgeWeightedGraph {
-    private final int vertices;
-    private final List<Edge>[] adjacencyList;
-
-    public EdgeWeightedGraph(int vertices) {
-        this.vertices = vertices;
-        this.adjacencyList = new ArrayList[vertices];
-        for (int i = 0; i < vertices; i++) {
-            adjacencyList[i] = new ArrayList<>();
-        }
-    }
-
-    public void addEdge(int source, int destination, double weight) {
-        adjacencyList[source].add(new Edge(source, destination, weight));
-        adjacencyList[destination].add(new Edge(destination, source, weight));
-    }
-
-    public int getVertices() {
-        return vertices;
-    }
-
-    public List<Edge> getAdjacencyList(int vertex) {
-        return adjacencyList[vertex];
-    }
-
-    public void printGraph() {
-        for (int i = 0; i < vertices; i++) {
-            List<Edge> edges = adjacencyList[i];
-            System.out.print("Vertex " + i + ":");
-            for (Edge edge : edges) {
-                System.out.print(" " + edge);
-            }
-            System.out.println();
-        }
-    }
-}
-```
-
-C++ (Edge.h)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (Edge.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef EDGE_H
 #define EDGE_H
-
-#include <string>
-
+\/
+#include &lt;string&gt;
+\/
 class Edge {
 private:
     int source;
     int destination;
     double weight;
-
+\/
 public:
     Edge(int source, int destination, double weight);
     [[nodiscard]] int getEitherVertex() const;
     [[nodiscard]] int getOtherVertex(int vertex) const;
     [[nodiscard]] double getWeight() const;
-    bool operator<(const Edge& other) const;
+    bool operator&lt;(const Edge& other) const;
     [[nodiscard]] std::string toString() const;
 };
-
+\/
 #endif // EDGE_H
-```
-
-C++ (Edge.cpp)
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (Edge.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "Edge.h"
-#include <stdexcept>
-#include <sstream>
-#include <iomanip>
-
+#include &lt;stdexcept&gt;
+#include &lt;sstream&gt;
+#include &lt;iomanip&gt;
+\/
 Edge::Edge(const int source, const int destination, const double weight)
     : source(source), destination(destination), weight(weight) {}
-
+\/
 int Edge::getEitherVertex() const {
     return source;
 }
-
+\/
 int Edge::getOtherVertex(const int vertex) const {
     if (vertex == source) {
         return destination;
@@ -5643,134 +5591,186 @@ int Edge::getOtherVertex(const int vertex) const {
         throw std::invalid_argument("Invalid vertex");
     }
 }
-
+\/
 double Edge::getWeight() const {
     return weight;
 }
-
-bool Edge::operator<(const Edge& other) const {
-    return weight < other.weight;
+\/
+bool Edge::operator&lt;(const Edge& other) const {
+    return weight &lt; other.weight;
 }
-
+\/
 std::string Edge::toString() const {
     std::ostringstream oss;
-    oss << "(" << source << " - " << destination << " : " << std::fixed << std::setprecision(2) << weight << ")";
+    oss &lt;&lt; "(" &lt;&lt; source &lt;&lt; " - " &lt;&lt; destination &lt;&lt; " : " &lt;&lt; std::fixed &lt;&lt; std::setprecision(2) &lt;&lt; weight &lt;&lt; ")";
     return oss.str();
 }
-```
-
-C++ (EdgeWeightedGraph.h)
-
-```C++
-#ifndef EDGEWEIGHTEDGRAPH_H
-#define EDGEWEIGHTEDGRAPH_H
-
-#include <vector>
-#include "Edge.h"
-
-class EdgeWeightedGraph {
-private:
-    int vertices;
-    std::vector<std::vector<Edge>> adjacencyList;
-
-public:
-    explicit EdgeWeightedGraph(int vertices);
-    void addEdge(int source, int destination, double weight);
-    [[nodiscard]] int getVertices() const;
-    [[nodiscard]] const std::vector<Edge>& getAdjacencyList(int vertex) const;
-    void printGraph() const;
-};
-
-#endif // EDGEWEIGHTEDGRAPH_H
-```
-
-C++ (EdgeWeightedGraph.cpp)
-
-```C++
-#include "EdgeWeightedGraph.h"
-#include <iostream>
-
-EdgeWeightedGraph::EdgeWeightedGraph(const int vertices)
-    : vertices(vertices), adjacencyList(vertices) {}
-
-void EdgeWeightedGraph::addEdge(const int source, const int destination, const double weight) {
-    const Edge edge(source, destination, weight);
-    adjacencyList[source].push_back(edge);
-    adjacencyList[destination].emplace_back(destination, source, weight);
-}
-
-int EdgeWeightedGraph::getVertices() const {
-    return vertices;
-}
-
-const std::vector<Edge>& EdgeWeightedGraph::getAdjacencyList(int vertex) const {
-    return adjacencyList[vertex];
-}
-
-void EdgeWeightedGraph::printGraph() const {
-    for (int i = 0; i < vertices; ++i) {
-        const std::vector<Edge>& edges = adjacencyList[i];
-        std::cout << "Vertex " << i << ":";
-        for (const Edge& edge : edges) {
-            std::cout << " " << edge.toString();
-        }
-        std::cout << std::endl;
-    }
-}
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class Edge:
     def __init__(self, source: int, destination: int, weight: float):
         self.source = source
         self.destination = destination
         self.weight = weight
-
-    def get_either_vertex(self) -> int:
+\/
+    def get_either_vertex(self) -&gt; int:
         return self.source
-
-    def get_other_vertex(self, vertex: int) -> int:
+\/
+    def get_other_vertex(self, vertex: int) -&gt; int:
         if vertex == self.source:
             return self.destination
         elif vertex == self.destination:
             return self.source
         else:
             raise ValueError("Invalid vertex")
-
-    def get_weight(self) -> float:
+\/
+    def get_weight(self) -&gt; float:
         return self.weight
-
-    def __str__(self) -> str:
+\/
+    def __str__(self) -&gt; str:
         return f"({self.source} - {self.destination} : {self.weight})"
+\/
+    def __lt__(self, other: 'Edge') -&gt; bool:
+        return self.weight &lt; other.weight
+    </code-block>
+    </tab>
+</tabs>
 
-    def __lt__(self, other: 'Edge') -> bool:
-        return self.weight < other.weight
+<p><format color="BlueViolet">Edge-weighted Graph</format></p>
 
-
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.ArrayList;
+import java.util.List;
+\/
+public class EdgeWeightedGraph {
+    private final int vertices;
+    private final List&lt;Edge&gt;[] adjacencyList;
+\/
+    public EdgeWeightedGraph(int vertices) {
+        this.vertices = vertices;
+        this.adjacencyList = new ArrayList[vertices];
+        for (int i = 0; i &lt; vertices; i++) {
+            adjacencyList[i] = new ArrayList&lt;&gt;();
+        }
+    }
+\/
+    public void addEdge(int source, int destination, double weight) {
+        adjacencyList[source].add(new Edge(source, destination, weight));
+        adjacencyList[destination].add(new Edge(destination, source, weight));
+    }
+\/
+    public int getVertices() {
+        return vertices;
+    }
+\/
+    public List&lt;Edge&gt; getAdjacencyList(int vertex) {
+        return adjacencyList[vertex];
+    }
+\/
+    public void printGraph() {
+        for (int i = 0; i &lt; vertices; i++) {
+            List&lt;Edge&gt; edges = adjacencyList[i];
+            System.out.print("Vertex " + i + ":");
+            for (Edge edge : edges) {
+                System.out.print(" " + edge);
+            }
+            System.out.println();
+        }
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++ (EdgeWeightedGraph.h)">
+    <code-block lang="c++" collapsible="true">
+#ifndef EDGEWEIGHTEDGRAPH_H
+#define EDGEWEIGHTEDGRAPH_H
+\/
+#include &lt;vector7gt;
+#include "Edge.h"
+\/
+class EdgeWeightedGraph {
+private:
+    int vertices;
+    std::vector&lt;std::vector&lt;Edge&gt;&gt; adjacencyList;
+\/
+public:
+    explicit EdgeWeightedGraph(int vertices);
+    void addEdge(int source, int destination, double weight);
+    [[nodiscard]] int getVertices() const;
+    [[nodiscard]] const std::vector&lt;Edge&gt;& getAdjacencyList(int vertex) const;
+    void printGraph() const;
+};
+\/
+#endif // EDGEWEIGHTEDGRAPH_H
+    </code-block>
+    </tab>
+    <tab title="C++ (EdgeWeightedGraph.cpp)">
+    <code-block lang="c++" collapsible="true">
+#include "EdgeWeightedGraph.h"
+#include &lt;iostream&gt;
+\/
+EdgeWeightedGraph::EdgeWeightedGraph(const int vertices)
+    : vertices(vertices), adjacencyList(vertices) {}
+\/
+void EdgeWeightedGraph::addEdge(const int source, const int destination, const double weight) {
+    const Edge edge(source, destination, weight);
+    adjacencyList[source].push_back(edge);
+    adjacencyList[destination].emplace_back(destination, source, weight);
+}
+\/
+int EdgeWeightedGraph::getVertices() const {
+    return vertices;
+}
+\/
+const std::vector&lt;Edge&gt;& EdgeWeightedGraph::getAdjacencyList(int vertex) const {
+    return adjacencyList[vertex];
+}
+\/
+void EdgeWeightedGraph::printGraph() const {
+    for (int i = 0; i &lt; vertices; ++i) {
+        const std::vector&lt;Edge&gt;& edges = adjacencyList[i];
+        std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
+        for (const Edge& edge : edges) {
+            std::cout &lt;&lt; " " &lt;&lt; edge.toString();
+        }
+        std::cout &lt;&lt; std::endl;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+from Edge import Edge
+\/
+\/
 class EdgeWeightedGraph:
     def __init__(self, vertices: int):
         self.vertices = vertices
         self.adjacency_list: list[list[Edge]] = [[] for _ in range(vertices)]
-
+\/
     def add_edge(self, source: int, destination: int, weight: float):
         self.adjacency_list[source].append(Edge(source, destination, weight))
         self.adjacency_list[destination].append(Edge(destination, source, weight))
-
-    def get_vertices(self) -> int:
+\/
+    def get_vertices(self) -&gt; int:
         return self.vertices
-
-    def get_adjacency_list(self, vertex: int) -> list[Edge]:
+\/
+    def get_adjacency_list(self, vertex: int) -&gt; list[Edge]:
         return self.adjacency_list[vertex]
-
+\/
     def print_graph(self):
         for i in range(self.vertices):
             print(f"Vertex {i}:", end="")
             for edge in self.adjacency_list[i]:
                 print(f" {edge}", end="")
             print()
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 16.4 Kruskal's Algorithm
 
