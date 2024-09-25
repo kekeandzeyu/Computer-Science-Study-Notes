@@ -545,40 +545,6 @@ multiple of bytes.</p>
 weakly" typed language, you can <format color="OrangeRed">typecast
 </format> from any type to any other.</p>
 
-<p><format color="BlueViolet">Struct Alignment and Padding</format>
-</p>
-
-<p>C provide enough space and <format style="bold, italic">aligns
-</format> the data with padding!</p>
-
-<code-block lang="c">
-Struct foo {
-    int a; 
-    char b;
-    struct foo *c;
-}
-</code-block>
-
-<p>The actual layout on a 32-bit architecture would be: </p>
-
-<list type="bullet">
-<li>
-    <p>4 bytes for a</p>
-</li>
-<li>
-    <p>1 byte for b</p>
-</li>
-<li>
-    <p>3 unused bytes</p>
-</li>
-<li>
-    <p>4 bytes for c</p>
-</li>
-<li>
-    <p>sizeof(struct foo) == 12</p>
-</li>
-</list>
-
 <note>
 <p>For more information on struct, please visit <a 
 href="C-Programming.md" anchor="structs" summary="Struct in C++">
@@ -640,24 +606,224 @@ In effect, makes PI a "constant".</p>
 
 #### 2.2 Addresses & Pointers
 
+<p><format color="BlueViolet">Definitions</format></p>
+
+<p><format color="DarkOrange">Address:</format> An address refers to a 
+particular memory location.</p>
+
+<p><format color="DarkOrange">Pointer:</format> A pointer is a variable
+that contains the address of another variable.</p>
+
 <note>
 <p>Don't confuse the address referring to a memory location with the 
 value stored there.</p>
 </note>
 
-<p><format color="DarkOrange">Pointers:</format> A pointer is a variable
-that contains an address referring to a particular memory location, 
-usually also associated with a variable name.</p>
-
 <code-block lang="c" collapsible="true">
-int *x; // Declare variable x as the address of an int
+int *p; // Declaration, and tells compiler that variable p is address of an int
+int x = 3;
 \/
-x = &amp;y; // Assign the address of y to x, & is called the "address operator" in this context
+p = &amp;x; // Tells compiler to assign address of x to p
 \/
-z = *x; // Assign the value at the address stored in x to z, * is called the "dereference operator" in this context
+printf("%u %d\n", p, *p); // Gets address of x and value of x
+\/
+*p = 5; // Changes value of x to 5
+\/
+void *p1; // Can be used to store any address
 </code-block>
 
-### 3 C Memory Layout
+<p><format color="BlueViolet">By value vs. By reference</format></p>
+
+<compare type="left-right" first-title="By value" second-title="By reference">
+<code-block lang="c">
+void addOne (int x) {
+    x = x + 1; // x = 4, copy of data
+}
+\/
+int y = 3;
+addOne(y); // y = 3
+</code-block>
+<code-block lang="c">
+void addOne (int *x) {
+    *x = *x + 1; 
+}
+\/
+int y = 3;
+addOne(&amp;y); // y = 4
+</code-block>
+</compare>
+
+#### 2.3 Array
+
+<p><format color="BlueViolet">Declaration & Initialization</format></p>
+
+<code-block lang="c" collapsible="true">
+int arr[5]; // Declare an array of 5 integers
+int arr1[] = {1, 2, 3, 4, 5}; // Declare and initialize an array of 5 integers
+printf("%d\n", arr1[2]); // 3, access elements using index
+</code-block>
+
+<p>A better pattern: single source of truth!</p>
+
+<code-block lang="c" collapsible="true">
+int ARRAY_SIZE = 5;
+int arr[ARRAY_SIZE];
+for (int i = 0; i &lt; ARRAY_SIZE; i++) {
+    arr[i] = i;
+}
+</code-block>
+
+<note>
+<p>An array variable and a pointer to the first (<math>
+0^{\text{th}}</math>) element are nearly idenPcal declarations.</p>
+<p>arr[0] is same as *arr, arr[2] is same as *(arr+2)</p>
+</note>
+
+<p><format color="BlueViolet">Pointer Arithmetic</format></p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">pointer+n:</format> Add n*sizeof("whatever
+    pointer is pointing to")</p>
+</li>
+<li>
+    <p><format color="Fuchsia">pointer-n:</format> Subtract n*sizeof("
+    whatever pointer is pointing to")</p>
+</li>
+</list>
+
+<p><format color="IndianRed">Examples</format></p>
+
+<code-block lang="c" collapsible="true">
+int arr[] = {1, 2, 3, 4, 5};
+int *p = arr;
+printf("%d\n", *(p+1)); // 2
+</code-block>
+
+<code-block lang="c" collapsible="true">
+void increment_ptr(int32_t **h) {
+    *h = *h + 1;
+}
+\/
+int32_t arr[3] = {50, 60, 70};
+int32_t *q = arr;
+increment_ptr(&amp;q);
+printf("q is %d\n", *q); // q is 60
+</code-block>
+
+<code-block lang="c" collapsible="true">
+int *p, *q, x;
+int a[4];
+p = &amp;x;
+q = a + 1;
+*p = 1;
+printf("*p:%d, p:%x, &amp;p:%x\n", *p, p, &amp;p); // *p:1, p:108, &amp;p:100
+*q = 2;
+printf("*q:%d, q:%x, &amp;q:%x\n", *q, q, &amp;q); // *q:2, q:110, &amp;q:104
+*a = 3;
+printf("*a:%d, a:%x, &amp;a:%x\n", *a, a, &amp;a); // *a:3, a:10c, &amp;a:10c
+// K&R: "An array name is not a variable"
+// a is not a variable, so asking for the address of it is meaningless
+</code-block>
+
+<p><format color="BlueViolet">Potential Pitfalls</format></p>
+
+<list type="bullet">
+<li>
+    <p>Array bounds are not checked during element access</p>
+    <p><format color="LawnGreen">Consequence:</format> We can accidentally
+    access off the the end of the array!</p>
+</li>
+<li>
+    <p>An array is passed to a function as a pointer</p>
+    <p><format color="LawnGreen">Consequence:</format> The array size is
+    lost! Be careful with sizeof()!</p>
+</li>
+<li>
+    <p>Declared arrays are only allocated when the scope is valid</p>
+</li>
+</list>
+
+#### 2.4 Strings
+
+<p><format color="DarkOrange">C String:</format> A C string is just an 
+array of characters, followed by a null terminator.</p>
+
+<code-block lang="c">
+char str[6] = {'H', 'e', 'l', 'l', 'o', '\0'};
+</code-block>
+
+<p><format color="BlueViolet">String functions</format> (accessible with
+#include &lt;string.h&gt;</p>
+
+<list type="alpha-lower">
+<li>
+    <p><format color="Fuchsia">int strlen(char* string):</format></p>
+    <p>Return the length of the string (not including the null term)</p>
+</li>
+<li>
+    <p><format color="Fuchsia">int strcmp(char* str1, char* str2):
+    </format></p>
+    <p>Return 0 if str1 and str2 are identical (no str1 == str2, since 
+    this will be checking if they point to the same memory location!)</p>
+</li>
+<li>
+    <p><format color="Fuchsia">char* strcpy(char* dst, char* src):
+    </format></p>
+    <p>Copy contents of string src to the memory at dst. Caller must 
+    ensure that dst has enough memory to hold the data to be copied.</p>
+</li>
+</list>
+
+#### 2.5 Word Alignment
+
+<p><format color="BlueViolet">Struct Alignment and Padding</format>
+</p>
+
+<list>
+<li>
+    <p>Some processors will not allow you to address 32b values without being
+    on 4-byte boundaries.</p>
+</li>
+<li>
+    <p>Others will just be very slow if you try to access &quot;
+    unaligned&quot; memory.</p>
+</li>
+</list>
+
+<code-block lang="c" collapsible="true">
+struct hello {
+    int a; 
+    char b;
+    short c;
+    char *d;
+    char e;
+};
+</code-block>
+
+<p>The actual layout on a 32-bit architecture would be: </p>
+
+<img src="../images_architecture/a2-5-1.png" alt="Word Alignment"/>
+
+<p>sizeof(hello) = 16</p>
+
+<p>Imporvement:</p>
+
+<code-block lang="c" collapsible="true">
+struct hello {
+    int a; 
+    char b;
+    char e;
+    short c;
+    char *d;
+};
+</code-block>
+
+<img src="../images_architecture/a2-5-2.png" alt="Word Alignment"/>
+
+<p>sizeof(hello) = 12</p>
+
+### 4 C Memory Layout
 
 <p>Program's <format color="OrangeRed" style="italic">address space
 </format> contains 4 regions: </p>
@@ -768,21 +934,6 @@ global variables.</p>
 </list>
 
 #### 3.4 Addressing & Endianness
-
-<p><format color = "BlueViolet">Addresses:</format> </p>
-
-<list type = "bullet">
-<li>
-<p>The size of an address (and thus, the size of a pointer) in bytes
-depends on architecture. For 64-bit system, the size of an address is 8 
-bytes, and the system has <math>2 ^ {64}</math> possible addresses.</p>
-</li>
-<li>
-<p>If a machine is <format style = "bold">byte-addressed</format>, 
-then each of its addresses points to a unique <format style = "bold">
-byte</format>.</p>
-</li>
-</list>
 
 <p><format color = "BlueViolet">Endianness:</format> </p>
 
