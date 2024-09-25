@@ -6127,76 +6127,88 @@ algorithm computes the MST in time proportional to <math>E \log E
 case).</p>
 
 <table style="header-row">
-<tr><td>Operation</td><td>Frequency</td><td>Binary Heap</td></tr>
-<tr><td>Delete min</td><td><math>E</math></td><td><math>\log E
-</math></td></tr>
-<tr><td>Insert</td><td><math>E</math></td><td><math>\log E</math>
-</td></tr>
+<tr>
+    <td>Operation</td>
+    <td>Frequency</td>
+    <td>Binary Heap</td>
+</tr>
+<tr>
+    <td>Delete min</td>
+    <td><math>E</math></td>
+    <td><math>\log E</math></td>
+</tr>
+<tr>
+    <td>Insert</td>
+    <td><math>E</math></td>
+    <td><math>\log E</math></td>
+</tr>
 </table>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-
+\/
 public class PrimMSTLazy {
     private final boolean[] marked; 
-    private final PriorityQueue<Edge> pq; 
-    private final List<Edge> mst; 
+    private final PriorityQueue&lt;Edge&gt; pq; 
+    private final List&lt;Edge&gt; mst; 
     private double weight; 
-
+\/
     public PrimMSTLazy(EdgeWeightedGraph graph) {
         marked = new boolean[graph.getVertices()];
-        pq = new PriorityQueue<>();
-        mst = new ArrayList<>();
+        pq = new PriorityQueue&lt;&gt;();
+        mst = new ArrayList&lt;&gt;();
         weight = 0.0;
-
+\/        
         visit(graph, 0);
         while (!pq.isEmpty()) {
             Edge e = pq.poll(); 
-
+\/
             int v = e.getEitherVertex();
             int w = e.getOtherVertex(v);
-
+\/
             if (marked[v] && marked[w]) continue; 
             mst.add(e); 
             weight += e.getWeight();
-
+\/
             if (!marked[v]) visit(graph, v); 
             if (!marked[w]) visit(graph, w); 
         }
     }
-
+\/
     private void visit(EdgeWeightedGraph graph, int v) {
         marked[v] = true; 
-
+\/
         for (Edge e : graph.getAdjacencyList(v)) {
             if (!marked[e.getOtherVertex(v)]) {
                 pq.offer(e);
             }
         }
     }
-
-    public Iterable<Edge> edges() {
+\/
+    public Iterable&lt;Edge&gt; edges() {
         return mst;
     }
-
+\/
     public double weight() {
         return weight;
     }
 }
-```
+    </code-block>
+    </tab>
+</tabs>
 
 C++
 
 ```C++
-#include <iostream>
-#include <vector>
-#include <queue>
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
 #include "EdgeWeightedGraph.h"
-
+\/
 class PrimMSTLazy {
 private:
     std::vector<bool> marked;
@@ -6300,20 +6312,39 @@ class PrimMSTLazy:
 <math>V</math> delete-min, <math>E</math> decrease-key.</p>
 
 <table style="header-row">
-<tr><td>PQ Implementation</td><td>Insert</td><td>Delete-Min</td><td>
-Decrease-Key</td><td>Total</td></tr>
-<tr><td>Array</td><td><math>1</math></td><td><math>V</math></td><td>
-<math>1</math></td><td><math>V ^ {2}</math></td></tr>
-<tr><td>Binary Heap</td><td><math>\log V</math></td><td><math>\log V
-</math></td><td><math>\log V</math></td><td><math>E \log V</math>
-</td></tr>
-<tr><td><p>d-way Heap</p><p>(Johnson 1975)</p></td><td><math>
-\log_{d} V</math></td><td><math>d \log_{d} V</math></td><td><math>
-\log_{d} V</math></td><td><math>E \log_{\frac {E}{V}} V</math></td>
+<tr>
+    <td>PQ Implementation</td>
+    <td>Insert</td>
+    <td>Delete-Min</td>
+    <td>Decrease-Key</td>
+    <td>Total</td>
 </tr>
-<tr><td><p>Fibonacci Heap</p><p>(Fredman-Tarjan 1984)</p></td>
-<td><math>1^{*}</math></td><td><math>\log V ^ {*}</math></td>
-<td><math>1^{*}</math></td><td><math>E + \log V</math></td></tr>
+<tr>
+    <td>Array</td>
+    <td><math>1</math></td>
+    <td><math>V</math></td>
+    <td><math>1</math></td>
+    <td><math>V ^ {2}</math></td>
+</tr>
+<tr>
+    <td>Binary Heap</td>
+    <td><math>\log V</math></td>
+    <td><math>\log V</math></td>
+    <td><math>\log V</math></td>
+    <td><math>E \log V</math></td>
+</tr>
+<tr>
+    <td><p>d-way Heap</p><p>(Johnson 1975)</p></td>
+    <td><math>\log_{d} V</math></td>
+    <td><math>d \log_{d} V</math></td>
+    <td><math>\log_{d} V</math></td>
+    <td><math>E \log_{\frac {E}{V}} V</math></td>
+</tr>
+<tr>
+    <td><p>Fibonacci Heap</p><p>(Fredman-Tarjan 1984)</p></td>
+    <td><math>1^{*}</math></td><td><math>\log V ^ {*}</math></td>
+    <td><math>1^{*}</math></td><td><math>E + \log V</math></td>
+</tr>
 </table>
 
 <p>*: amortized</p>
@@ -6336,27 +6367,27 @@ Decrease-Key</td><td>Total</td></tr>
 </li>
 </list>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.List;
-
+\/
 public class PrimMST {
     private final boolean[] marked;
     private final Edge[] edgeTo;
     private final double[] distTo; 
     private final IndexedPriorityQueue pq; 
-    private final List<Edge> mst; 
-
+    private final List&lt;Edge&gt; mst; 
+\/
     public PrimMST(EdgeWeightedGraph graph) {
         marked = new boolean[graph.getVertices()];
         edgeTo = new Edge[graph.getVertices()];
         distTo = new double[graph.getVertices()];
         pq = new IndexedPriorityQueue(graph.getVertices());
-        mst = new ArrayList<>();
-
-        for (int v = 0; v < graph.getVertices(); v++) {
+        mst = new ArrayList&lt;&gt;();
+\/
+        for (int v = 0; v &lt; graph.getVertices(); v++) {
             distTo[v] = Double.POSITIVE_INFINITY;
         }
         distTo[0] = 0.0;
@@ -6365,13 +6396,13 @@ public class PrimMST {
             visit(graph, pq.delMin());
         }
     }
-
+\/    
     private void visit(EdgeWeightedGraph graph, int vertex) {
         marked[vertex] = true;
         for (Edge edge : graph.getAdjacencyList(vertex)) {
             int w = edge.getOtherVertex(vertex);
             if (marked[w]) continue;
-            if (edge.getWeight() < distTo[w]) {
+            if (edge.getWeight() &lt; distTo[w]) {
                 edgeTo[w] = edge;
                 distTo[w] = edge.getWeight();
                 if (pq.contains(w)) {
@@ -6382,16 +6413,16 @@ public class PrimMST {
             }
         }
     }
-
-    public Iterable<Edge> edges() {
-        for (int v = 1; v < edgeTo.length; v++) {
+\/
+    public Iterable&lt;Edge&gt; edges() {
+        for (int v = 1; v &lt; edgeTo.length; v++) {
             if (edgeTo[v] != null) {
                 mst.add(edgeTo[v]);
             }
         }
         return mst;
     }
-
+\/
     public double weight() {
         double weight = 0.0;
         for (Edge edge : mst) {
@@ -6400,30 +6431,29 @@ public class PrimMST {
         return weight;
     }
 }
-```
-
-C++
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
 #include "IndexedPriorityQueue.h"
 #include "EdgeWeightedGraph.h"
-#include <vector>
-#include <limits>
-
+#include &lt;vector&gt;
+#include &lt;limits&gt;
+\/
 class PrimMST {
 private:
-    std::vector<bool> marked;
-    std::vector<Edge> edgeTo;
-    std::vector<double> distTo;
+    std::vector&lt;bool&gt; marked;
+    std::vector&lt;Edge&gt; edgeTo;
+    std::vector&lt;double&gt; distTo;
     IndexedPriorityQueue pq;
-    std::vector<Edge> mst;
-
+    std::vector&lt;Edge&gt; mst;
+\/    
     void visit(const EdgeWeightedGraph& graph, int vertex) {
         marked[vertex] = true;
         for (const Edge& edge : graph.getAdjacencyList(vertex)) {
             const int w = edge.getOtherVertex(vertex);
             if (marked[w]) continue;
-            if (edge.getWeight() < distTo[w]) {
+            if (edge.getWeight() &lt; distTo[w]) {
                 edgeTo[w] = edge;
                 distTo[w] = edge.getWeight();
                 if (pq.contains(w)) {
@@ -6434,31 +6464,31 @@ private:
             }
         }
     }
-
+\/
 public:
     explicit PrimMST(const EdgeWeightedGraph& graph) :
         marked(graph.getVertices(), false),
         edgeTo(graph.getVertices()),
-        distTo(graph.getVertices(), std::numeric_limits<double>::infinity()),
+        distTo(graph.getVertices(), std::numeric_limits&lt;double&gt;::infinity()),
         pq(graph.getVertices()) {
-
+\/
         distTo[0] = 0.0;
         pq.insert(0, 0.0);
         while (!pq.isEmpty()) {
             visit(graph, pq.delMin());
         }
     }
-
-    const std::vector<Edge>& edges() {
+\/
+    const std::vector&lt;Edge&gt;& edges() {
         mst.clear();
-        for (int v = 1; v < edgeTo.size(); v++) {
+        for (int v = 1; v &lt; edgeTo.size(); v++) {
             if (edgeTo[v].getWeight() != 0.0) {
                 mst.push_back(edgeTo[v]);
             }
         }
         return mst;
     }
-
+\/
     [[nodiscard]] double weight() const {
         double weight = 0.0;
         for (const Edge& edge : mst) {
@@ -6467,57 +6497,58 @@ public:
         return weight;
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from typing import List, Iterable
-
+\/
 from EdgeWeightedGraph import EdgeWeightedGraph, Edge
 from IndexedPriorityQueue import IndexedPriorityQueue 
-
-
+\/
+\/
 class PrimMSTEager:
     def __init__(self, graph: EdgeWeightedGraph):
         self.marked: List[bool] = [False] * graph.get_vertices()
         self.edge_to: List[Edge] = [None] * graph.get_vertices()
         self.dist_to: List[float] = [float('inf')] * graph.get_vertices()
         self.pq: IndexedPriorityQueue = IndexedPriorityQueue(graph.get_vertices())
-        self.mst: List[Edge] = []  # Stores MST edges
-
-        self.dist_to[0] = 0.0  # Initialize source vertex
+        self.mst: List[Edge] = []
+\/
+        self.dist_to[0] = 0.0  
         self.pq.insert(0, 0.0)
-
+\/
         while not self.pq.is_empty():
             self._visit(graph, self.pq.del_min())
-
+\/
     def _visit(self, graph: EdgeWeightedGraph, vertex: int):
         self.marked[vertex] = True
         for edge in graph.get_adjacency_list(vertex):
             w: int = edge.get_other_vertex(vertex)
             if self.marked[w]:
                 continue
-
-            if edge.get_weight() < self.dist_to[w]:
+\/
+            if edge.get_weight() &lt; self.dist_to[w]:
                 self.dist_to[w] = edge.get_weight()
                 self.edge_to[w] = edge
                 if self.pq.contains(w):
                     self.pq.decrease_key(w, self.dist_to[w])
                 else:
                     self.pq.insert(w, self.dist_to[w])
-
-    def edges(self) -> Iterable[Edge]:
+\/
+    def edges(self) -&gt; Iterable[Edge]:
         """Returns an iterable of edges in the MST."""
         for v in range(1, len(self.edge_to)):
             if self.edge_to[v] is not None:
                 self.mst.append(self.edge_to[v])
         return self.mst
-
-    def weight(self) -> float:
+\/
+    def weight(self) -&gt; float:
         """Returns the total weight of the MST."""
         return sum(edge.get_weight() for edge in self.mst)
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 16.6 MST Context
 
