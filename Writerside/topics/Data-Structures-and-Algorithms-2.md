@@ -1,6 +1,6 @@
 <show-structure for="chapter" depth="3"></show-structure>
 
-# Part &#8545;
+# Part Ⅱ
 
 <primary-label ref="finish"></primary-label>
 
