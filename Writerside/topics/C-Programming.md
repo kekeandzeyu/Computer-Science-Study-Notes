@@ -803,7 +803,7 @@ int main() {
 
 #### 5.1 Auto
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>When a type name is too long and a simpler alias makes the
     code more readable, use it.</p>
@@ -811,7 +811,7 @@ int main() {
 <li>
     <p>In libraries there is a common name for a type within each
     class. Example:</p>
-    <list type = "bullet">
+    <list type="bullet">
     <li>
         <p>vector::iterator, map::iterator, string::iterator</p>
     </li>
@@ -927,10 +927,10 @@ std::vector&lt;int&gt; v2{3, 10} // v2 = {3, 10}
 
 #### 6.1 Sequence Containers
 
-<p><format color = "DarkOrange">Sequence Containers:</format> Containers
+<p><format color="DarkOrange">Sequence Containers:</format> Containers
 which provide access to sequences of elements.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p><code>std::vector&lt;T&gt;</code></p>
 </li>
@@ -984,7 +984,7 @@ changeable size.</p>
     <p>Fast, lightweight & intuitive.</p>
 </li>
 <li>
-    <p>Grow efficiently <format color = "GreenYellow">in one direction
+    <p>Grow efficiently <format color="GreenYellow">in one direction
     </format>.</p>
 </li>
 </list>
@@ -1020,7 +1020,7 @@ stores pointers to the beginning of each chunk.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Disadvantages:</format> </p>
+<p><format color="BlueViolet">Disadvantages:</format> </p>
 
 <list type="bullet">
 <li>
@@ -1090,7 +1090,7 @@ index.</p>
     <p><code>std::set&lt;int&gt;::iterator iter = mySet.begin()</code></p>
 </li>
 <li>
-<p><format color = "Fuchsia">Dereference iterator to read value 
+<p><format color="Fuchsia">Dereference iterator to read value 
 currently pointed to:</format> </p>
 <p><code>int val = *iter</code></p>
 </li>
@@ -1175,7 +1175,7 @@ if (iter1 == iter2) { cout &lt;&lt; "Equal" &lt;&lt; endl; } // Equal
 <p>Same as forward iterators, plus can go backwards with the decrement
 operator (--).</p>
 
-<p><format color = "BlueViolet">Use cases:</format> <code>std::map
+<p><format color="BlueViolet">Use cases:</format> <code>std::map
 </code>, <code>std::set</code>, <code>std::list</code></p>
 
 ##### 6.4.5 Random Access Iterators
@@ -1183,7 +1183,7 @@ operator (--).</p>
 <p>Same as bidirectional iterators, plus can be implemented or 
 decremented by arbitrary amounts using + and -.</p>
 
-<p><format color = "BlueViolet">Use cases:</format> <code>std::vector
+<p><format color="BlueViolet">Use cases:</format> <code>std::vector
 </code>, <code>std::deque</code>, <code>std::string</code></p>
 
 ### 7 Templates
@@ -1334,14 +1334,14 @@ store any callable object as long as it matches the signature.</p>
 <p><format color="BlueViolet">Benefit: </format></p>
     <list type="alpha-lower">
     <li>
-    <p><format color = "Fuchsia">Type Erasure for Flexibility:</format> It 
+    <p><format color="Fuchsia">Type Erasure for Flexibility:</format> It 
     lets you work with different callable objects through a common 
     interface. You can pass <code>std::function</code> objects to functions
     or store them in data structures without knowing the exact type of the
     underlying callable.</p>
     </li>
     <li>
-    <p><format color = "Fuchsia">Enables Polymorphism with Callables:
+    <p><format color="Fuchsia">Enables Polymorphism with Callables:
     </format> You can have a function that accepts a std::function as a 
     parameter, allowing it to work with different lambda functions or other
     callable types at runtime.</p>
@@ -1922,8 +1922,8 @@ int MyClass::getMyVariable() {
     <p>Historically, used .C</p>
 </li>
 <li>
-    <p>Now, Unix most uses <format color = "OrangeRed">.cc</format>, 
-    and outside Unix mostly uses <format color = "OrangeRed">.cpp
+    <p>Now, Unix most uses <format color="OrangeRed">.cc</format>, 
+    and outside Unix mostly uses <format color="OrangeRed">.cpp
     </format></p>
 </li>
 <li>
@@ -2461,7 +2461,7 @@ StringVector findAllWords(const string& filename) {
     </tr>
     <tr>
         <td rowspan="2">Value References</td>
-        <td><p>An <format color = "OrangeRed">l-value</format> 
+        <td><p>An <format color="OrangeRed">l-value</format> 
         reference can bind to an l-value.</p>
         <code-block lang="C++">
             auto& ptr2 = (ptr += 3);
@@ -2475,7 +2475,7 @@ StringVector findAllWords(const string& filename) {
         </td>
     </tr>
     <tr>
-        <td colspan="2"><p>A <format color = "Plum">const</format> 
+        <td colspan="2"><p>A <format color="Plum">const</format> 
         <format color="OrangeRed">l-value</format> reference can bind to 
         either l or r-value.</p>
         <code-block lang="C++">
@@ -2491,7 +2491,7 @@ StringVector findAllWords(const string& filename) {
 are these weird things called gl-values, pr-values, x-values, ...</p>
 </note>
 
-<p><format color = "BlueViolet">Examples:</format> </p>
+<p><format color="BlueViolet">Examples:</format> </p>
 
 ```C++
 int val = 2; // val: lvalue, 2: rvalue
@@ -2509,7 +2509,7 @@ val = static_cast<int>(size); // val: lvalue, static_cast<int>(size): rvalue
 <p>BUT the r-value reference itself is an l-value</p>
 </warning>
 
-<img src = "../images_c/c12-1.png" alt = "Value References"/>
+<img src="../images_c/c12-1.png" alt="Value References"/>
 
 #### 12.2 Move Semantics
 
@@ -2591,15 +2591,15 @@ const data = fs.readFileSync('file.txt', 'utf8'); // fs. is namespace
 
 #### 13.1 Overriding and Overloading
 
-<p><format color = "BlueViolet">Definition:</format> </p>
+<p><format color="BlueViolet">Definition:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "DarkOrange">Overloading</format>: Methods with the
+<p><format color="DarkOrange">Overloading</format>: Methods with the
 same name but different signature.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Overriding</format>: A subclass to 
+<p><format color="DarkOrange">Overriding</format>: A subclass to 
 provide a specific implementation of a method that is already provided 
 by its parent class or interface.</p>
 </li>
@@ -2692,7 +2692,7 @@ public class Main {
 
 <note>
 <p>To look up a name in a class: </p>
-<list type = "bullet">
+<list type="bullet">
     <li>
         <p>If it names an attribute in the class, return the 
         attribute value.</p>
@@ -2706,15 +2706,15 @@ public class Main {
 
 <tip>
 <p>For Java, better use <code>@Override</code> !</p>
-<p><format color = "BlueViolet">Reasons:</format> </p>
-<list type = "bullet">
+<p><format color="BlueViolet">Reasons:</format> </p>
+<list type="bullet">
 <li>
-<p><format color = "Fuchsia">Protect against typos:</format> If 
+<p><format color="Fuchsia">Protect against typos:</format> If 
 you say <code>@Override</code>, but the method isn't actually overriding 
 anything, you will get a compile error.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Reminder:</format> Reminds programmer
+<p><format color="Fuchsia">Reminder:</format> Reminds programmer
 that method definition came from somewhere higher up in the inheritance
 hierarchy.</p>
 </li>
@@ -2723,12 +2723,12 @@ hierarchy.</p>
 
 #### 13.2 Types of Inheritance
 
-<p><format color = "BlueViolet">Interface Inheritance: </format></p>
+<p><format color="BlueViolet">Interface Inheritance: </format></p>
 <p>Specifying the capabilities of a subclass.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "DarkOrange">Interface:</format> The list of all 
+<p><format color="DarkOrange">Interface:</format> The list of all 
 method signatures.</p>
 </li>
 <li>
@@ -2824,7 +2824,7 @@ public class Circle implements Shape {
 }
 ```
 
-<p><format color = "DarkOrange">Implementation Inheritance:</format> 
+<p><format color="DarkOrange">Implementation Inheritance:</format> 
 Subclasses can inherit signatures AND implementation.</p>
 
 <p><format color="BlueViolet">Examples:</format> </p>

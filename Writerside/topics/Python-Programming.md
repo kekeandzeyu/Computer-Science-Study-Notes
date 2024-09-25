@@ -402,7 +402,7 @@ result = apply_twice(square, 2)
 <p>This is the environment frame for the code above.</p>
 </note>
 
-<img src = "../images_python/p2-1-1.png" alt="Environments for Higher
+<img src="../images_python/p2-1-1.png" alt="Environments for Higher
 -Order Functions"/>
 
 ### 2.2 Nested Definitions (Functions as Returned Values)
@@ -432,7 +432,7 @@ def make_adder(n):
 </li>
 </list>
 
-<img src = "../images_python/p2-1-2.png" alt="Environments for Nested
+<img src="../images_python/p2-1-2.png" alt="Environments for Nested
 Definitions"/>
 
 ### 2.3 Lambda Expressions
@@ -581,7 +581,7 @@ def sum_digits(n):
         return sum_digits(all_but_last) + last
 </code-block>
 
-<img src = "../images_python/p3-2-1.png" alt = "environment diagram 
+<img src="../images_python/p3-2-1.png" alt="environment diagram 
 for example 1"/>
 
 <p>Example 2: </p>
@@ -702,15 +702,15 @@ def luhn_sum_double(n):
 
 ### 4.1 Iterators
 
-<p><format color = "BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions:</format> </p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-    <p><format color = "DarkOrange">Iterable:</format> An 
+    <p><format color="DarkOrange">Iterable:</format> An 
     object capable of returning its members one at a time.</p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Iterator:</format> An 
+    <p><format color="DarkOrange">Iterator:</format> An 
     object that progressively provides access to each item of a 
     collection, in order.</p>
 </li>
@@ -720,26 +720,26 @@ def luhn_sum_double(n):
 <p>Iterators themselves are iterables!</p>
 </warning>
 
-<p><format color = "BlueViolet">Types of iterables:</format> </p>
+<p><format color="BlueViolet">Types of iterables:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 
 </list>
 
-<p><format color = "BlueViolet">Operations on iterators:</format> </p>
+<p><format color="BlueViolet">Operations on iterators:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-    <p><format color = "OrangeRed">iter</format> (iterable): Return an 
+    <p><format color="OrangeRed">iter</format> (iterable): Return an 
     iterator over the elements of an iterable value.</p>
 </li>
 <li>
-    <p><format color = "OrangeRed">next</format> (iterable): Return the
+    <p><format color="OrangeRed">next</format> (iterable): Return the
     next element in an iterator.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Example usage:</format> </p>
+<p><format color="BlueViolet">Example usage:</format> </p>
 
 ```Python
 s = [5, 2, 0]
@@ -777,9 +777,9 @@ item4 = next(iterator) # StopIteration
 </li>
 </list>
 
-<p><format color = "BlueViolet">Special case: Dictionaries</format></p>
+<p><format color="BlueViolet">Special case: Dictionaries</format></p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>The order of items of a dictionary is the order in which they 
     were added (Python 3.6+).</p>
@@ -790,7 +790,7 @@ item4 = next(iterator) # StopIteration
 </li>
 </list>
 
-<p><format color = "BlueViolet">Example usage:</format> </p>
+<p><format color="BlueViolet">Example usage:</format> </p>
 
 ```Python
 # Iterate keys
@@ -813,7 +813,7 @@ change the structure of it, which may initiate runtime error; you can,
 however, change the value of the key.</p>
 </note>
 
-<compare type = "top-bottom" first-title = "change the size" second-title = "change the key">
+<compare type="top-bottom" first-title = "change the size" second-title = "change the key">
     <code-block lang = "python">
         d = {"MacOS": "Apple", "Windows": "Microsoft", "Linux": "Open Source"}
         k = iter(d.values())
@@ -832,16 +832,16 @@ however, change the value of the key.</p>
 
 ### 4.3 Generators
 
-<p><format color = "BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions:</format> </p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-    <p><format color = "DarkOrange">Generator:</format> A function that 
-    <format color = "OrangeRed">yields</format> value instead of
-    <format color = "OrangeRed">returning</format> them.</p>
+    <p><format color="DarkOrange">Generator:</format> A function that 
+    <format color="OrangeRed">yields</format> value instead of
+    <format color="OrangeRed">returning</format> them.</p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Generator:</format> An iterator 
+    <p><format color="DarkOrange">Generator:</format> An iterator 
     created automatically by calling a generator function.</p>
 </li>
 </list>
@@ -851,7 +851,7 @@ however, change the value of the key.</p>
 multiple times.</p>
 </note>
 
-<p><format color = "BlueViolet">Example usage:</format> </p>
+<p><format color="BlueViolet">Example usage:</format> </p>
 
 ```Python
 def even(start, end):
@@ -866,10 +866,10 @@ item1 = next(t) # 2
 item2 = next(t) # 4
 ```
 
-<p><format color = "BlueViolet">Generators can yield form iterators:
+<p><format color="BlueViolet">Generators can yield form iterators:
 </format></p>
 
-<p>A <format color = "OrangeRed">yield from</format> statement yields
+<p>A <format color="OrangeRed">yield from</format> statement yields
 all values from an iterator or iterable (Python 3.3).</p>
 
 <p>Example 1: </p>
@@ -891,7 +891,7 @@ all values from an iterator or iterable (Python 3.3).</p>
 
 <p>Example 2: </p>
 
-<compare type = "top-bottom" first-title = "yield" second-title = "yield from">
+<compare type="top-bottom" first-title = "yield" second-title = "yield from">
     <code-block lang = "python">
         def countdown(k):
             if k > 0:
@@ -920,27 +920,27 @@ compute results lazily.</p>
 <p>To view the contents of an iterator, place the resulting elements 
 into a container.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-    <p><format color = "OrangeRed">list</format> (iterable): 
+    <p><format color="OrangeRed">list</format> (iterable): 
     Create a list containing all x in iterable.</p>
 </li>
 <li>
-    <p><format color = "OrangeRed">tuple</format> (iterable): 
+    <p><format color="OrangeRed">tuple</format> (iterable): 
     Create a tuple containing all x in iterable.</p>
 </li>
 <li>
-    <p><format color = "OrangeRed">sorted</format> (iterable):
+    <p><format color="OrangeRed">sorted</format> (iterable):
     Create a sorted list containing x in iterable.</p>
 </li>
 </list>
 
 #### 4.4.1 Map
 
-<p><format color = "OrangeRed">map</format> (func, iterable): Iterate
+<p><format color="OrangeRed">map</format> (func, iterable): Iterate
 over func(x) for x in iterable.</p>
 
-<p><format color = "BlueViolet">Example usage:</format> </p>
+<p><format color="BlueViolet">Example usage:</format> </p>
 
 ```Python
 def square(x):
@@ -953,10 +953,10 @@ item1 = next(squared_numbers)  # 1
 
 #### 4.4.2 Filter
 
-<p><format color = "OrangeRed">filter</format> (func, iterable): 
+<p><format color="OrangeRed">filter</format> (func, iterable): 
 Iterate over x in iterable if func(x).</p>
 
-<p><format color = "BlueViolet">Example usage:</format> </p>
+<p><format color="BlueViolet">Example usage:</format> </p>
 
 ```Python
 def square(x):
@@ -971,10 +971,10 @@ even_numbers = filter(is_even, numbers)  # filter object (iterator)
 
 #### 4.4.3 zip
 
-<p><format color = "OrangeRed">zip</format> (first_iter, second_iter, ...):
+<p><format color="OrangeRed">zip</format> (first_iter, second_iter, ...):
 Iterate over co-indexed (x, y) pairs.</p>
 
-<p><format color = "BlueViolet">Example usage:</format> </p>
+<p><format color="BlueViolet">Example usage:</format> </p>
 
 <p>Example 1: </p>
 
@@ -991,10 +991,10 @@ def palindrome(s):
 
 #### 4.4.4 reversed
 
-<p><format color = "OrangeRed">reversed</format> (sequence): Iterate
+<p><format color="OrangeRed">reversed</format> (sequence): Iterate
 over x in a sequence in reverse order.</p>
 
-<p><format color = "BlueViolet">Example usage:</format> </p>
+<p><format color="BlueViolet">Example usage:</format> </p>
 
 ```Python
 t = [1, 2, 3, 2, 1]
@@ -1005,7 +1005,7 @@ print(list(reversed(t) == t) # True
 
 #### 4.4.5 range iterator
 
-<p><format color = "BlueViolet">Example usage:</format> </p>
+<p><format color="BlueViolet">Example usage:</format> </p>
 
 ```Python
 r = range(3, 6)
@@ -1027,7 +1027,7 @@ summary = "Order of Growth">Data Structures and Algorithms 1</a>.</p>
 
 ### 5.2 Space
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>At any moment there is a set of active environments. Values and 
     frames in active environments consume memory.</p>
@@ -1037,8 +1037,8 @@ summary = "Order of Growth">Data Structures and Algorithms 1</a>.</p>
     recycled.</p>
 </li>
 <li>
-    <p><format color = "Fuchsia">Active Environments:</format> </p>
-    <list type = "bullet">
+    <p><format color="Fuchsia">Active Environments:</format> </p>
+    <list type="bullet">
         <li>
             <p>Environments for any function calls currently being
             evaluated => call the function but hasn't returned yet.</p>
@@ -1058,7 +1058,7 @@ summary = "Order of Growth">Data Structures and Algorithms 1</a>.</p>
 ### 6.1 Object-Oriented Programming in Python
 
 <p>For more information about the details of Object-Oriented 
-Programming, refer to <a href = "C-Programming.md" anchor="object" 
+Programming, refer to <a href="C-Programming.md" anchor="object" 
 summary = "Object-Oriented Programming">
 Object-Oriented Programming in C++</a>.</p>
 
@@ -1097,17 +1097,17 @@ a.withdraw(50)
 print(a.balance) # 50
 ```
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
     <p>When a class is called: </p>
-    <list type = "bullet">
+    <list type="bullet">
     <li>
         <p>A new instance of that class (aka an object) is created.</p>
     </li>
     <li>
-        <p>The <format color = "OrangeRed">_init_</format> method
+        <p>The <format color="OrangeRed">_init_</format> method
         of the class is called with the new object as its first 
-        argument (named <format color = "OrangeRed">self</format>), 
+        argument (named <format color="OrangeRed">self</format>), 
         along with any additional arguments provided in the call 
         expression.</p>
     </li>
@@ -1131,7 +1131,7 @@ print(a.balance) # 50
 ### 6.2 Inheritance
 
 <p>For more information about inheritance, please visit <a 
-href = "C-Programming.md" anchor="inheritance" 
+href="C-Programming.md" anchor="inheritance" 
 summary = "Object-Oriented Programming">
 Object-Oriented Programming in C++</a>.</p>
 
@@ -1160,7 +1160,7 @@ to convert an object to a float (real number).</li>
 
 <p>Scheme programs consist of expressions, which can be: </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>Primitive expressions: 2, 3.3, true, +, quotient...</li>
 <li>Combinations: (quotient 10 2), (not true)...</li>
 </list>
@@ -1169,7 +1169,7 @@ to convert an object to a float (real number).</li>
 <p>Call expressions include an operator and 0 or more operands in 
 parenthesis.</p>
 
-<p><format color = "BlueViolet">Example:</format> </p>
+<p><format color="BlueViolet">Example:</format> </p>
 
 <code-block lang="plain text">
 (quotient 10 2) ; 5

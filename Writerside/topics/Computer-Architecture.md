@@ -838,28 +838,28 @@ grow downwards.</p>
 grow upward.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Static Data:</format> global or
+<p><format color="Fuchsia">Static Data:</format> global or
 static variables, does not grow or shrink.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Code:</format> loaded when program 
+<p><format color="Fuchsia">Code:</format> loaded when program 
 starts, does not change.</p>
 </li>
 </list>
 
-<img src = "../images_architecture/a2-1-1.png" alt = "C Memory Layout"/>
+<img src="../images_architecture/a2-1-1.png" alt = "C Memory Layout"/>
 
-<p><format color = "BlueViolet">Storage:</format> </p>
+<p><format color="BlueViolet">Storage:</format> </p>
 
 <list>
 <li>
-<p><format color = "Fuchsia">Declared outside a function:
+<p><format color="Fuchsia">Declared outside a function:
 </format> Static Data</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Declared inside a function:
+<p><format color="Fuchsia">Declared inside a function:
 </format> Stack</p>
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p><code>main()</code> is a function.</p>
 </li>
@@ -869,7 +869,7 @@ starts, does not change.</p>
 </list>
 </li>
 <li>
-<p><format color = "Fuchsia">Dynamically allocated (i.e., 
+<p><format color="Fuchsia">Dynamically allocated (i.e., 
 <code>malloc</code>, <code>calloc</code> & <code>realloc</code>):
 </format> Heap.</p>
 </li>
@@ -877,10 +877,10 @@ starts, does not change.</p>
 
 #### 3.1 Stack
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>A stack frame includes: </p>
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Location of caller function</p>
 </li>
@@ -897,14 +897,14 @@ starts, does not change.</p>
 </li>
 <li>
 <p>When procedure ends, stack pointer is moved back (but data remains
-(<format color = "OrangeRed">garbage!</format>)); frees memory for 
+(<format color="OrangeRed">garbage!</format>)); frees memory for 
 future stack frames;</p>
 </li>
 </list>
 
 #### 3.2 Static Data
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Place for variables that persist, and data doesn't subject to 
 comings and goings like function calls, e.g. string literals,
@@ -924,7 +924,7 @@ global variables.</p>
 
 #### 3.3 Code
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Copy of your code goes here, C code becomes data too!</p>
 </li>
@@ -935,17 +935,17 @@ global variables.</p>
 
 #### 3.4 Addressing & Endianness
 
-<p><format color = "BlueViolet">Endianness:</format> </p>
+<p><format color="BlueViolet">Endianness:</format> </p>
 
-<img src = "../images_architecture/a2-4-1.png" alt = "Endianness"/>
+<img src="../images_architecture/a2-4-1.png" alt = "Endianness"/>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "DarkOrange">Big Endian:</format> Descending 
+<p><format color="DarkOrange">Big Endian:</format> Descending 
 numerical significance with ascending memory addresses.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Little Endian:</format> Ascending 
+<p><format color="DarkOrange">Little Endian:</format> Ascending 
 numerical significance with ascending memory addresses.</p>
 </li>
 </list>
@@ -959,13 +959,13 @@ numerical significance with ascending memory addresses.</p>
 #### 3.5 Heap
 
 <p>Dynamically allocated memory goes on the 
-<format color = "OrangeRed">Heap</format>, more permanent and 
+<format color="OrangeRed">Heap</format>, more permanent and 
 persistent than Stack.</p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-    <p><format color = "Fuchsia">malloc(n)</format></p>
-    <list type = "bullet">
+    <p><format color="Fuchsia">malloc(n)</format></p>
+    <list type="bullet">
     <li>
     <p>Allocates a continuous block of <format style = "bold, italic">
     n bytes</format> of uninitialized memory (contains garbage!)</p>
@@ -988,8 +988,8 @@ persistent than Stack.</p>
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">calloc(n, size)</format></p>
-    <list type = "bullet">
+<p><format color="Fuchsia">calloc(n, size)</format></p>
+    <list type="bullet">
     <li>
     <p><code>void* calloc(size_t nmemb, size_t size)</code></p>
     </li>
@@ -1008,8 +1008,8 @@ persistent than Stack.</p>
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">realloc()</format></p>
-    <list type = "bullet">
+<p><format color="Fuchsia">realloc()</format></p>
+    <list type="bullet">
     <li>
     <p>Use it when you need more or less memory in an array.</p>
     </li>
@@ -1031,8 +1031,8 @@ persistent than Stack.</p>
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">free()</format></p>
-    <list type = "bullet">
+<p><format color="Fuchsia">free()</format></p>
+    <list type="bullet">
     <li>
     <p>Release memory on the heap: Pass the pointer p to the 
     beginning of allocated block; releases the whole block.</p>
@@ -1059,14 +1059,14 @@ persistent than Stack.</p>
 
 #### 3.1 Assembly Language
 
-<p><format color = "DarkOrange">Assembly (also known as Assembly 
+<p><format color="DarkOrange">Assembly (also known as Assembly 
 language, ASM):</format>  A low-level programming language where the 
 program instructions match a particular architecture's operations.
 </p>
 
-<p><format color = "BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Splits a program into many small instructions that each do one 
 single part of the process.</p>
@@ -1081,16 +1081,16 @@ architectures.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Complex/Reduced Instruction Set 
+<p><format color="BlueViolet">Complex/Reduced Instruction Set 
 Computing</format></p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
 <p>Early trend - add more and more instructions to do elaborate 
 operations</p>
-<p><format color = "Fuchsia">Complex Instruction Set Computing (CISC)
+<p><format color="Fuchsia">Complex Instruction Set Computing (CISC)
 </format></p>
-    <list type = "bullet">
+    <list type="bullet">
     <li>
     <p>Difficult to learn and comprehend language</p>
     </li>
@@ -1104,9 +1104,9 @@ operations</p>
 </li>
 <li>
 <p>Opposite philosophy later began to dominate</p>
-<p><format color = "Fuchsia">Reduced Instruction Set Computing (RISC)
+<p><format color="Fuchsia">Reduced Instruction Set Computing (RISC)
 </format></p>
-    <list type = "bullet">
+    <list type="bullet">
     <li>
     <p>Simple (and smaller) instruction set makes it easier to build 
     fast hardware.</p>
@@ -1119,11 +1119,11 @@ operations</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Code:</format> </p>
+<p><format color="BlueViolet">Code:</format> </p>
 
 <p>op dst, src1, src2</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p><code>op</code>: operation name ("operator")</p>
 </li>
@@ -1142,7 +1142,7 @@ operations</p>
 
 <p>Assembly uses registers to store values. Registers are: </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Small memories of a fixed size.</p>
 </li>
@@ -1176,18 +1176,18 @@ operations</p>
 </tr>
 <tr>
     <td>Connection</td>
-    <td colspan = "2">
+    <td colspan="2">
     <p>More variables than registers?</p>
     <p>Keep most frequently used in registers and move the rest to 
     memory</p></td>
 </tr>
 </table>
 
-<img src = "../images_architecture/a3-2-1.png" alt = "Registers"/>
+<img src="../images_architecture/a3-2-1.png" alt = "Registers"/>
 
 <warning>
 <p>Some important notes about registers: </p>
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Each ISA has a predetermined number of registers, registers are 
 built in with hardware.</p>
@@ -1224,12 +1224,12 @@ are treated.</p>
 registers s1, s2 and s3, respectively.</p>
 </note>
 
-<p><format color = "BlueViolet">Types:</format> </p>
+<p><format color="BlueViolet">Types:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "Fuchsia">Integer Addition:</format> </p>
-    <list type = "bullet">
+<p><format color="Fuchsia">Integer Addition:</format> </p>
+    <list type="bullet">
     <li>
     <p>C: a = b + c;</p>
     </li>
@@ -1239,8 +1239,8 @@ registers s1, s2 and s3, respectively.</p>
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">Integer Subtraction:</format> </p>
-    <list type = "bullet">
+<p><format color="Fuchsia">Integer Subtraction:</format> </p>
+    <list type="bullet">
     <li>
     <p>C: a = b - c;</p>
     </li>
@@ -1253,12 +1253,12 @@ registers s1, s2 and s3, respectively.</p>
 
 ##### 3.3.2 Immediate Instructions
 
-<p><format color = "DarkOrange">Immediates:</format> Numerical 
+<p><format color="DarkOrange">Immediates:</format> Numerical 
 constants.</p>
 
-<p><format color = "BlueViolet">Syntax:</format> opi dst, src, imm</p>
+<p><format color="BlueViolet">Syntax:</format> opi dst, src, imm</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Operation names end with "i", replace <math>2 ^ {\text{nd}}
     </math> source register with an immeidate.</p>
@@ -1289,19 +1289,19 @@ constants.</p>
 <p>Specialized <format color="OrangeRed">data transfer instructions
 </format> move data between registers and memory.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "Fuchsia">Store:</format> register TO memory</p>
+<p><format color="Fuchsia">Store:</format> register TO memory</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Load:</format> register FROM memory</p>
+<p><format color="Fuchsia">Load:</format> register FROM memory</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Syntax:</format> memop reg, off (bAbbr)
+<p><format color="BlueViolet">Syntax:</format> memop reg, off (bAbbr)
 </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p><code>memop</code>: operation name ("operator")</p>
 </li>
@@ -1317,54 +1317,54 @@ address")</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Types:</format> </p>
+<p><format color="BlueViolet">Types:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "Fuchsia">Load Word:</format> Takes data at 
+<p><format color="Fuchsia">Load Word:</format> Takes data at 
 address <code>bAbbr+off</code> FROM memory and places it into <code>
 reg</code>.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Store Word:</format> Takes data in 
+<p><format color="Fuchsia">Store Word:</format> Takes data in 
 <code>reg</code> and stores it TO memory at <code>bAbbr+off</code>.
 </p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Example:</format> address of int array
+<p><format color="BlueViolet">Example:</format> address of int array
 [] -> s3, value of b -> s2</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>C: array[10] = array[3] + b;</p>
 </li>
 <li>
 <p>RISC-Ⅴ</p>
-<p>lw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t0, <format color = 
-"OrangeRed">l2</format> (s3)&nbsp;&nbsp;&nbsp;&nbsp;# t0 = A[<format color = "OrangeRed">3
+<p>lw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t0, <format color=
+"OrangeRed">l2</format> (s3)&nbsp;&nbsp;&nbsp;&nbsp;# t0 = A[<format color="OrangeRed">3
 </format>]</p>
 <p>add&nbsp;&nbsp;&nbsp;&nbsp;t0, s2, t0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# t0 = A[3] + b</p>
-<p>sw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t0, <format color = "OrangeRed">40</format> (s3)&nbsp;&nbsp;# A[<format 
-color = "OrangeRed">10</format>] = A[3] + b</p>
+<p>sw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t0, <format color="OrangeRed">40</format> (s3)&nbsp;&nbsp;# A[<format 
+color="OrangeRed">10</format>] = A[3] + b</p>
 </li>
 </list>
 
 ##### 3.3.4 Control Flow Instructions
 
-<p><format color = "DarkOrange">Labels in RISC-Ⅴ</format>: Defined
+<p><format color="DarkOrange">Labels in RISC-Ⅴ</format>: Defined
 by a text and followed by a colon (e.g., main:) and refers to the 
 instructions that follows; generate control flow by jumping to labels.
 </p>
 
-<p><format color = "BlueViolet">Types:</format> </p>
+<p><format color="BlueViolet">Types:</format> </p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-    <p><format color = "Fuchsia">Branch If Equal</format> (beq)</p>
-    <list type = "bullet">
+    <p><format color="Fuchsia">Branch If Equal</format> (beq)</p>
+    <list type="bullet">
     <li>    
-        <p><format color = "LawnGreen">Syntax:</format> beq reg1, 
+        <p><format color="LawnGreen">Syntax:</format> beq reg1, 
         reg2, label</p>
     </li>
     <li>
@@ -1376,10 +1376,10 @@ instructions that follows; generate control flow by jumping to labels.
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">Branch If Not Equal</format> (bne)</p>
-    <list type = "bullet">
+<p><format color="Fuchsia">Branch If Not Equal</format> (bne)</p>
+    <list type="bullet">
     <li>    
-        <p><format color = "LawnGreen">Syntax:</format> bne reg1, 
+        <p><format color="LawnGreen">Syntax:</format> bne reg1, 
         reg2, label</p>
     </li>
     <li>
@@ -1388,10 +1388,10 @@ instructions that follows; generate control flow by jumping to labels.
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">Jump</format> (j)</p>
-    <list type = "bullet">
+<p><format color="Fuchsia">Jump</format> (j)</p>
+    <list type="bullet">
     <li>    
-        <p><format color = "LawnGreen">Syntax:</format> j label</p>
+        <p><format color="LawnGreen">Syntax:</format> j label</p>
     </li>
     <li>
         <p>Unconditional jump to label.</p>
@@ -1399,10 +1399,10 @@ instructions that follows; generate control flow by jumping to labels.
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">Branch Less Than</format> (blt)</p>
-    <list type = "bullet">
+<p><format color="Fuchsia">Branch Less Than</format> (blt)</p>
+    <list type="bullet">
     <li>    
-        <p><format color = "LawnGreen">Syntax:</format> blt reg1, reg2,
+        <p><format color="LawnGreen">Syntax:</format> blt reg1, reg2,
         label</p>
     </li>
     <li>
@@ -1411,11 +1411,11 @@ instructions that follows; generate control flow by jumping to labels.
     </list>
 </li>
 <li>
-<p><format color = "Fuchsia">Branch Less Than or Equal</format> (ble)
+<p><format color="Fuchsia">Branch Less Than or Equal</format> (ble)
 </p>
-    <list type = "bullet">
+    <list type="bullet">
     <li>    
-        <p><format color = "LawnGreen">Syntax:</format> ble reg1, reg2,
+        <p><format color="LawnGreen">Syntax:</format> ble reg1, reg2,
         label</p>
     </li>
     <li>
@@ -1446,9 +1446,9 @@ instructions that follows; generate control flow by jumping to labels.
     </code-block>
 </compare>
 
-<p><format color = "BlueViolet">Loops in RISC-Ⅴ:</format> </p>
+<p><format color="BlueViolet">Loops in RISC-Ⅴ:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>There are three types of loops in C: while, do...while, and
     for.</p>
@@ -1461,9 +1461,9 @@ instructions that follows; generate control flow by jumping to labels.
 </li>
 </list>
 
-<p><format color = "BlueViolet">Program Counter:</format> </p>
+<p><format color="BlueViolet">Program Counter:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Program Counter (PC): A special register that contains the 
     current address of the code that is being executed.</p>

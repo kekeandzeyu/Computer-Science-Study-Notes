@@ -329,7 +329,7 @@ public class RedBlackBST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
         public Node(Key key, Value val, boolean color, int size) {
             this.key = key;
             this.val = val;
-            this.color = color;
+            this.color=color;
             this.size = size;
         }
     }
@@ -382,7 +382,7 @@ public class RedBlackBST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
         }
 \/
         root = put(root, key, val);
-        root.color = BLACK;
+        root.color=BLACK;
     }
 \/
     private Node put(Node h, Key key, Value val) {
@@ -405,10 +405,10 @@ public class RedBlackBST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
         if (isEmpty()) throw new NoSuchElementException("BST underflow");
 \/
         if (!isRed(root.left) && !isRed(root.right))
-            root.color = RED;
+            root.color=RED;
 \/
         root = deleteMin(root);
-        if (!isEmpty()) root.color = BLACK;
+        if (!isEmpty()) root.color=BLACK;
     }
 \/
     private Node deleteMin(Node h) {
@@ -426,10 +426,10 @@ public class RedBlackBST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
         if (isEmpty()) throw new NoSuchElementException("BST underflow");
 \/
         if (!isRed(root.left) && !isRed(root.right))
-            root.color = RED;
+            root.color=RED;
 \/
         root = deleteMax(root);
-        if (!isEmpty()) root.color = BLACK;
+        if (!isEmpty()) root.color=BLACK;
     }
 \/
     private Node deleteMax(Node h) {
@@ -452,10 +452,10 @@ public class RedBlackBST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
         if (!contains(key)) return;
 \/
         if (!isRed(root.left) && !isRed(root.right))
-            root.color = RED;
+            root.color=RED;
 \/
         root = delete(root, key);
-        if (!isEmpty()) root.color = BLACK;
+        if (!isEmpty()) root.color=BLACK;
     }
 \/
     private Node delete(Node h, Key key) {
@@ -485,8 +485,8 @@ public class RedBlackBST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
         Node x = h.left;
         h.left = x.right;
         x.right = h;
-        x.color = h.color;
-        h.color = RED;
+        x.color=h.color;
+        h.color=RED;
         x.size = h.size;
         h.size = size(h.left) + size(h.right) + 1;
         return x;
@@ -497,17 +497,17 @@ public class RedBlackBST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
         Node x = h.right;
         h.right = x.left;
         x.left = h;
-        x.color = h.color;
-        h.color = RED;
+        x.color=h.color;
+        h.color=RED;
         x.size = h.size;
         h.size = size(h.left) + size(h.right) + 1;
         return x;
     }
 \/
     private void flipColors(Node h) {
-        h.color = !h.color;
-        h.left.color = !h.left.color;
-        h.right.color = !h.right.color;
+        h.color=!h.color;
+        h.left.color=!h.left.color;
+        h.right.color=!h.right.color;
     }
 \/
     private Node moveRedLeft(Node h) {
@@ -838,8 +838,8 @@ private:
         Node* x = h-&gt;left;
         h-&gt;left = x-&gt;right;
         x-&gt;right = h;
-        x-&gt;color = h-&gt;color;
-        h-&gt;color = RED;
+        x-&gt;color=h-&gt;color;
+        h-&gt;color=RED;
         x-&gt;size = h-&gt;size;
         h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
         return x;
@@ -850,17 +850,17 @@ private:
         Node* x = h-&gt;right;
         h-&gt;right = x-&gt;left;
         x-&gt;left = h;
-        x-&gt;color = h-&gt;color;
-        h-&gt;color = RED;
+        x-&gt;color=h-&gt;color;
+        h-&gt;color=RED;
         x-&gt;size = h-&gt;size;
         h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
         return x;
     }
 \/
     static void flipColors(Node* h) {
-        h-&gt;color = !h-&gt;color;
-        h-&gt;left-&gt;color = !h-&gt;left-&gt;color;
-        h-&gt;right-&gt;color = !h-&gt;right-&gt;color;
+        h-&gt;color=!h-&gt;color;
+        h-&gt;left-&gt;color=!h-&gt;left-&gt;color;
+        h-&gt;right-&gt;color=!h-&gt;right-&gt;color;
     }
 \/
     Node* moveRedLeft(Node* h) {
@@ -973,37 +973,37 @@ public:
 \/
     void put(const Key& key, const Value& val) {
         root = put(root, key, val);
-        root-&gt;color = BLACK;
+        root-&gt;color=BLACK;
     }
 \/
     void deleteMin() {
         if (isEmpty()) throw std::runtime_error("BST underflow");
 \/
         if (!isRed(root-&gt;left) && !isRed(root-&gt;right))
-            root-&gt;color = RED;
+            root-&gt;color=RED;
 \/
         root = deleteMin(root);
-        if (!isEmpty()) root-&gt;color = BLACK;
+        if (!isEmpty()) root-&gt;color=BLACK;
     }
 \/
     void deleteMax() {
         if (isEmpty()) throw std::runtime_error("BST underflow");
 \/
         if (!isRed(root-&gt;left) && !isRed(root-&gt;right))
-            root-&gt;color = RED;
+            root-&gt;color=RED;
 \/
         root = deleteMax(root);
-        if (!isEmpty()) root-&gt;color = BLACK;
+        if (!isEmpty()) root-&gt;color=BLACK;
     }
 \/
     void deleteNode(const Key& key) {
         if (!contains(key)) return;
 \/
         if (!isRed(root-&gt;left) && !isRed(root-&gt;right))
-            root-&gt;color = RED;
+            root-&gt;color=RED;
 \/
         root = deleteNode(root, key);
-        if (!isEmpty()) root-&gt;color = BLACK;
+        if (!isEmpty()) root-&gt;color=BLACK;
     }
 \/
     [[nodiscard]] int height() const {
@@ -1076,7 +1076,7 @@ class Node:
         self.val = val
         self.left = None
         self.right = None
-        self.color = color  # True for RED, False for BLACK
+        self.color=color  # True for RED, False for BLACK
         self.size = size
 \/
 \/
@@ -1119,7 +1119,7 @@ class RedBlackBST:
 \/
     def put(self, key, val):
         self.root = self._put(self.root, key, val)
-        self.root.color = RedBlackBST.BLACK
+        self.root.color=RedBlackBST.BLACK
 \/
     def _put(self, h, key, val):
         if h is None:
@@ -1147,11 +1147,11 @@ class RedBlackBST:
             raise Exception("BST underflow")
 \/
         if not self.is_red(self.root.left) and not self.is_red(self.root.right):
-            self.root.color = RedBlackBST.RED
+            self.root.color=RedBlackBST.RED
 \/
         self.root = self._delete_min(self.root)
         if not self.is_empty():
-            self.root.color = RedBlackBST.BLACK
+            self.root.color=RedBlackBST.BLACK
 \/
     def _delete_min(self, h):
         if h.left is None:
@@ -1168,11 +1168,11 @@ class RedBlackBST:
             raise Exception("BST underflow")
 \/
         if not self.is_red(self.root.left) and not self.is_red(self.root.right):
-            self.root.color = RedBlackBST.RED
+            self.root.color=RedBlackBST.RED
 \/
         self.root = self._delete_max(self.root)
         if not self.is_empty():
-            self.root.color = RedBlackBST.BLACK
+            self.root.color=RedBlackBST.BLACK
 \/
     def _delete_max(self, h):
         if self.is_red(h.left):
@@ -1194,11 +1194,11 @@ class RedBlackBST:
             return
 \/
         if not self.is_red(self.root.left) and not self.is_red(self.root.right):
-            self.root.color = RedBlackBST.RED
+            self.root.color=RedBlackBST.RED
 \/
         self.root = self._delete(self.root, key)
         if not self.is_empty():
-            self.root.color = RedBlackBST.BLACK
+            self.root.color=RedBlackBST.BLACK
 \/
     def _delete(self, h, key):
         if key &lt; h.key:
@@ -1230,8 +1230,8 @@ class RedBlackBST:
         x = h.left
         h.left = x.right
         x.right = h
-        x.color = h.color
-        h.color = RedBlackBST.RED
+        x.color=h.color
+        h.color=RedBlackBST.RED
         x.size = h.size
         h.size = self.size(h.left) + self.size(h.right) + 1
         return x
@@ -1241,17 +1241,17 @@ class RedBlackBST:
         x = h.right
         h.right = x.left
         x.left = h
-        x.color = h.color
-        h.color = RedBlackBST.RED
+        x.color=h.color
+        h.color=RedBlackBST.RED
         x.size = h.size
         h.size = self.size(h.left) + self.size(h.right) + 1
         return x
 \/
     def flip_colors(self, h):
         assert h is not None and h.left is not None and h.right is not None
-        h.color = not h.color
-        h.left.color = not h.left.color
-        h.right.color = not h.right.color
+        h.color=not h.color
+        h.left.color=not h.left.color
+        h.right.color=not h.right.color
 \/
     def move_red_left(self, h):
         self.flip_colors(h)
@@ -1470,25 +1470,25 @@ widely used as system symbol tables.</p>
 
 ### 10.3 B-Trees
 
-<list type = "decimal">
+<list type="decimal">
 <li>
 <p>Background Information:</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "BlueViolet">Page</format>: Continuous block of
+<p><format color="BlueViolet">Page</format>: Continuous block of
 data (e.g., a file or 4,096-byte chunk).</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Probe</format>: First access to a 
+<p><format color="BlueViolet">Probe</format>: First access to a 
 page (e.g., from disk to memory).</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Property</format>: Time required for
+<p><format color="BlueViolet">Property</format>: Time required for
 a probe is much higher than time to access data within a page.</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Goal</format>: Access data using
+<p><format color="BlueViolet">Goal</format>: Access data using
 minimum number of probes.</p>
 </li>
 </list>
@@ -1496,10 +1496,10 @@ minimum number of probes.</p>
 <li>
 <p>Definition:</p>
 
-<p><format color = "BlueViolet">B-tree (Bayer-McCreight, 1972)</format>: 
+<p><format color="BlueViolet">B-tree (Bayer-McCreight, 1972)</format>: 
 Generalize 2-3 trees by allowing up to <math>M - 1</math> key-link
 pairs per node.</p>
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>At least 2 key-link pairs at root.</p>
 </li>
@@ -1514,7 +1514,7 @@ nodes.</p>
 <p>Internal nodes contain copies of keys to guide search.</p>
 </li>
 </list>
-<img src = "../images_data/d10-3-1.png" alt = "B-Tree" style="inline"/>
+<img src="../images_data/d10-3-1.png" alt = "B-Tree" style="inline"/>
 </li>
 <li>
 <p>Property: </p>
@@ -1523,14 +1523,14 @@ nodes.</p>
 <math>M</math> with <math>N</math> keys requires between 
 <math>log_{M-1} N</math> and <math>log_{M/2} N</math> probes.</p>
 
-<p><format color = "BlueViolet">Proof</format>: All internal nodes 
+<p><format color="BlueViolet">Proof</format>: All internal nodes 
 (besides root) have between <math>\frac {M}{2}</math> and 
 <math>M - 1</math> links.</p>
 
-<p><format color = "BlueViolet">In practice</format>: Number of 
+<p><format color="BlueViolet">In practice</format>: Number of 
 probes is at most 4.</p>
 
-<p><format color = "BlueViolet">Optimization</format>: Always keep 
+<p><format color="BlueViolet">Optimization</format>: Always keep 
 page root in memory.</p>
 </li>
 <li>
@@ -1541,17 +1541,17 @@ widely used for file systems and databases.</p>
 
 <list>
 <li>
-<p><format color = "BlueViolet">Windows</format>: NTFS.</p>
+<p><format color="BlueViolet">Windows</format>: NTFS.</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Mac</format>: HFS, HFS+.</p>
+<p><format color="BlueViolet">Mac</format>: HFS, HFS+.</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Linux</format>: ReiserFS, XFS, Ext3FS, 
+<p><format color="BlueViolet">Linux</format>: ReiserFS, XFS, Ext3FS, 
 JFS.</p>
 </li>
 <li>
-<p><format color = "BlueViolet">Databases</format>: ORACLE, DB2, 
+<p><format color="BlueViolet">Databases</format>: ORACLE, DB2, 
 INGRES, SQL, PostgreSQL.</p>
 </li>
 </list>
@@ -1568,7 +1568,7 @@ INGRES, SQL, PostgreSQL.</p>
     <step>
         <p>Follow associated link (recursively).</p>
     </step>
-<img src = "../images_data/d10-3-2.png" alt = "Search in B-Tree"/>
+<img src="../images_data/d10-3-2.png" alt = "Search in B-Tree"/>
 </procedure>
 
 <procedure title = "Insert in B-Tree">
@@ -1582,28 +1582,28 @@ INGRES, SQL, PostgreSQL.</p>
         <p>Split nodes with <math>M</math> key-link pairs on the way up
         the tree.</p>
     </step>
-<img src = "../images_data/d10-3-3.png" alt = "Insert in B-Tree"/>
+<img src="../images_data/d10-3-3.png" alt = "Insert in B-Tree"/>
 </procedure>
 
 ### 10.4 AVL Trees
 
-<p>AVL trees maintain <format style = "bold">height-balance</format> 
-(also called the <format style = "bold">AVL Property</format>).</p>
+<p>AVL trees maintain <format style="bold">height-balance</format> 
+(also called the <format style="bold">AVL Property</format>).</p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "DarkOrange">Skew of a node:</format> The height of
+<p><format color="DarkOrange">Skew of a node:</format> The height of
 of its right subtree minus that of its left subtree.</p>
 
 <p>A node is height-blanced if <math>\text {skew} \in \{-1, 0, 1\}
 </math>.</p>
 
-<p><format color = "BlueViolet">Properties:</format> A binary tree 
+<p><format color="BlueViolet">Properties:</format> A binary tree 
 with height-balanced nodes has height <math>h = O(\log n)</math>.</p>
 
 <p>Proof: </p>
 
-<code-block lang = "tex" style = "inline">
+<code-block lang="tex" style="inline">
 \begin{align}
 F(0) = 1, F(1) = 2, F(h) &= 1 + F(h - 1) + F(h - 2) \\
 &\geq 2F(h - 2) \\
@@ -1615,41 +1615,41 @@ F(h) \geq 2 ^ {\frac {h}{2}}
 <p>Suppose adding or removing leaf from a height-balanced tree results
 in imbalance, skews still have magnitude <math>\leq 2</math>.</p>
 
-<p><format color = "Fuchsia">Case 1:</format> skew of F is 0 
-or <format color = "Fuchsia">Case 2:</format> skew of F is 1
+<p><format color="Fuchsia">Case 1:</format> skew of F is 0 
+or <format color="Fuchsia">Case 2:</format> skew of F is 1
 </p>
 <p>=> Perform a left rotation on B.</p>
-<img src = "../images_data/d10-4-1.png" alt = "Balancing AVL Trees"/>
+<img src="../images_data/d10-4-1.png" alt = "Balancing AVL Trees"/>
 
-<p><format color = "Fuchsia">Case 3:</format> skew of F is −1
+<p><format color="Fuchsia">Case 3:</format> skew of F is −1
 </p>
 <p>Perform a right rotation on F, then a left rotation on B</p>
-<img src = "../images_data/d10-4-2.png" alt = "Balancing AVL Trees"/>
+<img src="../images_data/d10-4-2.png" alt = "Balancing AVL Trees"/>
 </li>
 </list>
 
 ## 11 Geometric Applications of BSTs
 
-<p><format color = "BlueViolet">Topic</format>: Intersections among 
-<format color = "OrangeRed">geometric objects</format>.</p>
+<p><format color="BlueViolet">Topic</format>: Intersections among 
+<format color="OrangeRed">geometric objects</format>.</p>
 
-<p><format color = "BlueViolet">Applications</format>: CAD, games, 
+<p><format color="BlueViolet">Applications</format>: CAD, games, 
 movies, virtual reality, databases...</p>
 
 ### 11.1 1d Range Search
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "DarkOrange">Range search</format>: find all key between
+<p><format color="DarkOrange">Range search</format>: find all key between
 <math>k_{1}</math> and <math>k_{2}</math>.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Range count</format>: # of keys between
+<p><format color="DarkOrange">Range count</format>: # of keys between
 <math>k_{1}</math> and <math>k_{2}</math>.</p>
 </li>
 <li>Geometric interpretation: Keys are point on a 
-<format color = "OrangeRed">line</format>; find/count points in a given 
-<format color = "OrangeRed">1d interval</format>.</li>
+<format color="OrangeRed">line</format>; find/count points in a given 
+<format color="OrangeRed">1d interval</format>.</li>
 </list>
 
 <procedure title = "1d range count">
@@ -1666,12 +1666,12 @@ in range).</p>
 </step>
 </procedure>
 
-<p><format color = "BlueViolet">Property</format>: Running
+<p><format color="BlueViolet">Property</format>: Running
 time proportinal to <math>R + \ log N</math></p>
 
 ### 11.2 Line Segment Intersection
 
-<p><format color = "IndianRed">Goal</format>: Given <math>N</math> 
+<p><format color="IndianRed">Goal</format>: Given <math>N</math> 
 horizontal and vertical line segments, find all intersections 
 (all <math>x</math>- and <math>y</math>-coordinates are distinct.</p>
 
@@ -1694,16 +1694,16 @@ coordiantes from BST.</p>
 </step>
 </procedure>
 
-<img src = "../images_data/d11-2-1.png" alt = "Line Segment 
+<img src="../images_data/d11-2-1.png" alt = "Line Segment 
 Intersection"/>
 
-<p><format color = "LawnGreen">Properties</format>: The sweep-line 
+<p><format color="LawnGreen">Properties</format>: The sweep-line 
 algorithm takes time proportional to <math>N \log N + R</math> to 
 find all <math>R</math> intersections among <math>N</math> 
 orthogonal line segments.</p>
 
 <p>Proof: </p>
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Put <math>x</math>-coordinates on a PQ (or sort). => 
 <math>N \log N</math></p>
@@ -1723,11 +1723,11 @@ orthogonal line segments.</p>
 
 ### 11.3 Kd-Trees
 
-<p><format color = "MediumVioletRed">Goal</format>: 2d orthogonal range search.</p>
+<p><format color="MediumVioletRed">Goal</format>: 2d orthogonal range search.</p>
 
-<p><format color = "MediumVioletRed">Geometric interpretation</format>: 
-Keys are point in the <format color = "OrangeRed">plane</format>;
-find/count points in a given <format color = "OrangeRed">
+<p><format color="MediumVioletRed">Geometric interpretation</format>: 
+Keys are point in the <format color="OrangeRed">plane</format>;
+find/count points in a given <format color="OrangeRed">
 <math>h-v</math> rectangle</format>.</p>
 
 #### 11.3.1 Grid Implementation
@@ -1752,9 +1752,9 @@ query.</p>
 </step>
 </procedure>
 
-<p><format color = "BlueViolet">Properties: </format></p>
+<p><format color="BlueViolet">Properties: </format></p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Space: <math>M ^ {2} + N</math></p>
 </li>
@@ -1764,10 +1764,10 @@ on average.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Problems: </format></p>
-<list type = "bullet">
+<p><format color="BlueViolet">Problems: </format></p>
+<list type="bullet">
 <li>
-<p><format color = "OrangeRed">Clustering</format>: a well-known 
+<p><format color="OrangeRed">Clustering</format>: a well-known 
 phenomenon in geometric data.</p>
 </li>
 <li>
@@ -1780,23 +1780,23 @@ phenomenon in geometric data.</p>
 
 #### 11.3.2 Space-Partitioning Trees
 
-<p><format color = "DarkOrange">Space-Partitioning Trees:</format> Use 
+<p><format color="DarkOrange">Space-Partitioning Trees:</format> Use 
 a tree to represent a recursive subdivision of a 2d space.</p>
 
-<p><format color = "DarkOrange">2d Trees:</format> Recursively divide
+<p><format color="DarkOrange">2d Trees:</format> Recursively divide
 space into two halfplanes.</p>
 
-<p><format color = "BlueViolet">Applications:</format> Ray tracing,
+<p><format color="BlueViolet">Applications:</format> Ray tracing,
 2d range search, Flight simulators, N-body simulation, Nearest
 neighbor search, Accelerate rendering in Doom, etc.</p>
 
 ##### Part &#8544; 2d Trees
 
-<p><format color = "BlueViolet">Data Structure:</format> BST, but 
+<p><format color="BlueViolet">Data Structure:</format> BST, but 
 alternate using <math>x</math>- and <math>y</math>- coordinates as 
 key.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Search gives rectangle containing point.</p>
 </li>
@@ -1805,7 +1805,7 @@ key.</p>
 </li>
 </list>
 
-<img src = "../images_data/d11-2-2.png" alt = "2d tree implementation"/>
+<img src="../images_data/d11-2-2.png" alt = "2d tree implementation"/>
 
 <procedure title = "Range Search - Find all points in a query 
 axis-aligned rectangle">
@@ -1820,9 +1820,9 @@ axis-aligned rectangle">
 </step>
 </procedure>
 
-<p><format color = "BlueViolet">Properties: </format></p>
+<p><format color="BlueViolet">Properties: </format></p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Typical case: <math>R + \log N</math></p>
 </li>
@@ -1849,9 +1849,9 @@ point).</p>
 </step>
 </procedure>
 
-<p><format color = "BlueViolet">Properties: </format></p>
+<p><format color="BlueViolet">Properties: </format></p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Typical case: <math>\log N</math></p>
 </li>
@@ -1862,15 +1862,15 @@ point).</p>
 
 ##### Part &#8545; Kd Trees
 
-<p><format color = "DarkOrange">Kd Tree:</format> Recursively 
+<p><format color="DarkOrange">Kd Tree:</format> Recursively 
 partition <math>k</math>-dimensional space into 2 halfspaces.</p>
 
-<p><format color = "BlueViolet">Implementation:</format> BST, but
+<p><format color="BlueViolet">Implementation:</format> BST, but
 cycle through dimensions ala 2d trees.</p>
 
 ##### Part &#8546; N-body Simulation
 
-<format color = "BlueViolet">Goal:</format> Simulate the motion 
+<format color="BlueViolet">Goal:</format> Simulate the motion 
 of <math>N</math> particles, mutually affected by gravity.
 
 <procedure title = "Appel's Algorithm for N-body Simulation">
@@ -1887,7 +1887,7 @@ large.</p>
 </step>
 </procedure>
 
-<p><format color = "BlueViolet">Properties:</format> Running time
+<p><format color="BlueViolet">Properties:</format> Running time
 per step is <math>N \log N</math>.</p>
 
 ### 11.4 Interval Search Tree
@@ -1895,13 +1895,13 @@ per step is <math>N \log N</math>.</p>
 <p>Create BST, where each node stores an interval <math>(lo, hi)
 </math>.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p>Use left endpoint as BST <format color = "OrangeRed">key</format>
+<p>Use left endpoint as BST <format color="OrangeRed">key</format>
 .</p>
 </li>
 <li>
-<p>Store <format color = "BlueViolet">max endpoint</format> in 
+<p>Store <format color="BlueViolet">max endpoint</format> in 
 subtree rooted at node.</p>
 </li>
 </list>
@@ -1916,7 +1916,7 @@ subtree rooted at node.</p>
 </procedure>
 
 <procedure title = "Interval Search for Interval Search Tree" 
-type = "choices">
+type="choices">
 <step>
 <p>If interval in node intersects query interval, return it.</p>
 </step>
@@ -1933,7 +1933,7 @@ type = "choices">
 
 <p>Order of growth of running time for <math>N</math> intervals.</p>
 
-<table style = "header-row">
+<table style="header-row">
 <tr><td>operation</td><td>brute</td><td>interval search tree</td>
 <td>best in theory</td></tr>
 <tr><td>insert interval</td><td><math>1</math></td><td><math>\log N
@@ -1942,19 +1942,19 @@ type = "choices">
 </math></td><td><math>\log N</math></td></tr>
 <tr><td>delete interval</td><td><math>N</math></td><td><math>\log N
 </math></td><td><math>\log N</math></td></tr>
-<tr><td>find <format color = "OrangeRed">any one</format> interval
+<tr><td>find <format color="OrangeRed">any one</format> interval
 that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
 <td><math>\log N</math></td><td><math>\log N</math></td></tr>
-<tr><td>find <format color = "OrangeRed">all</format> interval
+<tr><td>find <format color="OrangeRed">all</format> interval
 that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
 <td><math>R \log N</math></td><td><math>R + \log N</math></td></tr>
 </table>
 
 ### 11.5 Rectangle Intersection
 
-<p><format color = "BlueViolet">Sweep-line Algorithm</format>: </p>
+<p><format color="BlueViolet">Sweep-line Algorithm</format>: </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p><math>x</math>-coordinates of left and right endpoints define 
 events.</p>
@@ -1972,13 +1972,13 @@ rectangle; insert <math>y</math>-interval.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Property:</format> Sweep line 
+<p><format color="BlueViolet">Property:</format> Sweep line 
 algorithm takes time proportional to <math>N \log N + R \log N</math> 
 to find <math>R</math> intersections among a set of <math>N</math> 
 rectangles.</p>
 
 <p>Proof: </p>
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Put <math>x</math>-coordinates on a PQ (or sort) => 
 <math>N \log N</math></p>
@@ -2108,33 +2108,33 @@ rectangles.</p>
 
 <p><format color="BlueViolet">Definitions:</format> </p>
 
-<list type = "decimal">
+<list type="decimal">
 <li>
-<p><format color = "OrangeRed">Hashing</format>: Save items in a 
+<p><format color="OrangeRed">Hashing</format>: Save items in a 
 key-indexed table (index is a function of the key).</p>
 </li>
 <li>
-<p><format color = "OrangeRed">Hash function</format>: Method for 
+<p><format color="OrangeRed">Hash function</format>: Method for 
 computing array index from key.</p>
 <p>Issues:</p>
-    <list type = "alpha-lower">
+    <list type="alpha-lower">
     <li>
-    <p><format color = "Fuchsia">Equality test</format>: Method 
+    <p><format color="Fuchsia">Equality test</format>: Method 
     for checking whether two keys are equal.</p>
     </li>
     <li>
-    <p><format color = "Fuchsia">Collision resolution</format>: 
+    <p><format color="Fuchsia">Collision resolution</format>: 
     Algorithm and data structure to handle two keys that hash to the 
     same array index.</p>
     </li>
     </list>
 </li>
 <li>
-<p><format color = "OrangeRed">Hash code</format>: An int between 
+<p><format color="OrangeRed">Hash code</format>: An int between 
 <math>-2^31</math> and <math>2^31-1</math>.</p>
 </li>
 <li>
-<p><format color = "OrangeRed">Hash function</format>: An int 
+<p><format color="OrangeRed">Hash function</format>: An int 
 between 0 and M-1 (for use of array index).</p>
 </li>
 </list>
@@ -2161,22 +2161,22 @@ public final class StringTest {
 
 #### 12.2.1 Separate Chaining {id="separate-chaining"}
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "Fuchsia">Hash:</format> map key to integer
+<p><format color="Fuchsia">Hash:</format> map key to integer
 <math>i</math> between <math>0</math> and <math>M - 1</math>.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Insert:</format> put at front of
+<p><format color="Fuchsia">Insert:</format> put at front of
 <math>i ^ {\text{th}}</math> chain (if not already there).</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Search:</format> need to search 
+<p><format color="Fuchsia">Search:</format> need to search 
 only <math>i ^ {\text{th}}</math> chain.</p>
 </li>
 </list>
 
-<img src = "../images_data/d12-2-1.png" alt = "Separate Chaining"/>
+<img src="../images_data/d12-2-1.png" alt = "Separate Chaining"/>
 
 <p><format color="BlueViolet">Properties:</format> </p>
 
@@ -2283,7 +2283,7 @@ private:
 
 #### 12.2.2 Variant - Two-Probe Hashing
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Hash to two positions, insert key in shorter of the two chains.</p>
 </li>
@@ -2297,21 +2297,21 @@ private:
 
 #### 12.3.1 Linear Probing {id="linear-probing"}
 
-<p><format color = "DarkOrange">Open addressing:</format> When a new
+<p><format color="DarkOrange">Open addressing:</format> When a new
 key collides, find next empty slot, and put it there.</p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "Fuchsia">Hash:</format> Map key to integer 
+<p><format color="Fuchsia">Hash:</format> Map key to integer 
 <math>i</math> between <math>0</math> and <math>M - 1</math>.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Search:</format> Search table 
+<p><format color="Fuchsia">Search:</format> Search table 
 index <math>i</math>; if occupied but no match, try <math>i+1</math>,
 <math>i+2</math>, etc..</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Insert:</format> Put at table
+<p><format color="Fuchsia">Insert:</format> Put at table
 index <math>i</math> if free; if not try <math>i+1</math>, <math>i+2
 </math>, etc.</p>
 </li>
@@ -2321,13 +2321,13 @@ index <math>i</math> if free; if not try <math>i+1</math>, <math>i+2
 a linear probing hash table of size M that contains <math>N = \alpha M
 </math> keys is:</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "Fuchsia">Search hit:</format> <math>\sim
+<p><format color="Fuchsia">Search hit:</format> <math>\sim
 \frac{1}{2} \left(1 + \frac{1}{1 - \alpha}\right)</math></p>
 </li>
 <li>
-<p><format color = "Fuchsia">Search miss / insert:</format> 
+<p><format color="Fuchsia">Search miss / insert:</format> 
 <math>\sim \frac{1}{2} \left(1 + \frac{1}{(1 - \alpha)^2}\right)
 </math></p>
 </li>
@@ -2594,21 +2594,21 @@ public:
 };
 ```
 
-<p><format color = "BlueViolet">Knuth's Parking Problem</format></p>
+<p><format color="BlueViolet">Knuth's Parking Problem</format></p>
 
 <p>Cars arrive at a one-way street with <math>M</math> parking spaces. 
 Each driver tries to park in their own space <math>i</math>: If space
 <math>i</math> is taken, try <math>i + 1</math>, <math>i + 2</math>, 
 etc. What is the mean displacement of the car?</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "Fuchsia">Half-full:</format> With 
+<p><format color="Fuchsia">Half-full:</format> With 
 <math>\frac {M}{2}</math> cars, mean displacement is <math>
 \sim \frac {3}{2}</math>.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Full:</format> With 
+<p><format color="Fuchsia">Full:</format> With 
 <math>M</math> cars, mean displacement is <math>\sim \sqrt{\frac
 {\pi M}{8}}</math>.</p>
 </li>
@@ -2616,7 +2616,7 @@ etc. What is the mean displacement of the car?</p>
 
 #### 12.3.2 Varaint 1 - Double Hashing
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Use linear probing, but skip a variable amount, not just 
 1 each time.</p>
@@ -2632,7 +2632,7 @@ etc. What is the mean displacement of the car?</p>
 </li>
 </list>
 
-<p><format color = "Fuchsia">Insert:</format> Use the <math>
+<p><format color="Fuchsia">Insert:</format> Use the <math>
 1 ^{st}</math> hash function to calculate index. If there is a 
 collision, use <math>2 ^ {nd}</math> hash value for "step size" for
 probing until an empty slot is found. (=> <math>(h1(key) + i * h2(key))
@@ -2640,28 +2640,28 @@ probing until an empty slot is found. (=> <math>(h1(key) + i * h2(key))
 
 #### 12.3.3 Variant 2 - Quadratic Probing
 
-<p><format color = "Fuchsia">Insert:</format> Use the hash 
+<p><format color="Fuchsia">Insert:</format> Use the hash 
 function to calculate index. If there is a collision, probe the 
 index using the following probing sequence: </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "DarkOrange">index 1:</format> 
+<p><format color="DarkOrange">index 1:</format> 
 <math>(h(key) + 1 ^ {2}) % tableSize</math></p>
 </li>
 <li>
-<p><format color = "DarkOrange">index 2:</format> 
+<p><format color="DarkOrange">index 2:</format> 
 <math>(h(key) + 2 ^ {2}) % tableSize</math></p>
 </li>
 <li>
-<p><format color = "DarkOrange">index 3:</format> 
+<p><format color="DarkOrange">index 3:</format> 
 <math>(h(key) + 3 ^ {2}) % tableSize</math></p>
 </li>
 </list>
 
 #### 12.3.4 Variant 3 - Cuckoo Hashing
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Hash key to two positions; insert key into either position; if 
 occupied, reinsert displaced key into its alternative position (and
@@ -2674,9 +2674,9 @@ recur).</p>
 
 #### 12.3.5 Separate Chaining vs. Linear Probing
 
-<p><format color = "BlueViolet">Separate Chaining</format></p>
+<p><format color="BlueViolet">Separate Chaining</format></p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Easier to implement delete.</p>
 </li>
@@ -2688,9 +2688,9 @@ recur).</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Linear Probing</format></p>
+<p><format color="BlueViolet">Linear Probing</format></p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Less wasted space.</p>
 </li>
@@ -2701,9 +2701,9 @@ recur).</p>
 
 ### 12.4 Hash Table vs. Balanced Search Tree
 
-<p><format color = "BlueViolet">Hash Table</format></p>
+<p><format color="BlueViolet">Hash Table</format></p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Simpler to code.</p>
 </li>
@@ -2720,9 +2720,9 @@ code).</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Balanced Search Tree</format></p>
+<p><format color="BlueViolet">Balanced Search Tree</format></p>
 
-<list type = "bullet">  
+<list type="bullet">  
 <li>
 <p>Stronger performance guarantee.</p>
 </li>
@@ -2737,13 +2737,13 @@ code).</p>
 
 <p>Java systems includes both.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "DarkOrange">Red-black BSTs:</format> 
+<p><format color="DarkOrange">Red-black BSTs:</format> 
 <code>java.util.TreeMap</code>, <code>java.util.TreeSet</code>.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Hash tables:</format> 
+<p><format color="DarkOrange">Hash tables:</format> 
 <code>java.util.HashMap</code>, <code>java.util.IdentityHashMap</code>
 .</p>
 </li>
@@ -2751,13 +2751,13 @@ code).</p>
 
 <p>C++ STL includes both.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "DarkOrange">Red-black BSTs:</format> 
+<p><format color="DarkOrange">Red-black BSTs:</format> 
 <code>std::set</code>, <code>std::map</code>.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Hash tables:</format> 
+<p><format color="DarkOrange">Hash tables:</format> 
 <code>std::unordered_map</code>, <code>std::unordered_set</code>
 .</p>
 </li>
@@ -2772,23 +2772,23 @@ code).</p>
 
 ### 13.1 Sets
 
-<p><format color = "BlueViolet">Mathematical Set</format>: 
+<p><format color="BlueViolet">Mathematical Set</format>: 
 A collection of distinct keys.</p>
 
 #### 13.1.1 Sets in Java
 
-<list type = "decimal">
+<list type="decimal">
 
 <li>
 <p><code>HashSet</code></p>
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "DarkViolet">Implementation</format>: Uses a hash 
+<p><format color="DarkViolet">Implementation</format>: Uses a hash 
 table (specifically, a <code>HashMap</code> internally) for storage.</p>
 </li>
 <li>
-<p><format color = "Lime">Features</format>: </p>
-<list type = "bullet">
+<p><format color="Lime">Features</format>: </p>
+<list type="bullet">
 <li>
 <p>Efficient for adding, removing, and checking for the existence of 
 elements (average <math>O(1)</math> time complexity).</p>
@@ -2806,15 +2806,15 @@ elements (average <math>O(1)</math> time complexity).</p>
 
 <li>
 <p><code>LinkedHashSet</code></p>
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "DarkViolet">Implementation</format>: Extends 
+<p><format color="DarkViolet">Implementation</format>: Extends 
 <code>HashSet</code> and maintains a doubly linked list to preserve
 the order of element insertion.</p>
 </li>
 <li>
-<p><format color = "Lime">Features</format>: </p>
-<list type = "bullet">
+<p><format color="Lime">Features</format>: </p>
+<list type="bullet">
 <li>
 <p>Elements are iterated in the order they were added.</p>
 </li>
@@ -2829,14 +2829,14 @@ overhead.</p>
 
 <li>
 <p><code>TreeSet</code></p>
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "DarkViolet">Implementation</format>: Uses a 
+<p><format color="DarkViolet">Implementation</format>: Uses a 
 red-black tree (a self-balancing binary search tree).</p>
 </li>
 <li>
-<p><format color = "Lime">Features</format>: </p>
-<list type = "bullet">
+<p><format color="Lime">Features</format>: </p>
+<list type="bullet">
 <li>
 <p>Elements are stored in sorted order (natural order or using a 
 <code>Comparator</code> provided during set creation).</p>
@@ -2896,18 +2896,18 @@ ST implementation.</note>
 
 #### 13.1.2 Sets in C++
 
-<list type = "decimal">
+<list type="decimal">
 <li>
 <p><code>std::set</code> | <code>std::multiset</code></p>
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "DarkViolet">Implementation</format>: Usually 
+<p><format color="DarkViolet">Implementation</format>: Usually 
 implemented as a self-balancing binary search tree (often a 
 red-black tree).</p>
 </li>
 <li>
-<p><format color = "Lime">Features</format>: </p>
-<list type = "bullet">
+<p><format color="Lime">Features</format>: </p>
+<list type="bullet">
 <li>
 <p>Elements are stored in sorted order (by default, using 
 <code>std::less</code>, which is the less-than operator &lt;)</p>
@@ -2924,16 +2924,16 @@ the number of elements, making it efficient for larger datasets.</p>
 
 <li>
 <p><code>std::unordered_set</code> | <code>std::unordered_multiset</code></p>
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "DarkViolet">Implementation</format>: Using a hash table, 
+<p><format color="DarkViolet">Implementation</format>: Using a hash table, 
 which prioritizes fast average-case performance for operations 
 like insertion, search, and deletion over maintaining a specific 
 order.</p>
 </li>
 <li>
-<p><format color = "Lime">Features</format>: </p>
-<list type = "bullet">
+<p><format color="Lime">Features</format>: </p>
+<list type="bullet">
 <li>
 <p>Offers O(1) average-case time complexity for insertion, 
 search, and deletion operations. </p>
@@ -2970,8 +2970,8 @@ int main() {
 #### 13.1.3 Sets in Python
 
 <p>For this part, please refer to 
-<a href = "Python-Programming.md" anchor = "sets" 
-summary = "How to use sets in Python">Sets in Python Programming</a></p>
+<a href="Python-Programming.md" anchor = "sets" 
+summary="How to use sets in Python">Sets in Python Programming</a></p>
 
 ### 13.2 Dictionary Clients
 
@@ -3039,7 +3039,7 @@ int main() {
 ```
 
 <p>For dictionaries in Python, refer to
-<a href = "Python-Programming.md" anchor = "dictionaries" summary
+<a href="Python-Programming.md" anchor = "dictionaries" summary
 = "How to use dictionaries in Python">Python Programming</a>.</p>
 
 Python
@@ -3349,24 +3349,24 @@ of length <math>n</math> ? => <math>n</math></p>
 
 ### 14.1 Introduction to Graphs
 
-<p><format color = "BlueViolet">Terminology:</format> </p>
+<p><format color="BlueViolet">Terminology:</format> </p>
 
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
-<p><format color = "DarkOrange">Graph:</format> Set of 
-<format color = "OrangeRed">vertices</format> connected pairwise by 
-<format color = "OrangeRed">edges</format>.</p>
+<p><format color="DarkOrange">Graph:</format> Set of 
+<format color="OrangeRed">vertices</format> connected pairwise by 
+<format color="OrangeRed">edges</format>.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Path:</format> Sequence of vertices 
+<p><format color="DarkOrange">Path:</format> Sequence of vertices 
 connected by edges.</p>
 </li>
 <li>
-<p><format color = "DarkOrange">Cycle:</format> Path whose first and 
+<p><format color="DarkOrange">Cycle:</format> Path whose first and 
 last vertices are the same.</p>
 </li>
 <li>
-<p>Two vertices are <format color = "OrangeRed">connected</format> if
+<p>Two vertices are <format color="OrangeRed">connected</format> if
 there is a path between them.</p>
 </li>
 </list>
@@ -3383,26 +3383,26 @@ there is a path between them.</p>
 </format> Maintain a list of the edges (linked list or array).</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Adjacency-matrix graph 
+<p><format color="Fuchsia">Adjacency-matrix graph 
 representation:</format> Maintain a two-dimensional
 <math>V</math> by <math>V</math> boolean array; for each edge 
 <math>v-w</math> in the graph: <code>adj[v][w] = adj[w][v] = true</code>.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Adjacency-list graph 
+<p><format color="Fuchsia">Adjacency-list graph 
 representation:</format> Maintain vertex-indexed array of lists.</p>
 </li>
 </list>
 
 <p>In practice: use adjacency-lists representation.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Algorithms based on iterating over vertices adjacent to <math>v
 </math>.</p>
 </li>
 <li>
-<p>Real-world graphs tend to be <format color = "OrangeRed">sparse
+<p>Real-world graphs tend to be <format color="OrangeRed">sparse
 </format> (huge number of vertices, small average vertex degree).</p>
 </li>
 </list>
@@ -3547,12 +3547,12 @@ class UndirectedGraph:
 
 ### 14.3 Depth-First Search
 
-<p><format color = "BlueViolet">Goal:</format> Systematically search
+<p><format color="BlueViolet">Goal:</format> Systematically search
 through a graph.</p>
 
-<p><format color = "BlueViolet">Typical applications:</format> </p>
+<p><format color="BlueViolet">Typical applications:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Find all vertices connected to a given source vertex.</p>
 </li>
@@ -3571,9 +3571,9 @@ through a graph.</p>
 </step>
 </procedure>
 
-<p><format color = "BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>DFS marks all vertices connected to <math>s</math> in time 
 proportional to the sum of their degrees.</p>
@@ -3800,14 +3800,14 @@ class DepthFirstSearch:
 all other vertices in a graph in time proportional to <math>E + V
 </math>.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p><format color = "Fuchsia">Depth-first search:</format> put
-unvisited vertices on <format color = "OrangeRed">stack</format>.</p>
+<p><format color="Fuchsia">Depth-first search:</format> put
+unvisited vertices on <format color="OrangeRed">stack</format>.</p>
 </li>
 <li>
-<p><format color = "Fuchsia">Breadth-first search:</format> 
-put unvisited vertices on <format color = "OrangeRed">queue</format>
+<p><format color="Fuchsia">Breadth-first search:</format> 
+put unvisited vertices on <format color="OrangeRed">queue</format>
 .</p>
 </li>
 </list>
@@ -4216,29 +4216,29 @@ a stack in breadth-first search.</p>
 <p>Given a connected graph with no cycles</p>
     <list type="bullet">
     <li>
-    <p><format color = "PaleGoldenRod">Q:</format> <format style = 
+    <p><format color="PaleGoldenRod">Q:</format> <format style=
     "italic">Diameter</format>: design a linear-time algorithm to find
     the longest simple path in the graph.</p>
-    <p><format color = "SkyBlue">A:</format> to compute the diameter,
+    <p><format color="SkyBlue">A:</format> to compute the diameter,
     pick a vertex <math>s</math>; run BFS from <math>s</math>; then 
     run BFS again from the vertex that is furthest from <math>s</math>
     .</p>
     </li>
     <li>
-    <p><format color = "PaleGoldenRod">Q:</format> <format style =
+    <p><format color="PaleGoldenRod">Q:</format> <format style =
     "italic">Center</format>: design a linear-time algorithm to find
     the center of the graph.</p>
-    <p><format color = "SkyBlue">A:</format> consider vertices on the 
+    <p><format color="SkyBlue">A:</format> consider vertices on the 
     longest path.</p>
     </li>
     </list>
 </li>
 <li>
-<p><format color = "PaleGoldenRod">Q:</format> An Euler cycle in a 
+<p><format color="PaleGoldenRod">Q:</format> An Euler cycle in a 
 graph is a cycle (not necessarily simple) that uses every edge in the
 graph exactly one. Design a linear-time algorithm to determine whether 
 a graph has an Euler cycle, and if so, find one.</p>
-<p><format color = "SkyBlue">A:</format> use depth-first search and 
+<p><format color="SkyBlue">A:</format> use depth-first search and 
 piece together the cycles you discover.</p>
 </li>
 </list>
@@ -4250,7 +4250,7 @@ piece together the cycles you discover.</p>
 <p>Directed graph: Set of vertices connected pairwise by <format color
 = "OrangeRed">directed edges</format>.</p>
 
-<img src = "../images_data/d15-1-1.png" alt = "Directed graph"/>
+<img src="../images_data/d15-1-1.png" alt = "Directed graph"/>
 
 ### 15.2 Directed Graph API
 
@@ -4404,7 +4404,7 @@ class DirectedGraph:
 <note>
 <p>Every undirected graph is a digraph (with edges in both 
 directions).</p>
-<p>DFS is a <format color = "OrangeRed">digraph</format> algorithm, 
+<p>DFS is a <format color="OrangeRed">digraph</format> algorithm, 
 same method as for undirected graphs!</p>
 </note>
 
@@ -4604,11 +4604,11 @@ class DirectedDepthFirstSearch:
 <note>
 <p>Every undirected graph is a digraph (with edges in both 
 directions).</p>
-<p>BFS is a <format color = "OrangeRed">digraph</format> algorithm, 
+<p>BFS is a <format color="OrangeRed">digraph</format> algorithm, 
 same method as for undirected graphs!</p>
 </note>
 
-<p><format color = "BlueViolet">Reachability application:</format> 
+<p><format color="BlueViolet">Reachability application:</format> 
 </p>
 
 <list type="bullet">
@@ -5477,7 +5477,7 @@ color="OrangeRed">spanning tree</format> is a subgraph <math>T
     <p>Contradiction.</p>
     </li>
     </list>
-<img src = "../images_data/d16-2-2.png" alt = "Proof"/>
+<img src="../images_data/d16-2-2.png" alt = "Proof"/>
 </li>
 <li>
 <p>The greedy algorithm computes the MST.</p>
@@ -5797,7 +5797,7 @@ class EdgeWeightedGraph:
     </step>
 </procedure>
 
-<procedure title = "Union-Find for Cycle Challenge" type = "choices">
+<procedure title = "Union-Find for Cycle Challenge" type="choices">
     <step>
         <p>Maintain a set for each connected component in <math>T
         </math></p>
@@ -5812,12 +5812,12 @@ class EdgeWeightedGraph:
     </step>
 </procedure>
 
-<p><format color = "BlueViolet">Correctness Proof:</format> </p>
+<p><format color="BlueViolet">Correctness Proof:</format> </p>
 
 <p>Kruskal's Algorithm is a special case of the greedy MST algorithm.
 </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Suppose Kruskal's algorithm colors the edge <math>e = v–w</math> 
 black.</p>
@@ -5834,7 +5834,7 @@ T</math>.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Property:</format> Kruskal's algorithm 
+<p><format color="BlueViolet">Property:</format> Kruskal's algorithm 
 computes MST in time proportional to <math>E \log E</math> (in the 
 worst case).</p>
 
@@ -6072,7 +6072,7 @@ class UnionFind:
     </step>
 </procedure>
 
-<p><format color = "BlueViolet">Correctness Proof:</format> </p>
+<p><format color="BlueViolet">Correctness Proof:</format> </p>
 
 <p>Prim's Algorithm is a special case of the greedy MST algorithm.
 </p>
@@ -6097,7 +6097,7 @@ to a vertex not on the tree.</p>
 
 <procedure title = "Lazy Implementation">
     <step>
-        <p>Maintain a PQ of <format color = "OrangeRed">edges
+        <p>Maintain a PQ of <format color="OrangeRed">edges
         </format> with (at least) one endpoint in T.</p>
     </step>
     <step>
@@ -6121,12 +6121,12 @@ to a vertex not on the tree.</p>
     </step>
 </procedure>
 
-<p><format color = "BlueViolet">Property:</format> Lazy Prim's 
+<p><format color="BlueViolet">Property:</format> Lazy Prim's 
 algorithm computes the MST in time proportional to <math>E \log E
 </math> and extra space proportional to <math>E</math> (in the worst
 case).</p>
 
-<table style = "header-row">
+<table style="header-row">
 <tr><td>Operation</td><td>Frequency</td><td>Binary Heap</td></tr>
 <tr><td>Delete min</td><td><math>E</math></td><td><math>\log E
 </math></td></tr>
@@ -6294,12 +6294,12 @@ class PrimMSTLazy:
 
 #### 16.5.2 Eager Implementation
 
-<p><format color = "BlueViolet">Property:</format> </p>
+<p><format color="BlueViolet">Property:</format> </p>
 
 <p>Running time depends on PQ implementation: <math>V</math> insert, 
 <math>V</math> delete-min, <math>E</math> decrease-key.</p>
 
-<table style = "header-row">
+<table style="header-row">
 <tr><td>PQ Implementation</td><td>Insert</td><td>Delete-Min</td><td>
 Decrease-Key</td><td>Total</td></tr>
 <tr><td>Array</td><td><math>1</math></td><td><math>V</math></td><td>
@@ -6318,9 +6318,9 @@ Decrease-Key</td><td>Total</td></tr>
 
 <p>*: amortized</p>
 
-<p><format color = "BlueViolet">Bottom Line:</format> </p>
+<p><format color="BlueViolet">Bottom Line:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Array implementation optimal for dense graph.</p>
 </li>
@@ -6523,40 +6523,40 @@ class PrimMSTEager:
 
 #### 16.6.1 Euclidean MST
 
-<p><format color = "OrangeRed">Euclidean MST:</format> Given <math>N
+<p><format color="OrangeRed">Euclidean MST:</format> Given <math>N
 </math> points in the plane, find MST connecting them, where the
-distances between point pairs are their <format color = 
+distances between point pairs are their <format color=
 "OrangeRed">Euclidean</format> distances.</p>
 
-<p><format color = "LawnGreen">Methods:</format> Exploit geometry
+<p><format color="LawnGreen">Methods:</format> Exploit geometry
 and do it in <math>\sim cN \log N</math></p>
 
 #### 16.6.2 Single Link Clustering
 
-<p><format color = "BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-    <p><format color = "DarkOrange">k-clustering:</format> Divide
+    <p><format color="DarkOrange">k-clustering:</format> Divide
     a set of objects calssify into <math>k</math> coherent groups.</p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Distance Function:</format> 
+    <p><format color="DarkOrange">Distance Function:</format> 
     Numeric value specifying "closeness" of two objects.</p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Single link:</format> Distance 
+    <p><format color="DarkOrange">Single link:</format> Distance 
     between two clusters equals the distance between the two closest
     objects (one in each cluster).</p>
 </li>
 <li>
-    <p><format color = "DarkOrange">Single-link clustering:</format> 
+    <p><format color="DarkOrange">Single-link clustering:</format> 
     Given an integer k, find a k-clustering that maximizes the 
     distance between two closest clusters.</p>
 </li>
 </list>
 
-<img src = "../images_data/d16-6-1.png" alt = "Clustering"/>
+<img src="../images_data/d16-6-1.png" alt = "Clustering"/>
 
 <procedure title = '"Well-known" algorithm in science literature for single-link clustering:'>
     <step>
@@ -6577,7 +6577,7 @@ components).</p>
 <p>Run Prim's algorithm and delete <math>k–1</math> max weight edges.</p>
 </note>
 
-<p><format color = "BlueViolet">Applications:</format> </p>
+<p><format color="BlueViolet">Applications:</format> </p>
 
 <list>
 <li>
@@ -6597,37 +6597,37 @@ quasars, galaxies.</p>
 
 ### 16.7 Important Questions
 
-<list type = "decimal">
+<list type="decimal">
 <li>
-    <p><format color = "Fuchsia">Q: Bottleneck minimum spanning tree:
+    <p><format color="Fuchsia">Q: Bottleneck minimum spanning tree:
     </format> Given a connected edge-weighted graph, design an 
     efficient algorithm to find a minimum bottleneck spanning tree. 
     The bottleneck capacity of a spanning tree is the weights of its 
     largest edge. A minimum bottleneck spanning tree is a spanning 
     tree of minimum bottleneck capacity.</p>
-    <p><format color = "LawnGreen">A:</format> Prove that an MST is 
+    <p><format color="LawnGreen">A:</format> Prove that an MST is 
     a minimum bottleneck spanning tree.</p>
 </li>
 <li>
-    <p><format color = "Fuchsia">Q: Is an edge in a MST:</format> 
+    <p><format color="Fuchsia">Q: Is an edge in a MST:</format> 
     Given an edge-weighted graph <math>G</math> and an edge <math>e
     </math>, design a linear-time algorithm to determine whether 
     <math>e</math> appears in some MST of <math>G</math>.</p>
     <p>Note: Since your algorithm must take linear time in the worst
     case, you cannot afford to compute the MST itself.</p>
-    <p><format color = "LawnGreen">A:</format> Consider the subgraph 
+    <p><format color="LawnGreen">A:</format> Consider the subgraph 
     <math>G'</math> of <math>G</math> containing only those edges 
     whose weight is strictly less than that of <math>e</math>.</p>
 </li>
 <li>
-    <p><format color = "Fuchsia">Q: Minimum-weight feedback edge set:
+    <p><format color="Fuchsia">Q: Minimum-weight feedback edge set:
     </format> A feedback edge set of a graph is a subset of edges that
     contains at least one edge from every cycle in the graph. If the 
     edges of a feedback edge set are removed, the resulting graph is 
     acyclic. Given an edge-weighted graph, design an efficient 
     algorithm to find a feedback edge set of minimum weight. Assume 
     the edge weights are positive.</p>
-    <p><format color = "LawnGreen">A:</format> Complement of an MST.
+    <p><format color="LawnGreen">A:</format> Complement of an MST.
     </p>
 </li>
 </list>

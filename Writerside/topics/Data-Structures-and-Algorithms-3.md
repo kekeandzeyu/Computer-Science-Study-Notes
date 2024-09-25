@@ -327,7 +327,7 @@ class EdgeWeightedDigraph:
 
 ### 17.2 Shortest Path Properties
 
-<procedure title = "Edge Relaxation" type = "choices">
+<procedure title = "Edge Relaxation" type="choices">
     <step>
         <p><code>distTo[v]</code> is length of shortest <format color 
         ="OrangeRed">known</format> path from <math>s</math> to 
@@ -350,9 +350,9 @@ class EdgeWeightedDigraph:
     </step>
 </procedure>
 
-<img src = "../images_data/d17-2-1.png" alt = "Edge Relaxation"/>
+<img src="../images_data/d17-2-1.png" alt="Edge Relaxation"/>
 
-<p><format color = "BlueViolet">Correctness Proof:</format> 
+<p><format color="BlueViolet">Correctness Proof:</format> 
 Shortest-paths optimality conditions</p>
 
 <p>Let <math>G</math> be an edge-weighted digraph.</p>
@@ -373,12 +373,12 @@ distTo[w] &leq; distTo[v] + e.weight().</p>
 </li>
 </list>
 
-<p><format color = "IndianRed">Proof:</format> </p>
+<p><format color="LawnGreen">Proof:</format> </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
-<p>Suppose that <math>s = v_{0} → v_{1} → v_{2} → … → v_{k} = w</math> 
-is a shortest path from <math>s</math> to <math>w</math>.</p>
+    <p>Suppose that <math>s = v_{0} → v_{1} → v_{2} → ... → v_{k} = w
+    </math> is a shortest path from <math>s</math> to <math>w</math>.</p>
 </li>
 <li>
 <p>Then, </p>
@@ -390,30 +390,30 @@ is a shortest path from <math>s</math> to <math>w</math>.</p>
 \text{distTo}[v_{k}] & = \text{distTo}[v_{k - 1}] + \text{e}_{k}.\text{weight}() \\
 \end{align*}
 </code-block>
-<p><math>\text{e}_{i}</math> = <math>\text{i}^{\text{th}}</math> edge
-on shortest path from <math>s</math> to <math>w</math>.</p>
+    <p><math>\text{e}_{i}</math> = <math>\text{i}^{\text{th}}</math> edge
+    on shortest path from <math>s</math> to <math>w</math>.</p>
 </li>
 <li>
-<p>Add inequalities; simplify; and substitute 
-<math>\text{distTo}[v_{0}] = \text{distTo}[s] = 0</math></p>
-<code-block lang = "tex">
+    <p>Add inequalities; simplify; and substitute 
+    <math>\text{distTo}[v_{0}] = \text{distTo}[s] = 0</math></p>
+<code-block lang="tex">
 \text{distTo}[w] = \text{distTo}[v_{k}] \leq \text{e}_{1}.\text{weight}()
 + \text{e}_{2}.\text{weight}() + ... + \text{e}_{k}.\text{weight}()
 </code-block>
-<p><math>\text{e}_{1}.\text{weight}() + \text{e}_{2}.\text{weight}() 
-+ ... + \text{e}_{k}.\text{weight}()</math> is the weight of shortest 
-path from <math>s</math> to <math>w</math>.</p>
+    <p><math>\text{e}_{1}.\text{weight}() + \text{e}_{2}.\text{weight}() 
+    + ... + \text{e}_{k}.\text{weight}()</math> is the weight of shortest 
+    path from <math>s</math> to <math>w</math>.</p>
 </li>
 <li>
-<p>Thus, <code>distTo[w]</code> is the weight of shortest path to 
-<math>w</math>.</p>
+    <p>Thus, <code>distTo[w]</code> is the weight of shortest path to 
+    <math>w</math>.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Different Implementations:</format> 
+<p><format color="BlueViolet">Different Implementations</format> 
 </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Dijkstra's algorithm (nonnegative weights).</p>
 </li>
@@ -427,7 +427,7 @@ path from <math>s</math> to <math>w</math>.</p>
 
 ### 17.3 Dijkstra's Algorithm
 
-<procedure title = "Dijkstra's Algorithm">
+<procedure title="Dijkstra's Algorithm">
 <step>
     <p>Consider vertices in increasing order of distance from s.</p>
     <p>(non-tree vertex with the lowest <code>distTo[]</code> value)
@@ -439,11 +439,11 @@ path from <math>s</math> to <math>w</math>.</p>
 </step>
 </procedure>
 
-<p><format color = "BlueViolet">Correctness Proof:</format> Dijkstra's 
+<p><format color="LawnGreen">Correctness Proof:</format> Dijkstra's 
 algorithm computes a SPT in any edge-weighted digraph with 
-<format color = "OrangeRed">nonnegative</format> weights.</p>
+<format color="OrangeRed">nonnegative</format> weights.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Each edge <math>e = v→w</math> is relaxed exactly once 
     (when v is relaxed), leaving 
@@ -451,7 +451,7 @@ algorithm computes a SPT in any edge-weighted digraph with
 </li>
 <li>
     <p>Inequality holds until algorithm terminates because: </p>
-    <list type = "bullet">
+    <list type="bullet">
     <li>
         <p><code>distTo[w]</code> cannot increase => <code>distTo[]
         </code> values are monotone decreasing.</p>
@@ -469,22 +469,22 @@ algorithm computes a SPT in any edge-weighted digraph with
 </li>
 </list>
 
-<p><format color = "BlueViolet">Prim’s algorithm is essentially the 
-same algorithm as Dijkstra’s algorithm</format></p>
+<p><format color="BlueViolet">Prim’s algorithm is essentially the 
+same algorithm as Dijkstra's algorithm</format></p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Both are in a family of algorithms that compute a graph's 
     spanning tree.</p>
 </li>
 <li>
-    <p><format color = "Fuchsia">Prim's</format>: Closest vertex to 
-    the <format color = "OrangeRed">tree</format> (via an undirected 
+    <p><format color="Fuchsia">Prim's</format>: Closest vertex to 
+    the <format color="OrangeRed">tree</format> (via an undirected 
     edge).</p>
 </li>
 <li>
-    <p><format color = "Fuchsia">Dijkstra's</format>: Closest vertex 
-    to the <format color = "OrangeRed">source</format> (via a 
+    <p><format color="Fuchsia">Dijkstra's</format>: Closest vertex 
+    to the <format color="OrangeRed">source</format> (via a 
     directed path).</p>
 </li>
 </list>
@@ -772,7 +772,7 @@ class Dijkstra:
 algorithm computes SPT in any edgeweighted DAG in time proportional 
 to <math>E + V</math>.
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Each edge <math>e = v→w</math> is relaxed exactly once 
     (when v is relaxed), leaving 
@@ -780,7 +780,7 @@ to <math>E + V</math>.
 </li>
 <li>
     <p>Inequality holds until algorithm terminates because: </p>
-    <list type = "bullet">
+    <list type="bullet">
     <li>
         <p><code>distTo[w]</code> cannot increase => <code>distTo[]
         </code> values are monotone decreasing.</p>
@@ -798,7 +798,7 @@ to <math>E + V</math>.
 </li>
 </list>
 
-<p><format color = "BlueViolet">Longest paths in edge-weighted DAGs:
+<p><format color="BlueViolet">Longest paths in edge-weighted DAGs:
 </format> </p>
 
 <p>Formulate as a shortest paths problem in edge-weighted DAGs.</p>
@@ -1126,7 +1126,7 @@ Resizing</format></p>
 <p><format color="DarkOrange">Seam Carving:</format> Resize an image 
 without distortion for display on cell phones and web browsers.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Grid DAG: vertex = pixel; edge = from pixel to 3 downward 
     neighbors.</p>
@@ -1141,18 +1141,18 @@ without distortion for display on cell phones and web browsers.</p>
 </li>
 </list>
 
-<img src = "../images_data/d17-4-1.png" alt = "Seam Carving"/>
+<img src="../images_data/d17-4-1.png" alt="Seam Carving"/>
 
-<p><format color = "BlueViolet">Application &#8545; - Parallel Job 
+<p><format color="BlueViolet">Application &#8545; - Parallel Job 
 Scheduling</format></p>
 
-<p><format color = "DarkOrange">Parallel Job Scheduling:</format> 
+<p><format color="DarkOrange">Parallel Job Scheduling:</format> 
 Given a set of jobs with durations and precedence constraints, 
 schedule the jobs (by finding a start time for each) so as to achieve
 the minimum completion time, while respecting the constraints.</p>
 
 <p>To solve a parallel job-scheduling problem, create edge-weighted 
-DAG, use <format color = "OrangeRed">longest path</format> from the 
+DAG, use <format color="OrangeRed">longest path</format> from the 
 source to schedule each job:</p>
 
 <list>
@@ -1179,16 +1179,16 @@ source to schedule each job:</p>
 <li>One edge for each precedence constraint (0 weight).</li>
 </list>
 
-<img src = "../images_data/d17-4-2.png" alt = "Parallel Job Scheduling"
+<img src="../images_data/d17-4-2.png" alt="Parallel Job Scheduling"
 />
 
-<img src = "../images_data/d17-4-3.png" alt = "Parallel Job Scheduling"
+<img src="../images_data/d17-4-3.png" alt="Parallel Job Scheduling"
 />
 
 ### 17.5 Negative Weights
 
-<p><format color = "DarkOrange">Negative Cycle:</format> A <format 
-color = "OrangeRed">negative cycle</format> is a directed cycle whose
+<p><format color="DarkOrange">Negative Cycle:</format> A <format 
+color="OrangeRed">negative cycle</format> is a directed cycle whose
 sum of edge weights is negative.</p>
 
 <note>
@@ -1206,31 +1206,52 @@ negative cycles.</p>
 </step>
 </procedure>
 
-<p><format color = "BlueViolet">Practical Improvement:</format> If 
+<p><format color="BlueViolet">Practical Improvement:</format> If 
 distTo[v] does not change during pass <math>i</math>, no need to 
 relax any edge pointing from v in pass <math>i+1</math> => 
-maintain <format color = "OrangeRed">queue</format> of vertices 
+maintain <format color="OrangeRed">queue</format> of vertices 
 whose distTo[] changed.</p>
 
-<table style = "header-row">
-<tr><td>Algorithm</td><td>Restriction</td><td>Typical Case</td>
-<td>Worst Case</td><td>Extra Space</td></tr>
-<tr><td><format style = "bold">Topological Sort</format></td>
-<td>No Directed Cycles</td><td><math>E + V</math></td>
-<td><math>E + V</math></td><td><math>V</math>
-</td></tr>
-<tr><td><format style = "bold"><p>Dijkstra</p><p>(Binary Heap)</p>
-</format></td><td>No Negative Weights</td><td><math>E \log V</math>
-</td><td><math>E \log V</math></td><td><math>V</math></td></tr>
-<tr><td><format style = "bold">Bellman-Ford</format></td><td 
-rowspan="2">No Negative Cycles</td><td><math>EV</math></td><td>
-<math>EV</math></td><td><math>V</math></td></tr>
-<tr><td><format style = "bold"><p>Bellman-Ford</p><p>(queue-based)</p>
-</format></td><td><math>E + V</math></td><td><math>EV</math></td>
-<td><math>V</math></td></tr></table>
+<table style="header-row">
+<tr>
+    <td>Algorithm</td>
+    <td>Restriction</td>
+    <td>Typical Case</td>
+    <td>Worst Case</td>
+    <td>Extra Space</td>
+</tr>
+<tr>
+    <td><format style="bold">Topological Sort</format></td>
+    <td>No Directed Cycles</td><td><math>E + V</math></td>
+    <td><math>E + V</math></td>
+    <td><math>V</math></td>
+</tr>
+<tr>
+    <td><format style="bold"><p>Dijkstra</p><p>(Binary Heap)</p></format>
+    </td>
+    <td>No Negative Weights</td>
+    <td><math>E \log V</math></td>
+    <td><math>E \log V</math></td>
+    <td><math>V</math></td>
+</tr>
+<tr>
+    <td><format style="bold">Bellman-Ford</format></td>
+    <td rowspan="2">No Negative Cycles</td>
+    <td><math>EV</math></td>
+    <td><math>EV</math></td>
+    <td><math>V</math></td>
+</tr>
+<tr>
+    <td><format style="bold"><p>Bellman-Ford</p><p>(queue-based)</p>
+    </format></td>
+    <td><math>E + V</math></td>
+    <td><math>EV</math></td>
+    <td><math>V</math></td>
+</tr>
+</table>
 
 <warning>
-<list type = "alpha-lower">
+<list type="alpha-lower">
 <li>
 <p>Directed cycles make the problem harder.</p>
 </li>
@@ -1243,14 +1264,14 @@ rowspan="2">No Negative Cycles</td><td><math>EV</math></td><td>
 </list>
 </warning>
 
-<p>Java</p>
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-
+\/
 public class BellmanFordSP {
     private final double[] distTo;
     private final DirectedEdge[] edgeTo;
@@ -1258,127 +1279,125 @@ public class BellmanFordSP {
     private final int[] cost;
     private final int s;
     private boolean hasNegativeCycle;
-
-    private final Queue<Integer> q;
-
+\/
+    private final Queue&lt;Integer&gt; q;
+\/
     public BellmanFordSP(EdgeWeightedDigraph G, int s) {
         this.s = s;
         distTo = new double[G.V()];
         edgeTo = new DirectedEdge[G.V()];
         onQueue = new boolean[G.V()];
         cost = new int[G.V()];
-        for (int v = 0; v < G.V(); v++)
+        for (int v = 0; v &lt; G.V(); v++)
             distTo[v] = Double.POSITIVE_INFINITY;
         distTo[s] = 0.0;
-
-        q = new LinkedList<>();
+\/
+        q = new LinkedList&lt;&gt;();
         q.add(s);
         onQueue[s] = true;
-
+\/
         while (!q.isEmpty()) {
             int v = q.remove();
             onQueue[v] = false;
             relax(G, v);
         }
     }
-
+\/
     private void relax(EdgeWeightedDigraph G, int v) {
         for (DirectedEdge e : G.adj(v)) {
             int w = e.to();
-            if (distTo[w] > distTo[v] + e.weight()) {
+            if (distTo[w] &gt; distTo[v] + e.weight()) {
                 distTo[w] = distTo[v] + e.weight();
                 edgeTo[w] = e;
                 cost[w]++;
-
+\/
                 if (!onQueue[w]) {
                     q.add(w);
                     onQueue[w] = true;
                 }
-
-                if (cost[w] >= G.V()) {
+\/
+                if (cost[w] &gt;= G.V()) {
                     hasNegativeCycle = true;
                     return;
                 }
             }
         }
     }
-
+\/
     public double distTo(int v) {
         return distTo[v];
     }
-
+\/
     public boolean hasPathTo(int v) {
-        return distTo[v] < Double.POSITIVE_INFINITY;
+        return distTo[v] &lt; Double.POSITIVE_INFINITY;
     }
-
-    public Iterable<DirectedEdge> pathTo(int v) {
+\/
+    public Iterable&lt;DirectedEdge&gt; pathTo(int v) {
         if (!hasPathTo(v)) return null;
-        List<DirectedEdge> path = new ArrayList<>();
+        List&lt;DirectedEdge&gt; path = new ArrayList&lt;&gt;();
         for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
             path.add(e);
         }
         return path;
     }
-
+\/
     public boolean hasNegativeCycle() {
         return hasNegativeCycle;
     }
 }
-```
-
-<p>C++ (BellmanFordSP.h)</p>
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (BellmanFordSP.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef BELLMANFORDSP_H
 #define BELLMANFORDSP_H
-
+\/
 #include "EdgeWeightedDigraph.h"
-#include <vector>
-#include <queue>
-
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+\/
 class BellmanFordSP {
 private:
-    std::vector<double> distTo;  // distTo[v] = distance of shortest s->v path
-    std::vector<DirectedEdge> edgeTo; // edgeTo[v] = last edge on shortest s->v path
-    std::vector<bool> onQueue;  // onQueue[v] = is v on the queue?
-    std::vector<int> cost;     // cost[v] = number of relaxations performed on v
-    int s;                    // source vertex
-    bool hasNegativeCycle;     // flag to detect negative cycle
-
-    std::queue<int> q;
-
+    std::vector&lt;double&gt; distTo; 
+    std::vector&lt;DirectedEdge&gt; edgeTo; 
+    std::vector&lt;bool&gt; onQueue;
+    std::vector&lt;int&gt; cost;    
+    int s;                 
+    bool hasNegativeCycle;   
+\/
+    std::queue&lt;int&gt; q;
+\/
 public:
     BellmanFordSP(const EdgeWeightedDigraph& G, int s);
     [[nodiscard]] double getdistTo(int v) const;
     [[nodiscard]] bool hasPathTo(int v) const;
-    [[nodiscard]] std::vector<DirectedEdge> pathTo(int v) const;
+    [[nodiscard]] std::vector&lt;DirectedEdge&gt; pathTo(int v) const;
     [[nodiscard]] bool NegativeCycle() const;
-
+\/
 private:
     void relax(const EdgeWeightedDigraph& G, int v);
 };
-
+\/
 #endif // BELLMANFORDSP_H
-```
-
-<p>C++ (BellmanFordSP.cpp)</p>
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (BellmanFordSP.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "BellmanFordSP.h"
-#include <limits>
-
+#include &lt;limits&gt;
+\/
 BellmanFordSP::BellmanFordSP(const EdgeWeightedDigraph& G, const int s) :
-    distTo(G.getV(), std::numeric_limits<double>::infinity()),
+    distTo(G.getV(), std::numeric_limits&lt;double&gt;::infinity()),
     edgeTo(G.getV(), DirectedEdge(-1, -1, 0.0)),
     onQueue(G.getV(), false),
     cost(G.getV(), 0),
     s(s),
     hasNegativeCycle(false) {
-
+\/
     distTo[s] = 0.0;
     q.push(s);
     onQueue[s] = true;
-
+\/
     while (!q.empty()) {
         int v = q.front();
         q.pop();
@@ -1386,57 +1405,56 @@ BellmanFordSP::BellmanFordSP(const EdgeWeightedDigraph& G, const int s) :
         relax(G, v);
     }
 }
-
+\/
 double BellmanFordSP::getdistTo(const int v) const {
     return distTo[v];
 }
-
+\/
 bool BellmanFordSP::hasPathTo(const int v) const {
-    return distTo[v] < std::numeric_limits<double>::infinity();
+    return distTo[v] &lt; std::numeric_limits&lt;double&gt;::infinity();
 }
-
-std::vector<DirectedEdge> BellmanFordSP::pathTo(const int v) const {
+\/
+std::vector&lt;DirectedEdge&gt; BellmanFordSP::pathTo(const int v) const {
     if (!hasPathTo(v)) {
         return {};
     }
-    std::vector<DirectedEdge> path;
+    std::vector&lt;DirectedEdge&gt; path;
     for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
         path.push_back(e);
     }
     return path;
 }
-
+\/
 bool BellmanFordSP::NegativeCycle() const {
     return hasNegativeCycle;
 }
-
+\/
 void BellmanFordSP::relax(const EdgeWeightedDigraph& G, const int v) {
     for (const DirectedEdge& e : G.getAdj(v)) {
         int w = e.to();
-        if (distTo[w] > distTo[v] + e.getWeight()) {
+        if (distTo[w] &gt; distTo[v] + e.getWeight()) {
             distTo[w] = distTo[v] + e.getWeight();
             edgeTo[w] = e;
             cost[w]++;
-
+\/
             if (!onQueue[w]) {
                 q.push(w);
                 onQueue[w] = true;
             }
-
-            if (cost[w] >= G.getV()) {
+\/
+            if (cost[w] &gt;= G.getV()) {
                 hasNegativeCycle = true;
                 return;
             }
         }
     }
 }
-```
-
-<p>Python</p>
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from EdgeWeightedDigraph import EdgeWeightedDigraph
-
+\/
 class BellmanFordSP:
     def __init__(self, G, s):
         self.distTo = [float("inf") for _ in range(G.get_V())]
@@ -1445,22 +1463,22 @@ class BellmanFordSP:
         self.cost = [0 for _ in range(G.get_V())]
         self.s = s
         self.hasNegativeCycle = False
-
+\/
         self.distTo[s] = 0.0
         self.q = [s]
         self.onQueue[s] = True
-
+\/
         while self.q:
             v = self.q.pop(0)
             self.onQueue[v] = False
             self.relax(G, v)
-
+\/
     def distTo(self, v):
         return self.distTo[v]
-
+\/
     def hasPathTo(self, v):
         return self.distTo[v] != float("inf")
-
+\/
     def pathTo(self, v):
         if not self.hasPathTo(v):
             return None
@@ -1470,28 +1488,30 @@ class BellmanFordSP:
             path.append(e)
             e = self.edgeTo[e.from_vertex()]
         return path
-
+\/
     def hasNegativeCycle(self):
         return self.hasNegativeCycle
-
+\/
     def relax(self, G, v):
         for e in G.get_adj(v):
             w = e.to_vertex()
-            if self.distTo[w] > self.distTo[v] + e.get_weight():
+            if self.distTo[w] &gt; self.distTo[v] + e.get_weight():
                 self.distTo[w] = self.distTo[v] + e.get_weight()
                 self.edgeTo[w] = e
                 self.cost[w] += 1
-
+\/
                 if not self.onQueue[w]:
                     self.q.append(w)
                     self.onQueue[w] = True
-
-                if self.cost[w] >= G.get_V():
+\/
+                if self.cost[w] &gt;= G.get_V():
                     self.hasNegativeCycle = True
                     return
-```
+    </code-block>
+    </tab>
+</tabs>
 
-<p><format color = "BlueViolet">Find A Negative Cycle:</format> </p>
+<p><format color="BlueViolet">Find A Negative Cycle:</format> </p>
 
 <p>If there is a negative cycle, Bellman-Ford gets stuck in loop,
 updating distTo[] and edgeTo[] entries of vertices in the cycle.</p>
@@ -1499,28 +1519,28 @@ updating distTo[] and edgeTo[] entries of vertices in the cycle.</p>
 <p>If any vertex v is updated in phase V, there exists a negative
 cycle (and can trace back edgeTo[v] entries to find it).</p>
 
-<p><format color = "BlueViolet">Application - Arbitrage Detection
+<p><format color="BlueViolet">Application - Arbitrage Detection
 </format></p>
 
 <p>Currency exchange graph.</p>
 
-<list>
+<list type="bullet">
 <li>
-<p>Vertex = currency.</p>
+    <p>Vertex = currency.</p>
 </li>
 <li>
-<p>Edge = transaction, with weight equal to exchange rate.</p>
+    <p>Edge = transaction, with weight equal to exchange rate.</p>
 </li>
 <li>
-<p>Find a directed cycle whose product of edge weights is &gt; 1.</p>
+    <p>Find a directed cycle whose product of edge weights is &gt; 1.</p>
 </li>
 </list>
 
-<img src = "../images_data/d17-5-1.png" alt = "Arbitrage Detection"/>
+<img src="../images_data/d17-5-1.png" alt="Arbitrage Detection"/>
 
-<procedure title = "">
+<procedure title="Arbitrage Detection">
 <step>
-    <p>Let weight of edge <math>v→w</math> be <math>- ln</math> 
+    <p>Let weight of edge <math>v->w</math> be <math>- ln</math> 
     (exchange rate from currency <math>v</math> to <math>w</math>).</p>
 </step>
 <step>
@@ -1537,34 +1557,34 @@ cycle (and can trace back edgeTo[v] entries to find it).</p>
 
 ### 18.1 Introduction
 
-<p><format color = "BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions:</format> </p>
 
-<p><format color = "DarkOrange"><math>st</math>-cut: </format> A 
-<format color = "OrangeRed"><math>st</math>-cut (cut)</format> is a 
+<p><format color="DarkOrange"><math>st</math>-cut: </format> A 
+<format color="OrangeRed"><math>st</math>-cut (cut)</format> is a 
 partition of the vertices into two disjoint sets, with <math>s
 </math> in one set <math>A</math> and <math>t</math> in the other 
 set <math>B</math>.</p>
 
-<p><format color = "DarkOrange"><math>st</math>-cut capacity: </format> 
-Its <format color = "OrangeRed">capacity</format> is the sum of the 
+<p><format color="DarkOrange"><math>st</math>-cut capacity: </format> 
+Its <format color="OrangeRed">capacity</format> is the sum of the 
 capacities of the edges from <math>A</math> to <math>B</math>.</p>
 
 <note>
 <p>Each edge has a positive capacity in edge-weighted digraph here.</p>
 </note>
 
-<img src = "../images_data/d18-1-1.png" alt = "st-cut"/>
+<img src="../images_data/d18-1-1.png" alt="st-cut"/>
 
-<p><format color = "BlueViolet">Minimum cut problem:</format> 
+<p><format color="BlueViolet">Minimum cut problem:</format> 
 Find a cut of minimum capacity.</p>
 
-<p><format color = "BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions:</format> </p>
 
-<p><format color = "DarkOrange"><math>st</math>-flow:</format> An 
-<format color = "OrangeRed"><math>st</math>-flow (flow)</format> is 
+<p><format color="DarkOrange"><math>st</math>-flow:</format> An 
+<format color="OrangeRed"><math>st</math>-flow (flow)</format> is 
 an assignment of values to the edges such that:</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
 <p>Capacity constraint: 0 ≤ edge's flow ≤ edge's capacity.</p>
 </li>
@@ -1574,13 +1594,13 @@ an assignment of values to the edges such that:</p>
 </li>
 </list>
 
-<img src = "../images_data/d18-1-2.png" alt = "st-flow"/>
+<img src="../images_data/d18-1-2.png" alt="st-flow"/>
 
-<p><format color = "DarkOrange">Value of a flow:</format> 
+<p><format color="DarkOrange">Value of a flow:</format> 
 The value of a flow is the inflow at <math>t</math> (assuming 
 no edge points to <math>s</math> or from <math>t</math>.</p>
 
-<p><format color = "BlueViolet">Maximum st-flow (maxflow) problem:
+<p><format color="BlueViolet">Maximum st-flow (maxflow) problem:
 </format> Find a flow of maximum value.</p>
 
 <warning>
@@ -1604,29 +1624,29 @@ no edge points to <math>s</math> or from <math>t</math>.</p>
 </step>
 </procedure>
 
-<img src = "../images_data/d18-2-1.png" alt = "Ford-Fulkerson Algorithm"/>
+<img src="../images_data/d18-2-1.png" alt="Ford-Fulkerson Algorithm"/>
 
-<img src = "../images_data/d18-2-2.png" alt = "Ford-Fulkerson Algorithm"/>
+<img src="../images_data/d18-2-2.png" alt="Ford-Fulkerson Algorithm"/>
 
 ### 18.3 Maxflow-Mincut Theorem
 
-<p><format color = "BlueViolet">Definition:</format> </p>
+<p><format color="BlueViolet">Definition:</format> </p>
 
-<p><format color = "OrangeRed">Net Flow:</format> The <format color = 
+<p><format color="OrangeRed">Net Flow:</format> The <format color=
 "OrangeRed">net flow across</format> a cut (<math>A</math>, <math>B
 </math>) is the sum of the flows on its edges from <math>A</math> to 
 <math>B</math> minus the sum of the flows on its edges from from 
 <math>B</math> to <math>A</math>.</p>
 
-<p><format color = "BlueViolet">Flow-value lemma:</format> Let <math>f
+<p><format color="BlueViolet">Flow-value lemma:</format> Let <math>f
 </math> be any flow and let (<math>A</math>, <math>B</math>) be any 
 cut. Then, the net flow across (<math>A</math>, <math>B</math>) 
 equals the value of <math>f</math>.</p>
 
-<p><format color = "LawnGreen">Proof:</format> By induction on the size of 
+<p><format color="LawnGreen">Proof:</format> By induction on the size of 
 <math>B</math>.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Base case: <math>B = {t}</math></p>
 </li>
@@ -1636,25 +1656,25 @@ equals the value of <math>f</math>.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Weak duality:</format> Let <math>f
+<p><format color="BlueViolet">Weak duality:</format> Let <math>f
 </math> be any flow and let <math>(A, B)</math> be any cut. Then, the 
 value of the flow ≤ the capacity of the cut.</p>
 
-<p><format color = "LawnGreen">Proof:</format> </p>
+<p><format color="LawnGreen">Proof:</format> </p>
 
 <p>Value of flow <math>f</math> = net flow across cut <math>(A, B)
 </math> ≤ capacity of cut <math>(A, B)</math>.</p>
 
-<p><format color = "BlueViolet">Augmenting path theorem:</format> A 
+<p><format color="BlueViolet">Augmenting path theorem:</format> A 
 flow f is a maxflow iff no augmenting paths.</p>
 
-<p><format color = "BlueViolet">Maxflow-mincut theorem:</format> Value 
+<p><format color="BlueViolet">Maxflow-mincut theorem:</format> Value 
 of the maxflow = capacity of mincut.</p>
 
-<p><format color = "LawnGreen">Proof:</format> The following three 
+<p><format color="LawnGreen">Proof:</format> The following three 
 conditions are equivalent for any flow <math>f</math>.</p>
 
-<list type = "decimal">
+<list type="decimal">
 <li>
     <p>There exists a cut whose capacity equals the value of the flow 
     <math>f</math>.</p>
@@ -1667,7 +1687,7 @@ conditions are equivalent for any flow <math>f</math>.</p>
 </li>
 </list>
 
-<p><format color = "Fuchsia">1 -> 2:</format> </p>
+<p><format color="Fuchsia">1 -> 2:</format> </p>
 
 <list>
 <li>
@@ -1683,7 +1703,7 @@ conditions are equivalent for any flow <math>f</math>.</p>
 </li>
 </list>
 
-<p><format color = "Fuchsia">2 -> 3:</format> We prove 
+<p><format color="Fuchsia">2 -> 3:</format> We prove 
 contrapositive: ~3 -> ~2</p>
 
 <list>
@@ -1700,7 +1720,7 @@ contrapositive: ~3 -> ~2</p>
 </li>
 </list>
 
-<p><format color = "Fuchsia">3 -> 1:</format> Suppose that there is no
+<p><format color="Fuchsia">3 -> 1:</format> Suppose that there is no
 augmenting path with respect to <math>f</math>.</p>
 
 <list>
@@ -1734,7 +1754,7 @@ augmenting path with respect to <math>f</math>.</p>
 </li>
 </list>
 
-<img src = "../images_data/d18-3-1.png" alt = "Compute Mincut"/>
+<img src="../images_data/d18-3-1.png" alt="Compute Mincut"/>
 
 ### 18.4 Running Time Analysis
 
@@ -1743,13 +1763,13 @@ augmenting path with respect to <math>f</math>.</p>
 <math>U</math>.</p>
 </note>
 
-<p><format color = "BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties:</format> </p>
 
-<list type = "decimal">
+<list type="decimal">
 <li>
     <p>The flow is integer-valued throughout Ford-Fulkerson.</p>
-    <p><format color = "LawnGreen">Proof:</format> </p>
-    <list type = "bullet">
+    <p><format color="LawnGreen">Proof:</format> </p>
+    <list type="bullet">
     <li>
         <p>Bottleneck capacity is an integer.</p>
     </li>
@@ -1772,7 +1792,7 @@ augmenting path with respect to <math>f</math>.</p>
 </li>
 </list>
 
-<p><format color = "BlueViolet">Running time:</format> FF performance 
+<p><format color="BlueViolet">Running time:</format> FF performance 
 depends on choice of augmenting paths.</p>
 
 <p>Digraph with <math>V</math> vertices, <math>E</math> edges, and 
@@ -6239,7 +6259,7 @@ class NFA:
 
 ### 30.2 Applications
 
-<list type = "decimal">
+<list type="decimal">
 <li>
 <p>It is the number of expressions containing <math>n</math> pairs of
 parentheses which are correctly matched.</p>

@@ -910,7 +910,7 @@ class ArrayDeque:
     </p>
 </li>
 <li>
-    <p><format color = "Fuchsia">Union:</format> To merge 
+    <p><format color="Fuchsia">Union:</format> To merge 
     components containing <math>p</math> and <math>q</math>, change 
     all entries whose id equals <code>parent[p]</code> to <code>
     parent[q]</code>.</p>
@@ -1065,10 +1065,12 @@ public class UnionFind {
 }
     </code-block>
     </tab>
-    <tab title="C++">
+    <tab title="C++ (UnionFind.h)">
     <code-block lang="c++" collapsible="true">
+#ifndef UNIONFIND_H
+#define UNIONFIND_H
+\/
 #include &lt;vector&gt;
-#include &lt;stdexcept&gt;
 \/
 class UnionFind {
 private:
@@ -1077,56 +1079,75 @@ private:
     int count;
 \/
 public:
-    explicit UnionFind(const int n) {
-        if (n &lt; 0) throw std::invalid_argument("n must be non-negative");
-        count = n;
-        parent.resize(n);
-        rank.resize(n);
-        for (int i = 0; i &lt; n; i++) {
-            parent[i] = i;
-            rank[i] = 0;
-        }
-    }
-\/
-    int find(int p) {
-        validate(p);
-        while (p != parent[p]) {
-            parent[p] = parent[parent[p]];
-            p = parent[p];
-        }
-        return p;
-    }
-\/
-    [[nodiscard]] int countComponents() const {
-        return count;
-    }
-\/
-    bool connected(const int p, const int q) {
-        return find(p) == find(q);
-    }
-\/
-    void unionSets(const int p, const int q) {
-        const int rootP = find(p);
-        const int rootQ = find(q);
-        if (rootP == rootQ) return;
-\/
-        if (rank[rootP] &lt; rank[rootQ]) parent[rootP] = rootQ;
-        else if (rank[rootP] &gt; rank[rootQ]) parent[rootQ] = rootP;
-        else {
-            parent[rootQ] = rootP;
-            rank[rootP]++;
-        }
-        count--;
-    }
+    explicit UnionFind(int n);
+    int find(int p);
+    [[nodiscard]] int countComponents() const;
+    bool connected(int p, int q);
+    void unionSets(int p, int q);
 \/
 private:
-    void validate(const int p) const {
-        const int n = static_cast&lt;int&gt;(parent.size());
-        if (p &lt; 0 || p &gt;= n) {
-            throw std::invalid_argument("index " + std::to_string(p) + " is not between 0 and " + std::to_string(n - 1));
-        }
-    }
+    void validate(int p) const;
 };
+\/
+#endif // UNIONFIND_H
+    </code-block>
+    </tab>
+    <tab title="C++ (UnionFind.cpp)">
+    <code-block lang="c++" collapsible="true">
+#include &lt;stdexcept&gt;
+#include &lt;string&gt;
+#include "UnionFind.h"
+\/
+UnionFind::UnionFind(const int n) {
+    if (n &lt; 0) throw std::invalid_argument("n must be non-negative");
+    count = n;
+    parent.resize(n);
+    rank.resize(n);
+    for (int i = 0; i &lt; n; i++) {
+        parent[i] = i;
+        rank[i] = 0;
+    }
+}
+\/
+int UnionFind::find(int p) {
+    validate(p);
+    while (p != parent[p]) {
+        parent[p] = parent[parent[p]]; // Path compression
+        p = parent[p];
+    }
+    return p;
+}
+\/
+int UnionFind::countComponents() const {
+    return count;
+}
+\/
+bool UnionFind::connected(int p, int q) {
+    return find(p) == find(q);
+}
+\/
+void UnionFind::unionSets(int p, int q) {
+    const int rootP = find(p);
+    int rootQ = find(q);
+    if (rootP == rootQ) return;
+\/
+    if (rank[rootP] &lt; rank[rootQ]) {
+        parent[rootP] = rootQ;
+    } else if (rank[rootP] &gt; rank[rootQ]) {
+        parent[rootQ] = rootP;
+    } else {
+        parent[rootQ] = rootP;
+        rank[rootP]++;
+    }
+    count--;
+}
+\/
+void UnionFind::validate(const int p) const {
+    int n = static_cast&lt;int&gt;(parent.size());
+    if (p &lt; 0 || p &gt;= n) {
+        throw std::invalid_argument("index " + std::to_string(p) + " is not between 0 and " + std::to_string(n - 1));
+    }
+}
     </code-block>
     </tab>
     <tab title="Python">
@@ -1209,7 +1230,7 @@ class UnionFind:
 
 <p>Separate interface from implementation!</p>
 
-<p><format color = "BlueViolet">Benefits</format>: </p>
+<p><format color="BlueViolet">Benefits</format>: </p>
 
 <list type="bullet">
 <li>
@@ -1328,7 +1349,7 @@ print(len(stack) == 0)
 <img src="../images_data/d4-1-2.png" alt="Stack push"/>
 </procedure>
 
-<p><format color = "BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties:</format> </p>
 
 <list>
 <li>
@@ -1553,7 +1574,7 @@ class LinkedStack:
 <math>\sim 8N</math> and <math>\sim 32N</math> bytes to
 represent a stack with <math>N</math> items.</p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p><math>\sim 8N</math> when full.</p>
 </li>
@@ -2300,7 +2321,7 @@ def selection_sort(arr):
 
 ### 5.2 Insertion Sort {id="insertion-sort"}
 
-<list type = "bullet">
+<list type="bullet">
 <li> 
     <p>Time Complexity: <math>O(N^2)</math>.</p>
 </li>
@@ -4684,7 +4705,7 @@ when <math>N</math> is a power of <math>2</math>.</p>
 <p><format color="BlueViolet">Properties of Binary Heap:</format>
 </p>
 
-<list type = "bullet">
+<list type="bullet">
 <li>
     <p>Key in nodes.</p>
 </li>
@@ -5081,7 +5102,7 @@ with each key in the priority queue.</p>
     <step>
         <p>Maintain parallel arrays keys[], pq[] and qp[] so that: 
         </p>
-        <list type = "bullet">
+        <list type="bullet">
             <li><p>keys[i] is the priority of i.</p></li>
             <li><p>pq[i] is the index of the key in heap position i.
             </p></li>
@@ -7794,7 +7815,7 @@ following three operations in a certain order: </p>
 </li>
 </list>
 
-<img src = "../images_data/d9-4-1.png" alt="Traversal"/>
+<img src="../images_data/d9-4-1.png" alt="Traversal"/>
 
 <p>Depth-first traversal (dotted path) of a binary tree:</p>
 <list type="alpha-lower">
