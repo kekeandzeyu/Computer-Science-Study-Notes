@@ -1846,118 +1846,117 @@ integer capacities between 1 and <math>U</math></p>
 
 <img src="../images_data/d18-5-1.png" alt="Flow Edge"/>
 
-<p>Java</p>
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class FlowEdge {
     private static final double FLOATING_POINT_EPSILON = 1.0E-10;
-
+\/
     private final int v;
     private final int w;
     private final double capacity;
     private double flow;
-
+\/
     public FlowEdge(int v, int w, double capacity) {
-        if (v < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
-        if (w < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
-        if (!(capacity >= 0.0)) throw new IllegalArgumentException("Edge capacity must be non-negative");
+        if (v &lt; 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
+        if (w &lt; 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
+        if (!(capacity &gt;= 0.0)) throw new IllegalArgumentException("Edge capacity must be non-negative");
         this.v = v;
         this.w = w;
         this.capacity = capacity;
         this.flow = 0.0;
     }
-
+\/
     public FlowEdge(int v, int w, double capacity, double flow) {
-        if (v < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
-        if (w < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
-        if (!(capacity >= 0.0)) throw new IllegalArgumentException("edge capacity must be non-negative");
-        if (!(flow <= capacity)) throw new IllegalArgumentException("flow exceeds capacity");
-        if (!(flow >= 0.0)) throw new IllegalArgumentException("flow must be non-negative");
+        if (v &lt; 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
+        if (w &lt; 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
+        if (!(capacity &gt;= 0.0)) throw new IllegalArgumentException("edge capacity must be non-negative");
+        if (!(flow &lt;= capacity)) throw new IllegalArgumentException("flow exceeds capacity");
+        if (!(flow &gt;= 0.0)) throw new IllegalArgumentException("flow must be non-negative");
         this.v = v;
         this.w = w;
         this.capacity = capacity;
         this.flow = flow;
     }
-
+\/
     public FlowEdge(FlowEdge e) {
         this.v = e.v;
         this.w = e.w;
         this.capacity = e.capacity;
         this.flow = e.flow;
     }
-
+\/
     public int from() {
         return v;
     }
-
+\/
     public int to() {
         return w;
     }
-
+\/
     public double capacity() {
         return capacity;
     }
-
+\/
     public double flow() {
         return flow;
     }
-
+\/
     public int other(int vertex) {
         if (vertex == v) return w;
         else if (vertex == w) return v;
         else throw new IllegalArgumentException("invalid endpoint");
     }
-
+\/
     public double residualCapacityTo(int vertex) {
         if (vertex == v) return flow;             
         else if (vertex == w) return capacity - flow;  
         else throw new IllegalArgumentException("invalid endpoint");
     }
-
+\/
     public void addResidualFlowTo(int vertex, double delta) {
-        if (!(delta >= 0.0)) throw new IllegalArgumentException("Delta must be non-negative");
-
+        if (!(delta &gt;= 0.0)) throw new IllegalArgumentException("Delta must be non-negative");
+\/
         if (vertex == v) flow -= delta;
         else if (vertex == w) flow += delta;
         else throw new IllegalArgumentException("invalid endpoint");
-
-        if (Math.abs(flow) <= FLOATING_POINT_EPSILON)
+\/
+        if (Math.abs(flow) &lt;= FLOATING_POINT_EPSILON)
             flow = 0;
-        if (Math.abs(flow - capacity) <= FLOATING_POINT_EPSILON)
+        if (Math.abs(flow - capacity) &lt;= FLOATING_POINT_EPSILON)
             flow = capacity;
-
-        if (!(flow >= 0.0)) throw new IllegalArgumentException("Flow is negative");
-        if (!(flow <= capacity)) throw new IllegalArgumentException("Flow exceeds capacity");
+\/
+        if (!(flow &gt;= 0.0)) throw new IllegalArgumentException("Flow is negative");
+        if (!(flow &lt;= capacity)) throw new IllegalArgumentException("Flow exceeds capacity");
     }
-
+\/
     public String toString() {
-        return v + "->" + w + " " + flow + "/" + capacity;
+        return v + "-&gt;" + w + " " + flow + "/" + capacity;
     }
 }
-```
-
-<p>C++ (FlowEdge.h)</p>
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (FlowEdge.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef FLOWEDGE_H
 #define FLOWEDGE_H
-
-#include <iostream>
-
+\/
+#include &lt;iostream&gt;
+\/
 class FlowEdge {
 private:
     static constexpr double FLOATING_POINT_EPSILON = 1.0E-10;
-
+\/
     int v;
     int w;
     double capacity;
     double flow;
-
+\/
 public:
     FlowEdge(int v, int w, double capacity);
     FlowEdge(int v, int w, double capacity, double flow);
     FlowEdge(const FlowEdge& e);
-
+\/
     [[nodiscard]] int from() const;
     [[nodiscard]] int to() const;
     [[nodiscard]] double getcapacity() const;
@@ -1965,121 +1964,119 @@ public:
     [[nodiscard]] int other(int vertex) const;
     [[nodiscard]] double residualCapacityTo(int vertex) const;
     void addResidualFlowTo(int vertex, double delta);
-
-    friend std::ostream& operator<<(std::ostream& os, const FlowEdge& e); 
+\/
+    friend std::ostream& operator&lt;&lt;(std::ostream& os, const FlowEdge& e); 
 };
-
+\/
 #endif // FLOWEDGE_H
-```
-
-<p>C++ (FlowEdge.cpp)</p>
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (FlowEdge.cpp)">
+    <code-block lang="c++" collapsible="true">
 #include "FlowEdge.h"
-#include <stdexcept>
-#include <cmath>
-
+#include &lt;stdexcept&gt;
+#include &lt;cmath&gt;
+\/
 FlowEdge::FlowEdge(const int v, const int w, const double capacity) : v(v), w(w), capacity(capacity), flow(0.0) {
-    if (v < 0) throw std::invalid_argument("vertex index must be a non-negative integer");
-    if (w < 0) throw std::invalid_argument("vertex index must be a non-negative integer");
-    if (!(capacity >= 0.0)) throw std::invalid_argument("Edge capacity must be non-negative");
+    if (v &lt; 0) throw std::invalid_argument("vertex index must be a non-negative integer");
+    if (w &lt; 0) throw std::invalid_argument("vertex index must be a non-negative integer");
+    if (!(capacity &gt;= 0.0)) throw std::invalid_argument("Edge capacity must be non-negative");
 }
-
+\/
 FlowEdge::FlowEdge(const int v, const int w, const double capacity, const double flow) : v(v), w(w), capacity(capacity), flow(flow) {
-    if (v < 0) throw std::invalid_argument("vertex index must be a non-negative integer");
-    if (w < 0) throw std::invalid_argument("vertex index must be a non-negative integer");
-    if (!(capacity >= 0.0)) throw std::invalid_argument("edge capacity must be non-negative");
-    if (!(flow <= capacity)) throw std::invalid_argument("flow exceeds capacity");
-    if (!(flow >= 0.0)) throw std::invalid_argument("flow must be non-negative");
+    if (v &lt; 0) throw std::invalid_argument("vertex index must be a non-negative integer");
+    if (w &lt; 0) throw std::invalid_argument("vertex index must be a non-negative integer");
+    if (!(capacity &gt;= 0.0)) throw std::invalid_argument("edge capacity must be non-negative");
+    if (!(flow &lt;= capacity)) throw std::invalid_argument("flow exceeds capacity");
+    if (!(flow &gt;= 0.0)) throw std::invalid_argument("flow must be non-negative");
 }
-
+\/
 FlowEdge::FlowEdge(const FlowEdge& e) = default;
-
+\/
 int FlowEdge::from() const {
     return v;
 }
-
+\/
 int FlowEdge::to() const {
     return w;
 }
-
+\/
 double FlowEdge::getcapacity() const {
     return capacity;
 }
-
+\/
 double FlowEdge::getflow() const {
     return flow;
 }
-
+\/
 int FlowEdge::other(const int vertex) const {
     if (vertex == v) return w;
     else if (vertex == w) return v;
     else throw std::invalid_argument("invalid endpoint");
 }
-
+\/
 double FlowEdge::residualCapacityTo(const int vertex) const {
     if (vertex == v) return flow;
     else if (vertex == w) return capacity - flow;
     else throw std::invalid_argument("invalid endpoint");
 }
-
+\/
 void FlowEdge::addResidualFlowTo(const int vertex, const double delta) {
-    if (!(delta >= 0.0)) throw std::invalid_argument("Delta must be non-negative");
-
+    if (!(delta &gt;= 0.0)) throw std::invalid_argument("Delta must be non-negative");
+\/
     if (vertex == v) flow -= delta;
     else if (vertex == w) flow += delta;
     else throw std::invalid_argument("invalid endpoint");
-
-    if (std::abs(flow) <= FLOATING_POINT_EPSILON)
+\/
+    if (std::abs(flow) &lt;= FLOATING_POINT_EPSILON)
         flow = 0;
-    if (std::abs(flow - capacity) <= FLOATING_POINT_EPSILON)
+    if (std::abs(flow - capacity) &lt;= FLOATING_POINT_EPSILON)
         flow = capacity;
-
-    if (!(flow >= 0.0)) throw std::invalid_argument("Flow is negative");
-    if (!(flow <= capacity)) throw std::invalid_argument("Flow exceeds capacity");
+\/
+    if (!(flow &gt;= 0.0)) throw std::invalid_argument("Flow is negative");
+    if (!(flow &lt;= capacity)) throw std::invalid_argument("Flow exceeds capacity");
 }
-
-std::ostream& operator<<(std::ostream& os, const FlowEdge& e) {
-    os << e.v << "->" << e.w << " " << e.flow << "/" << e.capacity;
+\/
+std::ostream& operator&lt;&lt;(std::ostream& os, const FlowEdge& e) {
+    os &lt;&lt; e.v &lt;&lt; "-&gt;" &lt;&lt; e.w &lt;&lt; " " &lt;&lt; e.flow &lt;&lt; "/" &lt;&lt; e.capacity;
     return os;
 }
-```
-
-<p>Python</p>
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class FlowEdge:
     FLOATING_POINT_EPSILON = 1e-10
-
+\/
     def __init__(self, v, w, capacity, flow=0.0):
-        if v < 0:
+        if v &lt; 0:
             raise ValueError("vertex index must be a non-negative integer")
-        if w < 0:
+        if w &lt; 0:
             raise ValueError("vertex index must be a non-negative integer")
-        if capacity < 0.0:
+        if capacity &lt; 0.0:
             raise ValueError("Edge capacity must be non-negative")
-        if flow > capacity:
+        if flow &gt; capacity:
             raise ValueError("flow exceeds capacity")
-        if flow < 0.0:
+        if flow &lt; 0.0:
             raise ValueError("flow must be non-negative")
-
+\/
         self._v = v
         self._w = w
         self._capacity = capacity
         self._flow = flow
-
+\/
     def from_(self):
         return self._v
-
+\/
     def to(self):
         return self._w
-
+\/
     def capacity(self):
         return self._capacity
-
+\/
     def flow(self):
         return self._flow
-
+\/
     def other(self, vertex):
         if vertex == self._v:
             return self._w
@@ -2087,7 +2084,7 @@ class FlowEdge:
             return self._v
         else:
             raise ValueError("invalid endpoint")
-
+\/
     def residualCapacityTo(self, vertex):
         if vertex == self._v:
             return self._flow 
@@ -2095,56 +2092,57 @@ class FlowEdge:
             return self._capacity - self._flow  
         else:
             raise ValueError("invalid endpoint")
-
+\/
     def addResidualFlowTo(self, vertex, delta):
-        if delta < 0.0:
+        if delta &lt; 0.0:
             raise ValueError("Delta must be non-negative")
-
+\/
         if vertex == self._v:
             self._flow -= delta
         elif vertex == self._w:
             self._flow += delta
         else:
             raise ValueError("invalid endpoint")
-
-        if abs(self._flow) <= self.FLOATING_POINT_EPSILON:
+\/
+        if abs(self._flow) &lt;= self.FLOATING_POINT_EPSILON:
             self._flow = 0
-        if abs(self._flow - self._capacity) <= self.FLOATING_POINT_EPSILON:
+        if abs(self._flow - self._capacity) &lt;= self.FLOATING_POINT_EPSILON:
             self._flow = self._capacity
-
-        if self._flow < 0.0:
+\/
+        if self._flow &lt; 0.0:
             raise ValueError("Flow is negative")
-        if self._flow > self._capacity:
+        if self._flow &gt; self._capacity:
             raise ValueError("Flow exceeds capacity")
-
+\/
     def __str__(self):
-        return f"{self._v}->{self._w} {self._flow}/{self._capacity}"
-```
-
+        return f"{self._v}-&gt;{self._w} {self._flow}/{self._capacity}"
+    </code-block>
+    </tab>
+</tabs>
 
 #### 18.5.2 Flow Network
 
 <img src="../images_data/d18-5-2.png" alt="Flow Network"/>
 
-<p>Java</p>
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.List;
-
+\/
 public class FlowNetwork {
     private final int V;
     private int E;
-    private final List<FlowEdge>[] adj;
-
-    public FlowNetwork(int V, int E, List<int[]> edges) {
-        if (V < 0) throw new IllegalArgumentException("Number of vertices in a Graph must be non-negative");
-        if (E < 0) throw new IllegalArgumentException("Number of edges must be non-negative");
+    private final List&lt;FlowEdge&gt;[] adj;
+\/
+    public FlowNetwork(int V, int E, List&lt;int[]&gt; edges) {
+        if (V &lt; 0) throw new IllegalArgumentException("Number of vertices in a Graph must be non-negative");
+        if (E &lt; 0) throw new IllegalArgumentException("Number of edges must be non-negative");
         this.V = V;
         this.E = 0;
-        adj = (List<FlowEdge>[]) new List[V];
-        for (int v = 0; v < V; v++)
-            adj[v] = new ArrayList<>();
+        adj = (List&lt;FlowEdge&gt;[]) new List[V];
+        for (int v = 0; v &lt; V; v++)
+            adj[v] = new ArrayList&lt;&gt;();
         for (int[] edge : edges) {
             int v = edge[0];
             int w = edge[1];
@@ -2154,20 +2152,20 @@ public class FlowNetwork {
             addEdge(new FlowEdge(v, w, capacity));
         }
     }
-
+\/
     public int V() {
         return V;
     }
-
+\/
     public int E() {
         return E;
     }
-
+\/
     private void validateVertex(int v) {
-        if (v < 0 || v >= V)
+        if (v &lt; 0 || v &gt;= V)
             throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
     }
-
+\/
     public void addEdge(FlowEdge e) {
         int v = e.from();
         int w = e.to();
@@ -2177,26 +2175,26 @@ public class FlowNetwork {
         adj[w].add(e);
         E++;
     }
-
-    public Iterable<FlowEdge> adj(int v) {
+\/
+    public Iterable&lt;FlowEdge&gt; adj(int v) {
         validateVertex(v);
         return adj[v];
     }
-
-    public Iterable<FlowEdge> edges() {
-        List<FlowEdge> list = new ArrayList<>();
-        for (int v = 0; v < V; v++)
+\/
+    public Iterable&lt;FlowEdge&gt; edges() {
+        List&lt;FlowEdge&gt; list = new ArrayList&lt;&gt;();
+        for (int v = 0; v &lt; V; v++)
             for (FlowEdge e : adj(v)) {
                 if (e.to() != v)
                     list.add(e);
             }
         return list;
     }
-
+\/
     public String toString() {
         StringBuilder s = new StringBuilder();
         s.append(V).append(" ").append(E).append(System.lineSeparator());
-        for (int v = 0; v < V; v++) {
+        for (int v = 0; v &lt; V; v++) {
             s.append(v).append(":  ");
             for (FlowEdge e : adj[v]) {
                 if (e.to() != v) s.append(e).append("  ");
@@ -2206,51 +2204,49 @@ public class FlowNetwork {
         return s.toString();
     }
 }
-```
-
-<p>C++ (FlowNetwork.h)</p>
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (FlowNetwork.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef FLOWNETWORK_H
 #define FLOWNETWORK_H
-
-#include <vector>
+\/
+#include &lt;vector&gt;
 #include "FlowEdge.h"
-
+\/
 class FlowNetwork {
 private:
     int V;
     int E;
-    std::vector<FlowEdge>* adj;
-
+    std::vector&lt;FlowEdge&gt; adj;
+\/
     void validateVertex(int v) const;
-
+\/
 public:
-    FlowNetwork(int V, int E, const std::vector<std::vector<int>>& edges);
-
+    FlowNetwork(int V, int E, const std::vector&lt;std::vector&lt;int&gt;&gt;& edges);
+\/
     [[nodiscard]] int getV() const;
     [[nodiscard]] int getE() const;
     void addEdge(const FlowEdge& e);
-    [[nodiscard]] std::vector<FlowEdge> getadj(int v) const;
-    [[nodiscard]] std::vector<FlowEdge> edges() const;
-
-    friend std::ostream& operator<<(std::ostream& os, const FlowNetwork& network);
+    [[nodiscard]] std::vector&lt;FlowEdge&gt; getadj(int v) const;
+    [[nodiscard]] std::vector&lt;FlowEdge&gt; edges() const;
+\/
+    friend std::ostream& operator&lt;&lt;(std::ostream& os, const FlowNetwork& network);
 };
-
+\/
 #endif // FLOWNETWORK_H
-```
-
-<p>C++ (FlowNetwork.cpp)</p>
-
-```C++
-#include <iostream>
+    </code-block>
+    </tab>
+    <tab title="C++ (FlowNetwork.cpp)">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
 #include "FlowNetwork.h"
-
-FlowNetwork::FlowNetwork(int V, int E, const std::vector<std::vector<int>>& edges) : V(V), E(0) {
-    if (V < 0) throw std::invalid_argument("Number of vertices in a Graph must be non-negative");
-    if (E < 0) throw std::invalid_argument("Number of edges must be non-negative");
-
-    adj = new std::vector<FlowEdge>[V];
+\/
+FlowNetwork::FlowNetwork(int V, int E, const std::vector&lt;std::vector&lt;int&gt;&gt;& edges) : V(V), E(0) {
+    if (V &lt; 0) throw std::invalid_argument("Number of vertices in a Graph must be non-negative");
+    if (E &gt; 0) throw std::invalid_argument("Number of edges must be non-negative");
+\/
+    adj = new std::vector&lt;FlowEdge&gt;[V];
     for (const auto& edge : edges) {
         int v = edge[0];
         int w = edge[1];
@@ -2260,20 +2256,20 @@ FlowNetwork::FlowNetwork(int V, int E, const std::vector<std::vector<int>>& edge
         addEdge(FlowEdge(v, w, capacity));
     }
 }
-
+\/
 int FlowNetwork::V() const {
     return V;
 }
-
+\/
 int FlowNetwork::E() const {
     return E;
 }
-
+\/
 void FlowNetwork::validateVertex(int v) const {
-    if (v < 0 || v >= V)
+    if (v &lt; 0 || v &gt;= V)
         throw std::invalid_argument("vertex " + std::to_string(v) + " is not between 0 and " + std::to_string(V - 1));
 }
-
+\/
 void FlowNetwork::addEdge(const FlowEdge& e) {
     int v = e.from();
     int w = e.to();
@@ -2283,15 +2279,15 @@ void FlowNetwork::addEdge(const FlowEdge& e) {
     adj[w].push_back(e);
     E++;
 }
-
-std::vector<FlowEdge> FlowNetwork::adj(int v) const {
+\/
+std::vector&lt;FlowEdge&gt; FlowNetwork::adj(int v) const {
     validateVertex(v);
     return adj[v];
 }
-
-std::vector<FlowEdge> FlowNetwork::edges() const {
-    std::vector<FlowEdge> list;
-    for (int v = 0; v < V; v++) {
+\/
+std::vector&lt;FlowEdge&gt; FlowNetwork::edges() const {
+    std::vector&lt;FlowEdge&gt; list;
+    for (int v = 0; v &lt; V; v++) {
         for (const FlowEdge& e : adj(v)) {
             if (e.to() != v)
                 list.push_back(e);
@@ -2299,52 +2295,51 @@ std::vector<FlowEdge> FlowNetwork::edges() const {
     }
     return list;
 }
-
-std::ostream& operator<<(std::ostream& os, const FlowNetwork& network) {
-    os << network.V << " " << network.E << std::endl;
-    for (int v = 0; v < network.V; v++) {
-        os << v << ":  ";
+\/
+std::ostream& operator&lt;&lt;(std::ostream& os, const FlowNetwork& network) {
+    os &lt;&lt; network.V &lt;&lt; " " &lt;&lt; network.E &lt;&lt; std::endl;
+    for (int v = 0; v &lt; network.V; v++) {
+        os &lt;&lt; v &lt;&lt; ":  ";
         for (const FlowEdge& e : network.adj[v]) {
-            if (e.to() != v) os << e << "  ";
+            if (e.to() != v) os &lt;&lt; e &lt;&lt; "  ";
         }
-        os << std::endl;
+        os &lt;&lt; std::endl;
     }
     return os;
 }
-```
-
-<p>Python</p>
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from FlowEdge import FlowEdge
-
+\/
 class FlowNetwork:
     def __init__(self, V, E, edges):
-        if V < 0:
+        if V &lt; 0:
             raise ValueError("Number of vertices in a Graph must be non-negative")
-        if E < 0:
+        if E &lt; 0:
             raise ValueError("Number of edges must be non-negative")
-
+\/
         self._V = V
         self._E = 0
         self._adj = [[] for _ in range(V)]
-
+\/
         for edge in edges:
             v, w, capacity = edge
             self._validate_vertex(v)
             self._validate_vertex(w)
             self._add_edge(FlowEdge(v, w, capacity))
-
+\/
     def V(self):
         return self._V
-
+\/
     def E(self):
         return self._E
-
+\/
     def _validate_vertex(self, v):
-        if v < 0 or v >= self._V:
+        if v &lt; 0 or v &gt;= self._V:
             raise ValueError(f"vertex {v} is not between 0 and {self._V - 1}")
-
+\/
     def _add_edge(self, e):
         v = e.from_()
         w = e.to()
@@ -2353,11 +2348,11 @@ class FlowNetwork:
         self._adj[v].append(e)
         self._adj[w].append(e)
         self._E += 1
-
+\/
     def adj(self, v):
         self._validate_vertex(v)
         return self._adj[v]
-
+\/
     def edges(self):
         all_edges = []
         for v in range(self._V):
@@ -2365,7 +2360,7 @@ class FlowNetwork:
                 if edge.to() != v:
                     all_edges.append(edge)
         return all_edges
-
+\/
     def __str__(self):
         s = f"{self._V} {self._E}\n"
         for v in range(self._V):
@@ -2375,77 +2370,78 @@ class FlowNetwork:
                     s += str(edge) + "  "
             s += "\n"
         return s
-```
+    </code-block>
+    </tab>
+</tabs>
 
 #### 18.5.3 Ford-Fulkerson Algorithm
 
-<p>Java</p>
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.LinkedList;
 import java.util.Queue;
-
+\/
 public class FordFulkerson {
     private static final double FLOATING_POINT_EPSILON = 1.0E-11;
-
+\/
     private final int V;
     private boolean[] marked;
     private FlowEdge[] edgeTo;
     private double value;
-
+\/
     public FordFulkerson(FlowNetwork G, int s, int t) {
         V = G.V();
         validate(s);
         validate(t);
         if (s == t) throw new IllegalArgumentException("Source equals sink");
         if (!isFeasible(G, s, t)) throw new IllegalArgumentException("Initial flow is infeasible");
-
+\/
         value = excess(G, t);
         while (hasAugmentingPath(G, s, t)) {
             double bottle = Double.POSITIVE_INFINITY;
             for (int v = t; v != s; v = edgeTo[v].other(v)) {
                 bottle = Math.min(bottle, edgeTo[v].residualCapacityTo(v));
             }
-
+\/
             for (int v = t; v != s; v = edgeTo[v].other(v)) {
                 edgeTo[v].addResidualFlowTo(v, bottle);
             }
-
+\/
             value += bottle;
         }
-
-        // check optimality conditions
+\/
         assert check(G, s, t);
     }
-
+\/
     public double value() {
         return value;
     }
-
+\/
     public boolean inCut(int v) {
         validate(v);
         return marked[v];
     }
-
+\/
     private void validate(int v) {
-        if (v < 0 || v >= V)
+        if (v &lt; 0 || v &gt;= V)
             throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V - 1));
     }
-
+\/
     private boolean hasAugmentingPath(FlowNetwork G, int s, int t) {
         edgeTo = new FlowEdge[G.V()];
         marked = new boolean[G.V()];
-
-        Queue<Integer> queue = new LinkedList<>();
+\/
+        Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
         queue.add(s);
         marked[s] = true;
         while (!queue.isEmpty() && !marked[t]) {
             int v = queue.remove();
-
+\/
             for (FlowEdge e : G.adj(v)) {
                 int w = e.other(v);
-
-                if (e.residualCapacityTo(w) > 0) {
+\/
+                if (e.residualCapacityTo(w) &gt; 0) {
                     if (!marked[w]) {
                         edgeTo[w] = e;
                         marked[w] = true;
@@ -2454,10 +2450,10 @@ public class FordFulkerson {
                 }
             }
         }
-
+\/
         return marked[t];
     }
-
+\/
     private double excess(FlowNetwork G, int v) {
         double excess = 0.0;
         for (FlowEdge e : G.adj(v)) {
@@ -2466,43 +2462,43 @@ public class FordFulkerson {
         }
         return excess;
     }
-
+\/
     private boolean isFeasible(FlowNetwork G, int s, int t) {
-        for (int v = 0; v < G.V(); v++) {
+        for (int v = 0; v &lt; G.V(); v++) {
             for (FlowEdge e : G.adj(v)) {
-                if (e.flow() < -FLOATING_POINT_EPSILON || e.flow() > e.capacity() + FLOATING_POINT_EPSILON) {
+                if (e.flow() &lt; -FLOATING_POINT_EPSILON || e.flow() &gt; e.capacity() + FLOATING_POINT_EPSILON) {
                     System.err.println("Edge does not satisfy capacity constraints: " + e);
                     return false;
                 }
             }
         }
-
-        if (Math.abs(value + excess(G, s)) > FLOATING_POINT_EPSILON) {
+\/
+        if (Math.abs(value + excess(G, s)) &gt; FLOATING_POINT_EPSILON) {
             System.err.println("Excess at source = " + excess(G, s));
             System.err.println("Max flow         = " + value);
             return false;
         }
-        if (Math.abs(value - excess(G, t)) > FLOATING_POINT_EPSILON) {
+        if (Math.abs(value - excess(G, t)) &gt; FLOATING_POINT_EPSILON) {
             System.err.println("Excess at sink   = " + excess(G, t));
             System.err.println("Max flow         = " + value);
             return false;
         }
-        for (int v = 0; v < G.V(); v++) {
+        for (int v = 0; v &lt; G.V(); v++) {
             if (v == s || v == t) continue;
-            else if (Math.abs(excess(G, v)) > FLOATING_POINT_EPSILON) {
+            else if (Math.abs(excess(G, v)) &gt; FLOATING_POINT_EPSILON) {
                 System.err.println("Net flow out of " + v + " doesn't equal zero");
                 return false;
             }
         }
         return true;
     }
-
+\/
     private boolean check(FlowNetwork G, int s, int t) {
         if (!isFeasible(G, s, t)) {
             System.err.println("Flow is infeasible");
             return false;
         }
-
+\/
         if (!inCut(s)) {
             System.err.println("source " + s + " is not on source side of min cut");
             return false;
@@ -2511,122 +2507,120 @@ public class FordFulkerson {
             System.err.println("sink " + t + " is on source side of min cut");
             return false;
         }
-
+\/
         double mincutValue = 0.0;
-        for (int v = 0; v < G.V(); v++) {
+        for (int v = 0; v &lt; G.V(); v++) {
             for (FlowEdge e : G.adj(v)) {
                 if ((v == e.from()) && inCut(e.from()) && !inCut(e.to()))
                     mincutValue += e.capacity();
             }
         }
-
-        if (Math.abs(mincutValue - value) > FLOATING_POINT_EPSILON) {
+\/
+        if (Math.abs(mincutValue - value) &gt; FLOATING_POINT_EPSILON) {
             System.err.println("Max flow value = " + value + ", min cut value = " + mincutValue);
             return false;
         }
-
+\/
         return true;
     }
 }
-```
-
-<p>C++ (FordFulkerson.h)</p>
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++ (FordFulkerson.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef FORDFULKERSON_H
 #define FORDFULKERSON_H
-
-#include <vector>
+\/
+#include &lt;vector&gt;
 #include "FlowEdge.h"
 #include "FlowNetwork.h"
-
+\/
 class FordFulkerson {
 private:
     static constexpr double FLOATING_POINT_EPSILON = 1.0E-11;
-
+\/
     int V;
-    std::vector<bool> marked;
-    std::vector<FlowEdge> edgeTo;
+    std::vector&lt;bool&gt; marked;
+    std::vector&lt;FlowEdge&gt; edgeTo;
     double value;
-
+\/
     void validate(int v) const;
     bool hasAugmentingPath(const FlowNetwork& G, int s, int t);
     static double excess(const FlowNetwork& G, int v) ;
     [[nodiscard]] bool isFeasible(const FlowNetwork& G, int s, int t) const;
     [[nodiscard]] bool check(const FlowNetwork& G, int s, int t) const;
-
+\/
 public:
     FordFulkerson(const FlowNetwork& G, int s, int t);
-
+\/
     [[nodiscard]] double getvalue() const;
     [[nodiscard]] bool inCut(int v) const;
 };
-
+\/
 #endif // FORDFULKERSON_H
-```
-
-<p>C++ (FordFulkerson.cpp)</p>
-
-```C++
-#include <cassert>
-#include <iostream>
-#include <limits>
-#include <queue>
-#include <vector>
+    </code-block>
+    </tab>
+    <tab title="C++ (FordFulkerson.cpp)">
+    <code-block lang="c++" collapsible="true">
+#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+#include &lt;limits&gt;
+#include &lt;queue&gt;
+#include &lt;vector&gt;
 #include "FordFulkerson.h"
-
+\/
 FordFulkerson::FordFulkerson(const FlowNetwork& G, const int s, const int t) : V(G.getV()), value(0.0) {
     validate(s);
     validate(t);
     if (s == t) throw std::invalid_argument("Source equals sink");
     if (!isFeasible(G, s, t)) throw std::invalid_argument("Initial flow is infeasible");
-
+\/
     value = excess(G, t);
     while (hasAugmentingPath(G, s, t)) {
-
-        double bottle = std::numeric_limits<double>::infinity(); // Use numeric_limits for infinity
+\/
+        double bottle = std::numeric_limits&lt;double&gt;::infinity(); // Use numeric_limits for infinity
         for (int v = t; v != s; v = edgeTo[v].other(v)) {
             bottle = std::min(bottle, edgeTo[v].residualCapacityTo(v));
         }
-
+\/
         for (int v = t; v != s; v = edgeTo[v].other(v)) {
             edgeTo[v].addResidualFlowTo(v, bottle);
         }
-
+\/
         value += bottle;
     }
     assert(check(G, s, t));
 }
-
+\/
 double FordFulkerson::getvalue() const {
     return value;
 }
-
+\/
 bool FordFulkerson::inCut(int v) const {
     validate(v);
     return marked[v];
 }
-
+\/
 void FordFulkerson::validate(int v) const {
-    if (v < 0 || v >= V)
+    if (v &lt; 0 || v &gt;= V)
         throw std::invalid_argument("vertex " + std::to_string(v) + " is not between 0 and " + std::to_string(V - 1));
 }
-
+\/
 bool FordFulkerson::hasAugmentingPath(const FlowNetwork& G, const int s, const int t) {
     edgeTo.assign(G.getV(), FlowEdge(0, 0, 0.0));
     marked.assign(G.getV(), false);
-
-    std::queue<int> queue;
+\/
+    std::queue&lt;int&gt; queue;
     queue.push(s);
     marked[s] = true;
     while (!queue.empty() && !marked[t]) {
         const int v = queue.front();
         queue.pop();
-
+\/
         for (const FlowEdge& e : G.getadj(v)) {
             const int w = e.other(v);
-
-            if (e.residualCapacityTo(w) > 0) {
+\/
+            if (e.residualCapacityTo(w) &gt; 0) {
                 if (!marked[w]) {
                     edgeTo[w] = e;
                     marked[w] = true;
@@ -2637,7 +2631,7 @@ bool FordFulkerson::hasAugmentingPath(const FlowNetwork& G, const int s, const i
     }
     return marked[t];
 }
-
+\/
 double FordFulkerson::excess(const FlowNetwork& G, const int v) {
     double excess = 0.0;
     for (const FlowEdge& e : G.getadj(v)) {
@@ -2646,77 +2640,76 @@ double FordFulkerson::excess(const FlowNetwork& G, const int v) {
     }
     return excess;
 }
-
+\/
 bool FordFulkerson::isFeasible(const FlowNetwork& G, int s, int t) const {
-    for (int v = 0; v < G.getV(); v++) {
+    for (int v = 0; v &lt; G.getV(); v++) {
         for (const FlowEdge& e : G.getadj(v)) {
-            if (e.getflow() < -FLOATING_POINT_EPSILON || e.getflow() > e.getcapacity() + FLOATING_POINT_EPSILON) {
-                std::cerr << "Edge does not satisfy capacity constraints: " << e << std::endl;
+            if (e.getflow() &lt; -FLOATING_POINT_EPSILON || e.getflow() &gt; e.getcapacity() + FLOATING_POINT_EPSILON) {
+                std::cerr &lt;&lt; "Edge does not satisfy capacity constraints: " &lt;&lt; e &lt;&lt; std::endl;
                 return false;
             }
         }
     }
-
-    if (std::abs(value + excess(G, s)) > FLOATING_POINT_EPSILON) {
-        std::cerr << "Excess at source = " << excess(G, s) << std::endl;
-        std::cerr << "Max flow         = " << value << std::endl;
+\/
+    if (std::abs(value + excess(G, s)) &gt; FLOATING_POINT_EPSILON) {
+        std::cerr &lt;&lt; "Excess at source = " &lt;&lt; excess(G, s) &lt;&lt; std::endl;
+        std::cerr &lt;&lt; "Max flow         = " &lt;&lt; value &lt;&lt; std::endl;
         return false;
     }
-    if (std::abs(value - excess(G, t)) > FLOATING_POINT_EPSILON) {
-        std::cerr << "Excess at sink   = " << excess(G, t) << std::endl;
-        std::cerr << "Max flow         = " << value << std::endl;
+    if (std::abs(value - excess(G, t)) &gt; FLOATING_POINT_EPSILON) {
+        std::cerr &lt;&lt; "Excess at sink   = " &lt;&lt; excess(G, t) &lt;&lt; std::endl;
+        std::cerr &lt;&lt; "Max flow         = " &lt;&lt; value &lt;&lt; std::endl;
         return false;
     }
-    for (int v = 0; v < G.getV(); v++) {
+    for (int v = 0; v &lt; G.getV(); v++) {
         if (v == s || v == t) continue;
-        else if (std::abs(excess(G, v)) > FLOATING_POINT_EPSILON) {
-            std::cerr << "Net flow out of " << v << " doesn't equal zero" << std::endl;
+        else if (std::abs(excess(G, v)) &gt; FLOATING_POINT_EPSILON) {
+            std::cerr &lt;&lt; "Net flow out of " &lt;&lt; v &lt;&lt; " doesn't equal zero" &lt;&lt; std::endl;
             return false;
         }
     }
     return true;
 }
-
+\/
 bool FordFulkerson::check(const FlowNetwork& G, int s, int t) const {
     if (!isFeasible(G, s, t)) {
-        std::cerr << "Flow is infeasible" << std::endl;
+        std::cerr &lt;&lt; "Flow is infeasible" &lt;&lt; std::endl;
         return false;
     }
-
+\/
     if (!inCut(s)) {
-        std::cerr << "source " << s << " is not on source side of min cut" << std::endl;
+        std::cerr &lt;&lt; "source " &lt;&lt; s &lt;&lt; " is not on source side of min cut" &lt;&lt; std::endl;
         return false;
     }
     if (inCut(t)) {
-        std::cerr << "sink " << t << " is on source side of min cut" << std::endl;
+        std::cerr &lt;&lt; "sink " &lt;&lt; t &lt;&lt; " is on source side of min cut" &lt;&lt; std::endl;
         return false;
     }
-
+\/
     double mincutValue = 0.0;
-    for (int v = 0; v < G.getV(); v++) {
+    for (int v = 0; v &lt; G.getV(); v++) {
         for (const FlowEdge& e : G.getadj(v)) {
             if ((v == e.from()) && inCut(e.from()) && !inCut(e.to()))
                 mincutValue += e.getcapacity();
         }
     }
-
-    if (std::abs(mincutValue - value) > FLOATING_POINT_EPSILON) {
-        std::cerr << "Max flow value = " << value << ", min cut value = " << mincutValue << std::endl;
+\/
+    if (std::abs(mincutValue - value) &gt; FLOATING_POINT_EPSILON) {
+        std::cerr &lt;&lt; "Max flow value = " &lt;&lt; value &lt;&lt; ", min cut value = " &lt;&lt; mincutValue &lt;&lt; std::endl;
         return false;
     }
-
+\/
     return true;
 }
-```
-
-<p>Python</p>
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from collections import deque
-
+\/
 class FordFulkerson:
     FLOATING_POINT_EPSILON = 1e-11
-
+\/
     def __init__(self, G, s, t):
         self._V = G.V()
         self._validate(s)
@@ -2725,7 +2718,7 @@ class FordFulkerson:
             raise ValueError("Source equals sink")
         if not self._is_feasible(G, s, t):
             raise ValueError("Initial flow is infeasible")
-
+\/
         self._value = self._excess(G, t)
         while self._has_augmenting_path(G, s, t):
             # compute bottleneck capacity
@@ -2734,50 +2727,50 @@ class FordFulkerson:
                 if v != s:
                     bottle = min(bottle, self._edgeTo[v].residualCapacityTo(v))
                     v = self._edgeTo[v].other(v)
-
+\/
             # augment flow
             for v in range(t, s-1, -1):
                 if v != s:
                     self._edgeTo[v].addResidualFlowTo(v, bottle)
                     v = self._edgeTo[v].other(v)
-
+\/
             self._value += bottle
-
+\/
         # check optimality conditions
         assert self._check(G, s, t)
-
+\/
     def value(self):
         return self._value
-
+\/
     def in_cut(self, v):
         self._validate(v)
         return self._marked[v]
-
+\/
     def _validate(self, v):
-        if v < 0 or v >= self._V:
+        if v &lt; 0 or v &gt;= self._V:
             raise ValueError(f"vertex {v} is not between 0 and {self._V - 1}")
-
+\/
     def _has_augmenting_path(self, G, s, t):
         self._edgeTo = [None] * G.V()
         self._marked = [False] * G.V()
-
+\/
         queue = deque()
         queue.append(s)
         self._marked[s] = True
         while queue and not self._marked[t]:
             v = queue.popleft()
-
+\/
             for e in G.adj(v):
                 w = e.other(v)
-
-                if e.residualCapacityTo(w) > 0:
+\/
+                if e.residualCapacityTo(w) &gt; 0:
                     if not self._marked[w]:
                         self._edgeTo[w] = e
                         self._marked[w] = True
                         queue.append(w)
-
+\/
         return self._marked[t]
-
+\/
     def _excess(self, G, v):
         excess = 0.0
         for e in G.adj(v):
@@ -2786,73 +2779,101 @@ class FordFulkerson:
             else:
                 excess += e.flow()
         return excess
-
+\/
     def _is_feasible(self, G, s, t):
         for v in range(G.V()):
             for e in G.adj(v):
-                if e.flow() < -self.FLOATING_POINT_EPSILON or e.flow() > e.capacity() + self.FLOATING_POINT_EPSILON:
+                if e.flow() &lt; -self.FLOATING_POINT_EPSILON or e.flow() &gt; e.capacity() + self.FLOATING_POINT_EPSILON:
                     print(f"Edge does not satisfy capacity constraints: {e}")
                     return False
-
-        if abs(self._value + self._excess(G, s)) > self.FLOATING_POINT_EPSILON:
+\/
+        if abs(self._value + self._excess(G, s)) &gt; self.FLOATING_POINT_EPSILON:
             print(f"Excess at source = {self._excess(G, s)}")
             print(f"Max flow         = {self._value}")
             return False
-        if abs(self._value - self._excess(G, t)) > self.FLOATING_POINT_EPSILON:
+        if abs(self._value - self._excess(G, t)) &gt; self.FLOATING_POINT_EPSILON:
             print(f"Excess at sink   = {self._excess(G, t)}")
             print(f"Max flow         = {self._value}")
             return False
         for v in range(G.V()):
             if v == s or v == t:
                 continue
-            elif abs(self._excess(G, v)) > self.FLOATING_POINT_EPSILON:
+            elif abs(self._excess(G, v)) &gt; self.FLOATING_POINT_EPSILON:
                 print(f"Net flow out of {v} doesn't equal zero")
                 return False
         return True
-
+\/
     def _check(self, G, s, t):
         if not self._is_feasible(G, s, t):
             print("Flow is infeasible")
             return False
-
+\/
         if not self.in_cut(s):
             print(f"source {s} is not on source side of min cut")
             return False
         if self.in_cut(t):
             print(f"sink {t} is on source side of min cut")
             return False
-
+\/
         mincut_value = 0.0
         for v in range(G.V()):
             for e in G.adj(v):
                 if v == e.from_() and self.in_cut(e.from_()) and not self.in_cut(e.to()):
                     mincut_value += e.capacity()
-
-        if abs(mincut_value - self._value) > self.FLOATING_POINT_EPSILON:
+\/
+        if abs(mincut_value - self._value) &gt; self.FLOATING_POINT_EPSILON:
             print(f"Max flow value = {self._value}, min cut value = {mincut_value}")
             return False
-
+\/
         return True
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 18.6 Maxflow Applications
 
 <p><format color="BlueViolet">Applications:</format> </p>
 
 <list>
-<li>Data mining.</li>
-<li>Open-pit mining.</li>
-<li><format color="OrangeRed">Bipartite matching.</format></li>
-<li>Network reliability.</li>
-<li><format color="OrangeRed">Baseball elimination.</format></li>
-<li>Image segmentation.</li>
-<li>Network connectivity.</li>
-<li>Distributed computing.</li>
-<li>Security of statistical data.</li>
-<li>Egalitarian stable matching.</li>
-<li>Multi-camera scene reconstruction.</li>
-<li>Sensor placement for homeland security.</li>
-<li>Many, many, more.</li>
+<li>
+    <p>Data mining.</p>
+</li>
+<li>
+    <p>Open-pit mining.</p>
+</li>
+<li>
+    <p><format color="OrangeRed">Bipartite matching.</format></p>
+</li>
+<li>
+    <p>Network reliability.</p>
+</li>
+<li>
+    <p><format color="OrangeRed">Baseball elimination.</format></p>
+</li>
+<li>
+    <p>Image segmentation.</p>
+</li>
+<li>
+    <p>Network connectivity.</p>
+</li>
+<li>
+    <p>Distributed computing.</p>
+</li>
+<li>
+    <p>Security of statistical data.</p>
+</li>
+<li>
+    <p>Egalitarian stable matching.</p>
+</li>
+<li>
+    <p>Multi-camera scene reconstruction.</p>
+</li>
+<li>
+    <p>Sensor placement for homeland security.</p>
+</li>
+<li>
+    <p>Many, many, more.</p>
+</li>
 </list>
 
 #### 18.6.1 Bipartite Matching
@@ -2948,9 +2969,9 @@ unsigned integer.
 </li>
 </list>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format></p>
 
-```Java
+<code-block lang="java" collapsible="true">
 public class StringTest {
     public static void main(String[] args) {
         String s1 = "Hello";
@@ -2960,7 +2981,7 @@ public class StringTest {
         System.out.println(s1.concat(" World")); // Hello World
     }
 }
-```
+</code-block>
 
 <table style="both">
 <tr>
@@ -3060,119 +3081,119 @@ N + R</math>.</li>
 <li>Key-indexed counting is stable.</li>
 </list>
 
-<p>Java</p>
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class KeyIndexedSorting {
     public static void sort(Squirrel[] students) {
         int N = students.length;
         int R = 5; // Assuming grades are from 0 to 4
-
+\/
         int[] count = new int[R + 1];
         for (Squirrel student : students) {
             count[student.grade + 1]++;
         }
-
-        for (int r = 0; r < R; r++) {
+\/
+        for (int r = 0; r &lt; R; r++) {
             count[r + 1] += count[r];
         }
-
+\/
         Squirrel[] aux = new Squirrel[N];
         for (Squirrel student : students) {
             aux[count[student.grade]++] = student;
         }
-
+\/
         System.arraycopy(aux, 0, students, 0, N);
     }
-
+\/
     static class Squirrel {
         String name;
         int grade;
-
+\/
         public Squirrel(String name, int grade) {
             this.name = name;
             this.grade = grade;
         }
-
+\/
         @Override
         public String toString() {
             return name + " (Grade: " + grade + ")";
         }
     }
 }
-```
-
-<p>C++</p>
-
-```C++
-#include <iostream>
-#include <utility>
-#include <vector>
-#include <string>
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;utility&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+\/
 struct Squirrel {
     std::string name;
     int grade;
-
+\/
     Squirrel(std::string n, const int g) : name(std::move(n)), grade(g) {}
-
-    friend std::ostream& operator<<(std::ostream& os, const Squirrel& s) {
-        os << s.name << " (Grade: " << s.grade << ")";
+\/
+    friend std::ostream& operator&lt;&lt;(std::ostream& os, const Squirrel& s) {
+        os &lt;&lt; s.name &lt;&lt; " (Grade: " &lt;&lt; s.grade &lt;&lt; ")";
         return os;
     }
 };
-
-void sort(std::vector<Squirrel>& students) {
-    const int N = static_cast<int>(students.size());
+\/
+void sort(std::vector&lt;Squirrel&gt;& students) {
+    const int N = static_cast&lt;int&gt;(students.size());
     constexpr int R = 5; // Assuming grades are from 0 to 4
-
-    std::vector<int> count(R + 1, 0);
-    for (int i = 0; i < N; i++) {
+\/
+    std::vector&lt;int&gt; count(R + 1, 0);
+    for (int i = 0; i &lt; N; i++) {
         count[students[i].grade + 1]++;
     }
-
-    for (int r = 0; r < R; r++) {
+\/
+    for (int r = 0; r &lt; R; r++) {
         count[r + 1] += count[r];
     }
-
-    std::vector<Squirrel> aux(N);
-    for (int i = 0; i < N; i++) {
+\/
+    std::vector&lt;Squirrel&gt; aux(N);
+    for (int i = 0; i &lt; N; i++) {
         aux[count[students[i].grade]++] = students[i];
     }
-
+\/
     students = aux;
 }
-```
-
-<p>Python</p>
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class Squirrel:
     def __init__(self, name, grade):
         self.name = name
         self.grade = grade
-
+\/
     def __str__(self):
         return f"{self.name} (Grade: {self.grade})"
-
+\/
 def sort(students):
     N = len(students)
     R = 5  # Assuming grades are from 0 to 4
-
+\/
     count = [0] * (R + 1)
     for student in students:
         count[student.grade + 1] += 1
-
+\/
     for r in range(R):
         count[r + 1] += count[r]
-
+\/
     aux = [None] * N
     for student in students:
         aux[count[student.grade]] = student
         count[student.grade] += 1
-
+\/
     students[:] = aux 
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 19.3 LSD Radix Sort {id="lsd"}
 
@@ -3210,92 +3231,92 @@ summary="Table for Comparing Performance of Sorting Algorithm">table
 for sorting performance</a>.
 </note>
 
-<p>Java</p>
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class LSDStringSort {
     public static void sort(String[] a, int W) {
         int N = a.length;
         int R = 256; // extended ASCII alphabet size
         String[] aux = new String[N];
-
-        for (int d = W - 1; d >= 0; d--) {
+\/
+        for (int d = W - 1; d &gt;= 0; d--) {
             int[] count = new int[R + 1];
             for (String string : a) {
                 count[string.charAt(d) + 1]++;
             }
-
-            for (int r = 0; r < R; r++) {
+\/
+            for (int r = 0; r &lt; R; r++) {
                 count[r + 1] += count[r];
             }
-
+\/
             for (String s : a) {
                 aux[count[s.charAt(d)]++] = s;
             }
-
+\/
             System.arraycopy(aux, 0, a, 0, N);
         }
     }
 }
-```
-
-<p>C++</p>
-
-```C++
-#include <iostream>
-#include <string>
-#include <vector>
-
-void lsdSort(std::vector<std::string>& a, const int w) {
-    const int n = static_cast<int>(a.size());
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+\/
+void lsdSort(std::vector&lt;std::string&gt;& a, const int w) {
+    const int n = static_cast&lt;int&gt;(a.size());
     int R = 256; 
-    std::vector<std::string> aux(n);
-
-    for (int d = w - 1; d >= 0; d--) {
-        std::vector<int> count(R + 1, 0);
-
-        for (int i = 0; i < n; i++) {
+    std::vector&lt;std::string&gt; aux(n);
+\/
+    for (int d = w - 1; d &gt;= 0; d--) {
+        std::vector&lt;int&gt; count(R + 1, 0);
+\/
+        for (int i = 0; i &lt; n; i++) {
             count[a[i][d] + 1]++;
         }
-
-        for (int r = 0; r < R; r++) {
+\/
+        for (int r = 0; r &lt; R; r++) {
             count[r + 1] += count[r];
         }
-
-        for (int i = 0; i < n; i++) {
+\/
+        for (int i = 0; i &lt; n; i++) {
             aux[count[a[i][d]]++] = a[i];
         }
-
-        for (int i = 0; i < n; i++) {
+\/
+        for (int i = 0; i &lt; n; i++) {
             a[i] = aux[i];
         }
     }
 }
-```
-
-<p>Python</p>
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 def lsd_sort(a, w):
     n = len(a)
     R = 256 
     aux = [""] * n
-
+\/
     for d in range(w - 1, -1, -1):
         count = [0] * (R + 1)
-
+\/
         for i in range(n):
             count[ord(a[i][d]) + 1] += 1
-
+\/
         for r in range(R):
             count[r + 1] += count[r]
-
+\/
         for i in range(n):
             aux[count[ord(a[i][d])]] = a[i]
             count[ord(a[i][d])] += 1
-
+\/
         a[:] = aux 
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 19.4 MSD Radix Sort {id="msd"}
 
@@ -3398,35 +3419,35 @@ public class MSDStringSort {
     }
 
     private static void sort(String[] a, String[] aux, int low, int high, int d) {
-        if (high <= low + CUTOFF) {
+        if (high &lt;= low + CUTOFF) {
             insertionSort(a, low, high, d);
             return;
         }
 
         int[] count = new int[R + 2];
-        for (int i = low; i <= high; i++) {
+        for (int i = low; i &lt;= high; i++) {
             int c = charAt(a[i], d);
             count[c + 2]++;
         }
 
-        for (int r = 0; r < R + 1; r++) {
+        for (int r = 0; r &lt; R + 1; r++) {
             count[r + 1] += count[r];
         }
 
-        for (int i = low; i <= high; i++) {
+        for (int i = low; i &lt;= high; i++) {
             int c = charAt(a[i], d);
             aux[count[c + 1]++] = a[i];
         }
 
-        if (high + 1 - low >= 0) System.arraycopy(aux, 0, a, low, high + 1 - low);
+        if (high + 1 - low &gt;= 0) System.arraycopy(aux, 0, a, low, high + 1 - low);
 
-        for (int r = 0; r < R; r++) {
+        for (int r = 0; r &lt; R; r++) {
             sort(a, aux, low + count[r], low + count[r + 1] - 1, d + 1);
         }
     }
 
     private static int charAt(String s, int d) {
-        if (d < s.length()) {
+        if (d &lt; s.length()) {
             return s.charAt(d);
         } else {
             return -1;
@@ -3434,15 +3455,15 @@ public class MSDStringSort {
     }
 
     private static void insertionSort(String[] a, int low, int high, int d) {
-        for (int i = low; i <= high; i++) {
-            for (int j = i; j > low && less(a[j], a[j - 1], d); j--) {
+        for (int i = low; i &lt;= high; i++) {
+            for (int j = i; j &gt; low && less(a[j], a[j - 1], d); j--) {
                 swap(a, j, j - 1);
             }
         }
     }
 
     private static boolean less(String v, String w, int d) {
-        return v.substring(d).compareTo(w.substring(d)) < 0;
+        return v.substring(d).compareTo(w.substring(d)) &lt; 0;
     }
 
     private static void swap(String[] a, int i, int j) {
@@ -3456,10 +3477,10 @@ public class MSDStringSort {
 C++
 
 ```C++
-#include <vector>
-#include <string>
-#include <algorithm>
-#include <iostream>
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
 
 class MSDStringSort {
 private:
@@ -3467,58 +3488,58 @@ private:
     static constexpr int CUTOFF = 15;
 
 public:
-    static void sort(std::vector<std::string>& a) {
-        std::vector<std::string> aux(a.size());
-        sort(a, aux, 0, static_cast<int>(a.size()) - 1, 0);
+    static void sort(std::vector&lt;std::string&gt;& a) {
+        std::vector&lt;std::string&gt; aux(a.size());
+        sort(a, aux, 0, static_cast&lt;int&gt;(a.size()) - 1, 0);
     }
 
 private:
-    static void sort(std::vector<std::string>& a, std::vector<std::string>& aux, const int low, const int high, const int d) {
-        if (high <= low + CUTOFF) {
+    static void sort(std::vector&lt;std::string&gt;& a, std::vector&lt;std::string&gt;& aux, const int low, const int high, const int d) {
+        if (high &lt;= low + CUTOFF) {
             insertionSort(a, low, high, d);
             return;
         }
 
-        std::vector<int> count(R + 2, 0);
-        for (int i = low; i <= high; i++) {
+        std::vector&lt;int&gt; count(R + 2, 0);
+        for (int i = low; i &lt;= high; i++) {
             const int c = charAt(a[i], d);
             count[c + 2]++;
         }
 
-        for (int r = 0; r < R + 1; r++) {
+        for (int r = 0; r &lt; R + 1; r++) {
             count[r + 1] += count[r];
         }
 
-        for (int i = low; i <= high; i++) {
+        for (int i = low; i &lt;= high; i++) {
             const int c = charAt(a[i], d);
             aux[count[c + 1]++] = a[i];
         }
 
         std::copy_n(aux.begin(), (high + 1 - low), a.begin() + low);
 
-        for (int r = 0; r < R; r++) {
+        for (int r = 0; r &lt; R; r++) {
             sort(a, aux, low + count[r], low + count[r + 1] - 1, d + 1);
         }
     }
 
     static int charAt(const std::string& s, const int d) {
-        if (d < s.length()) {
+        if (d &lt; s.length()) {
             return s[d];
         } else {
             return -1;
         }
     }
 
-    static void insertionSort(std::vector<std::string>& a, const int low, const int high, const int d) {
-        for (int i = low; i <= high; i++) {
-            for (int j = i; j > low && less(a[j], a[j - 1], d); j--) {
+    static void insertionSort(std::vector&lt;std::string&gt;& a, const int low, const int high, const int d) {
+        for (int i = low; i &lt;= high; i++) {
+            for (int j = i; j &gt; low && less(a[j], a[j - 1], d); j--) {
                 std::swap(a[j], a[j - 1]);
             }
         }
     }
 
     static bool less(const std::string& v, const std::string& w, const int d) {
-        return v.substr(d) < w.substr(d);
+        return v.substr(d) &lt; w.substr(d);
     }
 };
 ```
@@ -3527,7 +3548,7 @@ Python
 
 ```Python
 def char_at(s, d):
-    if d < len(s):
+    if d &lt; len(s):
         return ord(s[d])
     else:
         return -1
@@ -3535,7 +3556,7 @@ def char_at(s, d):
 def insertion_sort(arr, low, high, d):
     for i in range(low, high + 1):
         for j in range(i, low, -1):
-            if arr[j][d:] < arr[j - 1][d:]:
+            if arr[j][d:] &lt; arr[j - 1][d:]:
                 arr[j], arr[j - 1] = arr[j - 1], arr[j]
             else:
                 break
@@ -3546,7 +3567,7 @@ def msd_string_sort(arr):
     sort(arr, 0, len(arr) - 1, 0, aux, CUTOFF)
 
 def sort(arr, low, high, d, aux, CUTOFF):
-    if high <= low + CUTOFF:
+    if high &lt;= low + CUTOFF:
         insertion_sort(arr, low, high, d)
         return
 
@@ -3640,7 +3661,7 @@ public class ThreeWayRadixQuicksortStrings {
     private static final int CUTOFF = 15;
 
     private static int charAt(String s, int d) {
-        if (d < s.length()) return s.charAt(d);
+        if (d &lt; s.length()) return s.charAt(d);
         else return -1;
     }
 
@@ -3649,7 +3670,7 @@ public class ThreeWayRadixQuicksortStrings {
     }
 
     private static void sort(String[] a, int lo, int hi, int d) {
-        if (hi <= lo + CUTOFF) {
+        if (hi &lt;= lo + CUTOFF) {
             insertionSort(a, lo, hi, d);
             return;
         }
@@ -3657,32 +3678,32 @@ public class ThreeWayRadixQuicksortStrings {
         int lt = lo, gt = hi;
         int v = charAt(a[lo], d);
         int i = lo + 1;
-        while (i <= gt) {
+        while (i &lt;= gt) {
             int t = charAt(a[i], d);
-            if (t < v) exch(a, lt++, i++);
-            else if (t > v) exch(a, i, gt--);
+            if (t &lt; v) exch(a, lt++, i++);
+            else if (t &gt; v) exch(a, i, gt--);
             else i++;
         }
 
         sort(a, lo, lt - 1, d);
-        if (v >= 0) sort(a, lt, gt, d + 1);
+        if (v &gt;= 0) sort(a, lt, gt, d + 1);
         sort(a, gt + 1, hi, d);
     }
 
     private static void insertionSort(String[] a, int lo, int hi, int d) {
-        for (int i = lo; i <= hi; i++) {
-            for (int j = i; j > lo && less(a[j], a[j - 1], d); j--) {
+        for (int i = lo; i &lt;= hi; i++) {
+            for (int j = i; j &gt; lo && less(a[j], a[j - 1], d); j--) {
                 exch(a, j, j - 1);
             }
         }
     }
 
     private static boolean less(String v, String w, int d) {
-        for (int i = d; i < Math.min(v.length(), w.length()); i++) {
-            if (v.charAt(i) < w.charAt(i)) return true;
-            if (v.charAt(i) > w.charAt(i)) return false;
+        for (int i = d; i &lt; Math.min(v.length(), w.length()); i++) {
+            if (v.charAt(i) &lt; w.charAt(i)) return true;
+            if (v.charAt(i) &gt; w.charAt(i)) return false;
         }
-        return v.length() < w.length();
+        return v.length() &lt; w.length();
     }
 
     private static void exch(String[] a, int i, int j) {
@@ -3696,21 +3717,21 @@ public class ThreeWayRadixQuicksortStrings {
 C++
 
 ```C++
-#include <iostream>
-#include <vector>
-#include <string>
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
 
 class ThreeWayRadixQuicksortStrings {
 private:
     static constexpr int CUTOFF = 15; 
 
     static int charAt(const std::string& s, const int d) {
-        if (d < s.length()) return s[d];
+        if (d &lt; s.length()) return s[d];
         else return -1;
     }
 
-    static void sort(std::vector<std::string>& a, const int lo, const int hi, const int d) {
-        if (hi <= lo + CUTOFF) {
+    static void sort(std::vector&lt;std::string&gt;& a, const int lo, const int hi, const int d) {
+        if (hi &lt;= lo + CUTOFF) {
             insertionSort(a, lo, hi, d);
             return;
         }
@@ -3718,37 +3739,37 @@ private:
         int lt = lo, gt = hi;
         const int v = charAt(a[lo], d);
         int i = lo + 1;
-        while (i <= gt) {
+        while (i &lt;= gt) {
             int t = charAt(a[i], d);
-            if (t < v) std::swap(a[lt++], a[i++]);
-            else if (t > v) std::swap(a[i], a[gt--]);
+            if (t &lt; v) std::swap(a[lt++], a[i++]);
+            else if (t &gt; v) std::swap(a[i], a[gt--]);
             else i++;
         }
 
         sort(a, lo, lt - 1, d);
-        if (v >= 0) sort(a, lt, gt, d + 1);
+        if (v &gt;= 0) sort(a, lt, gt, d + 1);
         sort(a, gt + 1, hi, d);
     }
 
-    static void insertionSort(std::vector<std::string>& a, const int lo, const int hi, const int d) {
-        for (int i = lo; i <= hi; i++) {
-            for (int j = i; j > lo && less(a[j], a[j - 1], d); j--) {
+    static void insertionSort(std::vector&lt;std::string&gt;& a, const int lo, const int hi, const int d) {
+        for (int i = lo; i &lt;= hi; i++) {
+            for (int j = i; j &gt; lo && less(a[j], a[j - 1], d); j--) {
                 std::swap(a[j], a[j - 1]);
             }
         }
     }
 
     static bool less(const std::string& v, const std::string& w, const int d) {
-        for (int i = d; i < std::min(v.length(), w.length()); i++) {
-            if (v[i] < w[i]) return true;
-            if (v[i] > w[i]) return false;
+        for (int i = d; i &lt; std::min(v.length(), w.length()); i++) {
+            if (v[i] &lt; w[i]) return true;
+            if (v[i] &gt; w[i]) return false;
         }
-        return v.length() < w.length();
+        return v.length() &lt; w.length();
     }
 
 public:
-    static void sort(std::vector<std::string>& a) {
-        sort(a, 0, static_cast<int>(a.size()) - 1, 0);
+    static void sort(std::vector&lt;std::string&gt;& a) {
+        sort(a, 0, static_cast&lt;int&gt;(a.size()) - 1, 0);
     }
 };
 ```
@@ -3759,7 +3780,7 @@ Python
 CUTOFF = 15
 
 def char_at(s, d):
-    if d < len(s):
+    if d &lt; len(s):
         return ord(s[d])
     else:
         return -1
@@ -3767,32 +3788,32 @@ def char_at(s, d):
 def insertion_sort(arr, lo, hi, d):
     for i in range(lo, hi + 1):
         for j in range(i, lo, -1):
-            if arr[j][d:] < arr[j - 1][d:]:
+            if arr[j][d:] &lt; arr[j - 1][d:]:
                 arr[j], arr[j - 1] = arr[j - 1], arr[j]
             else:
                 break
 
 def three_way_radix_quicksort(arr):
     def sort(arr, lo, hi, d):
-        if hi <= lo + CUTOFF:
+        if hi &lt;= lo + CUTOFF:
             insertion_sort(arr, lo, hi, d)
             return
         lt, gt = lo, hi
         v = char_at(arr[lo], d)
         i = lo + 1
-        while i <= gt:
+        while i &lt;= gt:
             t = char_at(arr[i], d)
-            if t < v:
+            if t &lt; v:
                 arr[lt], arr[i] = arr[i], arr[lt]
                 lt += 1
                 i += 1
-            elif t > v:
+            elif t &gt; v:
                 arr[gt], arr[i] = arr[i], arr[gt]
                 gt -= 1
             else:
                 i += 1
         sort(arr, lo, lt - 1, d)
-        if v >= 0:
+        if v &gt;= 0:
             sort(arr, lt, gt, d + 1)
         sort(arr, gt + 1, hi, d)
 
@@ -3948,11 +3969,11 @@ public class RWayTrie {
 
     private static class Node {
         private boolean isEndOfWord;
-        private final HashMap<Character, Node> children;
+        private final HashMap&lt;Character, Node&gt; children;
 
         public Node() {
             isEndOfWord = false;
-            children = new HashMap<>();
+            children = new HashMap&lt;&gt;();
         }
     }
 
@@ -3998,15 +4019,15 @@ public class RWayTrie {
 C++
 
 ```C++
-#include <iostream>
-#include <unordered_map>
-#include <ranges>
+#include &lt;iostream&gt;
+#include &lt;unordered_map&gt;
+#include &lt;ranges&gt;
 
 constexpr int R = 26;
 
 struct Node {
     bool isEndOfWord;
-    std::unordered_map<char, Node*> children;
+    std::unordered_map&lt;char, Node*&gt; children;
 
     Node() : isEndOfWord(false) {}
 };
@@ -4020,7 +4041,7 @@ private:
             return;
         }
 
-        for (Node* child : node->children | std::views::values) {
+        for (Node* child : node-&gt;children | std::views::values) {
             deleteNode(child);
         }
 
@@ -4036,34 +4057,34 @@ public:
     {
         Node* current = root;
         for (char c : word) {
-            if (!current->children.contains(c)) {
-                current->children[c] = new Node();
+            if (!current-&gt;children.contains(c)) {
+                current-&gt;children[c] = new Node();
             }
-            current = current->children[c];
+            current = current-&gt;children[c];
         }
-        current->isEndOfWord = true;
+        current-&gt;isEndOfWord = true;
     }
 
     [[nodiscard]] bool search(const std::string& word) const
     {
         Node* current = root;
         for (char c : word) {
-            if (!current->children.contains(c)) {
+            if (!current-&gt;children.contains(c)) {
                 return false;
             }
-            current = current->children[c];
+            current = current-&gt;children[c];
         }
-        return current->isEndOfWord;
+        return current-&gt;isEndOfWord;
     }
 
     [[nodiscard]] bool startsWith(const std::string& prefix) const
     {
         Node* current = root;
         for (char c : prefix) {
-            if (!current->children.contains(c)) {
+            if (!current-&gt;children.contains(c)) {
                 return false;
             }
-            current = current->children[c];
+            current = current-&gt;children[c];
         }
         return true;
     }
