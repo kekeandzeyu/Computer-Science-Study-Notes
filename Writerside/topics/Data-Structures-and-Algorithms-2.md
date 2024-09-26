@@ -1514,7 +1514,7 @@ nodes.</p>
 <p>Internal nodes contain copies of keys to guide search.</p>
 </li>
 </list>
-<img src="../images_data/d10-3-1.png" alt = "B-Tree" style="inline"/>
+<img src="../images_data/d10-3-1.png" alt="B-Tree"/>
 </li>
 <li>
 <p>Property: </p>
@@ -1558,7 +1558,7 @@ INGRES, SQL, PostgreSQL.</p>
 </li>
 </list>
 
-<procedure title = "Search in B-Tree">
+<procedure title="Search in B-Tree">
     <step>
         <p>Start at root.</p>
     </step>
@@ -1571,7 +1571,7 @@ INGRES, SQL, PostgreSQL.</p>
 <img src="../images_data/d10-3-2.png" alt = "Search in B-Tree"/>
 </procedure>
 
-<procedure title = "Insert in B-Tree">
+<procedure title="Insert in B-Tree">
     <step>
         <p>Search for new key.</p>
     </step>
@@ -1598,12 +1598,12 @@ of its right subtree minus that of its left subtree.</p>
 <p>A node is height-blanced if <math>\text {skew} \in \{-1, 0, 1\}
 </math>.</p>
 
-<p><format color="BlueViolet">Properties:</format> A binary tree 
+<p><format color="BlueViolet">Property:</format> A binary tree 
 with height-balanced nodes has height <math>h = O(\log n)</math>.</p>
 
-<p>Proof: </p>
+<p><format color="LawnGreen">Proof</format></p>
 
-<code-block lang="tex" style="inline">
+<code-block lang="tex">
 \begin{align}
 F(0) = 1, F(1) = 2, F(h) &= 1 + F(h - 1) + F(h - 2) \\
 &\geq 2F(h - 2) \\
@@ -1675,7 +1675,7 @@ time proportinal to <math>R + \ log N</math></p>
 horizontal and vertical line segments, find all intersections 
 (all <math>x</math>- and <math>y</math>-coordinates are distinct.</p>
 
-<procedure title = "Sweep-Line Algorithm => Sweep Vertical Lines 
+<procedure title = "Sweep-Line Algorithm =&gt; Sweep Vertical Lines 
 from Left to Right">
 <step>
 <p><math>x</math>-coordinates define events.</p>
@@ -1934,41 +1934,68 @@ type="choices">
 <p>Order of growth of running time for <math>N</math> intervals.</p>
 
 <table style="header-row">
-<tr><td>operation</td><td>brute</td><td>interval search tree</td>
-<td>best in theory</td></tr>
-<tr><td>insert interval</td><td><math>1</math></td><td><math>\log N
-</math></td><td><math>\log N</math></td></tr>
-<tr><td>find interval</td><td><math>N</math></td><td><math>\log N
-</math></td><td><math>\log N</math></td></tr>
-<tr><td>delete interval</td><td><math>N</math></td><td><math>\log N
-</math></td><td><math>\log N</math></td></tr>
-<tr><td>find <format color="OrangeRed">any one</format> interval
-that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
-<td><math>\log N</math></td><td><math>\log N</math></td></tr>
-<tr><td>find <format color="OrangeRed">all</format> interval
-that intersects <math>(lo, hi)</math></td><td><math>N</math></td>
-<td><math>R \log N</math></td><td><math>R + \log N</math></td></tr>
+<tr>
+    <td>operation</td>
+    <td>brute</td>
+    <td>interval search tree</td>
+    <td>best in theory</td>
+</tr>
+<tr>
+    <td>insert interval</td>
+    <td><math>1</math></td>
+    <td><math>\log N</math></td>
+    <td><math>\log N</math></td>
+</tr>
+<tr>
+    <td>find interval</td>
+    <td><math>N</math></td>
+    <td><math>\log N</math></td>
+    <td><math>\log N</math></td>
+</tr>
+<tr>
+    <td>delete interval</td>
+    <td><math>N</math></td>
+    <td><math>\log N</math></td>
+    <td><math>\log N</math></td>
+</tr>
+<tr>
+    <td>find <format color="OrangeRed">any one</format> interval
+    that intersects <math>(lo, hi)</math></td>
+    <td><math>N</math></td>
+    <td><math>\log N</math></td>
+    <td><math>\log N</math></td>
+</tr>
+<tr>
+    <td>find <format color="OrangeRed">all</format> interval
+    that intersects <math>(lo, hi)</math></td>
+    <td><math>N</math></td>
+    <td><math>R \log N</math></td>
+    <td><math>R + \log N</math></td>
+</tr>
 </table>
 
 ### 11.5 Rectangle Intersection
 
-<p><format color="BlueViolet">Sweep-line Algorithm</format>: </p>
+<p><format color="BlueViolet">Sweep-line Algorithm</format></p>
 
 <list type="bullet">
 <li>
-<p><math>x</math>-coordinates of left and right endpoints define 
-events.</p>
+    <p><math>x</math>-coordinates of left and right endpoints define 
+    events.</p>
 </li>
 <li>
-<p>Maintain set of rectangles that intersect the sweep line in an 
-interval search tree (using <math>y</math>-intervals of rectangle).</p>
+    <p>Maintain set of rectangles that intersect the sweep line in an 
+    interval search tree (using <math>y</math>-intervals of rectangle).
+    </p>
 </li>
 <li>
-<p>Left endpoint: interval search for <math>y</math>-interval of 
-rectangle; insert <math>y</math>-interval.</p>
+    <p><format color="Fuchsia">Left endpoint:</format> interval search for
+    <math>y</math>-interval of rectangle; insert <math>y</math>-interval.
+    </p>
 </li>
 <li>
-<p>Right endpoint: remove <math>y</math>-interval.</p>
+    <p><format color="Fuchsia">Right endpoint:</format> remove <math>y
+    </math>-interval.</p>
 </li>
 </list>
 
@@ -1977,23 +2004,24 @@ algorithm takes time proportional to <math>N \log N + R \log N</math>
 to find <math>R</math> intersections among a set of <math>N</math> 
 rectangles.</p>
 
-<p>Proof: </p>
+<p><format color="LawnGreen">Proof</format></p>
+
 <list type="bullet">
 <li>
-<p>Put <math>x</math>-coordinates on a PQ (or sort) => 
-<math>N \log N</math></p>
+    <p>Put <math>x</math>-coordinates on a PQ (or sort) => 
+    <math>N \log N</math></p>
 </li>
 <li>
-<p>Insert <math>y</math>-intervals into ST => <math>N \log N</math>
+    <p>Insert <math>y</math>-intervals into ST => <math>N \log N</math>
 </p>
 </li>
 <li>
-<p>Delete <math>y</math>-intervals from ST => <math>N \log N</math>
-</p>
+    <p>Delete <math>y</math>-intervals from ST => <math>N \log N</math>
+    </p>
 </li>
 <li>
-<p>Interval searches for y-intervals => <math>N \log N + R \log N
-</math></p>
+    <p>Interval searches for y-intervals => <math>N \log N + R \log N
+    </math></p>
 </li>
 </list>
 
@@ -2143,19 +2171,19 @@ between 0 and M-1 (for use of array index).</p>
 <p>This is Horner's method to hash strings.</p>
 </note>
 
-```Java
+<code-block lang="java" collapsible="true">
 public final class StringTest {
     private final char[] s = "Hello, World!".toCharArray();
-    
+\/    
     public int hash() {
         int hash = 0;
-        for (int i = 0; i < s.length; i++) {
+        for (int i = 0; i &lt; s.length; i++) {
             hash = (31 * hash) + s[i];
         }
         return hash;
     }
 }
-```
+</code-block>
 
 ### 12.2 Collision Solution &#8544; - Separate Chaining & Variant
 
@@ -2163,16 +2191,16 @@ public final class StringTest {
 
 <list type="alpha-lower">
 <li>
-<p><format color="Fuchsia">Hash:</format> map key to integer
-<math>i</math> between <math>0</math> and <math>M - 1</math>.</p>
+    <p><format color="Fuchsia">Hash:</format> map key to integer
+    <math>i</math> between <math>0</math> and <math>M - 1</math>.</p>
 </li>
 <li>
-<p><format color="Fuchsia">Insert:</format> put at front of
-<math>i ^ {\text{th}}</math> chain (if not already there).</p>
+    <p><format color="Fuchsia">Insert:</format> put at front of
+    <math>i ^ {\text{th}}</math> chain (if not already there).</p>
 </li>
 <li>
-<p><format color="Fuchsia">Search:</format> need to search 
-only <math>i ^ {\text{th}}</math> chain.</p>
+    <p><format color="Fuchsia">Search:</format> need to search 
+    only <math>i ^ {\text{th}}</math> chain.</p>
 </li>
 </list>
 
@@ -2182,46 +2210,46 @@ only <math>i ^ {\text{th}}</math> chain.</p>
 
 <list type="bullet">
 <li>
-<p>Number of probes for search/insert/delete is proportional to 
-<math>\frac {N}{M}</math>.
+    <p>Number of probes for search/insert/delete is proportional to 
+    <math>\frac {N}{M}</math>.
 </p>
 </li>
 <li>
-<p>Typical choice: <math>M \sim \frac {N}{5}</math> (constant 
-operations)</p>
+    <p>Typical choice: <math>M \sim \frac {N}{5}</math> (constant 
+    operations)</p>
 </li>
 </list>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class SeparateChainingHashST {
     private final int M = 97; // number of chains
     private final Node[] st = new Node[M]; // array of chains
-
+\/
     private static class Node {
         private final Object key;
         private Object val;
         private final Node next;
-
+\/
         public Node(Object key, Object val, Node node) {
             this.key = key;
             this.val = val;
             this.next = node;
         }
     }
-
+\/
     private int hash(Object key) {
         return (key.hashCode() & 0x7fffffff) % M;  // no bug
     }
-
+\/
     public Object get(Object key) {
         int i = hash(key);
         for (Node x = st[i]; x != null; x = x.next)
             if (key.equals(x.key)) return x.val;
         return null;
     }
-
+\/
     public void put(Object key, Object val) {
         int i = hash(key);
         for (Node x = st[i]; x != null; x = x.next)
@@ -2229,20 +2257,19 @@ public class SeparateChainingHashST {
         st[i] = new Node(key, val, st[i]);
     }
 }
-```
-
-C++
-
-```C++
-#include <list>
-#include <vector>
-#include <optional>
-
-template<typename Key, typename Value>
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;list&gt;
+#include &lt;vector&gt;
+#include &lt;optional&gt;
+\/
+template&lt;typename Key, typename Value&gt;
 class HashTable {
 public:
     explicit HashTable(size_t size) : table(size) {}
-
+\/
     void insert(Key key, Value value) {
         size_t hashValue = hashFunction(key);
         auto& chain = table[hashValue];
@@ -2254,8 +2281,8 @@ public:
         }
         chain.emplace_back(key, value);
     }
-
-    std::optional<Value> get(Key key) {
+\/
+    std::optional&lt;Value&gt; get(Key key) {
         size_t hashValue = hashFunction(key);
         auto& chain = table[hashValue];
         for (auto& pair : chain) {
@@ -2265,31 +2292,34 @@ public:
         }
         return {};
     }
-
+\/
     void remove(Key key) {
         size_t hashValue = hashFunction(key);
         auto& chain = table[hashValue];
         chain.remove_if([key](auto pair) { return pair.first == key; });
     }
-
+\/
 private:
-    std::vector<std::list<std::pair<Key, Value>>> table;
-
+    std::vector&lt;std::list&lt;std::pair&lt;Key, Value&gt;&gt;&gt; table;
+\/
     size_t hashFunction(Key key) {
         return key % table.size();
     }
 };
-```
+    </code-block>
+    </tab>
+</tabs>
 
 #### 12.2.2 Variant - Two-Probe Hashing
 
 <list type="bullet">
 <li>
-<p>Hash to two positions, insert key in shorter of the two chains.</p>
+    <p>Hash to two positions, insert key in shorter of the two chains.
+    </p>
 </li>
 <li>
-<p>Reduces expected length of the longest chain to <math>\log \log N
-</math>.</p>
+    <p>Reduces expected length of the longest chain to <math>\log \log N
+    </math>.</p>
 </li>
 </list>
 
@@ -2333,19 +2363,19 @@ a linear probing hash table of size M that contains <math>N = \alpha M
 </li>
 </list>
 
-Java
-
-```Java
-public class LinearProbingHashST<Key, Value> {
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+public class LinearProbingHashST&lt;Key, Value&gt; {
     private final int M = 30001;
     private final Key[] keys = (Key[]) new Object[M];
     private final Value[] vals = (Value[]) new Object[M];
-
+\/
     /* Map key to integer i between 0 and M - 1. */
     private int hash(Key key) {
         return (key.hashCode() & 0x7fffffff) % M;
     }
-
+\/
     /* Put at table index i if free; if not try i+1, i+2, etc. */
     public void put(Key key, Value val) {
         int i;
@@ -2358,7 +2388,7 @@ public class LinearProbingHashST<Key, Value> {
         keys[i] = key;
         vals[i] = val;
     }
-
+\/
     /* Search table index i; if occupied but not match, try i+1, i+2, etc. */
     public Value get(Key key) {
         for (int i = hash(key); keys[i] != null; i = (i + 1) % M)
@@ -2367,63 +2397,62 @@ public class LinearProbingHashST<Key, Value> {
         return null;
     }
 }
-```
-
-Java (Princeton)
-
-```Java
-public class LinearProbingHashST<Key, Value> {
-
+    </code-block>
+    </tab>
+    <tab title="Java (Princeton)">
+    <code-block lang="java" collapsible="true">
+public class LinearProbingHashST&lt;Key, Value&gt; {
+\/
     // must be a power of 2
     private static final int INIT_CAPACITY = 4;
-
+\/
     private int n;           // number of key-value pairs in the symbol table
     private int m;           // size of linear probing table
     private Key[] keys;      // the keys
     private Value[] vals;    // the values
-
-
+\/
+\/
     public LinearProbingHashST() {
         this(INIT_CAPACITY);
     }
-
+\/
     public LinearProbingHashST(int capacity) {
         m = capacity;
         n = 0;
         keys = (Key[]) new Object[m];
         vals = (Value[]) new Object[m];
     }
-
+\/
     public int size() {
         return n;
     }
-
+\/
     public boolean isEmpty() {
         return size() == 0;
     }
-
+\/
     public boolean contains(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to contains() is null");
         return get(key) != null;
     }
-
+\/
     // hash function for keys - returns value between 0 and m-1
     private int hashTextbook(Key key) {
         return (key.hashCode() & 0x7fffffff) % m;
     }
-
+\/
     // hash function for keys - returns value between 0 and m-1 (assumes m is a power of 2)
     // (from Java 7 implementation, protects against poor quality hashCode() implementations)
     private int hash(Key key) {
         int h = key.hashCode();
-        h ^= (h >>> 20) ^ (h >>> 12) ^ (h >>> 7) ^ (h >>> 4);
+        h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12) ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);
         return h & (m - 1);
     }
-
+\/
     // resizes the hash table to the given capacity by re-hashing all of the keys
     private void resize(int capacity) {
-        LinearProbingHashST<Key, Value> temp = new LinearProbingHashST<Key, Value>(capacity);
-        for (int i = 0; i < m; i++) {
+        LinearProbingHashST&lt;Key, Value&gt; temp = new LinearProbingHashST&lt;Key, Value&gt;(capacity);
+        for (int i = 0; i &lt; m; i++) {
             if (keys[i] != null) {
                 temp.put(keys[i], vals[i]);
             }
@@ -2432,24 +2461,18 @@ public class LinearProbingHashST<Key, Value> {
         vals = temp.vals;
         m = temp.m;
     }
-
-    /**
-     * Inserts the specified key-value pair into the symbol table, overwriting the old
-     * value with the new value if the symbol table already contains the specified key.
-     * Deletes the specified key (and its associated value) from this symbol table
-     * if the specified value is {@code null}.
-     */
+\/
     public void put(Key key, Value val) {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
-
+\/
         if (val == null) {
             delete(key);
             return;
         }
-
+\/
         // double table size if 50% full
-        if (n >= m / 2) resize(2 * m);
-
+        if (n &gt;= m / 2) resize(2 * m);
+\/
         int i;
         for (i = hash(key); keys[i] != null; i = (i + 1) % m) {
             if (keys[i].equals(key)) {
@@ -2461,7 +2484,7 @@ public class LinearProbingHashST<Key, Value> {
         vals[i] = val;
         n++;
     }
-
+\/
     // Returns the value associated with the specified key.
     public Value get(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
@@ -2470,25 +2493,21 @@ public class LinearProbingHashST<Key, Value> {
                 return vals[i];
         return null;
     }
-
-    /**
-     * Removes the specified key and its associated value from this symbol table
-     * (if the key is in this symbol table).
-     */
+\/
     public void delete(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to delete() is null");
         if (!contains(key)) return;
-
+\/
         // find position i of key
         int i = hash(key);
         while (!key.equals(keys[i])) {
             i = (i + 1) % m;
         }
-
+\/
         // delete key and associated value
         keys[i] = null;
         vals[i] = null;
-
+\/
         // rehash all keys in same cluster
         i = (i + 1) % m;
         while (keys[i] != null) {
@@ -2501,27 +2520,23 @@ public class LinearProbingHashST<Key, Value> {
             put(keyToRehash, valToRehash);
             i = (i + 1) % m;
         }
-
+\/
         n--;
-
+\/
         // halves size of array if it's 12.5% full or less
-        if (n > 0 && n <= m / 8) resize(m / 2);
-
+        if (n &gt; 0 && n &lt;= m / 8) resize(m / 2);
+\/
         assert check();
     }
-
-    // integrity check - don't check after each put() because
-    // integrity not maintained during a call to delete()
+\/
     private boolean check() {
-
-        // check that hash table is at most 50% full
-        if (m < 2 * n) {
+\/
+        if (m &lt; 2 * n) {
             System.err.println("Hash table size m = " + m + "; array size n = " + n);
             return false;
         }
-
-        // check that each key in table can be found by get()
-        for (int i = 0; i < m; i++) {
+\/
+        for (int i = 0; i &lt; m; i++) {
             if (keys[i] == null) continue;
             else if (get(keys[i]) != vals[i]) {
                 System.err.println("get[" + keys[i] + "] = " + get(keys[i]) + "; vals[i] = " + vals[i]);
@@ -2531,46 +2546,45 @@ public class LinearProbingHashST<Key, Value> {
         return true;
     }
 }
-```
-
-C++
-
-```C++
-#include <vector>
-#include <optional>
-
-template<typename Key, typename Value>
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;vector&gt;
+#include &lt;optional&gt;
+\/
+template&lt;typename Key, typename Value&gt;
 struct HashNode {
     Key key;
     Value value;
     bool occupied;
-
+\/
     HashNode() : occupied(false) {}
     HashNode(Key key, Value value) : key(key), value(value), occupied(true) {}
 };
-
-template<typename Key, typename Value>
+\/
+template&lt;typename Key, typename Value&gt;
 class HashTable {
 private:
-    std::vector<HashNode<Key, Value>> table;
+    std::vector&lt;HashNode&lt;Key, Value&gt;&gt; table;
     int tableSize;
-
+\/
     int hashFunction(Key key) {
         return key % tableSize;
     }
-
+\/
 public:
     HashTable(int size) : table(size), tableSize(size) {}
-
+\/
     void insert(Key key, Value value) {
         int index = hashFunction(key);
         while (table[index].occupied) {
             index = (index + 1) % tableSize;
         }
-        table[index] = HashNode<Key, Value>(key, value);
+        table[index] = HashNode&lt;Key, Value&gt;(key, value);
     }
-
-    std::optional<Value> get(Key key) {
+\/
+    std::optional&lt;Value&gt; get(Key key) {
         int index = hashFunction(key);
         while (table[index].occupied) {
             if (table[index].key == key) {
@@ -2580,7 +2594,7 @@ public:
         }
         return {};
     }
-
+\/
     void remove(Key key) {
         int index = hashFunction(key);
         while (table[index].occupied) {
@@ -2592,7 +2606,9 @@ public:
         }
     }
 };
-```
+    </code-block>
+    </tab>
+</tabs>
 
 <p><format color="BlueViolet">Knuth's Parking Problem</format></p>
 
@@ -2857,39 +2873,37 @@ for insertion and removal operations (logarithmic time complexity).</p>
 </li>
 </list>
 
-Java
-
-```Java
+<code-block lang="java" collapsible="true">
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
-
+\/
 public class SetExample {
     public static void main(String[] args) {
         // HashSet - No order guarantee
-        Set<String> hashSet = new HashSet<>();
+        Set&lt;String&gt; hashSet = new HashSet&lt;&gt;();
         hashSet.add("Apple");
         hashSet.add("Banana");
         hashSet.add("Orange");
         System.out.println("HashSet: " + hashSet); // Output may vary in order
-
+\/
         // LinkedHashSet - Maintains insertion order
-        Set<String> linkedHashSet = new LinkedHashSet<>();
+        Set&lt;String&gt; linkedHashSet = new LinkedHashSet&lt;&gt;();
         linkedHashSet.add("Apple");
         linkedHashSet.add("Banana");
         linkedHashSet.add("Orange");
         System.out.println("LinkedHashSet: " + linkedHashSet); // Output: [Apple, Banana, Orange]
-
+\/
         // TreeSet - Sorted order
-        Set<String> treeSet = new TreeSet<>();
+        Set&lt;String&gt; treeSet = new TreeSet&lt;&gt;();
         treeSet.add("Orange");
         treeSet.add("Apple");
         treeSet.add("Banana");
         System.out.println("TreeSet: " + treeSet); // Output: [Apple, Banana, Orange]
     }
 }
-```
+</code-block>
 
 <note>Implementation of <code>TreeSet</code>: Remove "value" from any
 ST implementation.</note>
@@ -2944,52 +2958,52 @@ search, and deletion operations. </p>
 </li>
 </list>
 
-C++
-
-```C++
-#include <iostream>
-#include <set>
-
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;set&gt;
+\/
 int main() {
-    std::set<int> uniqueNumbers;
-
+    std::set&lt;int&gt; uniqueNumbers;
+\/
     uniqueNumbers.insert(3);
     uniqueNumbers.insert(1);
     uniqueNumbers.insert(4);
     uniqueNumbers.insert(1); // Duplicate, won't be added
-
-    std::cout << "Elements in the set: ";
+\/
+    std::cout &lt;&lt; "Elements in the set: ";
     for (int num : uniqueNumbers) {
-        std::cout << num << " ";
+        std::cout &lt;&lt; num &lt;&lt; " ";
     } // Output: 1 3 4 
-
+\/
     return 0;
 }
-```
+</code-block>
 
 #### 13.1.3 Sets in Python
 
-<p>For this part, please refer to 
-<a href="Python-Programming.md" anchor = "sets" 
+<p>For more information, please visit
+<a href="Python-Programming.md" anchor="sets" 
 summary="How to use sets in Python">Sets in Python Programming</a></p>
 
 ### 13.2 Dictionary Clients
 
-<note><p>This is the use of built-in dictionaries.</p></note>
+<note>
+<p>This is the use of built-in dictionaries.</p>
+</note>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.HashMap;
-
+\/
 public class Main {
     public static void main(String[] args) {
-        HashMap<String, Integer> map = new HashMap<>();
-
+        HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+\/
         map.put("Alice", 25);
         map.put("Bob", 30);
         map.put("Charlie", 35);
-
+\/
         int age = map.get("Alice");
         System.out.println("Alice's age: " + age);
         boolean exists = map.containsKey("Bob");
@@ -2998,107 +3012,104 @@ public class Main {
         System.out.println(map);
     }
 }
-```
-
-C++ (map -> Red-Black Trees)
-
-```C++
-#include <iostream>
-#include <map>
-
+    </code-block>
+    </tab>
+    <tab title="C++ (map -&gt; Red-Black BST)">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;map&gt;
+\/
 int main() {
-    std::map<std::string, int> myMap;
+    std::map&lt;std::string, int&gt; myMap;
     myMap["apple"] = 1;
     myMap["banana"] = 2;
     myMap["cherry"] = 3;
-    std::cout << "The value associated with key 'apple' is: " << myMap["apple"] << std::endl;
+    std::cout &lt;&lt; "The value associated with key 'apple' is: " &lt;&lt; myMap["apple"] &lt;&lt; std::endl;
     for (const auto& pair : myMap) {
-        std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
+        std::cout &lt;&lt; "Key: " &lt;&lt; pair.first &lt;&lt; ", Value: " &lt;&lt; pair.second &lt;&lt; std::endl;
     }
     return 0;
 }
-```
-
-C++ (unordered map -> Hash Tables)
-
-```C++
-#include <iostream>
-#include <unordered_map>
-
+    </code-block>
+    </tab>
+    <tab title="C++ (unordered map -&gt; Hash Tables)">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;unordered_map&gt;
+\/
 int main() {
-    std::unordered_map<std::string, int> myMap;
+    std::unordered_map&lt;std::string, int&gt; myMap;
     myMap["apple"] = 1;
     myMap["banana"] = 2;
     myMap["cherry"] = 3;
-    std::cout << "The value associated with key 'apple' is: " << myMap["apple"] << std::endl;
+    std::cout &lt;&lt; "The value associated with key 'apple' is: " &lt;&lt; myMap["apple"] &lt;&lt; std::endl;
     for (const auto& pair : myMap) {
-        std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
+        std::cout &lt;&lt; "Key: " &lt;&lt; pair.first &lt;&lt; ", Value: " &lt;&lt; pair.second &lt;&lt; std::endl;
     }
     return 0;
 }
-```
-
-<p>For dictionaries in Python, refer to
-<a href="Python-Programming.md" anchor = "dictionaries" summary
-= "How to use dictionaries in Python">Python Programming</a>.</p>
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 person = {
     "name": "John",
     "age": 30,
     "city": "New York"
 }
-print(person["name"]) 
-```
+print(person["name"]) # Output: John
+    </code-block>
+    </tab>
+</tabs>
+
+<p>For more information about dictionaries in Python, please visit
+<a href="Python-Programming.md" anchor="dictionaries" summary
+="How to use dictionaries in Python">Python Programming</a>.</p>
 
 ### 13.3 Indexing Clients
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
-
+\/
 public class InvertedIndexJava {
-
-    // Data structure to represent a document
+\/
     static class Document {
         int id;
         String content;
-
+\/
         Document(int id, String content) {
             this.id = id;
             this.content = content;
         }
     }
-
-    // Function to build an inverted index using TreeMap (Red-Black Tree)
-    static TreeMap<String, List<Integer>> buildInvertedIndex(List<Document> documents) {
-        TreeMap<String, List<Integer>> index = new TreeMap<>();
-
+\/
+    static TreeMap&lt;String, List&lt;Integer&gt;&gt; buildInvertedIndex(List&lt;Document&gt; documents) {
+        TreeMap&lt;String, List&lt;Integer&gt;&gt; index = new TreeMap&lt;&gt;();
+\/
         for (Document doc : documents) {
             String[] words = doc.content.toLowerCase().split("\\s+"); // Tokenize into words
             for (String word : words) {
-                index.computeIfAbsent(word, k -> new ArrayList<>()).add(doc.id); 
+                index.computeIfAbsent(word, k -&gt; new ArrayList&lt;&gt;()).add(doc.id); 
             }
         }
-
+\/
         return index;
     }
-
+\/
     public static void main(String[] args) {
-        List<Document> documents = Arrays.asList(
+        List&lt;Document&gt; documents = Arrays.asList(
                 new Document(1, "The quick brown fox jumps over the lazy dog"),
                 new Document(2, "A lazy cat sleeps all day long"),
                 new Document(3, "The quick rabbit jumps over the fence")
         );
-
-        TreeMap<String, List<Integer>> invertedIndex = buildInvertedIndex(documents);
-
+\/
+        TreeMap&lt;String, List&lt;Integer&gt;&gt; invertedIndex = buildInvertedIndex(documents);
+\/
         // Example query: Find documents containing the word "jumps"
         String searchTerm = "jumps";
         if (invertedIndex.containsKey(searchTerm)) {
@@ -3108,34 +3119,29 @@ public class InvertedIndexJava {
         }
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
-
-using namespace std;
-
-// Data structure to represent a document
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
+\/
 struct Document {
     int id;
     string content;
 };
-
+\/
 // Function to build an inverted index using a map (Red-Black Tree)
-map<string, vector<int>> buildInvertedIndex(const vector<Document>& documents) {
-    map<string, vector<int>> index;
-
+std::map&lt;std::string, std::vector&lt;int&gt;&gt; buildInvertedIndex(const std::vector&lt;Document&gt;& documents) {
+    std::map&lt;std::string, std::vector&lt;int&gt;&gt; index;
+\/
     for (const Document& doc : documents) {
-        // Tokenize the document content (split into words) - simplify for brevity
         string word; 
         for (char c : doc.content){
             if (isspace(c)){
-                if (!word.empty()){ // Avoid adding empty words
+                if (!word.empty()){ 
                     index[word].push_back(doc.id);
                     word.clear();
                 }
@@ -3148,85 +3154,87 @@ map<string, vector<int>> buildInvertedIndex(const vector<Document>& documents) {
             index[word].push_back(doc.id);
         }
     }
-
+\/
     return index;
 }
-
+\/
 int main() {
-    vector<Document> documents = {
+    std::vector&lt;Document&gt; documents = {
         {1, "The quick brown fox jumps over the lazy dog"},
         {2, "A lazy cat sleeps all day long"},
         {3, "The quick rabbit jumps over the fence"}
     };
-
-    map<string, vector<int>> invertedIndex = buildInvertedIndex(documents);
-
+\/
+    std::map&lt;std::string, std::vector&lt;int&gt;&gt; invertedIndex = buildInvertedIndex(documents);
+\/
     // Example query: Find documents containing the word "jumps"
     string searchTerm = "jumps";
     if (invertedIndex.find(searchTerm) != invertedIndex.end()) {
-        cout << "Documents containing '" << searchTerm << "': ";
+        std::cout &lt;&lt; "Documents containing '" &lt;&lt; searchTerm &lt;&lt; "': ";
         for (int docId : invertedIndex[searchTerm]) {
-            cout << docId << " ";
+            std::cout &lt;&lt; docId &lt;&lt; " ";
         }
-        cout << endl;
+        std::cout &lt;&lt; std::endl;
     } else {
-        cout << "No documents found containing '" << searchTerm << "'" << endl;
+        std::cout &lt;&lt; "No documents found containing '" &lt;&lt; searchTerm &lt;&lt; "'" &lt;&lt; std::endl;
     }
-
+\/
     return 0;
 }
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 13.4 Sparse Vectors
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.HashMap;
 import java.util.Map;
-
+\/
 public class SparseMatrixVectorMultiplication {
-
+\/
     public static class SparseMatrix {
         private int rows;
         private int cols;
-        private Map<String, Double> data;
-
+        private Map&lt;String, Double&gt; data;
+\/
         public SparseMatrix(int rows, int cols) {
             this.rows = rows;
             this.cols = cols;
-            this.data = new HashMap<>();
+            this.data = new HashMap&lt;&gt;();
         }
-
+\/
         // Method to set a non-zero element in the matrix
         public void set(int row, int col, double value) {
-            if (row < 0 || row >= rows || col < 0 || col >= cols) {
+            if (row &lt; 0 || row &gt;= rows || col &lt; 0 || col &gt;= cols) {
                 throw new IllegalArgumentException("Invalid row or column index");
             }
             if (value != 0) {
                 data.put(getKey(row, col), value);
             }
         }
-
+\/
         // Method to get an element from the matrix (returns 0 if not present)
         public double get(int row, int col) {
-            if (row < 0 || row >= rows || col < 0 || col >= cols) {
+            if (row &lt; 0 || row &gt;= rows || col &lt; 0 || col &gt;= cols) {
                 throw new IllegalArgumentException("Invalid row or column index");
             }
             return data.getOrDefault(getKey(row, col), 0.0);
         }
-
+\/
         // Helper method to generate key for the HashMap
         private String getKey(int row, int col) {
             return row + "," + col;
         }
-
+\/
         // Method to perform matrix-vector multiplication
         public double[] multiply(double[] vector) {
             if (vector.length != cols) {
                 throw new IllegalArgumentException("Vector size mismatch");
             }
-
+\/
             double[] result = new double[rows];
             for (String key : data.keySet()) {
                 String[] indices = key.split(",");
@@ -3238,67 +3246,64 @@ public class SparseMatrixVectorMultiplication {
         }
     }
 }
-```
-
-C++
-
-```C++
-#include <iostream>
-#include <unordered_map>
-#include <vector>
-
-using namespace std;
-
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;unordered_map&gt;
+#include &lt;vector&gt;
+\/
 // Pair struct to store row and column indices
 struct RowCol {
     int row;
     int col;
-
+\/
     // Hash function for unordered_map
     size_t operator()(const RowCol& rc) const {
-        return hash<int>()(rc.row) ^ hash<int>()(rc.col);
+        return hash&lt;int&gt;()(rc.row) ^ hash&lt;int&gt;()(rc.col);
     }
-
+\/
     // Equality comparison for unordered_map
     bool operator==(const RowCol& other) const {
         return row == other.row && col == other.col;
     }
 };
-
+\/
 class SparseMatrix {
 private:
     int rows;
     int cols;
-    unordered_map<RowCol, double> data; // Symbol table (hash map)
-
+    unordered_map&lt;RowCol, double&gt; data; // Symbol table (hash map)
+\/
 public:
     SparseMatrix(int rows, int cols) : rows(rows), cols(cols) {}
-
+\/
     // Set a non-zero element in the matrix
     void set(int row, int col, double value) {
-        if (row < 0 || row >= rows || col < 0 || col >= cols) {
+        if (row &lt; 0 || row &gt;= rows || col &lt; 0 || col &gt;= cols) {
             throw out_of_range("Invalid row or column index");
         }
         if (value != 0) {
             data[{row, col}] = value; // Using RowCol struct as key
         }
     }
-
+\/
     // Get an element from the matrix (returns 0 if not present)
     double get(int row, int col) const {
-        if (row < 0 || row >= rows || col < 0 || col >= cols) {
-            throw out_of_range("Invalid row or column index");
+        if (row &lt; 0 || row &gt;= rows || col &lt; 0 || col &gt;= cols) {
+            std::throw out_of_range("Invalid row or column index");
         }
         return data.count({row, col}) ? data.at({row, col}) : 0.0; 
     }
-
+\/
     // Matrix-vector multiplication
-    vector<double> multiply(const vector<double>& vec) const {
+    std::vector&lt;double&gt; multiply(const vector&lt;double&gt;& vec) const {
         if (vec.size() != cols) {
-            throw invalid_argument("Vector size mismatch");
+            std::throw invalid_argument("Vector size mismatch");
         }
-
-        vector<double> result(rows, 0.0); // Initialize result vector with zeros
+\/
+        std::vector&lt;double&gt; result(rows, 0.0); // Initialize result vector with zeros
         for (const auto& entry : data) {
             int row = entry.first.row;
             int col = entry.first.col;
@@ -3307,37 +3312,38 @@ public:
         return result;
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class SparseMatrix:
     def __init__(self, rows, cols):
         self.rows = rows
         self.cols = cols
         self.data = {}  # Using a dictionary as a symbol table
-
+\/
     def set(self, row, col, value):
-        if row < 0 or row >= self.rows or col < 0 or col >= self.cols:
+        if row &lt; 0 or row &gt;= self.rows or col &lt; 0 or col &gt;= self.cols:
             raise ValueError("Invalid row or column index")
         if value != 0:
             self.data[(row, col)] = value
-
+\/
     def get(self, row, col):
-        if row < 0 or row >= self.rows or col < 0 or col >= self.cols:
+        if row &lt; 0 or row &gt;= self.rows or col &lt; 0 or col &gt;= self.cols:
             raise ValueError("Invalid row or column index")
         return self.data.get((row, col), 0)  # Return 0 if not found
-
+\/
     def multiply(self, vector):
         if len(vector) != self.cols:
             raise ValueError("Vector size mismatch")
-
+\/
         result = [0] * self.rows
         for (row, col), value in self.data.items():
             result[row] += value * vector[col]
         return result
-```
+    </code-block>
+    </tab>
+</tabs>
 
 <tip>
 <p>What is the running time of multiplying the <math>n \times n</math> matirx
@@ -5838,7 +5844,7 @@ T</math>.</p>
 computes MST in time proportional to <math>E \log E</math> (in the 
 worst case).</p>
 
-<p>Proof: </p>
+<p><format color="LawnGreen">Proof</format></p>
 
 <table style="header-row">
 <tr>
@@ -5914,76 +5920,73 @@ public class KruskalsAlgorithm {
 }
     </code-block>
     </tab>
-</tabs>
-
-C++
-
-```C++
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
 #include "EdgeWeightedGraph.h"
 #include &lt;queue&gt;
-#include <vector>
+#include &lt;vector&gt;
 \/
 class UnionFind {
     public:
         explicit UnionFind(int size);
         int find(int element);
         void unionSets(int element1, int element2);
-
+\/
     private:
-        std::vector<int> parent;
-        std::vector<int> rank;
+        std::vector&lt;int&gt; parent;
+        std::vector&lt;int&gt; rank;
 };
-
-std::vector<Edge> findMinimumSpanningTree(const EdgeWeightedGraph& graph) {
+\/
+std::vector&lt;Edge&gt; findMinimumSpanningTree(const EdgeWeightedGraph& graph) {
     const int vertices = graph.getVertices();
-    std::vector<Edge> minimumSpanningTree;
-    std::priority_queue<Edge, std::vector<Edge>, std::greater<>> minHeap;
+    std::vector&lt;Edge&gt; minimumSpanningTree;
+    std::priority_queue&lt;Edge, std::vector&lt;Edge&gt;, std::greater&lt;&gt;&gt; minHeap;
     UnionFind unionFind(vertices);
-
-    for (int i = 0; i < vertices; ++i) {
+\/
+    for (int i = 0; i &lt; vertices; ++i) {
         for (const Edge& edge : graph.getAdjacencyList(i)) {
             minHeap.push(edge);
         }
     }
-
+\/
     // Build the minimum spanning tree
-    while (!minHeap.empty() && minimumSpanningTree.size() < vertices - 1) {
+    while (!minHeap.empty() && minimumSpanningTree.size() &lt; vertices - 1) {
         Edge edge = minHeap.top();
         minHeap.pop();
         const int source = edge.getEitherVertex();
         int destination = edge.getOtherVertex(source);
-
+\/
         // **Corrected Condition:** Check if connecting these vertices creates a cycle
         if (unionFind.find(source) != unionFind.find(destination)) {
             minimumSpanningTree.push_back(edge);
             unionFind.unionSets(source, destination);
         }
     }
-
+\/
     return minimumSpanningTree;
 }
-
+\/
 UnionFind::UnionFind(const int size) : parent(size), rank(size, 1) {
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i &lt; size; ++i) {
         parent[i] = i;
     }
 }
-
+\/
 int UnionFind::find(const int element) {
     if (parent[element] != element) {
         parent[element] = find(parent[element]);
     }
     return parent[element];
 }
-
+\/
 void UnionFind::unionSets(const int element1, const int element2) {
     const int root1 = find(element1);
     const int root2 = find(element2);
-
+\/
     if (root1 != root2) {
-        if (rank[root1] > rank[root2]) {
+        if (rank[root1] &gt; rank[root2]) {
             parent[root2] = root1;
-        } else if (rank[root1] < rank[root2]) {
+        } else if (rank[root1] &lt; rank[root2]) {
             parent[root1] = root2;
         } else {
             parent[root2] = root1;
@@ -5991,70 +5994,71 @@ void UnionFind::unionSets(const int element1, const int element2) {
         }
     }
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from typing import List
 import heapq
-
+\/
 from EdgeWeightedGraph import EdgeWeightedGraph, Edge
-
-
+\/
+\/
 class KruskalsAlgorithm:
     @staticmethod
-    def find_minimum_spanning_tree(graph: EdgeWeightedGraph) -> List[Edge]:
+    def find_minimum_spanning_tree(graph: EdgeWeightedGraph) -&gt; List[Edge]:
         vertices: int = graph.get_vertices()
         minimum_spanning_tree: List[Edge] = []
         min_heap: list[Edge] = []
         union_find = UnionFind(vertices)
-
+\/
         # Add edges to the min-heap, ensuring no duplicates
         for i in range(vertices):
             for edge in graph.get_adjacency_list(i):
                 # Add edge only if its source vertex is smaller than its destination
-                if edge.source < edge.destination:
+                if edge.source &lt; edge.destination:
                     heapq.heappush(min_heap, edge)
-
-        while min_heap and len(minimum_spanning_tree) < vertices - 1:
+\/
+        while min_heap and len(minimum_spanning_tree) &lt; vertices - 1:
             edge: Edge = heapq.heappop(min_heap)
             source: int = edge.get_either_vertex()
             destination: int = edge.get_other_vertex(source)
-
+\/
             source_root: int = union_find.find(source)
             destination_root: int = union_find.find(destination)
-
+\/
             if source_root != destination_root:
                 minimum_spanning_tree.append(edge)
                 union_find.union(source_root, destination_root)
-
+\/
         return minimum_spanning_tree
-
-
+\/
+\/
 class UnionFind:
     def __init__(self, size: int):
         self.parent: List[int] = [i for i in range(size)]
         self.rank: List[int] = [1] * size
-
-    def find(self, element: int) -> int:
+\/
+    def find(self, element: int) -&gt; int:
         if self.parent[element] != element:
             self.parent[element] = self.find(self.parent[element])
         return self.parent[element]
-
+\/
     def union(self, element1: int, element2: int):
         root1: int = self.find(element1)
         root2: int = self.find(element2)
-
+\/
         if root1 != root2:
-            if self.rank[root1] > self.rank[root2]:
+            if self.rank[root1] &gt; self.rank[root2]:
                 self.parent[root2] = root1
-            elif self.rank[root1] < self.rank[root2]:
+            elif self.rank[root1] &lt; self.rank[root2]:
                 self.parent[root1] = root2
             else:
                 self.parent[root2] = root1
                 self.rank[root1] += 1
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 16.5 Prim's Algorithm
 
@@ -6199,11 +6203,8 @@ public class PrimMSTLazy {
 }
     </code-block>
     </tab>
-</tabs>
-
-C++
-
-```C++
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
 #include &lt;iostream&gt;
 #include &lt;vector&gt;
 #include &lt;queue&gt;
@@ -6211,11 +6212,11 @@ C++
 \/
 class PrimMSTLazy {
 private:
-    std::vector<bool> marked;
-    std::priority_queue<Edge, std::vector<Edge>, std::greater<>> pq;
-    std::vector<Edge> mst;
+    std::vector&lt;bool&gt; marked;
+    std::priority_queue&lt;Edge, std::vector&lt;Edge&gt;, std::greater&lt;&gt;&gt; pq;
+    std::vector&lt;Edge&gt; mst;
     double weight;
-
+\/
     void visit(const EdgeWeightedGraph& graph, int v) {
         marked[v] = true;
         for (const Edge& e : graph.getAdjacencyList(v)) {
@@ -6224,85 +6225,86 @@ private:
             }
         }
     }
-
+\/
 public:
     explicit PrimMSTLazy(const EdgeWeightedGraph& graph) : 
         marked(graph.getVertices(), false), weight(0.0)  {
-
+\/
         visit(graph, 0); 
         while (!pq.empty()) {
             Edge e = pq.top();
             pq.pop();
-
+\/
             int v = e.getEitherVertex();
             int w = e.getOtherVertex(v);
-
+\/
             if (marked[v] && marked[w]) continue; 
             mst.push_back(e);
             weight += e.getWeight();
-
+\/
             if (!marked[v]) visit(graph, v);
             if (!marked[w]) visit(graph, w);
         }
     }
-
-    [[nodiscard]] const std::vector<Edge>& edges() const {
+\/
+    [[nodiscard]] const std::vector&lt;Edge&gt;& edges() const {
         return mst;
     }
-
+\/
     [[nodiscard]] double getWeight() const {
         return weight;
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 from typing import List, Iterable
 import heapq  
-
+\/
 from EdgeWeightedGraph import EdgeWeightedGraph, Edge
-
-
+\/
+\/
 class PrimMSTLazy:
     def __init__(self, graph: EdgeWeightedGraph):
         self.marked: List[bool] = [False] * graph.get_vertices()
         self.pq: List[Edge] = []  # Min-heap for edges
         self.mst: List[Edge] = []  # Stores the MST edges
         self.weight: float = 0.0
-
+\/
         self._visit(graph, 0)  # Start from vertex 0
         while self.pq:
             edge: Edge = heapq.heappop(self.pq)
-
+\/
             v: int = edge.get_either_vertex()
             w: int = edge.get_other_vertex(v)
-
+\/
             if self.marked[v] and self.marked[w]:
                 continue  # Ignore if both vertices are already in the MST
-
+\/
             self.mst.append(edge)
             self.weight += edge.get_weight()
-
+\/
             if not self.marked[v]:
                 self._visit(graph, v)
             if not self.marked[w]:
                 self._visit(graph, w)
-
+\/
     def _visit(self, graph: EdgeWeightedGraph, v: int):
         """Adds edges connected to vertex v to the priority queue."""
         self.marked[v] = True
         for edge in graph.get_adjacency_list(v):
             if not self.marked[edge.get_other_vertex(v)]:
                 heapq.heappush(self.pq, edge)
-
-    def edges(self) -> Iterable[Edge]:
+\/
+    def edges(self) -&gt; Iterable[Edge]:
         return self.mst
-
-    def weight(self) -> float:
+\/
+    def weight(self) -&gt; float:
         return self.weight
-```
+    </code-block>
+    </tab>
+</tabs>
 
 #### 16.5.2 Eager Implementation
 
