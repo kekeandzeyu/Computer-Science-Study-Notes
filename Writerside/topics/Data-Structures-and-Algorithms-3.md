@@ -3406,46 +3406,46 @@ to the <a anchor="sortperf" summary=
 sorting performance</a>.
 </note>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class MSDStringSort {
     private static final int R = 256;
     private static final int CUTOFF = 15;
-
+\/
     public static void sort(String[] a) {
         String[] aux = new String[a.length];
         sort(a, aux, 0, a.length - 1, 0);
     }
-
+\/
     private static void sort(String[] a, String[] aux, int low, int high, int d) {
         if (high &lt;= low + CUTOFF) {
             insertionSort(a, low, high, d);
             return;
         }
-
+\/
         int[] count = new int[R + 2];
         for (int i = low; i &lt;= high; i++) {
             int c = charAt(a[i], d);
             count[c + 2]++;
         }
-
+\/
         for (int r = 0; r &lt; R + 1; r++) {
             count[r + 1] += count[r];
         }
-
+\/
         for (int i = low; i &lt;= high; i++) {
             int c = charAt(a[i], d);
             aux[count[c + 1]++] = a[i];
         }
-
+\/
         if (high + 1 - low &gt;= 0) System.arraycopy(aux, 0, a, low, high + 1 - low);
-
+\/
         for (int r = 0; r &lt; R; r++) {
             sort(a, aux, low + count[r], low + count[r + 1] - 1, d + 1);
         }
     }
-
+\/
     private static int charAt(String s, int d) {
         if (d &lt; s.length()) {
             return s.charAt(d);
@@ -3453,7 +3453,7 @@ public class MSDStringSort {
             return -1;
         }
     }
-
+\/
     private static void insertionSort(String[] a, int low, int high, int d) {
         for (int i = low; i &lt;= high; i++) {
             for (int j = i; j &gt; low && less(a[j], a[j - 1], d); j--) {
@@ -3461,67 +3461,66 @@ public class MSDStringSort {
             }
         }
     }
-
+\/
     private static boolean less(String v, String w, int d) {
         return v.substring(d).compareTo(w.substring(d)) &lt; 0;
     }
-
+\/
     private static void swap(String[] a, int i, int j) {
         String temp = a[i];
         a[i] = a[j];
         a[j] = temp;
     }
 }
-```
-
-C++
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
 #include &lt;vector&gt;
 #include &lt;string&gt;
 #include &lt;algorithm&gt;
 #include &lt;iostream&gt;
-
+\/
 class MSDStringSort {
 private:
     static constexpr int R = 256;
     static constexpr int CUTOFF = 15;
-
+\/
 public:
     static void sort(std::vector&lt;std::string&gt;& a) {
         std::vector&lt;std::string&gt; aux(a.size());
         sort(a, aux, 0, static_cast&lt;int&gt;(a.size()) - 1, 0);
     }
-
+\/
 private:
     static void sort(std::vector&lt;std::string&gt;& a, std::vector&lt;std::string&gt;& aux, const int low, const int high, const int d) {
         if (high &lt;= low + CUTOFF) {
             insertionSort(a, low, high, d);
             return;
         }
-
+\/
         std::vector&lt;int&gt; count(R + 2, 0);
         for (int i = low; i &lt;= high; i++) {
             const int c = charAt(a[i], d);
             count[c + 2]++;
         }
-
+\/
         for (int r = 0; r &lt; R + 1; r++) {
             count[r + 1] += count[r];
         }
-
+\/
         for (int i = low; i &lt;= high; i++) {
             const int c = charAt(a[i], d);
             aux[count[c + 1]++] = a[i];
         }
-
+\/
         std::copy_n(aux.begin(), (high + 1 - low), a.begin() + low);
-
+\/
         for (int r = 0; r &lt; R; r++) {
             sort(a, aux, low + count[r], low + count[r + 1] - 1, d + 1);
         }
     }
-
+\/    
     static int charAt(const std::string& s, const int d) {
         if (d &lt; s.length()) {
             return s[d];
@@ -3529,7 +3528,7 @@ private:
             return -1;
         }
     }
-
+\/
     static void insertionSort(std::vector&lt;std::string&gt;& a, const int low, const int high, const int d) {
         for (int i = low; i &lt;= high; i++) {
             for (int j = i; j &gt; low && less(a[j], a[j - 1], d); j--) {
@@ -3537,22 +3536,21 @@ private:
             }
         }
     }
-
+\/
     static bool less(const std::string& v, const std::string& w, const int d) {
         return v.substr(d) &lt; w.substr(d);
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 def char_at(s, d):
     if d &lt; len(s):
         return ord(s[d])
     else:
         return -1
-
+\/
 def insertion_sort(arr, low, high, d):
     for i in range(low, high + 1):
         for j in range(i, low, -1):
@@ -3560,38 +3558,40 @@ def insertion_sort(arr, low, high, d):
                 arr[j], arr[j - 1] = arr[j - 1], arr[j]
             else:
                 break
-
+\/
 def msd_string_sort(arr):
     CUTOFF = 15
     aux = [None] * len(arr)
     sort(arr, 0, len(arr) - 1, 0, aux, CUTOFF)
-
+\/
 def sort(arr, low, high, d, aux, CUTOFF):
     if high &lt;= low + CUTOFF:
         insertion_sort(arr, low, high, d)
         return
-
+\/
     R = 256
     count = [0] * (R + 2)
-
+\/
     for i in range(low, high + 1):
         c = char_at(arr[i], d)
         count[c + 2] += 1
-
+\/
     for r in range(R + 1):
         count[r + 1] += count[r]
-
+\/
     for i in range(low, high + 1):
         c = char_at(arr[i], d)
         aux[count[c + 1]] = arr[i]
         count[c + 1] += 1
-
+\/
     for i in range(low, high + 1):
         arr[i] = aux[i - low]
-
+\/
     for r in range(R):
         sort(arr, low + count[r], low + count[r + 1] - 1, d + 1, aux, CUTOFF)
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 19.5 3-Way Radix Quicksort {id="3Q"}
 
@@ -3653,28 +3653,28 @@ Sort</format></p>
 </li>
 </list>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 public class ThreeWayRadixQuicksortStrings {
-
+\/
     private static final int CUTOFF = 15;
-
+\/
     private static int charAt(String s, int d) {
         if (d &lt; s.length()) return s.charAt(d);
         else return -1;
     }
-
+\/
     public static void sort(String[] a) {
         sort(a, 0, a.length - 1, 0);
     }
-
+\/
     private static void sort(String[] a, int lo, int hi, int d) {
         if (hi &lt;= lo + CUTOFF) {
             insertionSort(a, lo, hi, d);
             return;
         }
-
+\/
         int lt = lo, gt = hi;
         int v = charAt(a[lo], d);
         int i = lo + 1;
@@ -3684,12 +3684,12 @@ public class ThreeWayRadixQuicksortStrings {
             else if (t &gt; v) exch(a, i, gt--);
             else i++;
         }
-
+\/
         sort(a, lo, lt - 1, d);
         if (v &gt;= 0) sort(a, lt, gt, d + 1);
         sort(a, gt + 1, hi, d);
     }
-
+\/
     private static void insertionSort(String[] a, int lo, int hi, int d) {
         for (int i = lo; i &lt;= hi; i++) {
             for (int j = i; j &gt; lo && less(a[j], a[j - 1], d); j--) {
@@ -3697,7 +3697,7 @@ public class ThreeWayRadixQuicksortStrings {
             }
         }
     }
-
+\/
     private static boolean less(String v, String w, int d) {
         for (int i = d; i &lt; Math.min(v.length(), w.length()); i++) {
             if (v.charAt(i) &lt; w.charAt(i)) return true;
@@ -3705,37 +3705,36 @@ public class ThreeWayRadixQuicksortStrings {
         }
         return v.length() &lt; w.length();
     }
-
+\/
     private static void exch(String[] a, int i, int j) {
         String temp = a[i];
         a[i] = a[j];
         a[j] = temp;
     }
 }
-```
-
-C++
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
 #include &lt;iostream&gt;
 #include &lt;vector&gt;
 #include &lt;string&gt;
-
+\/
 class ThreeWayRadixQuicksortStrings {
 private:
     static constexpr int CUTOFF = 15; 
-
+\/
     static int charAt(const std::string& s, const int d) {
         if (d &lt; s.length()) return s[d];
         else return -1;
     }
-
+\/
     static void sort(std::vector&lt;std::string&gt;& a, const int lo, const int hi, const int d) {
         if (hi &lt;= lo + CUTOFF) {
             insertionSort(a, lo, hi, d);
             return;
         }
-
+\/
         int lt = lo, gt = hi;
         const int v = charAt(a[lo], d);
         int i = lo + 1;
@@ -3745,12 +3744,12 @@ private:
             else if (t &gt; v) std::swap(a[i], a[gt--]);
             else i++;
         }
-
+\/
         sort(a, lo, lt - 1, d);
         if (v &gt;= 0) sort(a, lt, gt, d + 1);
         sort(a, gt + 1, hi, d);
     }
-
+\/
     static void insertionSort(std::vector&lt;std::string&gt;& a, const int lo, const int hi, const int d) {
         for (int i = lo; i &lt;= hi; i++) {
             for (int j = i; j &gt; lo && less(a[j], a[j - 1], d); j--) {
@@ -3758,7 +3757,7 @@ private:
             }
         }
     }
-
+\/
     static bool less(const std::string& v, const std::string& w, const int d) {
         for (int i = d; i &lt; std::min(v.length(), w.length()); i++) {
             if (v[i] &lt; w[i]) return true;
@@ -3766,25 +3765,24 @@ private:
         }
         return v.length() &lt; w.length();
     }
-
+\/
 public:
     static void sort(std::vector&lt;std::string&gt;& a) {
         sort(a, 0, static_cast&lt;int&gt;(a.size()) - 1, 0);
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 CUTOFF = 15
-
+\/
 def char_at(s, d):
     if d &lt; len(s):
         return ord(s[d])
     else:
         return -1
-
+\/
 def insertion_sort(arr, lo, hi, d):
     for i in range(lo, hi + 1):
         for j in range(i, lo, -1):
@@ -3792,7 +3790,7 @@ def insertion_sort(arr, lo, hi, d):
                 arr[j], arr[j - 1] = arr[j - 1], arr[j]
             else:
                 break
-
+\/
 def three_way_radix_quicksort(arr):
     def sort(arr, lo, hi, d):
         if hi &lt;= lo + CUTOFF:
@@ -3816,9 +3814,11 @@ def three_way_radix_quicksort(arr):
         if v &gt;= 0:
             sort(arr, lt, gt, d + 1)
         sort(arr, gt + 1, hi, d)
-
+\/
     sort(arr, 0, len(arr) - 1, 0)
-```
+    </code-block>
+    </tab>
+</tabs>
 
 <p><format color="BlueViolet">Summary of the Performance of Sorting 
 Algorithms</format></p>
@@ -3956,31 +3956,31 @@ scan until mismatch.</p>
 </step>
 </procedure>
 
-Java
-
-```Java
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.HashMap;
-
+\/
 public class RWayTrie {
-
+\/
     private static final int R = 256;
-
+\/
     private final Node root;
-
+\/
     private static class Node {
         private boolean isEndOfWord;
         private final HashMap&lt;Character, Node&gt; children;
-
+\/
         public Node() {
             isEndOfWord = false;
             children = new HashMap&lt;&gt;();
         }
     }
-
+\/
     public RWayTrie() {
         root = new Node();
     }
-
+\/
     public void insert(String word) {
         Node current = root;
         for (char c : word.toCharArray()) {
@@ -3991,7 +3991,7 @@ public class RWayTrie {
         }
         current.isEndOfWord = true;
     }
-
+\/
     public boolean search(String word) {
         Node current = root;
         for (char c : word.toCharArray()) {
@@ -4002,7 +4002,7 @@ public class RWayTrie {
         }
         return current.isEndOfWord;
     }
-
+\/
     public boolean startsWith(String prefix) {
         Node current = root;
         for (char c : prefix.toCharArray()) {
@@ -4014,45 +4014,44 @@ public class RWayTrie {
         return true;
     }
 }
-```
-
-C++
-
-```C++
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
 #include &lt;iostream&gt;
 #include &lt;unordered_map&gt;
 #include &lt;ranges&gt;
-
+\/
 constexpr int R = 26;
-
+\/
 struct Node {
     bool isEndOfWord;
     std::unordered_map&lt;char, Node*&gt; children;
-
+\/
     Node() : isEndOfWord(false) {}
 };
-
+\/
 class RWayTrie {
 private:
     Node* root;
-
+\/
     static void deleteNode(Node* node) {
         if (node == nullptr) {
             return;
         }
-
+\/
         for (Node* child : node-&gt;children | std::views::values) {
             deleteNode(child);
         }
-
+\/
         delete node;
     }
-
+\/
 public:
     RWayTrie() {
         root = new Node();
     }
-
+\/
     void insert(const std::string& word) const
     {
         Node* current = root;
@@ -4064,9 +4063,8 @@ public:
         }
         current-&gt;isEndOfWord = true;
     }
-
-    [[nodiscard]] bool search(const std::string& word) const
-    {
+\/
+    [[nodiscard]] bool search(const std::string& word) const {
         Node* current = root;
         for (char c : word) {
             if (!current-&gt;children.contains(c)) {
@@ -4076,9 +4074,8 @@ public:
         }
         return current-&gt;isEndOfWord;
     }
-
-    [[nodiscard]] bool startsWith(const std::string& prefix) const
-    {
+\/
+    [[nodiscard]] bool startsWith(const std::string& prefix) const {
         Node* current = root;
         for (char c : prefix) {
             if (!current-&gt;children.contains(c)) {
@@ -4088,26 +4085,25 @@ public:
         }
         return true;
     }
-
+\/
     ~RWayTrie() {
         deleteNode(root);
     }
 };
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
 class Node:
     def __init__(self):
         self.isEndOfWord = False
         self.children = {}  # Dictionary to store child nodes
-
-
+\/
+\/
 class RWayTrie:
     def __init__(self):
         self.root = Node()
-
+\/
     def insert(self, word):
         current = self.root
         for char in word:
@@ -4115,7 +4111,7 @@ class RWayTrie:
                 current.children[char] = Node()
             current = current.children[char]
         current.isEndOfWord = True
-
+\/
     def search(self, word):
         current = self.root
         for char in word:
@@ -4123,7 +4119,7 @@ class RWayTrie:
                 return False
             current = current.children[char]
         return current.isEndOfWord
-
+\/
     def startsWith(self, prefix):
         current = self.root
         for char in prefix:
@@ -4131,7 +4127,9 @@ class RWayTrie:
                 return False
             current = current.children[char]
         return True
-```
+    </code-block>
+    </tab>
+</tabs>
 
 ### 20.2 Ternary Search Tries {id="tst"}
 
