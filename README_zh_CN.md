@@ -84,18 +84,13 @@ For English version please check [here](README.md)
 
 笔记中不同颜色对应的含义如下：
 
-<ul>
-    <li><p style="color:#8A2BE2;">BlueViolet: 代表不同板块的内容。</p></li>
-    <li>
-    <p style="color:#FF4500">OrangeRed: 强调重点内容。</p>
-    </li>
-    <li>
-    <p style="color:#EB8202">DarkOrange: 表示定义。</p>
-    </li>
-    <li>
-    <p style="color:#BE07BF">Fuchsia: 表示列表中不同内容。</p>
-    </li>
-</ul>
+* BlueViolet: 代表不同板块的内容。
+* OrangeRed: 强调重点内容。
+* DarkOrange: 表示定义。
+* Fuchsia: 表示列表中不同内容。
+* LawnGreen: 代表数学证明。
+* IndianRed: 代表示例。
+
 
 ## 5 许可证
 
