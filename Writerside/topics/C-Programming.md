@@ -293,7 +293,7 @@ str[1] = 'a'; // Hallo, World!
 
 ##### 4.2.1 Output Stringstreams
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format> </p>
 
 <code-block lang="c++">
 std::ostringstream oss("Ito-En Green Tea");
@@ -385,7 +385,7 @@ int main() {
 character for the type.</p>
 </warning>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format> </p>
 
 <code-block lang="c++">
 std::istringstream iss("16.9 Ounces");
@@ -483,7 +483,9 @@ int main() {
     difference (offset) between two streampos values.</p>
 </li>
 </list>
-<p><format color="BlueViolet">Example:</format> </p>
+
+<p><format color="BlueViolet">Example</format></p>
+
 <code-block lang="c++" collapsible="true">
 #include &lt;iostream&gt;
 #include &lt;sstream&gt;
@@ -546,9 +548,9 @@ std::istream& getline(std::istream& is, std::string& str, char delim);
     character!</p>
 </note>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Exampless</format></p>
 
-<code-block lang="c++">
+<code-block lang="c++" collapsible="true">
 std::string input;
 std::cout &lt;&lt; "Enter a line of text: ";
 std::getline(std::cin, input);
@@ -586,7 +588,7 @@ std::cout &lt;&lt; "You entered: " &lt;&lt; input &lt;&lt; std::endl;
 <p>Fail and EOF are normally the ones you will be checking.</p>
 </note>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format> </p>
 
 <code-block lang="c++">
 std::istringstream iss("17");
@@ -655,7 +657,7 @@ std::cout &lt;&lt; (iss.eof() ? "EOF" : "Not EOF") &lt;&lt; std::endl;
 </li>
 </list>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format> </p>
 
 <compare type="top-bottom" first-title="Example 1" second-title="Example 2">
     <code-block lang="c++">
@@ -834,7 +836,7 @@ int main() {
 <p>Remember to include &lt; utility &gt; and &lt; tuple &gt;</p>
 </note>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format> </p>
 
 <code-block lang="c++" collapsible="true">
 std::pair&lt;double, int&gt; price(3.4, 5);
@@ -854,7 +856,7 @@ const auto& [c, d, e] = values; // c = 4, d = 4, e = "hi"
 
 #### 5.3 Conversions
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Exampless</format></p>
 
 <code-block lang="c++" collapsible="true">
 int v1 = static_cast&lt;double&gt;(3.14); // v1 = 3
@@ -1066,19 +1068,19 @@ stores pointers to the beginning of each chunk.</p>
 accessed using the <format color="OrangeRed">key</format> instead of
 index.</p>
 
-```plantuml
+<code-block lang="plantuml">
 @startmindmap
 * Class Templates
 **: Based on ordering property of keys
- Keys need to be comparable using < operator;
-*** std::map<T1, T2>
-*** std::set<T>
+ Keys need to be comparable using &lt; operator;
+*** std::map&lt;T1, T2&gt;
+*** std::set&lt;T&gt;
 **: Based on hash function
  You need to define how the key can be hashed;
-*** std::unordered_map<T1, T2>
-*** std::unordered_set<T>
+*** std::unordered_map&lt;T1, T2&gt;
+*** std::unordered_set&lt;T&gt;
 @endmindmap
-```
+</code-block>
 
 #### 6.4 Iterators {id="iterators"}
 
@@ -1116,14 +1118,14 @@ while (i != end) {
 }
 </code-block>
 
-```mermaid
+<code-block lang="mermaid">
 stateDiagram
     direction LR
     Random_Access --> Bidirectional
     Bidirectional --> Forward
     Forward --> Input
     Forward --> Output
-```
+</code-block>
 
 ##### 6.4.1 Input Iterators
 
@@ -1190,7 +1192,7 @@ decremented by arbitrary amounts using + and -.</p>
 
 #### 7.1 Template Functions
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format> </p>
 
 <code-block lang="c++">
 template &lt;typename T&gt;
@@ -2082,7 +2084,7 @@ but we can't change the class of lhs (stream library).</li>
 </list>
 </tip>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format> </p>
 
 <p><format color="Fuchsia">Member Function: </format></p>
 
@@ -2293,9 +2295,9 @@ copying them.</p>
 <p>By default, the copy constructor will create copies of each member
 variable.</p>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format> </p>
 
-```C++
+<code-block lang="c++" collapsible="true">
 /** Problem with the following code:
  * When the vectors go out of scope, their destructor tries to free the array.
  */
@@ -2304,7 +2306,7 @@ IntVector operator+(const IntVector & vec, int elem) {
     copy += element; 
     return copy; 
 }
-```
+</code-block>
 
 <img src="../images_c/c11-1.png" alt="Copy Constructor"/>
 
@@ -2348,37 +2350,37 @@ functionality.</p>
 <p>We can also keep the default copy constructor if we declare other 
 constructors.</p>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format> </p>
 
-```C++
-#include <iostream>
-
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+\/
 class NonCopyable {
 public:
     NonCopyable() = default;  // Default constructor
-
+\/
     NonCopyable(const NonCopyable&) = delete;  // Delete copy constructor
     NonCopyable& operator=(const NonCopyable&) = delete;  // Delete copy assignment
-
+\/
     NonCopyable(NonCopyable&&) = default;  // Default move constructor
     NonCopyable& operator=(NonCopyable&&) = default;  // Default move assignment
-
-    void print() { std::cout << "NonCopyable object" << std::endl; }
+\/
+    void print() { std::cout &lt;&lt; "NonCopyable object" &lt;&lt; std::endl; }
 };
-
+\/
 int main() {
     NonCopyable obj1;
     obj1.print();
-
+\/
     NonCopyable obj2 = std::move(obj1); // Move construction is allowed
     obj2.print();
-
+\/
     // NonCopyable obj3 = obj2; // Error: Copy construction is deleted
     // obj1 = obj2; // Error: Copy assignment is deleted
-
+\/
     return 0;
 }
-```
+</code-block>
 
 #### 11.3 Rule of Zero/Three
 
@@ -2403,20 +2405,20 @@ has ownership issues that need to be resolved.</p>
 
 #### 11.4 Copy Elision and Return Value Optimization (RVO)
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format></p>
 
-```C++
+<code-block lang="c++" collapsible="true">
 int main() { 
     StringVector words; 
     words = findAllWords(“words.txt”); // print words 
 } 
-
+\/
 StringVector findAllWords(const string& filename) { 
     StringVector words; 
     // read from filename using an ifstream 
     return words; 
 }
-```
+</code-block>
 
 <img src="../images_c/c11-2.png" alt="RVO"/>
 
@@ -2424,7 +2426,7 @@ StringVector findAllWords(const string& filename) {
 
 #### 12.1 lvalues & rvalues
 
-<p><format color="BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions</format> </p>
 
 <list type="bullet">
 <li>
@@ -2491,18 +2493,18 @@ StringVector findAllWords(const string& filename) {
 are these weird things called gl-values, pr-values, x-values, ...</p>
 </note>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format></p>
 
-```C++
+<code-block lang="c++" collapsible="true">
 int val = 2; // val: lvalue, 2: rvalue
-int* ptr = &val; // ptr: lvalue, &val: rvalue
-<vector>int v1{1, 2, 3}; // v1: lvalue, {1, 2, 3}: rvalue
-
-auto v4 = v1 + v2; // v4: lvalue, v1 + v2: rvalue => + returns a copy to a temporary
+int* ptr = &amp;val; // ptr: lvalue, &val: rvalue
+std::vector&lt;int&gt; v1{1, 2, 3}; // v1: lvalue, {1, 2, 3}: rvalue
+\/
+auto v4 = v1 + v2; // v4: lvalue, v1 + v2: rvalue =&gt; + returns a copy to a temporary
 size_t size = v1.size(); // size: lvalue, v1.size(): rvalue
-val = static_cast<int>(size); // val: lvalue, static_cast<int>(size): rvalue
+val = static_cast&lt;int&gt;(size); // val: lvalue, static_cast&lt;int&gt;(size): rvalue
 // cast returns a copy of size
-```
+</code-block>
 
 <warning>
 <p>An r-value reference is an alias to an r-value</p>
@@ -2540,37 +2542,35 @@ them to be employee #123.</p>
 <p><format color="BlueViolet">Most modern languages use namespaces 
 to fix this.</format></p>
 
-C++
-
-```C++
-#include <iostream>
-#include <vector>
-
+<tabs>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+\/
 int main() {
-    std::vector<int> v = {1, 2, 3}; // std:: is namespace
+    std::vector&lt;int&gt; v = {1, 2, 3}; // std:: is namespace
     for (int i : v) {
-        std::cout << i << std::endl;
+        std::cout &lt;&lt; i &lt;&lt; std::endl;
     }
     return 0;
 }
-```
-
-Python
-
-```Python
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python">
 import numpy as np
-
+\/
 a = np.array([1, 2, 3]) // np. is namespace
-```
-
-Java
-
-```Java
+    </code-block>
+    </tab>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
 import java.util.ArrayList; // Java packages before identifier
-
+\/
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Integer> list = new ArrayList<>();
+        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -2579,15 +2579,16 @@ public class Main {
         }
     }
 }
-```
-
-JavaScript
-
-```Javascript
+    </code-block>
+    </tab>
+    <tab title="JavaScript">
+    <code-block lang="javascript">
 const fs = require('fs'); 
-
+\/
 const data = fs.readFileSync('file.txt', 'utf8'); // fs. is namespace
-```
+    </code-block>
+    </tab>
+</tabs>
 
 #### 13.1 Overriding and Overloading
 
@@ -2609,86 +2610,80 @@ by its parent class or interface.</p>
 <p>This is an implementation of overloading in the same class.</p>
 </note>
 
-Java
-
-```Java
+<code-block lang="java" collapsible="true">
     // part of code from Quicksort
     public static void sort(Comparable[] a) {
         sort(a, 0, a.length - 1);
     }
-
+\/
     private static void sort(Comparable[] a, int lo, int hi) {
-        if (hi <= lo) return;
+        if (hi &lt;= lo) return;
         int j = partition(a, lo, hi);
         sort(a, lo, j - 1);
         sort(a, j + 1, hi);
     }
-```
+</code-block>
 
 <note>
 <p>This is an implementation of overloading in different classes.</p>
 </note>
 
-Java
-
-```Java
+<code-block lang="java" collapsible="true">
 class Shape {
     public void calculateArea(int side) { 
         System.out.println("Area of a square: " + (side * side)); 
     }
 }
-
+\/
 class Rectangle extends Shape {
     public void calculateArea(int length, int width) {
         System.out.println("Area of a rectangle: " + (length * width));
     }
 }
-
+\/
 public class Main {
     public static void main(String[] args) {
         Rectangle myRectangle = new Rectangle();
-
+\/
         myRectangle.calculateArea(5);      // Calls Shape's calculateArea (inherited)
         myRectangle.calculateArea(4, 6);  // Calls Rectangle's calculateArea (overloaded)
     }
 }
-```
+</code-block>
 
 <note>
 <p>This is an implementation of overriding.</p>
 </note>
 
-Java
-
-```Java
+<code-block lang="java" collapsible="true">
 interface Animal { 
     void makeSound(); // Abstract method declaration
 }
-
+\/
 class Dog implements Animal { // Implementing the interface
     @Override
     public void makeSound() {
         System.out.println("Woof!");
     }
 }
-
+\/
 class Cat implements Animal { // Implementing the interface
     @Override
     public void makeSound() {
         System.out.println("Meow!");
     }
 }
-
+\/
 public class Main {
     public static void main(String[] args) {
         Animal myDog = new Dog();       
         Animal myCat = new Cat();       
-
+\/
         myDog.makeSound();    // Output: Woof!
         myCat.makeSound();    // Output: Meow!
     }
 }
-```
+</code-block>
 
 <note>
 <p>To look up a name in a class: </p>
@@ -2736,180 +2731,181 @@ method signatures.</p>
 </li>
 </list>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format> </p>
 
-<p>C++</p>
- 
-```C++
-// Shape.h
+<tabs>
+    <tab title="C++ (Shape.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef SHAPE_H
 #define SHAPE_H
-
+\/
 class Shape {
 public:
     virtual void draw() const = 0; // Pure virtual function
     virtual ~Shape() = default;    // Virtual destructor
 };
-
+\/
 #endif //SHAPE_H
-```
-
-```C++
-// Circle.h
+    </code-block>
+    </tab>
+    <tab title="C++ (Circle.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef CIRCLE_H
 #define CIRCLE_H
-
+\/
 #include "Shape.h"
 #include &lt;iostream&gt;
-
+\/
 class Circle final : public Shape {
 public:
     void draw() const override {
-        std::cout << "Drawing Circle" << std::endl;
+        std::cout &lt;&lt; "Drawing Circle" &lt;&lt; std::endl;
     }
 };
-
+\/
 #endif //CIRCLE_H
-```
-
-```C++
-// Square.h
+    </code-block>
+    </tab>
+    <tab title="C++ (Square.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef SQUARE_H
 #define SQUARE_H
-
+\/
 #include "Shape.h"
 #include &lt;iostream&gt;
-
+\/
 class Square final : public Shape {
 public:
     void draw() const override {
-        std::cout << "Drawing Square" << std::endl;
+        std::cout &lt;&lt; "Drawing Square" &lt;&lt; std::endl;
     }
 };
-
+\/
 #endif //SQUARE_H
-```
+    </code-block>
+    </tab>
+</tabs>
 
-<p>Java</p>
-
-```Java
-// Shape.java
+<tabs>
+    <tab title="Java (Shape.java)">
+    <code-block lang="java" collapsible="true">
 public interface Shape {
     double getArea();
     double getPerimeter();
     String toString();
 }
-```
-
-```Java
-// Circle.java
+    </code-block>
+    </tab>
+    <tab title="Java (Circle.java)">
+    <code-block lang="java" collapsible="true">
 public class Circle implements Shape {
     private final double radius;
-
+\/
     public Circle(double radius) {
         this.radius = radius;
     }
-
+\/
     public double getArea() {
         return Math.PI * radius * radius;
     }
-
+\/
     public double getPerimeter() {
         return 2 * Math.PI * radius;
     }
-
+\/
     public String toString() {
         return "Circle with radius " + radius;
     }
 }
-```
+    </code-block>
+    </tab>
+</tabs>
 
 <p><format color="DarkOrange">Implementation Inheritance:</format> 
 Subclasses can inherit signatures AND implementation.</p>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="IndianRed">Examples</format></p>
 
-<p>C++</p>
-
-```C++
-// Animal.h
+<tabs>
+    <tab title="C++ (Animal.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef ANIMAL_H
 #define ANIMAL_H
-
+\/
 #include &lt;iostream&gt;
-
+\/
 class Animal {
 public:
     virtual void makeSound() const {
-        std::cout << "Generic animal sound" << std::endl;
+        std::cout &lt;&lt; "Generic animal sound" &lt;&lt; std::endl;
     }
     virtual ~Animal() = default;
 };
-
+\/
 #endif //ANIMAL_H
-```
-
-```C++
-// Dog.h
+    </code-block>
+    </tab>
+    <tab title="C++ (Dog.h)">
+    <code-block lang="c++" collapsible="true">
 #ifndef DOG_H
 #define DOG_H
-
+\/
 #include "Animal.h"
 #include &lt;iostream&gt;
-
+\/
 class Dog final : public Animal {
 public:
     void makeSound() const override {
-        std::cout << "Bark" << std::endl;
+        std::cout &lt;&lt; "Bark" &lt;&lt; std::endl;
     }
 };
-
+\/
 #endif //DOG_H
-```
+    </code-block>
+    </tab>
+</tabs>
 
-Java
-
-```Java
+<code-block lang="java" collapsible="true">
 interface Animal {
     default void makeSound() {
         System.out.println("Generic animal sound");
     }
-
+\/
     void eat(); 
 }
-
+\/
 class Dog implements Animal {
     @Override
     public void eat() {
         System.out.println("Dog is eating");
     }
 }
-
+\/
 class Cat implements Animal {
     @Override
     public void eat() {
         System.out.println("Cat is eating");
     }
-
+\/
     @Override
     public void makeSound() {
         System.out.println("Meow!");
     }
 }
-
+\/
 public class Main {
     public static void main(String[] args) {
         Dog myDog = new Dog();
         Cat myCat = new Cat();
-
+\/
         myDog.makeSound(); // Output: Generic animal sound (using default)
         myDog.eat();      // Output: Dog is eating
-
+\/
         myCat.makeSound(); // Output: Meow! (overridden)
         myCat.eat();      // Output: Cat is eating
     }
 }
-```
+</code-block>
 
 ## &#8547; Modern C++
 
