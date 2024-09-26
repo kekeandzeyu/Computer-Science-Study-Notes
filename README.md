@@ -84,18 +84,12 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 For the colors in the notes, here are their meanings:
 
-<ul>
-    <li><p style="color:#8A2BE2;">BlueViolet: to indicate different sections.</p></li>
-    <li>
-    <p style="color:#FF4500">OrangeRed: to highlight important parts.</p>
-    </li>
-    <li>
-    <p style="color:#EB8202">DarkOrange: to indicate definitions.</p>
-    </li>
-    <li>
-    <p style="color:#BE07BF">Fuchsia: to indicate different points in a list.</p>
-    </li>
-</ul>
+* BlueViolet: to indicate different sections.
+* OrangeRed: to highlight important parts.
+* DarkOrange: to indicate definitions.
+* Fuchsia: to indicate different points in a list.
+* LawnGreen: to indicate mathematical proof.
+* IndianRed: to indicate examples.
 
 ## 5 License
 
