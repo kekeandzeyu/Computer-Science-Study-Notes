@@ -2,8 +2,7 @@
 
 # Computer Architecture
 
-<img src="../images_architecture/a1-1-1.png" alt=
-"Computer Architecture"/>
+<img src="../images_architecture/a1-1-1.png" alt="Computer Architecture"/>
 
 ## &#8544; C Programming
 

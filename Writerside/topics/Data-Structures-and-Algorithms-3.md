@@ -6195,7 +6195,7 @@ class NFA:
     </tab>
 </tabs>
 
-### 23 Data Compression
+## 23 Data Compression
 
 ### 23.1 Data Compression Introduction
 
@@ -6247,7 +6247,176 @@ class NFA:
 </li>
 </list>
 
+### 23.2 Run-Length Coding
 
+<p><format color="IndianRed">Example</format></p>
+
+<p>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1</p>
+
+<p>4-bit counts to represent alternating runs of 0s and 1s: 15 0s, then 
+7 1s, then 7 0s, then 11 1s.</p>
+
+<img src="../images_data/d23-2-1.png" alt="Run-Length Coding"/>
+
+<p><format color="BlueViolet">Applications:</format> JPEG, ITU-T T4 Group
+3 Fax, ...</p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+\/
+public class RunLength {
+    private static final int R = 256;
+    private static final int LG_R = 8;
+\/
+    private RunLength() { }
+\/
+    public static byte[] expand(byte[] compressed) throws IOException {
+        ByteArrayInputStream in = new ByteArrayInputStream(compressed);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+\/
+        boolean b = false;
+        while (in.available() &gt; 0) {
+            int run = in.read();
+            for (int i = 0; i &lt; run; i++) {
+                out.write(b ? 1 : 0); 
+            }
+            b = !b;
+        }
+        return out.toByteArray();
+    }
+\/
+    public static byte[] compress(byte[] input) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int run = 0;
+        boolean old = false;
+\/
+        for (byte bVal : input) {
+            boolean b = bVal != 0;
+            if (b != old) {
+                out.write(run);
+                run = 1;
+                old = !old;
+            } else {
+                if (run == R - 1) {
+                    out.write(run);
+                    run = 0;
+                    out.write(run);
+                }
+                run++;
+            }
+        }
+        out.write(run);
+        return out.toByteArray();
+    }
+\/    
+    private static void printByteArray(byte[] arr) {
+        for (byte b : arr) {
+            System.out.print(b + " ");
+        }
+        System.out.println();
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;sstream&gt;
+\/
+constexpr int R = 256;
+constexpr int LG_R = 8;
+\/
+std::vector&lt;unsigned char&gt; expand(const std::vector&lt;unsigned char&gt;& compressed) {
+    std::vector&lt;unsigned char&gt; expanded;
+    bool b = false;
+    for (const unsigned char run : compressed) {
+        for (int i = 0; i &lt; run; ++i) {
+            expanded.push_back(b ? 1 : 0);
+        }
+        b = !b;
+    }
+    return expanded;
+}
+\/
+std::vector&lt;unsigned char&gt; compress(const std::vector&lt;unsigned char&gt;& input) {
+    std::vector&lt;unsigned char&gt; compressed;
+    int run = 0;
+    bool old = false;
+\/
+    for (const unsigned char bVal : input) {
+        bool b = bVal != 0;
+        if (b != old) {
+            compressed.push_back(run);
+            run = 1;
+            old = !old;
+        } else {
+            if (run == R - 1) {
+                compressed.push_back(run);
+                run = 0;
+                compressed.push_back(run);
+            }
+            run++;
+        }
+    }
+    compressed.push_back(run);
+    return compressed;
+}
+\/
+void printByteArray(const std::vector&lt;unsigned char&gt;& arr) {
+    for (const unsigned char b : arr) {
+        std::cout &lt;&lt; static_cast&lt;int&gt;(b) &lt;&lt; " "; 
+    }
+    std::cout &lt;&lt; std::endl;
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+R = 256
+LG_R = 8
+\/
+def expand(compressed):
+    expanded = []
+    b = False
+    for run in compressed:
+        expanded.extend([1 if b else 0] * run)
+        b = not b
+    return expanded
+\/
+def compress(input_data):
+    compressed = []
+    run = 0
+    old = False
+    for b_val in input_data:
+        b = b_val != 0
+        if b != old:
+            compressed.append(run)
+            run = 1
+            old = not old
+        else:
+            if run == R - 1:
+                compressed.append(run)
+                run = 0
+                compressed.append(run)
+            run += 1
+    compressed.append(run)
+    return compressed
+\/
+def print_byte_array(arr):
+    print(*arr)
+    </code-block>
+    </tab>
+</tabs>
+
+### 23.3 Huffman Coding
+
+<p>Inorder to produce prefix-free code, we need to ensure that no codeword
+is a <format color="OrangeRed">prefix</format> of another.</p>
 
 ## 30 Catalan Number
 
