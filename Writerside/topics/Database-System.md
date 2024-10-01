@@ -2,7 +2,7 @@
 
 # Database System
 
-## 1 SQL
+## 1 SQL Part Ⅰ
 
 ### 1.1 SQL Introduction
 
@@ -443,7 +443,9 @@ HAVING COUNT(*) &gt; 2
 
 <img src="../images_database/b1-2.png" alt="SQL Queries"/>
 
-### 1.5 Join Queries
+## 2 SQL Part Ⅱ
+
+### 2.1 Join Queries
 
 <p><format color="BlueViolet">Join:</format> Form cross product of the 
 tables, output all tuples and select specific columns.</p>
@@ -598,3 +600,64 @@ WHERE x.age > y.age;
     <td>19</td>
 </tr>
 </table>
+
+### 2.2 Select & Where Advanced
+
+<p><format color="BlueViolet">Arithmetic Expressions</format></p>
+
+<code-block lang="sql" collapsible="true">
+SELECT S.age, S.age-5 AS age1, 2*S.age AS age2
+FROM Sailors AS S
+WHERE S.sname = 'Popeye';
+</code-block>
+
+<note>
+<p>Comparison is "=" not "==" !!!</p>
+<p><format color="OrangeRed">But SQLite allows this!</format></p>
+</note>
+
+<p><format color="IndianRed">SQL Calculator</format></p>
+
+<code-block lang="sql" collapsible="true">
+SELECT 
+    log(1000) as three,
+    exp(ln(2)) as two,
+    cos(0) as one,
+    ln(2*3) = ln(2) + ln(3) as sanity;
+</code-block>
+
+<table style="header-row">
+<tr>
+    <td>three</td>
+    <td>two</td>
+    <td>one</td>
+    <td>sanity</td>
+</tr>
+<tr>
+    <td>3.0</td>
+    <td>2.0</td>
+    <td>1.0</td>
+    <td>1</td>
+</tr>
+</table>
+
+<p><format color="BlueViolet">String Comparison</format></p>
+
+<list type="bullet">
+<li>
+    <p>Old-School SQL</p>
+    <code-block lang="sql" collapsible="true">
+    SELECT S.sname
+    FROM Sailors AS S
+    WHERE S.sname LIKE 'B_%';
+    </code-block>
+</li>
+<li>
+    <p>Standard Regular Expressions</p>
+    <code-block lang="sql" collapsible="true">
+    SELECT S.sname
+    FROM Sailors AS S
+    WHERE S.sname ~ 'B.*';
+    </code-block>
+</li>
+</list>
