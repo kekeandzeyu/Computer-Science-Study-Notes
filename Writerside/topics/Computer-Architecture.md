@@ -806,7 +806,7 @@ struct hello {
 
 <p>sizeof(hello) = 16</p>
 
-<p>Imporvement:</p>
+<p>Improvement:</p>
 
 <code-block lang="c" collapsible="true">
 struct hello {
@@ -822,27 +822,27 @@ struct hello {
 
 <p>sizeof(hello) = 12</p>
 
-### 4 C Memory Layout
+### 3 C Memory Layout
 
 <p>Program's <format color="OrangeRed" style="italic">address space
 </format> contains 4 regions: </p>
 <list>
 <li>
-<p><format color="Fuchsia">Stack:</format> local variables,
-grow downwards.</p>
+    <p><format color="Fuchsia">Stack:</format> local variables,
+    grow downwards.</p>
 </li>
 <li>
-<p><format color="Fuchsia">Heap:</format> space requested via
-<code>malloc()</code> and used with pointers; resizes dynamically, 
-grow upward.</p>
+    <p><format color="Fuchsia">Heap:</format> space requested via
+    <code>malloc()</code> and used with pointers; resizes dynamically, 
+    grow upward.</p>
 </li>
 <li>
-<p><format color="Fuchsia">Static Data:</format> global or
-static variables, does not grow or shrink.</p>
+    <p><format color="Fuchsia">Static Data:</format> global or static 
+    variables, does not grow or shrink.</p>
 </li>
 <li>
-<p><format color="Fuchsia">Code:</format> loaded when program 
-starts, does not change.</p>
+    <p><format color="Fuchsia">Code:</format> loaded when program 
+    starts, does not change.</p>
 </li>
 </list>
 
@@ -852,25 +852,25 @@ starts, does not change.</p>
 
 <list>
 <li>
-<p><format color="Fuchsia">Declared outside a function:
-</format> Static Data</p>
+    <p><format color="Fuchsia">Declared outside a function:
+    </format> Static Data</p>
 </li>
 <li>
-<p><format color="Fuchsia">Declared inside a function:
-</format> Stack</p>
+    <p><format color="Fuchsia">Declared inside a function:
+    </format> Stack</p>
 <list type="bullet">
 <li>
-<p><code>main()</code> is a function.</p>
+    <p><code>main()</code> is a function.</p>
 </li>
 <li>
-<p>freed when function returns.</p>
+    <p>freed when function returns.</p>
 </li>
 </list>
 </li>
 <li>
-<p><format color="Fuchsia">Dynamically allocated (i.e., 
-<code>malloc</code>, <code>calloc</code> & <code>realloc</code>):
-</format> Heap.</p>
+    <p><format color="Fuchsia">Dynamically allocated (i.e., 
+    <code>malloc</code>, <code>calloc</code> & <code>realloc</code>):
+    </format> Heap.</p>
 </li>
 </list>
 
