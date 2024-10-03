@@ -923,7 +923,40 @@ std::vector&lt;int&gt; v1(3, 10) // v1 = {10, 10, 10}
 std::vector&lt;int&gt; v2{3, 10} // v2 = {3, 10}
 </code-block>
 
+#### 5.5 using
+
+<p>Create type aliases with the using keyword.</p>
+
+<compare type="top-bottom" first-title="Types" second-title="Using keyword">
+<code-block lang="c++">
+std::pair&lt;bool, std::pair&lt;double, double&gt;&gt;;
+</code-block>
+<code-block lang="c++">
+using Zeros = std::pair&lt;double, double&gt;;
+using Solution = std::pair&lt;bool, Zeros&gt;;
+</code-block>
+</compare>
+
 ## &#8545; Standard Template Library (STL)
+
+<p>The <format color="DarkOrange">Standard Template Library (STL)
+</format> is a software library originally designed by Alexander Stepanov
+for the C++ programming language that influenced many parts of the C++ 
+Standard Library. It provides four components called algorithms, 
+containers, functions, and iterators.</p>
+
+<p>The <format color="DarkOrange">C++ Standard Library</format> is a 
+collection of classes and functions, which are written in the core 
+language and part of the C++ ISO Standard itself.</p>
+
+<note>
+<p>The STL and the C++ Standard Library are two distinct entities.</p>
+<p>However, due to the popular use of "STL" and "Standard Template 
+Library" in search engines, we occasionally use those names to make it 
+easier to find our documentation.</p>
+<p>In this documentation, Standard Template Library (STL) refers to the 
+C++ Standard Library as a whole.</p>
+</note>
 
 ### 6 Containers
 

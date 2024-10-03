@@ -56,9 +56,15 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 4. CS61A: Structure and Interpretation of Computer Programs (UC Berkeley) by Professor John DeNero and the rest of CS61A staff.
 
-5. <https://en.wikipedia.org/wiki/Namespace>.
+5. <https://en.wikipedia.org/wiki/Standard_Template_Library>.
 
-6. <https://en.cppreference.com/w/>.
+6. <https://learn.microsoft.com/en-us/cpp/standard-library/cpp-standard-library-overview?view=msvc-170>.
+
+7. <https://en.wikipedia.org/wiki/C%2B%2B_Standard_Library>.
+
+8. <https://en.wikipedia.org/wiki/Namespace>.
+
+9. <https://en.cppreference.com/w/>.
 
 > Note: Content of CS61A and CS61B are partly used for the Object-Oriented part.
 
