@@ -6418,6 +6418,49 @@ def print_byte_array(arr):
 <p>Inorder to produce prefix-free code, we need to ensure that no codeword
 is a <format color="OrangeRed">prefix</format> of another.</p>
 
+### 23.4 LZW Coding
+
+## 24 Reductions
+
+### 24.1 Reductions
+
+<p><format color="DarkOrange">Reduction:</format> Problem <math>X</math> 
+reduces to problem <math>Y</math> if you can use an algorithm that solves
+<math>Y</math> to help solve <math>X</math>.</p>
+
+<p>Cost of solving <math>X</math> = total cost of solving <math>Y</math> 
++ cost of reduction</p>
+
+<p><format color="IndianRed">Example:</format> find the median reduces to
+string</p>
+
+<procedure title="Find the median">
+<step>
+    <p>Sort <math>N</math> items</p>
+</step>
+<step>
+    <p>Return item in the middle</p>
+</step>
+</procedure>
+
+<p>Cost of finding the median: <math>N \log N + 1</math>.</p>
+
+<p><format color="BlueViolet">Example</format></p>
+
+<code-block lang="java">
+public static int[] twoSum(int[] nums, int target) {
+    Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
+    for (int i = 0; i &lt; nums.length; i++) {
+        int complement = target - nums[i];
+        if (map.containsKey(complement)) {
+            return new int[] { map.get(complement), i };
+        }
+        map.put(nums[i], i);
+    }
+    throw new IllegalArgumentException("No two sum solution");
+}
+</code-block>
+
 ## 30 Catalan Number
 
 ### 30.1 Properties and Formulas
