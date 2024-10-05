@@ -6422,7 +6422,7 @@ is a <format color="OrangeRed">prefix</format> of another.</p>
 
 ## 24 Reductions
 
-### 24.1 Reductions
+### 24.1 Introduction
 
 <p><format color="DarkOrange">Reduction:</format> Problem <math>X</math> 
 reduces to problem <math>Y</math> if you can use an algorithm that solves
@@ -6431,35 +6431,37 @@ reduces to problem <math>Y</math> if you can use an algorithm that solves
 <p>Cost of solving <math>X</math> = total cost of solving <math>Y</math> 
 + cost of reduction</p>
 
-<p><format color="IndianRed">Example:</format> find the median reduces to
-string</p>
+<p><format color="IndianRed">Example 1:</format> Finding the median reduces
+to sorting</p>
 
-<procedure title="Find the median">
+<procedure title="Find the media of N items">
 <step>
-    <p>Sort <math>N</math> items</p>
+    <p>Sort <math>N</math> items.</p>
 </step>
 <step>
-    <p>Return item in the middle</p>
+    <p>Return item in the middle.</p>
 </step>
 </procedure>
 
-<p>Cost of finding the median: <math>N \log N + 1</math>.</p>
+<p><format color="LawnGreen">Cost of solving this problem:</format> <math>
+N \log N + 1</math></p>
 
-<p><format color="BlueViolet">Example</format></p>
+<p><format color="IndianRed">Example 2:</format> Element distinctness 
+reduces to sorting</p>
 
-<code-block lang="java">
-public static int[] twoSum(int[] nums, int target) {
-    Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
-    for (int i = 0; i &lt; nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
-        }
-        map.put(nums[i], i);
-    }
-    throw new IllegalArgumentException("No two sum solution");
-}
-</code-block>
+<procedure title="Element distinctness on N items">
+<step>
+    <p>Sort <math>N</math> items.</p>
+</step>
+<step>
+    <p>Check adjacent pairs for equality.</p>
+</step>
+</procedure>
+
+<p><format color="LawnGreen">Cost of solving this problem:</format> <math>
+N \log N + N</math></p>
+
+### 24.2 
 
 ## 30 Catalan Number
 
