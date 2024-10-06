@@ -918,7 +918,7 @@ class ArrayDeque:
 </list>
 
 <tip>
-<p><format color="BlueViolet">Defect:</format> </p>
+<p><format color="BlueViolet">Defect</format></p>
 <list type="bullet">
 <li>
     <p>Union too expensive (<math>N</math> array accesses).</p>
@@ -950,7 +950,7 @@ class ArrayDeque:
 </list>
 
 <note>
-<p><format color="BlueViolet">Defect:</format> </p>
+<p><format color="BlueViolet">Defect</format></p>
 <list type="bullet">
 <li>
     <p>Trees can get tall.</p>
@@ -1211,7 +1211,7 @@ class UnionFind:
 
 ### 4.1 Stacks
 
-<p><format color="BlueViolet">Defintions:</format> </p>
+<p><format color="BlueViolet">Defintions</format></p>
 
 <list type="bullet">
 <li>
@@ -1349,7 +1349,7 @@ print(len(stack) == 0)
 <img src="../images_data/d4-1-2.png" alt="Stack push"/>
 </procedure>
 
-<p><format color="BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties</format></p>
 
 <list>
 <li>
@@ -2235,7 +2235,7 @@ public class Bag&lt;Item&gt; implements Iterable&lt;Item&gt; {
 </step>
 </procedure>
 
-<p><format color="BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties</format></p>
 
 <list type="bullet">
 <li>
@@ -2341,7 +2341,7 @@ def selection_sort(arr):
 </step>
 </procedure>
 
-<p><format color="BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions</format></p>
 
 <list type="bullet">
 <li>
@@ -2365,7 +2365,7 @@ arrays, insertion sort runs in linear time.</p>
 equals the number of inversions (number of compares = exchanges + (N 
 – 1)).</p>
 
-<p><format color="BlueViolet">Running Time Analysis:</format> </p>
+<p><format color="BlueViolet">Running Time Analysis</format></p>
 
 <list type="bullet">
 <li>
@@ -2467,7 +2467,7 @@ def insertion_sort(arr):
 </step>
 </procedure>
 
-<p><format color="BlueViolet">Increment Sequence:</format> </p>
+<p><format color="BlueViolet">Increment Sequence</format></p>
 
 <list type="decimal">
 <li>
@@ -2644,7 +2644,7 @@ array[i], array[r] = array[r], array[i]
     </tab>
 </tabs>
 
-### 5.5 Convex Hull
+### 5.5 Convex Hull {id="convex-hull"}
 
 <p><format color="DarkOrange">Convex Hull:</format> A convex hull of 
 a set of <math>N</math> points is the smallest perimeter fence 
@@ -2652,7 +2652,7 @@ enclosing the points.</p>
 
 <img src="../images_data/d5-5-1.png" alt="Convex Hull"/>
 
-<p><format color="BlueViolet">Equivalent definitions:</format> </p>
+<p><format color="BlueViolet">Equivalent definitions</format></p>
 
 <list type="bullet">
 <li>
@@ -2667,7 +2667,7 @@ enclosing the points.</p>
 </li>
 </list>
 
-<p><format color="BlueViolet">Geometric properties:</format> </p>
+<p><format color="BlueViolet">Geometric properties</format></p>
 
 <list type="bullet">
 <li>
@@ -2681,7 +2681,7 @@ enclosing the points.</p>
 </li>
 </list>
 
-<img src="../images_data/d5-5-2.png"  alt="Geometric Properties"/>
+<img src="../images_data/d5-5-2.png" alt="Geometric Properties"/>
 
 <procedure title="Graham Scan">
 <step>
@@ -2693,8 +2693,7 @@ enclosing the points.</p>
 </step>
 <step>
     <p>Consider points in order; discard unless it create a ccw 
-    (counterclockwise) turn.
-    </p>
+    (counterclockwise) turn.</p>
 </step>
 </procedure>
 
@@ -2722,7 +2721,7 @@ turn?</p>
 </step>
 </procedure>
 
-<p><format color="LawnGreen">Proof:</format> </p>
+<p><format color="LawnGreen">Proof</format></p>
 
 <code-block lang="tex">
 \begin{equation}
@@ -2730,10 +2729,9 @@ turn?</p>
 \end{equation}
 </code-block>
 
-<img src="../images_data/d5-5-3.png" alt="Determinant and 
-Positions"/>
+<img src="../images_data/d5-5-3.png" alt="Determinant and Positions"/>
 
-<p><format color="BlueViolet">Applications:</format> </p>
+<p><format color="BlueViolet">Applications</format></p>
 
 <list type="bullet">
 <li>
@@ -2755,7 +2753,20 @@ Positions"/>
 </li>
 </list>
 
-<p><format color="BlueViolet">Point2D:</format> </p>
+<p><format color="BlueViolet">Cost of Convex Hull:</format> <math>N \log N + N</math></p>
+
+<p><format color="LawnGreen">Proof:</format> Convex hull reduces to sorting</p>
+
+<list type="bullet">
+<li>
+    <p><math>N \log N</math> cost of sorting</p>
+</li>
+<li>
+    <p><math>N</math> cost of reduction</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Point2D</format></p>
 
 <tabs>
     <tab title="Java">
@@ -2967,7 +2978,7 @@ class Point2D:
     </tab>
 </tabs>
 
-<p><format color="BlueViolet">Graham Scan:</format> </p>
+<p><format color="BlueViolet">Graham Scan</format></p>
 
 <tabs>
     <tab title="Java">
@@ -3228,7 +3239,7 @@ is <format color="OrangeRed"> in-place</format> if it uses
 most <math>N \lg N</math> compares and <math>6N \lg N</math> array 
 accesses to sort any array of size <math>N</math>.</p>
 
-<p><format color="LawnGreen">Proof:</format> </p>
+<p><format color="LawnGreen">Proof</format></p>
 
 <p>The number of compares <math>C(N)</math> and array accesses
 <math>A(N)</math> to mergesort an array of size 
@@ -3525,7 +3536,7 @@ def sort(a):
 
 ### 6.3 Computational Complexity
 
-<p><format color="BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions</format></p>
 
 <list type="bullet">
 <li>
@@ -3585,7 +3596,7 @@ def sort(a):
 sorting algorithm must use at least <math>\lg(N!) \sim N \lg N</math> 
 compares in the worst case.</p>
 
-<p><format color="BlueViolet">Proof:</format> </p>
+<p><format color="BlueViolet">Proof</format></p>
 
 <list>
 <li>
@@ -3619,7 +3630,7 @@ compares in the worst case.</p>
 ="OrangeRed">stable</format> sort preserves the relative order of 
 items with equal keys.</p>
 
-<p><format color="BlueViolet">Methods:</format> </p>
+<p><format color="BlueViolet">Methods</format></p>
 
 <list type="decimal">
 <li>
@@ -3633,7 +3644,7 @@ items with equal keys.</p>
 </li>
 </list>
 
-<p><format color="BlueViolet">Conclusion:</format> </p>
+<p><format color="BlueViolet">Conclusion</format></p>
 
 <list>
 <li>
@@ -3693,7 +3704,7 @@ items with equal keys.</p>
 </step>
 </procedure>
 
-<p><format color="BlueViolet">Runtime Analysis:</format> </p>
+<p><format color="BlueViolet">Runtime Analysis</format></p>
 
 <list type="bullet">
 <li>
@@ -3715,7 +3726,7 @@ compares <math>C_{N}</math> to quicksort an array of <math>N</math>
 distinct keys is <math>\sim 2N \ln N </math> (and the number of 
 exchanges is <math>\sim \frac{1}{3} N \ln N </math>).</p>
 
-<p><format color="LawnGreen">Proof:</format> </p>
+<p><format color="LawnGreen">Proof</format></p>
 
 <p><math>C_{N}</math> satisfies the recurrence <math>C_0 = C_1 = 0
 </math> and for <math>N \leq 2</math>:</p>
@@ -3804,7 +3815,7 @@ for partitioning probability.</p>
     </list>
 </li>
 <li>
-    <p><format color="Fuchsia">Random shuffle:</format> </p>
+    <p><format color="Fuchsia">Random shuffle</format></p>
     <list type="bullet">
     <li>
         <p>Probabilistic guarantee against worst case.</p>
@@ -3816,7 +3827,7 @@ for partitioning probability.</p>
     </list>
 </li>
 <li>
-    <p><format color="Fuchsia">Caveat emptor:</format> </p>
+    <p><format color="Fuchsia">Caveat emptor</format></p>
     <p>Many textbook implementations go <format color="OrangeRed">
     quadratic</format> if array:</p>
     <list type="bullet">
@@ -3999,7 +4010,7 @@ def quicksort(arr, comparator=lambda x, y: x &lt; y):
 <p><format color="BlueViolet">Property:</format> Quick-select takes
 <format color="OrangeRed">linear</format> time on average.</p>
 
-<p><format color="LawnGreen">Proof:</format> </p>
+<p><format color="LawnGreen">Proof</format></p>
 
 <list type="bullet">
 <li>
@@ -4260,7 +4271,7 @@ def sort_all(arr: list):
     </tab>
 </tabs>
 
-<p><format color="BlueViolet">Conclusion:</format> </p>
+<p><format color="BlueViolet">Conclusion</format></p>
 
 <table style="both" id="conclusion">
 <tr>
@@ -4336,7 +4347,7 @@ def sort_all(arr: list):
 
 ### 8.1 API and Elementary Implementations
 
-<p><format color="BlueViolet">Applications:</format> </p>
+<p><format color="BlueViolet">Applications</format></p>
 
 <list type="bullet">
 <li>
@@ -5404,7 +5415,7 @@ class IndexedPriorityQueue:
 </step>
 </procedure>
 
-<p><format color="BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties</format></p>
 
 <list>
 <li>
@@ -7801,7 +7812,7 @@ following three operations in a certain order: </p>
 </li>
 </list>
 
-<p><format color="BlueViolet">Three types of traversal:</format> </p>
+<p><format color="BlueViolet">Three types of traversal</format></p>
 
 <list type="alpha-lower">
 <li>

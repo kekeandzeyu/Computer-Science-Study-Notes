@@ -5,7 +5,7 @@
 <secondary-label ref="beta"></secondary-label>
 <secondary-label ref="wip"></secondary-label>
 
-## 17 Shortest Paths
+## 17 Shortest Paths {id="shortest-paths"}
 
 ### 17.1 Shortest Paths APIs
 
@@ -325,29 +325,44 @@ class EdgeWeightedDigraph:
     </tab>
 </tabs>
 
-### 17.2 Shortest Path Properties
+### 17.2 Shortest Path Properties {id="shortest-path-properties"}
 
-<procedure title = "Edge Relaxation" type="choices">
-    <step>
-        <p><code>distTo[v]</code> is length of shortest <format color 
-        ="OrangeRed">known</format> path from <math>s</math> to 
-        <math>v</math>.</p>
-    </step>
-    <step>
-        <p><code>distTo[w]</code> is length of shortest <format color 
-        = "OrangeRed">known</format> path from <math>s</math> to 
-        <math>w</math>.</p>
-    </step>
-    <step>
-        <p><code>edgeTo[w]</code> is last edge on shortest <format color 
-        = "OrangeRed">known</format> path from <math>s</math> to 
-        <math>w</math>.</p>
-    </step>
-    <step>
-        <p>If <math>e = v->w</math> gives shorter path to <math>w
-        </math> through <math>v</math>, update both <code>distTo[w]
-        </code> and <code>edgeTo[w]</code>.</p>
-    </step>
+<p><format color="BlueViolet">Cost of undirected shortest paths:</format>
+<math>E \log V + E</math></p>
+
+<p><format color="LawnGreen">Proof:</format> Undirected shortest paths 
+(with nonnegative weights) reduces to directed shortest path.</p>
+
+<list type="bullet">
+<li>
+    <p><math>E \log V</math> cost of shortest paths in digraph</p>
+</li>
+<li>
+    <p><math>E</math> cost of reduction</p>
+</li>
+</list>
+
+<procedure title="Edge Relaxation" type="choices">
+<step>
+    <p><code>distTo[v]</code> is length of shortest <format color 
+    ="OrangeRed">known</format> path from <math>s</math> to 
+    <math>v</math>.</p>
+</step>
+<step>
+    <p><code>distTo[w]</code> is length of shortest <format color
+    ="OrangeRed">known</format> path from <math>s</math> to 
+    <math>w</math>.</p>
+</step>
+<step>
+    <p><code>edgeTo[w]</code> is last edge on shortest <format color 
+    ="OrangeRed">known</format> path from <math>s</math> to 
+    <math>w</math>.</p>
+</step>
+<step>
+    <p>If <math>e = v->w</math> gives shorter path to <math>w
+    </math> through <math>v</math>, update both <code>distTo[w]
+    </code> and <code>edgeTo[w]</code>.</p>
+</step>
 </procedure>
 
 <img src="../images_data/d17-2-1.png" alt="Edge Relaxation"/>
@@ -359,21 +374,21 @@ Shortest-paths optimality conditions</p>
 <p>Then <code>distTo[]</code> are the shortest path distances from 
 <math>s</math> iff:</p>
 
-<list>
+<list type="bullet">
 <li>
-<p>distTo[s] = 0.</p>
+    <p>distTo[s] = 0.</p>
 </li>
 <li>
-<p>For each vertex v, distTo[v] is the length of some path from 
-<math>s</math> to <math>v</math>.</p>
+    <p>For each vertex v, distTo[v] is the length of some path from 
+    <math>s</math> to <math>v</math>.</p>
 </li>
 <li>
-<p>For each edge <math>e = v→w</math>, 
-distTo[w] &leq; distTo[v] + e.weight().</p>
+    <p>For each edge <math>e = v -> w</math>, distTo[w] &leq; distTo[v] + 
+    e.weight().</p>
 </li>
 </list>
 
-<p><format color="LawnGreen">Proof:</format> </p>
+<p><format color="LawnGreen">Proof</format></p>
 
 <list type="bullet">
 <li>
@@ -694,7 +709,7 @@ class Dijkstra:
     </tab>
 </tabs>
 
-<p><format color="BlueViolet">Property:</format> </p>
+<p><format color="BlueViolet">Property</format></p>
 
 <p>Running time depends on PQ implementation: <math>V</math> insert, 
 <math>V</math> delete-min, <math>E</math> decrease-key.</p>
@@ -739,7 +754,7 @@ class Dijkstra:
 
 <p>*: amortized</p>
 
-<p><format color="BlueViolet">Bottom Line:</format> </p>
+<p><format color="BlueViolet">Bottom Line</format></p>
 
 <list type="bullet">
 <li>
@@ -1511,7 +1526,7 @@ class BellmanFordSP:
     </tab>
 </tabs>
 
-<p><format color="BlueViolet">Find A Negative Cycle:</format> </p>
+<p><format color="BlueViolet">Find A Negative Cycle</format></p>
 
 <p>If there is a negative cycle, Bellman-Ford gets stuck in loop,
 updating distTo[] and edgeTo[] entries of vertices in the cycle.</p>
@@ -1557,7 +1572,7 @@ cycle (and can trace back edgeTo[v] entries to find it).</p>
 
 ### 18.1 Introduction
 
-<p><format color="BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions</format></p>
 
 <p><format color="DarkOrange"><math>st</math>-cut: </format> A 
 <format color="OrangeRed"><math>st</math>-cut (cut)</format> is a 
@@ -1578,7 +1593,7 @@ capacities of the edges from <math>A</math> to <math>B</math>.</p>
 <p><format color="BlueViolet">Minimum cut problem:</format> 
 Find a cut of minimum capacity.</p>
 
-<p><format color="BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions</format></p>
 
 <p><format color="DarkOrange"><math>st</math>-flow:</format> An 
 <format color="OrangeRed"><math>st</math>-flow (flow)</format> is 
@@ -1630,7 +1645,7 @@ no edge points to <math>s</math> or from <math>t</math>.</p>
 
 ### 18.3 Maxflow-Mincut Theorem
 
-<p><format color="BlueViolet">Definition:</format> </p>
+<p><format color="BlueViolet">Definition</format></p>
 
 <p><format color="OrangeRed">Net Flow:</format> The <format color=
 "OrangeRed">net flow across</format> a cut (<math>A</math>, <math>B
@@ -1660,7 +1675,7 @@ equals the value of <math>f</math>.</p>
 </math> be any flow and let <math>(A, B)</math> be any cut. Then, the 
 value of the flow ≤ the capacity of the cut.</p>
 
-<p><format color="LawnGreen">Proof:</format> </p>
+<p><format color="LawnGreen">Proof</format></p>
 
 <p>Value of flow <math>f</math> = net flow across cut <math>(A, B)
 </math> ≤ capacity of cut <math>(A, B)</math>.</p>
@@ -1687,7 +1702,7 @@ conditions are equivalent for any flow <math>f</math>.</p>
 </li>
 </list>
 
-<p><format color="Fuchsia">1 -> 2:</format> </p>
+<p><format color="Fuchsia">1 -> 2</format></p>
 
 <list>
 <li>
@@ -1763,12 +1778,12 @@ augmenting path with respect to <math>f</math>.</p>
 <math>U</math>.</p>
 </note>
 
-<p><format color="BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties</format></p>
 
 <list type="decimal">
 <li>
     <p>The flow is integer-valued throughout Ford-Fulkerson.</p>
-    <p><format color="LawnGreen">Proof:</format> </p>
+    <p><format color="LawnGreen">Proof</format></p>
     <list type="bullet">
     <li>
         <p>Bottleneck capacity is an integer.</p>
@@ -1830,7 +1845,7 @@ integer capacities between 1 and <math>U</math></p>
 
 #### 18.5.1 Flow Edge
 
-<p><format color="BlueViolet">Implementation:</format> </p>
+<p><format color="BlueViolet">Implementation</format></p>
 
 <p>Use residual capcity: </p>
 
@@ -2832,7 +2847,7 @@ class FordFulkerson:
 
 ### 18.6 Maxflow Applications
 
-<p><format color="BlueViolet">Applications:</format> </p>
+<p><format color="BlueViolet">Applications</format></p>
 
 <list>
 <li>
@@ -2907,7 +2922,7 @@ perfect matching.</p>
 <img src="../images_data/d18-6-2.png" alt="Bipartite Matching"/>
 
 <p><format color="BlueViolet">When no perfect matching, mincut 
-explains why:</format> </p>
+explains why</format></p>
 
 <p>Consider mincut (<math>A</math>, <math>B</math>): </p>
 
@@ -2950,7 +2965,7 @@ Push-relabel method with gap relabeling: <math>E^{\frac {3}{2}}
 <p><format color="DarkOrange">String:</format> Sequence of characters.
 </p>
 
-<p><format color="BlueViolet">The char data type:</format> </p>
+<p><format color="BlueViolet">The char data type</format></p>
 
 <list type="bullet">
 <li><format color="Fuchsia">C char data type:</format> Typically an 
@@ -3070,7 +3085,7 @@ index.</p>
 
 <img src="../images_data/d19-2-1.png" alt="Key-Indexed Counting"/>
 
-<p><format color="BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties</format></p>
 
 <list type="bullet">
 <li>Key-indexed counting uses <math>\sim 11 N + 4 R</math> array 
@@ -3206,7 +3221,7 @@ counting).</step>
 <p><format color="BlueViolet">Correctness Proof:</format> LSD sorts 
 fixed-length strings in ascending order.</p>
 
-<p><format color="LawnGreen">Proof:</format> </p>
+<p><format color="LawnGreen">Proof</format></p>
 
 <p>After pass <math>i</math>, strings are sorted by last <math>i
 </math> characters.</p>
@@ -3355,7 +3370,7 @@ C strings =>Have extra char '\0' at end => no extra work needed.
 </li>
 </list>
 
-<p><format color="BlueViolet">Improvements:</format> </p>
+<p><format color="BlueViolet">Improvements</format></p>
 
 <p>Cutoff to insertion sort for small subarrays.</p>
 
@@ -3365,7 +3380,7 @@ C strings =>Have extra char '\0' at end => no extra work needed.
 <math>d^{th}</math> character.</li>
 </list>
 
-<p><format color="BlueViolet">Performance:</format> </p>
+<p><format color="BlueViolet">Performance</format></p>
 
 <p>Number of characters examined.</p>
 
@@ -3390,7 +3405,7 @@ Strings</format></p>
     </list>
 </li>
 <li>
-<p><format color="Fuchsia">Disadvantage of quicksort:</format> </p>
+<p><format color="Fuchsia">Disadvantage of quicksort</format></p>
     <list type="bullet">
     <li>Linearithmic number of string compares (not linear).</li>
     <li>Has to rescan many characters in keys with long prefix matches
@@ -3597,7 +3612,7 @@ def sort(arr, low, high, d, aux, CUTOFF):
 
 <p>Do 3-way partitioning on the <math>d^{th}</math> character.</p>
 
-<p><format color="BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties</format></p>
 
 <list>
 <li>Less overhead than R-way partitioning in MSD string sort.</li>
@@ -4133,7 +4148,7 @@ class RWayTrie:
 
 ### 20.2 Ternary Search Tries {id="tst"}
 
-<p><format color="BlueViolet">Ternary Search Trees:</format> </p>
+<p><format color="BlueViolet">Ternary Search Trees</format></p>
 
 <list type="bullet">
 <li>
@@ -4637,7 +4652,7 @@ class TernarySearchTree:
 
 ### 21.2 Brute-Force Substring Search {id="brute-force"}
 
-<p><format color="BlueViolet">Disadvantages:</format> </p>
+<p><format color="BlueViolet">Disadvantages</format></p>
 
 <list type="bullet">
 <li>
@@ -4944,7 +4959,7 @@ class KMP:
     <p>nfa[i] or next[i] array represent the checkpoint for the 
     longest prefix <format color="OrangeRed">probable</format> of 
     pat[0...i] that is also the suffix of txt[0...i]</p>
-    <p><format color="Fuchsia">Example:</format> </p>
+    <p><format color="Fuchsia">Example</format></p>
     <p>pattern: ABABAC next[5] = 3</p>
     <p>When text is ABABA_ and the char on _ is not C, check if the 
     char on _ is equal to pattern[3] = B.</p>
@@ -5605,7 +5620,7 @@ class RabinKarp:
 <p><format color="BlueViolet">Pattern Searching:</format> Find one of
 a specified set of strings in text.</p>
 
-<p><format color="BlueViolet">Applications:</format> </p>
+<p><format color="BlueViolet">Applications</format></p>
 
 <list type="bullet">
 <li>
@@ -5709,7 +5724,7 @@ notation to specify a set of strings.</p>
 </tr>
 </table>
 
-<p><format color="BlueViolet">Shortcuts:</format> </p>
+<p><format color="BlueViolet">Shortcuts</format></p>
 
 <table style="header-row">
 <tr>
@@ -5752,7 +5767,7 @@ notation to specify a set of strings.</p>
 </tr>
 </table>
 
-<p><format color="BlueViolet">Examples:</format> </p>
+<p><format color="BlueViolet">Examples</format></p>
 
 <table style="header-row">
 <tr>
@@ -5793,7 +5808,7 @@ notation to specify a set of strings.</p>
 </tr>
 </table>
 
-<p><format color="BlueViolet">Caveat:</format> </p>
+<p><format color="BlueViolet">Caveat</format></p>
 
 <list type="bullet">
 <li>
@@ -5812,7 +5827,7 @@ notation to specify a set of strings.</p>
 
 ### 22.2 REs and NFAs
 
-<p><format color="BlueViolet">Kleene's theorem:</format> </p>
+<p><format color="BlueViolet">Kleene's theorem</format></p>
 
 <list type="bullet">
 <li>
@@ -5862,7 +5877,7 @@ notation to specify a set of strings.</p>
 </step>
 </procedure>
 
-<p><format color="BlueViolet">Construction:</format> </p>
+<p><format color="BlueViolet">Construction</format></p>
 
 <list type="bullet">
 <li>
@@ -5882,7 +5897,7 @@ notation to specify a set of strings.</p>
 
 <procedure title="NFA Construction" type="choices">
 <step>
-    <p><format color="Fuchsia">Left parenthesis:</format> </p>
+    <p><format color="Fuchsia">Left parenthesis</format></p>
     <list type="bullet">
     <li>
         <p>Add &epsilon;-transition to next state.</p>
@@ -5893,7 +5908,7 @@ notation to specify a set of strings.</p>
     </list>
 </step>
 <step>
-    <p><format color="Fuchsia">Alphabet symbol:</format> </p>
+    <p><format color="Fuchsia">Alphabet symbol</format></p>
     <list type="bullet">
     <li>
         <p>Add match transition to next state.</p>
@@ -5905,7 +5920,7 @@ notation to specify a set of strings.</p>
     </list>
 </step>
 <step>
-    <p><format color="Fuchsia">Or symbol:</format> </p>
+    <p><format color="Fuchsia">Or symbol</format></p>
     <list type="bullet">
     <li>
         <p>Push index of state corresponding to | onto stack.</p>
@@ -5913,7 +5928,7 @@ notation to specify a set of strings.</p>
     </list>
 </step>
 <step>
-    <p><format color="Fuchsia">Right parenthesis:</format> </p>
+    <p><format color="Fuchsia">Right parenthesis</format></p>
     <list type="bullet">
     <li>
         <p>Add &epsilon;-transition to next state.</p>
@@ -6461,7 +6476,35 @@ reduces to sorting</p>
 <p><format color="LawnGreen">Cost of solving this problem:</format> <math>
 N \log N + N</math></p>
 
-### 24.2 
+### 24.2 Designing Algorithms
+
+<p><format color="IndianRed">Examples</format></p>
+
+<list>
+<li>
+    <p>3-collinear reduces to sorting.</p>
+</li>
+<li>
+    <p>Finding the median reduces to sorting.</p>
+</li>
+<li>
+    <p>Element distinctness reduces to sorting.</p>
+</li>
+<li>
+    <p>CPM reduces to topological sort.</p>
+</li>
+<li>
+    <p>Arbitrage reduces to shortest paths.</p>
+</li>
+<li>
+    <p>Burrows-Wheeler transform reduces to suffix sort.</p>
+</li>
+</list>
+
+<p>For more examples on algorithm designing using reductions, please visit 
+<a href="Data-Structures-and-Algorithms-1.md" anchor="convex-hull" 
+summary="Convex Hull">convex hull</a> or <a anchor="shortest-path-properties" 
+summary="Shortest Path">shortest path</a>.</p>
 
 ## 30 Catalan Number
 

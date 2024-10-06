@@ -96,10 +96,10 @@
     <p>Allow 1 or 2 keys per node.</p>
 </li>
 <li>
-    <p>2-node: one key, two children.</p>
+    <p><format color="Fuchsia">2-node:</format> one key, two children.</p>
 </li>
 <li>
-    <p>3-node: two keys, three children.</p>
+    <p><format color="Fuchsia">3-node:</format> two keys, three children.</p>
 </li>
 </list>
 
@@ -149,7 +149,7 @@
     <p><format color="Fuchsia">Maintain symmetric order and perfect 
     balance:</format> Every path from root to null link has same length.
     </p>
-    <p><format color="LawnGreen">Proof:</format> </p>
+    <p><format color="LawnGreen">Proof</format></p>
 </li>
 <li>
     <p><format color="Fuchsia">Worst case</format>: 
@@ -2134,7 +2134,7 @@ rectangles.</p>
 
 ### 12.1 Hash Tables
 
-<p><format color="BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions</format></p>
 
 <list type="decimal">
 <li>
@@ -2206,7 +2206,7 @@ public final class StringTest {
 
 <img src="../images_data/d12-2-1.png" alt = "Separate Chaining"/>
 
-<p><format color="BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties</format></p>
 
 <list type="bullet">
 <li>
@@ -3355,7 +3355,7 @@ of length <math>n</math> ? => <math>n</math></p>
 
 ### 14.1 Introduction to Graphs
 
-<p><format color="BlueViolet">Terminology:</format> </p>
+<p><format color="BlueViolet">Terminology</format></p>
 
 <list type="alpha-lower">
 <li>
@@ -3381,7 +3381,7 @@ there is a path between them.</p>
 
 ### 14.2 Graph API
 
-<p><format color="BlueViolet">Representation Types:</format> </p>
+<p><format color="BlueViolet">Representation Types</format></p>
 
 <list type="alpha-lower">
 <li>
@@ -3556,7 +3556,7 @@ class UndirectedGraph:
 <p><format color="BlueViolet">Goal:</format> Systematically search
 through a graph.</p>
 
-<p><format color="BlueViolet">Typical applications:</format> </p>
+<p><format color="BlueViolet">Typical applications</format></p>
 
 <list type="bullet">
 <li>
@@ -3577,7 +3577,7 @@ through a graph.</p>
 </step>
 </procedure>
 
-<p><format color="BlueViolet">Properties:</format> </p>
+<p><format color="BlueViolet">Properties</format></p>
 
 <list type="bullet">
 <li>
@@ -3800,7 +3800,7 @@ class DepthFirstSearch:
 </step>
 </procedure>
 
-<p><format color="BlueViolet">Property:</format> </p>
+<p><format color="BlueViolet">Property</format></p>
 
 <p>BFS computes shortest paths (fewest number of edges) from s to 
 all other vertices in a graph in time proportional to <math>E + V
@@ -4627,7 +4627,7 @@ same method as for undirected graphs!</p>
 </li>
 </list>
 
-<p><format color="BlueViolet">Application:</format> </p>
+<p><format color="BlueViolet">Application</format></p>
 
 <list type="bullet">
 <li>
@@ -5427,7 +5427,7 @@ color="OrangeRed">spanning tree</format> is a subgraph <math>T
 
 ### 16.2 Greedy Algorithm
 
-<p><format color="BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions</format></p>
 
 <list type="bullet">
 <li>
@@ -5460,7 +5460,7 @@ color="OrangeRed">spanning tree</format> is a subgraph <math>T
 <list type="decimal">
 <li>
     <p>Given any cut, the crossing edge of min weight is in MST.</p>
-    <p><format color="LawnGreen">Proof:</format> </p>
+    <p><format color="LawnGreen">Proof</format></p>
     <p>Suppose min-weight crossing edge <math>e</math> is not in the 
     MST.</p>
     <list type="bullet">
@@ -5488,7 +5488,7 @@ color="OrangeRed">spanning tree</format> is a subgraph <math>T
 <li>
 <p>The greedy algorithm computes the MST.</p>
 
-<p><format color="MediumVioletRed">Proof:</format> </p>
+<p><format color="MediumVioletRed">Proof</format></p>
     <list type="bullet"> 
     <li>
     <p>Any edge colored black is in the MST (via cut property).</p>
@@ -5818,7 +5818,7 @@ class EdgeWeightedGraph:
     </step>
 </procedure>
 
-<p><format color="BlueViolet">Correctness Proof:</format> </p>
+<p><format color="BlueViolet">Correctness Proof</format></p>
 
 <p>Kruskal's Algorithm is a special case of the greedy MST algorithm.
 </p>
@@ -6076,7 +6076,7 @@ class UnionFind:
     </step>
 </procedure>
 
-<p><format color="BlueViolet">Correctness Proof:</format> </p>
+<p><format color="BlueViolet">Correctness Proof</format></p>
 
 <p>Prim's Algorithm is a special case of the greedy MST algorithm.
 </p>
@@ -6308,7 +6308,7 @@ class PrimMSTLazy:
 
 #### 16.5.2 Eager Implementation
 
-<p><format color="BlueViolet">Property:</format> </p>
+<p><format color="BlueViolet">Property</format></p>
 
 <p>Running time depends on PQ implementation: <math>V</math> insert, 
 <math>V</math> delete-min, <math>E</math> decrease-key.</p>
@@ -6351,7 +6351,7 @@ class PrimMSTLazy:
 
 <p>*: amortized</p>
 
-<p><format color="BlueViolet">Bottom Line:</format> </p>
+<p><format color="BlueViolet">Bottom Line</format></p>
 
 <list type="bullet">
 <li>
@@ -6566,7 +6566,7 @@ and do it in <math>\sim cN \log N</math></p>
 
 #### 16.6.2 Single Link Clustering
 
-<p><format color="BlueViolet">Definitions:</format> </p>
+<p><format color="BlueViolet">Definitions</format></p>
 
 <list type="bullet">
 <li>
@@ -6610,7 +6610,7 @@ components).</p>
 <p>Run Prim's algorithm and delete <math>k–1</math> max weight edges.</p>
 </note>
 
-<p><format color="BlueViolet">Applications:</format> </p>
+<p><format color="BlueViolet">Applications</format></p>
 
 <list>
 <li>
