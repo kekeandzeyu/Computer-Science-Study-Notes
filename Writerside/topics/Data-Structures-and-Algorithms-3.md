@@ -15,46 +15,46 @@ digraph, find the shortest path from <math>s</math> to <math>t</math>
 
 <list type="bullet">
 <li>
-    <p>Navigation.</p>
+    <p>Navigation</p>
 </li>
 <li>
-    <p>PERT/CPM.</p>
+    <p>PERT/CPM</p>
 </li>
 <li>
-    <p>Map routing.</p>
+    <p>Map routing</p>
 </li>
 <li>
-    <p>Seam carving.</p>
+    <p>Seam carving</p>
 </li>
 <li>
-    <p>Robot navigation.</p>
+    <p>Robot navigation</p>
 </li>
 <li>
-    <p>Texture mapping.</p>
+    <p>Texture mapping</p>
 </li>
 <li>
-    <p>Typesetting in TeX.</p>
+    <p>Typesetting in TeX</p>
 </li>
 <li>
-    <p>Urban traffic planning.</p>
+    <p>Urban traffic planning</p>
 </li>
 <li>
-    <p>Optimal pipelining of VLSI chip.</p>
+    <p>Optimal pipelining of VLSI chip</p>
 </li>
 <li>
-    <p>Telemarketer operator scheduling.</p>
+    <p>Telemarketer operator scheduling</p>
 </li>
 <li>
-    <p>Routing of telecommunications messages.</p>
+    <p>Routing of telecommunications messages</p>
 </li>
 <li>
-    <p>Network routing protocols (OSPF, BGP, RIP).</p>
+    <p>Network routing protocols (OSPF, BGP, RIP)</p>
 </li>
 <li>
-    <p>Exploiting arbitrage opportunities in currency exchange.</p>
+    <p>Exploiting arbitrage opportunities in currency exchange</p>
 </li>
 <li>
-    <p>Optimal truck routing through given traffic congestion pattern.</p>
+    <p>Optimal truck routing through given traffic congestion pattern</p>
 </li>
 </list>
 

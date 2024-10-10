@@ -826,29 +826,30 @@ struct hello {
 
 <p>Program's <format color="OrangeRed" style="italic">address space
 </format> contains 4 regions: </p>
-<list>
+
+<list type="bullet">
 <li>
-    <p><format color="Fuchsia">Stack:</format> local variables,
+    <p><format color="Fuchsia">Stack:</format> Local variables,
     grow downwards.</p>
 </li>
 <li>
-    <p><format color="Fuchsia">Heap:</format> space requested via
+    <p><format color="Fuchsia">Heap:</format> Space requested via
     <code>malloc()</code> and used with pointers; resizes dynamically, 
     grow upward.</p>
 </li>
 <li>
-    <p><format color="Fuchsia">Static Data:</format> global or static 
+    <p><format color="Fuchsia">Static Data:</format> Global or static 
     variables, does not grow or shrink.</p>
 </li>
 <li>
-    <p><format color="Fuchsia">Code:</format> loaded when program 
+    <p><format color="Fuchsia">Code:</format> Loaded when program 
     starts, does not change.</p>
 </li>
 </list>
 
-<img src="../images_architecture/a2-1-1.png" alt = "C Memory Layout"/>
+<img src="../images_architecture/a2-1-1.png" alt="C Memory Layout"/>
 
-<p><format color="BlueViolet">Storage:</format> </p>
+<p><format color="BlueViolet">Storage for C Programs</format></p>
 
 <list>
 <li>
@@ -858,14 +859,7 @@ struct hello {
 <li>
     <p><format color="Fuchsia">Declared inside a function:
     </format> Stack</p>
-<list type="bullet">
-<li>
-    <p><code>main()</code> is a function.</p>
-</li>
-<li>
-    <p>freed when function returns.</p>
-</li>
-</list>
+    <p>Freed when function returns.</p>
 </li>
 <li>
     <p><format color="Fuchsia">Dynamically allocated (i.e., 
@@ -878,57 +872,88 @@ struct hello {
 
 <list type="bullet">
 <li>
-<p>A stack frame includes: </p>
-<list type="bullet">
-<li>
-<p>Location of caller function</p>
+    <p>A stack frame includes: </p>
+    <list type="bullet">
+    <li>
+        <p>Location of caller function</p>
+    </li>
+    <li>
+        <p>Function arguments</p>
+    </li>
+    <li>
+        <p>Space for local variables</p>
+    </li>
+    </list>
 </li>
 <li>
-<p>Function arguments</p>
+    <p>Stack pointer (SP) tells where lowest (current) stack frame is.</p>
 </li>
 <li>
-<p>Space for local variables</p>
+    <p>When procedure ends, stack pointer is moved back (but data remains
+    (<format color="OrangeRed">garbage!</format>)); frees memory for 
+    future stack frames (LIFO-Last In First Out).</p>
 </li>
 </list>
-</li>
-<li>
-<p>Stack pointer (SP) tells where lowest (current) stack frame is.</p>
-</li>
-<li>
-<p>When procedure ends, stack pointer is moved back (but data remains
-(<format color="OrangeRed">garbage!</format>)); frees memory for 
-future stack frames;</p>
-</li>
-</list>
+
+<img src="../images_architecture/a3-1-1.png" alt="Example for Stack"/>
+
+<p><format color="BlueViolet">Stack Misuse</format></p>
+
+<code-block lang="c" collapsible="true">
+int *getPtr() {
+    int x = 5;
+    return &amp;x;
+}
+\/
+int main() {
+    int *stackAddr, content;
+    stackAddr = getPtr();
+    content = *stackAddr;
+    printf("Content: %d\n", content); // Content: 5 (most probably)
+    content = *stackAddr;
+    printf("Content: %d\n", content); // ???
+    return 0;
+}
+</code-block>
+
+<img src="../images_architecture/a3-1-2.png" alt="Stack Frame"/>
+
+<note>
+<p>Never retrun pointers to local variables from functions!</p>
+<p>Your compiler will warn you about this - don't ignore such warnings!
+</p>
+</note>
 
 #### 3.2 Static Data
 
 <list type="bullet">
 <li>
-<p>Place for variables that persist, and data doesn't subject to 
-comings and goings like function calls, e.g. string literals,
-global variables.</p>
+    <p>Place for variables that persist, and data doesn't subject to 
+    comings and goings like function calls, e.g. <format 
+    color="OrangeRed">string literals, global variables</format>.</p>
 </li>
 <li>
-<p>String literal example: <code>char * str = “hi”</code>.</p>
+    <p>String literal example: <code>char * str = "hi"</code>.</p>
+    <p><code>char str[] = "hi"</code> is on stack!</p>
 </li>
 <li>
-<p>Size does not change, but sometimes data can be writable.</p>
+    <p>Size does not change, but sometimes part of the data can be 
+    writable.</p>
 </li>
 </list>
 
 <warning>
-<p>String literals cannot change!</p>
+    <p>String literals cannot change!</p>
 </warning>
 
 #### 3.3 Code
 
 <list type="bullet">
 <li>
-<p>Copy of your code goes here, C code becomes data too!</p>
+    <p>Copy of your code goes here, C code becomes data too!</p>
 </li>
 <li>
-<p>Does (should) not change, typically read-only.</p>
+    <p>Does (should) not change, typically read-only.</p>
 </li>
 </list>
 
