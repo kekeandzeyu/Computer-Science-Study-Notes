@@ -6506,144 +6506,134 @@ N \log N + N</math></p>
 summary="Convex Hull">convex hull</a> or <a anchor="shortest-path-properties" 
 summary="Shortest Path">shortest path</a>.</p>
 
-## 30 Catalan Number
+### 24.3 Establishing Lower Bounds
 
-### 30.1 Properties and Formulas
+<p>Very difficult to establish lower bounds from scratch => Use reductions</p>
 
-<list type="decimal">
+<p><format color="BlueViolet">Definition:</format> Problem <math>X</math> 
+<format color="DarkOrange">linear-time reduces</format> to problem <math>Y</math> 
+if <math>X</math> can be solved with:</p>
+
+<list type="bullet">
 <li>
-    <code-block lang="tex">
-        C_n = \frac{1}{n+1} \binom{2n}{n} = \frac{(2n)!}{(n + 1)!n!} 
-    </code-block>
+    <p>Linear number of standard computational steps.</p>
 </li>
 <li>
-    <code-block lang = "tex" style = "inline">
-        C_n = \binom{2n}{n} - \binom{2n}{n+1}
-    </code-block>
-</li>
-<li>
-    <code-block lang = "tex" style = "inline">
-        C_n = \sum_{i=0}^{n} C_{i-1} C_{n-i}
-    </code-block>
-</li>
-<li>
-    <code-block lang = "tex" style = "inline">
-        C_n = \frac{2(2n-1)}{n+1} C_{n-1}
-    </code-block>
+    <p>Constant number of calls to <math>Y</math>.</p>
 </li>
 </list>
 
-### 30.2 Applications
+<p><format color="BlueViolet">Property:</format> In quadratic decision 
+tree model, any algorithm for sorting <math>N</math> integers requires 
+<math>\Omega (N \log N)</math> steps. Sorting linear-time reduces to 
+convex hull.</p>
 
-<list type="decimal">
+<p><format color="LawnGreen">Proof</format></p>
+
+<list type="bullet">
 <li>
-<p>It is the number of expressions containing <math>n</math> pairs of
-parentheses which are correctly matched.</p>
-<p>For <math>n = 3</math>, for example:</p>
-<p>((())), (()()), (())(), ()(()), ()()().</p>
+    <p><format color="Fuchsia">Sorting instance:</format> <math>x_1</math>, 
+    <math>x_2</math>, ..., <math>x_N</math></p>
 </li>
 <li>
-<p>It is the number of different ways <math>n + 1</math> factors can be
-completely parenthesized (or the number of ways of associating <math>n</math> 
-applications of a binary operator, as in the matrix chain 
-multiplication problem).</p>
-<p>For <math>n = 3</math>, for example:</p>
-<p>((ab)c)d, (a(bc))d, (ab)(cd), a((bc)d), a(b(cd)).</p>
+    <p><format color="Fuchsia">Convex hull instance:</format> <math>(x_1, {x_{1}}^{2}</math>, 
+    <math>(x_2, {x_{2}}^{2}</math>, ..., <math>(x_N, {x_{N}}^{2}</math></p>
 </li>
 <li>
-<p>It is the number of full binary trees with <math>n + 1</math> leaves,
-or, equivalently, with a total of <math>n</math> internal nodes.</p>
-<note>
-<p>A full binary tree is a tree in which every node has either
-0 or 2 children. (International Definiton)</p>
-</note>
-<p>For <math>n = 3</math>, for example:</p>
-<img src="../images_data/d31-2-1.png" alt="Alt text" width="450" style = "inline"/></li>
-<li>
-<p>It is the number of structurally unique BSTs (binary search
-trees) which has exactly <math>n</math> nodes of unique values
-from 1 to <math>n</math>.</p>
-<p>For <math>n = 3</math>, for example:</p>
-<img src="../images_data/d31-2-2.jpg" alt="Alt text" width="450" style = "inline"/></li>
-<li>
-<p>It is the number of Dyck words of length <math>2n</math>. A Dyck word is a
-string consisting of <math>n</math> X's and <math>n</math> Y's
-such that no initial segment of the string has more Y's than X's.</p>
-<p>For example, Dyck words for <math>n = 3</math>:</p>
-<p>XXXYYY     XYXXYY     XYXYXY     XXYYXY     XXYXYY</p>
+    <p>Region <math>\{ x \mid x^2 \geq x \}</math> is convex => all 
+    points are on hull.</p>
 </li>
 <li>
-<p>It is the number of monotonic lattice paths along the edges of a
-grid with <math>n \times n</math> square cells, which do not pass
-above the diagonal.</p>
-<note>
-<list>
-<li>
-<p>A monotonic path is one which starts in the lower left corner,
-finishes in the upper right corner, and consists entirely of
-edges pointing rightwards or upwards.</p>
-</li>
-<li>
-<p>Counting such paths is equivalent to counting Dyck words:
-X stands for &quot;move right&quot; and Y stands for &quot;move up&quot;.</p>
-</li>
-</list>
-</note>
-</li>
-<li>
-<p>A convex polygon with <math>n + 2</math> sides can be cut into
-triangles by connecting vertices with non-crossing line segments
-(a form of polygon triangulation). The number of triangles formed
-is <math>n</math> and it is the number of different ways that this
-can be achieved.</p>
+    <p>Starting at point with most negative <math>x</math>, counterclockwise 
+    order of hull points yields integers in ascending order.</p>
 </li>
 </list>
 
-### 30.3 Implementation
+<img src="../images_data/d24-3-1.png" alt="Convex Hull"/>
 
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-public static BigInteger catalan(int n) {
-    BigInteger res = BigInteger.ONE;
-\/
-    for (int i = 0; i &lt; n; i++) {
-        res = res.multiply(BigInteger.valueOf(2L * n - i));
-        res = res.divide(BigInteger.valueOf(i + 1));
-    }
-\/
-    return res.divide(BigInteger.valueOf(n + 1));
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-unsigned long int binomialCoeff(unsigned int n, unsigned int k) {
-    if (k &gt; n) return 0;
-    if (k == 0 || k == n) return 1;
-\/
-    unsigned long int res = 1;
-    for (int i = 0; i &lt; k; i++) {
-        res *= (n - i);
-        res /= (i + 1);
-    }
-\/
-    return res;
-}
-\/
-unsigned long int catalan(unsigned int n) {
-    unsigned long int c = binomialCoeff(2*n, n);
-    return c/(n+1);
-}
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-import math
-\/
-\/
-def catalan_number(n):
-return math.comb(2 * n, n) // (n + 1)
-    </code-block>
-    </tab>
-</tabs>
+### 24.4 Classifying Problems
+
+<p><format color="BlueViolet">Goal:</format> Classyify problem with algorithm
+that matches lower bound.</p>
+
+<p><format color="BlueViolet">Integer Arithmetic Reductions</format></p>
+
+<p><format color="BlueViolet">Goal:</format> Given two <math>N</math>-bit
+integers, compute their product.</p>
+
+<table style="header-row">
+<tr>
+    <td>Problem</td>
+    <td>Arithmetic</td>
+    <td>Order of Growth</td>
+</tr>
+<tr>
+    <td>Integer Multiplication</td>
+    <td><math>a \times b</math></td>
+    <td>M(N)</td>
+</tr>
+<tr>
+    <td>Integer Division</td>
+    <td><math>a / b</math>, <math>a \mod b</math></td>
+    <td>M(N)</td>
+</tr>
+<tr>
+    <td>Integer Square</td>
+    <td><math>a^2</math></td>
+    <td>M(N)</td>
+</tr>
+<tr>
+    <td>Integer Square Root</td>
+    <td><math>\left\lfloor \sqrt{a} \right\rfloor</math></td>
+    <td>M(N)</td>
+</tr>
+</table>
+
+<p>Integer arithmetic problems with the same complexity as integer 
+multiplication.</p>
+
+<p><format color="BlueViolet">Matrix Multiplication</format></p>
+
+<p><format color="BlueViolet">Goal:</format> Given two <math>N</math>-by- <math>N</math> 
+matrices, compute their product.</p>
+
+<table style="header-row">
+<tr>
+    <td>Problem</td>
+    <td>Linear Algebra</td>
+    <td>Order of Growth</td>
+</tr>
+<tr>
+    <td>Matrix Multiplication</td>
+    <td><math>A \times B</math></td>
+    <td>MM(N)</td>
+</tr>
+<tr>
+    <td>Matrix Inversion</td>
+    <td><math>A^{-1}</math></td>
+    <td>MM(N)</td>
+</tr>
+<tr>
+    <td>Determinant</td>
+    <td><math>\left| A \right|</math></td>
+    <td>MM(N)</td>
+</tr>
+<tr>
+    <td>System of Linear Equations</td>
+    <td><math>Ax=b</math></td>
+    <td>MM(N)</td>
+</tr>
+<tr>
+    <td>LU Decomposition</td>
+    <td><math>A=LU</math></td>
+    <td>MM(N)</td>
+</tr>
+<tr>
+    <td>Least Squares</td>
+    <td>min <math>\left|\left| Ax-b \right|\right|_2</math></td>
+    <td>MM(N)</td>
+</tr>
+</table>
+
+<p>Numerical linear algebra problems with the same complexity as matrix 
+multiplication.</p>
