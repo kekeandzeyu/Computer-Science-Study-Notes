@@ -309,8 +309,7 @@ for key in list(dict.keys()):
     <p><format color="Fuchsia">Unicode:</format> </p>
     <list type="bullet">
     <li>
-        <p><format color="LawnGreen">UCS-2:</format> 2 bytes, 16 bits
-        .</p>
+        <p><format color="LawnGreen">UCS-2:</format> 2 bytes, 16 bits.</p>
     </li>
     <li>
         <p><format color="LawnGreen">UCS-4:</format> 4 bytes, 32 bits

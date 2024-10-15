@@ -63,8 +63,7 @@ C++ programming</a>.</p>
         2\text{A}5\text{D}_{16} = 0\text{x}22400</math></p>
     </li>
     <li>
-        <p>A convenient shorthand for writing long sequences of bits.
-        </p>
+        <p>A convenient shorthand for writing long sequences of bits.</p>
     </li>
     </list>
 </li>
@@ -91,8 +90,7 @@ Conversion"/>
 
 <list type="bullet">
 <li>
-    <p>Check the powers of the base. For base-4: 256, 64, 16, 4, 1.
-    </p>
+    <p>Check the powers of the base. For base-4: 256, 64, 16, 4, 1.</p>
 </li>
 <li>
     <p>How many multiples of 64 fit in my number (73)?</p>
@@ -1168,20 +1166,20 @@ operations</p>
 
 <list type="bullet">
 <li>
-<p>Small memories of a fixed size.</p>
+    <p>Small memories of a fixed size.</p>
 </li>
 <li>
-<p>Can be read or written.</p>
+    <p>Can be read or written.</p>
 </li>
 <li>
-<p>Limited in number.</p>
+    <p>Limited in number.</p>
 </li>
 <li>
-<p>Very fast and low power to access.</p>
+    <p>Very fast and low power to access.</p>
 </li>
 </list>
 
-<table style = "both">
+<table style="both">
 <tr>
     <td></td>
     <td>Registers</td>
@@ -1207,25 +1205,25 @@ operations</p>
 </tr>
 </table>
 
-<img src="../images_architecture/a3-2-1.png" alt = "Registers"/>
+<img src="../images_architecture/a3-2-1.png" alt="Registers"/>
 
 <warning>
 <p>Some important notes about registers: </p>
 <list type="bullet">
 <li>
-<p>Each ISA has a predetermined number of registers, registers are 
-built in with hardware.</p>
+    <p>Each ISA has a predetermined number of registers, registers are 
+    built in with hardware.</p>
 </li>
 <li>
-<p>Register denoted by 'x' can be referenced by number (x0 - x31) or 
-by name.</p>
+    <p>Register denoted by 'x' can be referenced by number (x0 - x31) or 
+    by name.</p>
 </li>
 <li>
-<p>Registers have no type.</p>
+    <p>Registers have no type.</p>
 </li>
 <li>
-<p>Register zero (x0 or zero) always has the value 0 and cannot be 
-changed! Any instruction writing to x0 has no effect!</p>
+    <p>Register zero (x0 or zero) always has the value 0 and cannot be 
+    changed! Any instruction writing to x0 has no effect!</p>
 </li>
 <li>
 <p>In high-level languages, number of variables limited only by 
