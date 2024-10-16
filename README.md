@@ -38,13 +38,11 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 3. MIT 6.006: Introduction to Algorithms (MIT) by Professor Erik Demaine,  Justin Solomonm, Dr. Jason Ku (Spring 2020).
 
-4. By Aeroid - Own work, CC BY-SA 4.0, <https://commons.wikimedia.org/w/index.php?curid=137790829>.
+4. <https://en.wikipedia.org/wiki/Tree_traversal>.
 
-5. <https://en.wikipedia.org/wiki/Tree_traversal>.
+5. By The original uploader was Jasampler at Spanish Wikipedia. - Transferred from es.wikipedia to Commons., Public Domain, <https://commons.wikimedia.org/w/index.php?curid=1755344>.
 
-6. By The original uploader was Jasampler at Spanish Wikipedia. - Transferred from es.wikipedia to Commons., Public Domain, <https://commons.wikimedia.org/w/index.php?curid=1755344>.
-
-7. <https://en.wikipedia.org/wiki/Catalan_number>.
+6. <https://en.wikipedia.org/wiki/Catalan_number>.
 
 ### Topic 2: C++ Programming
 
@@ -77,6 +75,18 @@ If someone's original work is used but not mentioned, or being misused, either w
 ### Topic 4: Computer Architecture
 
 1. CS61C: Great Ideas in Computer Architecture (UC Berkeley) by Professors Stephan Kaminsky, Sean Farhat, Jenny Song, Dan Garcia, Peyrin Kao, and the rest of CS61C staff.
+
+2. <https://en.wikipedia.org/wiki/Byte>.
+
+3. <https://en.cppreference.com/w/cpp/language/sizeof>.
+
+4. <https://en.wikipedia.org/wiki/Sizeof>.
+
+5. By Aeroid - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=137790829.
+
+6. <https://en.wikipedia.org/wiki/Segmentation_fault>.
+
+7. <https://en.wikipedia.org/wiki/Bus_error>.
 
 ### Topic 5: Operating System
 

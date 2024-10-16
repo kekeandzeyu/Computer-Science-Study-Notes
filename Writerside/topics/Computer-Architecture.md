@@ -605,15 +605,32 @@ In effect, makes PI a "constant".</p>
 
 <p><format color="BlueViolet">Definitions</format></p>
 
-<p><format color="DarkOrange">Address:</format> An address refers to a 
-particular memory location.</p>
+<list type="bullet">
+<li>
+    <p><format color="DarkOrange">Address:</format> An address refers to a 
+    particular memory location.</p>    
+</li>
+<li>
+    <p><format color="DarkOrange">Pointer:</format> A pointer is a variable
+    that contains the address of another variable.</p>
+</li>
+</list>
 
-<p><format color="DarkOrange">Pointer:</format> A pointer is a variable
-that contains the address of another variable.</p>
+<list type="bullet">
+<li>
+    <p>The size of an address (and thus, the size of a pointer) in bytes depend
+    on architecture, e.g., for 32-bit, have <math>2^32</math> possible addresses.
+    </p>
+</li>
+<li>
+    <p>byte-addressed = each of its addresses points to a unique byte</p>
+    <p>word-addressed = each of its addresses points to a unique word</p>
+</li>
+</list>
 
 <note>
-<p>Don't confuse the address referring to a memory location with the 
-value stored there.</p>
+    <p>Don't confuse the address referring to a memory location with the 
+    value stored there.</p>
 </note>
 
 <code-block lang="c" collapsible="true">
@@ -774,8 +791,49 @@ char str[6] = {'H', 'e', 'l', 'l', 'o', '\0'};
 
 #### 2.5 Word Alignment
 
-<p><format color="BlueViolet">Struct Alignment and Padding</format>
-</p>
+<p><code>sizeof()</code></p>
+
+<list type="bullet">
+<li>
+    <p>The C and C++ programming languages define byte as an "addressable 
+    unit of data storage large enough to hold any member of the basic 
+    character set of the execution environment", most commonly means the 
+    number of bites for a <code>char</code> (8 bits).</p>    
+</li>
+<li>
+    <p><code>sizeof()</code> returns the size in bytes of the type.</p>
+</li>
+<li>
+    <p><code>sizeof(char)</code> is always 1!</p>
+</li>
+<li>
+    <p>Depending on the computer architecture, a byte may consist of 8 or 
+    more bits, the exact number being recorded in CHAR_BIT.</p>
+</li>
+<li>
+    <p>For example, since <code>sizeof(char)</code> is defined to be 1 and assuming
+    the integer type is four bytes long, the following code fragment 
+    prints 1,4:</p>
+    <code-block lang="c" ignore-vars="true">
+char c;
+printf ("%zu,%zu\n", sizeof c, sizeof (int));
+    </code-block>
+</li>
+</list>
+
+<p>Example use:</p>
+
+<code-block lang="c" collapsible="true">
+int x[61];
+printf("Size of x array: %zu\n", sizeof(a)/sizeof(int)); // 61
+</code-block>
+
+<note>
+<p>This only works for arrays defined on the stack in the same function.</p>
+<p>Better to keep track of an array size!</p>
+</note>
+
+<p><format color="BlueViolet">Struct Alignment and Padding</format></p>
 
 <list>
 <li>
@@ -955,34 +1013,37 @@ int main() {
 </li>
 </list>
 
-#### 3.4 Addressing & Endianness
+#### 3.4 Endianness
 
-<p><format color="BlueViolet">Endianness:</format> </p>
-
-<img src="../images_architecture/a2-4-1.png" alt = "Endianness"/>
+<p><format color="BlueViolet">Endianness</format></p>
 
 <list type="bullet">
 <li>
-<p><format color="DarkOrange">Big Endian:</format> Descending 
-numerical significance with ascending memory addresses.</p>
+    <p><format color="DarkOrange">Big Endian:</format> Descending 
+    numerical significance with ascending memory addresses.</p>
 </li>
 <li>
-<p><format color="DarkOrange">Little Endian:</format> Ascending 
-numerical significance with ascending memory addresses.</p>
+    <p><format color="DarkOrange">Little Endian:</format> Ascending 
+    numerical significance with ascending memory addresses.</p>
 </li>
 </list>
 
+<img src="../images_architecture/a2-4-1.png" alt="Endianness"/>
+
 <warning>
-<p>Endianess ONLY APPLIES to values that occupy multiple bytes.</p>
-<p>Endianness refers to STORAGE IN MEMORY NOT number representation.
-</p>
+    <p>Endianess <format color="OrangeRed">only appplies</format> to values 
+    that occupy multiple bytes.</p>
+    <p>Endianness refers to <format color="OrangeRed">storage in memory 
+    not</format> number representation.</p>
 </warning>
 
 #### 3.5 Heap
 
-<p>Dynamically allocated memory goes on the 
-<format color="OrangeRed">Heap</format>, more permanent and 
-persistent than Stack.</p>
+<p>Stack is not permanent - when the function returns, the memory will be deallocated
+and turn into garbage.</p>
+
+<p>Dynamically allocated memory goes on the <format color="OrangeRed">Heap
+</format>, more permanent and persistent than Stack.</p>
 
 <list type="alpha-lower">
 <li>
@@ -997,7 +1058,7 @@ persistent than Stack.</p>
     indicates failed request (check for this!)</p>
     </li>
     <li>
-    <p><code>int *p = (int *) malloc(n * sizeof(int))</code></p>
+    <code-block lang="c">int *p = (int *) malloc(n * sizeof(int))</code-block>
     </li>
     <li>
     <p><code>sizeof()</code> makes code more portable.</p>
@@ -1013,16 +1074,19 @@ persistent than Stack.</p>
 <p><format color="Fuchsia">calloc(n, size)</format></p>
     <list type="bullet">
     <li>
-    <p><code>void* calloc(size_t nmemb, size_t size)</code></p>
+    <code-block lang="c">void* calloc(size_t nmemb, size_t size)</code-block>
     </li>
     <li>
-    <p>nmemb is the number of the members</p>
+        <p>nmemb is the number of the members</p>
     </li>
     <li>
-    <p>size is the size of each member</p>
+        <p>size is the size of each member</p>
     </li>
     <li>
-    <p>Example for allocating space for 5 integers.</p>
+        <p>Like malloc, except it initializes the meory to 0.</p>
+    </li>
+    <li>
+        <p>Example for allocating space for 5 integers.</p>
     <code-block lang = "C++">
     int *p = (int*)calloc(5, sizeof(int));
     </code-block>
@@ -1033,22 +1097,22 @@ persistent than Stack.</p>
 <p><format color="Fuchsia">realloc()</format></p>
     <list type="bullet">
     <li>
-    <p>Use it when you need more or less memory in an array.</p>
+        <p>Use it when you need more or less memory in an array.</p>
     </li>
     <li>
-    <p><code>void *realloc(void *ptr, size_t size)</code></p>
+        <code-block lang="c">void *realloc(void *ptr, size_t size)</code-block>
     </li>
     <li>
-    <p>Takes in a ptr that has been the return of malloc/calloc/realloc
-    and a new size.</p>
+        <p>Takes in a ptr that has been the return of malloc/calloc/realloc
+        and a new size.</p>
     </li>
     <li>
-    <p>Returns a pointer with now size space (or NULL) and copies any 
-    content from ptr.</p>
+        <p>Returns a pointer with now size space (or NULL) and copies any 
+        content from ptr.</p>
     </li>
     <li>
-    <p>Realloc can move or keep the address same, so DO NOT rely on old
-    ptr values.</p>
+        <p>Realloc can move or keep the address same, so DO NOT rely on old
+        ptr values.</p>
     </li>
     </list>
 </li>
@@ -1060,7 +1124,7 @@ persistent than Stack.</p>
     beginning of allocated block; releases the whole block.</p>
     </li>
     <li>
-    <p>p must be the address <format style = "italic">originally
+    <p>p must be the address <format style="italic">originally
     </format> returned by m/c/realloc(), otherwise throws system 
     exception.</p>
     </li>
@@ -1069,9 +1133,29 @@ persistent than Stack.</p>
     released or on NULL.</p>
     </li>
     <li>
-    <p>Make sure you don't lose the original address.</p>
+        <p>Make sure you don't lose the original address.</p>
     </li>
     </list>
+</li>
+</list>
+
+#### 3.6 Common Mistakes
+
+<p><format color="BlueViolet">Memory error types</format></p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Segmentation Fault:</format> Segmentation 
+    fault (often shortened to segfault) or access violation is a fault, 
+    or failure condition, raised by hardware with memory protection, notifying 
+    an operating system (OS) the software has attempted to access a 
+    restricted area of memory (a memory access violation).</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Bus error:</format> Bus error is a fault 
+    raised by hardware, notifying an operating system (OS) that a process 
+    is trying to access memory that the CPU cannot physically address: an 
+    invalid address for the address bus, hence the name.</p>
 </li>
 </list>
 
