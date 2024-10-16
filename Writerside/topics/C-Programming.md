@@ -127,8 +127,7 @@
 <p><format color="BlueViolet">Definition:</format> </p>
 
 <p><format color="DarkOrange">Struct:</format> A <format style=
-"bold">
-struct</format> is a group of <format style="bold">named variables
+"bold">struct</format> is a group of <format style="bold">named variables
 </format>, each with their own type, that allows programmers
 to <format style="bold">bundle different types</format> together!</p>
 
@@ -963,7 +962,7 @@ C++ Standard Library as a whole.</p>
 #### 6.1 Sequence Containers
 
 <p><format color="DarkOrange">Sequence Containers:</format> Containers
-which provide access to sequences of elements.</p>
+which provide access to a linear sequence of elements.</p>
 
 <list type="bullet">
 <li>
@@ -987,6 +986,29 @@ which provide access to sequences of elements.</p>
 
 <p><format color="DarkOrange">Vector:</format> An array with 
 changeable size.</p>
+
+<p><format color="BlueViolet">Example</format></p>
+
+<code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+\/
+int main() {
+    std::vector&lt;int&gt; vec; // Create an empty vector
+    std::vector&lt;int&gt; vec2(5); // Create a vector with 5 copies of 0
+    std::vector&lt;int&gt; vec3{5, 1}; // Create a vector with 5 copies of value 1
+    vec.push_back(1); // Add 1 to the end of the vector
+    vec.clear(); // Clear vector
+    if (vec.empty()) { // Check if vector is empty
+        std::cout &lt;&lt; "Vector is empty" &lt;&lt; std::endl;
+    }
+    int k = vec2[0]; // Get the element of index 0
+    int l = vec2.at(0); // Get the element of index 0
+    vec2.at(0) = 2; // Replace the element at index 0
+    vec2[0] = 2; // Replace the element at index 0
+    return 0;
+}
+</code-block>
 
 <table style="both">
 <tr>
@@ -1037,11 +1059,11 @@ changeable size.</p>
 <p><format color="DarkOrange">Deque:</format> A deque is a doubly 
 ended queue.</p>
 
-<p><format color="BlueViolet">Implementation:</format> </p>
+<p><format color="BlueViolet">Implementation</format></p>
 
 <p>Instead of storing all elements in a single contiguous block, deque 
 internally manages a collection of fixed-size arrays called "chunks" 
-or "buffers."</p>
+or "buffers." => separate subarrays and allocated independently</p>
 
 <p>Deque maintains a dynamic array (usually a small array or a 
 tree-like structure) called a "map" or "central index". This map 
