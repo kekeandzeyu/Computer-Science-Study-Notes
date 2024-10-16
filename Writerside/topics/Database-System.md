@@ -525,6 +525,8 @@ WHERE S.sid=R.sid;
 </code-block>
 </compare>
 
+<p>Output</p>
+
 <img src="../images_database/b1-3.png" alt="Join Queries"/>
 
 <table style="header-row">
@@ -555,6 +557,8 @@ SELECT x.sname AS sname1,
 FROM Sailors AS x, Sailors AS y
 WHERE x.age > y.age;
 </code-block>
+
+<p>Output</p>
 
 <table style="header-row">
 <tr>
@@ -643,21 +647,107 @@ SELECT
 
 <p><format color="BlueViolet">String Comparison</format></p>
 
+<compare type="left-right" first-title="Old-School SQL" second-title="Standard Regular Expressions">
+<code-block lang="sql">
+SELECT S.sname
+FROM Sailors AS S
+WHERE S.sname LIKE 'B_%';
+</code-block>
+<code-block lang="sql">
+SELECT S.sname
+FROM Sailors AS S
+WHERE S.sname ~ 'B.*';
+</code-block>
+</compare>
+
+<p><format color="BlueViolet">Boolean Logic vs. Set Operators</format></p>
+
+<p><format color="IndianRed">Reserve a red <format style="bold">or</format> a
+green boat</format></p>
+
+<compare type="left-right" first-title="Boolean Logic" second-title="Set Operators">
+<code-block lang="sql">
+SELECT R.sid
+FROM Boats B, Reserves R
+WHERE R.bid = B.bid AND (B.color = 'red' OR B.color = 'green');
+</code-block>
+<code-block lang="sql">
+SELECT R.sid
+FROM Boats B, Reserves R
+WHERE R.bid = B.bid AND B.color = 'red';
+\/
+UNION ALL
+\/
+SELECT R.sid
+FROM Boats B, Reserves R
+WHERE R.bid = B.bid AND B.color = 'green';
+</code-block>
+</compare>
+
+<p><format color="IndianRed">Reserve a red <format style="bold">and</format> a
+green boat</format></p>
+
+<compare type="left-right" first-title="Boolean Logic (Wrong!)" second-title="Set Operators">
+<code-block lang="sql">
+-- A boat cannot be red and green at the same time
+SELECT R.sid
+FROM Boats B, Reserves R
+WHERE R.bid = B.bid AND (B.color = 'red' AND B.color = 'green');
+</code-block>
+<code-block lang="sql">
+SELECT R.sid
+FROM Boats B, Reserves R
+WHERE R.bid = B.bid AND B.color = 'red';
+\/
+INTERSECT
+\/
+SELECT R.sid
+FROM Boats B, Reserves R
+WHERE R.bid = B.bid AND B.color = 'green';
+</code-block>
+</compare>
+
+<p><format color="BlueViolet">Set Semantics</format></p>
+
+<p>Default (Think of each letter as being a tuple in a relation):</p>
+
+<p>R = {A, A, A, A, B, B, C, D}</p>
+
+<p>S = {A, A, B, B, B, C, E}</p>
+
 <list type="bullet">
 <li>
-    <p>Old-School SQL</p>
-    <code-block lang="sql" collapsible="true">
-    SELECT S.sname
-    FROM Sailors AS S
-    WHERE S.sname LIKE 'B_%';
-    </code-block>
+    <p><format color="Fuchsia">UNION:</format> {A, B, C, D, E}</p>
 </li>
 <li>
-    <p>Standard Regular Expressions</p>
-    <code-block lang="sql" collapsible="true">
-    SELECT S.sname
-    FROM Sailors AS S
-    WHERE S.sname ~ 'B.*';
-    </code-block>
+    <p><format color="Fuchsia">INTERSECT:</format> {A, B, C}</p>
+</li>
+<li>
+    <p><format color="Fuchsia">EXCEPT:</format> {D}</p>
 </li>
 </list>
+
+<p><format color="BlueViolet">"ALL": Multiset Semantics</format></p>
+
+<p>R = {A, A, A, A, B, B, C, D} = {A(4), B(2), C(1), D(1)}</p>
+
+<p>S = {A, A, B, B, B, C, E} = {A(2), B(3), C(1), E(1)}</p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">UNION ALL (sum of all cardinalities):
+    </format> {A(6), B(5), C(2), D(1), E(1)}</p>
+</li>
+<li>
+    <p><format color="Fuchsia">INTERSECT ALL (min of cardinalities):
+    </format> {A(min(4,2)), B(min(2,3)), C(min(1,1)), D(min(1,0)), E(min(0,1))}
+    = {A, A, B, B, C}</p>
+</li>
+<li>
+    <p><format color="Fuchsia">EXCEPT ALL (subtract cardinalities):
+    </format> {A(4-2), B(2-3), C(1-1), D(1-0), E(0-1)} = {A, A, D}</p>
+</li>
+</list>
+
+### 2.3 Nested Queries
+

@@ -1182,7 +1182,7 @@ single part of the process.</p>
 supports (although there are similarities).</p>
 </li>
 <li>
-<p>Assembly is not <format style = "italic">portable</format> to other
+<p>Assembly is not <format style="italic">portable</format> to other
 architectures.</p>
 </li>
 </list>
