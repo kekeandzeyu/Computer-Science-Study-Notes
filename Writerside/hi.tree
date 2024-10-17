@@ -7,7 +7,7 @@
                   start-page="Cover.md">
 
     <toc-element topic="Cover.md"/>
-    <toc-element topic="C-Programming.md"/>
+    <toc-element topic="C-Programming.topic"/>
     <toc-element topic="Computer-Architecture.topic"/>
     <toc-element topic="Data-Structures-and-Algorithms.topic">
         <toc-element topic="Data-Structures-and-Algorithms-1.md"/>

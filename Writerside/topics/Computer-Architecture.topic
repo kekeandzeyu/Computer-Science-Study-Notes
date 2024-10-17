@@ -677,7 +677,7 @@ Conversion"/>
         </chapter>
         <chapter title="2 C Introduction" id="2-c-introduction">
             <note>
-                <p>For more information, please refer to <a href="C-Programming.md"
+                <p>For more information, please refer to <a href="C-Programming.topic"
                                                             anchor="intro" summary="C++ Introduction">introduction in
                     C++ programming</a>.</p>
             </note>
@@ -703,7 +703,7 @@ Conversion"/>
                 </p>
                 <note>
                     <p>For more information on struct, please visit <a
-                            href="C-Programming.md" anchor="structs" summary="Struct in C++">
+                            href="C-Programming.topic" anchor="structs" summary="Struct in C++">
                         struct in C++</a>.</p>
                 </note>
                 <p>

@@ -535,7 +535,7 @@ Definitions"/>
                     </li>
                     <li>
                         <p>For more information on lambda functions in C++, please visit
-                            <a href="C-Programming.md" anchor="Lambda" summary=
+                            <a href="C-Programming.topic" anchor="Lambda" summary=
                                     "Lambda Functions in C++">C++ Programming</a>.</p>
                     </li>
                 </list>
@@ -1126,7 +1126,7 @@ for example 1"/>
     <chapter title="6 Object-Oriented Programming" id="6-object-oriented-programming">
         <chapter title="6.1 Object-Oriented Programming in Python" id="6-1-object-oriented-programming-in-python">
             <p>For more information about the details of Object-Oriented
-                Programming, refer to <a href="C-Programming.md" anchor="object"
+                Programming, refer to <a href="C-Programming.topic" anchor="object"
                                          summary="Object-Oriented Programming">
                     Object-Oriented Programming in C++</a>.</p>
             <note>
@@ -1200,7 +1200,7 @@ for example 1"/>
         </chapter>
         <chapter title="6.2 Inheritance" id="6-2-inheritance">
             <p>For more information about inheritance, please visit <a
-                    href="C-Programming.md" anchor="inheritance"
+                    href="C-Programming.topic" anchor="inheritance"
                     summary="Object-Oriented Programming">
                 Object-Oriented Programming in C++</a>.</p>
         </chapter>

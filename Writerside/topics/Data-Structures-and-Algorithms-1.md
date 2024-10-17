@@ -2140,7 +2140,7 @@ for (Item item : collection) {
 </p>
 
 <p>For more information on iterators, please visit <a 
-href="C-Programming.md" anchor="inheritance" summary
+href="C-Programming.topic" anchor="inheritance" summary
 ="Iterators in C++">Iterators in C++</a>.</p>
 
 ### 4.5 Bag (Princeton)
