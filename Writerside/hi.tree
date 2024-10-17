@@ -9,14 +9,14 @@
     <toc-element topic="Cover.md"/>
     <toc-element topic="C-Programming.md"/>
     <toc-element topic="Computer-Architecture.topic"/>
-    <toc-element topic="Data-Structures-and-Algorithms.md">
+    <toc-element topic="Data-Structures-and-Algorithms.topic">
         <toc-element topic="Data-Structures-and-Algorithms-1.md"/>
         <toc-element topic="Data-Structures-and-Algorithms-2.md"/>
         <toc-element topic="Data-Structures-and-Algorithms-3.md"/>
         <toc-element topic="Data-Structures-and-Algorithms-4.md"/>
     </toc-element>
-    <toc-element topic="Database-System.md"/>
-    <toc-element topic="Operating-System.md"/>
+    <toc-element topic="Database-System.topic"/>
+    <toc-element topic="Operating-System.topic"/>
     <toc-element topic="Python-Programming.topic"/>
     <toc-element topic="Web-Development.topic"/>
     <toc-element topic="Postscript.md"/>

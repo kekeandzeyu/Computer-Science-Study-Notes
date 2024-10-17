@@ -1088,7 +1088,7 @@ for example 1"/>
     <chapter title="5 Efficiency" id="5-efficiency">
         <chapter title="5.1 Order of Growth" id="5-1-order-of-growth">
             <p>For more information on order of growth, please refer to <a href
-                                                                                   ="Data-Structures-and-Algorithms.md"
+                                                                                   ="Data-Structures-and-Algorithms.topic"
                                                                            anchor="Growth"
                                                                            summary="Order of Growth">Data Structures and
                 Algorithms 1</a>.</p>
