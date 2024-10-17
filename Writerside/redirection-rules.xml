@@ -15,4 +15,8 @@
         <description>Created after removal of "Get Started" from Computer Science Study Notes</description>
         <accepts>Get-Started.html</accepts>
     </rule>
+    <rule id="a5afe8">
+        <description>Created after removal of "test" from Computer Science Study Notes</description>
+        <accepts>test.html</accepts>
+    </rule>
 </rules>
