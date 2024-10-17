@@ -17,7 +17,7 @@
     </toc-element>
     <toc-element topic="Database-System.md"/>
     <toc-element topic="Operating-System.md"/>
-    <toc-element topic="Python-Programming.md"/>
-    <toc-element topic="Web-Development.md"/>
+    <toc-element topic="Python-Programming.topic"/>
+    <toc-element topic="Web-Development.topic"/>
     <toc-element topic="Postscript.md"/>
 </instance-profile>

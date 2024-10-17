@@ -2982,7 +2982,7 @@ int main() {
 #### 13.1.3 Sets in Python
 
 <p>For more information, please visit
-<a href="Python-Programming.md" anchor="sets" 
+<a href="Python-Programming.topic" anchor="sets" 
 summary="How to use sets in Python">Sets in Python Programming</a></p>
 
 ### 13.2 Dictionary Clients
@@ -3063,7 +3063,7 @@ print(person["name"]) # Output: John
 </tabs>
 
 <p>For more information about dictionaries in Python, please visit
-<a href="Python-Programming.md" anchor="dictionaries" summary
+<a href="Python-Programming.topic" anchor="dictionaries" summary
 ="How to use dictionaries in Python">Python Programming</a>.</p>
 
 ### 13.3 Indexing Clients
