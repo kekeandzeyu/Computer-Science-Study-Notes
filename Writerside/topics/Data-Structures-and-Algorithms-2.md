@@ -4,6 +4,2269 @@
 
 <primary-label ref="finish"></primary-label>
 
+## 9 Symbol Table & Binary Search Tree
+
+### 9.1 Symbol Table & Elementary Implementation
+
+<p><format color="BlueViolet">Symbol table</format>: Key-value pair
+abstraction.</p>
+
+<list type="bullet">
+<li>
+    <p><format color="OrangeRed">Insert</format> a value with a 
+    specified key.</p>
+</li>
+<li>
+    <p>Given a key, <format color="OrangeRed">search</format> for the 
+    corresponding value.</p>
+</li>
+</list>
+
+
+
+#### 9.1.1 Unordered List Implementation {id="sequential-search"}
+
+<p><format color="BlueViolet">Method:</format> Maintain an (unordered)
+linked list of key-value pairs.</p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Search</format>: Scan through all keys 
+    until find a match (sequential search).</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Insert</format>: Scan through all keys 
+    until find a match; if no match add to front.</p>
+</li>
+</list>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.ArrayList;
+import java.util.List;
+\/
+public class SequentialSearchST&lt;Key, Value&gt; {
+    private int n;
+    private Node first;
+\/
+    private class Node {
+        private final Key key;
+        private Value val;
+        private Node next;
+\/
+        public Node(Key key, Value val, Node next)  {
+            this.key  = key;
+            this.val  = val;
+            this.next = next;
+        }
+    }
+\/
+    public SequentialSearchST() {
+    }
+\/
+    public int size() {
+        return n;
+    }
+\/
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+\/
+    public boolean contains(Key key) {
+        return get(key) != null;
+    }
+\/
+    public Value get(Key key) {
+        for (Node x = first; x != null; x = x.next) {
+            if (key.equals(x.key))
+                return x.val;
+        }
+        return null;
+    }
+\/
+    public void put(Key key, Value val) {
+        if (val == null) {
+            delete(key);
+            return;
+        }
+\/
+        for (Node x = first; x != null; x = x.next) {
+            if (key.equals(x.key)) {
+                x.val = val;
+                return;
+            }
+        }
+        first = new Node(key, val, first);
+        n++;
+    }
+\/
+    public void delete(Key key) {
+        first = delete(first, key);
+    }
+\/
+    private Node delete(Node x, Key key) {
+        if (x == null) return null;
+        if (key.equals(x.key)) {
+            n--;
+            return x.next;
+        }
+        x.next = delete(x.next, key);
+        return x;
+    }
+\/
+    public Iterable&lt;Key&gt; keys()  {
+        List&lt;Key&gt; list = new ArrayList&lt;&gt;(); // Use ArrayList instead of Queue
+        for (Node x = first; x != null; x = x.next)
+            list.add(x.key);
+        return list;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+\/
+template &lt;typename Key, typename Value&gt;
+class SequentialSearchST {
+private:
+    struct Node {
+        Key key;
+        Value val;
+        Node* next;
+\/
+        Node(Key key, Value val, Node* next) : key(key), val(val), next(next) {}
+    };
+\/
+    Node* first;
+    int n;
+\/
+public:
+    SequentialSearchST() : first(nullptr), n(0) {}
+\/
+    [[nodiscard]] int size() const {
+        return n;
+    }
+\/
+    [[nodiscard]] bool isEmpty() const {
+        return size() == 0;
+    }
+\/
+    bool contains(const Key& key) {
+        Node* x = first;
+        while (x != nullptr) {
+            if (x-&gt;key == key) {
+                return true;
+            }
+            x = x-&gt;next;
+        }
+        return false;
+    }
+\/
+    Value get(const Key& key) {
+        Node* x = first;
+        while (x != nullptr) {
+            if (x-&gt;key == key) {
+                return x-&gt;val;
+            }
+            x = x-&gt;next;
+        }
+        throw std::runtime_error("Key not found");
+    }
+\/
+    void put(const Key& key, const Value& val) {
+        Node* x = first;
+        while (x != nullptr) {
+            if (x-&gt;key == key) {
+                x-&gt;val = val;
+                return;
+            }
+            x = x-&gt;next;
+        }
+        first = new Node(key, val, first);
+        n++;
+    }
+\/
+    void remove(const Key& key) {
+        first = remove(first, key);
+    }
+\/
+    Node* remove(Node* x, const Key& key) {
+        if (x == nullptr) {
+            return nullptr;
+        }
+        if (x-&gt;key == key) {
+            n--;
+            Node* temp = x-&gt;next;
+            delete x;
+            return temp;
+        }
+        x-&gt;next = remove(x-&gt;next, key);
+        return x;
+    }
+\/
+    std::vector&lt;Key&gt; keys() {
+        std::vector&lt;Key&gt; keys;
+        Node* x = first;
+        while (x != nullptr) {
+            keys.push_back(x-&gt;key);
+            x = x-&gt;next;
+        }
+        return keys;
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class SequentialSearchST:
+    class Node:
+        def __init__(self, key, val, next_node=None):
+            self.key = key
+            self.val = val
+            self.next = next_node
+\/
+    def __init__(self):
+        self.n = 0
+        self.first = None
+\/
+    def size(self):
+        return self.n
+\/
+    def is_empty(self):
+        return self.size() == 0
+\/
+    def contains(self, key):
+        return self.get(key) is not None
+\/
+    def get(self, key):
+        x = self.first
+        while x is not None:
+            if key == x.key:
+                return x.val
+            x = x.next
+        return None
+\/
+    def put(self, key, val):
+        if val is None:
+            self.delete(key)
+            return
+\/
+        x = self.first
+        while x is not None:
+            if key == x.key:
+                x.val = val
+                return
+            x = x.next
+\/
+        self.first = self.Node(key, val, self.first)
+        self.n += 1
+\/
+    def delete(self, key):
+        self.first = self._delete(self.first, key)
+\/
+    def _delete(self, x, key):
+        if x is None:
+            return None
+        if key == x.key:
+            self.n -= 1
+            return x.next
+        x.next = self._delete(x.next, key)
+        return x
+\/
+    def keys(self):
+        keys_list = []
+        x = self.first
+        while x is not None:
+            keys_list.append(x.key)
+            x = x.next
+        return keys_list
+    </code-block>
+    </tab>
+</tabs>
+
+#### 9.1.2 Ordered Array Implementation {id="ordered-array"}
+
+<p><format color="BlueViolet">Method</format>: Maintain an ordered 
+array of key-value pairs.</p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Search:</format> Binary search.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Insert:</format> Need to shift 
+    all greater keys over.</p>
+</li>
+</list>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.LinkedList;
+\/
+public class BinarySearchST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
+    private static final int INIT_CAPACITY = 2;
+    private Key[] keys;
+    private Value[] vals;
+    private int n = 0;
+\/
+    public BinarySearchST() {
+        this(INIT_CAPACITY);
+    }
+\/
+    public BinarySearchST(int capacity) {
+        keys = (Key[]) new Comparable[capacity];
+        vals = (Value[]) new Object[capacity];
+    }
+\/
+    private void resize(int capacity) {
+        assert capacity &gt;= n;
+        Key[] tempk = (Key[]) new Comparable[capacity];
+        Value[] tempv = (Value[]) new Object[capacity];
+        for (int i = 0; i &lt; n; i++) {
+            tempk[i] = keys[i];
+            tempv[i] = vals[i];
+        }
+        vals = tempv;
+        keys = tempk;
+    }
+\/
+    public int size() {
+        return n;
+    }
+\/
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+\/
+    public boolean contains(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to contains() is null");
+        return get(key) != null;
+    }
+\/
+    public Value get(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to get() is null");
+        if (isEmpty()) return null;
+        int i = rank(key);
+        if (i &lt; n && keys[i].compareTo(key) == 0) return vals[i];
+        return null;
+    }
+\/
+    public int rank(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to rank() is null");
+\/
+        int lo = 0, hi = n - 1;
+        while (lo &lt;= hi) {
+            int mid = lo + (hi - lo) / 2;
+            int cmp = key.compareTo(keys[mid]);
+            if (cmp &lt; 0) hi = mid - 1;
+            else if (cmp &gt; 0) lo = mid + 1;
+            else return mid;
+        }
+        return lo;
+    }
+\/
+    public void put(Key key, Value val) {
+        if (key == null) throw new IllegalArgumentException("first argument to put() is null");
+\/
+        if (val == null) {
+            delete(key);
+            return;
+        }
+\/
+        int i = rank(key);
+\/
+        if (i &lt; n && keys[i].compareTo(key) == 0) {
+            vals[i] = val;
+            return;
+        }
+\/
+        if (n == keys.length) resize(2 * keys.length);
+\/        
+        for (int j = n; j &gt; i; j--) {
+            keys[j] = keys[j - 1];
+            vals[j] = vals[j - 1];
+        }
+        keys[i] = key;
+        vals[i] = val;
+        n++;
+\/
+        assert check();
+    }
+\/
+    public void delete(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+        if (isEmpty()) return;
+\/
+        int i = rank(key);
+\/
+        if (i == n || keys[i].compareTo(key) != 0) {
+            return;
+        }
+\/
+        for (int j = i; j &lt; n - 1; j++) {
+            keys[j] = keys[j + 1];
+            vals[j] = vals[j + 1];
+        }
+\/
+        n--;
+        keys[n] = null;
+        vals[n] = null;
+\/
+        if (n &gt; 0 && n == keys.length / 4) resize(keys.length / 2);
+\/        
+        assert check();
+    }
+\/
+    public void deleteMin() {
+        if (isEmpty()) throw new NoSuchElementException("Symbol table underflow error");
+        delete(min());
+    }
+\/
+    public void deleteMax() {
+        if (isEmpty()) throw new NoSuchElementException("Symbol table underflow error");
+        delete(max());
+    }
+\/
+    public Key min() {
+        if (isEmpty()) throw new NoSuchElementException("called min() with empty symbol table");
+        return keys[0];
+    }
+\/
+    public Key max() {
+        if (isEmpty()) throw new NoSuchElementException("called max() with empty symbol table");
+        return keys[n - 1];
+    }
+\/    
+    public Key select(int k) {
+        if (k &lt; 0 || k &gt;= size()) {
+            throw new IllegalArgumentException("called select() with invalid argument: " + k);
+        }
+        return keys[k];
+    }
+\/
+    public Key floor(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to floor() is null");
+        int i = rank(key);
+        if (i &lt; n && key.compareTo(keys[i]) == 0) return keys[i];
+        if (i == 0) throw new NoSuchElementException("argument to floor() is too small");
+        else return keys[i - 1];
+    }
+\/
+    public Key ceiling(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
+        int i = rank(key);
+        if (i == n) throw new NoSuchElementException("argument to ceiling() is too large");
+        else return keys[i];
+    }
+\/
+    public int size(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
+\/
+        if (lo.compareTo(hi) &gt; 0) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else return rank(hi) - rank(lo);
+    }
+\/
+    public Iterable&lt;Key&gt; keys() {
+        return keys(min(), max());
+    }
+\/
+    public Iterable&lt;Key&gt; keys(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to keys() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
+\/
+        LinkedList&lt;Key&gt; queue = new LinkedList&lt;&gt;();
+        if (lo.compareTo(hi) &gt; 0) return queue;
+        queue.addAll(Arrays.asList(keys).subList(rank(lo), rank(hi)));
+        if (contains(hi)) queue.add(keys[rank(hi)]);
+        return queue;
+    }
+\/
+    private boolean check() {
+        return isSorted() && rankCheck();
+    }
+\/    
+    private boolean isSorted() {
+        for (int i = 1; i &lt; size(); i++)
+            if (keys[i].compareTo(keys[i - 1]) &lt; 0) return false;
+        return true;
+    }
+\/
+    private boolean rankCheck() {
+        for (int i = 0; i &lt; size(); i++)
+            if (i != rank(select(i))) return false;
+        for (int i = 0; i &lt; size(); i++)
+            if (keys[i].compareTo(select(rank(keys[i]))) != 0) return false;
+        return true;
+    }
+\/
+    public static void main(String[] args) {
+        BinarySearchST&lt;String, Integer&gt; st = new BinarySearchST&lt;&gt;();
+        String[] input = {"S", "E", "A", "R", "C", "H", "E", "X", "A", "M", "P", "L", "E"};
+        for (int i = 0; i &lt; input.length; i++) {
+            String key = input[i];
+            st.put(key, i);
+        }
+        for (String s : st.keys())
+            System.out.println(s + " " + st.get(s));
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cassert&gt;
+#include &lt;stdexcept&gt;
+#include &lt;optional&gt;
+\/
+template &lt;typename Key, typename Value&gt;
+class BinarySearchST {
+private:
+    static constexpr int INIT_CAPACITY = 2;
+    std::vector&lt;Key&gt; keys;
+    std::vector&lt;Value&gt; vals;
+    int n;
+    const Value MISSING_VALUE = -1;
+\/    
+    void resize(int capacity) {
+        assert(capacity &gt;= n);
+        std::vector&lt;Key&gt; tempk(capacity);
+        std::vector&lt;Value&gt; tempv(capacity);
+        for (int i = 0; i &lt; n; i++) {
+            tempk[i] = keys[i];
+            tempv[i] = vals[i];
+        }
+        vals = tempv;
+        keys = tempk;
+    }
+\/
+public:
+    BinarySearchST() : BinarySearchST(INIT_CAPACITY) {}
+\/
+    explicit BinarySearchST(int capacity) : keys(capacity), vals(capacity), n(0) {}
+\/
+    [[nodiscard]] int size() const { return n; }
+\/
+    [[nodiscard]] bool isEmpty() const { return size() == 0; }
+\/
+    [[nodiscard]] bool contains(const Key& key) const {
+        return get(key).has_value();
+    }
+\/
+    [[nodiscard]] std::optional&lt;Value&gt; get(const Key& key) const {
+        if (isEmpty()) return std::nullopt;
+        int i = rank(key);
+        if (i &lt; n && keys[i] == key) return vals[i];
+        return std::nullopt;
+    }
+\/
+    [[nodiscard]] int rank(const Key& key) const {
+        int lo = 0, hi = n - 1;
+        while (lo &lt;= hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (key &lt; keys[mid]) hi = mid - 1;
+            else if (key &gt; keys[mid]) lo = mid + 1;
+            else return mid;
+        }
+        return lo;
+    }
+\/
+    void put(const Key& key, const Value& val) {
+        if (val == MISSING_VALUE) {
+            delete_(key);
+            return;
+        }
+\/
+        int i = rank(key);
+\/
+        if (i &lt; n && keys[i] == key) {
+            vals[i] = val;
+            return;
+        }
+\/
+        if (n == keys.size()) resize(2 * keys.size());
+\/
+        for (int j = n; j &gt; i; j--) {
+            keys[j] = keys[j - 1];
+            vals[j] = vals[j - 1];
+        }
+        keys[i] = key;
+        vals[i] = val;
+        n++;
+\/
+        assert(check());
+    }
+\/
+    void delete_(const Key& key) {
+        if (isEmpty()) return;
+\/
+        int i = rank(key);
+\/
+        if (i == n || keys[i] != key) {
+            return;
+        }
+\/
+        for (int j = i; j &lt; n - 1; ++j) {
+            keys[j] = keys[j + 1];
+            vals[j] = vals[j + 1];
+        }
+\/
+        n--;
+        if (n &gt; 0 && n == keys.size() / 4) resize(keys.size() / 2);
+\/
+        assert(check());
+    }
+\/
+    void deleteMin() {
+        if (isEmpty()) throw std::runtime_error("Symbol table underflow error");
+        delete_(min());
+    }
+\/
+    void deleteMax() {
+        if (isEmpty()) throw std::runtime_error("Symbol table underflow error");
+        delete_(max());
+    }
+\/
+    [[nodiscard]] Key min() const {
+        if (isEmpty()) throw std::runtime_error("called min() with empty symbol table");
+        return keys[0];
+    }
+\/
+    [[nodiscard]] Key max() const {
+        if (isEmpty()) throw std::runtime_error("called max() with empty symbol table");
+        return keys[n - 1];
+    }
+\/
+    [[nodiscard]] Key select(int k) const {
+        if (k &lt; 0 || k &gt;= size()) {
+            throw std::invalid_argument("called select() with invalid argument: " + std::to_string(k));
+        }
+        return keys[k];
+    }
+\/
+    [[nodiscard]] Key floor(const Key& key) const {
+        int i = rank(key);
+        if (i &lt; n && key == keys[i]) return keys[i];
+        if (i == 0) throw std::runtime_error("argument to floor() is too small");
+        else return keys[i - 1];
+    }
+\/
+    [[nodiscard]] Key ceiling(const Key& key) const {
+        int i = rank(key);
+        if (i == n) throw std::runtime_error("argument to ceiling() is too large");
+        else return keys[i];
+    }
+\/
+    [[nodiscard]] int size(const Key& lo, const Key& hi) const {
+        if (lo &gt; hi) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else return rank(hi) - rank(lo);
+    }
+\/
+    [[nodiscard]] std::vector&lt;Key&gt; getkeys() const {
+        return getkeys(min(), max());
+    }
+\/
+    [[nodiscard]] std::vector&lt;Key&gt; getkeys(const Key& lo, const Key& hi) const {
+        std::vector&lt;Key&gt; queue;
+        if (lo &gt; hi) return queue;
+        for (int i = rank(lo); i &lt; rank(hi); ++i)
+            queue.push_back(keys[i]);
+        if (contains(hi)) queue.push_back(keys[rank(hi)]);
+        return queue;
+    }
+\/
+private:
+    [[nodiscard]] bool check() const {
+        return isSorted() && rankCheck();
+    }
+\/
+    [[nodiscard]] bool isSorted() const {
+        for (int i = 1; i &lt; size(); i++)
+            if (keys[i] &lt; keys[i - 1]) return false;
+        return true;
+    }
+\/
+    [[nodiscard]] bool rankCheck() const {
+        for (int i = 0; i &lt; size(); i++)
+            if (i != rank(select(i))) return false;
+        for (int i = 0; i &lt; size(); i++)
+            if (keys[i] != select(rank(keys[i]))) return false;
+        return true;
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class BinarySearchST:
+    INIT_CAPACITY = 2
+    MISSING_VALUE = -1
+\/
+    def __init__(self, capacity=INIT_CAPACITY):
+        self.keys = [None] * capacity
+        self.vals = [None] * capacity
+        self.n = 0
+\/
+    def size(self):
+        return self.n
+\/
+    def isEmpty(self):
+        return self.size() == 0
+\/
+    def contains(self, key):
+        return self.get(key) is not None
+\/
+    def get(self, key):
+        if self.isEmpty():
+            return None
+        i = self.rank(key)
+        if i &lt; self.n and self.keys[i] == key:
+            return self.vals[i]
+        return None
+\/
+    def rank(self, key):
+        lo = 0
+        hi = self.n - 1
+        while lo &lt;= hi:
+            mid = lo + (hi - lo) // 2
+            if key &lt; self.keys[mid]:
+                hi = mid - 1
+            elif key &gt; self.keys[mid]:
+                lo = mid + 1
+            else:
+                return mid
+        return lo
+\/
+    def put(self, key, val):
+        if val == self.MISSING_VALUE:
+            self.delete(key)
+            return
+\/
+        i = self.rank(key)
+\/
+        if i &lt; self.n and self.keys[i] == key:
+            self.vals[i] = val
+            return
+\/
+        if self.n == len(self.keys):
+            self.resize(2 * len(self.keys))
+\/
+        for j in range(self.n, i, -1):
+            self.keys[j] = self.keys[j - 1]
+            self.vals[j] = self.vals[j - 1]
+        self.keys[i] = key
+        self.vals[i] = val
+        self.n += 1
+\/    
+        assert self.check()
+\/
+    def delete(self, key):
+        if self.isEmpty():
+            return
+\/
+        i = self.rank(key)
+\/
+        if i == self.n or self.keys[i] != key:
+            return
+\/
+        for j in range(i, self.n - 1):
+            self.keys[j] = self.keys[j + 1]
+            self.vals[j] = self.vals[j + 1]
+\/
+        self.n -= 1
+        self.keys[self.n] = None
+        self.vals[self.n] = None
+\/
+        if self.n &gt; 0 and self.n == len(self.keys) // 4:
+            self.resize(len(self.keys) // 2)
+\/
+        assert self.check()
+\/
+    def deleteMin(self):
+        if self.isEmpty():
+            raise Exception("Symbol table underflow error")
+        self.delete(self.min())
+\/
+    def deleteMax(self):
+        if self.isEmpty():
+            raise Exception("Symbol table underflow error")
+        self.delete(self.max())
+\/
+    def min(self):
+        if self.isEmpty():
+            return
+        return self.keys[0]
+\/
+    def max(self):
+        if self.isEmpty():
+            return
+        return self.keys[self.n - 1]
+\/
+    def select(self, k):
+        if k &lt; 0 or k &gt;= self.size():
+            raise ValueError(f"called select() with invalid argument: {k}")
+        return self.keys[k]
+\/
+    def floor(self, key):
+        i = self.rank(key)
+        if i &lt; self.n and key == self.keys[i]:
+            return self.keys[i]
+        if i == 0:
+            raise Exception("argument to floor() is too small")
+        else:
+            return self.keys[i - 1]
+\/
+    def ceiling(self, key):
+        i = self.rank(key)
+        if i == self.n:
+            raise Exception("argument to ceiling() is too large")
+        else:
+            return self.keys[i]
+\/
+    def size_range(self, lo, hi):
+        if lo &gt; hi:
+            return 0
+        if self.contains(hi):
+            return self.rank(hi) - self.rank(lo) + 1
+        else:
+            return self.rank(hi) - self.rank(lo)
+\/
+    def getkeys(self):
+        if self.isEmpty():
+            return []
+        return self.keys_range(self.min(), self.max())
+\/
+    def keys_range(self, lo, hi):
+        queue = []
+        if lo &gt; hi:
+            return queue
+        for i in range(self.rank(lo), self.rank(hi)):
+            queue.append(self.keys[i])
+        if self.contains(hi):
+            queue.append(self.keys[self.rank(hi)])
+        return queue
+\/
+    def resize(self, capacity):
+        assert capacity &gt;= self.n
+        tempk = [None] * capacity
+        tempv = [None] * capacity
+        for i in range(self.n):
+            tempk[i] = self.keys[i]
+            tempv[i] = self.vals[i]
+        self.vals = tempv
+        self.keys = tempk
+\/
+    def check(self):
+        return self.isSorted() and self.rankCheck()
+\/
+    def isSorted(self):
+        for i in range(1, self.size()):
+            if self.keys[i] &lt; self.keys[i - 1]:
+                return False
+        return True
+\/    
+    def rankCheck(self):
+        for i in range(self.size()):
+            if i != self.rank(self.select(i)):
+                return False
+        for i in range(self.size()):
+            if self.keys[i] != self.select(self.rank(self.keys[i])):
+                return False
+        return True
+    </code-block>
+    </tab>
+</tabs>
+
+### 9.2 Ordered Operation
+
+<p>Provide an interface that can give clients ordered symbol 
+tables!</p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.TreeMap;
+\/
+public class ST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; implements Iterable&lt;Key&gt; {
+\/
+    private final TreeMap&lt;Key, Value&gt; st;
+\/
+    public ST() {
+        st = new TreeMap&lt;Key, Value&gt;();
+    }
+\/
+    public Value get(Key key) {
+        if (key == null) throw new IllegalArgumentException("called get() with null key");
+        return st.get(key);
+    }
+\/
+    public void put(Key key, Value val) {
+        if (key == null) throw new IllegalArgumentException("called put() with null key");
+        if (val == null) st.remove(key);
+        else             st.put(key, val);
+    }
+\/
+    @Deprecated
+    public void delete(Key key) {
+        if (key == null) throw new IllegalArgumentException("called delete() with null key");
+        st.remove(key);
+    }
+\/
+    public void remove(Key key) {
+        if (key == null) throw new IllegalArgumentException("called remove() with null key");
+        st.remove(key);
+    }
+\/
+    public boolean contains(Key key) {
+        if (key == null) throw new IllegalArgumentException("called contains() with null key");
+        return st.containsKey(key);
+    }
+\/
+    public int size() {
+        return st.size();
+    }
+\/
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+\/
+    public Iterable&lt;Key&gt; keys() {
+        return st.keySet();
+    }
+\/
+    @Deprecated
+    public Iterator&lt;Key&gt; iterator() {
+        return st.keySet().iterator();
+    }
+\/
+    public Key min() {
+        if (isEmpty()) throw new NoSuchElementException("called min() with empty symbol table");
+        return st.firstKey();
+    }
+\/
+    public Key max() {
+        if (isEmpty()) throw new NoSuchElementException("called max() with empty symbol table");
+        return st.lastKey();
+    }
+\/
+    public Key ceiling(Key key) {
+        if (key == null) throw new IllegalArgumentException("called ceiling() with null key");
+        Key k = st.ceilingKey(key);
+        if (k == null) throw new NoSuchElementException("all keys are less than " + key);
+        return k;
+    }
+\/
+    public Key floor(Key key) {
+        if (key == null) throw new IllegalArgumentException("called floor() with null key");
+        Key k = st.floorKey(key);
+        if (k == null) throw new NoSuchElementException("all keys are greater than " + key);
+        return k;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;vector&gt;
+#include &lt;stdexcept&gt;
+\/
+template &lt;typename Key, typename Value&gt;
+class ST {
+private:
+    std::map&lt;Key, Value&gt; st;
+\/
+public:
+    ST() = default;
+\/
+    [[nodiscard]] Value get(const Key& key) const {
+        auto it = st.find(key);
+        if (it == st.end()) {
+            return Value{};
+        }
+        return it-&gt;second;
+    }
+\/
+    void put(const Key& key, const Value& val) {
+        st.insert_or_assign(key, val);
+    }
+\/
+    void remove(const Key& key) {
+        st.erase(key);
+    }
+\/
+    [[nodiscard]] bool contains(const Key& key) const {
+        return st.contains(key);
+    }
+\/
+    [[nodiscard]] int size() const {
+        return st.size();
+    }
+\/
+    [[nodiscard]] bool isEmpty() const {
+        return size() == 0;
+    }
+\/
+    [[nodiscard]] auto keys() const {
+        std::vector&lt;Key&gt; keysVec;
+        for (const auto& pair : st) {
+            keysVec.push_back(pair.first);
+        }
+        return keysVec;
+    }
+\/
+    [[nodiscard]] auto begin() const {
+        return st.begin();
+    }
+\/
+    [[nodiscard]] auto end() const {
+        return st.end();
+    }
+\/
+    [[nodiscard]] const Key& min() const {
+        if (isEmpty()) {
+            throw std::runtime_error("called min() with empty symbol table");
+        }
+        return st.begin()-&gt;first;
+    }
+\/
+    [[nodiscard]] const Key& max() const {
+        if (isEmpty()) {
+            throw std::runtime_error("called max() with empty symbol table");
+        }
+        return st.rbegin()-&gt;first;
+    }
+\/
+    [[nodiscard]] const Key& ceiling(const Key& key) const {
+        auto it = st.lower_bound(key);
+        return it-&gt;first;
+    }
+\/
+    [[nodiscard]] const Key& floor(const Key& key) const {
+        auto it = st.upper_bound(key);
+        --it;
+        return it-&gt;first;
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class ST:
+    def __init__(self):
+        self.st = {} 
+\/
+    def get(self, key):
+        if key is None:
+            raise ValueError("called get() with null key")
+        return self.st.get(key)
+\/    
+    def put(self, key, val):
+        if key is None:
+            raise ValueError("called put() with null key")
+        if val is None:
+            del self.st[key]
+        else:
+            self.st[key] = val
+\/
+    def remove(self, key):
+        if key is None:
+            raise ValueError("called remove() with null key")
+        del self.st[key]
+\/
+    def contains(self, key):
+        if key is None:
+            raise ValueError("called contains() with null key")
+        return key in self.st
+\/
+    def size(self):
+        return len(self.st)
+\/
+    def is_empty(self):
+        return self.size() == 0
+\/
+    def keys(self):
+        return list(self.st.keys())
+\/
+    def __iter__(self):  
+        return iter(self.st.keys())
+\/
+    def min(self):
+        if self.is_empty():
+            raise RuntimeError("called min() with empty symbol table")
+        return min(self.st.keys())
+\/
+    def max(self):
+        if self.is_empty():
+            raise RuntimeError("called max() with empty symbol table")
+        return max(self.st.keys())
+\/
+    def ceiling(self, key):
+        if key is None:
+            raise ValueError("called ceiling() with null key")
+        keys_greater_equal = [k for k in self.st.keys() if k &gt;= key]
+        if not keys_greater_equal:
+            raise RuntimeError("all keys are less than {}".format(key))
+        return min(keys_greater_equal)
+\/
+    def floor(self, key):
+        if key is None:
+            raise ValueError("called floor() with null key")
+        keys_less_equal = [k for k in self.st.keys() if k &lt;= key]
+        if not keys_less_equal:
+            raise RuntimeError("all keys are greater than {}".format(key))
+        return max(keys_less_equal)
+    </code-block>
+    </tab>
+</tabs>
+
+### 9.3 Binary Search Trees {id="BST"}
+
+<p><format color="DarkOrange">Binary Saerch Tree</format>: A BST is a
+<format color="OrangeRed">binary tree</format> in <format color=
+"OrangeRed">symmetric order</format>.</p>
+
+<p>A binary tree is either:</p>
+
+<list type="bullet">
+<li>
+    <p>Empty.</p>
+</li>
+<li>
+    <p>Two disjoint binary trees (left and right).</p>
+</li>
+</list>
+
+<img src="../images_data/d9-3-1.png" alt="Binary Search Tree"/>
+
+<p><format color="BlueViolet">Symmetric order</format>: Each node 
+has a key, and every node's key is:</p>
+
+<list type="bullet">
+<li>
+    <p>Larger than all keys in the left subtree.</p>
+</li>
+<li>
+    <p>Smaller than all keys in the right subtree.</p>
+</li>
+</list>
+
+<img src="../images_data/d9-3-2.png" alt="Symmetric Order"/>
+
+<procedure title="BST Search">
+<step>
+    <p>If less, go left.</p>
+</step>
+<step>
+    <p>If greater, go right.</p>
+</step>
+<step>
+    <p>If equal, search hit.</p>
+</step>
+</procedure>
+
+<procedure title="BST Insertion">
+<step>
+    <p>Search for keys, then two cases:</p>
+    <list type="bullet">
+    <li>
+        <p>Key in tree => reset value</p>
+    </li>
+    <li>
+        <p>Key not in tree => add new node</p>
+    </li>
+    </list>
+</step>
+</procedure>
+
+<p><format color="BlueViolet">Property:</format> If <math>N</math> 
+distinct keys are inserted into a BST in <format color="OrangeRed">
+random order</format>, the expected number of compares for a search
+/insert is <math>\sim 2 \ln N</math>.
+</p>
+
+<p><format color="LawnGreen">Proof:</format> 1-1 correspondence 
+with quicksort partitioning.</p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">Floor</format>: Largest key &le; to 
+    a given key.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Ceiling</format>: Smallest key &ge; to
+    a given key.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Rank</format>: How many keys &lt; k</p>
+</li>
+</list>
+
+<procedure title="Computing the Floor" type="choices">
+<step>
+    <p><math>k</math> equals to the key at the root. => The floor of 
+    <math>k</math> is <math>k</math>.</p>
+</step>
+<step>
+    <p><math>k</math> is less than the key at the root. => The floor
+    of <math>k</math> is in the left subtree.</p>
+</step>
+<step>
+    <p><math>k</math> is greater than the key at the root. => The 
+    floor of <math>k</math> is in the right subtree (if there is any
+    key <math>\leq; k</math>); otherwise, it is the key at the root.
+    </p>
+</step>
+<img src="../images_data/d9-3-3.png" alt="Computing the Floor"/>
+</procedure>
+
+<procedure title="Deleting the Minimum">
+<step>
+    <p>Go left until finding a node with a null left link.</p>
+</step>
+<step>
+    <p>Replace that node by its right link.</p>
+</step>
+<step>
+    <p>Update subtree counts.</p>
+</step>
+<img src="../images_data/d9-3-4.png" alt="Delete the minimum"/>
+</procedure>
+
+<procedure title="Habbard Deletion" type="choices">
+<step>
+    <p><format color="Fuchsia">0 children:</format> Delete <math>t
+    </math> by setting parent link to null.</p>
+    <img src="../images_data/d9-3-5.png" alt="Habbard Deletion 0 
+    children"/>
+</step>
+<step>
+    <p><format color="Fuchsia">1 child:</format> Delete <math>t
+    </math> by replacing parent link.</p>
+    <img src="../images_data/d9-3-6.png" alt="Habbard Deletion 1 
+    child"/>
+</step>
+<step>
+    <p><format color="Fuchsia">2 children:</format></p>
+    <list type="bullet">
+    <li>
+        <p>Find successor <math>x</math> of <math>t</math>.</p>
+    </li>
+    <li>
+        <p>Delete the minimum in its <math>t</math>'s right subtree
+        .</p>
+    </li>
+    <li>
+        <p>Put <math>x</math> in <math>t</math>'s spot.</p>
+    </li>
+    </list>
+    <img src="../images_data/d9-3-7.png" alt="Habbard Deletion 2 
+    children"/>
+</step>
+</procedure>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.LinkedList;
+\/
+public class BST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
+    private Node root;
+\/
+    private class Node {
+        private final Key key;
+        private Value val;
+        private Node left, right;
+        private int size;
+\/
+        public Node(Key key, Value val, int size) {
+            this.key = key;
+            this.val = val;
+            this.size = size;
+        }
+    }
+\/
+    public BST() {
+    }
+\/
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+\/
+    public int size() {
+        return size(root);
+    }
+\/
+    private int size(Node x) {
+        if (x == null) return 0;
+        else return x.size;
+    }
+\/
+    public boolean contains(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to contains() is null");
+        return get(key) != null;
+    }
+\/
+    public Value get(Key key) {
+        return get(root, key);
+    }
+\/
+    private Value get(Node x, Key key) {
+        if (key == null) throw new IllegalArgumentException("calls get() with a null key");
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp &lt; 0) return get(x.left, key);
+        else if (cmp &gt; 0) return get(x.right, key);
+        else return x.val;
+    }
+\/
+    public void put(Key key, Value val) {
+        if (key == null) throw new IllegalArgumentException("calls put() with a null key");
+        if (val == null) {
+            delete(key);
+            return;
+        }
+        root = put(root, key, val);
+        assert check();
+    }
+\/
+    private Node put(Node x, Key key, Value val) {
+        if (x == null) return new Node(key, val, 1);
+        int cmp = key.compareTo(x.key);
+        if (cmp &lt; 0) x.left = put(x.left, key, val);
+        else if (cmp &gt; 0) x.right = put(x.right, key, val);
+        else x.val = val;
+        x.size = 1 + size(x.left) + size(x.right);
+        return x;
+    }
+\/
+    public void deleteMin() {
+        if (isEmpty()) throw new NoSuchElementException("Symbol table underflow");
+        root = deleteMin(root);
+        assert check();
+    }
+\/
+    private Node deleteMin(Node x) {
+        if (x.left == null) return x.right;
+        x.left = deleteMin(x.left);
+        x.size = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+\/
+    public void deleteMax() {
+        if (isEmpty()) throw new NoSuchElementException("Symbol table underflow");
+        root = deleteMax(root);
+        assert check();
+    }
+\/
+    private Node deleteMax(Node x) {
+        if (x.right == null) return x.left;
+        x.right = deleteMax(x.right);
+        x.size = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+\/
+    public void delete(Key key) {
+        if (key == null) throw new IllegalArgumentException("calls delete() with a null key");
+        root = delete(root, key);
+        assert check();
+    }
+\/
+    private Node delete(Node x, Key key) {
+        if (x == null) return null;
+\/
+        int cmp = key.compareTo(x.key);
+        if (cmp &lt; 0) x.left = delete(x.left, key);
+        else if (cmp &gt; 0) x.right = delete(x.right, key);
+        else {
+            if (x.right == null) return x.left;
+            if (x.left == null) return x.right;
+            Node t = x;
+            x = min(t.right);
+            x.right = deleteMin(t.right);
+            x.left = t.left;
+        }
+        x.size = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+\/
+    public Key min() {
+        if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
+        return min(root).key;
+    }
+\/
+    private Node min(Node x) {
+        if (x.left == null) return x;
+        else return min(x.left);
+    }
+\/
+    public Key max() {
+        if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
+        return max(root).key;
+    }
+\/
+    private Node max(Node x) {
+        if (x.right == null) return x;
+        else return max(x.right);
+    }
+\/
+    public Key floor(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to floor() is null");
+        if (isEmpty()) throw new NoSuchElementException("calls floor() with empty symbol table");
+        Node x = floor(root, key);
+        if (x == null) throw new NoSuchElementException("argument to floor() is too small");
+        else return x.key;
+    }
+\/
+    private Node floor(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp == 0) return x;
+        if (cmp &lt; 0) return floor(x.left, key);
+        Node t = floor(x.right, key);
+        if (t != null) return t;
+        else return x;
+    }
+\/
+    public Key floor2(Key key) {
+        Key x = floor2(root, key, null);
+        if (x == null) throw new NoSuchElementException("argument to floor() is too small");
+        else return x;
+    }
+\/
+    private Key floor2(Node x, Key key, Key best) {
+        if (x == null) return best;
+        int cmp = key.compareTo(x.key);
+        if (cmp &lt; 0) return floor2(x.left, key, best);
+        else if (cmp &gt; 0) return floor2(x.right, key, x.key);
+        else return x.key;
+    }
+\/
+    public Key ceiling(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
+        if (isEmpty()) throw new NoSuchElementException("calls ceiling() with empty symbol table");
+        Node x = ceiling(root, key);
+        if (x == null) throw new NoSuchElementException("argument to ceiling() is too large");
+        else return x.key;
+    }
+\/
+    private Node ceiling(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp == 0) return x;
+        if (cmp &lt; 0) {
+            Node t = ceiling(x.left, key);
+            if (t != null) return t;
+            else return x;
+        }
+        return ceiling(x.right, key);
+    }
+\/
+    public Key select(int rank) {
+        if (rank &lt; 0 || rank &gt;= size()) {
+            throw new IllegalArgumentException("argument to select() is invalid: " + rank);
+        }
+        return select(root, rank);
+    }
+\/
+    private Key select(Node x, int rank) {
+        if (x == null) return null;
+        int leftSize = size(x.left);
+        if (leftSize &gt; rank) return select(x.left, rank);
+        else if (leftSize &lt; rank) return select(x.right, rank - leftSize - 1);
+        else return x.key;
+    }
+\/
+    public int rank(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to rank() is null");
+        return rank(key, root);
+    }
+\/
+    private int rank(Key key, Node x) {
+        if (x == null) return 0;
+        int cmp = key.compareTo(x.key);
+        if (cmp &lt; 0) return rank(key, x.left);
+        else if (cmp &gt; 0) return 1 + size(x.left) + rank(key, x.right);
+        else return size(x.left);
+    }
+\/
+    public Iterable&lt;Key&gt; keys() {
+        if (isEmpty()) return new LinkedList&lt;&gt;();
+        return keys(min(), max());
+    }
+\/
+    public Iterable&lt;Key&gt; keys(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to keys() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
+\/
+        Queue&lt;Key&gt; queue = new LinkedList&lt;&gt;();
+        keys(root, queue, lo, hi);
+        return queue;
+    }
+\/
+    private void keys(Node x, Queue&lt;Key&gt; queue, Key lo, Key hi) {
+        if (x == null) return;
+        int cmplo = lo.compareTo(x.key);
+        int cmphi = hi.compareTo(x.key);
+        if (cmplo &lt; 0) keys(x.left, queue, lo, hi);
+        if (cmplo &lt;= 0 && cmphi &gt;= 0) queue.add(x.key);
+        if (cmphi &gt; 0) keys(x.right, queue, lo, hi);
+    }
+\/
+    public int size(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
+\/
+        if (lo.compareTo(hi) &gt; 0) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else return rank(hi) - rank(lo);
+    }
+\/
+    public int height() {
+        return height(root);
+    }
+\/
+    private int height(Node x) {
+        if (x == null) return -1;
+        return 1 + Math.max(height(x.left), height(x.right));
+    }
+\/
+    public Iterable&lt;Key&gt; levelOrder() {
+        Queue&lt;Key&gt; keys = new LinkedList&lt;&gt;();
+        Queue&lt;Node&gt; queue = new LinkedList&lt;&gt;();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node x = queue.remove();
+            if (x == null) continue;
+            keys.add(x.key);
+            queue.add(x.left);
+            queue.add(x.right);
+        }
+        return keys;
+    }
+\/
+    private boolean check() {
+        if (!isBST()) System.out.println("Not in symmetric order");
+        if (!isSizeConsistent()) System.out.println("Subtree counts not consistent");
+        if (!isRankConsistent()) System.out.println("Ranks not consistent");
+        return isBST() && isSizeConsistent() && isRankConsistent();
+    }
+\/
+    private boolean isBST() {
+        return isBST(root, null, null);
+    }
+\/
+    private boolean isBST(Node x, Key min, Key max) {
+        if (x == null) return true;
+        if (min != null && x.key.compareTo(min) &lt;= 0) return false;
+        if (max != null && x.key.compareTo(max) &gt;= 0) return false;
+        return isBST(x.left, min, x.key) && isBST(x.right, x.key, max);
+    }
+\/
+    private boolean isSizeConsistent() {
+        return isSizeConsistent(root);
+    }
+\/
+    private boolean isSizeConsistent(Node x) {
+        if (x == null) return true;
+        if (x.size != size(x.left) + size(x.right) + 1) return false;
+        return isSizeConsistent(x.left) && isSizeConsistent(x.right);
+    }
+\/
+    private boolean isRankConsistent() {
+        for (int i = 0; i &lt; size(); i++)
+            if (i != rank(select(i))) return false;
+        for (Key key : keys())
+            if (key.compareTo(select(rank(key))) != 0) return false;
+        return true;
+    }
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;queue&gt;
+#include &lt;stdexcept&gt;
+#include &lt;utility&gt;
+\/
+template &lt;typename Key, typename Value&gt;
+class BST {
+private:
+    struct Node {
+        Key key;
+        Value val;
+        Node *left, *right;
+        int size;
+\/
+        Node(Key  key, const Value& val, const int size) :
+            key(std::move(key)), val(val), left(nullptr), right(nullptr), size(size) {}
+    };
+\/
+    Node* root;
+\/
+    static int size(Node* x) {
+        if (x == nullptr) return 0;
+        return x-&gt;size;
+    }
+\/
+    Value get(Node* x, const Key& key) const {
+        if (x == nullptr) return Value(); // Return default value for Value type
+        if (key &lt; x-&gt;key) return get(x-&gt;left, key);
+        if (key &gt; x-&gt;key) return get(x-&gt;right, key);
+        return x-&gt;val;
+    }
+\/
+    Node* put(Node* x, const Key& key, const Value& val) {
+        if (x == nullptr) return new Node(key, val, 1);
+        if (key &lt; x-&gt;key) x-&gt;left = put(x-&gt;left, key, val);
+        else if (key &gt; x-&gt;key) x-&gt;right = put(x-&gt;right, key, val);
+        else x-&gt;val = val;
+        x-&gt;size = 1 + size(x-&gt;left) + size(x-&gt;right);
+        return x;
+    }
+\/
+    Node* deleteMin(Node* x) {
+        if (x-&gt;left == nullptr) {
+            Node* temp = x-&gt;right;
+            delete x;
+            return temp;
+        }
+        x-&gt;left = deleteMin(x-&gt;left);
+        x-&gt;size = size(x-&gt;left) + size(x-&gt;right) + 1;
+        return x;
+    }
+\/
+    Node* deleteMax(Node* x) {
+        if (x-&gt;right == nullptr) {
+            Node* temp = x-&gt;left;
+            delete x;
+            return temp;
+        }
+        x-&gt;right = deleteMax(x-&gt;right);
+        x-&gt;size = size(x-&gt;left) + size(x-&gt;right) + 1;
+        return x;
+    }
+\/
+    Node* deleteKey(Node* x, const Key& key) {
+        if (x == nullptr) return nullptr;
+        if (key &lt; x-&gt;key) x-&gt;left = deleteKey(x-&gt;left, key);
+        else if (key &gt; x-&gt;key) x-&gt;right = deleteKey(x-&gt;right, key);
+        else {
+            if (x-&gt;right == nullptr) return x-&gt;left;
+            if (x-&gt;left == nullptr) return x-&gt;right;
+            Node* t = x;
+            x = min(t-&gt;right);
+            x-&gt;right = deleteMin(t-&gt;right);
+            x-&gt;left = t-&gt;left;
+        }
+        x-&gt;size = size(x-&gt;left) + size(x-&gt;right) + 1;
+        return x;
+    }
+\/
+    Node* min(Node* x) const {
+        if (x-&gt;left == nullptr) return x;
+        return min(x-&gt;left);
+    }
+\/
+    Node* max(Node* x) const {
+        if (x-&gt;right == nullptr) return x;
+        return max(x-&gt;right);
+    }
+\/
+    Node* floor(Node* x, const Key& key) const {
+        if (x == nullptr) return nullptr;
+        if (key &lt; x-&gt;key) return floor(x-&gt;left, key);
+        if (key &gt; x-&gt;key) {
+            Node* t = floor(x-&gt;right, key);
+            if (t != nullptr) return t;
+            return x;
+        }
+        return x;
+    }
+\/
+    Node* ceiling(Node* x, const Key& key) const {
+        if (x == nullptr) return nullptr;
+        if (key &gt; x-&gt;key) return ceiling(x-&gt;right, key);
+        if (key &lt; x-&gt;key) {
+            Node* t = ceiling(x-&gt;left, key);
+            if (t != nullptr) return t;
+            return x;
+        }
+        return x;
+    }
+\/
+    Key select(Node* x, int rank) const {
+        if (x == nullptr) return Key(); // Return default value for Key type
+        int leftSize = size(x-&gt;left);
+        if (leftSize &gt; rank) return select(x-&gt;left, rank);
+        else if (leftSize &lt; rank) return select(x-&gt;right, rank - leftSize - 1);
+        else return x-&gt;key;
+    }
+\/
+    int rank(const Key& key, Node* x) const {
+        if (x == nullptr) return 0;
+        if (key &lt; x-&gt;key) return rank(key, x-&gt;left);
+        else if (key &gt; x-&gt;key) return 1 + size(x-&gt;left) + rank(key, x-&gt;right);
+        else return size(x-&gt;left);
+    }
+\/
+    void keys(Node* x, std::queue&lt;Key&gt;& queue, const Key& lo, const Key& hi) const {
+        if (x == nullptr) return;
+        if (lo &lt; x-&gt;key) keys(x-&gt;left, queue, lo, hi);
+        if (lo &lt;= x-&gt;key && x-&gt;key &lt;= hi) queue.push(x-&gt;key);
+        if (hi &gt; x-&gt;key) keys(x-&gt;right, queue, lo, hi);
+    }
+\/
+    int height(Node* x) const {
+        if (x == nullptr) return -1;
+        return 1 + std::max(height(x-&gt;left), height(x-&gt;right));
+    }
+\/
+public:
+    BST() : root(nullptr) {}
+\/
+    ~BST() {
+        destroy(root); 
+    }
+\/
+    void destroy(Node* node) {
+        if (node == nullptr) return; 
+        destroy(node-&gt;left);
+        destroy(node-&gt;right);
+        delete node;
+    }
+\/
+    [[nodiscard]] bool isEmpty() const {
+        return size() == 0;
+    }
+\/
+    [[nodiscard]] int size() const {
+        return size(root);
+    }
+\/
+    [[nodiscard]] bool contains(const Key& key) const {
+        return get(key) != Value(); // Compare with default value
+    }
+\/
+    [[nodiscard]] Value get(const Key& key) const {
+        return get(root, key);
+    }
+\/
+    void put(const Key& key, const Value& val) {
+        root = put(root, key, val);
+    }
+\/
+    void deleteMin() {
+        if (isEmpty()) throw std::runtime_error("Symbol table underflow");
+        root = deleteMin(root);
+    }
+\/
+    void deleteMax() {
+        if (isEmpty()) throw std::runtime_error("Symbol table underflow");
+        root = deleteMax(root);
+    }
+\/
+    void deleteKey(const Key& key) {
+        root = deleteKey(root, key);
+    }
+\/
+    [[nodiscard]] Key min() const {
+        if (isEmpty()) throw std::runtime_error("calls min() with empty symbol table");
+        return min(root)-&gt;key;
+    }
+\/
+    [[nodiscard]] Key max() const {
+        if (isEmpty()) throw std::runtime_error("calls max() with empty symbol table");
+        return max(root)-&gt;key;
+    }
+\/
+    [[nodiscard]] Key floor(const Key& key) const {
+        if (isEmpty()) throw std::runtime_error("calls floor() with empty symbol table");
+        Node* x = floor(root, key);
+        if (x == nullptr) throw std::runtime_error("argument to floor() is too small");
+        else return x-&gt;key;
+    }
+\/
+    [[nodiscard]] Key ceiling(const Key& key) const {
+        if (isEmpty()) throw std::runtime_error("calls ceiling() with empty symbol table");
+        Node* x = ceiling(root, key);
+        if (x == nullptr) throw std::runtime_error("argument to ceiling() is too large");
+        else return x-&gt;key;
+    }
+\/
+    [[nodiscard]] Key select(int rank) const {
+        if (rank &lt; 0 || rank &gt;= size()) {
+            throw std::runtime_error("argument to select() is invalid: " + std::to_string(rank));
+        }
+        return select(root, rank);
+    }
+\/
+    [[nodiscard]] int rank(const Key& key) const {
+        return rank(key, root);
+    }
+\/
+    [[nodiscard]] std::queue&lt;Key&gt; keys() const {
+        if (isEmpty()) return std::queue&lt;Key&gt;();
+        return keys(min(), max());
+    }
+\/    
+    [[nodiscard]] std::queue&lt;Key&gt; keys(const Key& lo, const Key& hi) const {
+        std::queue&lt;Key&gt; queue;
+        keys(root, queue, lo, hi);
+        return queue;
+    }
+\/
+    [[nodiscard]] int size(const Key& lo, const Key& hi) const {
+        if (lo &gt; hi) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else return rank(hi) - rank(lo);
+    }
+\/
+    [[nodiscard]] int height() const {
+        return height(root);
+    }
+\/
+    [[nodiscard]] std::queue&lt;Key&gt; levelOrder() const {
+        std::queue&lt;Key&gt; keys;
+        std::queue&lt;Node*&gt; queue;
+        queue.push(root);
+        while (!queue.empty()) {
+            Node* x = queue.front();
+            queue.pop();
+            if (x == nullptr) continue;
+            keys.push(x-&gt;key);
+            queue.push(x-&gt;left);
+            queue.push(x-&gt;right);
+        }
+        return keys;
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class Node:
+    def __init__(self, key, val, size):
+        self.key = key
+        self.val = val
+        self.left = None
+        self.right = None
+        self.size = size
+\/
+class BST:
+    def __init__(self):
+        self.root = None
+\/
+    def isEmpty(self):
+        return self.size() == 0
+\/
+    def size(self):
+        return self._size(self.root)
+\/
+    def _size(self, x):
+        if x is None:
+            return 0
+        else:
+            return x.size
+\/
+    def contains(self, key):
+        if key is None:
+            raise ValueError("argument to contains() is None")
+        return self.get(key) is not None
+\/
+    def get(self, key):
+        return self._get(self.root, key)
+\/
+    def _get(self, x, key):
+        if key is None:
+            raise ValueError("calls get() with a None key")
+        if x is None:
+            return None
+        if key &lt; x.key:
+            return self._get(x.left, key)
+        elif key &gt; x.key:
+            return self._get(x.right, key)
+        else:
+            return x.val
+\/
+    def put(self, key, val):
+        if key is None:
+            raise ValueError("calls put() with a None key")
+        if val is None:
+            self.delete(key)
+            return
+        self.root = self._put(self.root, key, val)
+        assert self._check()
+\/
+    def _put(self, x, key, val):
+        if x is None:
+            return Node(key, val, 1)
+        if key &lt; x.key:
+            x.left = self._put(x.left, key, val)
+        elif key &gt; x.key:
+            x.right = self._put(x.right, key, val)
+        else:
+            x.val = val
+        x.size = 1 + self._size(x.left) + self._size(x.right)
+        return x
+\/
+    def deleteMin(self):
+        if self.isEmpty():
+            raise IndexError("Symbol table underflow")
+        self.root = self._deleteMin(self.root)
+        assert self._check()
+\/
+    def _deleteMin(self, x):
+        if x.left is None:
+            return x.right
+        x.left = self._deleteMin(x.left)
+        x.size = self._size(x.left) + self._size(x.right) + 1
+        return x
+\/
+    def deleteMax(self):
+        if self.isEmpty():
+            raise IndexError("Symbol table underflow")
+        self.root = self._deleteMax(self.root)
+        assert self._check()
+\/
+    def _deleteMax(self, x):
+        if x.right is None:
+            return x.left
+        x.right = self._deleteMax(x.right)
+        x.size = self._size(x.left) + self._size(x.right) + 1
+        return x
+\/
+    def delete(self, key):
+        if key is None:
+            raise ValueError("calls delete() with a None key")
+        self.root = self._delete(self.root, key)
+        assert self._check()
+\/
+    def _delete(self, x, key):
+        if x is None:
+            return None
+\/
+        if key &lt; x.key:
+            x.left = self._delete(x.left, key)
+        elif key &gt; x.key:
+            x.right = self._delete(x.right, key)
+        else:
+            if x.right is None:
+                return x.left
+            if x.left is None:
+                return x.right
+            t = x
+            x = self.min(t.right)
+            x.right = self._deleteMin(t.right)
+            x.left = t.left
+        x.size = self._size(x.left) + self._size(x.right) + 1
+        return x
+\/
+    def min(self):
+        if self.isEmpty():
+            raise IndexError("calls min() with empty symbol table")
+        return self._min(self.root).key
+\/
+    def _min(self, x):
+        if x.left is None:
+            return x
+        else:
+            return self._min(x.left)
+\/
+    def max(self):
+        if self.isEmpty():
+            raise IndexError("calls max() with empty symbol table")
+        return self._max(self.root).key
+\/
+    def _max(self, x):
+        if x.right is None:
+            return x
+        else:
+            return self._max(x.right)
+\/
+    def floor(self, key):
+        if key is None:
+            raise ValueError("argument to floor() is None")
+        if self.isEmpty():
+            raise IndexError("calls floor() with empty symbol table")
+        x = self._floor(self.root, key)
+        if x is None:
+            raise IndexError("argument to floor() is too small")
+        else:
+            return x.key
+\/
+    def _floor(self, x, key):
+        if x is None:
+            return None
+        if key == x.key:
+            return x
+        if key &lt; x.key:
+            return self._floor(x.left, key)
+        t = self._floor(x.right, key)
+        if t is not None:
+            return t
+        else:
+            return x
+\/
+    def floor2(self, key):
+        x = self._floor2(self.root, key, None)
+        if x is None:
+            raise IndexError("argument to floor() is too small")
+        else:
+            return x
+\/
+    def _floor2(self, x, key, best):
+        if x is None:
+            return best
+        if key &lt; x.key:
+            return self._floor2(x.left, key, best)
+        elif key &gt; x.key:
+            return self._floor2(x.right, key, x.key)
+        else:
+            return x.key
+\/
+    def ceiling(self, key):
+        if key is None:
+            raise ValueError("argument to ceiling() is None")
+        if self.isEmpty():
+            raise IndexError("calls ceiling() with empty symbol table")
+        x = self._ceiling(self.root, key)
+        if x is None:
+            raise IndexError("argument to ceiling() is too large")
+        else:
+            return x.key
+\/
+    def _ceiling(self, x, key):
+        if x is None:
+            return None
+        if key == x.key:
+            return x
+        if key &lt; x.key:
+            t = self._ceiling(x.left, key)
+            if t is not None:
+                return t
+            else:
+                return x
+        return self._ceiling(x.right, key)
+\/
+    def select(self, rank):
+        if rank &lt; 0 or rank &gt;= self.size():
+            raise ValueError("argument to select() is invalid: " + str(rank))
+        return self._select(self.root, rank)
+\/
+    def _select(self, x, rank):
+        if x is None:
+            return None
+        leftSize = self._size(x.left)
+        if leftSize &gt; rank:
+            return self._select(x.left, rank)
+        elif leftSize &lt; rank:
+            return self._select(x.right, rank - leftSize - 1)
+        else:
+            return x.key
+\/
+    def rank(self, key):
+        if key is None:
+            raise ValueError("argument to rank() is None")
+        return self._rank(key, self.root)
+\/
+    def _rank(self, key, x):
+        if x is None:
+            return 0
+        if key &lt; x.key:
+            return self._rank(key, x.left)
+        elif key &gt; x.key:
+            return 1 + self._size(x.left) + self._rank(key, x.right)
+        else:
+            return self._size(x.left)
+\/
+    def keys(self):
+        if self.isEmpty():
+            return []
+        return self.keysInRange(self.min(), self.max())
+\/
+    def keysInRange(self, lo, hi):
+        if lo is None:
+            raise ValueError("first argument to keys() is None")
+        if hi is None:
+            raise ValueError("second argument to keys() is None")
+\/
+        queue = []
+        self._keys(self.root, queue, lo, hi)
+        return queue
+\/
+    def _keys(self, x, queue, lo, hi):
+        if x is None:
+            return
+        if lo &lt; x.key:
+            self._keys(x.left, queue, lo, hi)
+        if lo &lt;= x.key &lt;= hi:
+            queue.append(x.key)
+        if hi &gt; x.key:
+            self._keys(x.right, queue, lo, hi)
+\/
+    def sizeInRange(self, lo, hi):
+        if lo is None:
+            raise ValueError("first argument to size() is None")
+        if hi is None:
+            raise ValueError("second argument to size() is None")
+\/
+        if lo &gt; hi:
+            return 0
+        if self.contains(hi):
+            return self.rank(hi) - self.rank(lo) + 1
+        else:
+            return self.rank(hi) - self.rank(lo)
+\/
+    def height(self):
+        return self._height(self.root)
+\/
+    def _height(self, x):
+        if x is None:
+            return -1
+        return 1 + max(self._height(x.left), self._height(x.right))
+\/
+    def levelOrder(self):
+        keys = []
+        queue = [self.root]  # Using a list as a queue
+        while queue:
+            x = queue.pop(0)  # Dequeue from the front
+            if x is None:
+                continue
+            keys.append(x.key)
+            queue.append(x.left)
+            queue.append(x.right)
+        return keys
+\/
+    def _check(self):
+        if not self._isBST():
+            print("Not in symmetric order")
+        if not self._isSizeConsistent():
+            print("Subtree counts not consistent")
+        if not self._isRankConsistent():
+            print("Ranks not consistent")
+        return self._isBST() and self._isSizeConsistent() and self._isRankConsistent()
+\/
+    def _isBST(self):
+        return self._isBSTHelper(self.root, None, None)
+\/
+    def _isBSTHelper(self, x, minKey, maxKey):
+        if x is None:
+            return True
+        if minKey is not None and x.key &lt;= minKey:
+            return False
+        if maxKey is not None and x.key &gt;= maxKey:
+            return False
+        return self._isBSTHelper(x.left, minKey, x.key) and self._isBSTHelper(x.right, x.key, maxKey)
+\/
+    def _isSizeConsistent(self):
+        return self._isSizeConsistentHelper(self.root)
+\/
+    def _isSizeConsistentHelper(self, x):
+        if x is None:
+            return True
+        if x.size != self._size(x.left) + self._size(x.right) + 1:
+            return False
+        return self._isSizeConsistentHelper(x.left) and self._isSizeConsistentHelper(x.right)
+\/
+    def _isRankConsistent(self):
+        for i in range(self.size()):
+            if i != self.rank(self.select(i)):
+                return False
+        for key in self.keys():
+            if key != self.select(self.rank(key)):
+                return False
+        return True
+    </code-block>
+    </tab>
+</tabs>
+
+### 9.4 Traversal
+
+<p>To traverse binary trees with depth-first search, execute the 
+following three operations in a certain order: </p>
+
+<list type="bullet">
+<li>
+    <p><format color="Fuchsia">N:</format> Visit the current node.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">L:</format> Recursively traverse the 
+    current node's left subtree.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">R:</format> Recursively traverse the 
+    current node's right subtree.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Three types of traversal</format></p>
+
+<list type="alpha-lower">
+<li>
+    <p><format color="#ff0000">Pre-order</format> => NLR</p>
+</li>
+<li>
+    <p><format color="#00ff00">Post-order</format> => LRN</p>
+</li>
+<li>
+    <p><format color="#2a7fff">In-order</format> => LNR</p>
+</li>
+</list>
+
+<img src="../images_data/d9-4-1.png" alt="Traversal"/>
+
+<p>Depth-first traversal (dotted path) of a binary tree:</p>
+<list type="alpha-lower">
+<li>
+    <p><format color="#ff0000">Pre-order</format> <format style="italic">
+    (node visited at position red)</format>:</p>
+<p>F, B, A, D, C, E, G, I, H;</p>
+</li>
+<li>
+    <p><format color="#00ff00">In-order</format> <format style="italic">
+    (node visited at position green)</format>:</p>
+<p>A, B, C, D, E, F, G, H, I;</p>
+</li>
+<li>
+    <p><format color="#2a7fff">Post-order</format> <format style="italic">
+    (node visited at position blue)</format>:</p>
+    <p>A, C, E, D, B, H, I, G, F.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Level Order (breadth-first traversal)
+:</format> Visit all the nodes of a tree data structure level by 
+level.</p>
+
+<procedure title="Level Order Traversal">
+<step>
+    <p>Start at the root node.</p>
+</step>
+<step>
+    <p>Visit all the nodes at the current level.</p>
+</step>
+<step>
+    <p>Move to the next level, repeat steps 2 and 3 until all levels 
+    of the tree have been visited.</p>
+</step>
+</procedure>
+
 ## 10 Balanced Search Trees
 
 <table style="none">
@@ -25,8 +2288,7 @@
     <td>Delete</td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" 
-    anchor="sequential-search" summary="Unordered List 
+    <td><a anchor="sequential-search" summary="Unordered List 
     Implementation">Sequential Search (unordered list)</a></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
@@ -38,8 +2300,7 @@
     <td><code>equals()</code></td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" 
-    anchor="ordered-array" summary="Ordered Array Implementation">
+    <td><a anchor="ordered-array" summary="Ordered Array Implementation">
     Binary Search (ordered list)</a></td>
     <td><math>\lg N</math></td>
     <td><math>N</math></td>
@@ -51,8 +2312,7 @@
     <td><code>compareTo()</code></td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" 
-    anchor="BST" summary="Binary Search Tree">BST</a></td>
+    <td><a anchor="BST" summary="Binary Search Tree">BST</a></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
@@ -2046,8 +4306,7 @@ rectangles.</p>
     <td>Delete</td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" anchor
-    ="sequential-search" summary="Sequential Search (unordered list)">
+    <td><a anchor="sequential-search" summary="Sequential Search (unordered list)">
     Sequential Search (unordered list)</a></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
@@ -2059,8 +4318,7 @@ rectangles.</p>
     <td><code>equals()</code></td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" anchor
-    ="ordered-array" summary="Binary Search (ordered array)">
+    <td><a anchor="ordered-array" summary="Binary Search (ordered array)">
     Binary Search (ordered list)</a></td>
     <td><math>\lg N</math></td>
     <td><math>N</math></td>
@@ -2072,8 +4330,7 @@ rectangles.</p>
     <td><code>compareTo()</code></td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" anchor="BST" 
-    summary="Binary Search Tree">BST</a></td>
+    <td><a anchor="BST" summary="Binary Search Tree">BST</a></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
     <td><math>N</math></td>
@@ -5368,1299 +7625,3 @@ class StronglyConnectedComponents:
     </tab>
 </tabs>
 
-## 16 Minimum Spanning Trees
-
-### 16.1 Introduction to MSTs
-
-<p><format color="DarkOrange">Spanning tree:</format> A <format 
-color="OrangeRed">spanning tree</format> is a subgraph <math>T
-</math> that is both a <format color="OrangeRed">tree</format> 
-(connected and acyclic) and <format color="OrangeRed">spanning
-</format> (includes all of the vertices).</p>
-
-<img src="../images_data/d16-1-1.png" alt="Spanning Tree"/>
-
-<p><format color="BlueViolet">Application:</format></p>
-
-<list type="bullet">
-<li>
-    <p>Dithering</p>
-</li>
-<li>
-    <p>Cluster analysis</p>
-</li>
-<li>
-    <p>Max bottleneck paths</p>
-</li>
-<li>
-    <p>Real-time face verification</p>
-</li>
-<li>
-    <p>LDPC codes for error correction</p>
-</li>
-<li>
-    <p>Image registration with Renyi entropy</p>
-</li>
-<li>
-    <p>Find road networks in satellite and aerial imagery</p>
-</li>
-<li>
-    <p>Reducing data storage in sequencing amino acids in a protein</p>
-</li>
-<li>
-    <p>Model locality of particle interactions in turbulent fluid flows
-    </p>
-</li>
-<li>
-    <p>Autoconfig protocol for Ethernet bridging to avoid cycles in a 
-    network</p>
-</li>
-<li>
-    <p>Approximation algorithms for NP-hard problems (e.g., TSP, Steiner 
-    tree)</p>
-</li>
-<li>
-    <p>Network design (communication, electrical, hydraulic, computer, 
-    road).</p>
-</li>
-</list>
-
-### 16.2 Greedy Algorithm
-
-<p><format color="BlueViolet">Definitions</format></p>
-
-<list type="bullet">
-<li>
-    <p><format color="DarkOrange">Cut:</format> A cut in a graph is a 
-    partition of its vertices into two (nonempty) sets.</p>
-</li>
-<li>
-    <p><format color="DarkOrange">Crossing edge:</format> A crossing 
-    edge connects a vertex in one set with a vertex in the other.</p>
-</li>
-</list>
-
-<img src="../images_data/d16-2-1.png" alt="Greedy Algorithm"/>
-
-<procedure title="Greedy Algorithm for MST">
-<step>
-    <p>Start with all edges colored gray.</p>
-</step>
-<step>
-    <p>Find cut with no black crossing edges; color its 
-    min-weight edge black.</p>
-</step>
-<step>
-    <p>Repeat until <math>V - 1</math> edges are colored black.</p>
-</step>
-</procedure>
-
-<p><format color="BlueViolet">Correctness Proof</format> </p>
-
-<list type="decimal">
-<li>
-    <p>Given any cut, the crossing edge of min weight is in MST.</p>
-    <p><format color="LawnGreen">Proof</format></p>
-    <p>Suppose min-weight crossing edge <math>e</math> is not in the 
-    MST.</p>
-    <list type="bullet">
-    <li>
-    <p>Adding <math>e</math> to the MST creates a cycle.</p>
-    </li>
-    <li>
-    <p>Some other edge <math>f</math> in cycle must be a crossing 
-    edge.</p>
-    </li>
-    <li>
-    <p>Removing <math>f</math> and adding <math>e</math> is also a
-    spanning edge.</p>
-    </li>
-    <li>
-    <p>Since weight of <math>e</math> is less than the weight of 
-    <math>f</math>, that spanning tree is lower height.</p>
-    </li>
-    <li>
-    <p>Contradiction.</p>
-    </li>
-    </list>
-<img src="../images_data/d16-2-2.png" alt = "Proof"/>
-</li>
-<li>
-<p>The greedy algorithm computes the MST.</p>
-
-<p><format color="MediumVioletRed">Proof</format></p>
-    <list type="bullet"> 
-    <li>
-    <p>Any edge colored black is in the MST (via cut property).</p>
-    </li>
-    <li>
-    <p>Fewer than <math>V - 1</math> black edges => cut with no 
-    black crossing edges. (consider cut whose vertices are one 
-    connected component)</p>
-    </li>
-    </list>
-</li>
-</list>
-
-<warning>
-<p>The proof above is under the simplifying assumptions below: </p>
-<list type="bullet">
-<li>
-    <p>Edge weights are distinct.</p>
-</li>
-<li>
-    <p>Graph is connected.</p>
-</li>
-</list>
-</warning>
-
-### 16.3 Edge-weighted Graph Implementation
-
-<p><format color="BlueViolet">Edge</format></p>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-public class Edge implements Comparable&lt;Edge&gt; {
-    private final int source;
-    private final int destination;
-    private final double weight;
-\/
-    public Edge(int source, int destination, double weight) {
-        this.source = source;
-        this.destination = destination;
-        this.weight = weight;
-    }
-\/
-    public int getEitherVertex() {
-        return source;
-    }
-\/
-    public int getOtherVertex(int vertex) {
-        if (vertex == source) {
-            return destination;
-        } else if (vertex == destination) {
-            return source;
-        } else {
-            throw new IllegalArgumentException("Invalid vertex");
-        }
-    }
-\/
-    public double getWeight() {
-        return weight;
-    }
-\/
-    @Override
-    public String toString() {
-        return "(" + source + " - " + destination + " : " + weight + ")";
-    }
-\/
-    @Override
-    public int compareTo(Edge other) {
-        return Double.compare(this.weight, other.weight);
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++ (Edge.h)">
-    <code-block lang="c++" collapsible="true">
-#ifndef EDGE_H
-#define EDGE_H
-\/
-#include &lt;string&gt;
-\/
-class Edge {
-private:
-    int source;
-    int destination;
-    double weight;
-\/
-public:
-    Edge(int source, int destination, double weight);
-    [[nodiscard]] int getEitherVertex() const;
-    [[nodiscard]] int getOtherVertex(int vertex) const;
-    [[nodiscard]] double getWeight() const;
-    bool operator&lt;(const Edge& other) const;
-    [[nodiscard]] std::string toString() const;
-};
-\/
-#endif // EDGE_H
-    </code-block>
-    </tab>
-    <tab title="C++ (Edge.cpp)">
-    <code-block lang="c++" collapsible="true">
-#include "Edge.h"
-#include &lt;stdexcept&gt;
-#include &lt;sstream&gt;
-#include &lt;iomanip&gt;
-\/
-Edge::Edge(const int source, const int destination, const double weight)
-    : source(source), destination(destination), weight(weight) {}
-\/
-int Edge::getEitherVertex() const {
-    return source;
-}
-\/
-int Edge::getOtherVertex(const int vertex) const {
-    if (vertex == source) {
-        return destination;
-    } else if (vertex == destination) {
-        return source;
-    } else {
-        throw std::invalid_argument("Invalid vertex");
-    }
-}
-\/
-double Edge::getWeight() const {
-    return weight;
-}
-\/
-bool Edge::operator&lt;(const Edge& other) const {
-    return weight &lt; other.weight;
-}
-\/
-std::string Edge::toString() const {
-    std::ostringstream oss;
-    oss &lt;&lt; "(" &lt;&lt; source &lt;&lt; " - " &lt;&lt; destination &lt;&lt; " : " &lt;&lt; std::fixed &lt;&lt; std::setprecision(2) &lt;&lt; weight &lt;&lt; ")";
-    return oss.str();
-}
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-class Edge:
-    def __init__(self, source: int, destination: int, weight: float):
-        self.source = source
-        self.destination = destination
-        self.weight = weight
-\/
-    def get_either_vertex(self) -&gt; int:
-        return self.source
-\/
-    def get_other_vertex(self, vertex: int) -&gt; int:
-        if vertex == self.source:
-            return self.destination
-        elif vertex == self.destination:
-            return self.source
-        else:
-            raise ValueError("Invalid vertex")
-\/
-    def get_weight(self) -&gt; float:
-        return self.weight
-\/
-    def __str__(self) -&gt; str:
-        return f"({self.source} - {self.destination} : {self.weight})"
-\/
-    def __lt__(self, other: 'Edge') -&gt; bool:
-        return self.weight &lt; other.weight
-    </code-block>
-    </tab>
-</tabs>
-
-<p><format color="BlueViolet">Edge-weighted Graph</format></p>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-import java.util.ArrayList;
-import java.util.List;
-\/
-public class EdgeWeightedGraph {
-    private final int vertices;
-    private final List&lt;Edge&gt;[] adjacencyList;
-\/
-    public EdgeWeightedGraph(int vertices) {
-        this.vertices = vertices;
-        this.adjacencyList = new ArrayList[vertices];
-        for (int i = 0; i &lt; vertices; i++) {
-            adjacencyList[i] = new ArrayList&lt;&gt;();
-        }
-    }
-\/
-    public void addEdge(int source, int destination, double weight) {
-        adjacencyList[source].add(new Edge(source, destination, weight));
-        adjacencyList[destination].add(new Edge(destination, source, weight));
-    }
-\/
-    public int getVertices() {
-        return vertices;
-    }
-\/
-    public List&lt;Edge&gt; getAdjacencyList(int vertex) {
-        return adjacencyList[vertex];
-    }
-\/
-    public void printGraph() {
-        for (int i = 0; i &lt; vertices; i++) {
-            List&lt;Edge&gt; edges = adjacencyList[i];
-            System.out.print("Vertex " + i + ":");
-            for (Edge edge : edges) {
-                System.out.print(" " + edge);
-            }
-            System.out.println();
-        }
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++ (EdgeWeightedGraph.h)">
-    <code-block lang="c++" collapsible="true">
-#ifndef EDGEWEIGHTEDGRAPH_H
-#define EDGEWEIGHTEDGRAPH_H
-\/
-#include &lt;vector7gt;
-#include "Edge.h"
-\/
-class EdgeWeightedGraph {
-private:
-    int vertices;
-    std::vector&lt;std::vector&lt;Edge&gt;&gt; adjacencyList;
-\/
-public:
-    explicit EdgeWeightedGraph(int vertices);
-    void addEdge(int source, int destination, double weight);
-    [[nodiscard]] int getVertices() const;
-    [[nodiscard]] const std::vector&lt;Edge&gt;& getAdjacencyList(int vertex) const;
-    void printGraph() const;
-};
-\/
-#endif // EDGEWEIGHTEDGRAPH_H
-    </code-block>
-    </tab>
-    <tab title="C++ (EdgeWeightedGraph.cpp)">
-    <code-block lang="c++" collapsible="true">
-#include "EdgeWeightedGraph.h"
-#include &lt;iostream&gt;
-\/
-EdgeWeightedGraph::EdgeWeightedGraph(const int vertices)
-    : vertices(vertices), adjacencyList(vertices) {}
-\/
-void EdgeWeightedGraph::addEdge(const int source, const int destination, const double weight) {
-    const Edge edge(source, destination, weight);
-    adjacencyList[source].push_back(edge);
-    adjacencyList[destination].emplace_back(destination, source, weight);
-}
-\/
-int EdgeWeightedGraph::getVertices() const {
-    return vertices;
-}
-\/
-const std::vector&lt;Edge&gt;& EdgeWeightedGraph::getAdjacencyList(int vertex) const {
-    return adjacencyList[vertex];
-}
-\/
-void EdgeWeightedGraph::printGraph() const {
-    for (int i = 0; i &lt; vertices; ++i) {
-        const std::vector&lt;Edge&gt;& edges = adjacencyList[i];
-        std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
-        for (const Edge& edge : edges) {
-            std::cout &lt;&lt; " " &lt;&lt; edge.toString();
-        }
-        std::cout &lt;&lt; std::endl;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-from Edge import Edge
-\/
-\/
-class EdgeWeightedGraph:
-    def __init__(self, vertices: int):
-        self.vertices = vertices
-        self.adjacency_list: list[list[Edge]] = [[] for _ in range(vertices)]
-\/
-    def add_edge(self, source: int, destination: int, weight: float):
-        self.adjacency_list[source].append(Edge(source, destination, weight))
-        self.adjacency_list[destination].append(Edge(destination, source, weight))
-\/
-    def get_vertices(self) -&gt; int:
-        return self.vertices
-\/
-    def get_adjacency_list(self, vertex: int) -&gt; list[Edge]:
-        return self.adjacency_list[vertex]
-\/
-    def print_graph(self):
-        for i in range(self.vertices):
-            print(f"Vertex {i}:", end="")
-            for edge in self.adjacency_list[i]:
-                print(f" {edge}", end="")
-            print()
-    </code-block>
-    </tab>
-</tabs>
-
-### 16.4 Kruskal's Algorithm
-
-<procedure title = "Kruskal's Algorithm">
-    <step>
-        <p>Consider edges in ascending order of weight.</p>
-    </step>
-    <step>
-        <p>Add next edge to tree <math>T</math> unless doing so 
-        would create a cycle.</p>
-    </step>
-</procedure>
-
-<procedure title = "Union-Find for Cycle Challenge" type="choices">
-    <step>
-        <p>Maintain a set for each connected component in <math>T
-        </math></p>
-    </step>
-    <step>
-        <p>If <math>v</math> and <math>w</math> are in same set, 
-        then adding <math>v-w</math> would create a cycle.</p>
-    </step>
-    <step>
-        <p>To add <math>v-w</math> to <math>T</math>, merge sets 
-        containing <math>v</math> and <math>w</math>.</p>
-    </step>
-</procedure>
-
-<p><format color="BlueViolet">Correctness Proof</format></p>
-
-<p>Kruskal's Algorithm is a special case of the greedy MST algorithm.
-</p>
-
-<list type="bullet">
-<li>
-<p>Suppose Kruskal's algorithm colors the edge <math>e = v–w</math> 
-black.</p>
-</li>
-<li>
-<p>Cut = set of vertices connected to <math>v</math> in tree <math>
-T</math>.</p>
-</li>
-<li>
-<p>No crossing edge is black.</p>
-</li>
-<li>
-<p>No crossing edge has lower weight.</p>
-</li>
-</list>
-
-<p><format color="BlueViolet">Property:</format> Kruskal's algorithm 
-computes MST in time proportional to <math>E \log E</math> (in the 
-worst case).</p>
-
-<p><format color="LawnGreen">Proof</format></p>
-
-<table style="header-row">
-<tr>
-    <td>Operation</td>
-    <td>Frequency</td>
-    <td>Time per op</td>
-</tr>
-<tr>
-    <td>Build pq</td>
-    <td><math>1</math></td>
-    <td><math>E \log E</math></td>
-</tr>
-<tr>
-    <td>Delete-min</td>
-    <td><math>E</math></td>
-    <td><math>\log E</math></td>
-</tr>
-<tr>
-    <td>Build pq</td>
-    <td><math>V</math></td>
-    <td><math>\log* V</math></td>
-</tr>
-<tr>
-    <td>Connected</td>
-    <td><math>E</math></td>
-    <td><math>\log* E</math></td>
-</tr>
-</table>
-
-<note>
-<p>If edges are already sorted, order of growth is <math>E \log* V
-</math>.</p>
-</note>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-\/
-public class KruskalsAlgorithm {
-    public static List&lt;Edge&gt; findMinimumSpanningTree(EdgeWeightedGraph graph) {
-        int vertices = graph.getVertices();
-        List&lt;Edge&gt; minimumSpanningTree = new ArrayList&lt;&gt;();
-        PriorityQueue&lt;Edge&gt; minHeap = new PriorityQueue&lt;&gt;(graph.getVertices());
-        UnionFind unionFind = new UnionFind(vertices);
-\/
-        for (int i = 0; i &lt; vertices; i++) {
-            for (Edge edge : graph.getAdjacencyList(i)) {
-                if (edge.getEitherVertex() &lt; i) {
-                    minHeap.offer(edge);
-                }
-            }
-        }
-\/        
-        while (!minHeap.isEmpty() && minimumSpanningTree.size() &lt; vertices - 1) {
-            Edge edge = minHeap.poll();
-            int source = edge.getEitherVertex();
-            int destination = edge.getOtherVertex(source);
-\/
-            int sourceRoot = unionFind.find(source);
-            int destinationRoot = unionFind.find(destination);
-\/
-            if (sourceRoot != destinationRoot) {
-                minimumSpanningTree.add(edge);
-                unionFind.union(sourceRoot, destinationRoot);
-            }
-        }
-\/
-        return minimumSpanningTree;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-#include "EdgeWeightedGraph.h"
-#include &lt;queue&gt;
-#include &lt;vector&gt;
-\/
-class UnionFind {
-    public:
-        explicit UnionFind(int size);
-        int find(int element);
-        void unionSets(int element1, int element2);
-\/
-    private:
-        std::vector&lt;int&gt; parent;
-        std::vector&lt;int&gt; rank;
-};
-\/
-std::vector&lt;Edge&gt; findMinimumSpanningTree(const EdgeWeightedGraph& graph) {
-    const int vertices = graph.getVertices();
-    std::vector&lt;Edge&gt; minimumSpanningTree;
-    std::priority_queue&lt;Edge, std::vector&lt;Edge&gt;, std::greater&lt;&gt;&gt; minHeap;
-    UnionFind unionFind(vertices);
-\/
-    for (int i = 0; i &lt; vertices; ++i) {
-        for (const Edge& edge : graph.getAdjacencyList(i)) {
-            minHeap.push(edge);
-        }
-    }
-\/
-    // Build the minimum spanning tree
-    while (!minHeap.empty() && minimumSpanningTree.size() &lt; vertices - 1) {
-        Edge edge = minHeap.top();
-        minHeap.pop();
-        const int source = edge.getEitherVertex();
-        int destination = edge.getOtherVertex(source);
-\/
-        // **Corrected Condition:** Check if connecting these vertices creates a cycle
-        if (unionFind.find(source) != unionFind.find(destination)) {
-            minimumSpanningTree.push_back(edge);
-            unionFind.unionSets(source, destination);
-        }
-    }
-\/
-    return minimumSpanningTree;
-}
-\/
-UnionFind::UnionFind(const int size) : parent(size), rank(size, 1) {
-    for (int i = 0; i &lt; size; ++i) {
-        parent[i] = i;
-    }
-}
-\/
-int UnionFind::find(const int element) {
-    if (parent[element] != element) {
-        parent[element] = find(parent[element]);
-    }
-    return parent[element];
-}
-\/
-void UnionFind::unionSets(const int element1, const int element2) {
-    const int root1 = find(element1);
-    const int root2 = find(element2);
-\/
-    if (root1 != root2) {
-        if (rank[root1] &gt; rank[root2]) {
-            parent[root2] = root1;
-        } else if (rank[root1] &lt; rank[root2]) {
-            parent[root1] = root2;
-        } else {
-            parent[root2] = root1;
-            rank[root1]++;
-        }
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-from typing import List
-import heapq
-\/
-from EdgeWeightedGraph import EdgeWeightedGraph, Edge
-\/
-\/
-class KruskalsAlgorithm:
-    @staticmethod
-    def find_minimum_spanning_tree(graph: EdgeWeightedGraph) -&gt; List[Edge]:
-        vertices: int = graph.get_vertices()
-        minimum_spanning_tree: List[Edge] = []
-        min_heap: list[Edge] = []
-        union_find = UnionFind(vertices)
-\/
-        # Add edges to the min-heap, ensuring no duplicates
-        for i in range(vertices):
-            for edge in graph.get_adjacency_list(i):
-                # Add edge only if its source vertex is smaller than its destination
-                if edge.source &lt; edge.destination:
-                    heapq.heappush(min_heap, edge)
-\/
-        while min_heap and len(minimum_spanning_tree) &lt; vertices - 1:
-            edge: Edge = heapq.heappop(min_heap)
-            source: int = edge.get_either_vertex()
-            destination: int = edge.get_other_vertex(source)
-\/
-            source_root: int = union_find.find(source)
-            destination_root: int = union_find.find(destination)
-\/
-            if source_root != destination_root:
-                minimum_spanning_tree.append(edge)
-                union_find.union(source_root, destination_root)
-\/
-        return minimum_spanning_tree
-\/
-\/
-class UnionFind:
-    def __init__(self, size: int):
-        self.parent: List[int] = [i for i in range(size)]
-        self.rank: List[int] = [1] * size
-\/
-    def find(self, element: int) -&gt; int:
-        if self.parent[element] != element:
-            self.parent[element] = self.find(self.parent[element])
-        return self.parent[element]
-\/
-    def union(self, element1: int, element2: int):
-        root1: int = self.find(element1)
-        root2: int = self.find(element2)
-\/
-        if root1 != root2:
-            if self.rank[root1] &gt; self.rank[root2]:
-                self.parent[root2] = root1
-            elif self.rank[root1] &lt; self.rank[root2]:
-                self.parent[root1] = root2
-            else:
-                self.parent[root2] = root1
-                self.rank[root1] += 1
-    </code-block>
-    </tab>
-</tabs>
-
-### 16.5 Prim's Algorithm
-
-<procedure title = "Prim's Algorithm">
-    <step>
-        <p>Start with vertex <math>0</math> and greedily grow tree 
-        <math>T</math></p>
-    </step>
-    <step>
-        <p>Add to <math>T</math> the min weight edge with exactly one 
-        endpoint in <math>T</math>.</p>
-    </step>
-    <step>
-        <p>Repeat until <math>V - 1</math> edges.</p>
-    </step>
-</procedure>
-
-<p><format color="BlueViolet">Correctness Proof</format></p>
-
-<p>Prim's Algorithm is a special case of the greedy MST algorithm.
-</p>
-
-<list>
-<li>
-<p>Suppose edge e = min weight edge connecting a vertex on the tree
-to a vertex not on the tree.</p>
-</li>
-<li>
-<p>Cut = set of vertices connected on tree.</p>
-</li>
-<li>
-<p>No crossing edge is black.</p>
-</li>
-<li>
-<p>No crossing edge has lower weight.</p>
-</li>
-</list>
-
-#### 16.5.1 Lazy Implementation
-
-<procedure title = "Lazy Implementation">
-    <step>
-        <p>Maintain a PQ of <format color="OrangeRed">edges
-        </format> with (at least) one endpoint in T.</p>
-    </step>
-    <step>
-        <p>Key = edge; priority = weight of edge.</p>
-    </step>
-    <step>
-        <p>Delete-min to determine next edge <math>e = v-w</math> to
-        add to <math>T</math>.</p>
-    </step>
-    <step>
-        <p>Disregard if both endpoints <math>v</math> and <math>w
-        </math> are in <math>T</math>.</p>
-    </step>
-    <step>
-        <p>Otherwise, let <math>w</math> be the vertex not in <math>T
-        </math>.</p>
-        <p>Add to PQ any edge incident to <math>w</math> (assuming 
-        other endpoint not in T)</p>
-        <p>Add <math>e</math> to <math>T</math> and mark <math>w
-        </math>.</p>
-    </step>
-</procedure>
-
-<p><format color="BlueViolet">Property:</format> Lazy Prim's 
-algorithm computes the MST in time proportional to <math>E \log E
-</math> and extra space proportional to <math>E</math> (in the worst
-case).</p>
-
-<table style="header-row">
-<tr>
-    <td>Operation</td>
-    <td>Frequency</td>
-    <td>Binary Heap</td>
-</tr>
-<tr>
-    <td>Delete min</td>
-    <td><math>E</math></td>
-    <td><math>\log E</math></td>
-</tr>
-<tr>
-    <td>Insert</td>
-    <td><math>E</math></td>
-    <td><math>\log E</math></td>
-</tr>
-</table>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-\/
-public class PrimMSTLazy {
-    private final boolean[] marked; 
-    private final PriorityQueue&lt;Edge&gt; pq; 
-    private final List&lt;Edge&gt; mst; 
-    private double weight; 
-\/
-    public PrimMSTLazy(EdgeWeightedGraph graph) {
-        marked = new boolean[graph.getVertices()];
-        pq = new PriorityQueue&lt;&gt;();
-        mst = new ArrayList&lt;&gt;();
-        weight = 0.0;
-\/        
-        visit(graph, 0);
-        while (!pq.isEmpty()) {
-            Edge e = pq.poll(); 
-\/
-            int v = e.getEitherVertex();
-            int w = e.getOtherVertex(v);
-\/
-            if (marked[v] && marked[w]) continue; 
-            mst.add(e); 
-            weight += e.getWeight();
-\/
-            if (!marked[v]) visit(graph, v); 
-            if (!marked[w]) visit(graph, w); 
-        }
-    }
-\/
-    private void visit(EdgeWeightedGraph graph, int v) {
-        marked[v] = true; 
-\/
-        for (Edge e : graph.getAdjacencyList(v)) {
-            if (!marked[e.getOtherVertex(v)]) {
-                pq.offer(e);
-            }
-        }
-    }
-\/
-    public Iterable&lt;Edge&gt; edges() {
-        return mst;
-    }
-\/
-    public double weight() {
-        return weight;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-#include &lt;iostream&gt;
-#include &lt;vector&gt;
-#include &lt;queue&gt;
-#include "EdgeWeightedGraph.h"
-\/
-class PrimMSTLazy {
-private:
-    std::vector&lt;bool&gt; marked;
-    std::priority_queue&lt;Edge, std::vector&lt;Edge&gt;, std::greater&lt;&gt;&gt; pq;
-    std::vector&lt;Edge&gt; mst;
-    double weight;
-\/
-    void visit(const EdgeWeightedGraph& graph, int v) {
-        marked[v] = true;
-        for (const Edge& e : graph.getAdjacencyList(v)) {
-            if (!marked[e.getOtherVertex(v)]) {
-                pq.push(e);
-            }
-        }
-    }
-\/
-public:
-    explicit PrimMSTLazy(const EdgeWeightedGraph& graph) : 
-        marked(graph.getVertices(), false), weight(0.0)  {
-\/
-        visit(graph, 0); 
-        while (!pq.empty()) {
-            Edge e = pq.top();
-            pq.pop();
-\/
-            int v = e.getEitherVertex();
-            int w = e.getOtherVertex(v);
-\/
-            if (marked[v] && marked[w]) continue; 
-            mst.push_back(e);
-            weight += e.getWeight();
-\/
-            if (!marked[v]) visit(graph, v);
-            if (!marked[w]) visit(graph, w);
-        }
-    }
-\/
-    [[nodiscard]] const std::vector&lt;Edge&gt;& edges() const {
-        return mst;
-    }
-\/
-    [[nodiscard]] double getWeight() const {
-        return weight;
-    }
-};
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-from typing import List, Iterable
-import heapq  
-\/
-from EdgeWeightedGraph import EdgeWeightedGraph, Edge
-\/
-\/
-class PrimMSTLazy:
-    def __init__(self, graph: EdgeWeightedGraph):
-        self.marked: List[bool] = [False] * graph.get_vertices()
-        self.pq: List[Edge] = []  # Min-heap for edges
-        self.mst: List[Edge] = []  # Stores the MST edges
-        self.weight: float = 0.0
-\/
-        self._visit(graph, 0)  # Start from vertex 0
-        while self.pq:
-            edge: Edge = heapq.heappop(self.pq)
-\/
-            v: int = edge.get_either_vertex()
-            w: int = edge.get_other_vertex(v)
-\/
-            if self.marked[v] and self.marked[w]:
-                continue  # Ignore if both vertices are already in the MST
-\/
-            self.mst.append(edge)
-            self.weight += edge.get_weight()
-\/
-            if not self.marked[v]:
-                self._visit(graph, v)
-            if not self.marked[w]:
-                self._visit(graph, w)
-\/
-    def _visit(self, graph: EdgeWeightedGraph, v: int):
-        """Adds edges connected to vertex v to the priority queue."""
-        self.marked[v] = True
-        for edge in graph.get_adjacency_list(v):
-            if not self.marked[edge.get_other_vertex(v)]:
-                heapq.heappush(self.pq, edge)
-\/
-    def edges(self) -&gt; Iterable[Edge]:
-        return self.mst
-\/
-    def weight(self) -&gt; float:
-        return self.weight
-    </code-block>
-    </tab>
-</tabs>
-
-#### 16.5.2 Eager Implementation
-
-<p><format color="BlueViolet">Property</format></p>
-
-<p>Running time depends on PQ implementation: <math>V</math> insert, 
-<math>V</math> delete-min, <math>E</math> decrease-key.</p>
-
-<table style="header-row">
-<tr>
-    <td>PQ Implementation</td>
-    <td>Insert</td>
-    <td>Delete-Min</td>
-    <td>Decrease-Key</td>
-    <td>Total</td>
-</tr>
-<tr>
-    <td>Array</td>
-    <td><math>1</math></td>
-    <td><math>V</math></td>
-    <td><math>1</math></td>
-    <td><math>V ^ {2}</math></td>
-</tr>
-<tr>
-    <td>Binary Heap</td>
-    <td><math>\log V</math></td>
-    <td><math>\log V</math></td>
-    <td><math>\log V</math></td>
-    <td><math>E \log V</math></td>
-</tr>
-<tr>
-    <td><p>d-way Heap</p><p>(Johnson 1975)</p></td>
-    <td><math>\log_{d} V</math></td>
-    <td><math>d \log_{d} V</math></td>
-    <td><math>\log_{d} V</math></td>
-    <td><math>E \log_{\frac {E}{V}} V</math></td>
-</tr>
-<tr>
-    <td><p>Fibonacci Heap</p><p>(Fredman-Tarjan 1984)</p></td>
-    <td><math>1^{*}</math></td><td><math>\log V ^ {*}</math></td>
-    <td><math>1^{*}</math></td><td><math>E + \log V</math></td>
-</tr>
-</table>
-
-<p>*: amortized</p>
-
-<p><format color="BlueViolet">Bottom Line</format></p>
-
-<list type="bullet">
-<li>
-    <p>Array implementation optimal for dense graph.</p>
-</li>
-<li>
-    <p>Binary heap much faster for sparse graphs.</p>
-</li>
-<li>
-    <p>4-way heap worth the trouble in performance-critical 
-    situations.</p>
-</li>
-<li>
-    <p>Fibonacci heap best in theory, but not worth implementing.</p>
-</li>
-</list>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-import java.util.ArrayList;
-import java.util.List;
-\/
-public class PrimMST {
-    private final boolean[] marked;
-    private final Edge[] edgeTo;
-    private final double[] distTo; 
-    private final IndexedPriorityQueue pq; 
-    private final List&lt;Edge&gt; mst; 
-\/
-    public PrimMST(EdgeWeightedGraph graph) {
-        marked = new boolean[graph.getVertices()];
-        edgeTo = new Edge[graph.getVertices()];
-        distTo = new double[graph.getVertices()];
-        pq = new IndexedPriorityQueue(graph.getVertices());
-        mst = new ArrayList&lt;&gt;();
-\/
-        for (int v = 0; v &lt; graph.getVertices(); v++) {
-            distTo[v] = Double.POSITIVE_INFINITY;
-        }
-        distTo[0] = 0.0;
-        pq.insert(0, 0.0);
-        while (!pq.isEmpty()) {
-            visit(graph, pq.delMin());
-        }
-    }
-\/    
-    private void visit(EdgeWeightedGraph graph, int vertex) {
-        marked[vertex] = true;
-        for (Edge edge : graph.getAdjacencyList(vertex)) {
-            int w = edge.getOtherVertex(vertex);
-            if (marked[w]) continue;
-            if (edge.getWeight() &lt; distTo[w]) {
-                edgeTo[w] = edge;
-                distTo[w] = edge.getWeight();
-                if (pq.contains(w)) {
-                    pq.decreaseKey(w, distTo[w]);
-                } else {
-                    pq.insert(w, distTo[w]);
-                }
-            }
-        }
-    }
-\/
-    public Iterable&lt;Edge&gt; edges() {
-        for (int v = 1; v &lt; edgeTo.length; v++) {
-            if (edgeTo[v] != null) {
-                mst.add(edgeTo[v]);
-            }
-        }
-        return mst;
-    }
-\/
-    public double weight() {
-        double weight = 0.0;
-        for (Edge edge : mst) {
-            weight += edge.getWeight();
-        }
-        return weight;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-#include "IndexedPriorityQueue.h"
-#include "EdgeWeightedGraph.h"
-#include &lt;vector&gt;
-#include &lt;limits&gt;
-\/
-class PrimMST {
-private:
-    std::vector&lt;bool&gt; marked;
-    std::vector&lt;Edge&gt; edgeTo;
-    std::vector&lt;double&gt; distTo;
-    IndexedPriorityQueue pq;
-    std::vector&lt;Edge&gt; mst;
-\/    
-    void visit(const EdgeWeightedGraph& graph, int vertex) {
-        marked[vertex] = true;
-        for (const Edge& edge : graph.getAdjacencyList(vertex)) {
-            const int w = edge.getOtherVertex(vertex);
-            if (marked[w]) continue;
-            if (edge.getWeight() &lt; distTo[w]) {
-                edgeTo[w] = edge;
-                distTo[w] = edge.getWeight();
-                if (pq.contains(w)) {
-                    pq.decreaseKey(w, distTo[w]);
-                } else {
-                    pq.insert(w, distTo[w]);
-                }
-            }
-        }
-    }
-\/
-public:
-    explicit PrimMST(const EdgeWeightedGraph& graph) :
-        marked(graph.getVertices(), false),
-        edgeTo(graph.getVertices()),
-        distTo(graph.getVertices(), std::numeric_limits&lt;double&gt;::infinity()),
-        pq(graph.getVertices()) {
-\/
-        distTo[0] = 0.0;
-        pq.insert(0, 0.0);
-        while (!pq.isEmpty()) {
-            visit(graph, pq.delMin());
-        }
-    }
-\/
-    const std::vector&lt;Edge&gt;& edges() {
-        mst.clear();
-        for (int v = 1; v &lt; edgeTo.size(); v++) {
-            if (edgeTo[v].getWeight() != 0.0) {
-                mst.push_back(edgeTo[v]);
-            }
-        }
-        return mst;
-    }
-\/
-    [[nodiscard]] double weight() const {
-        double weight = 0.0;
-        for (const Edge& edge : mst) {
-            weight += edge.getWeight();
-        }
-        return weight;
-    }
-};
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-from typing import List, Iterable
-\/
-from EdgeWeightedGraph import EdgeWeightedGraph, Edge
-from IndexedPriorityQueue import IndexedPriorityQueue 
-\/
-\/
-class PrimMSTEager:
-    def __init__(self, graph: EdgeWeightedGraph):
-        self.marked: List[bool] = [False] * graph.get_vertices()
-        self.edge_to: List[Edge] = [None] * graph.get_vertices()
-        self.dist_to: List[float] = [float('inf')] * graph.get_vertices()
-        self.pq: IndexedPriorityQueue = IndexedPriorityQueue(graph.get_vertices())
-        self.mst: List[Edge] = []
-\/
-        self.dist_to[0] = 0.0  
-        self.pq.insert(0, 0.0)
-\/
-        while not self.pq.is_empty():
-            self._visit(graph, self.pq.del_min())
-\/
-    def _visit(self, graph: EdgeWeightedGraph, vertex: int):
-        self.marked[vertex] = True
-        for edge in graph.get_adjacency_list(vertex):
-            w: int = edge.get_other_vertex(vertex)
-            if self.marked[w]:
-                continue
-\/
-            if edge.get_weight() &lt; self.dist_to[w]:
-                self.dist_to[w] = edge.get_weight()
-                self.edge_to[w] = edge
-                if self.pq.contains(w):
-                    self.pq.decrease_key(w, self.dist_to[w])
-                else:
-                    self.pq.insert(w, self.dist_to[w])
-\/
-    def edges(self) -&gt; Iterable[Edge]:
-        """Returns an iterable of edges in the MST."""
-        for v in range(1, len(self.edge_to)):
-            if self.edge_to[v] is not None:
-                self.mst.append(self.edge_to[v])
-        return self.mst
-\/
-    def weight(self) -&gt; float:
-        """Returns the total weight of the MST."""
-        return sum(edge.get_weight() for edge in self.mst)
-    </code-block>
-    </tab>
-</tabs>
-
-### 16.6 MST Context
-
-#### 16.6.1 Euclidean MST
-
-<p><format color="OrangeRed">Euclidean MST:</format> Given <math>N
-</math> points in the plane, find MST connecting them, where the
-distances between point pairs are their <format color=
-"OrangeRed">Euclidean</format> distances.</p>
-
-<p><format color="LawnGreen">Methods:</format> Exploit geometry
-and do it in <math>\sim cN \log N</math></p>
-
-#### 16.6.2 Single Link Clustering
-
-<p><format color="BlueViolet">Definitions</format></p>
-
-<list type="bullet">
-<li>
-    <p><format color="DarkOrange">k-clustering:</format> Divide
-    a set of objects calssify into <math>k</math> coherent groups.</p>
-</li>
-<li>
-    <p><format color="DarkOrange">Distance Function:</format> 
-    Numeric value specifying "closeness" of two objects.</p>
-</li>
-<li>
-    <p><format color="DarkOrange">Single link:</format> Distance 
-    between two clusters equals the distance between the two closest
-    objects (one in each cluster).</p>
-</li>
-<li>
-    <p><format color="DarkOrange">Single-link clustering:</format> 
-    Given an integer k, find a k-clustering that maximizes the 
-    distance between two closest clusters.</p>
-</li>
-</list>
-
-<img src="../images_data/d16-6-1.png" alt = "Clustering"/>
-
-<procedure title = '"Well-known" algorithm in science literature for single-link clustering:'>
-    <step>
-        <p>Form <math>V</math> clusters of one object each.</p>
-    </step>
-    <step>
-        <p>Find the closest pair of objects such that each object is 
-        in a different cluster, and merge the two clusters.</p>
-    </step>
-    <step>
-        <p>Repeat until there are exactly <math>k</math> clusters.</p>
-    </step>
-</procedure>
-
-<note>
-<p>This is Kruskal's algorithm (stop when <math>k</math> connected 
-components).</p>
-<p>Run Prim's algorithm and delete <math>k–1</math> max weight edges.</p>
-</note>
-
-<p><format color="BlueViolet">Applications</format></p>
-
-<list>
-<li>
-<p>Routing in mobile ad hoc networks.</p>
-</li>
-<li>
-<p>Document categorization for web search.</p>
-</li>
-<li>
-<p>Similarity searching in medical image databases.</p>
-</li>
-<li>
-<p>Skycat: cluster <math>10 ^ {9}</math> sky objects into stars, 
-quasars, galaxies.</p>
-</li>
-</list>
-
-### 16.7 Important Questions
-
-<list type="decimal">
-<li>
-    <p><format color="Fuchsia">Q: Bottleneck minimum spanning tree:
-    </format> Given a connected edge-weighted graph, design an 
-    efficient algorithm to find a minimum bottleneck spanning tree. 
-    The bottleneck capacity of a spanning tree is the weights of its 
-    largest edge. A minimum bottleneck spanning tree is a spanning 
-    tree of minimum bottleneck capacity.</p>
-    <p><format color="LawnGreen">A:</format> Prove that an MST is 
-    a minimum bottleneck spanning tree.</p>
-</li>
-<li>
-    <p><format color="Fuchsia">Q: Is an edge in a MST:</format> 
-    Given an edge-weighted graph <math>G</math> and an edge <math>e
-    </math>, design a linear-time algorithm to determine whether 
-    <math>e</math> appears in some MST of <math>G</math>.</p>
-    <p>Note: Since your algorithm must take linear time in the worst
-    case, you cannot afford to compute the MST itself.</p>
-    <p><format color="LawnGreen">A:</format> Consider the subgraph 
-    <math>G'</math> of <math>G</math> containing only those edges 
-    whose weight is strictly less than that of <math>e</math>.</p>
-</li>
-<li>
-    <p><format color="Fuchsia">Q: Minimum-weight feedback edge set:
-    </format> A feedback edge set of a graph is a subset of edges that
-    contains at least one edge from every cycle in the graph. If the 
-    edges of a feedback edge set are removed, the resulting graph is 
-    acyclic. Given an edge-weighted graph, design an efficient 
-    algorithm to find a feedback edge set of minimum weight. Assume 
-    the edge weights are positive.</p>
-    <p><format color="LawnGreen">A:</format> Complement of an MST.
-    </p>
-</li>
-</list>

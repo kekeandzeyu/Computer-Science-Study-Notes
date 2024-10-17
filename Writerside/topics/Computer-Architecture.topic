@@ -127,8 +127,7 @@ Conversion"/>
                     <li>
                         <p>How many multiples of 64 fit in my number (73)?</p>
                         <p>
-                            <math>73 – 64 = 9</math>
-                            left over.
+                            <math>73 – 64 = 9</math> left over.
                         </p>
                     </li>
                     <li>
@@ -163,9 +162,7 @@ Conversion"/>
             <chapter title="1.2 Unsigned Integers" id="1-2-unsigned-integers">
                 <list type="bullet">
                     <li>
-                        <p>Can represent
-                            <math>2N</math>
-                            different numbers.
+                        <p>Can represent <math>2N</math> different numbers.
                         </p>
                     </li>
                     <li>

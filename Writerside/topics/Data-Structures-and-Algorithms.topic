@@ -237,7 +237,7 @@
                             <math>N \log N</math>
                         </td>
                         <td>Linearithmatic</td>
-                        <td>see <a href="Data-Structures-and-Algorithms-1.md" anchor=
+                        <td>see <a href="Data-Structures-and-Algorithms-1.topic" anchor=
                                 "mergesort" summary="Mergesort">mergesort lecture</a></td>
                         <td>divide and conquer</td>
                         <td>mergesort</td>

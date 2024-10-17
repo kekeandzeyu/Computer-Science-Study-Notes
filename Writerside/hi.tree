@@ -10,7 +10,7 @@
     <toc-element topic="C-Programming.topic"/>
     <toc-element topic="Computer-Architecture.topic"/>
     <toc-element topic="Data-Structures-and-Algorithms.topic">
-        <toc-element topic="Data-Structures-and-Algorithms-1.md"/>
+        <toc-element topic="Data-Structures-and-Algorithms-1.topic"/>
         <toc-element topic="Data-Structures-and-Algorithms-2.md"/>
         <toc-element topic="Data-Structures-and-Algorithms-3.md"/>
         <toc-element topic="Data-Structures-and-Algorithms-4.md"/>

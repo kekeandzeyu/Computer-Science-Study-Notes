@@ -5,6 +5,1303 @@
 <secondary-label ref="beta"></secondary-label>
 <secondary-label ref="wip"></secondary-label>
 
+## 16 Minimum Spanning Trees
+
+### 16.1 Introduction to MSTs
+
+<p><format color="DarkOrange">Spanning tree:</format> A <format 
+color="OrangeRed">spanning tree</format> is a subgraph <math>T
+</math> that is both a <format color="OrangeRed">tree</format> 
+(connected and acyclic) and <format color="OrangeRed">spanning
+</format> (includes all of the vertices).</p>
+
+<img src="../images_data/d16-1-1.png" alt="Spanning Tree"/>
+
+<p><format color="BlueViolet">Application:</format></p>
+
+<list type="bullet">
+<li>
+    <p>Dithering</p>
+</li>
+<li>
+    <p>Cluster analysis</p>
+</li>
+<li>
+    <p>Max bottleneck paths</p>
+</li>
+<li>
+    <p>Real-time face verification</p>
+</li>
+<li>
+    <p>LDPC codes for error correction</p>
+</li>
+<li>
+    <p>Image registration with Renyi entropy</p>
+</li>
+<li>
+    <p>Find road networks in satellite and aerial imagery</p>
+</li>
+<li>
+    <p>Reducing data storage in sequencing amino acids in a protein</p>
+</li>
+<li>
+    <p>Model locality of particle interactions in turbulent fluid flows
+    </p>
+</li>
+<li>
+    <p>Autoconfig protocol for Ethernet bridging to avoid cycles in a 
+    network</p>
+</li>
+<li>
+    <p>Approximation algorithms for NP-hard problems (e.g., TSP, Steiner 
+    tree)</p>
+</li>
+<li>
+    <p>Network design (communication, electrical, hydraulic, computer, 
+    road).</p>
+</li>
+</list>
+
+### 16.2 Greedy Algorithm
+
+<p><format color="BlueViolet">Definitions</format></p>
+
+<list type="bullet">
+<li>
+    <p><format color="DarkOrange">Cut:</format> A cut in a graph is a 
+    partition of its vertices into two (nonempty) sets.</p>
+</li>
+<li>
+    <p><format color="DarkOrange">Crossing edge:</format> A crossing 
+    edge connects a vertex in one set with a vertex in the other.</p>
+</li>
+</list>
+
+<img src="../images_data/d16-2-1.png" alt="Greedy Algorithm"/>
+
+<procedure title="Greedy Algorithm for MST">
+<step>
+    <p>Start with all edges colored gray.</p>
+</step>
+<step>
+    <p>Find cut with no black crossing edges; color its 
+    min-weight edge black.</p>
+</step>
+<step>
+    <p>Repeat until <math>V - 1</math> edges are colored black.</p>
+</step>
+</procedure>
+
+<p><format color="BlueViolet">Correctness Proof</format> </p>
+
+<list type="decimal">
+<li>
+    <p>Given any cut, the crossing edge of min weight is in MST.</p>
+    <p><format color="LawnGreen">Proof</format></p>
+    <p>Suppose min-weight crossing edge <math>e</math> is not in the 
+    MST.</p>
+    <list type="bullet">
+    <li>
+    <p>Adding <math>e</math> to the MST creates a cycle.</p>
+    </li>
+    <li>
+    <p>Some other edge <math>f</math> in cycle must be a crossing 
+    edge.</p>
+    </li>
+    <li>
+    <p>Removing <math>f</math> and adding <math>e</math> is also a
+    spanning edge.</p>
+    </li>
+    <li>
+    <p>Since weight of <math>e</math> is less than the weight of 
+    <math>f</math>, that spanning tree is lower height.</p>
+    </li>
+    <li>
+    <p>Contradiction.</p>
+    </li>
+    </list>
+<img src="../images_data/d16-2-2.png" alt = "Proof"/>
+</li>
+<li>
+<p>The greedy algorithm computes the MST.</p>
+
+<p><format color="MediumVioletRed">Proof</format></p>
+    <list type="bullet"> 
+    <li>
+    <p>Any edge colored black is in the MST (via cut property).</p>
+    </li>
+    <li>
+    <p>Fewer than <math>V - 1</math> black edges => cut with no 
+    black crossing edges. (consider cut whose vertices are one 
+    connected component)</p>
+    </li>
+    </list>
+</li>
+</list>
+
+<warning>
+<p>The proof above is under the simplifying assumptions below: </p>
+<list type="bullet">
+<li>
+    <p>Edge weights are distinct.</p>
+</li>
+<li>
+    <p>Graph is connected.</p>
+</li>
+</list>
+</warning>
+
+### 16.3 Edge-weighted Graph Implementation
+
+<p><format color="BlueViolet">Edge</format></p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+public class Edge implements Comparable&lt;Edge&gt; {
+    private final int source;
+    private final int destination;
+    private final double weight;
+\/
+    public Edge(int source, int destination, double weight) {
+        this.source = source;
+        this.destination = destination;
+        this.weight = weight;
+    }
+\/
+    public int getEitherVertex() {
+        return source;
+    }
+\/
+    public int getOtherVertex(int vertex) {
+        if (vertex == source) {
+            return destination;
+        } else if (vertex == destination) {
+            return source;
+        } else {
+            throw new IllegalArgumentException("Invalid vertex");
+        }
+    }
+\/
+    public double getWeight() {
+        return weight;
+    }
+\/
+    @Override
+    public String toString() {
+        return "(" + source + " - " + destination + " : " + weight + ")";
+    }
+\/
+    @Override
+    public int compareTo(Edge other) {
+        return Double.compare(this.weight, other.weight);
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++ (Edge.h)">
+    <code-block lang="c++" collapsible="true">
+#ifndef EDGE_H
+#define EDGE_H
+\/
+#include &lt;string&gt;
+\/
+class Edge {
+private:
+    int source;
+    int destination;
+    double weight;
+\/
+public:
+    Edge(int source, int destination, double weight);
+    [[nodiscard]] int getEitherVertex() const;
+    [[nodiscard]] int getOtherVertex(int vertex) const;
+    [[nodiscard]] double getWeight() const;
+    bool operator&lt;(const Edge& other) const;
+    [[nodiscard]] std::string toString() const;
+};
+\/
+#endif // EDGE_H
+    </code-block>
+    </tab>
+    <tab title="C++ (Edge.cpp)">
+    <code-block lang="c++" collapsible="true">
+#include "Edge.h"
+#include &lt;stdexcept&gt;
+#include &lt;sstream&gt;
+#include &lt;iomanip&gt;
+\/
+Edge::Edge(const int source, const int destination, const double weight)
+    : source(source), destination(destination), weight(weight) {}
+\/
+int Edge::getEitherVertex() const {
+    return source;
+}
+\/
+int Edge::getOtherVertex(const int vertex) const {
+    if (vertex == source) {
+        return destination;
+    } else if (vertex == destination) {
+        return source;
+    } else {
+        throw std::invalid_argument("Invalid vertex");
+    }
+}
+\/
+double Edge::getWeight() const {
+    return weight;
+}
+\/
+bool Edge::operator&lt;(const Edge& other) const {
+    return weight &lt; other.weight;
+}
+\/
+std::string Edge::toString() const {
+    std::ostringstream oss;
+    oss &lt;&lt; "(" &lt;&lt; source &lt;&lt; " - " &lt;&lt; destination &lt;&lt; " : " &lt;&lt; std::fixed &lt;&lt; std::setprecision(2) &lt;&lt; weight &lt;&lt; ")";
+    return oss.str();
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+class Edge:
+    def __init__(self, source: int, destination: int, weight: float):
+        self.source = source
+        self.destination = destination
+        self.weight = weight
+\/
+    def get_either_vertex(self) -&gt; int:
+        return self.source
+\/
+    def get_other_vertex(self, vertex: int) -&gt; int:
+        if vertex == self.source:
+            return self.destination
+        elif vertex == self.destination:
+            return self.source
+        else:
+            raise ValueError("Invalid vertex")
+\/
+    def get_weight(self) -&gt; float:
+        return self.weight
+\/
+    def __str__(self) -&gt; str:
+        return f"({self.source} - {self.destination} : {self.weight})"
+\/
+    def __lt__(self, other: 'Edge') -&gt; bool:
+        return self.weight &lt; other.weight
+    </code-block>
+    </tab>
+</tabs>
+
+<p><format color="BlueViolet">Edge-weighted Graph</format></p>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.ArrayList;
+import java.util.List;
+\/
+public class EdgeWeightedGraph {
+    private final int vertices;
+    private final List&lt;Edge&gt;[] adjacencyList;
+\/
+    public EdgeWeightedGraph(int vertices) {
+        this.vertices = vertices;
+        this.adjacencyList = new ArrayList[vertices];
+        for (int i = 0; i &lt; vertices; i++) {
+            adjacencyList[i] = new ArrayList&lt;&gt;();
+        }
+    }
+\/
+    public void addEdge(int source, int destination, double weight) {
+        adjacencyList[source].add(new Edge(source, destination, weight));
+        adjacencyList[destination].add(new Edge(destination, source, weight));
+    }
+\/
+    public int getVertices() {
+        return vertices;
+    }
+\/
+    public List&lt;Edge&gt; getAdjacencyList(int vertex) {
+        return adjacencyList[vertex];
+    }
+\/
+    public void printGraph() {
+        for (int i = 0; i &lt; vertices; i++) {
+            List&lt;Edge&gt; edges = adjacencyList[i];
+            System.out.print("Vertex " + i + ":");
+            for (Edge edge : edges) {
+                System.out.print(" " + edge);
+            }
+            System.out.println();
+        }
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++ (EdgeWeightedGraph.h)">
+    <code-block lang="c++" collapsible="true">
+#ifndef EDGEWEIGHTEDGRAPH_H
+#define EDGEWEIGHTEDGRAPH_H
+\/
+#include &lt;vector7gt;
+#include "Edge.h"
+\/
+class EdgeWeightedGraph {
+private:
+    int vertices;
+    std::vector&lt;std::vector&lt;Edge&gt;&gt; adjacencyList;
+\/
+public:
+    explicit EdgeWeightedGraph(int vertices);
+    void addEdge(int source, int destination, double weight);
+    [[nodiscard]] int getVertices() const;
+    [[nodiscard]] const std::vector&lt;Edge&gt;& getAdjacencyList(int vertex) const;
+    void printGraph() const;
+};
+\/
+#endif // EDGEWEIGHTEDGRAPH_H
+    </code-block>
+    </tab>
+    <tab title="C++ (EdgeWeightedGraph.cpp)">
+    <code-block lang="c++" collapsible="true">
+#include "EdgeWeightedGraph.h"
+#include &lt;iostream&gt;
+\/
+EdgeWeightedGraph::EdgeWeightedGraph(const int vertices)
+    : vertices(vertices), adjacencyList(vertices) {}
+\/
+void EdgeWeightedGraph::addEdge(const int source, const int destination, const double weight) {
+    const Edge edge(source, destination, weight);
+    adjacencyList[source].push_back(edge);
+    adjacencyList[destination].emplace_back(destination, source, weight);
+}
+\/
+int EdgeWeightedGraph::getVertices() const {
+    return vertices;
+}
+\/
+const std::vector&lt;Edge&gt;& EdgeWeightedGraph::getAdjacencyList(int vertex) const {
+    return adjacencyList[vertex];
+}
+\/
+void EdgeWeightedGraph::printGraph() const {
+    for (int i = 0; i &lt; vertices; ++i) {
+        const std::vector&lt;Edge&gt;& edges = adjacencyList[i];
+        std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
+        for (const Edge& edge : edges) {
+            std::cout &lt;&lt; " " &lt;&lt; edge.toString();
+        }
+        std::cout &lt;&lt; std::endl;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+from Edge import Edge
+\/
+\/
+class EdgeWeightedGraph:
+    def __init__(self, vertices: int):
+        self.vertices = vertices
+        self.adjacency_list: list[list[Edge]] = [[] for _ in range(vertices)]
+\/
+    def add_edge(self, source: int, destination: int, weight: float):
+        self.adjacency_list[source].append(Edge(source, destination, weight))
+        self.adjacency_list[destination].append(Edge(destination, source, weight))
+\/
+    def get_vertices(self) -&gt; int:
+        return self.vertices
+\/
+    def get_adjacency_list(self, vertex: int) -&gt; list[Edge]:
+        return self.adjacency_list[vertex]
+\/
+    def print_graph(self):
+        for i in range(self.vertices):
+            print(f"Vertex {i}:", end="")
+            for edge in self.adjacency_list[i]:
+                print(f" {edge}", end="")
+            print()
+    </code-block>
+    </tab>
+</tabs>
+
+### 16.4 Kruskal's Algorithm
+
+<procedure title = "Kruskal's Algorithm">
+    <step>
+        <p>Consider edges in ascending order of weight.</p>
+    </step>
+    <step>
+        <p>Add next edge to tree <math>T</math> unless doing so 
+        would create a cycle.</p>
+    </step>
+</procedure>
+
+<procedure title = "Union-Find for Cycle Challenge" type="choices">
+    <step>
+        <p>Maintain a set for each connected component in <math>T
+        </math></p>
+    </step>
+    <step>
+        <p>If <math>v</math> and <math>w</math> are in same set, 
+        then adding <math>v-w</math> would create a cycle.</p>
+    </step>
+    <step>
+        <p>To add <math>v-w</math> to <math>T</math>, merge sets 
+        containing <math>v</math> and <math>w</math>.</p>
+    </step>
+</procedure>
+
+<p><format color="BlueViolet">Correctness Proof</format></p>
+
+<p>Kruskal's Algorithm is a special case of the greedy MST algorithm.
+</p>
+
+<list type="bullet">
+<li>
+<p>Suppose Kruskal's algorithm colors the edge <math>e = v–w</math> 
+black.</p>
+</li>
+<li>
+<p>Cut = set of vertices connected to <math>v</math> in tree <math>
+T</math>.</p>
+</li>
+<li>
+<p>No crossing edge is black.</p>
+</li>
+<li>
+<p>No crossing edge has lower weight.</p>
+</li>
+</list>
+
+<p><format color="BlueViolet">Property:</format> Kruskal's algorithm 
+computes MST in time proportional to <math>E \log E</math> (in the 
+worst case).</p>
+
+<p><format color="LawnGreen">Proof</format></p>
+
+<table style="header-row">
+<tr>
+    <td>Operation</td>
+    <td>Frequency</td>
+    <td>Time per op</td>
+</tr>
+<tr>
+    <td>Build pq</td>
+    <td><math>1</math></td>
+    <td><math>E \log E</math></td>
+</tr>
+<tr>
+    <td>Delete-min</td>
+    <td><math>E</math></td>
+    <td><math>\log E</math></td>
+</tr>
+<tr>
+    <td>Build pq</td>
+    <td><math>V</math></td>
+    <td><math>\log* V</math></td>
+</tr>
+<tr>
+    <td>Connected</td>
+    <td><math>E</math></td>
+    <td><math>\log* E</math></td>
+</tr>
+</table>
+
+<note>
+<p>If edges are already sorted, order of growth is <math>E \log* V
+</math>.</p>
+</note>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+\/
+public class KruskalsAlgorithm {
+    public static List&lt;Edge&gt; findMinimumSpanningTree(EdgeWeightedGraph graph) {
+        int vertices = graph.getVertices();
+        List&lt;Edge&gt; minimumSpanningTree = new ArrayList&lt;&gt;();
+        PriorityQueue&lt;Edge&gt; minHeap = new PriorityQueue&lt;&gt;(graph.getVertices());
+        UnionFind unionFind = new UnionFind(vertices);
+\/
+        for (int i = 0; i &lt; vertices; i++) {
+            for (Edge edge : graph.getAdjacencyList(i)) {
+                if (edge.getEitherVertex() &lt; i) {
+                    minHeap.offer(edge);
+                }
+            }
+        }
+\/        
+        while (!minHeap.isEmpty() && minimumSpanningTree.size() &lt; vertices - 1) {
+            Edge edge = minHeap.poll();
+            int source = edge.getEitherVertex();
+            int destination = edge.getOtherVertex(source);
+\/
+            int sourceRoot = unionFind.find(source);
+            int destinationRoot = unionFind.find(destination);
+\/
+            if (sourceRoot != destinationRoot) {
+                minimumSpanningTree.add(edge);
+                unionFind.union(sourceRoot, destinationRoot);
+            }
+        }
+\/
+        return minimumSpanningTree;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include "EdgeWeightedGraph.h"
+#include &lt;queue&gt;
+#include &lt;vector&gt;
+\/
+class UnionFind {
+    public:
+        explicit UnionFind(int size);
+        int find(int element);
+        void unionSets(int element1, int element2);
+\/
+    private:
+        std::vector&lt;int&gt; parent;
+        std::vector&lt;int&gt; rank;
+};
+\/
+std::vector&lt;Edge&gt; findMinimumSpanningTree(const EdgeWeightedGraph& graph) {
+    const int vertices = graph.getVertices();
+    std::vector&lt;Edge&gt; minimumSpanningTree;
+    std::priority_queue&lt;Edge, std::vector&lt;Edge&gt;, std::greater&lt;&gt;&gt; minHeap;
+    UnionFind unionFind(vertices);
+\/
+    for (int i = 0; i &lt; vertices; ++i) {
+        for (const Edge& edge : graph.getAdjacencyList(i)) {
+            minHeap.push(edge);
+        }
+    }
+\/
+    // Build the minimum spanning tree
+    while (!minHeap.empty() && minimumSpanningTree.size() &lt; vertices - 1) {
+        Edge edge = minHeap.top();
+        minHeap.pop();
+        const int source = edge.getEitherVertex();
+        int destination = edge.getOtherVertex(source);
+\/
+        // **Corrected Condition:** Check if connecting these vertices creates a cycle
+        if (unionFind.find(source) != unionFind.find(destination)) {
+            minimumSpanningTree.push_back(edge);
+            unionFind.unionSets(source, destination);
+        }
+    }
+\/
+    return minimumSpanningTree;
+}
+\/
+UnionFind::UnionFind(const int size) : parent(size), rank(size, 1) {
+    for (int i = 0; i &lt; size; ++i) {
+        parent[i] = i;
+    }
+}
+\/
+int UnionFind::find(const int element) {
+    if (parent[element] != element) {
+        parent[element] = find(parent[element]);
+    }
+    return parent[element];
+}
+\/
+void UnionFind::unionSets(const int element1, const int element2) {
+    const int root1 = find(element1);
+    const int root2 = find(element2);
+\/
+    if (root1 != root2) {
+        if (rank[root1] &gt; rank[root2]) {
+            parent[root2] = root1;
+        } else if (rank[root1] &lt; rank[root2]) {
+            parent[root1] = root2;
+        } else {
+            parent[root2] = root1;
+            rank[root1]++;
+        }
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+from typing import List
+import heapq
+\/
+from EdgeWeightedGraph import EdgeWeightedGraph, Edge
+\/
+\/
+class KruskalsAlgorithm:
+    @staticmethod
+    def find_minimum_spanning_tree(graph: EdgeWeightedGraph) -&gt; List[Edge]:
+        vertices: int = graph.get_vertices()
+        minimum_spanning_tree: List[Edge] = []
+        min_heap: list[Edge] = []
+        union_find = UnionFind(vertices)
+\/
+        # Add edges to the min-heap, ensuring no duplicates
+        for i in range(vertices):
+            for edge in graph.get_adjacency_list(i):
+                # Add edge only if its source vertex is smaller than its destination
+                if edge.source &lt; edge.destination:
+                    heapq.heappush(min_heap, edge)
+\/
+        while min_heap and len(minimum_spanning_tree) &lt; vertices - 1:
+            edge: Edge = heapq.heappop(min_heap)
+            source: int = edge.get_either_vertex()
+            destination: int = edge.get_other_vertex(source)
+\/
+            source_root: int = union_find.find(source)
+            destination_root: int = union_find.find(destination)
+\/
+            if source_root != destination_root:
+                minimum_spanning_tree.append(edge)
+                union_find.union(source_root, destination_root)
+\/
+        return minimum_spanning_tree
+\/
+\/
+class UnionFind:
+    def __init__(self, size: int):
+        self.parent: List[int] = [i for i in range(size)]
+        self.rank: List[int] = [1] * size
+\/
+    def find(self, element: int) -&gt; int:
+        if self.parent[element] != element:
+            self.parent[element] = self.find(self.parent[element])
+        return self.parent[element]
+\/
+    def union(self, element1: int, element2: int):
+        root1: int = self.find(element1)
+        root2: int = self.find(element2)
+\/
+        if root1 != root2:
+            if self.rank[root1] &gt; self.rank[root2]:
+                self.parent[root2] = root1
+            elif self.rank[root1] &lt; self.rank[root2]:
+                self.parent[root1] = root2
+            else:
+                self.parent[root2] = root1
+                self.rank[root1] += 1
+    </code-block>
+    </tab>
+</tabs>
+
+### 16.5 Prim's Algorithm
+
+<procedure title = "Prim's Algorithm">
+    <step>
+        <p>Start with vertex <math>0</math> and greedily grow tree 
+        <math>T</math></p>
+    </step>
+    <step>
+        <p>Add to <math>T</math> the min weight edge with exactly one 
+        endpoint in <math>T</math>.</p>
+    </step>
+    <step>
+        <p>Repeat until <math>V - 1</math> edges.</p>
+    </step>
+</procedure>
+
+<p><format color="BlueViolet">Correctness Proof</format></p>
+
+<p>Prim's Algorithm is a special case of the greedy MST algorithm.
+</p>
+
+<list>
+<li>
+<p>Suppose edge e = min weight edge connecting a vertex on the tree
+to a vertex not on the tree.</p>
+</li>
+<li>
+<p>Cut = set of vertices connected on tree.</p>
+</li>
+<li>
+<p>No crossing edge is black.</p>
+</li>
+<li>
+<p>No crossing edge has lower weight.</p>
+</li>
+</list>
+
+#### 16.5.1 Lazy Implementation
+
+<procedure title = "Lazy Implementation">
+    <step>
+        <p>Maintain a PQ of <format color="OrangeRed">edges
+        </format> with (at least) one endpoint in T.</p>
+    </step>
+    <step>
+        <p>Key = edge; priority = weight of edge.</p>
+    </step>
+    <step>
+        <p>Delete-min to determine next edge <math>e = v-w</math> to
+        add to <math>T</math>.</p>
+    </step>
+    <step>
+        <p>Disregard if both endpoints <math>v</math> and <math>w
+        </math> are in <math>T</math>.</p>
+    </step>
+    <step>
+        <p>Otherwise, let <math>w</math> be the vertex not in <math>T
+        </math>.</p>
+        <p>Add to PQ any edge incident to <math>w</math> (assuming 
+        other endpoint not in T)</p>
+        <p>Add <math>e</math> to <math>T</math> and mark <math>w
+        </math>.</p>
+    </step>
+</procedure>
+
+<p><format color="BlueViolet">Property:</format> Lazy Prim's 
+algorithm computes the MST in time proportional to <math>E \log E
+</math> and extra space proportional to <math>E</math> (in the worst
+case).</p>
+
+<table style="header-row">
+<tr>
+    <td>Operation</td>
+    <td>Frequency</td>
+    <td>Binary Heap</td>
+</tr>
+<tr>
+    <td>Delete min</td>
+    <td><math>E</math></td>
+    <td><math>\log E</math></td>
+</tr>
+<tr>
+    <td>Insert</td>
+    <td><math>E</math></td>
+    <td><math>\log E</math></td>
+</tr>
+</table>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+\/
+public class PrimMSTLazy {
+    private final boolean[] marked; 
+    private final PriorityQueue&lt;Edge&gt; pq; 
+    private final List&lt;Edge&gt; mst; 
+    private double weight; 
+\/
+    public PrimMSTLazy(EdgeWeightedGraph graph) {
+        marked = new boolean[graph.getVertices()];
+        pq = new PriorityQueue&lt;&gt;();
+        mst = new ArrayList&lt;&gt;();
+        weight = 0.0;
+\/        
+        visit(graph, 0);
+        while (!pq.isEmpty()) {
+            Edge e = pq.poll(); 
+\/
+            int v = e.getEitherVertex();
+            int w = e.getOtherVertex(v);
+\/
+            if (marked[v] && marked[w]) continue; 
+            mst.add(e); 
+            weight += e.getWeight();
+\/
+            if (!marked[v]) visit(graph, v); 
+            if (!marked[w]) visit(graph, w); 
+        }
+    }
+\/
+    private void visit(EdgeWeightedGraph graph, int v) {
+        marked[v] = true; 
+\/
+        for (Edge e : graph.getAdjacencyList(v)) {
+            if (!marked[e.getOtherVertex(v)]) {
+                pq.offer(e);
+            }
+        }
+    }
+\/
+    public Iterable&lt;Edge&gt; edges() {
+        return mst;
+    }
+\/
+    public double weight() {
+        return weight;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+#include "EdgeWeightedGraph.h"
+\/
+class PrimMSTLazy {
+private:
+    std::vector&lt;bool&gt; marked;
+    std::priority_queue&lt;Edge, std::vector&lt;Edge&gt;, std::greater&lt;&gt;&gt; pq;
+    std::vector&lt;Edge&gt; mst;
+    double weight;
+\/
+    void visit(const EdgeWeightedGraph& graph, int v) {
+        marked[v] = true;
+        for (const Edge& e : graph.getAdjacencyList(v)) {
+            if (!marked[e.getOtherVertex(v)]) {
+                pq.push(e);
+            }
+        }
+    }
+\/
+public:
+    explicit PrimMSTLazy(const EdgeWeightedGraph& graph) : 
+        marked(graph.getVertices(), false), weight(0.0)  {
+\/
+        visit(graph, 0); 
+        while (!pq.empty()) {
+            Edge e = pq.top();
+            pq.pop();
+\/
+            int v = e.getEitherVertex();
+            int w = e.getOtherVertex(v);
+\/
+            if (marked[v] && marked[w]) continue; 
+            mst.push_back(e);
+            weight += e.getWeight();
+\/
+            if (!marked[v]) visit(graph, v);
+            if (!marked[w]) visit(graph, w);
+        }
+    }
+\/
+    [[nodiscard]] const std::vector&lt;Edge&gt;& edges() const {
+        return mst;
+    }
+\/
+    [[nodiscard]] double getWeight() const {
+        return weight;
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+from typing import List, Iterable
+import heapq  
+\/
+from EdgeWeightedGraph import EdgeWeightedGraph, Edge
+\/
+\/
+class PrimMSTLazy:
+    def __init__(self, graph: EdgeWeightedGraph):
+        self.marked: List[bool] = [False] * graph.get_vertices()
+        self.pq: List[Edge] = []  # Min-heap for edges
+        self.mst: List[Edge] = []  # Stores the MST edges
+        self.weight: float = 0.0
+\/
+        self._visit(graph, 0)  # Start from vertex 0
+        while self.pq:
+            edge: Edge = heapq.heappop(self.pq)
+\/
+            v: int = edge.get_either_vertex()
+            w: int = edge.get_other_vertex(v)
+\/
+            if self.marked[v] and self.marked[w]:
+                continue  # Ignore if both vertices are already in the MST
+\/
+            self.mst.append(edge)
+            self.weight += edge.get_weight()
+\/
+            if not self.marked[v]:
+                self._visit(graph, v)
+            if not self.marked[w]:
+                self._visit(graph, w)
+\/
+    def _visit(self, graph: EdgeWeightedGraph, v: int):
+        """Adds edges connected to vertex v to the priority queue."""
+        self.marked[v] = True
+        for edge in graph.get_adjacency_list(v):
+            if not self.marked[edge.get_other_vertex(v)]:
+                heapq.heappush(self.pq, edge)
+\/
+    def edges(self) -&gt; Iterable[Edge]:
+        return self.mst
+\/
+    def weight(self) -&gt; float:
+        return self.weight
+    </code-block>
+    </tab>
+</tabs>
+
+#### 16.5.2 Eager Implementation
+
+<p><format color="BlueViolet">Property</format></p>
+
+<p>Running time depends on PQ implementation: <math>V</math> insert, 
+<math>V</math> delete-min, <math>E</math> decrease-key.</p>
+
+<table style="header-row">
+<tr>
+    <td>PQ Implementation</td>
+    <td>Insert</td>
+    <td>Delete-Min</td>
+    <td>Decrease-Key</td>
+    <td>Total</td>
+</tr>
+<tr>
+    <td>Array</td>
+    <td><math>1</math></td>
+    <td><math>V</math></td>
+    <td><math>1</math></td>
+    <td><math>V ^ {2}</math></td>
+</tr>
+<tr>
+    <td>Binary Heap</td>
+    <td><math>\log V</math></td>
+    <td><math>\log V</math></td>
+    <td><math>\log V</math></td>
+    <td><math>E \log V</math></td>
+</tr>
+<tr>
+    <td><p>d-way Heap</p><p>(Johnson 1975)</p></td>
+    <td><math>\log_{d} V</math></td>
+    <td><math>d \log_{d} V</math></td>
+    <td><math>\log_{d} V</math></td>
+    <td><math>E \log_{\frac {E}{V}} V</math></td>
+</tr>
+<tr>
+    <td><p>Fibonacci Heap</p><p>(Fredman-Tarjan 1984)</p></td>
+    <td><math>1^{*}</math></td><td><math>\log V ^ {*}</math></td>
+    <td><math>1^{*}</math></td><td><math>E + \log V</math></td>
+</tr>
+</table>
+
+<p>*: amortized</p>
+
+<p><format color="BlueViolet">Bottom Line</format></p>
+
+<list type="bullet">
+<li>
+    <p>Array implementation optimal for dense graph.</p>
+</li>
+<li>
+    <p>Binary heap much faster for sparse graphs.</p>
+</li>
+<li>
+    <p>4-way heap worth the trouble in performance-critical 
+    situations.</p>
+</li>
+<li>
+    <p>Fibonacci heap best in theory, but not worth implementing.</p>
+</li>
+</list>
+
+<tabs>
+    <tab title="Java">
+    <code-block lang="java" collapsible="true">
+import java.util.ArrayList;
+import java.util.List;
+\/
+public class PrimMST {
+    private final boolean[] marked;
+    private final Edge[] edgeTo;
+    private final double[] distTo; 
+    private final IndexedPriorityQueue pq; 
+    private final List&lt;Edge&gt; mst; 
+\/
+    public PrimMST(EdgeWeightedGraph graph) {
+        marked = new boolean[graph.getVertices()];
+        edgeTo = new Edge[graph.getVertices()];
+        distTo = new double[graph.getVertices()];
+        pq = new IndexedPriorityQueue(graph.getVertices());
+        mst = new ArrayList&lt;&gt;();
+\/
+        for (int v = 0; v &lt; graph.getVertices(); v++) {
+            distTo[v] = Double.POSITIVE_INFINITY;
+        }
+        distTo[0] = 0.0;
+        pq.insert(0, 0.0);
+        while (!pq.isEmpty()) {
+            visit(graph, pq.delMin());
+        }
+    }
+\/    
+    private void visit(EdgeWeightedGraph graph, int vertex) {
+        marked[vertex] = true;
+        for (Edge edge : graph.getAdjacencyList(vertex)) {
+            int w = edge.getOtherVertex(vertex);
+            if (marked[w]) continue;
+            if (edge.getWeight() &lt; distTo[w]) {
+                edgeTo[w] = edge;
+                distTo[w] = edge.getWeight();
+                if (pq.contains(w)) {
+                    pq.decreaseKey(w, distTo[w]);
+                } else {
+                    pq.insert(w, distTo[w]);
+                }
+            }
+        }
+    }
+\/
+    public Iterable&lt;Edge&gt; edges() {
+        for (int v = 1; v &lt; edgeTo.length; v++) {
+            if (edgeTo[v] != null) {
+                mst.add(edgeTo[v]);
+            }
+        }
+        return mst;
+    }
+\/
+    public double weight() {
+        double weight = 0.0;
+        for (Edge edge : mst) {
+            weight += edge.getWeight();
+        }
+        return weight;
+    }
+}
+    </code-block>
+    </tab>
+    <tab title="C++">
+    <code-block lang="c++" collapsible="true">
+#include "IndexedPriorityQueue.h"
+#include "EdgeWeightedGraph.h"
+#include &lt;vector&gt;
+#include &lt;limits&gt;
+\/
+class PrimMST {
+private:
+    std::vector&lt;bool&gt; marked;
+    std::vector&lt;Edge&gt; edgeTo;
+    std::vector&lt;double&gt; distTo;
+    IndexedPriorityQueue pq;
+    std::vector&lt;Edge&gt; mst;
+\/    
+    void visit(const EdgeWeightedGraph& graph, int vertex) {
+        marked[vertex] = true;
+        for (const Edge& edge : graph.getAdjacencyList(vertex)) {
+            const int w = edge.getOtherVertex(vertex);
+            if (marked[w]) continue;
+            if (edge.getWeight() &lt; distTo[w]) {
+                edgeTo[w] = edge;
+                distTo[w] = edge.getWeight();
+                if (pq.contains(w)) {
+                    pq.decreaseKey(w, distTo[w]);
+                } else {
+                    pq.insert(w, distTo[w]);
+                }
+            }
+        }
+    }
+\/
+public:
+    explicit PrimMST(const EdgeWeightedGraph& graph) :
+        marked(graph.getVertices(), false),
+        edgeTo(graph.getVertices()),
+        distTo(graph.getVertices(), std::numeric_limits&lt;double&gt;::infinity()),
+        pq(graph.getVertices()) {
+\/
+        distTo[0] = 0.0;
+        pq.insert(0, 0.0);
+        while (!pq.isEmpty()) {
+            visit(graph, pq.delMin());
+        }
+    }
+\/
+    const std::vector&lt;Edge&gt;& edges() {
+        mst.clear();
+        for (int v = 1; v &lt; edgeTo.size(); v++) {
+            if (edgeTo[v].getWeight() != 0.0) {
+                mst.push_back(edgeTo[v]);
+            }
+        }
+        return mst;
+    }
+\/
+    [[nodiscard]] double weight() const {
+        double weight = 0.0;
+        for (const Edge& edge : mst) {
+            weight += edge.getWeight();
+        }
+        return weight;
+    }
+};
+    </code-block>
+    </tab>
+    <tab title="Python">
+    <code-block lang="python" collapsible="true">
+from typing import List, Iterable
+\/
+from EdgeWeightedGraph import EdgeWeightedGraph, Edge
+from IndexedPriorityQueue import IndexedPriorityQueue 
+\/
+\/
+class PrimMSTEager:
+    def __init__(self, graph: EdgeWeightedGraph):
+        self.marked: List[bool] = [False] * graph.get_vertices()
+        self.edge_to: List[Edge] = [None] * graph.get_vertices()
+        self.dist_to: List[float] = [float('inf')] * graph.get_vertices()
+        self.pq: IndexedPriorityQueue = IndexedPriorityQueue(graph.get_vertices())
+        self.mst: List[Edge] = []
+\/
+        self.dist_to[0] = 0.0  
+        self.pq.insert(0, 0.0)
+\/
+        while not self.pq.is_empty():
+            self._visit(graph, self.pq.del_min())
+\/
+    def _visit(self, graph: EdgeWeightedGraph, vertex: int):
+        self.marked[vertex] = True
+        for edge in graph.get_adjacency_list(vertex):
+            w: int = edge.get_other_vertex(vertex)
+            if self.marked[w]:
+                continue
+\/
+            if edge.get_weight() &lt; self.dist_to[w]:
+                self.dist_to[w] = edge.get_weight()
+                self.edge_to[w] = edge
+                if self.pq.contains(w):
+                    self.pq.decrease_key(w, self.dist_to[w])
+                else:
+                    self.pq.insert(w, self.dist_to[w])
+\/
+    def edges(self) -&gt; Iterable[Edge]:
+        """Returns an iterable of edges in the MST."""
+        for v in range(1, len(self.edge_to)):
+            if self.edge_to[v] is not None:
+                self.mst.append(self.edge_to[v])
+        return self.mst
+\/
+    def weight(self) -&gt; float:
+        """Returns the total weight of the MST."""
+        return sum(edge.get_weight() for edge in self.mst)
+    </code-block>
+    </tab>
+</tabs>
+
+### 16.6 MST Context
+
+#### 16.6.1 Euclidean MST
+
+<p><format color="OrangeRed">Euclidean MST:</format> Given <math>N
+</math> points in the plane, find MST connecting them, where the
+distances between point pairs are their <format color=
+"OrangeRed">Euclidean</format> distances.</p>
+
+<p><format color="LawnGreen">Methods:</format> Exploit geometry
+and do it in <math>\sim cN \log N</math></p>
+
+#### 16.6.2 Single Link Clustering
+
+<p><format color="BlueViolet">Definitions</format></p>
+
+<list type="bullet">
+<li>
+    <p><format color="DarkOrange">k-clustering:</format> Divide
+    a set of objects calssify into <math>k</math> coherent groups.</p>
+</li>
+<li>
+    <p><format color="DarkOrange">Distance Function:</format> 
+    Numeric value specifying "closeness" of two objects.</p>
+</li>
+<li>
+    <p><format color="DarkOrange">Single link:</format> Distance 
+    between two clusters equals the distance between the two closest
+    objects (one in each cluster).</p>
+</li>
+<li>
+    <p><format color="DarkOrange">Single-link clustering:</format> 
+    Given an integer k, find a k-clustering that maximizes the 
+    distance between two closest clusters.</p>
+</li>
+</list>
+
+<img src="../images_data/d16-6-1.png" alt = "Clustering"/>
+
+<procedure title = '"Well-known" algorithm in science literature for single-link clustering:'>
+    <step>
+        <p>Form <math>V</math> clusters of one object each.</p>
+    </step>
+    <step>
+        <p>Find the closest pair of objects such that each object is 
+        in a different cluster, and merge the two clusters.</p>
+    </step>
+    <step>
+        <p>Repeat until there are exactly <math>k</math> clusters.</p>
+    </step>
+</procedure>
+
+<note>
+<p>This is Kruskal's algorithm (stop when <math>k</math> connected 
+components).</p>
+<p>Run Prim's algorithm and delete <math>k–1</math> max weight edges.</p>
+</note>
+
+<p><format color="BlueViolet">Applications</format></p>
+
+<list>
+<li>
+<p>Routing in mobile ad hoc networks.</p>
+</li>
+<li>
+<p>Document categorization for web search.</p>
+</li>
+<li>
+<p>Similarity searching in medical image databases.</p>
+</li>
+<li>
+<p>Skycat: cluster <math>10 ^ {9}</math> sky objects into stars, 
+quasars, galaxies.</p>
+</li>
+</list>
+
+### 16.7 Important Questions
+
+<list type="decimal">
+<li>
+    <p><format color="Fuchsia">Q: Bottleneck minimum spanning tree:
+    </format> Given a connected edge-weighted graph, design an 
+    efficient algorithm to find a minimum bottleneck spanning tree. 
+    The bottleneck capacity of a spanning tree is the weights of its 
+    largest edge. A minimum bottleneck spanning tree is a spanning 
+    tree of minimum bottleneck capacity.</p>
+    <p><format color="LawnGreen">A:</format> Prove that an MST is 
+    a minimum bottleneck spanning tree.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Q: Is an edge in a MST:</format> 
+    Given an edge-weighted graph <math>G</math> and an edge <math>e
+    </math>, design a linear-time algorithm to determine whether 
+    <math>e</math> appears in some MST of <math>G</math>.</p>
+    <p>Note: Since your algorithm must take linear time in the worst
+    case, you cannot afford to compute the MST itself.</p>
+    <p><format color="LawnGreen">A:</format> Consider the subgraph 
+    <math>G'</math> of <math>G</math> containing only those edges 
+    whose weight is strictly less than that of <math>e</math>.</p>
+</li>
+<li>
+    <p><format color="Fuchsia">Q: Minimum-weight feedback edge set:
+    </format> A feedback edge set of a graph is a subset of edges that
+    contains at least one edge from every cycle in the graph. If the 
+    edges of a feedback edge set are removed, the resulting graph is 
+    acyclic. Given an edge-weighted graph, design an efficient 
+    algorithm to find a feedback edge set of minimum weight. Assume 
+    the edge weights are positive.</p>
+    <p><format color="LawnGreen">A:</format> Complement of an MST.
+    </p>
+</li>
+</list>
+
 ## 17 Shortest Paths {id="shortest-paths"}
 
 ### 17.1 Shortest Paths APIs
@@ -3848,7 +5145,7 @@ Algorithms</format></p>
     <td>Operations on keys</td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
+    <td><a href="Data-Structures-and-Algorithms-1.topic" anchor=
     "insertion-sort" summary="Insertion Sort">Insertion Sort</a></td>
     <td><math>\frac {1}{2} N^{2}</math></td>
     <td><math>\frac {1}{4} N^{2}</math></td>
@@ -3857,7 +5154,7 @@ Algorithms</format></p>
     <td><code>compareTo()</code></td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
+    <td><a href="Data-Structures-and-Algorithms-1.topic" anchor=
     "mergesort" summary="Mergesort">Mergesort</a></td>
     <td><math>N \lg N</math></td>
     <td><math>N \lg N</math></td>
@@ -3866,7 +5163,7 @@ Algorithms</format></p>
     <td><code>compareTo()</code></td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
+    <td><a href="Data-Structures-and-Algorithms-1.topic" anchor=
     "quicksort" summary="Quicksort">Quicksort</a></td>
     <td><math>1.39 N \lg N</math> *</td>
     <td><math>1.39 N \lg N</math></td>
@@ -3875,7 +5172,7 @@ Algorithms</format></p>
     <td><code>compareTo()</code></td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-1.md" anchor=
+    <td><a href="Data-Structures-and-Algorithms-1.topic" anchor=
     "heapsort" summary="Heapsort">Heapsort</a></td>
     <td><math>2 N \lg N</math></td>
     <td><math>2 N \lg N</math></td>
@@ -4621,2019 +5918,3 @@ class TernarySearchTree:
     <td><math>4N + R^{2}</math></td>
 </tr>
 </table>
-
-## 21 Substring Search
-
-### 21.1 Introduction
-
-<p><format color="BlueViolet">Goal</format>: Find pattern of length 
-<math>M</math> in text of length <math>N</math> (typically 
-<math>N \ll M</math>).</p>
-
-<p><format color="BlueViolet">Applications</format>: </p>
-
-<list type="bullet">
-<li>
-    <p>Find & replace</p>
-</li>
-<li>
-    <p>Computer forensics</p>
-</li>
-<li>
-    <p>Identify patterns indicative of spam</p>
-</li>
-<li>
-    <p>Electronic surveillance</p>
-</li>
-<li>
-    <p>Screen scraping</p>
-</li>
-</list>
-
-### 21.2 Brute-Force Substring Search {id="brute-force"}
-
-<p><format color="BlueViolet">Disadvantages</format></p>
-
-<list type="bullet">
-<li>
-    <p><format color="Fuchsia">Theoretical challenge:</format> Linear
-    -time guarantee (Worst case: <math>\sim MN</math>).</p>
-</li>
-<li>
-    <p><format color="Fuchsia">Practical challenge:</format> Avoid 
-    backup in text stream (Brute-force algorithm needs backup for 
-    every mismatch).</p></li>
-</list>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-public static int search (String pat, String txt) {
-    int M = pat.length();
-    int N = txt.length();
-    int i, j;
-    for (i = 0; i &lt;= N - M; i++) {
-        for (j = 0; j &lt; M; j++) {
-            if (txt.charAt(i + j) != pat.charAt(j)) {
-                break;
-            }
-        }
-        if (j == M) {
-            return i;
-        }
-    }
-    return N;
-}
-    </code-block>
-    </tab>
-    <tab title="Java (alternate implementation)">
-    <code-block lang="java" collapsible="true">
-public static int search(String pat, String txt) {
-    int i, M = pat.length();
-    int j, N = txt.length();
-    for (i = 0, j = 0; i &lt; N && j &lt; M; i++) {
-        if (txt.charAt(i) == pat.charAt(j)) {
-            j++;
-        } 
-        else {
-            i -= j;
-            j = 0;
-        }
-    }
-    if (j == M) {
-        return i - M;
-    } 
-    else {
-        return N;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-int bruteForceSubstringSearch(const std::string& text, const std::string& pattern) {
-    int n = text.length();
-    int m = pattern.length();
-\/
-    for (int i = 0; i &lt;= n - m; i++) {
-        int j;
-        for (j = 0; j &lt; m; j++) {
-            if (text[i + j] != pattern[j]) {
-                break;
-            }
-        }
-        if (j == m) {
-            return i;  
-        }
-    }
-    return -1; 
-}
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-def brute_force_search(main_string, sub_string):
-    len_main = len(main_string)
-    len_sub = len(sub_string)
-\/
-    for i in range(len_main - len_sub + 1):
-        j = 0
-\/
-        while(j &lt; len_sub):
-            if (main_string[i + j] != sub_string[j]):
-                break
-            j += 1
-\/
-        if (j == len_sub):
-            return i
-\/
-    return -1
-    </code-block>
-    </tab>
-</tabs>
-
-### 21.3 Knuth-Morris-Pratt {id="KMP"}
-
-#### 21.3.1 Proposition
-
-<p><format color="BlueViolet">Property:</format> KMP substring search
-accesses no more than <math>M + N</math> chars to search for a pattern
-of length <math>M</math> in a text of length <math>N</math>.</p>
-
-<p><format color="LawnGreen">Proof:</format> Each pattern char 
-accessed once when constructing DFA; each text char accessed once (in
-the worst case) when simulating DFA.</p>
-
-<p><format color="BlueViolet">Property:</format> KMP constructs 
-<code>dfa[][]</code> in time and space proportional to <math>RM</math>
-, where <math>R</math> is the alphabet size and <math>M</math> is the
-pattern length.</p>
-
-#### 21.3.2 DFA
-
-<p><format color="DarkOrange">Deterministic Finite State Automaton 
-(DFA)</format> is an abstract string-search machine.</p>
-
-<list type="bullet">
-<li>
-    <p>Finite number of states (including start and halt).</p>
-</li>
-<li>
-    <p>Exactly one transition for each char in alphabet.</p>
-</li>
-<li>
-    <p>Accept if sequence of transitions lead to halt state.</p>
-</li>
-</list>
-
-<img src="../images_data/d21-3-1.png" alt="DFA"/>
-
-<note>
-<p>DFA state = number of characters in pattern that have been matched
-(length of longest prefix of <code>pat[]</code> that is a suffix of
-<code>txt[0...i]</code>).</p>
-</note>
-
-<procedure title="DFA Construction">
-<step>
-    <p>If in state <math>j</math> (first <math>j</math> characters of
-    pattern have already been matched and next char <code>c == pat.
-    charAt(j)</code> (next char matches), go to <math>j+1</math> (now
-    first <math>j+1</math> characters of pattern have been matched).
-    </p>
-</step>
-<step>
-    <p>If in state <math>j</math> and next char <code>c != pat.charAt
-    (j)</code>, then the last <math>j-1</math> characters of input are
-    <code>pat[1...j - 1]</code>, followed by c. Simulate <code>
-    pat[1...j - 1]</code> on DFA and take transition c (only longest 
-    possible matched suffix now lies <code>pat[1...j - 1]</code> 
-    followed by c).</p>
-</step>
-</procedure>
-
-<note>
-<p>Use state X to simulate <code>pat[1...j-1]</code>, takes only 
-constant time!</p>
-</note>
-
-<procedure title="DFA Construction for Code">
-<step>
-    <p>Copy <code>dfa[][X]</code> to <code>dfa[][j]</code> for 
-    mismatch case.</p>
-</step>
-<step>
-    <p>Set <code>dfa[pat.charAt(j)][j]</code> to <math>j+1</math> for
-    match case.</p>
-</step>
-<step>
-    <p>Update <math>X</math>.</p>
-</step>
-</procedure>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-public class KMP {
-    private final int R;
-    private final int m;
-    private final int[][] dfa;
-\/
-    public KMP(String pat) {
-        this.R = 256;
-        this.m = pat.length();
-\/
-        dfa = new int[R][m];
-        dfa[pat.charAt(0)][0] = 1;
-        for (int x = 0, j = 1; j &lt; m; j++) {
-            for (int c = 0; c &lt; R; c++)
-                dfa[c][j] = dfa[c][x];
-            dfa[pat.charAt(j)][j] = j + 1;
-            x = dfa[pat.charAt(j)][x];
-        }
-    }
-\/
-    public KMP(char[] pattern, int R) {
-        this.R = R;
-        this.m = pattern.length;
-\/
-        int m = pattern.length;
-        dfa = new int[R][m];
-        dfa[pattern[0]][0] = 1;
-        for (int x = 0, j = 1; j &lt; m; j++) {
-            for (int c = 0; c &lt; R; c++)
-                dfa[c][j] = dfa[c][x];
-            dfa[pattern[j]][j] = j + 1;
-            x = dfa[pattern[j]][x];
-        }
-    }
-\/
-    public int search(String txt) {
-        int n = txt.length();
-        int i, j;
-        for (i = 0, j = 0; i &lt; n && j &lt; m; i++) {
-            j = dfa[txt.charAt(i)][j];
-        }
-        if (j == m) return i - m;
-        return n;
-    }
-\/
-    public int search(char[] text) {
-        int n = text.length;
-        int i, j;
-        for (i = 0, j = 0; i &lt; n && j &lt; m; i++) {
-            j = dfa[text[i]][j];
-        }
-        if (j == m) return i - m;
-        return n;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-#include &lt;string&gt;
-#include &lt;vector&gt;
-\/
-class KMP {
-private:
-    const int R;
-    const int m;
-    std::vector&lt;std::vector&lt;int&gt;&gt; dfa;
-\/
-public:
-explicit KMP(const std::string& pat) : R(256), m(static_cast&lt;int&gt;(pat.length())), dfa(R, std::vector&lt;int&gt;(m)) {
-    dfa[pat[0]][0] = 1;
-    for (int x = 0, j = 1; j &lt; m; j++) {
-        for (int c = 0; c &lt; R; c++)
-            dfa[c][j] = dfa[c][x];
-        dfa[pat[j]][j] = j + 1;
-        x = dfa[pat[j]][x];
-    }
-}
-\/
-    [[nodiscard]] int search(const std::string& txt) const {
-        const int n = static_cast&lt;int&gt;(txt.length());
-        int i, j;
-        for (i = 0, j = 0; i &lt; n && j &lt; m; i++) {
-            j = dfa[txt[i]][j];
-        }
-        if (j == m) return i - m;
-        return n;
-    }
-};
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-class KMP:
-    def __init__(self, pat):
-        self.R = 256
-        self.m = len(pat)
-        self.dfa = [[0] * self.m for _ in range(self.R)]
-\/
-        self.dfa[ord(pat[0])][0] = 1
-        x = 0
-        for j in range(1, self.m):
-            for c in range(self.R):
-                self.dfa[c][j] = self.dfa[c][x]
-            self.dfa[ord(pat[j])][j] = j + 1
-            x = self.dfa[ord(pat[j])][x]
-\/
-    def search(self, txt):
-        n = len(txt)
-        i, j = 0, 0
-        while i &lt; n and j &lt; self.m:
-            j = self.dfa[ord(txt[i])][j]
-            i += 1
-        if j == self.m:
-            return i - self.m
-        return n
-    </code-block>
-    </tab>
-</tabs>
-
-#### 21.3.3 NFA
-
-<note>
-    <p>nfa[i] or next[i] array represent the checkpoint for the 
-    longest prefix <format color="OrangeRed">probable</format> of 
-    pat[0...i] that is also the suffix of txt[0...i]</p>
-    <p><format color="Fuchsia">Example</format></p>
-    <p>pattern: ABABAC next[5] = 3</p>
-    <p>When text is ABABA_ and the char on _ is not C, check if the 
-    char on _ is equal to pattern[3] = B.</p>
-    <list type="bullet">
-    <li>
-    <p>If equal, go to state 3 (longest prefix and also suffix is 
-    'ABAB'</p>
-    </li>
-    <li>
-    <p>If not, roll back to next[3] and continue checking.</p>
-    </li>
-    </list>
-</note>
-
-<procedure title="NFA Construction">
-<step>
-    <p>Use pointer j for comparison.</p>
-</step>
-<step>
-    <p>If i = 0, next[i] = -1.</p>
-</step>
-<step>
-    <p>If pat[i] != pat[j], it means current state j is possible.</p>
-</step>
-<step>
-    <p>If pat[i] == pat[j], it means current state j is impossible, 
-    roll back.</p>
-</step>
-</procedure>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-public class KMPplus {
-    private final String pattern;
-    private final int[] next;
-\/
-    public KMPplus(String pattern) {
-        this.pattern = pattern;
-        int m = pattern.length();
-        next = new int[m];
-        int j = -1;
-        for (int i = 0; i &lt; m; i++) {
-            if (i == 0) next[i] = -1;
-            else if (pattern.charAt(i) != pattern.charAt(j)) next[i] = j;
-            else next[i] = next[j];
-            while (j &gt;= 0 && pattern.charAt(i) != pattern.charAt(j)) {
-                j = next[j];
-            }
-            j++;
-        }
-\/        
-        for (int i = 0; i &lt; m; i++)
-            System.out.println("next[" + i + "] = " + next[i]);
-    }
-\/
-    public int search(String text) {
-        int m = pattern.length();
-        int n = text.length();
-        int i, j;
-        for (i = 0, j = 0; i &lt; n && j &lt; m; i++) {
-            while (j &gt;= 0 && text.charAt(i) != pattern.charAt(j))
-                j = next[j];
-            j++;
-        }
-        if (j == m) return i - m;
-        return n;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-#include &lt;string&gt;
-#include &lt;vector&gt;
-#include &lt;iostream&gt;
-\/
-class KMPplus {
-private:
-    const std::string pattern;
-    std::vector&lt;int&gt; next;
-\/
-public:
-    explicit KMPplus(const std::string& pattern) : pattern(pattern) {
-        const int m = static_cast&lt;int&gt;(pattern.length());
-        next.resize(m);
-        int j = -1;
-        for (int i = 0; i &lt; m; i++) {
-            if (i == 0) next[i] = -1;
-            else if (pattern[i] != pattern[j]) next[i] = j;
-            else next[i] = next[j];
-            while (j &gt;= 0 && pattern[i] != pattern[j]) {
-                j = next[j];
-            }
-            j++;
-        }
-\/
-        for (int i = 0; i &lt; m; i++)
-            std::cout &lt;&lt; "next[" &lt;&lt; i &lt;&lt; "] = " &lt;&lt; next[i] &lt;&lt; std::endl;
-    }
-\/
-    [[nodiscard]] int search(const std::string& text) const {
-        const int m = static_cast&lt;int&gt;(pattern.length());
-        const int n = static_cast&lt;int&gt;(text.length());
-        int i, j;
-        for (i = 0, j = 0; i &lt; n && j &lt; m; i++) {
-            while (j &gt;= 0 && text[i] != pattern[j])
-                j = next[j];
-            j++;
-        }
-        if (j == m) return i - m;
-        return n;
-    }
-};
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-class KMPplus:
-    def __init__(self, pattern):
-        self.pattern = pattern
-        m = len(pattern)
-        self.next = [0] * m
-        j = -1
-        for i in range(m):
-            if i == 0:
-                self.next[i] = -1
-            elif pattern[i] != pattern[j]:
-                self.next[i] = j
-            else:
-                self.next[i] = self.next[j]
-            while j &gt;= 0 and pattern[i] != pattern[j]:
-                j = self.next[j]
-            j += 1
-\/
-        for i in range(m):
-            print(f"next[{i}] = {self.next[i]}")
-\/
-    def search(self, text):
-        m = len(self.pattern)
-        n = len(text)
-        i, j = 0, 0
-        while i &lt; n and j &lt; m:
-            while j &gt;= 0 and text[i] != self.pattern[j]:
-                j = self.next[j]
-            j += 1
-            i += 1
-        if j == m:
-            return i - m
-        return n
-    </code-block>
-    </tab>
-</tabs>
-
-### 21.4 Boyer-Moore {id="Boyer-Moore"}
-
-<procedure title="Boyer-Moore">
-<step>
-    <p>Scan characters in pattern from right to left.</p>
-</step>
-<step>
-    <p>Can skip as many as <math>M</math> text chars when finding one
-    not in the pattern.</p>
-</step>
-</procedure>
-
-<p><format color="BlueViolet">How much to skip?</format></p>
-
-<list type="alpha-lower">
-<li>
-    <p><format color="Fuchsia">Mismatch character not in pattern.
-    </format></p>
-    <img src="../images_data/d21-4-1.png" alt="Case 1"/>
-</li>
-
-<li>
-    <p><format color="Fuchsia">Mismatch character in pattern.</format>
-    </p>
-    <img src="../images_data/d21-4-2.png" alt="Case 2"/>
-</li>
-
-<li>
-    <p><format color="Fuchsia">Mismatch character in pattern (but 
-    heuristic no help).</format></p>
-    <img src="../images_data/d21-4-3.png" alt="Case 3"/>
-</li>
-
-</list>
-
-<note>
-<p>Precompute index of rightmost occurrence of character c in pattern
-(-1 if character not in pattern).</p>
-</note>
-
-<p><format color="BlueViolet">Property:</format> Substring search with 
-the Boyer-Moore mismatched character heuristic takes about <math>
-\sim \frac{N}{m}</math> character (sublinear) compares to search for 
-a pattern of length <math>M</math> in a text of length <math>N</math>
-.</p>
-
-<p><format color="BlueViolet">Worst Case:</format> Can be as bad as 
-<math>\sim MN</math>.</p>
-
-<p><format color="BlueViolet">Boyer-Moore variant:</format> Can 
-improve worst case to <math>\sim 3N</math> character compares
-by adding a KMP-like rule to guard against repetitive patterns.</p>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-public class BoyerMoore {
-    private final int R;
-    private final int[] right;
-    private char[] pattern;
-    private String pat;
-\/
-    public BoyerMoore(String pat) {
-        this.R = 256;
-        this.pat = pat;
-\/
-        right = new int[R];
-        for (int c = 0; c &lt; R; c++)
-            right[c] = -1;
-        for (int j = 0; j &lt; pat.length(); j++)
-            right[pat.charAt(j)] = j;
-    }
-\/
-    public BoyerMoore(char[] pattern, int R) {
-        this.R = R;
-        this.pattern = new char[pattern.length];
-        System.arraycopy(pattern, 0, this.pattern, 0, pattern.length);
-\/
-        right = new int[R];
-        for (int c = 0; c &lt; R; c++)
-            right[c] = -1;
-        for (int j = 0; j &lt; pattern.length; j++)
-            right[pattern[j]] = j;
-    }
-\/
-    public int search(String txt) {
-        int M = pat.length();
-        int N = txt.length();
-        int skip;
-        for (int i = 0; i &lt;= N - M; i += skip) {
-            skip = 0;
-            for (int j = M - 1; j &gt;= 0; j--) {
-                if (pat.charAt(j) != txt.charAt(i + j)) {
-                    skip = Math.max(1, j - right[txt.charAt(i + j)]);
-                    break;
-                }
-            }
-            if (skip == 0) return i;
-        }
-        return N;
-    }
-\/
-    public int search(char[] text) {
-        int M = pattern.length;
-        int N = text.length;
-        int skip;
-        for (int i = 0; i &lt;= N - M; i += skip) {
-            skip = 0;
-            for (int j = M - 1; j &gt;= 0; j--) {
-                if (pattern[j] != text[i + j]) {
-                    skip = Math.max(1, j - right[text[i + j]]);
-                    break;
-                }
-            }
-            if (skip == 0) return i;
-        }
-        return N;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-#include &lt;iostream&gt;
-#include &lt;string&gt;
-#include &lt;vector&gt;
-\/
-class BoyerMoore {
-private:
-    int R;
-    std::vector&lt;int&gt; right;
-    std::string pat;
-\/
-public:
-    explicit BoyerMoore(const std::string& pat) {
-        this-&gt;R = 256;
-        this-&gt;pat = pat;
-\/
-        this-&gt;right.resize(R, -1);
-        for (int j = 0; j &lt; pat.size(); j++) {
-            this-&gt;right[pat[j]] = j;
-        }
-    }
-\/
-    [[nodiscard]] int search(const std::string& txt) const {
-        const int M = static_cast&lt;int&gt;(pat.size());
-        const int N = static_cast&lt;int&gt;(txt.size());
-        int skip;
-        for (int i = 0; i &lt;= N - M; i += skip) {
-            skip = 0;
-            for (int j = M - 1; j &gt;= 0; j--) {
-                if (pat[j] != txt[i + j]) {
-                    skip = std::max(1, j - right[txt[i + j]]);
-                    break;
-                }
-            }
-            if (skip == 0) return i;
-        }
-        return N;
-    }
-};
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-class BoyerMoore:
-    def __init__(self, pat):
-        self.R = 256
-        self.pat = pat
-        self.right = [-1] * self.R
-\/
-        for j in range(len(pat)):
-            self.right[ord(pat[j])] = j
-\/
-    def search(self, txt):
-        M = len(self.pat)
-        N = len(txt)
-        skip = 1 
-\/
-        for i in range(0, N - M + 1, skip):
-            skip = 0
-            for j in range(M - 1, -1, -1):
-                if self.pat[j] != txt[i + j]:
-                    skip = max(1, j - self.right[ord(txt[i + j])])
-                    break
-            if skip == 0:
-                return i
-        return N
-    </code-block>
-    </tab>
-</tabs>
-
-### 21.5 Rabin-Karp
-
-<procedure title="Rabin-Karp (Modular Hashing)">
-<step>
-    <p>Compute a hash of pattern characters <math>0</math> to <math>
-    M - 1</math>.</p>
-</step>
-<step>
-    <p>For each <math>i</math>, compute a hash of text characters 
-    <math>i</math> to <math>M + i - 1</math>.</p>
-</step>
-<step>
-    <p>If pattern hash = text substring hash, check for a match.</p>
-</step>
-</procedure>
-
-<p><format color="BlueViolet">Modular Hashing Function:</format> 
-Using the notation <math>t_{i}</math> for <code>txt.charAt(i)</code>,
-we wish to compute:</p>
-
-<code-block lang="tex">
-x_{i} = t_{i} R^{M-1} + t_{i+1} R^{M-2} + ... + t_{i+M-1} R^{0}   \mod Q
-</code-block>
-
-<p>M-digit, base-R integer, modulo Q.</p>
-
-<tip>
-<p><format color="BlueViolet">Horner's method:</format> Linear-time 
-method to evaluate degree- <math>M</math> polynomial.</p>
-<img src="../images_data/d21-5-1.png" alt="Horner's Method"/>
-</tip>
-
-<p>Based on the function above, we can get:</p>
-
-<code-block lang="tex">
-x_{i+1} = (x_{i} - t_{i} R^{M-1}) R + t_{i+M}
-</code-block>
-
-<img src="../images_data/d21-5-2.png" alt="Substring Search Example"/>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-public class RabinKarp {
-    private final long patHash;
-    private final int M;
-    private final long Q;
-    private final int R;
-    private long RM;
-\/
-    public RabinKarp(String pat) {
-        M = pat.length();
-        R = 256;
-        Q = longRandomPrime();
-        RM = 1;
-        for (int i = 1; i &lt;= M - 1; i++)
-            RM = (R * RM) % Q;
-        patHash = hash(pat, M);
-    }
-\/
-    private long hash(String key, int M) {
-        long h = 0;
-        for (int j = 0; j &lt; M; j++)
-            h = (R * h + key.charAt(j)) % Q;
-        return h;
-    }
-\/
-    // Las Vegas version: does pat[] match txt[i..i-M+1] ?
-    private boolean check(String txt, int i) {
-        for (int j = 0; j &lt; M; j++)
-            if (patHash != hash(txt.substring(i, i + M), M))
-                return false;
-        return true;
-    }
-\/
-    // Monte Carlo version: always return true
-    private static long longRandomPrime() {
-        return (1L &lt;&lt; 31) - 1;
-    }
-\/
-    public int search(String txt) {
-        int N = txt.length();
-        if (N &lt; M) return N;
-        long txtHash = hash(txt, M);
-\/
-        if ((patHash == txtHash) && check(txt, 0))
-            return 0;
-\/
-        for (int i = M; i &lt; N; i++) {
-            txtHash = (txtHash + Q - RM * txt.charAt(i - M) % Q) % Q;
-            txtHash = (txtHash * R + txt.charAt(i)) % Q;
-\/
-            int offset = i - M + 1;
-            if ((patHash == txtHash) && check(txt, offset))
-                return offset;
-        }
-\/
-        return N;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-#include &lt;iostream&gt;
-#include &lt;string&gt;
-\/
-class RabinKarp {
-private:
-    long long patHash;
-    int M;
-    long long Q;
-    int R;
-    long long RM;
-    std::string pat;
-\/
-public:
-    explicit RabinKarp(const std::string& pat) : pat(pat) {
-        M = static_cast&lt;int&gt;(pat.length());
-        R = 256;
-        Q = longRandomPrime();
-        RM = 1;
-        for (int i = 1; i &lt;= M - 1; i++)
-            RM = (R * RM) % Q;
-        patHash = hash(pat, M);
-    }
-\/
-    [[nodiscard]] long long hash(const std::string& key, const int M) const {
-        long long h = 0;
-        for (int j = 0; j &lt; M; j++)
-            h = (R * h + key[j]) % Q;
-        return h;
-    }
-\/
-    // Las Vegas version: does pat[] match txt[i..i-M+1] ?
-    [[nodiscard]] bool check(const std::string& txt, const int i) const {
-        for (int j = 0; j &lt; M; j++)
-            if (txt[i + j] != pat[j])
-                return false;
-        return true;
-    }
-\/
-    // Monte Carlo version: always return true
-\/
-    static long long longRandomPrime() {
-        return 16777213;
-    }
-\/
-    [[nodiscard]] int search(const std::string& txt) const {
-        const int N = static_cast&lt;int&gt;(txt.length());
-        if (N &lt; M) return N;
-        long long txtHash = hash(txt, M);
-\/
-        if ((patHash == txtHash) && check(txt, 0))
-            return 0;
-\/
-        for (int i = M; i &lt; N; i++) {
-            txtHash = (txtHash + Q - RM * txt[i - M] % Q) % Q;
-            txtHash = (txtHash * R + txt[i]) % Q;
-\/
-            int offset = i - M + 1;
-            if ((patHash == txtHash) && check(txt, offset))
-                return offset;
-        }
-\/
-        return N;
-    }
-};
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-def long_random_prime():
-    return (1 &lt;&lt; 31) - 1
-\/
-\/
-class RabinKarp:
-    def __init__(self, pat):
-        self.pat = pat
-        self.M = len(pat)
-        self.R = 256
-        self.Q = long_random_prime()
-        self.RM = 1
-        for i in range(1, self.M):
-            self.RM = (self.R * self.RM) % self.Q
-        self.pat_hash = self.hash(pat, self.M)
-\/
-    def hash(self, key, M):
-        h = 0
-        for j in range(M):
-            h = (self.R * h + ord(key[j])) % self.Q
-        return h
-\/
-    # Las Vegas version: does pat[] match txt[i..i-M+1] ?
-    def check(self, txt, i):
-        for j in range(self.M):
-            if self.pat_hash != self.hash(txt[i:i+self.M], self.M):
-                return False
-        return True
-\/
-    # Monte Carlo version: always return true
-\/
-    def search(self, txt):
-        N = len(txt)
-        if N &lt; self.M:
-            return N
-        txt_hash = self.hash(txt, self.M)
-\/
-        if (self.pat_hash == txt_hash) and self.check(txt, 0):
-            return 0
-\/
-        for i in range(self.M, N):
-            txt_hash = (txt_hash + self.Q - self.RM * ord(txt[i - self.M]) % self.Q) % self.Q
-            txt_hash = (txt_hash * self.R + ord(txt[i])) % self.Q
-\/
-            offset = i - self.M + 1
-            if (self.pat_hash == txt_hash) and self.check(txt, offset):
-                return offset
-\/
-        return N
-    </code-block>
-    </tab>
-</tabs>
-
-<p><format color="BlueViolet">Cost of searching for an <math>M</math>
--character pattern in an <math>N</math>-character text</format></p>
-
-<table style="none">
-<tr>
-    <td rowspan="2">Algorithm</td>
-    <td rowspan="2">Version</td>
-    <td colspan="2">Operation Count</td>
-    <td rowspan="2">Backup in Input?</td>
-    <td rowspan="2">Correct?</td>
-    <td rowspan="2">Extra Space</td>
-</tr>
-<tr>
-    <td>Guarantee</td>
-    <td>Typical</td>
-</tr>
-<tr>
-    <td><a anchor="brute-force" summary="Brute Force Algorithm">Brute
-    Force</a></td>
-    <td>-</td>
-    <td><math>MN</math></td>
-    <td><math>1.1MN</math></td>
-    <td>yes</td>
-    <td>yes</td>
-    <td><math>1</math></td>
-</tr>
-<tr>
-    <td rowspan="2"><a anchor="KMP" summary="KMP">Knuth-Morris-Pratt
-    </a></td>
-    <td>full DFA</td>
-    <td><math>2N</math></td>
-    <td><math>1.1N</math></td>
-    <td>no</td>
-    <td>yes</td>
-    <td><math>MR</math></td>
-</tr>
-<tr>
-    <td>mismatch transitions only</td>
-    <td><math>3N</math></td>
-    <td><math>1.1N</math></td>
-    <td>no</td>
-    <td>yes</td>
-    <td><math>R</math></td>
-</tr>
-<tr>
-    <td rowspan="2"><a anchor="Boyer-Moore" summary="Boyer-Moore">
-    Boyer-Moore</a></td>
-    <td>full algorithm</td>
-    <td><math>3N</math></td>
-    <td><math>N/M</math></td>
-    <td>yes</td>
-    <td>yes</td>
-    <td><math>R</math></td>
-</tr>
-<tr>
-    <td>mismatched char heuristic only</td>
-    <td><math>MN</math></td>
-    <td><math>N/M</math></td>
-    <td>yes</td>
-    <td>yes</td>
-    <td><math>R</math></td>
-</tr>
-<tr>
-    <td rowspan="2">Rabin-Karp*</td>
-    <td>Monte Carlo</td>
-    <td><math>7N</math></td>
-    <td><math>7N</math></td>
-    <td>no</td>
-    <td>yes*</td>
-    <td><math>1</math></td>
-</tr>
-<tr>
-    <td>Las Vegas</td>
-    <td><math>7N</math> *</td>
-    <td><math>7N</math></td>
-    <td>yes</td>
-    <td>yes</td>
-    <td><math>1</math></td>
-</tr>
-</table>
-
-<p>*: probabilisitic guarantee, with uniform hash function</p>
-
-## 22 Regular Expressions
-
-### 22.1 Regular Expressions
-
-<p><format color="BlueViolet">Pattern Searching:</format> Find one of
-a specified set of strings in text.</p>
-
-<p><format color="BlueViolet">Applications</format></p>
-
-<list type="bullet">
-<li>
-    <p>Genomics: test for certain pattrn of base sequence</p>
-</li>
-<li>
-    <p>Syntax highlighting</p>
-</li>
-<li>
-    <p>Google code search</p>
-</li>
-<li>
-    <p>Scan for virus signatures</p>
-</li>
-<li>
-    <p>Process natural language</p>
-</li>
-<li>
-    <p>Specify a programming language</p>
-</li>
-<li>
-    <p>Access information in digital libraries</p>
-</li>
-<li>
-    <p>Search genome using PROSITE patterns</p>
-</li>
-<li>
-    <p>Filter text (spam, NetNanny, Carnivore, malware)</p>
-</li>
-<li>
-    <p>Validate data-entry fields (dates, email, URL, credit card)</p>
-</li>
-<li>
-    <p>Compile a Java program</p>
-</li>
-<li>
-    <p>Crawl and index the Web</p>
-</li>
-<li>
-    <p>Read in data stored in ad hoc input file format</p>
-</li>
-<li>
-    <p>Create Java documentation from Javadoc comments</p>
-</li>
-<li>
-    <p>...</p>
-</li>
-</list>
-
-<p><format color="DarkOrange">Regular Expressions:</format> A 
-notation to specify a set of strings.</p>
-
-<table style="header-row">
-<tr>
-    <td>Operation</td>
-    <td>Order</td>
-    <td>Example RE</td>
-    <td>Matches</td>
-    <td>Does not Match</td>
-</tr>
-<tr>
-    <td>Concatenaion</td>
-    <td>3</td>
-    <td>AABAAB</td>
-    <td>AABAAB</td>
-    <td>every other string</td>
-</tr>
-<tr>
-    <td>Or</td>
-    <td>4</td>
-    <td>AA|BAAB</td>
-    <td><p>AA</p>
-    <p>BAAB</p></td>
-    <td>every other string</td>
-</tr>
-<tr>
-    <td>Closure</td>
-    <td>2</td>
-    <td>AB*A</td>
-    <td><p>AA</p>
-    <p>ABA</p>
-    <p>ABBA</p>
-    <p>ABBBBBBBBA</p></td>
-    <td><p>AB</p>
-    <p>ABABA</p></td>
-</tr>
-<tr>
-    <td rowspan="2">Parenthesis</td>
-    <td rowspan="2">1</td>
-    <td>A(A|B)AAB</td>
-    <td><p>AAAAB</p>
-    <p>ABAAB</p></td>
-    <td>every other string</td>
-</tr>
-<tr>
-    <td>(AB)*A</td>
-    <td><p>A</p>
-    <p>ABABABABABA</p></td>
-    <td><p>AA</p>
-    <p>ABBA</p></td>
-</tr>
-</table>
-
-<p><format color="BlueViolet">Shortcuts</format></p>
-
-<table style="header-row">
-<tr>
-    <td>Operation</td>
-    <td>Example RE</td>
-    <td>Matches</td>
-    <td>Does not Match</td>
-</tr>
-<tr>
-    <td>Wildcard</td>
-    <td>.U.U.U.</td>
-    <td><p>CUMULUS</p>
-    <p>JUGULUM</p></td>
-    <td><p>SUCCUBUS</p>
-    <p>TUMULTUOUS</p></td>
-</tr>
-<tr>
-    <td>Character Class</td>
-    <td>[A-Za-z][a-z]*</td>
-    <td><p>Word</p>
-    <p>Capitalized</p></td>
-    <td><p>camelCase</p>
-    <p>4illegal</p></td>
-</tr>
-<tr>
-    <td>At Least 1</td>
-    <td>A(BC)+DE</td>
-    <td><p>ABCDE</p>
-    <p>ABCBCDE</p></td>
-    <td><p>ADE</p>
-    <p>BCDE</p></td>
-</tr>
-<tr>
-    <td>Exactly k</td>
-    <td>[0-9]{5}-[0-9]{4}</td>
-    <td><p>08540-1321</p>
-    <p>19072-5541</p></td>
-    <td><p>111111111</p>
-    <p>166-54-111</p></td>
-</tr>
-</table>
-
-<p><format color="BlueViolet">Examples</format></p>
-
-<table style="header-row">
-<tr>
-    <td>Regular Expression</td>
-    <td>Matches</td>
-    <td>Does not Match</td>
-</tr>
-<tr>
-    <td><p>.*SPB.*</p>
-    <p>(substring search)</p></td>
-    <td><p>RASPBERRY</p>
-    <p>CRISPBREAD</p></td>
-    <td><p>SUBSPACE</p>
-    <p>SUBSPECIES</p></td>
-</tr>
-<tr>
-    <td><p>[0-9]{3}-[0-9]{2}-[0-9]{4}</p>
-    <p>(U.S. Social Security numbers)</p></td>
-    <td><p>166-11-4433</p>
-    <p>166-45-1111</p></td>
-    <td><p>11-55555555</p>
-    <p>8675309</p></td>
-</tr>
-<tr>
-    <td><p>[a-z]+@([a-z]+\.)+(edu|com)</p>
-    <p>(simplified email addresses)</p></td>
-    <td><p>wayne@princeton.edu</p>
-    <p>rs@princeton.edu</p></td>
-    <td>spam@nowhere</td>
-</tr>
-<tr>
-    <td><p>[$_A-Za-z][$_A-Za-z0-9]*</p>
-    <p>(Java identifiers)</p></td>
-    <td><p>ident3</p>
-    <p>PatternMatcher</p></td>
-    <td><p>3a</p>
-    <p>ident#3</p></td>
-</tr>
-</table>
-
-<p><format color="BlueViolet">Caveat</format></p>
-
-<list type="bullet">
-<li>
-    <p>Writing a RE is like writing a program.</p>
-</li>
-<li>
-    <p>Need to understand programming model.</p>
-</li>
-<li>
-    <p>Can be easier to write than read.</p>
-</li>
-<li>
-    <p>Can be difficult to debug.</p>
-</li>
-</list>
-
-### 22.2 REs and NFAs
-
-<p><format color="BlueViolet">Kleene's theorem</format></p>
-
-<list type="bullet">
-<li>
-    <p>For any DFA, there exists a RE that describes the same set of 
-    strings.</p>
-</li>
-<li>
-    <p>For any RE, there exists a DFA that recognizes the same set of
-    strings.</p>
-</li>
-</list>
-
-<p><format color="BlueViolet">Regular-expression-matching NFA:
-</format> </p>
-
-<list type="bullet">
-<li>
-    <p>We assume RE enclosed in parentheses.</p>
-</li>
-<li>
-    <p>One state per RE character (start = 0, accept = M).</p>
-</li>
-<li>
-    <p>Red <format color="OrangeRed">&epsilon;-transition</format> 
-    (change state, but don't scan text).</p>
-</li>
-<li>
-    <p>Black match transition (change state and scan to next text 
-    char).</p>
-</li>
-<li>
-    <p>Accept if <format color="OrangeRed">any</format> sequence of 
-    transitions ends in accept state after scanning all text 
-    characters.</p>
-</li>
-</list>
-
-<img src="../images_data/d22-2-1.png" alt="NFA"/>
-
-<procedure title="NFA Simulation">
-<step>
-    <p>Check whether input matches all possible states that NFA could
-    be.</p>
-</step>
-<step>
-    <p>Reject otherwise.</p>
-</step>
-</procedure>
-
-<p><format color="BlueViolet">Construction</format></p>
-
-<list type="bullet">
-<li>
-    <p><format color="Fuchsia">Parenthesis:</format> Add &epsilon;
-    -transition edge from parentheses to next state.</p>
-</li>
-<li>
-    <p><format color="Fuchsia">Closure:</format> Add three &epsilon;
-    -transition edges for each * operator.</p>
-    <img src="../images_data/d22-2-2.png" alt="Closure"/>
-</li>
-<li>
-    <p><format color="Fuchsia">Or:</format> Add two &epsilon;-
-    transition edges for each | operator.</p>
-</li>
-</list>
-
-<procedure title="NFA Construction" type="choices">
-<step>
-    <p><format color="Fuchsia">Left parenthesis</format></p>
-    <list type="bullet">
-    <li>
-        <p>Add &epsilon;-transition to next state.</p>
-    </li>
-    <li>
-        <p>Push index of state corresponding to ( onto stack.</p>
-    </li>
-    </list>
-</step>
-<step>
-    <p><format color="Fuchsia">Alphabet symbol</format></p>
-    <list type="bullet">
-    <li>
-        <p>Add match transition to next state.</p>
-    </li>
-    <li>
-        <p>Do one-character lookahead: add &epsilon;-transition if 
-        next character is *.</p>
-    </li>
-    </list>
-</step>
-<step>
-    <p><format color="Fuchsia">Or symbol</format></p>
-    <list type="bullet">
-    <li>
-        <p>Push index of state corresponding to | onto stack.</p>
-    </li>
-    </list>
-</step>
-<step>
-    <p><format color="Fuchsia">Right parenthesis</format></p>
-    <list type="bullet">
-    <li>
-        <p>Add &epsilon;-transition to next state.</p>
-    </li>
-    <li>
-        <p>Pop correponding ( and possibly intervening |; add 
-        &epsilon;-transition edges for or.</p>
-    </li>
-    <li>
-        <p>Do one-character lookahead: add &epsilon;-transition if 
-        next character is *.</p>
-    </li>
-    </list>
-</step>
-</procedure>
-
-<p><format color="BlueViolet">Property:</format> Determining whether 
-an <math>N</math>-character text is recognized by the NFA 
-corresponding to an <math>M</math>-character pattern takes time 
-proportional to <math>M N</math> in the worst case.</p>
-
-<p><format color="LawnGreen">Proof:</format> For each of the <math>N
-</math> text characters, we iterate through a set of states of
-size no more than <math>M</math> and run DFS on the graph of 
-&epsilon;-transitions.</p>
-
-<p><format color="BlueViolet">Property:</format> Building the NFA
-corresponding to an <math>M</math>-character RE takes time and space 
-proportional to <math>M</math>.</p>
-
-<p><format color="LawnGreen">Proof:</format> For each of the <math>M
-</math> characters in the RE, we add at most three &epsilon;-transitions and 
-execute at most two stack operations.</p>
-
-<p><format color="BlueViolet">Directed DFS Implementation</format></p>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-import java.util.List;
-\/
-public class DirectedDFS {
-    private final boolean[] marked;
-    private int count;
-\/
-    public DirectedDFS(DirectedGraph G, int s) {
-        marked = new boolean[G.getNumVertices()];
-        validateVertex(s);
-        dfs(G, s);
-    }
-\/    
-    public DirectedDFS(DirectedGraph G, Iterable&lt;Integer&gt; sources) {
-        marked = new boolean[G.getNumVertices()];
-        validateVertices(sources);
-        for (int v : sources) {
-            if (!marked[v]) dfs(G, v);
-        }
-    }
-\/
-    private void dfs(DirectedGraph G, int v) {
-        count++;
-        marked[v] = true;
-        List&lt;Integer&gt; neighbors = G.getAdjacencyList().get(v);
-        for (int w : neighbors) {
-            if (!marked[w]) dfs(G, w);
-        }
-    }
-\/
-    public boolean marked(int v) {
-        validateVertex(v);
-        return marked[v];
-    }
-\/
-    public int count() {
-        return count;
-    }
-\/
-    private void validateVertex(int v) {
-        int V = marked.length;
-        if (v &lt; 0 || v &gt;= V)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V - 1));
-    }
-\/
-    private void validateVertices(Iterable&lt;Integer&gt; vertices) {
-        if (vertices == null) {
-            throw new IllegalArgumentException("argument is null");
-        }
-        int vertexCount = 0;
-        for (Integer v : vertices) {
-            vertexCount++;
-            if (v == null) {
-                throw new IllegalArgumentException("vertex is null");
-            }
-            validateVertex(v);
-        }
-        if (vertexCount == 0) {
-            throw new IllegalArgumentException("zero vertices");
-        }
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-class DirectedDFS:
-    def __init__(self, graph, source):
-        self.marked = [False] * graph.get_num_vertices()
-        self.count = 0
-\/
-        if isinstance(source, int):
-            self._dfs(graph, source)
-        elif isinstance(source, list):
-            for s in source:
-                if not self.marked[s]:
-                    self._dfs(graph, s)
-\/
-    def _dfs(self, graph, v):
-        self.count += 1
-        self.marked[v] = True
-        for w in graph.adjacency_list[v]:
-            if not self.marked[w]:
-                self._dfs(graph, w)
-\/
-    def marked_vertex(self, v):
-        return self.marked[v]
-\/
-    def get_count(self):
-        return self.count
-    </code-block>
-    </tab>
-</tabs>
-
-<p><format color="BlueViolet">NFA Implementation</format></p>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-\/
-public class NFA {
-    private final DirectedGraph graph;
-    private final String regexp;
-    private final int m;
-\/
-    public NFA(String regexp) {
-        this.regexp = regexp;
-        m = regexp.length();
-        Stack&lt;Integer&gt; ops = new Stack&lt;&gt;();
-        graph = new DirectedGraph(m + 1);
-        for (int i = 0; i &lt; m; i++) {
-            int lp = i;
-            if (regexp.charAt(i) == '(' || regexp.charAt(i) == '|')
-                ops.push(i);
-            else if (regexp.charAt(i) == ')') {
-                int or = ops.pop();
-\/
-                if (regexp.charAt(or) == '|') {
-                    lp = ops.pop();
-                    graph.addEdge(lp, or + 1);
-                    graph.addEdge(or, i);
-                } else if (regexp.charAt(or) == '(')
-                    lp = or;
-                else assert false;
-            }
-\/
-            if (i &lt; m - 1 && regexp.charAt(i + 1) == '*') {
-                graph.addEdge(lp, i + 1);
-                graph.addEdge(i + 1, lp);
-            }
-            if (regexp.charAt(i) == '(' || regexp.charAt(i) == '*' || regexp.charAt(i) == ')')
-                graph.addEdge(i, i + 1);
-        }
-        if (!ops.isEmpty())
-            throw new IllegalArgumentException("Invalid regular expression");
-    }
-\/
-    public boolean recognizes(String txt) {
-        DirectedDFS dfs = new DirectedDFS(graph, 0);
-        List&lt;Integer&gt; pc = new ArrayList&lt;&gt;();
-        for (int v = 0; v &lt; graph.getNumVertices(); v++)
-            if (dfs.marked(v)) pc.add(v);
-\/
-        for (int i = 0; i &lt; txt.length(); i++) {
-            if (txt.charAt(i) == '*' || txt.charAt(i) == '|' || txt.charAt(i) == '(' || txt.charAt(i) == ')')
-                throw new IllegalArgumentException("text contains the metacharacter '" + txt.charAt(i) + "'");
-\/
-            List&lt;Integer&gt; match = new ArrayList&lt;&gt;();
-            for (int v : pc) {
-                if (v == m) continue;
-                if ((regexp.charAt(v) == txt.charAt(i)) || regexp.charAt(v) == '.')
-                    match.add(v + 1);
-            }
-            if (match.isEmpty()) continue;
-\/
-            dfs = new DirectedDFS(graph, match);
-            pc = new ArrayList&lt;&gt;();
-            for (int v = 0; v &lt; graph.getNumVertices(); v++)
-                if (dfs.marked(v)) pc.add(v);
-\/
-            if (pc.isEmpty()) return false;
-        }
-\/
-        for (int v : pc)
-            if (v == m) return true;
-        return false;
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-from DirectedGraph import DirectedGraph
-from DirectedDFS import DirectedDFS
-\/
-class NFA:
-    def __init__(self, regexp):
-        self.regexp = regexp
-        self.m = len(regexp)
-        self.graph = DirectedGraph(self.m + 1)
-        ops = []
-\/
-        for i in range(self.m):
-            lp = i
-            if regexp[i] == '(' or regexp[i] == '|':
-                ops.append(i)
-            elif regexp[i] == ')':
-                or_op = ops.pop()
-                if regexp[or_op] == '|':
-                    lp = ops.pop()
-                    self.graph.add_edge(lp, or_op + 1)
-                    self.graph.add_edge(or_op, i)
-                elif regexp[or_op] == '(':
-                    lp = or_op
-                else:
-                    assert False
-\/
-            if i &lt; self.m - 1 and regexp[i + 1] == '*':
-                self.graph.add_edge(lp, i + 1)
-                self.graph.add_edge(i + 1, lp)
-\/
-            if regexp[i] == '(' or regexp[i] == '*' or regexp[i] == ')':
-                self.graph.add_edge(i, i + 1)
-\/
-        if ops:
-            raise ValueError("Invalid regular expression")
-\/
-    def recognizes(self, txt):
-        dfs = DirectedDFS(self.graph, 0)
-        pc = [v for v in range(self.graph.get_num_vertices()) if dfs.marked_vertex(v)]
-\/
-        for i in range(len(txt)):
-            if txt[i] in ['*', '|', '(', ')']:
-                raise ValueError(f"text contains the metacharacter '{txt[i]}'")
-\/
-            match = []
-            for v in pc:
-                if v == self.m:
-                    continue
-                if (self.regexp[v] == txt[i]) or self.regexp[v] == '.':
-                    match.append(v + 1)
-\/
-            if not match:
-                continue
-\/
-            dfs = DirectedDFS(self.graph, match)
-            pc = [v for v in range(self.graph.get_num_vertices()) if dfs.marked_vertex(v)]
-\/
-            if not pc:
-                return False
-\/
-        for v in pc:
-            if v == self.m:
-                return True
-\/
-        return False
-    </code-block>
-    </tab>
-</tabs>
-
-## 23 Data Compression
-
-### 23.1 Data Compression Introduction
-
-<p><format color="BlueViolet">Application</format></p>
-
-<list type="bullet">
-<li>
-    <p><format color="Fuchsia">Generic file compression</format></p>
-    <list type="bullet">
-    <li>
-        <p><format color="LawnGreen">Files:</format> GZIP, BZIP, 7z</p>
-    </li>
-    <li>
-        <p><format color="LawnGreen">Archivers:</format> PKZIP</p>
-    </li>
-    <li>
-        <p><format color="LawnGreen">File systems:</format> NTFS, HFS+, 
-        ZFS</p>
-    </li>
-    </list>
-</li>
-<li>
-    <p><format color="Fuchsia">Multimedia</format></p>
-    <list type="bullet">
-    <li>
-        <p><format color="LawnGreen">Images:</format> GIF, JPEG</p>
-    </li>
-    <li>
-        <p><format color="LawnGreen">Sound:</format> MP3</p>
-    </li>
-    <li>
-        <p><format color="LawnGreen">Video:</format> MPEG, DivX™, HDTV</p>
-    </li>
-    </list>
-</li>
-<li>
-    <p><format color="Fuchsia">Communication</format></p>
-    <list type="bullet">
-    <li>
-        <p><format color="LawnGreen">ITU-T T4 Group 3 Fax</format></p>
-    </li>
-    <li>
-        <p><format color="LawnGreen">V.42bis modem</format></p>
-    </li>
-    <li>
-        <p><format color="LawnGreen">Skype</format></p>
-    </li>
-    </list>
-</li>
-</list>
-
-### 23.2 Run-Length Coding
-
-<p><format color="IndianRed">Example</format></p>
-
-<p>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1</p>
-
-<p>4-bit counts to represent alternating runs of 0s and 1s: 15 0s, then 
-7 1s, then 7 0s, then 11 1s.</p>
-
-<img src="../images_data/d23-2-1.png" alt="Run-Length Coding"/>
-
-<p><format color="BlueViolet">Applications:</format> JPEG, ITU-T T4 Group
-3 Fax, ...</p>
-
-<tabs>
-    <tab title="Java">
-    <code-block lang="java" collapsible="true">
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-\/
-public class RunLength {
-    private static final int R = 256;
-    private static final int LG_R = 8;
-\/
-    private RunLength() { }
-\/
-    public static byte[] expand(byte[] compressed) throws IOException {
-        ByteArrayInputStream in = new ByteArrayInputStream(compressed);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-\/
-        boolean b = false;
-        while (in.available() &gt; 0) {
-            int run = in.read();
-            for (int i = 0; i &lt; run; i++) {
-                out.write(b ? 1 : 0); 
-            }
-            b = !b;
-        }
-        return out.toByteArray();
-    }
-\/
-    public static byte[] compress(byte[] input) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        int run = 0;
-        boolean old = false;
-\/
-        for (byte bVal : input) {
-            boolean b = bVal != 0;
-            if (b != old) {
-                out.write(run);
-                run = 1;
-                old = !old;
-            } else {
-                if (run == R - 1) {
-                    out.write(run);
-                    run = 0;
-                    out.write(run);
-                }
-                run++;
-            }
-        }
-        out.write(run);
-        return out.toByteArray();
-    }
-\/    
-    private static void printByteArray(byte[] arr) {
-        for (byte b : arr) {
-            System.out.print(b + " ");
-        }
-        System.out.println();
-    }
-}
-    </code-block>
-    </tab>
-    <tab title="C++">
-    <code-block lang="c++" collapsible="true">
-#include &lt;iostream&gt;
-#include &lt;vector&gt;
-#include &lt;sstream&gt;
-\/
-constexpr int R = 256;
-constexpr int LG_R = 8;
-\/
-std::vector&lt;unsigned char&gt; expand(const std::vector&lt;unsigned char&gt;& compressed) {
-    std::vector&lt;unsigned char&gt; expanded;
-    bool b = false;
-    for (const unsigned char run : compressed) {
-        for (int i = 0; i &lt; run; ++i) {
-            expanded.push_back(b ? 1 : 0);
-        }
-        b = !b;
-    }
-    return expanded;
-}
-\/
-std::vector&lt;unsigned char&gt; compress(const std::vector&lt;unsigned char&gt;& input) {
-    std::vector&lt;unsigned char&gt; compressed;
-    int run = 0;
-    bool old = false;
-\/
-    for (const unsigned char bVal : input) {
-        bool b = bVal != 0;
-        if (b != old) {
-            compressed.push_back(run);
-            run = 1;
-            old = !old;
-        } else {
-            if (run == R - 1) {
-                compressed.push_back(run);
-                run = 0;
-                compressed.push_back(run);
-            }
-            run++;
-        }
-    }
-    compressed.push_back(run);
-    return compressed;
-}
-\/
-void printByteArray(const std::vector&lt;unsigned char&gt;& arr) {
-    for (const unsigned char b : arr) {
-        std::cout &lt;&lt; static_cast&lt;int&gt;(b) &lt;&lt; " "; 
-    }
-    std::cout &lt;&lt; std::endl;
-}
-    </code-block>
-    </tab>
-    <tab title="Python">
-    <code-block lang="python" collapsible="true">
-R = 256
-LG_R = 8
-\/
-def expand(compressed):
-    expanded = []
-    b = False
-    for run in compressed:
-        expanded.extend([1 if b else 0] * run)
-        b = not b
-    return expanded
-\/
-def compress(input_data):
-    compressed = []
-    run = 0
-    old = False
-    for b_val in input_data:
-        b = b_val != 0
-        if b != old:
-            compressed.append(run)
-            run = 1
-            old = not old
-        else:
-            if run == R - 1:
-                compressed.append(run)
-                run = 0
-                compressed.append(run)
-            run += 1
-    compressed.append(run)
-    return compressed
-\/
-def print_byte_array(arr):
-    print(*arr)
-    </code-block>
-    </tab>
-</tabs>
-
-### 23.3 Huffman Coding
-
-<p>Inorder to produce prefix-free code, we need to ensure that no codeword
-is a <format color="OrangeRed">prefix</format> of another.</p>
-
-### 23.4 LZW Coding
-
-## 24 Reductions
-
-### 24.1 Introduction
-
-<p><format color="DarkOrange">Reduction:</format> Problem <math>X</math> 
-reduces to problem <math>Y</math> if you can use an algorithm that solves
-<math>Y</math> to help solve <math>X</math>.</p>
-
-<p>Cost of solving <math>X</math> = total cost of solving <math>Y</math> 
-+ cost of reduction</p>
-
-<p><format color="IndianRed">Example 1:</format> Finding the median reduces
-to sorting</p>
-
-<procedure title="Find the media of N items">
-<step>
-    <p>Sort <math>N</math> items.</p>
-</step>
-<step>
-    <p>Return item in the middle.</p>
-</step>
-</procedure>
-
-<p><format color="LawnGreen">Cost of solving this problem:</format> <math>
-N \log N + 1</math></p>
-
-<p><format color="IndianRed">Example 2:</format> Element distinctness 
-reduces to sorting</p>
-
-<procedure title="Element distinctness on N items">
-<step>
-    <p>Sort <math>N</math> items.</p>
-</step>
-<step>
-    <p>Check adjacent pairs for equality.</p>
-</step>
-</procedure>
-
-<p><format color="LawnGreen">Cost of solving this problem:</format> <math>
-N \log N + N</math></p>
-
-### 24.2 Designing Algorithms
-
-<p><format color="IndianRed">Examples</format></p>
-
-<list>
-<li>
-    <p>3-collinear reduces to sorting.</p>
-</li>
-<li>
-    <p>Finding the median reduces to sorting.</p>
-</li>
-<li>
-    <p>Element distinctness reduces to sorting.</p>
-</li>
-<li>
-    <p>CPM reduces to topological sort.</p>
-</li>
-<li>
-    <p>Arbitrage reduces to shortest paths.</p>
-</li>
-<li>
-    <p>Burrows-Wheeler transform reduces to suffix sort.</p>
-</li>
-</list>
-
-<p>For more examples on algorithm designing using reductions, please visit 
-<a href="Data-Structures-and-Algorithms-1.md" anchor="convex-hull" 
-summary="Convex Hull">convex hull</a> or <a anchor="shortest-path-properties" 
-summary="Shortest Path">shortest path</a>.</p>
-
-### 24.3 Establishing Lower Bounds
-
-<p>Very difficult to establish lower bounds from scratch => Use reductions</p>
-
-<p><format color="BlueViolet">Definition:</format> Problem <math>X</math> 
-<format color="DarkOrange">linear-time reduces</format> to problem <math>Y</math> 
-if <math>X</math> can be solved with:</p>
-
-<list type="bullet">
-<li>
-    <p>Linear number of standard computational steps.</p>
-</li>
-<li>
-    <p>Constant number of calls to <math>Y</math>.</p>
-</li>
-</list>
-
-<p><format color="BlueViolet">Property:</format> In quadratic decision 
-tree model, any algorithm for sorting <math>N</math> integers requires 
-<math>\Omega (N \log N)</math> steps. Sorting linear-time reduces to 
-convex hull.</p>
-
-<p><format color="LawnGreen">Proof</format></p>
-
-<list type="bullet">
-<li>
-    <p><format color="Fuchsia">Sorting instance:</format> <math>x_1</math>, 
-    <math>x_2</math>, ..., <math>x_N</math></p>
-</li>
-<li>
-    <p><format color="Fuchsia">Convex hull instance:</format> <math>(x_1, {x_{1}}^{2}</math>, 
-    <math>(x_2, {x_{2}}^{2}</math>, ..., <math>(x_N, {x_{N}}^{2}</math></p>
-</li>
-<li>
-    <p>Region <math>\{ x \mid x^2 \geq x \}</math> is convex => all 
-    points are on hull.</p>
-</li>
-<li>
-    <p>Starting at point with most negative <math>x</math>, counterclockwise 
-    order of hull points yields integers in ascending order.</p>
-</li>
-</list>
-
-<img src="../images_data/d24-3-1.png" alt="Convex Hull"/>
-
-### 24.4 Classifying Problems
-
-<p><format color="BlueViolet">Goal:</format> Classyify problem with algorithm
-that matches lower bound.</p>
-
-<p><format color="BlueViolet">Integer Arithmetic Reductions</format></p>
-
-<p><format color="BlueViolet">Goal:</format> Given two <math>N</math>-bit
-integers, compute their product.</p>
-
-<table style="header-row">
-<tr>
-    <td>Problem</td>
-    <td>Arithmetic</td>
-    <td>Order of Growth</td>
-</tr>
-<tr>
-    <td>Integer Multiplication</td>
-    <td><math>a \times b</math></td>
-    <td>M(N)</td>
-</tr>
-<tr>
-    <td>Integer Division</td>
-    <td><math>a / b</math>, <math>a \mod b</math></td>
-    <td>M(N)</td>
-</tr>
-<tr>
-    <td>Integer Square</td>
-    <td><math>a^2</math></td>
-    <td>M(N)</td>
-</tr>
-<tr>
-    <td>Integer Square Root</td>
-    <td><math>\left\lfloor \sqrt{a} \right\rfloor</math></td>
-    <td>M(N)</td>
-</tr>
-</table>
-
-<p>Integer arithmetic problems with the same complexity as integer 
-multiplication.</p>
-
-<p><format color="BlueViolet">Matrix Multiplication</format></p>
-
-<p><format color="BlueViolet">Goal:</format> Given two <math>N</math>-by- <math>N</math> 
-matrices, compute their product.</p>
-
-<table style="header-row">
-<tr>
-    <td>Problem</td>
-    <td>Linear Algebra</td>
-    <td>Order of Growth</td>
-</tr>
-<tr>
-    <td>Matrix Multiplication</td>
-    <td><math>A \times B</math></td>
-    <td>MM(N)</td>
-</tr>
-<tr>
-    <td>Matrix Inversion</td>
-    <td><math>A^{-1}</math></td>
-    <td>MM(N)</td>
-</tr>
-<tr>
-    <td>Determinant</td>
-    <td><math>\left| A \right|</math></td>
-    <td>MM(N)</td>
-</tr>
-<tr>
-    <td>System of Linear Equations</td>
-    <td><math>Ax=b</math></td>
-    <td>MM(N)</td>
-</tr>
-<tr>
-    <td>LU Decomposition</td>
-    <td><math>A=LU</math></td>
-    <td>MM(N)</td>
-</tr>
-<tr>
-    <td>Least Squares</td>
-    <td>min <math>\left|\left| Ax-b \right|\right|_2</math></td>
-    <td>MM(N)</td>
-</tr>
-</table>
-
-<p>Numerical linear algebra problems with the same complexity as matrix 
-multiplication.</p>
