@@ -6,13 +6,7 @@
 
 ## &#8544; C Programming
 
-### 1 Introduction to C
-
-<note>
-<p>For this part, please refer to <a href="C-Programming.md" 
-anchor="intro" summary="C++ Introduction">introduction in
-C++ programming</a>.</p>
-</note>
+### 1 Number Representation
 
 #### 1.1 Number Base
 
@@ -110,10 +104,16 @@ Conversion"/>
 </li>
 </list>
 
-<p>Converting from base 10 to base 2 will create unsigned integers.
-</p>
+<p>Converting from base 10 to base 2 will create unsigned integers.</p>
 
-<p><format color="BlueViolet">N-bit unsigned integers:</format> </p>
+<tip>
+<p>When convert number from base 10 to base 16, it is better to first convert from
+base 10 to base 2 then to base 16.</p>
+<p>For example, <math>15213_{10} = 0\text{b}11101101101101 = 0011 1011 0110 1101 = 3B6D</math></p>
+<img src="../images_architecture/a1-1-3.png" alt="Number Base Conversion"/>
+</tip>
+
+#### 1.2 Unsigned Integers
 
 <list type="bullet">
 <li>
@@ -162,7 +162,7 @@ Conversion"/>
 </tr>
 </table>
 
-#### 1.2 Signed Integers
+#### 1.3 Signed Integers
 
 <p><format color="BlueViolet">Idea:</format> Use the left-most bit 
 to indicate if the number is positive (0) or negative (1). This is 
@@ -200,7 +200,7 @@ representation.</p>
 </tr>
 </table>
 
-#### 1.3 One's Complement
+#### 1.4 One's Complement
 
 <p><format color="BlueViolet">Idea:</format> If the number is 
 negative, flip the bits.</p>
@@ -252,7 +252,7 @@ increasing.</p>
 </tr>
 </table>
 
-#### 1.4 Two's Complement
+#### 1.5 Two's Complement
 
 <p><format color="BlueViolet">Idea:</format> If the number is 
 negative, flip the bits, and add one (because we shifted to avoid 
@@ -396,7 +396,7 @@ signed decimal number:</format> </p>
     <p>11 and –5 are the same number in mod land: 11 mod 16.</p>
 </note>
 
-#### 1.5 Bias Notation
+#### 1.6 Bias Notation
 
 <p><format color="BlueViolet">Idea:</format> Just like unsigned, 
 but shifted on the number line.</p>
@@ -413,7 +413,7 @@ but shifted on the number line.</p>
 </li>
 </list>
 
-<img src="../images_architecture/a1-1-3.png" alt="Bias Notation"/>
+<img src="../images_architecture/a1-1-4.png" alt="Bias Notation"/>
 
 <p><format color="BlueViolet">To convert from bias to decimal:
 </format></p>
@@ -487,7 +487,7 @@ but shifted on the number line.</p>
 </tr>
 </table>
 
-#### 1.6 Sign Extension
+#### 1.7 Sign Extension
 
 <p>Leftmost is the most significant bit (MSB).</p>
 
@@ -528,6 +528,12 @@ but shifted on the number line.</p>
 </list>
 
 ### 2 C Introduction
+
+<note>
+<p>For more information, please refer to <a href="C-Programming.md" 
+anchor="intro" summary="C++ Introduction">introduction in
+C++ programming</a>.</p>
+</note>
 
 #### 2.1 Variable C Types
 
@@ -1161,9 +1167,9 @@ and turn into garbage.</p>
 
 ## &#8545; Assembly Language
 
-### 3 Introduction to Assembly Language
+### 4 Introduction to Assembly Language
 
-#### 3.1 Assembly Language
+#### 4.1 Assembly Language
 
 <p><format color="DarkOrange">Assembly (also known as Assembly 
 language, ASM):</format>  A low-level programming language where the 
