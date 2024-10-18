@@ -1045,7 +1045,182 @@ Conversion"/>
                 <p>sizeof(hello) = 12</p>
             </chapter>
         </chapter>
-        <chapter title="3 C Memory Layout" id="3-c-memory-layout">
+        <chapter title="3 Bits, Bytes &amp; Integers" id="3-bites-bytes-integers">
+            <chapter title="3.1 Bits Manipulation" id="3-1-bits-manipulation">
+                <p><format color="BlueViolet">Types of manipulation</format></p>
+                <list type="decimal">
+                    <li>
+                        <p><format color="Fuchsia">Bit-level Manipulation</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p><format color="Orange">A&amp;B (And):</format> A&amp;B = 1 when both A=1 and B=1</p>
+                            </li>
+                            <li>
+                                <p><format color="Orange">A|B (Or):</format> A|B = 1 when either A=1 or B=1</p>
+                            </li>
+                            <li>
+                                <p><format color="Orange">~A (Not):</format> ~A = 1 when A=0</p>
+                            </li>
+                            <li>
+                                <p><format color="Orange">A^B (Exclusive-Or (Xor):</format> A^B = 1 when either A=1 or B=1, but not both</p>
+                            </li>
+                        </list>
+                        <p><format color="IndianRed">Examples</format></p>
+                        <code-block lang="c" collapsible="true">
+                            int a = 105; // 01101001
+                            int b = 85; // 01010101
+                            printf("a &amp; b = %d\n", a &amp; b); // 65 (01000001)
+                            printf("a | b = %d\n", a | b); // 125 (01111101)
+                            printf("a ^ b = %d\n", a ^ b); // 60 (0111100)
+                            printf("~a = %d\n", ~a); // -106 (10010110, two's complement)
+                        </code-block>
+                        <p>You can also use this to represent &amp; manipulate sets, do this on char data type, etc.</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Logic Manipulation</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p>View 0 as "False"</p>
+                            </li>
+                            <li>
+                                <p><format color="OrangeRed">Anything nonzero as "True"</format></p>
+                            </li>
+                            <li>
+                                <p>Always return 0 or 1</p>
+                            </li>
+                            <li>
+                                <p><format color="OrangeRed">Early termination</format></p>
+                            </li>
+                        </list>
+                        <p><format color="LawnGreen">Examples</format></p>
+                        <code-block lang="c" collapsible="true">
+                            unsigned char value1 = 0x41; // Hexadecimal 41 (decimal 65)
+                            unsigned char value2 = 0x00; // Hexadecimal 00 (decimal 0)
+
+                            printf("!0x41 = 0x%02X\n", !value1); // Output: 0x00
+                            printf("!0x00 = 0x%02X\n", !value2); // Output: 0x01
+                            printf("!!0x41 = 0x%02X\n", !!value1); // Output: 0x01
+                            printf("0x69 &amp;&amp; 0x55 = %d\n", 0x69 &amp;&amp; 0x55); // Output: 1
+                            printf("0x69 || 0x55 = %d\n", 0x69 || 0x55); // Output: 1
+                        </code-block>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Shift Operations</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p><format color="Orange">Left Shift (x &lt;&lt; y):</format> Shift bit-vector
+                                    x left y positions</p>
+                                <list type="bullet">
+                                    <li>
+                                        <p>Throw away extra bits on left</p>
+                                    </li>
+                                    <li>
+                                        <p>Fill with 0’s on right</p>
+                                    </li>
+                                </list>
+                                <p><format color="LawnGreen">Examples</format></p>
+                                <img src="../images_architecture/a3-1-1.png" alt="Left Shift"/>
+                            </li>
+                            <li>
+                                <p><format color="Orange">Right Shift (x &gt;&gt; y):</format> Shift bit-vector
+                                    x left y positions</p>
+                                <list type="bullet">
+                                    <li>
+                                        <p>Throw away extra bits on right</p>
+                                    </li>
+                                    <li>
+                                        <p>Logical shift: Fill with 0's on left</p>
+                                    </li>
+                                    <li>
+                                        <p>Arithmetic shift: Replicate most significant bit on left</p>
+                                    </li>
+                                </list>
+                                <p><format color="LawnGreen">Examples</format></p>
+                                <img src="../images_architecture/a3-1-2.png" alt="Right Shift"/>
+                            </li>
+                            <li>
+                                <p><format color="Orange">Undefined Behavior:</format> Shift amount &lt; 0 or &gt;= word size</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+            </chapter>
+            <chapter title="3.2 Multiplication &amp; Division" id="3-2-mutliplication-division">
+                <chapter title="3.2.1 Power-of-2 Multiply with Shift" id="3-2-1-power-of-2-multiplication">
+                    <p><code>u &lt;&lt; k</code> gives <math>u * 2^k</math>, works for both signed and unsigned.</p>
+                    <p><format color="HotPink">Examples</format></p>
+                    <code-block lang="c" collapsible="true">
+                        int x = 8;
+                        int y = x &lt;&lt; 2; // 32
+                        int z = (x &lt;&lt; 5) - (x &lt;&lt; 3); // 192 = 8 * 24
+                    </code-block>
+                    <p>Most machines shift and add faster than multiply.</p>
+                    <p>Compiler generates this code automatically.</p>
+                </chapter>
+                <chapter title="3.2.2 Division" id="3-2-2-division">
+                    <list type="alpha-lower">
+                        <li>
+                            <p><format color="Fuchsia">Unsigned power-of-2 division</format></p>
+                            <p><code>u &gt;&gt; k</code> gives <math>u / 2^k</math>, use logical shift</p>
+                            <p><format color="HotPink">Examples</format></p>
+                            <table>
+                                <tr>
+                                    <td></td>
+                                    <td>Division</td>
+                                    <td>Computed</td>
+                                    <td>Hex</td>
+                                    <td>Binary</td>
+                                </tr>
+                                <tr>
+                                    <td>x</td>
+                                    <td>15213</td>
+                                    <td>15213</td>
+                                    <td>3B6D</td>
+                                    <td>00111011 01101101</td>
+                                </tr>
+                                <tr>
+                                    <td>x &gt;&gt; 1</td>
+                                    <td>7606.5</td>
+                                    <td>7606</td>
+                                    <td>1DB6</td>
+                                    <td>00011101 10110110</td>
+                                </tr>
+                                <tr>
+                                    <td>x &gt;&gt; 4</td>
+                                    <td>950.8125</td>
+                                    <td>950</td>
+                                    <td>03B6</td>
+                                    <td>00000011 10110110</td>
+                                </tr>
+                                <tr>
+                                    <td>x &gt;&gt; 8</td>
+                                    <td>59.5</td>
+                                    <td>59</td>
+                                    <td>003B</td>
+                                    <td>00000000 00111011</td>
+                                </tr>
+                            </table>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">Signed power-of-2 division</format></p>
+                            <list type="bullet">
+                                <li>
+                                    <p>Want to compute <math>\lceil x / 2^{k} \rceil</math> (Round to 0)</p>
+                                </li>
+                                <li>
+                                    <p>Compute as <math>\lfloor (x+(2^k-1))/2^k \rfloor</math></p>
+                                    <p>In C:</p>
+                                    <code-block lang="c">
+                                        (x + (1 &lt;&lt; k)-1) &gt;&gt; k
+                                    </code-block>
+                                </li>
+                            </list>
+                        </li>
+                    </list>
+                </chapter>
+            </chapter>
+        </chapter>
+        <chapter title="4 C Memory Layout" id="4-c-memory-layout">
             <p>Program's
                 <format color="OrangeRed" style="italic">address space
                 </format>
@@ -1111,7 +1286,7 @@ Conversion"/>
                     </p>
                 </li>
             </list>
-            <chapter title="3.1 Stack" id="3-1-stack">
+            <chapter title="4.1 Stack" id="4-1-stack">
                 <list type="bullet">
                     <li>
                         <p>A stack frame includes: </p>
@@ -1139,7 +1314,7 @@ Conversion"/>
                         </p>
                     </li>
                 </list>
-                <img src="../images_architecture/a3-1-1.png" alt="Example for Stack"/>
+                <img src="../images_architecture/a4-1-1.png" alt="Example for Stack"/>
                 <p>
                     <format color="BlueViolet">Stack Misuse</format>
                 </p>
@@ -1159,14 +1334,14 @@ Conversion"/>
                         return 0;
                     }
                 </code-block>
-                <img src="../images_architecture/a3-1-2.png" alt="Stack Frame"/>
+                <img src="../images_architecture/a4-1-2.png" alt="Stack Frame"/>
                 <note>
                     <p>Never retrun pointers to local variables from functions!</p>
                     <p>Your compiler will warn you about this - don't ignore such warnings!
                     </p>
                 </note>
             </chapter>
-            <chapter title="3.2 Static Data" id="3-2-static-data">
+            <chapter title="4.2 Static Data" id="4-2-static-data">
                 <list type="bullet">
                     <li>
                         <p>Place for variables that persist, and data doesn't subject to
@@ -1190,7 +1365,7 @@ Conversion"/>
                     <p>String literals cannot change!</p>
                 </warning>
             </chapter>
-            <chapter title="3.3 Code" id="3-3-code">
+            <chapter title="4.3 Code" id="3-3-code">
                 <list type="bullet">
                     <li>
                         <p>Copy of your code goes here, C code becomes data too!</p>
@@ -1200,7 +1375,7 @@ Conversion"/>
                     </li>
                 </list>
             </chapter>
-            <chapter title="3.4 Endianness" id="3-4-endianness">
+            <chapter title="4.4 Endianness" id="3-4-endianness">
                 <p>
                     <format color="BlueViolet">Endianness</format>
                 </p>
@@ -1235,7 +1410,7 @@ Conversion"/>
                     </p>
                 </warning>
             </chapter>
-            <chapter title="3.5 Heap" id="3-5-heap">
+            <chapter title="4.5 Heap" id="3-5-heap">
                 <p>Stack is not permanent - when the function returns, the memory will be deallocated
                     and turn into garbage.</p>
                 <p>Dynamically allocated memory goes on the
@@ -1352,7 +1527,7 @@ Conversion"/>
                     </li>
                 </list>
             </chapter>
-            <chapter title="3.6 Common Mistakes" id="3-6-common-mistakes">
+            <chapter title="4.6 Common Mistakes" id="3-6-common-mistakes">
                 <p>
                     <format color="BlueViolet">Memory error types</format>
                 </p>
@@ -1384,8 +1559,8 @@ Conversion"/>
         <title>
             Ⅱ Assembly Language
         </title>
-        <chapter title="4 Introduction to Assembly Language" id="4-introduction-to-assembly-language">
-            <chapter title="4.1 Assembly Language" id="4-1-assembly-language">
+        <chapter title="5 Introduction to Assembly Language" id="5-introduction-to-assembly-language">
+            <chapter title="5.1 Assembly Language" id="5-1-assembly-language">
                 <p>
                     <format color="DarkOrange">Assembly (also known as Assembly
                         language, ASM):
@@ -1475,7 +1650,7 @@ Conversion"/>
                     </li>
                 </list>
             </chapter>
-            <chapter title="3.2 Registers" id="3-2-registers">
+            <chapter title="5.2 Registers" id="5-2-registers">
                 <p>Assembly uses registers to store values. Registers are: </p>
                 <list type="bullet">
                     <li>
@@ -1516,7 +1691,7 @@ Conversion"/>
                                 memory</p></td>
                     </tr>
                 </table>
-                <img src="../images_architecture/a3-2-1.png" alt="Registers"/>
+                <img src="../images_architecture/a5-2-1.png" alt="Registers"/>
                 <warning>
                     <p>Some important notes about registers: </p>
                     <list type="bullet">
@@ -1542,14 +1717,14 @@ Conversion"/>
                     </list>
                 </warning>
             </chapter>
-            <chapter id="3-3-risc-instructions">
+            <chapter id="5-3-risc-instructions">
                 <title>
-                    3.3 RISC-Ⅴ Instructions
+                    5.3 RISC-Ⅴ Instructions
                 </title>
                 <p>In high-level languages, variable types determine operation.</p>
                 <p>In assembly, operation determines type, i.e., how register contents
                     are treated.</p>
-                <chapter title="3.3.1 Basic Arithmetic Instructions" id="3-3-1-basic-arithmetic-instructions">
+                <chapter title="5.3.1 Basic Arithmetic Instructions" id="5-3-1-basic-arithmetic-instructions">
                     <note>
                         <p>Assume here that the variables a, b and c are assigned to
                             registers s1, s2 and s3, respectively.</p>
@@ -1586,7 +1761,7 @@ Conversion"/>
                         </li>
                     </list>
                 </chapter>
-                <chapter title="3.3.2 Immediate Instructions" id="3-3-2-immediate-instructions">
+                <chapter title="5.3.2 Immediate Instructions" id="5-3-2-immediate-instructions">
                     <p>
                         <format color="DarkOrange">Immediates:</format>
                         Numerical
@@ -1624,7 +1799,7 @@ Conversion"/>
                             # of instructions.</p>
                     </warning>
                 </chapter>
-                <chapter title="3.3.3 Data Transfer Instructions" id="3-3-3-data-transfer-instructions">
+                <chapter title="5.3.3 Data Transfer Instructions" id="5-3-3-data-transfer-instructions">
                     <p>Specialized
                         <format color="OrangeRed">data transfer instructions
                         </format>
@@ -1715,7 +1890,7 @@ Conversion"/>
                         </li>
                     </list>
                 </chapter>
-                <chapter title="3.3.4 Control Flow Instructions" id="3-3-4-control-flow-instructions">
+                <chapter title="5.3.4 Control Flow Instructions" id="5-3-4-control-flow-instructions">
                     <p>
                         <format color="DarkOrange">Labels in RISC-Ⅴ</format>
                         : Defined
