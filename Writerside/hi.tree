@@ -18,6 +18,7 @@
     <toc-element topic="Database-System.topic"/>
     <toc-element topic="Operating-System.topic"/>
     <toc-element topic="Python-Programming.topic"/>
+    <toc-element topic="Rust-Programming.topic"/>
     <toc-element topic="Web-Development.topic"/>
     <toc-element topic="Postscript.md"/>
 </instance-profile>
