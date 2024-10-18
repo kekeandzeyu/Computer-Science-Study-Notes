@@ -23,48 +23,69 @@
                 <p>Annotate it with tags.</p>
             </li>
         </list>
-        <p>
-            <format color="BlueViolet">Types of tags</format>
-        </p>
+        <p><format color="BlueViolet">Commonly-used Tags</format></p>
         <list>
             <li>
-                <p>
-                    <format color="Fuchsia">&lt;p&gt;:</format>
-                    paragraph.
-                </p>
+                <p><format color="Fuchsia">&lt;head&gt;:</format> Contains miscellaneous things such as page title, CSS stylesheets, etc</p>
             </li>
             <li>
-                <p>
-                    <format color="Fuchsia">&lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;,
-                        &lt;h4&gt;, &lt;h5&gt;, &lt;h6&gt;:
-                    </format>
-                    heading.
-                </p>
+                <p><format color="Fuchsia">&lt;body&gt;:</format> The main body of the document</p>
             </li>
             <li>
-                <p>
-                    <format color="Fuchsia">&lt;ul&gt;, &lt;ol&gt;:</format>
-                    unordered &amp; ordered list.
-                </p>
+                <p><format color="Fuchsia">&lt;p&gt;:</format> New paragraph</p>
             </li>
             <li>
-                <p>
-                    <format color="Fuchsia">&lt;li&gt;:</format>
-                    list item.
-                </p>
+                <p><format color="Fuchsia">&lt;br&gt;:</format> Force a line break within the same paragraph</p>
             </li>
             <li>
-                <p>
-                    <format color="Fuchsia">&lt;a&gt;:</format>
-                    link to a local
-                    object or a website.
-                </p>
+                <p><format color="Fuchsia">&lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;h4&gt;, &lt;h5&gt;, &lt;h6&gt;:</format> Headings</p>
             </li>
             <li>
-                <p>
-                    <format color="Fuchsia">&lt;img&gt;:</format>
-                    image.
-                </p>
+                <p><format color="Fuchsia">&lt;b&gt;, &lt;i&gt;:</format> Boldface and italic</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;pre&gt;:</format> Typically used for code: indented with a fixed-width font,
+                    spaces are significant (e.g., newlines are preserved)</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;img&gt;:</format> Images</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;a href="..."&gt;:</format> Hyperlink to another Web page</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;!-- comments --&gt;:</format> Comment tags</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;table&gt;, &lt;tr&gt;, &lt;td&gt;:</format> Tables</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;ul&gt;, &lt;li&gt;:</format> Unordered list (with bullets)</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;ol&gt;, &lt;li&gt;:</format> uOrdered list (numbered)</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;div&gt;:</format> Used for grouping related elements, where the group
+                    occupies entire lines (forces a line break before and after) </p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;span&gt;:</format> Used for grouping related elements, where the group is
+                    within a single line (no forced line breaks)</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;form&gt;, &lt;input&gt;, &lt;textarea&gt;, &lt;select&gt;:</format> Used to create forms where
+                    users can input data</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;title&gt;:</format> Specify a title for the page, which will appear in the title bar
+                    for the browser window.</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;link&gt;:</format> Include CSS stylesheets and more</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">&lt;script&gt;:</format> Used to add Javascript to a page (can be used in body as well)</p>
             </li>
         </list>
         <p>
@@ -94,6 +115,24 @@
             &lt;/body&gt;
             &lt;/html&gt;
         </code-block>
+        <p><format color="BlueViolet">XHTML:</format> XHTML is more strict about adhering to proper syntax.</p>
+        <p><format color="HotPink">Example</format></p>
+        <code-block lang="xml" collapsible="true">
+            &lt;?xml version="1.0" encoding="utf-8"?&gt;
+            &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+            <!-- Indicate that this is an XHTML document, conforming to version 1.0 of the standard. -->
+            &lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"&gt;
+            <!-- Outermost element containing the document. -->
+            &lt;head&gt;
+                &lt;title&gt;Hello World&lt;/title&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+            &lt;p&gt;Hello world!&lt;/p&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+        </code-block>
+
     </chapter>
 
 </topic>
