@@ -24,69 +24,69 @@
                         import java.util.Iterator;
                         
                         public class SLList implements Iterable&lt;Integer&gt; {
-                        public static class IntNode {
-                        public int item;
-                        public IntNode next;
+                            public static class IntNode {
+                                public int item;
+                                public IntNode next;
                         
-                        public IntNode(int i, IntNode n) {
-                        item = i;
-                        next = n;
-                        }
-                        }
+                                public IntNode(int i, IntNode n) {
+                                    item = i;
+                                    next = n;
+                                }
+                            }
                         
-                        private final IntNode sentinel;
-                        private int size;
+                            private final IntNode sentinel;
+                            private int size;
                         
-                        public SLList() {
-                        sentinel = new IntNode(63, null);
-                        size = 0;
-                        }
+                            public SLList() {
+                                sentinel = new IntNode(63, null);
+                                size = 0;
+                            }
                         
-                        public SLList(int x) {
-                        sentinel = new IntNode(63, null);
-                        sentinel.next = new IntNode(x, null);
-                        size = 1;
-                        }
+                            public SLList(int x) {
+                                sentinel = new IntNode(63, null);
+                                sentinel.next = new IntNode(x, null);
+                                size = 1;
+                            }
                         
-                        public void addFirst(int x) {
-                        sentinel.next = new IntNode(x, sentinel.next);
-                        size += 1;
-                        }
+                            public void addFirst(int x) {
+                                sentinel.next = new IntNode(x, sentinel.next);
+                                size += 1;
+                            }
                         
-                        public void addLast(int x) {
-                        size += 1;
-                        IntNode p = sentinel;
-                        while (p.next != null) {
-                        p = p.next;
-                        }
-                        p.next = new IntNode(x, null);
-                        }
+                            public void addLast(int x) {
+                                size += 1;
+                                IntNode p = sentinel;
+                                while (p.next != null) {
+                                    p = p.next;
+                                }
+                                p.next = new IntNode(x, null);
+                            }
                         
-                        public int size() {
-                        return size;
-                        }
+                            public int size() {
+                                return size;
+                            }
                         
-                        public Iterator&lt;Integer&gt; iterator() {
-                        return new SLListIterator();
-                        }
+                            public Iterator&lt;Integer&gt; iterator() {
+                                return new SLListIterator();
+                            }
                         
-                        private class SLListIterator implements Iterator&lt;Integer&gt; {
-                        private IntNode p;
+                            private class SLListIterator implements Iterator&lt;Integer&gt; {
+                                private IntNode p;
                         
-                        public SLListIterator() {
-                        p = sentinel.next;
-                        }
+                                public SLListIterator() {
+                                    p = sentinel.next;
+                                }
                         
-                        public boolean hasNext() {
-                        return p != null;
-                        }
+                                public boolean hasNext() {
+                                    return p != null;
+                                }
                         
-                        public Integer next() {
-                        int returnItem = p.item;
-                        p = p.next;
-                        return returnItem;
-                        }
-                        }
+                                public Integer next() {
+                                    int returnItem = p.item;
+                                    p = p.next;
+                                    return returnItem;
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -97,102 +97,102 @@
                         template &lt;typename T&gt;
                         class SLList {
                         public:
-                        class IntNode {
-                        public:
-                        T item;
-                        IntNode* next;
+                            class IntNode {
+                            public:
+                                T item;
+                                IntNode* next;
                         
-                        IntNode(T i, IntNode* n) {
-                        item = i;
-                        next = n;
-                        }
-                        };
+                                IntNode(T i, IntNode* n) {
+                                    item = i;
+                                    next = n;
+                                }
+                            };
                         
                         private:
-                        IntNode* sentinel;
-                        int size;
+                            IntNode* sentinel;
+                            int size;
                         
                         public:
-                        SLList() {
-                        sentinel = new IntNode(63, nullptr);
-                        size = 0;
-                        }
+                            SLList() {
+                                sentinel = new IntNode(63, nullptr);
+                                size = 0;
+                            }
                         
-                        explicit SLList(T x) {
-                        sentinel = new IntNode(63, nullptr);
-                        sentinel-&gt;next = new IntNode(x, nullptr);
-                        size = 1;
-                        }
+                            explicit SLList(T x) {
+                                sentinel = new IntNode(63, nullptr);
+                                sentinel-&gt;next = new IntNode(x, nullptr);
+                                size = 1;
+                            }
                         
-                        void addFirst(T x) {
-                        sentinel-&gt;next = new IntNode(x, sentinel-&gt;next);
-                        size += 1;
-                        }
+                            void addFirst(T x) {
+                                sentinel-&gt;next = new IntNode(x, sentinel-&gt;next);
+                                size += 1;
+                            }
                         
-                        void addLast(T x) {
-                        size += 1;
-                        IntNode* p = sentinel;
-                        while (p-&gt;next != nullptr) {
-                        p = p-&gt;next;
-                        }
-                        p-&gt;next = new IntNode(x, nullptr);
-                        }
+                            void addLast(T x) {
+                                size += 1;
+                                IntNode* p = sentinel;
+                                while (p-&gt;next != nullptr) {
+                                    p = p-&gt;next;
+                                }
+                            p-&gt;next = new IntNode(x, nullptr);
+                            }
                         
-                        [[nodiscard]] int size_() const {
-                        return size;
-                        }
+                            [[nodiscard]] int size_() const {
+                                return size;
+                            }
                         
-                        class iterator {
-                        private:
-                        IntNode* current;
-                        
-                        public:
-                        explicit iterator(IntNode* start) : current(start) {}
-                        
-                        T&amp; operator*() { return current-&gt;item; }
-                        iterator&amp; operator++() { current = current-&gt;next; return *this; }
-                        bool operator!=(const iterator&amp; other) const { return current != other.current; }
-                        };
-                        
-                        iterator begin() { return iterator(sentinel-&gt;next); }
-                        iterator end() { return iterator(nullptr); }
+                            class iterator {
+                            private:
+                                IntNode* current;
+
+                            public:
+                                explicit iterator(IntNode* start) : current(start) {}
+
+                                T&amp; operator*() { return current-&gt;item; }
+                                iterator&amp; operator++() { current = current-&gt;next; return *this; }
+                                bool operator!=(const iterator&amp; other) const { return current != other.current; }
+                            };
+
+                            iterator begin() { return iterator(sentinel-&gt;next); }
+                            iterator end() { return iterator(nullptr); }
                         };
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class SLList:
-                        class IntNode:
-                        def __init__(self, i, n):
-                        self.item = i
-                        self.next = n
+                            class IntNode:
+                                def __init__(self, i, n):
+                                    self.item = i
+                                    self.next = n
                         
                         def __init__(self, x=None):
-                        self.sentinel = self.IntNode(None, None)
-                        self.size = 0
-                        if x is not None: # If x is provided, add it as the first element
-                        self.sentinel.next = self.IntNode(x, None)
-                        self.size = 1
+                            self.sentinel = self.IntNode(None, None)
+                            self.size = 0
+                            if x is not None: # If x is provided, add it as the first element
+                                self.sentinel.next = self.IntNode(x, None)
+                                self.size = 1
                         
                         def addFirst(self, x):
-                        self.sentinel.next = self.IntNode(x, self.sentinel.next)
-                        self.size += 1
+                            self.sentinel.next = self.IntNode(x, self.sentinel.next)
+                            self.size += 1
                         
                         def addLast(self, x):
-                        p = self.sentinel
-                        while p.next is not None:
-                        p = p.next
-                        p.next = self.IntNode(x, None)
-                        self.size += 1
+                            p = self.sentinel
+                            while p.next is not None:
+                                p = p.next
+                                p.next = self.IntNode(x, None)
+                                self.size += 1
                         
                         def __len__(self):
-                        return self.size
+                            return self.size
                         
                         def __iter__(self):
-                        p = self.sentinel.next
-                        while p is not None:
-                        yield p.item
-                        p = p.next
+                            p = self.sentinel.next
+                            while p is not None:
+                                yield p.item
+                                p = p.next
                     </code-block>
                 </tab>
             </tabs>
@@ -208,19 +208,19 @@
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
                         import java.util.LinkedList;
-                        
+
                         public class DLList {
-                        public static void main(String[] args) {
-                        LinkedList&lt;String&gt; linkedList = new LinkedList&lt;&gt;();
-                        
-                        linkedList.add("A");
-                        linkedList.add("B");
-                        linkedList.addLast("C");
-                        linkedList.addFirst("D");
-                        linkedList.add(2, "E");
-                        
-                        System.out.println("Linked list : " + linkedList);
-                        }
+                            public static void main(String[] args) {
+                                LinkedList&lt;String&gt; linkedList = new LinkedList&lt;&gt;();
+
+                                linkedList.add("A");
+                                linkedList.add("B");
+                                linkedList.addLast("C");
+                                linkedList.addFirst("D");
+                                linkedList.add(2, "E");
+
+                                System.out.println("Linked list : " + linkedList);
+                            }
                         }
                     </code-block>
                 </tab>
@@ -229,18 +229,18 @@
                         #include &lt;list&gt;
                         #include &lt;iostream&gt;
                         
-                        int main() &#123;
-                        std::list&lt;int&gt; myList;
-                        
-                        myList.push_back(1);
-                        myList.push_back(2);
-                        myList.push_back(3);
-                        
-                        for(auto i : myList) {
-                        std::cout &lt;&lt; i &lt;&lt; " ";
-                        }
-                        
-                        return 0;
+                        int main() {
+                            std::list&lt;int&gt; myList;
+
+                            myList.push_back(1);
+                            myList.push_back(2);
+                            myList.push_back(3);
+
+                            for(auto i : myList) {
+                                std::cout &lt;&lt; i &lt;&lt; " ";
+                            }
+
+                            return 0;
                         }
                     </code-block>
                 </tab>
@@ -295,106 +295,106 @@
                         
                         public class LinkedList&lt;T&gt; {
                         
-                        private class Node {
-                        public T item;
-                        public Node prev;
-                        public Node next;
+                            private class Node {
+                                public T item;
+                                public Node prev;
+                                public Node next;
                         
-                        public Node(T i, Node p, Node n) {
-                        item = i;
-                        prev = p;
-                        next = n;
-                        }
-                        }
+                                public Node(T i, Node p, Node n) {
+                                    item = i;
+                                    prev = p;
+                                    next = n;
+                                }
+                            }
                         
-                        private final Node sentinel;
-                        private int size;
+                            private final Node sentinel;
+                            private int size;
                         
-                        public LinkedList() {
-                        sentinel = new Node(null, null, null);
-                        sentinel.prev = sentinel;
-                        sentinel.next = sentinel;
-                        size = 0;
-                        }
+                            public LinkedList() {
+                                sentinel = new Node(null, null, null);
+                                sentinel.prev = sentinel;
+                                sentinel.next = sentinel;
+                                size = 0;
+                            }
                         
-                        public void addFirst(T x) {
-                        Node newNode = new Node(x, sentinel, sentinel.next);
-                        sentinel.next.prev = newNode;
-                        sentinel.next = newNode;
-                        size++;
-                        }
+                            public void addFirst(T x) {
+                                Node newNode = new Node(x, sentinel, sentinel.next);
+                                sentinel.next.prev = newNode;
+                                sentinel.next = newNode;
+                                size++;
+                            }
                         
-                        public void addLast(T x) {
-                        Node newNode = new Node(x, sentinel.prev, sentinel);
-                        sentinel.prev.next = newNode;
-                        sentinel.prev = newNode;
-                        size++;
-                        }
+                            public void addLast(T x) {
+                                Node newNode = new Node(x, sentinel.prev, sentinel);
+                                sentinel.prev.next = newNode;
+                                sentinel.prev = newNode;
+                                size++;
+                            }
                         
-                        public ArrayList&lt;T&gt; toList() {
-                        ArrayList&lt;T&gt; returnList = new ArrayList&lt;&gt;();
-                        Node p = sentinel.next;
-                        while (p != sentinel) {
-                        returnList.add(p.item);
-                        p = p.next;
-                        }
-                        return returnList;
-                        }
+                            public ArrayList&lt;T&gt; toList() {
+                                ArrayList&lt;T&gt; returnList = new ArrayList&lt;&gt;();
+                                Node p = sentinel.next;
+                                while (p != sentinel) {
+                                    returnList.add(p.item);
+                                    p = p.next;
+                                }
+                                return returnList;
+                            }
                         
-                        public boolean isEmpty() {
-                        return size == 0;
-                        }
+                            public boolean isEmpty() {
+                                return size == 0;
+                            }
                         
-                        public int size() {
-                        return size;
-                        }
+                            public int size() {
+                                return size;
+                            }
                         
-                        public T removeFirst() {
-                        if (isEmpty()) {
-                        return null;
-                        }
-                        Node first = sentinel.next;
-                        sentinel.next = first.next;
-                        first.next.prev = sentinel;
-                        size--;
-                        return first.item;
-                        }
+                            public T removeFirst() {
+                                if (isEmpty()) {
+                                    return null;
+                                }
+                                Node first = sentinel.next;
+                                sentinel.next = first.next;
+                                first.next.prev = sentinel;
+                                size--;
+                                return first.item;
+                            }
                         
-                        public T removeLast() {
-                        if (isEmpty()) {
-                        return null;
-                        }
-                        Node last = sentinel.prev;
-                        sentinel.prev = last.prev;
-                        last.prev.next = sentinel;
-                        size--;
-                        return last.item;
-                        }
+                            public T removeLast() {
+                                if (isEmpty()) {
+                                    return null;
+                                }
+                                Node last = sentinel.prev;
+                                sentinel.prev = last.prev;
+                                last.prev.next = sentinel;
+                                size--;
+                                return last.item;
+                            }
                         
-                        public T get(int index) {
-                        if (index &lt; 0 || index &gt;= size) {
-                        return null;
-                        }
-                        Node p = sentinel.next;
-                        for (int i = 0; i &lt; index; i++) {
-                        p = p.next;
-                        }
-                        return p.item;
-                        }
+                            public T get(int index) {
+                                if (index &lt; 0 || index &gt;= size) {
+                                    return null;
+                                }
+                                Node p = sentinel.next;
+                                for (int i = 0; i &lt; index; i++) {
+                                    p = p.next;
+                                }
+                                return p.item;
+                            }
                         
-                        public T getRecursive(int index) {
-                        if (index &lt; 0 || index &gt;= size) {
-                        return null;
-                        }
-                        return getRecursiveHelper(sentinel.next, index);
-                        }
+                            public T getRecursive(int index) {
+                                if (index &lt; 0 || index &gt;= size) {
+                                    return null;
+                                }
+                                return getRecursiveHelper(sentinel.next, index);
+                            }
                         
-                        private T getRecursiveHelper(Node p, int index) {
-                        if (index == 0) {
-                        return p.item;
-                        }
-                        return getRecursiveHelper(p.next, index - 1);
-                        }
+                            private T getRecursiveHelper(Node p, int index) {
+                                if (index == 0) {
+                                    return p.item;
+                                }
+                                return getRecursiveHelper(p.next, index - 1);
+                            }
                         }
                     </code-block>
                 </tab>
@@ -405,198 +405,196 @@
                         template &lt;typename T&gt;
                         class LinkedList {
                         private:
-                        struct Node {
-                        T item;
-                        Node* prev;
-                        Node* next;
+                            struct Node {
+                                T item;
+                                Node* prev;
+                                Node* next;
+
+                                Node(T i, Node* p, Node* n) : item(i), prev(p), next(n) {}
+                            };
                         
-                        Node(T i, Node* p, Node* n) : item(i), prev(p), next(n) {}
-                        };
-                        
-                        Node* sentinel;
-                        int size;
+                            Node* sentinel;
+                            int size;
                         
                         public:
-                        LinkedList() : size(0) {
-                        sentinel = new Node(T(), nullptr, nullptr);
-                        sentinel-&gt;prev = sentinel;
-                        sentinel-&gt;next = sentinel;
-                        }
+                            LinkedList() : size(0) {
+                                sentinel = new Node(T(), nullptr, nullptr);
+                                sentinel-&gt;prev = sentinel;
+                                sentinel-&gt;next = sentinel;
+                            }
                         
-                        ~LinkedList() {
-                        Node* current = sentinel-&gt;next;
-                        while (current != sentinel) {
-                        Node* next = current-&gt;next;
-                        delete current;
-                        current = next;
-                        }
-                        delete sentinel;
-                        }
+                            ~LinkedList() {
+                                Node* current = sentinel-&gt;next;
+                                while (current != sentinel) {
+                                    Node* next = current-&gt;next;
+                                    delete current;
+                                    current = next;
+                                }
+                                delete sentinel;
+                            }
                         
-                        void addFirst(T x) {
-                        Node* newNode = new Node(x, sentinel, sentinel-&gt;next);
-                        sentinel-&gt;next-&gt;prev = newNode;
-                        sentinel-&gt;next = newNode;
-                        size++;
-                        }
+                            void addFirst(T x) {
+                                Node* newNode = new Node(x, sentinel, sentinel-&gt;next);
+                                sentinel-&gt;next-&gt;prev = newNode;
+                                sentinel-&gt;next = newNode;
+                                size++;
+                            }
                         
-                        void addLast(T x) {
-                        Node* newNode = new Node(x, sentinel-&gt;prev, sentinel);
-                        sentinel-&gt;prev-&gt;next = newNode;
-                        sentinel-&gt;prev = newNode;
-                        size++;
-                        }
+                            void addLast(T x) {
+                                Node* newNode = new Node(x, sentinel-&gt;prev, sentinel);
+                                sentinel-&gt;prev-&gt;next = newNode;
+                                sentinel-&gt;prev = newNode;
+                                size++;
+                            }
                         
-                        std::vector&lt;T&gt; toList() {
-                        std::vector&lt;T&gt; returnList;
-                        Node* p = sentinel-&gt;next;
-                        while (p != sentinel) {
-                        returnList.push_back(p-&gt;item);
-                        p = p-&gt;next;
-                        }
-                        return returnList;
-                        }
+                            std::vector&lt;T&gt; toList() {
+                                std::vector&lt;T&gt; returnList;
+                                Node* p = sentinel-&gt;next;
+                                while (p != sentinel) {
+                                    returnList.push_back(p-&gt;item);
+                                    p = p-&gt;next;
+                                }
+                                return returnList;
+                            }
                         
-                        [[nodiscard]] bool isEmpty() const
-                        {
-                        return size == 0;
-                        }
+                            [[nodiscard]] bool isEmpty() const {
+                                return size == 0;
+                            }
                         
-                        [[nodiscard]] int size_() const
-                        {
-                        return size;
-                        }
+                            [[nodiscard]] int size_() const {
+                                return size;
+                            }
                         
-                        T removeFirst() {
-                        if (isEmpty()) {
-                        return T();
-                        }
-                        Node* first = sentinel-&gt;next;
-                        sentinel-&gt;next = first-&gt;next;
-                        first-&gt;next-&gt;prev = sentinel;
-                        size--;
-                        T item = first-&gt;item;
-                        delete first;
-                        return item;
-                        }
+                            T removeFirst() {
+                                if (isEmpty()) {
+                                    return T();
+                                }
+                                Node* first = sentinel-&gt;next;
+                                sentinel-&gt;next = first-&gt;next;
+                                first-&gt;next-&gt;prev = sentinel;
+                                size--;
+                                T item = first-&gt;item;
+                                delete first;
+                                return item;
+                            }
                         
-                        T removeLast() {
-                        if (isEmpty()) {
-                        return T();
-                        }
-                        Node* last = sentinel-&gt;prev;
-                        sentinel-&gt;prev = last-&gt;prev;
-                        last-&gt;prev-&gt;next = sentinel;
-                        size--;
-                        T item = last-&gt;item;
-                        delete last;
-                        return item;
-                        }
+                            T removeLast() {
+                                if (isEmpty()) {
+                                    return T();
+                                }
+                                Node* last = sentinel-&gt;prev;
+                                sentinel-&gt;prev = last-&gt;prev;
+                                last-&gt;prev-&gt;next = sentinel;
+                                size--;
+                                T item = last-&gt;item;
+                                delete last;
+                                return item;
+                            }
                         
-                        T get(const int index) {
-                        if (index &lt; 0 || index &gt;= size) {
-                        return T();
-                        }
-                        Node* p = sentinel-&gt;next;
-                        for (int i = 0; i &lt; index; i++) {
-                        p = p-&gt;next;
-                        }
-                        return p-&gt;item;
-                        }
+                            T get(const int index) {
+                                if (index &lt; 0 || index &gt;= size) {
+                                    return T();
+                                }
+                                Node* p = sentinel-&gt;next;
+                                for (int i = 0; i &lt; index; i++) {
+                                    p = p-&gt;next;
+                                }
+                                return p-&gt;item;
+                            }
                         
-                        T getRecursive(const int index) {
-                        if (index &lt; 0 || index &gt;= size) {
-                        return T();
-                        }
-                        return getRecursiveHelper(sentinel-&gt;next, index);
-                        }
+                            T getRecursive(const int index) {
+                                if (index &lt; 0 || index &gt;= size) {
+                                    return T();
+                                }
+                                return getRecursiveHelper(sentinel-&gt;next, index);
+                            }
                         
                         private:
-                        T getRecursiveHelper(Node* p, const int index) {
-                        if (index == 0) {
-                        return p-&gt;item;
-                        }
-                        return getRecursiveHelper(p-&gt;next, index - 1);
-                        }
+                            T getRecursiveHelper(Node* p, const int index) {
+                                if (index == 0) {
+                                    return p-&gt;item;
+                                }
+                                return getRecursiveHelper(p-&gt;next, index - 1);
+                            }
                         };
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class Node:
-                        def __init__(self, item, prev, next):
-                        self.item = item
-                        self.prev = prev
-                        self.next = next
-                        
+                            def __init__(self, item, prev, next):
+                                self.item = item
+                                self.prev = prev
+                                self.next = next
+
                         class LinkedList:
-                        def __init__(self):
-                        self.sentinel = Node(None, None, None)
-                        self.sentinel.prev = self.sentinel
-                        self.sentinel.next = self.sentinel
-                        self.size = 0
-                        
-                        def addFirst(self, x):
-                        newNode = Node(x, self.sentinel, self.sentinel.next)
-                        self.sentinel.next.prev = newNode
-                        self.sentinel.next = newNode
-                        self.size += 1
-                        
-                        def addLast(self, x):
-                        newNode = Node(x, self.sentinel.prev, self.sentinel)
-                        self.sentinel.prev.next = newNode
-                        self.sentinel.prev = newNode
-                        self.size += 1
-                        
-                        def toList(self):
-                        returnList = []
-                        p = self.sentinel.next
-                        while p != self.sentinel:
-                        returnList.append(p.item)
-                        p = p.next
-                        return returnList
-                        
-                        def isEmpty(self):
-                        return self.size == 0
-                        
-                        def size_(self):
-                        return self.size
-                        
-                        def removeFirst(self):
-                        if self.isEmpty():
-                        return None
-                        first = self.sentinel.next
-                        self.sentinel.next = first.next
-                        first.next.prev = self.sentinel
-                        self.size -= 1
-                        return first.item
-                        
+                            def __init__(self):
+                                self.sentinel = Node(None, None, None)
+                                self.sentinel.prev = self.sentinel
+                                self.sentinel.next = self.sentinel
+                                self.size = 0
+
+                            def addFirst(self, x):
+                                newNode = Node(x, self.sentinel, self.sentinel.next)
+                                self.sentinel.next.prev = newNode
+                                self.sentinel.next = newNode
+                                self.size += 1
+
+                            def addLast(self, x):
+                                newNode = Node(x, self.sentinel.prev, self.sentinel)
+                                self.sentinel.prev.next = newNode
+                                self.sentinel.prev = newNode
+                                self.size += 1
+
+                            def toList(self):
+                                returnList = []
+                                p = self.sentinel.next
+                                while p != self.sentinel:
+                                    returnList.append(p.item)
+                                    p = p.next
+                                return returnList
+
+                            def isEmpty(self):
+                                return self.size == 0
+
+                            def size_(self):
+                                return self.size
+
+                            def removeFirst(self):
+                                if self.isEmpty():
+                                    return None
+                                first = self.sentinel.next
+                                self.sentinel.next = first.next
+                                first.next.prev = self.sentinel
+                                self.size -= 1
+                                return first.item
+
                         def removeLast(self):
-                        if self.isEmpty():
-                        return None
-                        last = self.sentinel.prev
-                        self.sentinel.prev = last.prev
-                        last.prev.next = self.sentinel
-                        self.size -= 1
-                        return last.item
-                        
+                            if self.isEmpty():
+                                return None
+                            last = self.sentinel.prev
+                            self.sentinel.prev = last.prev
+                            last.prev.next = self.sentinel
+                            self.size -= 1
+                            return last.item
+
                         def get(self, index):
-                        if index &lt; 0 or index &gt;= self.size:
-                        return None
-                        p = self.sentinel.next
-                        for i in range(index):
-                        p = p.next
-                        return p.item
-                        
+                            if index &lt; 0 or index &gt;= self.size:
+                                return None
+                            p = self.sentinel.next
+                            for i in range(index):
+                                p = p.next
+                            return p.item
+
                         def getRecursive(self, index):
-                        if index &lt; 0 or index &gt;= self.size:
-                        return None
-                        return self._getRecursiveHelper(self.sentinel.next, index)
-                        
+                            if index &lt; 0 or index &gt;= self.size:
+                                return None
+                            return self._getRecursiveHelper(self.sentinel.next, index)
+
                         def _getRecursiveHelper(self, p, index):
-                        if index == 0:
-                        return p.item
-                        return self._getRecursiveHelper(p.next, index - 1)
+                            if index == 0:
+                                return p.item
+                            return self._getRecursiveHelper(p.next, index - 1)
                     </code-block>
                 </tab>
             </tabs>
@@ -611,100 +609,100 @@
                         import java.lang.Math;
                         
                         public class ArrayDeque&lt;T&gt; {
-                        private T[] items;
-                        private int size;
-                        private int nextFirst;
-                        private int nextLast;
+                            private T[] items;
+                            private int size;
+                            private int nextFirst;
+                            private int nextLast;
                         
-                        public ArrayDeque() {
-                        items = (T[]) new Object[8];
-                        size = 0;
-                        nextFirst = 0;
-                        nextLast = 1;
-                        }
+                            public ArrayDeque() {
+                                items = (T[]) new Object[8];
+                                size = 0;
+                                nextFirst = 0;
+                                nextLast = 1;
+                            }
                         
-                        public void addFirst(T x) {
-                        checkAndResize();
-                        items[nextFirst] = x;
-                        nextFirst = Math.floorMod(nextFirst - 1, items.length);
-                        size += 1;
-                        }
+                            public void addFirst(T x) {
+                                checkAndResize();
+                                items[nextFirst] = x;
+                                nextFirst = Math.floorMod(nextFirst - 1, items.length);
+                                size += 1;
+                            }
                         
-                        public void addLast(T x) {
-                        checkAndResize();
-                        items[nextLast] = x;
-                        nextLast = Math.floorMod(nextLast + 1, items.length);
-                        size += 1;
-                        }
+                            public void addLast(T x) {
+                                checkAndResize();
+                                items[nextLast] = x;
+                                nextLast = Math.floorMod(nextLast + 1, items.length);
+                                size += 1;
+                            }
                         
-                        public List&lt;T&gt; toList() {
-                        List&lt;T&gt; list = new ArrayList&lt;&gt;();
-                        for (int i = 0; i &lt; size; i++) {
-                        list.add(get(i));
-                        }
-                        return list;
-                        }
+                            public List&lt;T&gt; toList() {
+                                List&lt;T&gt; list = new ArrayList&lt;&gt;();
+                                for (int i = 0; i &lt; size; i++) {
+                                    list.add(get(i));
+                                }
+                                return list;
+                            }
                         
-                        public boolean isEmpty() {
-                        return size == 0;
-                        }
+                            public boolean isEmpty() {
+                                return size == 0;
+                            }
                         
-                        public int size() {
-                        return size;
-                        }
+                            public int size() {
+                                return size;
+                            }
                         
-                        public T removeFirst() {
-                        if (isEmpty()) {
-                        return null;
-                        }
-                        nextFirst = Math.floorMod(nextFirst + 1, items.length);
-                        T item = items[nextFirst];
-                        items[nextFirst] = null;
-                        size -= 1;
-                        checkAndResize();
-                        return item;
-                        }
+                            public T removeFirst() {
+                                if (isEmpty()) {
+                                    return null;
+                                }
+                                nextFirst = Math.floorMod(nextFirst + 1, items.length);
+                                T item = items[nextFirst];
+                                items[nextFirst] = null;
+                                size -= 1;
+                                checkAndResize();
+                                return item;
+                            }
                         
-                        public T removeLast() {
-                        if (isEmpty()) {
-                        return null;
-                        }
-                        nextLast = Math.floorMod(nextLast - 1, items.length);
-                        T item = items[nextLast];
-                        items[nextLast] = null;
-                        size -= 1;
-                        checkAndResize();
-                        return item;
-                        }
+                            public T removeLast() {
+                                if (isEmpty()) {
+                                    return null;
+                                }
+                                nextLast = Math.floorMod(nextLast - 1, items.length);
+                                T item = items[nextLast];
+                                items[nextLast] = null;
+                                size -= 1;
+                                checkAndResize();
+                                return item;
+                            }
                         
-                        private void resize(int capacity) {
-                        T[] a = (T[]) new Object[capacity];
-                        for (int i = 0; i &lt; size; i++) {
-                        a[i] = get(i);
-                        }
-                        items = a;
-                        nextFirst = capacity - 1;
-                        nextLast = size;
-                        }
+                            private void resize(int capacity) {
+                                T[] a = (T[]) new Object[capacity];
+                                for (int i = 0; i &lt; size; i++) {
+                                    a[i] = get(i);
+                                }
+                                items = a;
+                                nextFirst = capacity - 1;
+                                nextLast = size;
+                            }
                         
-                        private void checkAndResize() {
-                        if (size == items.length) {
-                        resize(size * 2);
-                        } else if (items.length &gt;= 16 &amp;&amp; size &lt; items.length / 4) {
-                        resize(items.length / 2);
-                        }
-                        }
+                            private void checkAndResize() {
+                                if (size == items.length) {
+                                    resize(size * 2);
+                                } else if (items.length &gt;= 16 &amp;&amp; size &lt; items.length / 4) {
+                                    resize(items.length / 2);
+                                }
+                            }
                         
-                        public T get(int index) {
-                        if (index &gt;= size || index &lt; 0) {
-                        return null;
-                        }
-                        return items[Math.floorMod(nextFirst + 1 + index, items.length)];
-                        }
+                            public T get(int index) {
+                                if (index &gt;= size || index &lt; 0) {
+                                    return null;
+                                }
+                                return items[Math.floorMod(nextFirst + 1 + index, items.length)];
+                            }
                         
-                        public T getRecursive(int index) {
-                        throw new UnsupportedOperationException("No need to implement getRecursive for proj 1b");
-                        }
+                            public T getRecursive(int index) {
+                                throw new UnsupportedOperationException("No need to implement getRecursive for proj 1b");
+                            }
                         }
                     </code-block>
                 </tab>
@@ -715,172 +713,172 @@
                         template &lt;typename T&gt;
                         class ArrayDeque {
                         private:
-                        T* items;
-                        int size;
-                        int nextFirst;
-                        int nextLast;
-                        int capacity;
+                            T* items;
+                            int size;
+                            int nextFirst;
+                            int nextLast;
+                            int capacity;
                         
-                        void resize(const int newCapacity) {
-                        T* a = new T[newCapacity];
-                        for (int i = 0; i &lt; size; i++) {
-                        a[i] = get(i);
-                        }
-                        delete[] items;
-                        items = a;
-                        capacity = newCapacity;
-                        nextFirst = capacity - 1;
-                        nextLast = size;
-                        }
+                            void resize(const int newCapacity) {
+                                T* a = new T[newCapacity];
+                                for (int i = 0; i &lt; size; i++) {
+                                    a[i] = get(i);
+                                }
+                                delete[] items;
+                                items = a;
+                                capacity = newCapacity;
+                                nextFirst = capacity - 1;
+                                nextLast = size;
+                            }
                         
-                        void checkAndResize() {
-                        if (size == capacity) {
-                        resize(capacity * 2);
-                        } else if (capacity &gt;= 16 &amp;&amp; size &lt; capacity / 4) {
-                        resize(capacity / 2);
-                        }
-                        }
+                            void checkAndResize() {
+                                if (size == capacity) {
+                                    resize(capacity * 2);
+                                } else if (capacity &gt;= 16 &amp;&amp; size &lt; capacity / 4) {
+                                    resize(capacity / 2);
+                                }
+                            }
                         
                         public:
-                        ArrayDeque(): size(0), nextFirst(0), nextLast(1), capacity(8) {
-                        items = new T[capacity];
-                        }
+                            ArrayDeque(): size(0), nextFirst(0), nextLast(1), capacity(8) {
+                                items = new T[capacity];
+                            }
                         
-                        ~ArrayDeque() {
-                        delete[] items;
-                        }
+                            ~ArrayDeque() {
+                                delete[] items;
+                            }
                         
-                        void addFirst(T x) {
-                        checkAndResize();
-                        items[nextFirst] = x;
-                        nextFirst = (nextFirst - 1 + capacity) % capacity;
-                        size += 1;
-                        }
+                            void addFirst(T x) {
+                                checkAndResize();
+                                items[nextFirst] = x;
+                                nextFirst = (nextFirst - 1 + capacity) % capacity;
+                                size += 1;
+                            }
                         
-                        void addLast(T x) {
-                        checkAndResize();
-                        items[nextLast] = x;
-                        nextLast = (nextLast + 1) % capacity;
-                        size += 1;
-                        }
+                            void addLast(T x) {
+                                checkAndResize();
+                                items[nextLast] = x;
+                                nextLast = (nextLast + 1) % capacity;
+                                size += 1;
+                            }
                         
-                        std::vector&lt;T&gt; toList() {
-                        std::vector&lt;T&gt; list;
-                        for (int i = 0; i &lt; size; i++) {
-                        list.push_back(get(i));
-                        }
-                        return list;
-                        }
+                            std::vector&lt;T&gt; toList() {
+                                std::vector&lt;T&gt; list;
+                                for (int i = 0; i &lt; size; i++) {
+                                    list.push_back(get(i));
+                                }
+                                return list;
+                            }
                         
-                        [[nodiscard]] bool isEmpty() const {
-                        return size == 0;
-                        }
+                            [[nodiscard]] bool isEmpty() const {
+                                return size == 0;
+                            }
                         
-                        [[nodiscard]] int size_() const {
-                        return size;
-                        }
+                            [[nodiscard]] int size_() const {
+                                return size;
+                            }
+
+                            T removeFirst() {
+                                if (isEmpty()) {
+                                    return T();
+                                }
+                                nextFirst = (nextFirst + 1) % capacity;
+                                T item = items[nextFirst];
+                                size -= 1;
+                                checkAndResize();
+                                return item;
+                            }
                         
-                        T removeFirst() {
-                        if (isEmpty()) {
-                        return T();
-                        }
-                        nextFirst = (nextFirst + 1) % capacity;
-                        T item = items[nextFirst];
-                        size -= 1;
-                        checkAndResize();
-                        return item;
-                        }
+                            T removeLast() {
+                                if (isEmpty()) {
+                                    return T();
+                                }
+                                nextLast = (nextLast - 1 + capacity) % capacity;
+                                T item = items[nextLast];
+                                size -= 1;
+                                checkAndResize();
+                                return item;
+                            }
                         
-                        T removeLast() {
-                        if (isEmpty()) {
-                        return T();
-                        }
-                        nextLast = (nextLast - 1 + capacity) % capacity;
-                        T item = items[nextLast];
-                        size -= 1;
-                        checkAndResize();
-                        return item;
-                        }
-                        
-                        T get(const int index) {
-                        if (index &gt;= size || index &lt; 0) {
-                        return T();
-                        }
-                        return items[(nextFirst + 1 + index) % capacity];
-                        }
+                            T get(const int index) {
+                                if (index &gt;= size || index &lt; 0) {
+                                    return T();
+                                }
+                                return items[(nextFirst + 1 + index) % capacity];
+                            }
                         };
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class ArrayDeque:
-                        def __init__(self):
-                        self.capacity = 8
-                        self.items = [None] * self.capacity
-                        self.size = 0
-                        self.nextFirst = 0
-                        self.nextLast = 1
+                            def __init__(self):
+                                self.capacity = 8
+                                self.items = [None] * self.capacity
+                                self.size = 0
+                                self.nextFirst = 0
+                                self.nextLast = 1
                         
-                        def addFirst(self, x):
-                        self.checkAndResize()
-                        self.items[self.nextFirst] = x
-                        self.nextFirst = (self.nextFirst - 1 + self.capacity) % self.capacity
-                        self.size += 1
+                            def addFirst(self, x):
+                                self.checkAndResize()
+                                self.items[self.nextFirst] = x
+                                self.nextFirst = (self.nextFirst - 1 + self.capacity) % self.capacity
+                                self.size += 1
                         
-                        def addLast(self, x):
-                        self.checkAndResize()
-                        self.items[self.nextLast] = x
-                        self.nextLast = (self.nextLast + 1) % self.capacity
-                        self.size += 1
+                            def addLast(self, x):
+                                self.checkAndResize()
+                                self.items[self.nextLast] = x
+                                self.nextLast = (self.nextLast + 1) % self.capacity
+                                self.size += 1
                         
-                        def toList(self):
-                        return [self.get(i) for i in range(self.size)]
+                            def toList(self):
+                                return [self.get(i) for i in range(self.size)]
                         
-                        def isEmpty(self):
-                        return self.size == 0
+                            def isEmpty(self):
+                                return self.size == 0
                         
-                        def size_(self):
-                        return self.size
+                            def size_(self):
+                                return self.size
                         
-                        def removeFirst(self):
-                        if self.isEmpty():
-                        return None
-                        self.nextFirst = (self.nextFirst + 1) % self.capacity
-                        item = self.items[self.nextFirst]
-                        self.items[self.nextFirst] = None
-                        self.size -= 1
-                        self.checkAndResize()
-                        return item
+                            def removeFirst(self):
+                                if self.isEmpty():
+                                    return None
+                                self.nextFirst = (self.nextFirst + 1) % self.capacity
+                                item = self.items[self.nextFirst]
+                                self.items[self.nextFirst] = None
+                                self.size -= 1
+                                self.checkAndResize()
+                                return item
                         
-                        def removeLast(self):
-                        if self.isEmpty():
-                        return None
-                        self.nextLast = (self.nextLast - 1 + self.capacity) % self.capacity
-                        item = self.items[self.nextLast]
-                        self.items[self.nextLast] = None
-                        self.size -= 1
-                        self.checkAndResize()
-                        return item
+                            def removeLast(self):
+                                if self.isEmpty():
+                                    return None
+                                self.nextLast = (self.nextLast - 1 + self.capacity) % self.capacity
+                                item = self.items[self.nextLast]
+                                self.items[self.nextLast] = None
+                                self.size -= 1
+                                self.checkAndResize()
+                                return item
                         
-                        def resize(self, newCapacity):
-                        a = [None] * newCapacity
-                        for i in range(self.size):
-                        self.get(i)
-                        self.items = a
-                        self.capacity = newCapacity
-                        self.nextFirst = newCapacity - 1
-                        self.nextLast = self.size
+                            def resize(self, newCapacity):
+                                a = [None] * newCapacity
+                                for i in range(self.size):
+                                    self.get(i)
+                                self.items = a
+                                self.capacity = newCapacity
+                                self.nextFirst = newCapacity - 1
+                                self.nextLast = self.size
                         
-                        def checkAndResize(self):
-                        if self.size == self.capacity:
-                        self.resize(self.capacity * 2)
-                        elif self.capacity &gt;= 16 and self.size &lt; self.capacity // 4:
-                        self.resize(self.capacity // 2)
+                            def checkAndResize(self):
+                                if self.size == self.capacity:
+                                    self.resize(self.capacity * 2)
+                                elif self.capacity &gt;= 16 and self.size &lt; self.capacity // 4:
+                                    self.resize(self.capacity // 2)
                         
-                        def get(self, index):
-                        if index &gt;= self.size or index &lt; 0:
-                        return None
-                        return self.items[(self.nextFirst + 1 + index) % self.capacity]
+                            def get(self, index):
+                                if index &gt;= self.size or index &lt; 0:
+                                    return None
+                                return self.items[(self.nextFirst + 1 + index) % self.capacity]
                     </code-block>
                 </tab>
             </tabs>
@@ -1057,58 +1055,58 @@
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
                         public class UnionFind {
-                        private final int[] parent;
-                        private final byte[] rank;
-                        private int count;
+                            private final int[] parent;
+                            private final byte[] rank;
+                            private int count;
                         
-                        public UnionFind(int n) {
-                        if (n &lt; 0) throw new IllegalArgumentException();
-                        count = n;
-                        parent = new int[n];
-                        rank = new byte[n];
-                        for (int i = 0; i &lt; n; i++) {
-                        parent[i] = i;
-                        rank[i] = 0;
-                        }
-                        }
-                        
-                        public int find(int p) {
-                        validate(p);
-                        while (p != parent[p]) {
-                        parent[p] = parent[parent[p]];
-                        p = parent[p];
-                        }
-                        return p;
-                        }
-                        
-                        public int count() {
-                        return count;
-                        }
-                        
-                        public boolean connected(int p, int q) {
-                        return find(p) == find(q);
-                        }
-                        
-                        public void union(int p, int q) {
-                        int rootP = find(p);
-                        int rootQ = find(q);
-                        if (rootP == rootQ) return;
-                        
-                        if (rank[rootP] &lt; rank[rootQ]) parent[rootP] = rootQ;
-                        else if (rank[rootP] &gt; rank[rootQ]) parent[rootQ] = rootP;
-                        else {
-                        parent[rootQ] = rootP;
-                        rank[rootP]++;
-                        }
-                        count--;
-                        }
-                        
-                        private void validate(int p) {
-                        int n = parent.length;
-                        if (p &lt; 0 || p &gt;= n) {
-                        throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n - 1));
-                        }
-                        }
+                            public UnionFind(int n) {
+                                if (n &lt; 0) throw new IllegalArgumentException();
+                                count = n;
+                                parent = new int[n];
+                                rank = new byte[n];
+                                for (int i = 0; i &lt; n; i++) {
+                                    parent[i] = i;
+                                    rank[i] = 0;
+                                }
+                            }
+
+                            public int find(int p) {
+                                validate(p);
+                                while (p != parent[p]) {
+                                    parent[p] = parent[parent[p]];
+                                    p = parent[p];
+                                }
+                                return p;
+                            }
+
+                            public int count() {
+                                return count;
+                            }
+
+                            public boolean connected(int p, int q) {
+                                return find(p) == find(q);
+                            }
+
+                            public void union(int p, int q) {
+                                int rootP = find(p);
+                                int rootQ = find(q);
+                                if (rootP == rootQ) return;
+
+                                if (rank[rootP] &lt; rank[rootQ]) parent[rootP] = rootQ;
+                                else if (rank[rootP] &gt; rank[rootQ]) parent[rootQ] = rootP;
+                                else {
+                                    parent[rootQ] = rootP;
+                                    rank[rootP]++;
+                                }
+                                count--;
+                            }
+
+                            private void validate(int p) {
+                                int n = parent.length;
+                                if (p &lt; 0 || p &gt;= n) {
+                                    throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n - 1));
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -1121,19 +1119,19 @@
                         
                         class UnionFind {
                         private:
-                        std::vector&lt;int&gt; parent;
-                        std::vector&lt;int&gt; rank;
-                        int count;
+                            std::vector&lt;int&gt; parent;
+                            std::vector&lt;int&gt; rank;
+                            int count;
                         
                         public:
-                        explicit UnionFind(int n);
-                        int find(int p);
-                        [[nodiscard]] int countComponents() const;
-                        bool connected(int p, int q);
-                        void unionSets(int p, int q);
+                            explicit UnionFind(int n);
+                            int find(int p);
+                            [[nodiscard]] int countComponents() const;
+                            bool connected(int p, int q);
+                            void unionSets(int p, int q);
                         
                         private:
-                        void validate(int p) const;
+                            void validate(int p) const;
                         };
                         
                         #endif // UNIONFIND_H
@@ -1146,100 +1144,100 @@
                         #include "UnionFind.h"
                         
                         UnionFind::UnionFind(const int n) {
-                        if (n &lt; 0) throw std::invalid_argument("n must be non-negative");
-                        count = n;
-                        parent.resize(n);
-                        rank.resize(n);
-                        for (int i = 0; i &lt; n; i++) {
-                        parent[i] = i;
-                        rank[i] = 0;
-                        }
+                            if (n &lt; 0) throw std::invalid_argument("n must be non-negative");
+                            count = n;
+                            parent.resize(n);
+                            rank.resize(n);
+                            for (int i = 0; i &lt; n; i++) {
+                                parent[i] = i;
+                                rank[i] = 0;
+                            }
                         }
                         
                         int UnionFind::find(int p) {
-                        validate(p);
-                        while (p != parent[p]) {
-                        parent[p] = parent[parent[p]]; // Path compression
-                        p = parent[p];
-                        }
-                        return p;
+                            validate(p);
+                            while (p != parent[p]) {
+                                parent[p] = parent[parent[p]]; // Path compression
+                                p = parent[p];
+                            }
+                            return p;
                         }
                         
                         int UnionFind::countComponents() const {
-                        return count;
+                            return count;
                         }
                         
                         bool UnionFind::connected(int p, int q) {
-                        return find(p) == find(q);
+                            return find(p) == find(q);
                         }
                         
                         void UnionFind::unionSets(int p, int q) {
-                        const int rootP = find(p);
-                        int rootQ = find(q);
-                        if (rootP == rootQ) return;
-                        
-                        if (rank[rootP] &lt; rank[rootQ]) {
-                        parent[rootP] = rootQ;
-                        } else if (rank[rootP] &gt; rank[rootQ]) {
-                        parent[rootQ] = rootP;
-                        } else {
-                        parent[rootQ] = rootP;
-                        rank[rootP]++;
-                        }
-                        count--;
+                            const int rootP = find(p);
+                            int rootQ = find(q);
+                            if (rootP == rootQ) return;
+
+                            if (rank[rootP] &lt; rank[rootQ]) {
+                                parent[rootP] = rootQ;
+                            } else if (rank[rootP] &gt; rank[rootQ]) {
+                                parent[rootQ] = rootP;
+                            } else {
+                                parent[rootQ] = rootP;
+                                rank[rootP]++;
+                            }
+                            count--;
                         }
                         
                         void UnionFind::validate(const int p) const {
-                        int n = static_cast&lt;int&gt;(parent.size());
-                        if (p &lt; 0 || p &gt;= n) {
-                        throw std::invalid_argument("index " + std::to_string(p) + " is not between 0 and " +
-                        std::to_string(n - 1));
-                        }
+                            int n = static_cast&lt;int&gt;(parent.size());
+                            if (p &lt; 0 || p &gt;= n) {
+                                throw std::invalid_argument("index " + std::to_string(p) + " is not between 0 and " +
+                                std::to_string(n - 1));
+                            }
                         }
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class UnionFind:
-                        def __init__(self, n):
-                        if n &lt; 0:
-                        raise ValueError("n must be non-negative")
-                        self.count = n
-                        self.parent = list(range(n))
-                        self.rank = [0] * n
+                            def __init__(self, n):
+                                if n &lt; 0:
+                                raise ValueError("n must be non-negative")
+                                self.count = n
+                                self.parent = list(range(n))
+                                self.rank = [0] * n
                         
-                        def find(self, p):
-                        self.validate(p)
-                        while p != self.parent[p]:
-                        self.parent[p] = self.parent[self.parent[p]]
-                        p = self.parent[p]
-                        return p
+                            def find(self, p):
+                                self.validate(p)
+                                while p != self.parent[p]:
+                                self.parent[p] = self.parent[self.parent[p]]
+                                p = self.parent[p]
+                                return p
                         
-                        def count_components(self):
-                        return self.count
+                            def count_components(self):
+                                return self.count
                         
-                        def connected(self, p, q):
-                        return self.find(p) == self.find(q)
+                            def connected(self, p, q):
+                                return self.find(p) == self.find(q)
                         
-                        def union(self, p, q):
-                        root_p = self.find(p)
-                        root_q = self.find(q)
-                        if root_p == root_q:
-                        return
+                            def union(self, p, q):
+                                root_p = self.find(p)
+                                root_q = self.find(q)
+                                if root_p == root_q:
+                                    return
                         
-                        if self.rank[root_p] &lt; self.rank[root_q]:
-                        self.parent[root_p] = root_q
-                        elif self.rank[root_p] &gt; self.rank[root_q]:
-                        self.parent[root_q] = root_p
-                        else:
-                        self.parent[root_q] = root_p
-                        self.rank[root_p] += 1
-                        self.count -= 1
+                                if self.rank[root_p] &lt; self.rank[root_q]:
+                                    self.parent[root_p] = root_q
+                                elif self.rank[root_p] &gt; self.rank[root_q]:
+                                    self.parent[root_q] = root_p
+                                else:
+                                    self.parent[root_q] = root_p
+                                    self.rank[root_p] += 1
+                                self.count -= 1
                         
                         def validate(self, p):
-                        n = len(self.parent)
-                        if p &lt; 0 or p &gt;= n:
-                        raise ValueError(f"index {p} is not between 0 and {n - 1}")
+                            n = len(self.parent)
+                            if p &lt; 0 or p &gt;= n:
+                                raise ValueError(f"index {p} is not between 0 and {n - 1}")
                     </code-block>
                 </tab>
             </tabs>
@@ -1250,15 +1248,13 @@
             <li>
                 <p>
                     <format color="Fuchsia">Stack:</format>
-                    Examine the item most
-                    recently added (LIFO: last in first out).
+                    Examine the item most recently added (LIFO: last in first out).
                 </p>
             </li>
             <li>
                 <p>
                     <format color="Fuchsia">Queue:</format>
-                    Examine the item least
-                    recently added (FIFO: first in first out).
+                    Examine the item least recently added (FIFO: first in first out).
                 </p>
             </li>
         </list>
