@@ -1317,11 +1317,7 @@
                     </p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Performance:</format>
-                        use optimized
-                        implementation where it matters.
-                    </p>
+                    <p><format color="Fuchsia">Performance:</format> use optimized implementation where it matters.</p>
                 </li>
             </list>
             <chapter title="4.1.1 Built-In Stacks" id="4-1-1-built-in-stacks">
@@ -1331,20 +1327,20 @@
                             import java.util.Stack;
                             
                             public class StackExample {
-                            public static void main(String[] args) {
-                            Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+                                public static void main(String[] args) {
+                                    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
                             
-                            stack.push(1);
-                            stack.push(2);
-                            stack.push(3);
+                                    stack.push(1);
+                                    stack.push(2);
+                                    stack.push(3);
                             
-                            System.out.println(stack.pop()); // Outputs 3
-                            System.out.println(stack.pop()); // Outputs 2
+                                    System.out.println(stack.pop()); // Outputs 3
+                                    System.out.println(stack.pop()); // Outputs 2
                             
-                            System.out.println(stack.peek()); // Outputs 1
+                                    System.out.println(stack.peek()); // Outputs 1
                             
-                            System.out.println(stack.empty());
-                            }
+                                    System.out.println(stack.empty());
+                                }
                             }
                         </code-block>
                     </tab>
@@ -1354,22 +1350,22 @@
                             #include &lt;stack&gt;
                             
                             int main() {
-                            std::stack&lt;int&gt; stack;
-                            
-                            // Push elements to the stack
-                            stack.push(1);
-                            stack.push(2);
-                            stack.push(3);
-                            
-                            std::cout &lt;&lt; stack.top() &lt;&lt; std::endl;
-                            stack.pop();
-                            std::cout &lt;&lt; stack.top() &lt;&lt; std::endl;
-                            stack.pop();
-                            
-                            std::cout &lt;&lt; stack.top() &lt;&lt; std::endl;
-                            std::cout &lt;&lt; (stack.empty() ? "true" : "false") &lt;&lt; std::endl;
-                            
-                            return 0;
+                                std::stack&lt;int&gt; stack;
+
+                                // Push elements to the stack
+                                stack.push(1);
+                                stack.push(2);
+                                stack.push(3);
+
+                                std::cout &lt;&lt; stack.top() &lt;&lt; std::endl;
+                                stack.pop();
+                                std::cout &lt;&lt; stack.top() &lt;&lt; std::endl;
+                                stack.pop();
+
+                                std::cout &lt;&lt; stack.top() &lt;&lt; std::endl;
+                                std::cout &lt;&lt; (stack.empty() ? "true" : "false") &lt;&lt; std::endl;
+
+                                return 0;
                             }
                         </code-block>
                     </tab>
@@ -1424,12 +1420,7 @@
                         <p>Every operation takes constant time in the worst case.</p>
                     </li>
                     <li>
-                        <p>A stack with
-                            <math>N</math>
-                            items uses
-                            <math>\sim 40N</math>
-                            bytes.
-                            .
+                        <p>A stack with <math>N</math> items uses <math>\sim 40N</math> bytes.
                         </p>
                     </li>
                 </list>
@@ -1441,73 +1432,73 @@
                             import java.util.NoSuchElementException;
                             
                             public class LinkedStack&lt;Item&gt; implements Iterable&lt;Item&gt; {
-                            private int n;
-                            private Node first;
-                            
-                            private class Node {
-                            private Item item;
-                            private Node next;
-                            }
-                            
-                            public LinkedStack() {
-                            first = null;
-                            n = 0;
-                            }
-                            
-                            public boolean isEmpty() {
-                            return first == null;
-                            }
-                            
-                            public int size() {
-                            return n;
-                            }
-                            
-                            public void push(Item item) {
-                            Node oldfirst = first;
-                            first = new Node();
-                            first.item = item;
-                            first.next = oldfirst;
-                            n++;
-                            }
-                            
-                            public Item pop() {
-                            if (isEmpty()) throw new NoSuchElementException("Stack underflow");
-                            Item item = first.item;
-                            first = first.next;
-                            n--;
-                            return item;
-                            }
-                            
-                            public Item peek() {
-                            if (isEmpty()) throw new NoSuchElementException("Stack underflow");
-                            return first.item;
-                            }
-                            
-                            public String toString() {
-                            StringBuilder s = new StringBuilder();
-                            for (Item item : this)
-                            s.append(item).append(" ");
-                            return s.toString();
-                            }
-                            
-                            public Iterator&lt;Item&gt; iterator() {
-                            return new LinkedIterator();
-                            }
-                            
-                            private class LinkedIterator implements Iterator&lt;Item&gt; {
-                            private Node current = first;
-                            
-                            public boolean hasNext() {
-                            return current != null;
-                            }
-                            
-                            public Item next() {
-                            if (!hasNext()) throw new NoSuchElementException();
-                            Item item = current.item;
-                            current = current.next;
-                            return item;
-                            }
-                            }
+                                private int n;
+                                private Node first;
+
+                                private class Node {
+                                    private Item item;
+                                    private Node next;
+                                }
+
+                                public LinkedStack() {
+                                    first = null;
+                                    n = 0;
+                                }
+
+                                public boolean isEmpty() {
+                                    return first == null;
+                                }
+
+                                public int size() {
+                                    return n;
+                                }
+
+                                public void push(Item item) {
+                                    Node oldfirst = first;
+                                    first = new Node();
+                                    first.item = item;
+                                    first.next = oldfirst;
+                                    n++;
+                                }
+
+                                public Item pop() {
+                                    if (isEmpty()) throw new NoSuchElementException("Stack underflow");
+                                    Item item = first.item;
+                                    first = first.next;
+                                    n--;
+                                    return item;
+                                }
+
+                                public Item peek() {
+                                    if (isEmpty()) throw new NoSuchElementException("Stack underflow");
+                                    return first.item;
+                                }
+
+                                public String toString() {
+                                    StringBuilder s = new StringBuilder();
+                                    for (Item item : this)
+                                        s.append(item).append(" ");
+                                    return s.toString();
+                                }
+
+                                public Iterator&lt;Item&gt; iterator() {
+                                    return new LinkedIterator();
+                                }
+
+                                private class LinkedIterator implements Iterator&lt;Item&gt; {
+                                    private Node current = first;
+
+                                    public boolean hasNext() {
+                                        return current != null;
+                                    }
+
+                                    public Item next() {
+                                        if (!hasNext()) throw new NoSuchElementException();
+                                        Item item = current.item;
+                                        current = current.next;
+                                        return item;
+                                    }
+                                }
                             }
                         </code-block>
                     </tab>
@@ -1519,149 +1510,135 @@
                             template &lt;typename Item&gt;
                             class LinkedStack {
                             private:
-                            struct Node {
-                            Item item;
-                            Node* next;
-                            };
+                                struct Node {
+                                    Item item;
+                                    Node* next;
+                                };
                             
-                            int n;
-                            Node* first;
-                            
-                            public:
-                            LinkedStack() : n(0), first(nullptr) {}
-                            
-                            [[nodiscard]] bool isEmpty() const {
-                            return first == nullptr;
-                            }
-                            
-                            [[nodiscard]] int size() const {
-                            return n;
-                            }
-                            
-                            void push(const Item&amp; item) {
-                            Node* oldfirst = first;
-                            first = new Node();
-                            first-&gt;item = item;
-                            first-&gt;next = oldfirst;
-                            n++;
-                            }
-                            
-                            Item pop() {
-                            if (isEmpty()) throw std::runtime_error("Stack underflow");
-                            Item item = first-&gt;item;
-                            const Node* oldfirst = first;
-                            first = first-&gt;next;
-                            delete oldfirst;
-                            n--;
-                            return item;
-                            }
-                            
-                            [[nodiscard]] Item peek() const {
-                            if (isEmpty()) throw std::runtime_error("Stack underflow");
-                            return first-&gt;item;
-                            }
-                            
-                            class Iterator {
-                            private:
-                            Node* current;
+                                int n;
+                                Node* first;
                             
                             public:
-                            explicit Iterator(Node* start) : current(start) {}
+                                LinkedStack() : n(0), first(nullptr) {}
                             
-                            bool operator!=(const Iterator&amp; other) const {
-                            return current != other.current;
-                            }
+                                [[nodiscard]] bool isEmpty() const {
+                                    return first == nullptr;
+                                }
                             
-                            Iterator&amp; operator++() {
-                            current = current-&gt;next;
-                            return *this;
-                            }
+                                [[nodiscard]] int size() const {
+                                    return n;
+                                }
+
+                                void push(const Item&amp; item) {
+                                    Node* oldfirst = first;
+                                    first = new Node();
+                                    first-&gt;item = item;
+                                    first-&gt;next = oldfirst;
+                                    n++;
+                                }
                             
-                            Item&amp; operator*() {
-                            return current-&gt;item;
-                            }
-                            };
+                                Item pop() {
+                                    if (isEmpty()) throw std::runtime_error("Stack underflow");
+                                    Item item = first-&gt;item;
+                                    const Node* oldfirst = first;
+                                    first = first-&gt;next;
+                                    delete oldfirst;
+                                    n--;
+                                    return item;
+                                }
                             
-                            [[nodiscard]] Iterator begin() const {
-                            return Iterator(first);
-                            }
+                                [[nodiscard]] Item peek() const {
+                                    if (isEmpty()) throw std::runtime_error("Stack underflow");
+                                    return first-&gt;item;
+                                }
                             
-                            [[nodiscard]] Iterator end() const {
-                            return Iterator(nullptr);
-                            }
+                                class Iterator {
+                                private:
+                                    Node* current;
+
+                                public:
+                                    explicit Iterator(Node* start) : current(start) {}
+
+                                    bool operator!=(const Iterator&amp; other) const {
+                                        return current != other.current;
+                                    }
+
+                                    Iterator&amp; operator++() {
+                                        current = current-&gt;next;
+                                        return *this;
+                                    }
+
+                                    Item&amp; operator*() {
+                                        return current-&gt;item;
+                                    }
+                                };
+                            
+                                [[nodiscard]] Iterator begin() const {
+                                    return Iterator(first);
+                                }
+                            
+                                [[nodiscard]] Iterator end() const {
+                                    return Iterator(nullptr);
+                                }
                             };
                         </code-block>
                     </tab>
                     <tab title="Python">
                         <code-block lang="python" collapsible="true">
                             class Node:
-                            def __init__(self, item):
-                            self.item = item
-                            self.next = None
+                                def __init__(self, item):
+                                    self.item = item
+                                    self.next = None
                             
                             class LinkedStack:
-                            def __init__(self):
-                            self.first = None
-                            self.n = 0
+                                def __init__(self):
+                                    self.first = None
+                                    self.n = 0
                             
-                            def is_empty(self):
-                            return self.first is None
+                                def is_empty(self):
+                                    return self.first is None
                             
-                            def size(self):
-                            return self.n
+                                def size(self):
+                                    return self.n
                             
-                            def push(self, item):
-                            oldfirst = self.first
-                            self.first = Node(item)
-                            self.first.next = oldfirst
-                            self.n += 1
+                                def push(self, item):
+                                    oldfirst = self.first
+                                    self.first = Node(item)
+                                    self.first.next = oldfirst
+                                    self.n += 1
                             
-                            def pop(self):
-                            if self.is_empty():
-                            raise Exception("Stack underflow")
-                            item = self.first.item
-                            self.first = self.first.next
-                            self.n -= 1
-                            return item
+                                def pop(self):
+                                    if self.is_empty():
+                                        raise Exception("Stack underflow")
+                                    item = self.first.item
+                                    self.first = self.first.next
+                                    self.n -= 1
+                                    return item
                             
-                            def peek(self):
-                            if self.is_empty():
-                            raise Exception("Stack underflow")
-                            return self.first.item
+                                def peek(self):
+                                    if self.is_empty():
+                                        raise Exception("Stack underflow")
+                                    return self.first.item
                             
-                            def __iter__(self):
-                            current = self.first
-                            while current:
-                            yield current.item
-                            current = current.next
+                                def __iter__(self):
+                                    current = self.first
+                                    while current:
+                                        yield current.item
+                                        current = current.next
                         </code-block>
                     </tab>
                 </tabs>
             </chapter>
             <chapter title="4.1.3 Resizing-Array Implementation" id="4-1-3-resizing-array-implementation">
-                <p>
-                    <format color="BlueViolet">Property:</format>
-                    Uses between
-                    <math>\sim 8N</math>
-                    and
-                    <math>\sim 32N</math>
-                    bytes to
-                    represent a stack with
-                    <math>N</math>
-                    items.
+                <p><format color="BlueViolet">Property:</format> Uses between <math>\sim 8N</math> and <math>\sim 32N</math> bytes to
+                    represent a stack with <math>N</math> items.
                 </p>
                 <list type="bullet">
                     <li>
-                        <p>
-                            <math>\sim 8N</math>
-                            when full.
-                        </p>
+                        <p><math>\sim 8N</math> when full.</p>
                     </li>
                     <li>
-                        <p>
-                            <math>\sim 32N</math>
-                            when one-quarter full.
-                        </p>
+                        <p><math>\sim 32N</math> when one-quarter full.</p>
                     </li>
                 </list>
                 <table style="header-row">
@@ -1670,17 +1647,9 @@
                         <td>Resizing-Array Implementation</td>
                     </tr>
                     <tr>
-                        <td>Every operation takes constant time in the
-                            <format
-                                    color="OrangeRed">worst case
-                            </format>
-                            .
+                        <td>Every operation takes constant time in the <format color="OrangeRed">worst case</format>.
                         </td>
-                        <td>Every operation takes constant
-                            <format color="OrangeRed">
-                                amortized
-                            </format>
-                            time.
+                        <td>Every operation takes constant <format color="OrangeRed">amortized</format> time.
                         </td>
                     </tr>
                     <tr>
@@ -1695,75 +1664,75 @@
                             import java.util.NoSuchElementException;
                             
                             public class ResizingArrayStack&lt;Item&gt; implements Iterable&lt;Item&gt; {
-                            private static final int INIT_CAPACITY = 8;
+                                private static final int INIT_CAPACITY = 8;
                             
-                            private Item[] a;
-                            private int n;
+                                private Item[] a;
+                                private int n;
                             
-                            public ResizingArrayStack() {
-                            a = (Item[]) new Object[INIT_CAPACITY];
-                            n = 0;
-                            }
+                                public ResizingArrayStack() {
+                                    a = (Item[]) new Object[INIT_CAPACITY];
+                                    n = 0;
+                                }
                             
-                            public boolean isEmpty() {
-                            return n == 0;
-                            }
+                                public boolean isEmpty() {
+                                    return n == 0;
+                                }
                             
-                            public int size() {
-                            return n;
-                            }
+                                public int size() {
+                                    return n;
+                                }
                             
-                            private void resize(int capacity) {
-                            assert capacity &gt;= n;
-                            a = java.util.Arrays.copyOf(a, capacity);
-                            // textbook implementation
-                            // Item[] copy = (Item[]) new Object[capacity];
-                            // for (int i = 0; i &lt; n; i++) {
-                            // copy[i] = a[i];
-                            // }
-                            // a = copy;
-                            }
+                                private void resize(int capacity) {
+                                    assert capacity &gt;= n;
+                                    a = java.util.Arrays.copyOf(a, capacity);
+                                    // textbook implementation
+                                    // Item[] copy = (Item[]) new Object[capacity];
+                                    // for (int i = 0; i &lt; n; i++) {
+                                    // copy[i] = a[i];
+                                    // }
+                                    // a = copy;
+                                }
                             
-                            public void push(Item item) {
-                            if (n == a.length) resize(2*a.length); // double size of array if necessary
-                            a[n++] = item; // add item
-                            }
+                                public void push(Item item) {
+                                    if (n == a.length) resize(2 * a.length); // double size of array if necessary
+                                    a[n++] = item; // add item
+                                }
                             
-                            public Item pop() {
-                            if (isEmpty()) throw new NoSuchElementException("Stack underflow");
-                            Item item = a[n-1];
-                            a[n-1] = null; // to avoid loitering
-                            n--;
-                            // shrink size of array if necessary
-                            if (n &gt; 0 &amp;&amp; n == a.length/4) resize(a.length/2);
-                            return item;
-                            }
+                                public Item pop() {
+                                    if (isEmpty()) throw new NoSuchElementException("Stack underflow");
+                                    Item item = a[n-1];
+                                    a[n-1] = null; // to avoid loitering
+                                    n--;
+                                    // shrink size of array if necessary
+                                    if (n &gt; 0 &amp;&amp; n == a.length/4) resize(a.length/2);
+                                    return item;
+                                }
                             
-                            public Item peek() {
-                            if (isEmpty()) throw new NoSuchElementException("Stack underflow");
-                            return a[n-1];
-                            }
+                                public Item peek() {
+                                    if (isEmpty()) throw new NoSuchElementException("Stack underflow");
+                                    return a[n-1];
+                                }
                             
-                            public Iterator&lt;Item&gt; iterator() {
-                            return new ReverseArrayIterator();
-                            }
+                                public Iterator&lt;Item&gt; iterator() {
+                                    return new ReverseArrayIterator();
+                                }
                             
-                            private class ReverseArrayIterator implements Iterator&lt;Item&gt; {
-                            private int i;
-                            
-                            public ReverseArrayIterator() {
-                            i = n-1;
-                            }
-                            
-                            public boolean hasNext() {
-                            return i &gt;= 0;
-                            }
-                            
-                            public Item next() {
-                            if (!hasNext()) throw new NoSuchElementException();
-                            return a[i--];
-                            }
-                            }
+                                private class ReverseArrayIterator implements Iterator&lt;Item&gt; {
+                                    private int i;
+
+                                    public ReverseArrayIterator() {
+                                        i = n-1;
+                                    }
+
+                                    public boolean hasNext() {
+                                        return i &gt;= 0;
+                                    }
+
+                                    public Item next() {
+                                        if (!hasNext()) throw new NoSuchElementException();
+                                        return a[i--];
+                                    }
+                                }
                             }
                         </code-block>
                     </tab>
@@ -1777,44 +1746,44 @@
                             template &lt;typename Item&gt;
                             class ResizingArrayStack {
                             private:
-                            static constexpr int INIT_CAPACITY = 8;
-                            std::vector&lt;Item&gt; a;
-                            int n;
+                                static constexpr int INIT_CAPACITY = 8;
+                                std::vector&lt;Item&gt; a;
+                                int n;
                             
                             public:
-                            ResizingArrayStack() : a(INIT_CAPACITY), n(0) {}
+                                ResizingArrayStack() : a(INIT_CAPACITY), n(0) {}
                             
-                            [[nodiscard]] bool isEmpty() const {
-                            return n == 0;
-                            }
+                                [[nodiscard]] bool isEmpty() const {
+                                    return n == 0;
+                                }
                             
-                            [[nodiscard]] int size() const {
-                            return n;
-                            }
+                                [[nodiscard]] int size() const {
+                                    return n;
+                                }
                             
-                            void push(const Item&amp; item) {
-                            if (n == a.size()) resize(2 * a.size());
-                            a[n++] = item;
-                            }
+                                void push(const Item&amp; item) {
+                                    if (n == a.size()) resize(2 * a.size());
+                                    a[n++] = item;
+                                }
                             
-                            Item pop() {
-                            if (isEmpty()) throw std::runtime_error("Stack underflow");
-                            Item item = a[n - 1];
-                            a[n - 1] = Item();
-                            n--;
-                            if (n > 0 &amp;&amp; n == a.size() / 4) resize(a.size() / 2);
-                            return item;
-                            }
+                                Item pop() {
+                                    if (isEmpty()) throw std::runtime_error("Stack underflow");
+                                    Item item = a[n - 1];
+                                    a[n - 1] = Item();
+                                    n--;
+                                    if (n > 0 &amp;&amp; n == a.size() / 4) resize(a.size() / 2);
+                                    return item;
+                                }
                             
-                            [[nodiscard]] Item peek() const {
-                            if (isEmpty()) throw std::runtime_error("Stack underflow");
-                            return a[n - 1];
-                            }
+                                [[nodiscard]] Item peek() const {
+                                    if (isEmpty()) throw std::runtime_error("Stack underflow");
+                                    return a[n - 1];
+                                }
                             
                             private:
-                            void resize(int capacity) {
-                            a.resize(capacity);
-                            }
+                                void resize(int capacity) {
+                                    a.resize(capacity);
+                                }
                             };
                         </code-block>
                     </tab>
@@ -1822,35 +1791,35 @@
                         <code-block lang="python" collapsible="true">
                             # Python lists handle resizing automatically
                             class ResizingArrayStack:
-                            def __init__(self):
-                            self._a = []
-                            self._n = 0
+                                def __init__(self):
+                                    self._a = []
+                                    self._n = 0
                             
-                            def is_empty(self):
-                            return self._n == 0
+                                def is_empty(self):
+                                    return self._n == 0
                             
-                            def size(self):
-                            return self._n
+                                def size(self):
+                                    return self._n
                             
-                            def push(self, item):
-                            if self._n == len(self._a):
-                            self._resize(2 * len(self._a))
-                            self._a.append(item) # Python lists handle resizing automatically
-                            self._n += 1
+                                def push(self, item):
+                                    if self._n == len(self._a):
+                                        self._resize(2 * len(self._a))
+                                    self._a.append(item) # Python lists handle resizing automatically
+                                    self._n += 1
                             
-                            def pop(self):
-                            if self.is_empty():
-                            raise Exception("Stack underflow")
-                            self._n -= 1
-                            item = self._a.pop()
-                            if self._n > 0 and self._n == len(self._a) // 4:
-                            self._resize(len(self._a) // 2)
-                            return item
+                                def pop(self):
+                                    if self.is_empty():
+                                        raise Exception("Stack underflow")
+                                    self._n -= 1
+                                    item = self._a.pop()
+                                    if self._n > 0 and self._n == len(self._a) // 4:
+                                        self._resize(len(self._a) // 2)
+                                    return item
                             
-                            def peek(self):
-                            if self.is_empty():
-                            raise Exception("Stack underflow")
-                            return self._a[-1]
+                                def peek(self):
+                                    if self.is_empty():
+                                        raise Exception("Stack underflow")
+                                    return self._a[-1]
                         </code-block>
                     </tab>
                 </tabs>
@@ -1865,19 +1834,19 @@
                             import java.util.Queue;
                             
                             public class QueueExample {
-                            public static void main(String[] args) {
-                            Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
-                            
-                            queue.add(1);
-                            queue.add(2);
-                            queue.add(3);
-                            
-                            System.out.println(queue.poll()); // Outputs 1
-                            
-                            System.out.println(queue.peek()); // Outputs 2
-                            
-                            System.out.println(queue.isEmpty()); // Outputs false
-                            }
+                                public static void main(String[] args) {
+                                    Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+
+                                    queue.add(1);
+                                    queue.add(2);
+                                    queue.add(3);
+
+                                    System.out.println(queue.poll()); // Outputs 1
+
+                                    System.out.println(queue.peek()); // Outputs 2
+
+                                    System.out.println(queue.isEmpty()); // Outputs false
+                                }
                             }
                         </code-block>
                     </tab>
@@ -1887,18 +1856,18 @@
                             #include &lt;queue&gt;
                             
                             int main() {
-                            std::queue&lt;int&gt; q;
-                            
-                            q.push(1);
-                            q.push(2);
-                            q.push(3);
-                            
-                            std::cout &lt;&lt; q.front() &lt;&lt; std::endl;
-                            q.pop();
-                            
-                            std::cout &lt;&lt; (q.empty() ? "true" : "false") &lt;&lt; std::endl;
-                            
-                            return 0;
+                                std::queue&lt;int&gt; q;
+
+                                q.push(1);
+                                q.push(2);
+                                q.push(3);
+
+                                std::cout &lt;&lt; q.front() &lt;&lt; std::endl;
+                                q.pop();
+
+                                std::cout &lt;&lt; (q.empty() ? "true" : "false") &lt;&lt; std::endl;
+
+                                return 0;
                             }
                         </code-block>
                     </tab>

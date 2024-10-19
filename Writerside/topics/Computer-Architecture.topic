@@ -1554,6 +1554,14 @@ Conversion"/>
                 </list>
             </chapter>
         </chapter>
+        <chapter title="5 Floating Point" id="5-floating-point">
+            <p><format color="DarkOrange">Floating point:</format> floating-point arithmetic (FP) is arithmetic that
+                represents subsets of real numbers using an integer with a fixed precision, called the significand,
+                scaled by an integer exponent of a fixed base.</p>
+            <p>This allows us to represent more numbers without losing accuracy, from very small fractions to very large
+                numbers.</p>
+            <chapter title="IEEE 754 Floating Point Standard" id=""></chapter>
+        </chapter>
     </chapter>
     <chapter id="assembly-language">
         <title>

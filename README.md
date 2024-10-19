@@ -88,6 +88,8 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 7. <https://en.wikipedia.org/wiki/Bus_error>.
 
+8. <https://en.wikipedia.org/wiki/Floating-point_arithmetic>.
+
 ### Topic 5: Operating System
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz and the rest of CS162 staff.
