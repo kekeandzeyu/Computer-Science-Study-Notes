@@ -1560,25 +1560,180 @@ Conversion"/>
                 scaled by an integer exponent of a fixed base.</p>
             <p>This allows us to represent more numbers without losing accuracy, from very small fractions to very large
                 numbers.</p>
-            <chapter title="IEEE 754 Floating Point Standard" id=""></chapter>
+            <chapter title="5.1 IEEE 754 Floating Point Standard" id="5-1-IEEE-754-Floating-Point">
+                <p><format color="BlueViolet">Single precision (SP)</format></p>
+                <img src="../images_architecture/a5-1-1.png" alt="Single Precision"/>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Sign Bit:</format> 1 means negative, 0 means positive.</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Exponent:</format> IEEE 754 uses "biased exponent" representation.</p>
+                        <list type="bullet">
+                            <li>
+                                <p>Designers wanted FP numbers to be used even if no FP hardware; e.g., sort records with
+                                    FP numbers using integer compares.</p>
+                            </li>
+                            <li>
+                                <p>2's complement poses a problem (because negative numbers look bigger)</p>
+                            </li>
+                            <li>
+                                <p>Bias notation preserves the linearity of value.</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Significand:</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p>To pack more bits, leading 1 implicit for normalized numbers.</p>
+                            </li>
+                            <li>
+                                <p>1 + 23 bits single, 1 + 52 bits double.</p>
+                            </li>
+                            <li>
+                                <p>Always true: 0 &lt; Significand &lt; 1 (for normalized numbers).</p>
+                            </li>
+                            <li>
+                                <p>Bias notation preserves the linearity of value!</p>
+                            </li>
+                            <li>
+                                <p>IEEE 754 uses bias of -127 for single prec, -1023 for double prec.</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+                <code-block lang="tex">
+                    \begin{equation}
+                        (-1)^{S} \times 2^{\text{Exponent} - 127} \times (1+\text{Significand})
+                    \end{equation}
+                </code-block>
+                <p><format color="HotPink">Example</format></p>
+                <p>1 10000001 11100000000000000000000</p>
+                <code-block lang="tex">
+                    \begin{equation}
+                        (-1)^{1} \times 2^{129-127} \times (1+0.111)_{2} = -111.1_{2} = -7.5
+                    \end{equation}
+                </code-block>
+            </chapter>
+            <chapter title="5.2 Special Numbers" id="5-2-special-numbers">
+                <p><format color="BlueViolet">Zero</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Sign bit can be either 0 or 1.</p>
+                    </li>
+                    <li>
+                        <p>Exponent is 0.</p>
+                    </li>
+                    <li>
+                        <p>Significand is 0.</p>
+                    </li>
+                </list>
+                <p>+0 <math>0 00000000 00000000000000000000000</math></p>
+                <p>-0 <math>1 00000000 00000000000000000000000</math></p>
+                <p><format color="BlueViolet">Infinity</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>OK to do further computations with &#x221E;</p>
+                    </li>
+                    <li>
+                        <p>Max exponent = 255.</p>
+                    </li>
+                    <li>
+                        <p>All zero significand.</p>
+                    </li>
+                </list>
+                <p>+&#x221E; <math>0 11111111 00000000000000000000000</math></p>
+                <p>-&#x221E; <math>1 00000000 00000000000000000000000</math></p>
+                <p><format color="BlueViolet">NaN (Not a Number)</format></p>
+                <list type="bullet">
+                    <li>
+                        <p><math>0/0</math>, <math>sqrt(-4.0)</math>, <math>\infty - \infty</math></p>
+                    </li>
+                    <li>
+                        <p>Useful for debugging.</p>
+                    </li>
+                    <li>
+                        <p>Op(NaN, some number) = NaN</p>
+                    </li>
+                    <li>
+                        <p>Max exponent = 255.</p>
+                    </li>
+                    <li>
+                        <p>Non-zero significand.</p>
+                    </li>
+                </list>
+                <p>+NaN <math>0 11111111 \text{Non-zero}</math></p>
+                <p>-Nan <math>1 11111111 \text{Non-zero}</math></p>
+                <p><format color="BlueViolet">Denorm Numbers (denormalized numbers)</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Use Exp = 0, Significand &#x2260; 0 to represent very small numbers.</p>
+                    </li>
+                    <li>
+                        <p>No leading 0!</p>
+                    </li>
+                    <li>
+                        <p>Careful! <format color="OrangeRed">Implicit exponent</format> = -126 when Exp = 0x00</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Smallest denorm:</format> <math>0.0..01 * 2^{-126} = 2^{-149}</math></p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Bigest denorm:</format> <math>0.1..1_{2} * 2^{-126} = 2^{-126} - 2^{-149}</math></p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Smallest norm:</format> <math>1.0..0_{2} * 2^{-126} = 2^{-126}</math></p>
+                    </li>
+                    <li>
+                        <p>No uneven gap! Increments by <math>2^{-149}</math></p>
+                    </li>
+                </list>
+                <p><format color="BlueViolet">Conclusion</format></p>
+                <table style="header-row">
+                    <tr>
+                        <td>Exponent</td>
+                        <td>Significand</td>
+                        <td>Meaning</td>
+                    </tr>
+                    <tr>
+                        <td><math>0</math></td>
+                        <td><math>0</math></td>
+                        <td><math>\pm 0</math></td>
+                    </tr>
+                    <tr>
+                        <td><math>0</math></td>
+                        <td>Non-zero</td>
+                        <td><math>\pm</math> Denorm floating point</td>
+                    </tr>
+                    <tr>
+                        <td><math>1-254</math></td>
+                        <td>Anything</td>
+                        <td><math>\pm</math> Norm floating point</td>
+                    </tr>
+                    <tr>
+                        <td><math>255</math></td>
+                        <td><math>0</math></td>
+                        <td><math>\pm \infty</math></td>
+                    </tr>
+                    <tr>
+                        <td><math>255</math></td>
+                        <td>Non-zero</td>
+                        <td>NaN</td>
+                    </tr>
+                </table>
+            </chapter>
         </chapter>
     </chapter>
     <chapter id="assembly-language">
         <title>
             Ⅱ Assembly Language
         </title>
-        <chapter title="5 Introduction to Assembly Language" id="5-introduction-to-assembly-language">
-            <chapter title="5.1 Assembly Language" id="5-1-assembly-language">
-                <p>
-                    <format color="DarkOrange">Assembly (also known as Assembly
-                        language, ASM):
-                    </format>
-                    A low-level programming language where the
-                    program instructions match a particular architecture's operations.
-                </p>
-                <p>
-                    <format color="BlueViolet">Properties:</format>
-                </p>
+        <chapter title="6 Introduction to Assembly Language" id="5-introduction-to-assembly-language">
+            <chapter title="6.1 Assembly Language" id="5-1-assembly-language">
+                <p><format color="DarkOrange">Assembly (also known as Assembly language, ASM):</format>
+                    A low-level programming language where the program instructions match a particular architecture's operations.</p>
+                <p><format color="BlueViolet">Properties:</format></p>
                 <list type="bullet">
                     <li>
                         <p>Splits a program into many small instructions that each do one
@@ -1589,11 +1744,7 @@ Conversion"/>
                             supports (although there are similarities).</p>
                     </li>
                     <li>
-                        <p>Assembly is not
-                            <format style="italic">portable</format>
-                            to other
-                            architectures.
-                        </p>
+                        <p>Assembly is not <format style="italic">portable</format> to other architectures.</p>
                     </li>
                 </list>
                 <p>
@@ -1699,7 +1850,7 @@ Conversion"/>
                                 memory</p></td>
                     </tr>
                 </table>
-                <img src="../images_architecture/a5-2-1.png" alt="Registers"/>
+                <img src="../images_architecture/a6-2-1.png" alt="Registers"/>
                 <warning>
                     <p>Some important notes about registers: </p>
                     <list type="bullet">
