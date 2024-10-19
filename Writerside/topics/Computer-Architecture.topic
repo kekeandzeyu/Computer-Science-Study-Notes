@@ -1723,6 +1723,90 @@ Conversion"/>
                     </tr>
                 </table>
             </chapter>
+            <chapter title="5.3 Other Representations" id="5-3-other-representations">
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">binary64:</format> 11 exponential bits, 52 significand bits</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">binary128:</format> 15 exponent bits, 112 significand bits</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">binary256:</format> 19 exponent bits, 238 significand bits</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">binary 16/fp16:</format> 1/5/10 bits</p>
+                    </li>
+                </list>
+            </chapter>
+            <chapter title="5.4 Limitations" id="5-4-limitations">
+                <p><format color="BlueViolet">Two limitations</format></p>
+                <list type="decimal">
+                    <li>
+                        <p>Numbers may get overflow or underflow when expressed in floating points, so rounding occurs
+                            and can get unexpected results.</p>
+                        <p>In addition, the gap between adjacent floating points gets wider, due to increasing
+                            exponential number.</p>
+                        <p>Floating points are denser around 0!</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">FP addition is not associative!</format></p>
+                        <p><format color="HotPink">Example</format></p>
+                        <code-block lang="c" collapsible="true">
+                            float a = 1.0e20;
+                            float b = 1.0;
+                            float c = -1.0e20;
+                            float d = (a + b) + c;
+                            float e = a + (b + c);
+                            printf("a+b+c = %f\n", d); // 0.000000
+                            printf("a+(b+c) = %f\n", e); // 1.000000
+                        </code-block>
+                        <note>
+                            <p>Precision vs accuracy</p>
+                            <list type="bullet">
+                                <li>
+                                    <p>Precision is a count of the number bits in used to represent a value.</p>
+                                </li>
+                                <li>
+                                    <p>Accuracy is the difference between the actual value of a # and its computer
+                                        representation.</p>
+                                </li>
+                            </list>
+                        </note>
+                        <p><format color="BlueViolet">IEEE FP Rounding Modes</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p><format color="Fuchsia">Round towards <math>+ \infty</math>:</format> ALWAYS round
+                                    "up".</p>
+                            </li>
+                            <li>
+                                <p><format color="Fuchsia">Round towards <math>- \infty</math>:</format> ALWAYS round
+                                    "down".</p>
+                            </li>
+                            <li>
+                                <p><format color="Fuchsia">Truncate:</format> Just drop the last bits.</p>
+                            </li>
+                            <li>
+                                <p><format color="Fuchsia">Unbiased (default mode):</format> Midway? Round to even.</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+                <procedure title="FP Addition" id="fp-addition">
+                    <step>
+                        <p>De-normalize to match exponents.</p>
+                    </step>
+                    <step>
+                        <p>Add significands to get resulting one.</p>
+                    </step>
+                    <step>
+                        <p>Keep the same exponent.</p>
+                    </step>
+                    <step>
+                        <p>Normalize (possibly changing exponent).</p>
+                    </step>
+                </procedure>
+            </chapter>
         </chapter>
     </chapter>
     <chapter id="assembly-language">
