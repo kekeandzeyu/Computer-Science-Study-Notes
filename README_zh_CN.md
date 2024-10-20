@@ -74,19 +74,23 @@ For English version please check [here](README.md)
 
 ### Topic 4: 计算机体系结构
 
-1. CS61C: Great Ideas in Computer Architecture (UC Berkeley) by Professors Stephan Kaminsky, Sean Farhat, Jenny Song, Dan Garcia, Peyrin Kao, and the rest of CS61C staff.
+1. CS61C: Great Ideas in Computer Architecture (UC Berkeley) by Professor Dan Garcia, Lecturer Stephan Kaminsky, Sean Farhat, Jenny Song, Peyrin Kao, and the rest of CS61C staff.
 
-2. <https://en.wikipedia.org/wiki/Byte>.
+2. CMU 15-213: Introduction to Computer Systems (Carnegie Mellon University) by Professor Randal E. Briant, David R. O'Hallaron, Brian Railing, Phillip Gibbons, David Varodayan, Mohamed Farag, and the rest of CMU 15-213 staff.
 
-3. <https://en.cppreference.com/w/cpp/language/sizeof>.
+3. <https://en.wikipedia.org/wiki/Byte>.
 
-4. <https://en.wikipedia.org/wiki/Sizeof>.
+4. <https://en.cppreference.com/w/cpp/language/sizeof>.
 
-5. By Aeroid - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=137790829.
+5. <https://en.wikipedia.org/wiki/Sizeof>.
 
-6. <https://en.wikipedia.org/wiki/Segmentation_fault>.
+6. By Aeroid - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=137790829.
 
-7. <https://en.wikipedia.org/wiki/Bus_error>.
+7. <https://en.wikipedia.org/wiki/Segmentation_fault>.
+
+8. <https://en.wikipedia.org/wiki/Bus_error>.
+
+9. <https://en.wikipedia.org/wiki/Floating-point_arithmetic>.
 
 ### Topic 5: 操作系统
 
