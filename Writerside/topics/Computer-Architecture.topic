@@ -2546,7 +2546,7 @@ Conversion"/>
                         </li>
                     </list>
                     <img src="../images_architecture/a6-2-2.png" alt="movq Operand Combinations"/>
-                    <p><format color="BlueViolet">Simple Memory Addressing Mode</format></p>
+                    <p><format color="BlueViolet">Memory Addressing Mode</format></p>
                     <list type="decimal">
                         <li>
                             <p>Normal (R) => pointer dereferencing in C</p>
@@ -2557,9 +2557,208 @@ Conversion"/>
                         </li>
                         <li>
                             <p>Displacement D(R) => accessing data at a fixed offset from a base address</p>
+                            <p><code>movq 8(%rbp), %rdx</code> equals:</p>
+                            <code-block lang="c">
+                                rdx = *(((char*)rbp) + 8)
+                            </code-block>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">Complete Mode:</format> D(Rb,Ri,S)</p>
+                            <list type="bullet">
+                                <li>
+                                    <p><format color="LawnGreen">D:</format> Constant "displacement" 1, 2, or 4 bytes</p>
+                                </li>
+                                <li>
+                                    <p><format color="LawnGreen">Rb:</format> Base register: Any of 16 integer registers</p>
+                                </li>
+                                <li>
+                                    <p><format color="LawnGreen">Ri:</format> Index register: Any, except for %rsp</p>
+                                </li>
+                                <li>
+                                    <p><format color="LawnGreen">S:</format> Scale: 1, 2, 4, or 8</p>
+                                </li>
+                            </list>
+                            <p><format color="HotPink">Example:</format> <code>movl (&#37;rbx,&#37;rdi,4), %eax</code></p>
+                            <list type="decimal">
+                                <li>
+                                    <p>Calculate the address: %rbx + (4 * %rdi) (e.g., base address + 4 * 5 = base address
+                                        + 20).</p>
+                                </li>
+                                <li>
+                                    <p>Access the 32-bit value at that calculated address.</p>
+                                </li>
+                                <li>
+                                    <p>Move the retrieved value into the %eax register.</p>
+                                </li>
+                            </list>
                         </li>
                     </list>
                 </chapter>
+                <chapter title="6.3.2 Address Computation Instructions" id="6-3-2-address-aomputation-instructions">
+                    <p><code>leaq src, dst</code></p>
+                    <code-block lang="plain text" ignore-vars="true">
+                        leaq (%rdi,%rdi,2), %rax ; Calculate the address of the element at index rdx in an array of integers pointed to by rsi (assuming 4 bytes per integer)
+                    </code-block>
+                    <p>It can also be used for arithmetic expressions.</p>
+                    <code-block lang="plain text" ignore-vars="true">
+                        leaq (%rdi,%rdi,2), %rax  ; Calculate rax = rdi + (rdi * 2) = 3 * rdi
+                    </code-block>
+                </chapter>
+                <chapter title="6.3.3 Arithmetic Instructions" id="6-3-3-arithmetic-instructions">
+                    <p><format color="BlueViolet">Two Operand Instructions:</format></p>
+                    <table style="header-row">
+                        <tr>
+                            <td>Format</td>
+                            <td>Computation</td>
+                        </tr>
+                        <tr>
+                            <td><code>addq src, dest</code></td>
+                            <td>dest = dest + src</td>
+                        </tr>
+                        <tr>
+                            <td><code>subq src, dest</code></td>
+                            <td>dest = dest - src</td>
+                        </tr>
+                        <tr>
+                            <td><code>imulq src, dest</code></td>
+                            <td>dest = dest * src</td>
+                        </tr>
+                        <tr>
+                            <td><code>salq src, dest</code></td>
+                            <td>dest = dest &lt;&lt; src</td>
+                        </tr>
+                        <tr>
+                            <td><code>sarq src, dest</code> (Arithmetic Shift)</td>
+                            <td>dest = dest &gt;&gt; src</td>
+                        </tr>
+                        <tr>
+                            <td><code>shrq src, dest</code> (Logical Shift)</td>
+                            <td>dest = dest &gt;&gt; src</td>
+                        </tr>
+                        <tr>
+                            <td><code>xorq src, dest</code></td>
+                            <td>dest = dest ^ src</td>
+                        </tr>
+                        <tr>
+                            <td><code>andq src, dest</code></td>
+                            <td>dest = dest &amp; src</td>
+                        </tr>
+                        <tr>
+                            <td><code>orq src, dest</code></td>
+                            <td>dest = dest | src</td>
+                        </tr>
+                    </table>
+                    <note>
+                        <p>Watch out for the argument order!</p>
+                        <p>Intel docs use "op dest, src"!</p>
+                    </note>
+                    <p><format color="BlueViolet">One Operand Instructions:</format></p>
+                    <table style="header-row">
+                        <tr>
+                            <td>Format</td>
+                            <td>Computation</td>
+                        </tr>
+                        <tr>
+                            <td><code>incq dest</code></td>
+                            <td>dest = dest + 1</td>
+                        </tr>
+                        <tr>
+                            <td><code>decq src, dest</code></td>
+                            <td>dest = dest - 1</td>
+                        </tr>
+                        <tr>
+                            <td><code>negq src, dest</code></td>
+                            <td>dest = - dest</td>
+                        </tr>
+                        <tr>
+                            <td><code>notq dest</code></td>
+                            <td>dest = ~ dest</td>
+                        </tr>
+                        <tr>
+                            <td><code>sarq src, dest</code> (Arithmetic Shift)</td>
+                            <td>dest = dest &gt;&gt; src</td>
+                        </tr>
+                        <tr>
+                            <td><code>shrq src, dest</code> (Logical Shift)</td>
+                            <td>dest = dest &gt;&gt; src</td>
+                        </tr>
+                        <tr>
+                            <td><code>xorq src, dest</code></td>
+                            <td>dest = dest ^ src</td>
+                        </tr>
+                        <tr>
+                            <td><code>andq src, dest</code></td>
+                            <td>dest = dest &amp; src</td>
+                        </tr>
+                        <tr>
+                            <td><code>orq src, dest</code></td>
+                            <td>dest = dest | src</td>
+                        </tr>
+                    </table>
+                    <p><format color="HotPink">Example</format></p>
+                    <code-block lang="c" collapsible="true">
+                        long arith(long x, long y, long z) {
+                            long t1 = x + y;
+                            long t2 = z + t1;
+                            long t3 = x + 4;
+                            long t4 = y * 48;
+                            long t5 = t3 + t4;
+                            long rval = t2 * t5;
+                            return rval;
+                        }
+                    </code-block>
+                    <code-block lang="plain text" collapsible="true" ignore-vars="true">
+                        0000000000001149 &lt;arith&gt;:
+                        1149:	f3 0f 1e fa          	endbr64
+                        114d:	55                   	push   %rbp
+                        114e:	48 89 e5             	mov    %rsp,%rbp
+                        1151:	48 89 7d c8          	mov    %rdi,-0x38(%rbp)   # Store x on the stack
+                        1155:	48 89 75 c0          	mov    %rsi,-0x40(%rbp)   # Store y on the stack
+                        1159:	48 89 55 b8          	mov    %rdx,-0x48(%rbp)   # Store z on the stack
+                        115d:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx  # Load x into rdx
+                        1161:	48 8b 45 c0          	mov    -0x40(%rbp),%rax  # Load y into rax
+                        1165:	48 01 d0             	add    %rdx,%rax         # t1 = x + y
+                        1168:	48 89 45 d0          	mov    %rax,-0x30(%rbp)   # Store t1 on the stack
+                        116c:	48 8b 55 b8          	mov    -0x48(%rbp),%rdx  # Load z into rdx
+                        1170:	48 8b 45 d0          	mov    -0x30(%rbp),%rax  # Load t1 into rax
+                        1174:	48 01 d0             	add    %rdx,%rax         # t2 = z + t1
+                        1177:	48 89 45 d8          	mov    %rax,-0x28(%rbp)   # Store t2 on the stack
+                        117b:	48 8b 45 c8          	mov    -0x38(%rbp),%rax  # Load x into rax
+                        117f:	48 83 c0 04          	add    $0x4,%rax         # t3 = x + 4
+                        1183:	48 89 45 e0          	mov    %rax,-0x20(%rbp)   # Store t3 on the stack
+                        1187:	48 8b 55 c0          	mov    -0x40(%rbp),%rdx  # Load y into rdx
+                        118b:	48 89 d0             	mov    %rdx,%rax         # Copy y into rax (for multiplication)
+                        118e:	48 01 c0             	add    %rax,%rax         # Multiply y by 2 (left shift)
+                        1191:	48 01 d0             	add    %rdx,%rax         # Add y (original value) so now its 3y
+                        1194:	48 c1 e0 04          	shl    $0x4,%rax         # Multiply by 16 (left shift 4) 3y*16 = 48y
+                        1198:	48 89 45 e8          	mov    %rax,-0x18(%rbp)   # Store t4 = 48 * y on the stack
+                        119c:	48 8b 55 e0          	mov    -0x20(%rbp),%rdx  # Load t3 into rdx
+                        11a0:	48 8b 45 e8          	mov    -0x18(%rbp),%rax  # Load t4 into rax
+                        11a4:	48 01 d0             	add    %rdx,%rax         # t5 = t3 + t4
+                        11a7:	48 89 45 f0          	mov    %rax,-0x10(%rbp)   # Store t5 on the stack
+                        11ab:	48 8b 45 d8          	mov    -0x28(%rbp),%rax  # Load t2 into rax
+                        11af:	48 0f af 45 f0       	imul   -0x10(%rbp),%rax  # rval = t2 * t5
+                        11b4:	48 89 45 f8          	mov    %rax,-0x8(%rbp)    # Store rval on the stack
+                        11b8:	48 8b 45 f8          	mov    -0x8(%rbp),%rax   # Move rval into rax (return value)
+                        11bc:	5d                   	pop    %rbp              # Restore the caller's base pointer
+                        11bd:	c3                   	ret                      # Return from the function
+                    </code-block>
+                </chapter>
+            </chapter>
+            <chapter title="6.4 C, Assembly &amp; Machine Code" id="6-4-c-assembly-machine-code" switcher-key="x86">
+                <p>Compile with the following code (debugging-friendly):</p>
+                <code-block lang="plain text">
+                    gcc –Og p1.c -o p
+                </code-block>
+                <img src="../images_architecture/a6-4-1.png" alt="C, Assembly &amp; Machine Code"/>
+                <p>Use the following command to generate the assembly code:</p>
+                <code-block lang="plain text">
+                    gcc –Og –S p1.c
+                </code-block>
+                <p>Use the following command to disassembly the machine code:</p>
+                <code-block lang="plain text">
+                    objdump –d p1
+                </code-block>
             </chapter>
         </chapter>
         <chapter id="4-risc-functions">
