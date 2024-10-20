@@ -5879,7 +5879,7 @@ class TernarySearchTree:
     <td>Space (references)</td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-2.md" anchor
+    <td><a href="Data-Structures-and-Algorithms-2.topic" anchor
     ="red-black-bsts" summary="Red-Black BSTs">Red-Black BST</a></td>
     <td><math>L+c \lg^{2} N</math></td>
     <td><math>c \lg^{2} N</math></td>
@@ -5887,7 +5887,7 @@ class TernarySearchTree:
     <td><math>4N</math></td>
 </tr>
 <tr>
-    <td><a href="Data-Structures-and-Algorithms-2.md" anchor
+    <td><a href="Data-Structures-and-Algorithms-2.topic" anchor
     ="linear-probing" summary="Linear Probing">Hashing (linear 
     probing)</a></td>
     <td><math>L</math></td>
