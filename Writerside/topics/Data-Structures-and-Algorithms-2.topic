@@ -544,358 +544,358 @@
                             template &lt;typename Key, typename Value&gt;
                             class BinarySearchST {
                             private:
-                            static constexpr int INIT_CAPACITY = 2;
-                            std::vector&lt;Key&gt; keys;
-                            std::vector&lt;Value&gt; vals;
-                            int n;
-                            const Value MISSING_VALUE = -1;
+                                static constexpr int INIT_CAPACITY = 2;
+                                std::vector&lt;Key&gt; keys;
+                                std::vector&lt;Value&gt; vals;
+                                int n;
+                                const Value MISSING_VALUE = -1;
                             
-                            void resize(int capacity) {
-                            assert(capacity &gt;= n);
-                            std::vector&lt;Key&gt; tempk(capacity);
-                            std::vector&lt;Value&gt; tempv(capacity);
-                            for (int i = 0; i &lt; n; i++) {
-                            tempk[i] = keys[i];
-                            tempv[i] = vals[i];
-                            }
-                            vals = tempv;
-                            keys = tempk;
-                            }
+                                void resize(int capacity) {
+                                    assert(capacity &gt;= n);
+                                    std::vector&lt;Key&gt; tempk(capacity);
+                                    std::vector&lt;Value&gt; tempv(capacity);
+                                    for (int i = 0; i &lt; n; i++) {
+                                        tempk[i] = keys[i];
+                                        tempv[i] = vals[i];
+                                    }
+                                    vals = tempv;
+                                    keys = tempk;
+                                }
                             
                             public:
-                            BinarySearchST() : BinarySearchST(INIT_CAPACITY) {}
+                                BinarySearchST() : BinarySearchST(INIT_CAPACITY) {}
                             
-                            explicit BinarySearchST(int capacity) : keys(capacity), vals(capacity), n(0) {}
+                                explicit BinarySearchST(int capacity) : keys(capacity), vals(capacity), n(0) {}
                             
-                            [[nodiscard]] int size() const { return n; }
+                                [[nodiscard]] int size() const { return n; }
                             
-                            [[nodiscard]] bool isEmpty() const { return size() == 0; }
+                                [[nodiscard]] bool isEmpty() const { return size() == 0; }
                             
-                            [[nodiscard]] bool contains(const Key&amp; key) const {
-                            return get(key).has_value();
-                            }
+                                [[nodiscard]] bool contains(const Key&amp; key) const {
+                                    return get(key).has_value();
+                                }
                             
-                            [[nodiscard]] std::optional&lt;Value&gt; get(const Key&amp; key) const {
-                            if (isEmpty()) return std::nullopt;
-                            int i = rank(key);
-                            if (i &lt; n &amp;&amp; keys[i] == key) return vals[i];
-                            return std::nullopt;
-                            }
+                                [[nodiscard]] std::optional&lt;Value&gt; get(const Key&amp; key) const {
+                                    if (isEmpty()) return std::nullopt;
+                                    int i = rank(key);
+                                    if (i &lt; n &amp;&amp; keys[i] == key) return vals[i];
+                                    return std::nullopt;
+                                }
                             
-                            [[nodiscard]] int rank(const Key&amp; key) const {
-                            int lo = 0, hi = n - 1;
-                            while (lo &lt;= hi) {
-                            int mid = lo + (hi - lo) / 2;
-                            if (key &lt; keys[mid]) hi = mid - 1;
-                            else if (key &gt; keys[mid]) lo = mid + 1;
-                            else return mid;
-                            }
-                            return lo;
-                            }
+                                [[nodiscard]] int rank(const Key&amp; key) const {
+                                    int lo = 0, hi = n - 1;
+                                    while (lo &lt;= hi) {
+                                        int mid = lo + (hi - lo) / 2;
+                                        if (key &lt; keys[mid]) hi = mid - 1;
+                                        else if (key &gt; keys[mid]) lo = mid + 1;
+                                        else return mid;
+                                    }
+                                    return lo;
+                                }
                             
-                            void put(const Key&amp; key, const Value&amp; val) {
-                            if (val == MISSING_VALUE) {
-                            delete_(key);
-                            return;
-                            }
+                                void put(const Key&amp; key, const Value&amp; val) {
+                                    if (val == MISSING_VALUE) {
+                                        delete_(key);
+                                        return;
+                                    }
                             
-                            int i = rank(key);
+                                    int i = rank(key);
+
+                                    if (i &lt; n &amp;&amp; keys[i] == key) {
+                                        vals[i] = val;
+                                        return;
+                                    }
+
+                                    if (n == keys.size()) resize(2 * keys.size());
+
+                                    for (int j = n; j &gt; i; j--) {
+                                        keys[j] = keys[j - 1];
+                                        vals[j] = vals[j - 1];
+                                    }
+                                    keys[i] = key;
+                                    vals[i] = val;
+                                    n++;
+
+                                    assert(check());
+                                }
                             
-                            if (i &lt; n &amp;&amp; keys[i] == key) {
-                            vals[i] = val;
-                            return;
-                            }
+                                void delete_(const Key&amp; key) {
+                                    if (isEmpty()) return;
+
+                                    int i = rank(key);
+
+                                    if (i == n || keys[i] != key) {
+                                        return;
+                                    }
+
+                                    for (int j = i; j &lt; n - 1; ++j) {
+                                        keys[j] = keys[j + 1];
+                                        vals[j] = vals[j + 1];
+                                    }
+
+                                    n--;
+                                    if (n &gt; 0 &amp;&amp; n == keys.size() / 4) resize(keys.size() / 2);
+
+                                    assert(check());
+                                }
                             
-                            if (n == keys.size()) resize(2 * keys.size());
+                                void deleteMin() {
+                                    if (isEmpty()) throw std::runtime_error("Symbol table underflow error");
+                                    delete_(min());
+                                }
                             
-                            for (int j = n; j &gt; i; j--) {
-                            keys[j] = keys[j - 1];
-                            vals[j] = vals[j - 1];
-                            }
-                            keys[i] = key;
-                            vals[i] = val;
-                            n++;
+                                void deleteMax() {
+                                    if (isEmpty()) throw std::runtime_error("Symbol table underflow error");
+                                    delete_(max());
+                                }
                             
-                            assert(check());
-                            }
+                                [[nodiscard]] Key min() const {
+                                    if (isEmpty()) throw std::runtime_error("called min() with empty symbol table");
+                                    return keys[0];
+                                }
                             
-                            void delete_(const Key&amp; key) {
-                            if (isEmpty()) return;
+                                [[nodiscard]] Key max() const {
+                                    if (isEmpty()) throw std::runtime_error("called max() with empty symbol table");
+                                    return keys[n - 1];
+                                }
                             
-                            int i = rank(key);
+                                [[nodiscard]] Key select(int k) const {
+                                    if (k &lt; 0 || k &gt;= size()) {
+                                        throw std::invalid_argument("called select() with invalid argument: " + std::to_string(k));
+                                    }
+                                    return keys[k];
+                                }
                             
-                            if (i == n || keys[i] != key) {
-                            return;
-                            }
+                                [[nodiscard]] Key floor(const Key&amp; key) const {
+                                    int i = rank(key);
+                                    if (i &lt; n &amp;&amp; key == keys[i]) return keys[i];
+                                    if (i == 0) throw std::runtime_error("argument to floor() is too small");
+                                    else return keys[i - 1];
+                                }
                             
-                            for (int j = i; j &lt; n - 1; ++j) {
-                            keys[j] = keys[j + 1];
-                            vals[j] = vals[j + 1];
-                            }
+                                [[nodiscard]] Key ceiling(const Key&amp; key) const {
+                                    int i = rank(key);
+                                    if (i == n) throw std::runtime_error("argument to ceiling() is too large");
+                                    else return keys[i];
+                                }
                             
-                            n--;
-                            if (n &gt; 0 &amp;&amp; n == keys.size() / 4) resize(keys.size() / 2);
+                                [[nodiscard]] int size(const Key&amp; lo, const Key&amp; hi) const {
+                                    if (lo &gt; hi) return 0;
+                                    if (contains(hi)) return rank(hi) - rank(lo) + 1;
+                                    else return rank(hi) - rank(lo);
+                                }
                             
-                            assert(check());
-                            }
+                                    [[nodiscard]] std::vector&lt;Key&gt; getkeys() const {
+                                    return getkeys(min(), max());
+                                    }
                             
-                            void deleteMin() {
-                            if (isEmpty()) throw std::runtime_error("Symbol table underflow error");
-                            delete_(min());
-                            }
-                            
-                            void deleteMax() {
-                            if (isEmpty()) throw std::runtime_error("Symbol table underflow error");
-                            delete_(max());
-                            }
-                            
-                            [[nodiscard]] Key min() const {
-                            if (isEmpty()) throw std::runtime_error("called min() with empty symbol table");
-                            return keys[0];
-                            }
-                            
-                            [[nodiscard]] Key max() const {
-                            if (isEmpty()) throw std::runtime_error("called max() with empty symbol table");
-                            return keys[n - 1];
-                            }
-                            
-                            [[nodiscard]] Key select(int k) const {
-                            if (k &lt; 0 || k &gt;= size()) {
-                            throw std::invalid_argument("called select() with invalid argument: " + std::to_string(k));
-                            }
-                            return keys[k];
-                            }
-                            
-                            [[nodiscard]] Key floor(const Key&amp; key) const {
-                            int i = rank(key);
-                            if (i &lt; n &amp;&amp; key == keys[i]) return keys[i];
-                            if (i == 0) throw std::runtime_error("argument to floor() is too small");
-                            else return keys[i - 1];
-                            }
-                            
-                            [[nodiscard]] Key ceiling(const Key&amp; key) const {
-                            int i = rank(key);
-                            if (i == n) throw std::runtime_error("argument to ceiling() is too large");
-                            else return keys[i];
-                            }
-                            
-                            [[nodiscard]] int size(const Key&amp; lo, const Key&amp; hi) const {
-                            if (lo &gt; hi) return 0;
-                            if (contains(hi)) return rank(hi) - rank(lo) + 1;
-                            else return rank(hi) - rank(lo);
-                            }
-                            
-                            [[nodiscard]] std::vector&lt;Key&gt; getkeys() const {
-                            return getkeys(min(), max());
-                            }
-                            
-                            [[nodiscard]] std::vector&lt;Key&gt; getkeys(const Key&amp; lo, const Key&amp; hi) const {
-                            std::vector&lt;Key&gt; queue;
-                            if (lo &gt; hi) return queue;
-                            for (int i = rank(lo); i &lt; rank(hi); ++i)
-                            queue.push_back(keys[i]);
-                            if (contains(hi)) queue.push_back(keys[rank(hi)]);
-                            return queue;
-                            }
+                                [[nodiscard]] std::vector&lt;Key&gt; getkeys(const Key&amp; lo, const Key&amp; hi) const {
+                                    std::vector&lt;Key&gt; queue;
+                                    if (lo &gt; hi) return queue;
+                                    for (int i = rank(lo); i &lt; rank(hi); ++i)
+                                        queue.push_back(keys[i]);
+                                    if (contains(hi)) queue.push_back(keys[rank(hi)]);
+                                    return queue;
+                                }
                             
                             private:
-                            [[nodiscard]] bool check() const {
-                            return isSorted() &amp;&amp; rankCheck();
-                            }
+                                [[nodiscard]] bool check() const {
+                                    return isSorted() &amp;&amp; rankCheck();
+                                }
                             
-                            [[nodiscard]] bool isSorted() const {
-                            for (int i = 1; i &lt; size(); i++)
-                            if (keys[i] &lt; keys[i - 1]) return false;
-                            return true;
-                            }
+                                [[nodiscard]] bool isSorted() const {
+                                    for (int i = 1; i &lt; size(); i++)
+                                        if (keys[i] &lt; keys[i - 1]) return false;
+                                    return true;
+                                }
                             
-                            [[nodiscard]] bool rankCheck() const {
-                            for (int i = 0; i &lt; size(); i++)
-                            if (i != rank(select(i))) return false;
-                            for (int i = 0; i &lt; size(); i++)
-                            if (keys[i] != select(rank(keys[i]))) return false;
-                            return true;
-                            }
+                                [[nodiscard]] bool rankCheck() const {
+                                    for (int i = 0; i &lt; size(); i++)
+                                    if (i != rank(select(i))) return false;
+                                    for (int i = 0; i &lt; size(); i++)
+                                        if (keys[i] != select(rank(keys[i]))) return false;
+                                    return true;
+                                }
                             };
                         </code-block>
                     </tab>
                     <tab title="Python">
                         <code-block lang="python" collapsible="true">
                             class BinarySearchST:
-                            INIT_CAPACITY = 2
-                            MISSING_VALUE = -1
+                                INIT_CAPACITY = 2
+                                MISSING_VALUE = -1
                             
-                            def __init__(self, capacity=INIT_CAPACITY):
-                            self.keys = [None] * capacity
-                            self.vals = [None] * capacity
-                            self.n = 0
+                                def __init__(self, capacity=INIT_CAPACITY):
+                                    self.keys = [None] * capacity
+                                    self.vals = [None] * capacity
+                                    self.n = 0
                             
-                            def size(self):
-                            return self.n
+                                def size(self):
+                                    return self.n
                             
-                            def isEmpty(self):
-                            return self.size() == 0
+                                def isEmpty(self):
+                                    return self.size() == 0
                             
-                            def contains(self, key):
-                            return self.get(key) is not None
+                                def contains(self, key):
+                                    return self.get(key) is not None
                             
-                            def get(self, key):
-                            if self.isEmpty():
-                            return None
-                            i = self.rank(key)
-                            if i &lt; self.n and self.keys[i] == key:
-                            return self.vals[i]
-                            return None
+                                def get(self, key):
+                                    if self.isEmpty():
+                                        return None
+                                    i = self.rank(key)
+                                    if i &lt; self.n and self.keys[i] == key:
+                                        return self.vals[i]
+                                    return None
                             
-                            def rank(self, key):
-                            lo = 0
-                            hi = self.n - 1
-                            while lo &lt;= hi:
-                            mid = lo + (hi - lo) // 2
-                            if key &lt; self.keys[mid]:
-                            hi = mid - 1
-                            elif key &gt; self.keys[mid]:
-                            lo = mid + 1
-                            else:
-                            return mid
-                            return lo
+                                def rank(self, key):
+                                    lo = 0
+                                    hi = self.n - 1
+                                    while lo &lt;= hi:
+                                        mid = lo + (hi - lo) // 2
+                                        if key &lt; self.keys[mid]:
+                                            hi = mid - 1
+                                        elif key &gt; self.keys[mid]:
+                                            lo = mid + 1
+                                        else:
+                                            return mid
+                                    return lo
                             
-                            def put(self, key, val):
-                            if val == self.MISSING_VALUE:
-                            self.delete(key)
-                            return
+                                def put(self, key, val):
+                                    if val == self.MISSING_VALUE:
+                                        self.delete(key)
+                                        return
                             
-                            i = self.rank(key)
+                                    i = self.rank(key)
                             
-                            if i &lt; self.n and self.keys[i] == key:
-                            self.vals[i] = val
-                            return
+                                    if i &lt; self.n and self.keys[i] == key:
+                                        self.vals[i] = val
+                                        return
                             
-                            if self.n == len(self.keys):
-                            self.resize(2 * len(self.keys))
+                                    if self.n == len(self.keys):
+                                        self.resize(2 * len(self.keys))
                             
-                            for j in range(self.n, i, -1):
-                            self.keys[j] = self.keys[j - 1]
-                            self.vals[j] = self.vals[j - 1]
-                            self.keys[i] = key
-                            self.vals[i] = val
-                            self.n += 1
+                                    for j in range(self.n, i, -1):
+                                        self.keys[j] = self.keys[j - 1]
+                                        self.vals[j] = self.vals[j - 1]
+                                        self.keys[i] = key
+                                        self.vals[i] = val
+                                        self.n += 1
                             
-                            assert self.check()
+                                    assert self.check()
                             
-                            def delete(self, key):
-                            if self.isEmpty():
-                            return
+                                def delete(self, key):
+                                    if self.isEmpty():
+                                        return
+
+                                    i = self.rank(key)
+
+                                    if i == self.n or self.keys[i] != key:
+                                        return
+
+                                    for j in range(i, self.n - 1):
+                                        self.keys[j] = self.keys[j + 1]
+                                        self.vals[j] = self.vals[j + 1]
+
+                                    self.n -= 1
+                                    self.keys[self.n] = None
+                                    self.vals[self.n] = None
+
+                                    if self.n &gt; 0 and self.n == len(self.keys) // 4:
+                                        self.resize(len(self.keys) // 2)
+
+                                    assert self.check()
                             
-                            i = self.rank(key)
+                                def deleteMin(self):
+                                    if self.isEmpty():
+                                        raise Exception("Symbol table underflow error")
+                                    self.delete(self.min())
                             
-                            if i == self.n or self.keys[i] != key:
-                            return
+                                def deleteMax(self):
+                                    if self.isEmpty():
+                                        raise Exception("Symbol table underflow error")
+                                    self.delete(self.max())
                             
-                            for j in range(i, self.n - 1):
-                            self.keys[j] = self.keys[j + 1]
-                            self.vals[j] = self.vals[j + 1]
+                                def min(self):
+                                    if self.isEmpty():
+                                        return
+                                    return self.keys[0]
                             
-                            self.n -= 1
-                            self.keys[self.n] = None
-                            self.vals[self.n] = None
+                                def max(self):
+                                    if self.isEmpty():
+                                        return
+                                    return self.keys[self.n - 1]
                             
-                            if self.n &gt; 0 and self.n == len(self.keys) // 4:
-                            self.resize(len(self.keys) // 2)
+                                def select(self, k):
+                                    if k &lt; 0 or k &gt;= self.size():
+                                        raise ValueError(f"called select() with invalid argument: {k}")
+                                    return self.keys[k]
                             
-                            assert self.check()
+                                def floor(self, key):
+                                    i = self.rank(key)
+                                    if i &lt; self.n and key == self.keys[i]:
+                                        return self.keys[i]
+                                    if i == 0:
+                                        raise Exception("argument to floor() is too small")
+                                    else:
+                                        return self.keys[i - 1]
                             
-                            def deleteMin(self):
-                            if self.isEmpty():
-                            raise Exception("Symbol table underflow error")
-                            self.delete(self.min())
+                                def ceiling(self, key):
+                                    i = self.rank(key)
+                                    if i == self.n:
+                                        raise Exception("argument to ceiling() is too large")
+                                    else:
+                                        return self.keys[i]
                             
-                            def deleteMax(self):
-                            if self.isEmpty():
-                            raise Exception("Symbol table underflow error")
-                            self.delete(self.max())
+                                def size_range(self, lo, hi):
+                                    if lo &gt; hi:
+                                        return 0
+                                    if self.contains(hi):
+                                        return self.rank(hi) - self.rank(lo) + 1
+                                    else:
+                                        return self.rank(hi) - self.rank(lo)
                             
-                            def min(self):
-                            if self.isEmpty():
-                            return
-                            return self.keys[0]
+                                def getkeys(self):
+                                    if self.isEmpty():
+                                        return []
+                                    return self.keys_range(self.min(), self.max())
                             
-                            def max(self):
-                            if self.isEmpty():
-                            return
-                            return self.keys[self.n - 1]
+                                def keys_range(self, lo, hi):
+                                    queue = []
+                                    if lo &gt; hi:
+                                        return queue
+                                    for i in range(self.rank(lo), self.rank(hi)):
+                                        queue.append(self.keys[i])
+                                        if self.contains(hi):
+                                            queue.append(self.keys[self.rank(hi)])
+                                    return queue
                             
-                            def select(self, k):
-                            if k &lt; 0 or k &gt;= self.size():
-                            raise ValueError(f"called select() with invalid argument: {k}")
-                            return self.keys[k]
+                                def resize(self, capacity):
+                                    assert capacity &gt;= self.n
+                                    tempk = [None] * capacity
+                                    tempv = [None] * capacity
+                                    for i in range(self.n):
+                                        tempk[i] = self.keys[i]
+                                        tempv[i] = self.vals[i]
+                                        self.vals = tempv
+                                        self.keys = tempk
                             
-                            def floor(self, key):
-                            i = self.rank(key)
-                            if i &lt; self.n and key == self.keys[i]:
-                            return self.keys[i]
-                            if i == 0:
-                            raise Exception("argument to floor() is too small")
-                            else:
-                            return self.keys[i - 1]
+                                def check(self):
+                                    return self.isSorted() and self.rankCheck()
                             
-                            def ceiling(self, key):
-                            i = self.rank(key)
-                            if i == self.n:
-                            raise Exception("argument to ceiling() is too large")
-                            else:
-                            return self.keys[i]
+                                def isSorted(self):
+                                    for i in range(1, self.size()):
+                                        if self.keys[i] &lt; self.keys[i - 1]:
+                                            return False
+                                return True
                             
-                            def size_range(self, lo, hi):
-                            if lo &gt; hi:
-                            return 0
-                            if self.contains(hi):
-                            return self.rank(hi) - self.rank(lo) + 1
-                            else:
-                            return self.rank(hi) - self.rank(lo)
-                            
-                            def getkeys(self):
-                            if self.isEmpty():
-                            return []
-                            return self.keys_range(self.min(), self.max())
-                            
-                            def keys_range(self, lo, hi):
-                            queue = []
-                            if lo &gt; hi:
-                            return queue
-                            for i in range(self.rank(lo), self.rank(hi)):
-                            queue.append(self.keys[i])
-                            if self.contains(hi):
-                            queue.append(self.keys[self.rank(hi)])
-                            return queue
-                            
-                            def resize(self, capacity):
-                            assert capacity &gt;= self.n
-                            tempk = [None] * capacity
-                            tempv = [None] * capacity
-                            for i in range(self.n):
-                            tempk[i] = self.keys[i]
-                            tempv[i] = self.vals[i]
-                            self.vals = tempv
-                            self.keys = tempk
-                            
-                            def check(self):
-                            return self.isSorted() and self.rankCheck()
-                            
-                            def isSorted(self):
-                            for i in range(1, self.size()):
-                            if self.keys[i] &lt; self.keys[i - 1]:
-                            return False
-                            return True
-                            
-                            def rankCheck(self):
-                            for i in range(self.size()):
-                            if i != self.rank(self.select(i)):
-                            return False
-                            for i in range(self.size()):
-                            if self.keys[i] != self.select(self.rank(self.keys[i])):
-                            return False
-                            return True
+                                def rankCheck(self):
+                                    for i in range(self.size()):
+                                        if i != self.rank(self.select(i)):
+                                            return False
+                                    for i in range(self.size()):
+                                        if self.keys[i] != self.select(self.rank(self.keys[i])):
+                                            return False
+                                    return True
                         </code-block>
                     </tab>
                 </tabs>
