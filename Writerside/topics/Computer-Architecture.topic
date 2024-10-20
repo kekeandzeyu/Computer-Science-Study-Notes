@@ -2,7 +2,7 @@
 <!DOCTYPE topic SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
 <topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
-       id="Computer-Architecture" title="Computer Architecture">
+       id="Computer-Architecture" title="Computer Architecture" switcher-label="ISA">
 
     <show-structure for="chapter" depth="3"/>
     <title>
@@ -1813,10 +1813,13 @@ Conversion"/>
         <title>
             Ⅱ Assembly Language
         </title>
-        <chapter title="6 Introduction to Assembly Language" id="5-introduction-to-assembly-language">
-            <chapter title="6.1 Assembly Language" id="5-1-assembly-language">
+        <chapter title="6 Introduction to Assembly Language" id="6-introduction-to-assembly-language">
+            <chapter title="6.1 Assembly Language" id="6-1-assembly-language-riscv" switcher-key="RISC-V">
                 <p><format color="DarkOrange">Assembly (also known as Assembly language, ASM):</format>
                     A low-level programming language where the program instructions match a particular architecture's operations.</p>
+                <p><format color="DarkOrange">Architecture:</format> (also ISA: instruction set architecture) The
+                    parts of a processor design that one needs to understand
+                    for writing assembly/machine code.</p>
                 <p><format color="BlueViolet">Properties:</format></p>
                 <list type="bullet">
                     <li>
@@ -1831,11 +1834,8 @@ Conversion"/>
                         <p>Assembly is not <format style="italic">portable</format> to other architectures.</p>
                     </li>
                 </list>
-                <p>
-                    <format color="BlueViolet">Complex/Reduced Instruction Set
-                        Computing
-                    </format>
-                </p>
+                <p><format color="BlueViolet">Complex/Reduced Instruction Set
+                        Computing</format></p>
                 <list type="alpha-lower">
                     <li>
                         <p>Early trend - add more and more instructions to do elaborate
@@ -1874,9 +1874,7 @@ Conversion"/>
                         </list>
                     </li>
                 </list>
-                <p>
-                    <format color="BlueViolet">Code:</format>
-                </p>
+                <p><format color="BlueViolet">Code:</format></p>
                 <p>op dst, src1, src2</p>
                 <list type="bullet">
                     <li>
@@ -1893,7 +1891,68 @@ Conversion"/>
                     </li>
                 </list>
             </chapter>
-            <chapter title="5.2 Registers" id="5-2-registers">
+            <chapter title="6.1 Assembly Language" id="6-1-assembly-language-x86" switcher-key="x86">
+                <p><format color="DarkOrange">Assembly (also known as Assembly language, ASM):</format>
+                    A low-level programming language where the program instructions match a particular architecture's operations.</p>
+                <p><format color="DarkOrange">Architecture:</format> (also ISA: instruction set architecture) The
+                    parts of a processor design that one needs to understand
+                    for writing assembly/machine code.</p>
+                <p><format color="BlueViolet">Properties:</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Splits a program into many small instructions that each do one
+                            single part of the process.</p>
+                    </li>
+                    <li>
+                        <p>Each architecture will have a different set of operations that it
+                            supports (although there are similarities).</p>
+                    </li>
+                    <li>
+                        <p>Assembly is not <format style="italic">portable</format> to other architectures.</p>
+                    </li>
+                </list>
+                <p><format color="BlueViolet">Complex/Reduced Instruction Set
+                    Computing</format></p>
+                <list type="alpha-lower">
+                    <li>
+                        <p>Early trend - add more and more instructions to do elaborate
+                            operations</p>
+                        <p>
+                            <format color="Fuchsia">Complex Instruction Set Computing (CISC)
+                            </format>
+                        </p>
+                        <list type="bullet">
+                            <li>
+                                <p>Difficult to learn and comprehend language</p>
+                            </li>
+                            <li>
+                                <p>Less work for the compiler</p>
+                            </li>
+                            <li>
+                                <p>Complicated hardware runs more slowly</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p>Opposite philosophy later began to dominate</p>
+                        <p>
+                            <format color="Fuchsia">Reduced Instruction Set Computing (RISC)
+                            </format>
+                        </p>
+                        <list type="bullet">
+                            <li>
+                                <p>Simple (and smaller) instruction set makes it easier to build
+                                    fast hardware.</p>
+                            </li>
+                            <li>
+                                <p>Let software do the complicated operations by composing simpler
+                                    ones.</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+            </chapter>
+            <chapter title="6.2 Registers" id="6-2-registers-riscv" switcher-key="RISC-V">
                 <p>Assembly uses registers to store values. Registers are: </p>
                 <list type="bullet">
                     <li>
@@ -1960,14 +2019,160 @@ Conversion"/>
                     </list>
                 </warning>
             </chapter>
-            <chapter id="5-3-risc-instructions">
+            <chapter title="6.2 Registers" id="6-2-registers-x86" switcher-key="x86">
+                <p>Assembly uses registers to store values. Registers are: </p>
+                <list type="bullet">
+                    <li>
+                        <p>Small memories of a fixed size.</p>
+                    </li>
+                    <li>
+                        <p>Can be read or written.</p>
+                    </li>
+                    <li>
+                        <p>Limited in number.</p>
+                    </li>
+                    <li>
+                        <p>Very fast and low power to access.</p>
+                    </li>
+                </list>
+                <table style="both">
+                    <tr>
+                        <td>Registers</td>
+                        <td>Memory</td>
+                    </tr>
+                    <tr>
+                        <td>Speed</td>
+                        <td>Fast</td>
+                        <td>Slow</td>
+                    </tr>
+                    <tr>
+                        <td>Size</td>
+                        <td><p>Small</p>
+                            <p>e.g., 32 registers * 32 bit = 128 bytes</p></td>
+                        <td><p>Big</p>
+                            <p>4-32 GB</p></td>
+                    </tr>
+                    <tr>
+                        <td>Connection</td>
+                        <td colspan="2">
+                            <p>More variables than registers?</p>
+                            <p>Keep most frequently used in registers and move the rest to
+                                memory</p>
+                        </td>
+                    </tr>
+                </table>
+                <img src="../images_architecture/a6-2-1.png" alt="Registers"/>
+                <p><format color="BlueViolet">x86-84 Registers</format></p>
+                <table style="none">
+                    <tr>
+                        <td>%rax&nbsp;&nbsp;%eax</td>
+                        <td>%r8&nbsp;&nbsp;%r8d</td>
+                    </tr>
+                    <tr>
+                        <td>%rbx&nbsp;&nbsp;%ebx</td>
+                        <td>%r9&nbsp;&nbsp;%r9d</td>
+                    </tr>
+                    <tr>
+                        <td>%rcx&nbsp;&nbsp;%ecx</td>
+                        <td>%r10&nbsp;&nbsp;%r10d</td>
+                    </tr>
+                    <tr>
+                        <td>%rdx&nbsp;&nbsp;%edx</td>
+                        <td>%r11&nbsp;&nbsp;%r11d</td>
+                    </tr>
+                    <tr>
+                        <td>%rsi&nbsp;&nbsp;%esi</td>
+                        <td>%r12&nbsp;&nbsp;%r12d</td>
+                    </tr>
+                    <tr>
+                        <td>%rdi&nbsp;&nbsp;%edi</td>
+                        <td>%r13&nbsp;&nbsp;%r13d</td>
+                    </tr>
+                    <tr>
+                        <td>%rsp&nbsp;&nbsp;%esp</td>
+                        <td>%r14&nbsp;&nbsp;%r14d</td>
+                    </tr>
+                    <tr>
+                        <td>%rbp&nbsp;&nbsp;%ebp</td>
+                        <td>%r15&nbsp;&nbsp;%r15d</td>
+                    </tr>
+                </table>
+                <note>
+                    <p>Usages for the LHS:</p>
+                    <list type="bullet">
+                        <li>
+                            <p><format color="Fuchsia">%rax:</format> 64 bits</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">%eax:</format> lower 32 bits of rax ( can also be used for storing smaller integers)</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">%ax:</format> lower 16 bits of eax</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">%al:</format> lower 8 bits of ax</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">%ah:</format> upper 8 bits of ax</p>
+                        </li>
+                    </list>
+                    <p>Usages for the RHS</p>
+                    <list type="bullet">
+                        <li>
+                            <p><format color="Fuchsia">%r13:</format> 64 bits</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">%r13d (doubleword):</format> lower 32 bits of rax ( can also be used for storing smaller integers)</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">%r13w (word):</format> lower 16 bits of eax</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">%r13b (byte):</format> lower 8 bits of ax</p>
+                        </li>
+                    </list>
+                    <p>Stack pointer: %rsp (%esp), you cannot use it!</p>
+                </note>
+            </chapter>
+            <chapter id="6-3-risc-instructions-riscv" switcher-key="RISC-V">
                 <title>
-                    5.3 RISC-Ⅴ Instructions
+                    6.3 RISC-Ⅴ Instructions
                 </title>
                 <p>In high-level languages, variable types determine operation.</p>
                 <p>In assembly, operation determines type, i.e., how register contents
                     are treated.</p>
-                <chapter title="5.3.1 Basic Arithmetic Instructions" id="5-3-1-basic-arithmetic-instructions">
+                <p><format color="BlueViolet">Operations</format></p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Transfer data between memory and register</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p>Load data from memory into register</p>
+                            </li>
+                            <li>
+                                <p>Store register data into memory</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Perform arithmetic function on register or memory data</format></p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Transfer control</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p>Unconditional jumps to/from procedures</p>
+                            </li>
+                            <li>
+                                <p>Conditional branches</p>
+                            </li>
+                            <li>
+                                <p>Indirect branches</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+                <chapter title="6.3.1 Basic Arithmetic Instructions" id="6-3-1-basic-arithmetic-instructions">
                     <note>
                         <p>Assume here that the variables a, b and c are assigned to
                             registers s1, s2 and s3, respectively.</p>
@@ -2004,12 +2209,8 @@ Conversion"/>
                         </li>
                     </list>
                 </chapter>
-                <chapter title="5.3.2 Immediate Instructions" id="5-3-2-immediate-instructions">
-                    <p>
-                        <format color="DarkOrange">Immediates:</format>
-                        Numerical
-                        constants.
-                    </p>
+                <chapter title="6.3.2 Immediate Instructions" id="6-3-2-immediate-instructions">
+                    <p><format color="DarkOrange">Immediates:</format> Numerical constants.</p>
                     <p>
                         <format color="BlueViolet">Syntax:</format>
                         opi dst, src, imm
@@ -2290,6 +2491,72 @@ Conversion"/>
                         </li>
                         <li>
                             <p>The PC tracks where in memory the current instruction is.</p>
+                        </li>
+                    </list>
+                </chapter>
+            </chapter>
+            <chapter title="6.3 x86 Instructions" id="6-3-risc-instructions-x86" switcher-key="x86">
+                <p>In high-level languages, variable types determine operation.</p>
+                <p>In assembly, operation determines type, i.e., how register contents
+                    are treated.</p>
+                <p><format color="BlueViolet">Operations</format></p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Transfer data between memory and register</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p>Load data from memory into register</p>
+                            </li>
+                            <li>
+                                <p>Store register data into memory</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Perform arithmetic function on register or memory data</format></p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Transfer control</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p>Unconditional jumps to/from procedures</p>
+                            </li>
+                            <li>
+                                <p>Conditional branches</p>
+                            </li>
+                            <li>
+                                <p>Indirect branches</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+                <chapter title="6.3.1 Moving Data Instructions" id="6-3-1-moving-data-instructions">
+                    <p>movq source, dest</p>
+                    <p><format color="BlueViolet">Operand Types</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p><format color="Fuchsia">Immediate:</format> Constant integer data. Like C constants, but prefix with '$'.</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">Memory:</format> : 8 consecutive bytes of memory at address given by register (for movq).</p>
+                            <p>This is corresponding to <code>movq</code>. The <code>mov</code> instruction without a
+                                suffix is size-dependent. <code>mov</code> defaults to 32-bit operations when the size isn't
+                                explicitly indicated.</p>
+                            <p>Recommend to use the explicit suffixes (movq, movl, movw, movb) whenever possible</p>
+                        </li>
+                    </list>
+                    <img src="../images_architecture/a6-2-2.png" alt="movq Operand Combinations"/>
+                    <p><format color="BlueViolet">Simple Memory Addressing Mode</format></p>
+                    <list type="decimal">
+                        <li>
+                            <p>Normal (R) => pointer dereferencing in C</p>
+                            <code>movq (%rcx),%rax</code> equals:
+                            <code-block lang="c">
+                                rax = *rcx
+                            </code-block>
+                        </li>
+                        <li>
+                            <p>Displacement D(R) => accessing data at a fixed offset from a base address</p>
                         </li>
                     </list>
                 </chapter>
