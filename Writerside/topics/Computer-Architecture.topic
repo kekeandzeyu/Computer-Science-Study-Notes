@@ -1818,8 +1818,7 @@ Conversion"/>
                 <p><format color="DarkOrange">Assembly (also known as Assembly language, ASM):</format>
                     A low-level programming language where the program instructions match a particular architecture's operations.</p>
                 <p><format color="DarkOrange">Architecture:</format> (also ISA: instruction set architecture) The
-                    parts of a processor design that one needs to understand
-                    for writing assembly/machine code.</p>
+                    parts of a processor design that one needs to understand for writing assembly/machine code.</p>
                 <p><format color="BlueViolet">Properties:</format></p>
                 <list type="bullet">
                     <li>
@@ -1990,7 +1989,8 @@ Conversion"/>
                         <td colspan="2">
                             <p>More variables than registers?</p>
                             <p>Keep most frequently used in registers and move the rest to
-                                memory</p></td>
+                                memory</p>
+                        </td>
                     </tr>
                 </table>
                 <img src="../images_architecture/a6-2-1.png" alt="Registers"/>
@@ -2003,10 +2003,40 @@ Conversion"/>
                         </li>
                         <li>
                             <p>Register denoted by 'x' can be referenced by number (x0 - x31) or
-                                by name.</p>
+                                by name (s0 - s11, t0 - t6).</p>
+                            <list type="bullet">
+                                <li>
+                                    <p><format color="Fuchsia">Safe registers:</format> Registers that hold programmer variables</p>
+                                    <list type="bullet">
+                                        <li>
+                                            <p>s0 - s1 &lt;=&gt; x8 - x9</p>
+                                        </li>
+                                        <li>
+                                            <p>s2 - s1 &lt;=&gt; x8 - x9</p>
+                                        </li>
+                                    </list>
+                                </li>
+                                <li>
+                                    <p>
+                                        <format color="Fuchsia">Temporary registers:</format>
+                                        Registers that hold temporary variables
+                                    </p>
+                                    <list type="bullet">
+                                        <li>
+                                            <p>t0 - t2 &lt;=&gt; x5 - x7</p>
+                                        </li>
+                                        <li>
+                                            <p>t3 - t6 &lt;=&gt; x28 - x31</p>
+                                        </li>
+                                    </list>
+                                </li>
+                                <li>
+                                    <p>Other registers have special functions!</p>
+                                </li>
+                            </list>
                         </li>
                         <li>
-                            <p>Registers have no type.</p>
+                            <p>Registers have no type!</p>
                         </li>
                         <li>
                             <p>Register zero (x0 or zero) always has the value 0 and cannot be
@@ -2182,9 +2212,7 @@ Conversion"/>
                     </p>
                     <list type="bullet">
                         <li>
-                            <p>
-                                <format color="Fuchsia">Integer Addition:</format>
-                            </p>
+                            <p><format color="Fuchsia">Integer Addition</format></p>
                             <list type="bullet">
                                 <li>
                                     <p>C: a = b + c;</p>
@@ -2195,9 +2223,7 @@ Conversion"/>
                             </list>
                         </li>
                         <li>
-                            <p>
-                                <format color="Fuchsia">Integer Subtraction:</format>
-                            </p>
+                            <p><format color="Fuchsia">Integer Subtraction</format></p>
                             <list type="bullet">
                                 <li>
                                     <p>C: a = b - c;</p>
@@ -2208,20 +2234,18 @@ Conversion"/>
                             </list>
                         </li>
                     </list>
+                    <note>
+                        <p><format color="Fuchsia">add:</format> Perform addition</p>
+                        <p><format color="Fuchsia">addw:</format> Addition with words (32 bits)</p>
+                    </note>
                 </chapter>
                 <chapter title="6.3.2 Immediate Instructions" id="6-3-2-immediate-instructions">
                     <p><format color="DarkOrange">Immediates:</format> Numerical constants.</p>
-                    <p>
-                        <format color="BlueViolet">Syntax:</format>
-                        opi dst, src, imm
-                    </p>
+                    <p><format color="BlueViolet">Syntax:</format> opi dst, src, imm</p>
                     <list type="bullet">
                         <li>
-                            <p>Operation names end with "i", replace
-                                <math>2 ^ {\text{nd}}
-                                </math>
-                                source register with an immeidate.
-                            </p>
+                            <p>Operation names end with "i", replace <math>2 ^ {\text{nd}}</math>
+                                source register with an immeidate.</p>
                         </li>
                         <li>
                             <p>Immediates can up to 12-bits in size.</p>
@@ -2232,10 +2256,7 @@ Conversion"/>
                         <li>
                             <p>RISC-Ⅴ hardwires the register zero (x0) to value 0.</p>
                             <p>Example: RISC-Ⅴ: add x3 x4 0</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C:&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                f = g</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f = g</p>
                         </li>
                     </list>
                     <warning>
@@ -2243,7 +2264,7 @@ Conversion"/>
                             # of instructions.</p>
                     </warning>
                 </chapter>
-                <chapter title="5.3.3 Data Transfer Instructions" id="5-3-3-data-transfer-instructions">
+                <chapter title="6.3.3 Data Transfer Instructions" id="6-3-3-data-transfer-instructions">
                     <p>Specialized
                         <format color="OrangeRed">data transfer instructions
                         </format>
@@ -2745,7 +2766,7 @@ Conversion"/>
                     </code-block>
                 </chapter>
             </chapter>
-            <chapter title="6.4 C, Assembly &amp; Machine Code" id="6-4-c-assembly-machine-code" switcher-key="x86">
+            <chapter title="6.4 C, Assembly &amp; Machine Code" id="6-4-c-assembly-machine-code">
                 <p>Compile with the following code (debugging-friendly):</p>
                 <code-block lang="plain text">
                     gcc –Og p1.c -o p
