@@ -143,10 +143,7 @@ Conversion"/>
                     </li>
                     <li>
                         <p>How many multiples of 1 fit in my remaining number (1)?</p>
-                        <p>
-                            <math>1 – 1 = 0</math>
-                            left over, which means we're done!
-                        </p>
+                        <p><math>1 – 1 = 0</math> left over, which means we're done!</p>
                     </li>
                 </list>
                 <p>Converting from base 10 to base 2 will create unsigned integers.</p>
