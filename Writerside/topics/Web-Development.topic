@@ -132,7 +132,115 @@
             &lt;/body&gt;
             &lt;/html&gt;
         </code-block>
-
     </chapter>
+    <chapter title="2 CSS" id="2-css">
+        <p><format color="DarkOrange">CSS:</format> Style sheets to specify style to use rather than browser default.</p>
+        <code-block lang="css" collapsible="true">
+            body { // Selector
+                background-color: lightblue; // Property: Value
+                color: white;
+                font-family: Arial, sans-serif;
+            } // Declaration Block
+        </code-block>
+        <table style="header-row">
+            <tr>
+                <td>CSS Selector</td>
+                <td>CSS</td>
+                <td>html</td>
+            </tr>
+            <tr>
+                <td>Tag Name</td>
+                <td><code-block lang="css">
+                    h1 {
+                        color: red;
+                    }
+                </code-block>
+                </td>
+                <td><code-block lang="html">
+                    &lt;h1&gt;Today's Specials&lt;/h1&gt;
+                </code-block></td>
+            </tr>
+            <tr>
+                <td>Class Attribute</td>
+                <td><code-block lang="css">
+                    .large {
+                        font-size: 16pt;
+                    }
+                </code-block>
+                </td>
+                <td><code-block lang="html">
+                    &lt;p class="large"&gt;&lt;/p&gt;
+                </code-block></td>
+            </tr>
+            <tr>
+                <td>Tag and Class</td>
+                <td><code-block lang="css">
+                    p.large {
+                        font-size: 16pt;
+                    }
+                </code-block>
+                </td>
+                <td><code-block lang="html">
+                    &lt;p class="large"&gt;&lt;/p&gt;
+                </code-block></td>
+            </tr>
+            <tr>
+                <td>Element ID</td>
+                <td><code-block lang="css">
+                    #p20 {
+                        font-weight: bold;
+                    }
+                </code-block>
+                </td>
+                <td><code-block lang="html">
+                    &lt;div id="p20"&gt;&lt;/div&gt;
+                </code-block></td>
+            </tr>
+        </table>
+        <p><format color="BlueViolet">CSS Pseudo Selectors</format></p>
+        <list type="bullet">
+            <li>
+                <p><code>hover</code>: Apply rule when mouse is over element (e.g. tooltip)</p>
+                <code-block lang="css">
+                    p:hover, a:hover {
+                        background-color: yellow;
+                    }
+                </code-block>
+            </li>
+            <li>
+                <p><code>a:link</code>, <code>a:visited</code>: Apply rule when element is being activated (e.g. button press)</p>
+                <code-block lang="css">
+                    a:link {
+                        color: blue;
+                    }
 
+                    a:visited {
+                        color: green;
+                    }
+                </code-block>
+            </li>
+        </list>
+        <chapter title="2-1 Color Properties" id="2-1-Color-Properties">
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Predefined names:</format> red, blue, green, white, etc. (140 standard names)</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">8-bit hexadecimal numbers for red, green, blue:</format> #ff0000 (RGB)</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">0-255 decimal intensities:</format> rgb(255,255,0)</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Percentage intensities:</format>  rgb(80&#37;,80&#37;,100&#37;)</p>
+                </li>
+            </list>
+        </chapter>
+        <chapter title="2.2 Size Properties" id="2-2-Size-Properties">
+            <p><format color="BlueViolet">Box Model</format></p>
+            <img src="../images_web/w2-2-1.png" alt="Box Model"/>
+            <p>Total element width = width + left padding + right padding + left border +
+                right border + left margin + right margin</p>
+        </chapter>
+    </chapter>
 </topic>
