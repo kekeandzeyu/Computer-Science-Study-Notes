@@ -2352,16 +2352,10 @@ Conversion"/>
                         </li>
                     </list>
                 </chapter>
-                <chapter title="5.3.4 Control Flow Instructions" id="5-3-4-control-flow-instructions">
-                    <p>
-                        <format color="DarkOrange">Labels in RISC-Ⅴ</format>
-                        : Defined
-                        by a text and followed by a colon (e.g., main:) and refers to the
-                        instructions that follows; generate control flow by jumping to labels.
-                    </p>
-                    <p>
-                        <format color="BlueViolet">Types:</format>
-                    </p>
+                <chapter title="6.3.4 Control Flow Instructions" id="6-3-4-control-flow-instructions">
+                    <p><format color="DarkOrange">Labels in RISC-Ⅴ:</format> Defined by a text and followed by a colon (e.g., main:) and refers to the
+                        instructions that follows; generate control flow by jumping to labels.</p>
+                    <p><format color="BlueViolet">Types:</format></p>
                     <list type="alpha-lower">
                         <li>
                             <p>
@@ -2511,6 +2505,59 @@ Conversion"/>
                             <p>The PC tracks where in memory the current instruction is.</p>
                         </li>
                     </list>
+                </chapter>
+                <chapter title="6.3.5 Shifting Instructions" id="6-3-5-shifting-instructions">
+                    <p><format color="BlueViolet">Shifting Operations</format></p>
+                    <table style="header-row">
+                        <tr>
+                            <td>Instruction Name</td>
+                            <td>RISC-Ⅴ</td>
+                        </tr>
+                        <tr>
+                            <td>Shift Left Logical</td>
+                            <td>sll s1, s2, s3</td>
+                        </tr>
+                        <tr>
+                            <td>Shift Left Logical Imm</td>
+                            <td>sll1 s1, s2, imm</td>
+                        </tr>
+                        <tr>
+                            <td>Shift Right Logical</td>
+                            <td>srl s1, s2, s3</td>
+                        </tr>
+                        <tr>
+                            <td>Shift Right Logical Imm</td>
+                            <td>srli s1, s2, imm</td>
+                        </tr>
+                        <tr>
+                            <td>Shift Right Arithmetic</td>
+                            <td>sra s1, s2, s3</td>
+                        </tr>
+                        <tr>
+                            <td>Shift Right Arithmetic Imm</td>
+                            <td>srai s1, s2, imm</td>
+                        </tr>
+                    </table>
+                    <note>
+                        <p>For a 32-bit RISC-Ⅴ system,</p>
+                        <list type="bullet">
+                            <li>
+                                <p>When using immediate, only values 0-31 are practical.</p>
+                            </li>
+                            <li>
+                                <p>When using variable, only lowest 5 bits are used.</p>
+                            </li>
+                        </list>
+                    </note>
+                    <code-block lang="plain text">
+                        addi t0, x0, -256 # t0=0xFFFFFF00
+                        slli s0, t0, 3    # s0=0xFFFFF800
+                        srli s1, t0, 8    # s1=0x00FFFFFF
+                        srai s2, t0, 8    # s2=0xFFFFFFFF
+
+                        addi t1, x0, -22  # t1=0xFFFFFFEA
+                        sll s3, t0, t1    # s3=0xFFFC0000
+                    </code-block>
                 </chapter>
             </chapter>
             <chapter title="6.3 x86 Instructions" id="6-3-risc-instructions-x86" switcher-key="x86">
