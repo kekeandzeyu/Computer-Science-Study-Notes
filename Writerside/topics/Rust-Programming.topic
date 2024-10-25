@@ -9,7 +9,91 @@
     <title>
         Rust Programming
     </title>
-    <chapter title="Program Analysis">
-        <p>To be continued ...</p>
+    <chapter title="1 Program Analysis">
+        <p><format color="BlueViolet">Types of program analysis</format></p>
+        <list type="bullet">
+            <li>
+                <p><format color="Fuchsia">Dynamic analysis:</format> run the program and watch what it does.</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">Static analysis:</format> read the source code.</p>
+            </li>
+        </list>
+        <chapter title="1.1 Dynamic Analysis" id="1-1-dynamic-analysis">
+            <list type="bullet">
+                <li>
+                    <p>Run the program, watch what it does, and look for problematic behavior.</p>
+                </li>
+                <li>
+                    <p>Can find problems, but only if the program exhibits problematic behavior on
+                        the inputs you use to test. (Separately, some tools only check for certain
+                        types of issues.)</p>
+                </li>
+                <li>
+                    <p>Commonly combined with techniques to run the program with lots of different
+                        test inputs (e.g. fuzzing), yet this still can’t give us any assurances that code
+                        is bug-free</p>
+                </li>
+                <li>
+                    <p>Dynamic analysis is great! Test your code and understand the limitations!</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Valgrind</format></p>
+            <procedure title="Valgrind">
+                <step>
+                    <p>Takes in compiled binary (executable).</p>
+                </step>
+                <step>
+                    <p>Disassembles binary into intermediate, assembly/assembly-like representation.</p>
+                </step>
+                <step>
+                    <p>Turns this ^ back into machine code (re-compiles); one small block at a time during execution.</p>
+                </step>
+                <step>
+                    <p>While "instrumenting", modifying instructions or inserting "analysis" code.</p>
+                </step>
+            </procedure>
+            <code-block lang="c" collapsible="true">
+                int main() {
+                    char *buf = (char *)malloc(8);
+                    buf[16] = 'a';
+                }
+            </code-block>
+            <p>Compiler:</p>
+            <code-block lang="plain text" collapsible="true">
+                mov edi, 8
+                call malloc
+                mov QWORD PTR [rbp-8], rax
+
+                mov rax, QWORD PTR [rbp-8]
+                add rax, 16
+                mov BYTE PTR [rax], 97
+            </code-block>
+            <p>Valgrind</p>
+            <code-block lang="plain text" collapsible="true">
+                mov edi, 8
+                call valgrind_malloc
+                mov QWORD PTR [rbp-8], rax
+                # record memory write ^
+
+                mov rax, QWORD PTR [rbp-8]
+                # record memory read
+                add rax, 16
+                mov BYTE PTR [rax], 97
+                # record memory write ^
+                # Invalid write of size 4
+            </code-block>
+            <p>Pros &amp; Cons</p>
+            <list type="bullet">
+                <li>
+                    <p>Works with any binary compiled by any compiler (even if you don’t have source code available!)</p>
+                </li>
+                <li>
+                    <p>But not a lot of information is available in binaries.</p>
+                    <p>For example, cannot detect stack-based buffer overflows!</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">LLVM Sanitizers</format></p>
+        </chapter>
     </chapter>
 </topic>
