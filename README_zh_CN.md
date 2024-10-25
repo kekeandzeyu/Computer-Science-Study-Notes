@@ -100,6 +100,10 @@ For English version please check [here](README.md)
 
 1. CS186: Introduction to Database Systems (UC Berkeley) by Professor Alvin Cheung, Joe Hellerstein and the rest of CS186 staff.
 
+### Topic 7: Rust编程
+
+1. CS110L: Safety in Systems Programming (Stanford University) by Ryan Eberhardt, Julio Ballista, Thea Rossman and the rest of CS110L staff.
+
 ## 4 如何使用
 
 笔记中不同颜色对应的含义如下：
