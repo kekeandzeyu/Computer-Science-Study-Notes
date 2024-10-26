@@ -117,7 +117,15 @@ For English version please check [here](README.md)
 
 ## 5 想要贡献自己的一份力？
 
-欢迎各种形式的贡献！
+这份笔记致力于帮助更多的人，因此欢迎各种形式的贡献，包括但不限于提出issue，PR！
+
+您可以通过以下方式来帮助提升文档质量：
+
+1. 提出issue
+2. PR
+3. 通过邮箱与我联系并指出错误：kekeandzeyu@gmail.com
+
+这份笔记使用[Writerside](https://www.jetbrains.com/writerside/)完成并发布。如果您不熟悉此软件，你也可以直接提出issue或者通过邮箱与我联系。
 
 ## 6 许可证
 
