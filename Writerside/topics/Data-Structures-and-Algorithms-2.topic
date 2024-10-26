@@ -1203,25 +1203,13 @@
                         <math>k</math> is <math>k</math>.</p>
                 </step>
                 <step>
-                    <p>
-                        <math>k</math>
-                        is less than the key at the root. => The floor
-                        of
-                        <math>k</math>
-                        is in the left subtree.
-                    </p>
+                    <p><math>k</math> is less than the key at the root. => The floor of <math>k</math> is in the left
+                        subtree.</p>
                 </step>
                 <step>
-                    <p>
-                        <math>k</math>
-                        is greater than the key at the root. => The
-                        floor of
-                        <math>k</math>
-                        is in the right subtree (if there is any
-                        key
-                        <math>\leq; k</math>
-                        ); otherwise, it is the key at the root.
-                    </p>
+                    <p><math>k</math> is greater than the key at the root. => The floor of <math>k</math>
+                        is in the right subtree (if there is any key <math>\leq; k</math>); otherwise, it is the key
+                        at the root.</p>
                 </step>
                 <img src="../images_data/d9-3-3.png" alt="Computing the Floor"/>
             </procedure>
@@ -1239,31 +1227,16 @@
             </procedure>
             <procedure title="Habbard Deletion" type="choices">
                 <step>
-                    <p>
-                        <format color="Fuchsia">0 children:</format>
-                        Delete
-                        <math>t
-                        </math>
-                        by setting parent link to null.
-                    </p>
-                    <img src="../images_data/d9-3-5.png" alt="Habbard Deletion 0
-    children"/>
+                    <p><format color="Fuchsia">0 children:</format> Delete <math>t</math> by setting parent link
+                        to null.</p>
+                    <img src="../images_data/d9-3-5.png" alt="Habbard Deletion 0 children"/>
                 </step>
                 <step>
-                    <p>
-                        <format color="Fuchsia">1 child:</format>
-                        Delete
-                        <math>t
-                        </math>
-                        by replacing parent link.
-                    </p>
-                    <img src="../images_data/d9-3-6.png" alt="Habbard Deletion 1
-    child"/>
+                    <p><format color="Fuchsia">1 child:</format> Delete <math>t</math> by replacing parent link.</p>
+                    <img src="../images_data/d9-3-6.png" alt="Habbard Deletion 1 child"/>
                 </step>
                 <step>
-                    <p>
-                        <format color="Fuchsia">2 children:</format>
-                    </p>
+                    <p><format color="Fuchsia">2 children:</format></p>
                     <list type="bullet">
                         <li>
                             <p>Find successor <math>x</math> of <math>t</math>.</p>
@@ -1641,14 +1614,14 @@
                             }
                         
                             Node* deleteMin(Node* x) {
-                            if (x-&gt;left == nullptr) {
-                            Node* temp = x-&gt;right;
-                            delete x;
-                            return temp;
-                            }
-                            x-&gt;left = deleteMin(x-&gt;left);
-                            x-&gt;size = size(x-&gt;left) + size(x-&gt;right) + 1;
-                            return x;
+                                if (x-&gt;left == nullptr) {
+                                    Node* temp = x-&gt;right;
+                                    delete x;
+                                    return temp;
+                                }
+                                x-&gt;left = deleteMin(x-&gt;left);
+                                x-&gt;size = size(x-&gt;left) + size(x-&gt;right) + 1;
+                                return x;
                             }
 
                             Node* deleteMax(Node* x) {
@@ -1667,12 +1640,12 @@
                                 if (key &lt; x-&gt;key) x-&gt;left = deleteKey(x-&gt;left, key);
                                 else if (key &gt; x-&gt;key) x-&gt;right = deleteKey(x-&gt;right, key);
                                 else {
-                                if (x-&gt;right == nullptr) return x-&gt;left;
-                                if (x-&gt;left == nullptr) return x-&gt;right;
-                                Node* t = x;
-                                x = min(t-&gt;right);
-                                x-&gt;right = deleteMin(t-&gt;right);
-                                x-&gt;left = t-&gt;left;
+                                    if (x-&gt;right == nullptr) return x-&gt;left;
+                                    if (x-&gt;left == nullptr) return x-&gt;right;
+                                    Node* t = x;
+                                    x = min(t-&gt;right);
+                                    x-&gt;right = deleteMin(t-&gt;right);
+                                    x-&gt;left = t-&gt;left;
                                 }
                                 x-&gt;size = size(x-&gt;left) + size(x-&gt;right) + 1;
                                 return x;
@@ -2303,15 +2276,8 @@
         <table style="none">
             <tr>
                 <td rowspan="2">Implementation</td>
-                <td colspan="3">Worst-Case Cost (after
-                    <math>N</math>
-                    inserts)
-                </td>
-                <td colspan="3">Average Case (after
-                    <math>N</math>
-                    random
-                    inserts)
-                </td>
+                <td colspan="3">Worst-Case Cost (after <math>N</math> inserts)</td>
+                <td colspan="3">Average Case (after <math>N</math> random inserts)</td>
                 <td rowspan="2">Ordered Iteration?</td>
                 <td rowspan="2">Key Interface</td>
             </tr>
@@ -2324,8 +2290,8 @@
                 <td>Delete</td>
             </tr>
             <tr>
-                <td><a anchor="sequential-search" summary="Unordered List
-    Implementation">Sequential Search (unordered list)</a></td>
+                <td><a anchor="sequential-search" summary="Unordered List Implementation">Sequential Search (unordered
+                    list)</a></td>
                 <td>
                     <math>N</math>
                 </td>
@@ -2348,8 +2314,8 @@
                 <td><code>equals()</code></td>
             </tr>
             <tr>
-                <td><a anchor="ordered-array" summary="Ordered Array Implementation">
-                    Binary Search (ordered list)</a></td>
+                <td><a anchor="ordered-array" summary="Ordered Array Implementation">Binary Search (ordered list)</a>
+                </td>
                 <td>
                     <math>\lg N</math>
                 </td>
@@ -2416,8 +2382,7 @@
                 <td><code>compareTo()</code></td>
             </tr>
             <tr>
-                <td><a anchor="red-black-bsts" summary="Red-Black BSTs">
-                    Red-Black BST</a></td>
+                <td><a anchor="red-black-bsts" summary="Red-Black BSTs">Red-Black BST</a></td>
                 <td>
                     <math>2 \log N</math>
                 </td>
@@ -2441,24 +2406,16 @@
             </tr>
         </table>
         <chapter title="10.1 2-3 Trees" id="2-3-trees">
-            <p>
-                <format color="BlueViolet">2-3 Tree</format>
-            </p>
+            <p><format color="BlueViolet">2-3 Tree</format></p>
             <list type="bullet">
                 <li>
                     <p>Allow 1 or 2 keys per node.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">2-node:</format>
-                        one key, two children.
-                    </p>
+                    <p><format color="Fuchsia">2-node:</format> one key, two children.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">3-node:</format>
-                        two keys, three children.
-                    </p>
+                    <p><format color="Fuchsia">3-node:</format> two keys, three children.</p>
                 </li>
             </list>
             <img src="../images_data/d10-1-1.png" alt="2-3 Tree"/>
@@ -2492,8 +2449,7 @@
                     <p>Repeat up the tree, as necessary.</p>
                 </step>
                 <step>
-                    <p>If you reach the root and it's a 4-node, split it into three 2-
-                        nodes.</p>
+                    <p>If you reach the root and it's a 4-node, split it into three 2-nodes.</p>
                 </step>
             </procedure>
             <p>
@@ -2501,33 +2457,15 @@
             </p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Maintain symmetric order and perfect
-                            balance:
-                        </format>
-                        Every path from root to null link has same length.
-                    </p>
-                    <p>
-                        <format color="LawnGreen">Proof</format>
-                    </p>
+                    <p><format color="Fuchsia">Maintain symmetric order and perfect balance:</format> Every path
+                        from root to null link has same length.</p>
+                    <p><format color="LawnGreen">Proof</format></p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Worst case</format>
-                        :
-                        <math>\lg N</math>
-                        => all 2-nodes
-                    </p>
+                    <p><format color="Fuchsia">Worst case:</format> <math>\lg N</math> =&gt; all 2-nodes</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Best case</format>
-                        :
-                        <math>
-                            \log_{3} N \approx 0.631 \lg N
-                        </math>
-                        => all 3-nodes
-                    </p>
+                    <p><format color="Fuchsia">Best case:</format> <math>\log_{3} N \approx 0.631 \lg N</math> =&gt; all 3-nodes</p>
                 </li>
                 <li>
                     <p>Between 12 and 20 for a million nodes.</p>
@@ -2536,10 +2474,7 @@
                     <p>Between 18 and 30 for a billion nodes.</p>
                 </li>
                 <li>
-                    <p>Guaranteed
-                        <format color="OrangeRed">logarithmic</format>
-                        performance for search and insert.
-                    </p>
+                    <p>Guaranteed <format color="OrangeRed">logarithmic</format> performance for search and insert.</p>
                 </li>
             </list>
             <tip>
@@ -2564,10 +2499,7 @@
             <chapter title="10.2.1 Left-Leaning Red-Black BSTs" id="10-2-1-left-leaning-red-black-bsts">
                 <list type="alpha-lower">
                     <li>
-                        <p>
-                            <format color="Fuchsia">Definition 1</format>
-                            :
-                        </p>
+                        <p><format color="Fuchsia">Definition 1:</format></p>
                         <list type="bullet">
                             <li>
                                 <p>Represent 2–3 tree as a BST.</p>
@@ -2578,17 +2510,13 @@
                         </list>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Definition 2</format>
-                            : A BST such that:
-                        </p>
+                        <p><format color="Fuchsia">Definition 2:</format> A BST such that:</p>
                         <list type="bullet">
                             <li>
                                 <p>No node has two red links connected to it.</p>
                             </li>
                             <li>
-                                <p>Every path from root to null link has the same number of black
-                                    links.</p>
+                                <p>Every path from root to null link has the same number of black links.</p>
                             </li>
                             <li>
                                 <p>Red links lean left.</p>
@@ -2602,27 +2530,17 @@
             <chapter title="10.2.2 Elementary Red-Black BST Operations" id="10-2-2-elementary-red-black-bst-operations">
                 <list type="alpha-lower">
                     <li>
-                        <p>
-                            <format color="Fuchsia">Left rotation:</format>
-                            Orient a
-                            (temporarily) right-leaning red link to lean left.
-                        </p>
+                        <p><format color="Fuchsia">Left rotation:</format> Orient a (temporarily) right-leaning red
+                            link to lean left.</p>
                         <img src="../images_data/d10-2-2.png" alt="Left Rotation"/>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Right rotation:</format>
-                            Orient a
-                            left-leaning red link to (temporarily) lean right.
-                        </p>
+                        <p><format color="Fuchsia">Right rotation:</format> Orient a left-leaning red link to
+                            (temporarily) lean right.</p>
                         <img src="../images_data/d10-2-3.png" alt="Right Rotation"/>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Color flip:</format>
-                            Recolor to split
-                            a (temporary) 4-node.
-                        </p>
+                        <p><format color="Fuchsia">Color flip:</format> Recolor to split a (temporary) 4-node.</p>
                         <img src="../images_data/d10-2-4.png" alt="Color Flip"/>
                     </li>
                 </list>
@@ -2633,8 +2551,7 @@
                         are the same as for elementary BST, but run faster because of better
                         performance.</p>
                 </warning>
-                <procedure title="Case 1: Insert into a 2-node at the bottom |
-Insert into a tree with exactly 1 node">
+                <procedure title="Case 1: Insert into a 2-node at the bottom | Insert into a tree with exactly 1 node">
                     <step>
                         <p>Do standard BST insert; color new link red.</p>
                     </step>
@@ -2642,8 +2559,7 @@ Insert into a tree with exactly 1 node">
                         <p>If new red link is a right link, rotate left.</p>
                     </step>
                 </procedure>
-                <procedure title="Case 2: Insert into a 3-node at the bottom |
-Insert into a tree with exactly 2 nodes.">
+                <procedure title="Case 2: Insert into a 3-node at the bottom | Insert into a tree with exactly 2 nodes.">
                     <step>
                         <p>Do standard BST insert; color new link red.</p>
                     </step>
@@ -2660,30 +2576,16 @@ Insert into a tree with exactly 2 nodes.">
                         <p>Repeat case 1 or case 2 up the tree (if needed).</p>
                     </step>
                 </procedure>
-                <img src="../images_data/d10-2-5.png" alt="Insert into a 3-node
-at the bottom"/>
+                <img src="../images_data/d10-2-5.png" alt="Insert into a 3-node at the bottom"/>
                 <procedure title="Insertion for Red-Black BSTs" type="choices">
                     <step>
-                        <p>Right child red, left child black:
-                            <format color="OrangeRed">rotate
-                                left
-                            </format>
-                            .
-                        </p>
+                        <p>Right child red, left child black: <format color="OrangeRed">rotate left</format>.</p>
                     </step>
                     <step>
-                        <p>Left child, left-left grandchild red:
-                            <format color="OrangeRed">
-                                rotate right
-                            </format>
-                            .
-                        </p>
+                        <p>Left child, left-left grandchild red: <format color="OrangeRed">rotate right</format>.</p>
                     </step>
                     <step>
-                        <p>Both children red:
-                            <format color="OrangeRed">flip colors</format>
-                            .
-                        </p>
+                        <p>Both children red: <format color="OrangeRed">flip colors</format>.</p>
                     </step>
                 </procedure>
             </chapter>
@@ -2697,327 +2599,319 @@ at the bottom"/>
                             
                             public class RedBlackBST&lt;Key extends Comparable&lt;Key&gt;, Value&gt; {
                             
-                            private static final boolean RED = true;
-                            private static final boolean BLACK = false;
+                                private static final boolean RED = true;
+                                private static final boolean BLACK = false;
+
+                                private Node root;
                             
-                            private Node root;
+                                private class Node {
+                                    private Key key;
+                                    private Value val;
+                                    private Node left, right;
+                                    private boolean color;
+                                    private int size;
+
+                                    public Node(Key key, Value val, boolean color, int size) {
+                                        this.key = key;
+                                        this.val = val;
+                                        this.color=color;
+                                        this.size = size;
+                                    }
+                                }
                             
-                            private class Node {
-                            private Key key;
-                            private Value val;
-                            private Node left, right;
-                            private boolean color;
-                            private int size;
+                                public RedBlackBST() {
+                                }
                             
-                            public Node(Key key, Value val, boolean color, int size) {
-                            this.key = key;
-                            this.val = val;
-                            this.color=color;
-                            this.size = size;
-                            }
-                            }
+                                private boolean isRed(Node x) {
+                                    if (x == null) return false;
+                                    return x.color == RED;
+                                }
                             
-                            public RedBlackBST() {
-                            }
+                                private int size(Node x) {
+                                    if (x == null) return 0;
+                                    return x.size;
+                                }
                             
-                            private boolean isRed(Node x) {
-                            if (x == null) return false;
-                            return x.color == RED;
-                            }
+                                public int size() {
+                                    return size(root);
+                                }
                             
-                            private int size(Node x) {
-                            if (x == null) return 0;
-                            return x.size;
-                            }
+                                public boolean isEmpty() {
+                                    return root == null;
+                                }
                             
-                            public int size() {
-                            return size(root);
-                            }
+                                public Value get(Key key) {
+                                    if (key == null) throw new IllegalArgumentException("argument to get() is null");
+                                    return get(root, key);
+                                }
                             
-                            public boolean isEmpty() {
-                            return root == null;
-                            }
+                                private Value get(Node x, Key key) {
+                                    while (x != null) {
+                                        int cmp = key.compareTo(x.key);
+                                        if (cmp &lt; 0) x = x.left;
+                                        else if (cmp &gt; 0) x = x.right;
+                                        else return x.val;
+                                    }
+                                    return null;
+                                }
                             
-                            public Value get(Key key) {
-                            if (key == null) throw new IllegalArgumentException("argument to get() is null");
-                            return get(root, key);
-                            }
+                                public boolean contains(Key key) {
+                                    return get(key) != null;
+                                }
                             
-                            private Value get(Node x, Key key) {
-                            while (x != null) {
-                            int cmp = key.compareTo(x.key);
-                            if (cmp &lt; 0) x = x.left;
-                            else if (cmp &gt; 0) x = x.right;
-                            else return x.val;
-                            }
-                            return null;
-                            }
+                                public void put(Key key, Value val) {
+                                    if (key == null) throw new IllegalArgumentException("first argument to put() is null");
+                                    if (val == null) {
+                                        delete(key);
+                                        return;
+                                    }
+
+                                    root = put(root, key, val);
+                                    root.color=BLACK;
+                                }
                             
-                            public boolean contains(Key key) {
-                            return get(key) != null;
-                            }
+                                private Node put(Node h, Key key, Value val) {
+                                    if (h == null) return new Node(key, val, RED, 1);
+
+                                    int cmp = key.compareTo(h.key);
+                                    if (cmp &lt; 0) h.left = put(h.left, key, val);
+                                    else if (cmp &gt; 0) h.right = put(h.right, key, val);
+                                    else h.val = val;
+
+                                    if (isRed(h.right) &amp;&amp; !isRed(h.left)) h = rotateLeft(h);
+                                    if (isRed(h.left) &amp;&amp; isRed(h.left.left)) h = rotateRight(h);
+                                    if (isRed(h.left) &amp;&amp; isRed(h.right)) flipColors(h);
+                                    h.size = size(h.left) + size(h.right) + 1;
+
+                                    return h;
+                                }
                             
-                            public void put(Key key, Value val) {
-                            if (key == null) throw new IllegalArgumentException("first argument to put() is null");
-                            if (val == null) {
-                            delete(key);
-                            return;
-                            }
+                                public void deleteMin() {
+                                    if (isEmpty()) throw new NoSuchElementException("BST underflow");
+
+                                    if (!isRed(root.left) &amp;&amp; !isRed(root.right))
+                                    root.color=RED;
+
+                                    root = deleteMin(root);
+                                    if (!isEmpty()) root.color=BLACK;
+                                }
                             
-                            root = put(root, key, val);
-                            root.color=BLACK;
-                            }
+                                private Node deleteMin(Node h) {
+                                    if (h.left == null)
+                                    return null;
+
+                                    if (!isRed(h.left) &amp;&amp; !isRed(h.left.left))
+                                    h = moveRedLeft(h);
+
+                                    h.left = deleteMin(h.left);
+                                    return balance(h);
+                                }
                             
-                            private Node put(Node h, Key key, Value val) {
-                            if (h == null) return new Node(key, val, RED, 1);
+                                public void deleteMax() {
+                                    if (isEmpty()) throw new NoSuchElementException("BST underflow");
+
+                                    if (!isRed(root.left) &amp;&amp; !isRed(root.right))
+                                    root.color=RED;
+
+                                    root = deleteMax(root);
+                                    if (!isEmpty()) root.color=BLACK;
+                                }
                             
-                            int cmp = key.compareTo(h.key);
-                            if (cmp &lt; 0) h.left = put(h.left, key, val);
-                            else if (cmp &gt; 0) h.right = put(h.right, key, val);
-                            else h.val = val;
+                                private Node deleteMax(Node h) {
+                                    if (isRed(h.left)) h = rotateRight(h);
+
+                                    if (h.right == null) return null;
+
+                                    if (!isRed(h.right) &amp;&amp; !isRed(h.right.left)) h = moveRedRight(h);
+
+                                    h.right = deleteMax(h.right);
+
+                                    return balance(h);
+                                }
                             
-                            if (isRed(h.right) &amp;&amp; !isRed(h.left)) h = rotateLeft(h);
-                            if (isRed(h.left) &amp;&amp; isRed(h.left.left)) h = rotateRight(h);
-                            if (isRed(h.left) &amp;&amp; isRed(h.right)) flipColors(h);
-                            h.size = size(h.left) + size(h.right) + 1;
+                                public void delete(Key key) {
+                                    if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+                                    if (!contains(key)) return;
+
+                                    if (!isRed(root.left) &amp;&amp; !isRed(root.right)) root.color=RED;
+
+                                    root = delete(root, key);
+                                    if (!isEmpty()) root.color=BLACK;
+                                }
                             
-                            return h;
-                            }
+                                private Node delete(Node h, Key key) {
+                                    if (key.compareTo(h.key) &lt; 0) {
+                                        if (!isRed(h.left) &amp;&amp; !isRed(h.left.left)) h = moveRedLeft(h);
+                                        h.left = delete(h.left, key);
+                                    } else {
+                                        if (isRed(h.left)) h = rotateRight(h);
+                                        if (key.compareTo(h.key) == 0 &amp;&amp; (h.right == null)) return null;
+                                        if (!isRed(h.right) &amp;&amp; !isRed(h.right.left)) h = moveRedRight(h);
+                                        if (key.compareTo(h.key) == 0) {
+                                            Node x = min(h.right);
+                                            h.key = x.key;
+                                            h.val = x.val;
+                                            h.right = deleteMin(h.right);
+                                        } else h.right = delete(h.right, key);
+                                    }
+                                    return balance(h);
+                                }
                             
-                            public void deleteMin() {
-                            if (isEmpty()) throw new NoSuchElementException("BST underflow");
+                                private Node rotateRight(Node h) {
+                                    assert (h != null) &amp;&amp; isRed(h.left);
+                                    Node x = h.left;
+                                    h.left = x.right;
+                                    x.right = h;
+                                    x.color=h.color;
+                                    h.color=RED;
+                                    x.size = h.size;
+                                    h.size = size(h.left) + size(h.right) + 1;
+                                    return x;
+                                }
                             
-                            if (!isRed(root.left) &amp;&amp; !isRed(root.right))
-                            root.color=RED;
+                                private Node rotateLeft(Node h) {
+                                    assert (h != null) &amp;&amp; isRed(h.right);
+                                    Node x = h.right;
+                                    h.right = x.left;
+                                    x.left = h;
+                                    x.color=h.color;
+                                    h.color=RED;
+                                    x.size = h.size;
+                                    h.size = size(h.left) + size(h.right) + 1;
+                                    return x;
+                                }
                             
-                            root = deleteMin(root);
-                            if (!isEmpty()) root.color=BLACK;
-                            }
+                                private void flipColors(Node h) {
+                                    h.color=!h.color;
+                                    h.left.color=!h.left.color;
+                                    h.right.color=!h.right.color;
+                                }
                             
-                            private Node deleteMin(Node h) {
-                            if (h.left == null)
-                            return null;
+                                private Node moveRedLeft(Node h) {
+                                    flipColors(h);
+                                    if (isRed(h.right.left)) {
+                                        h.right = rotateRight(h.right);
+                                        h = rotateLeft(h);
+                                        flipColors(h);
+                                    }
+                                    return h;
+                                }
                             
-                            if (!isRed(h.left) &amp;&amp; !isRed(h.left.left))
-                            h = moveRedLeft(h);
+                                private Node moveRedRight(Node h) {
+                                    flipColors(h);
+                                    if (isRed(h.left.left)) {
+                                        h = rotateRight(h);
+                                        flipColors(h);
+                                    }
+                                    return h;
+                                }
                             
-                            h.left = deleteMin(h.left);
-                            return balance(h);
-                            }
+                                private Node balance(Node h) {
+                                    if (isRed(h.right) &amp;&amp; !isRed(h.left)) h = rotateLeft(h);
+                                    if (isRed(h.left) &amp;&amp; isRed(h.left.left)) h = rotateRight(h);
+                                    if (isRed(h.left) &amp;&amp; isRed(h.right)) flipColors(h);
+
+                                    h.size = size(h.left) + size(h.right) + 1;
+                                    return h;
+                                }
                             
-                            public void deleteMax() {
-                            if (isEmpty()) throw new NoSuchElementException("BST underflow");
+                                public int height() {
+                                    return height(root);
+                                }
                             
-                            if (!isRed(root.left) &amp;&amp; !isRed(root.right))
-                            root.color=RED;
+                                private int height(Node x) {
+                                    if (x == null) return -1;
+                                    return 1 + Math.max(height(x.left), height(x.right));
+                                }
                             
-                            root = deleteMax(root);
-                            if (!isEmpty()) root.color=BLACK;
-                            }
+                                public Key min() {
+                                    if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
+                                    return min(root).key;
+                                }
                             
-                            private Node deleteMax(Node h) {
-                            if (isRed(h.left))
-                            h = rotateRight(h);
+                                private Node min(Node x) {
+                                    if (x.left == null) return x;
+                                    else return min(x.left);
+                                }
+
+                                public Key max() {
+                                    if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
+                                    return max(root).key;
+                                }
                             
-                            if (h.right == null)
-                            return null;
+                                private Node max(Node x) {
+                                    if (x.right == null) return x;
+                                    else return max(x.right);
+                                }
                             
-                            if (!isRed(h.right) &amp;&amp; !isRed(h.right.left))
-                            h = moveRedRight(h);
+                                public Key floor(Key key) {
+                                    if (key == null) throw new IllegalArgumentException("argument to floor() is null");
+                                    if (isEmpty()) throw new NoSuchElementException("calls floor() with empty symbol table");
+                                    Node x = floor(root, key);
+                                    if (x == null) throw new NoSuchElementException("argument to floor() is too small");
+                                    else return x.key;
+                                }
                             
-                            h.right = deleteMax(h.right);
+                                private Node floor(Node x, Key key) {
+                                    if (x == null) return null;
+                                    int cmp = key.compareTo(x.key);
+                                    if (cmp == 0) return x;
+                                    if (cmp &lt; 0) return floor(x.left, key);
+                                    Node t = floor(x.right, key);
+                                    if (t != null) return t;
+                                    else return x;
+                                }
                             
-                            return balance(h);
-                            }
+                                public Key ceiling(Key key) {
+                                    if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
+                                    if (isEmpty()) throw new NoSuchElementException("calls ceiling() with empty symbol table");
+                                    Node x = ceiling(root, key);
+                                    if (x == null) throw new NoSuchElementException("argument to ceiling() is too large");
+                                    else return x.key;
+                                }
                             
-                            public void delete(Key key) {
-                            if (key == null) throw new IllegalArgumentException("argument to delete() is null");
-                            if (!contains(key)) return;
+                                private Node ceiling(Node x, Key key) {
+                                    if (x == null) return null;
+                                    int cmp = key.compareTo(x.key);
+                                    if (cmp == 0) return x;
+                                    if (cmp &gt; 0) return ceiling(x.right, key);
+                                    Node t = ceiling(x.left, key);
+                                    if (t != null) return t;
+                                    else return x;
+                                }
                             
-                            if (!isRed(root.left) &amp;&amp; !isRed(root.right))
-                            root.color=RED;
+                                public Key select(int rank) {
+                                    if (rank &lt; 0 || rank &gt;= size()) {
+                                    throw new IllegalArgumentException("argument to select() is invalid: " + rank);
+                                    }
+                                    return select(root, rank);
+                                }
                             
-                            root = delete(root, key);
-                            if (!isEmpty()) root.color=BLACK;
-                            }
+                                private Key select(Node x, int rank) {
+                                    if (x == null) return null;
+                                    int leftSize = size(x.left);
+                                    if (leftSize &gt; rank) return select(x.left, rank);
+                                    else if (leftSize &lt; rank) return select(x.right, rank - leftSize - 1);
+                                    else return x.key;
+                                }
                             
-                            private Node delete(Node h, Key key) {
-                            if (key.compareTo(h.key) &lt; 0) {
-                            if (!isRed(h.left) &amp;&amp; !isRed(h.left.left))
-                            h = moveRedLeft(h);
-                            h.left = delete(h.left, key);
-                            } else {
-                            if (isRed(h.left))
-                            h = rotateRight(h);
-                            if (key.compareTo(h.key) == 0 &amp;&amp; (h.right == null))
-                            return null;
-                            if (!isRed(h.right) &amp;&amp; !isRed(h.right.left))
-                            h = moveRedRight(h);
-                            if (key.compareTo(h.key) == 0) {
-                            Node x = min(h.right);
-                            h.key = x.key;
-                            h.val = x.val;
-                            h.right = deleteMin(h.right);
-                            } else h.right = delete(h.right, key);
-                            }
-                            return balance(h);
-                            }
+                                public int rank(Key key) {
+                                    if (key == null) throw new IllegalArgumentException("argument to rank() is null");
+                                    return rank(key, root);
+                                }
                             
-                            private Node rotateRight(Node h) {
-                            assert (h != null) &amp;&amp; isRed(h.left);
-                            Node x = h.left;
-                            h.left = x.right;
-                            x.right = h;
-                            x.color=h.color;
-                            h.color=RED;
-                            x.size = h.size;
-                            h.size = size(h.left) + size(h.right) + 1;
-                            return x;
-                            }
+                                private int rank(Key key, Node x) {
+                                    if (x == null) return 0;
+                                    int cmp = key.compareTo(x.key);
+                                    if (cmp &lt; 0) return rank(key, x.left);
+                                    else if (cmp &gt; 0) return 1 + size(x.left) + rank(key, x.right);
+                                    else return size(x.left);
+                                }
                             
-                            private Node rotateLeft(Node h) {
-                            assert (h != null) &amp;&amp; isRed(h.right);
-                            Node x = h.right;
-                            h.right = x.left;
-                            x.left = h;
-                            x.color=h.color;
-                            h.color=RED;
-                            x.size = h.size;
-                            h.size = size(h.left) + size(h.right) + 1;
-                            return x;
-                            }
-                            
-                            private void flipColors(Node h) {
-                            h.color=!h.color;
-                            h.left.color=!h.left.color;
-                            h.right.color=!h.right.color;
-                            }
-                            
-                            private Node moveRedLeft(Node h) {
-                            flipColors(h);
-                            if (isRed(h.right.left)) {
-                            h.right = rotateRight(h.right);
-                            h = rotateLeft(h);
-                            flipColors(h);
-                            }
-                            return h;
-                            }
-                            
-                            private Node moveRedRight(Node h) {
-                            flipColors(h);
-                            if (isRed(h.left.left)) {
-                            h = rotateRight(h);
-                            flipColors(h);
-                            }
-                            return h;
-                            }
-                            
-                            private Node balance(Node h) {
-                            if (isRed(h.right) &amp;&amp; !isRed(h.left)) h = rotateLeft(h);
-                            if (isRed(h.left) &amp;&amp; isRed(h.left.left)) h = rotateRight(h);
-                            if (isRed(h.left) &amp;&amp; isRed(h.right)) flipColors(h);
-                            
-                            h.size = size(h.left) + size(h.right) + 1;
-                            return h;
-                            }
-                            
-                            public int height() {
-                            return height(root);
-                            }
-                            
-                            private int height(Node x) {
-                            if (x == null) return -1;
-                            return 1 + Math.max(height(x.left), height(x.right));
-                            }
-                            
-                            public Key min() {
-                            if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
-                            return min(root).key;
-                            }
-                            
-                            private Node min(Node x) {
-                            if (x.left == null) return x;
-                            else return min(x.left);
-                            }
-                            
-                            public Key max() {
-                            if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
-                            return max(root).key;
-                            }
-                            
-                            private Node max(Node x) {
-                            if (x.right == null) return x;
-                            else return max(x.right);
-                            }
-                            
-                            public Key floor(Key key) {
-                            if (key == null) throw new IllegalArgumentException("argument to floor() is null");
-                            if (isEmpty()) throw new NoSuchElementException("calls floor() with empty symbol table");
-                            Node x = floor(root, key);
-                            if (x == null) throw new NoSuchElementException("argument to floor() is too small");
-                            else return x.key;
-                            }
-                            
-                            private Node floor(Node x, Key key) {
-                            if (x == null) return null;
-                            int cmp = key.compareTo(x.key);
-                            if (cmp == 0) return x;
-                            if (cmp &lt; 0) return floor(x.left, key);
-                            Node t = floor(x.right, key);
-                            if (t != null) return t;
-                            else return x;
-                            }
-                            
-                            public Key ceiling(Key key) {
-                            if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
-                            if (isEmpty()) throw new NoSuchElementException("calls ceiling() with empty symbol table");
-                            Node x = ceiling(root, key);
-                            if (x == null) throw new NoSuchElementException("argument to ceiling() is too large");
-                            else return x.key;
-                            }
-                            
-                            private Node ceiling(Node x, Key key) {
-                            if (x == null) return null;
-                            int cmp = key.compareTo(x.key);
-                            if (cmp == 0) return x;
-                            if (cmp &gt; 0) return ceiling(x.right, key);
-                            Node t = ceiling(x.left, key);
-                            if (t != null) return t;
-                            else return x;
-                            }
-                            
-                            public Key select(int rank) {
-                            if (rank &lt; 0 || rank &gt;= size()) {
-                            throw new IllegalArgumentException("argument to select() is invalid: " + rank);
-                            }
-                            return select(root, rank);
-                            }
-                            
-                            private Key select(Node x, int rank) {
-                            if (x == null) return null;
-                            int leftSize = size(x.left);
-                            if (leftSize &gt; rank) return select(x.left, rank);
-                            else if (leftSize &lt; rank) return select(x.right, rank - leftSize - 1);
-                            else return x.key;
-                            }
-                            
-                            public int rank(Key key) {
-                            if (key == null) throw new IllegalArgumentException("argument to rank() is null");
-                            return rank(key, root);
-                            }
-                            
-                            private int rank(Key key, Node x) {
-                            if (x == null) return 0;
-                            int cmp = key.compareTo(x.key);
-                            if (cmp &lt; 0) return rank(key, x.left);
-                            else if (cmp &gt; 0) return 1 + size(x.left) + rank(key, x.right);
-                            else return size(x.left);
-                            }
-                            
-                            public Iterable&lt;Key&gt; keys() {
-                            if (isEmpty()) return new LinkedList&lt;&gt;();
-                            return keys(min(), max());
-                            }
+                                public Iterable&lt;Key&gt; keys() {
+                                    if (isEmpty()) return new LinkedList&lt;&gt;();
+                                    return keys(min(), max());
+                                }
                             
                             public Iterable&lt;Key&gt; keys(Key lo, Key hi) {
                             if (lo == null) throw new IllegalArgumentException("first argument to keys() is null");
