@@ -2882,7 +2882,7 @@
                             
                                 public Key select(int rank) {
                                     if (rank &lt; 0 || rank &gt;= size()) {
-                                    throw new IllegalArgumentException("argument to select() is invalid: " + rank);
+                                        throw new IllegalArgumentException("argument to select() is invalid: " + rank);
                                     }
                                     return select(root, rank);
                                 }
@@ -2913,98 +2913,98 @@
                                     return keys(min(), max());
                                 }
                             
-                            public Iterable&lt;Key&gt; keys(Key lo, Key hi) {
-                            if (lo == null) throw new IllegalArgumentException("first argument to keys() is null");
-                            if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
+                                public Iterable&lt;Key&gt; keys(Key lo, Key hi) {
+                                    if (lo == null) throw new IllegalArgumentException("first argument to keys() is null");
+                                    if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
+
+                                    Queue&lt;Key&gt; queue = new LinkedList&lt;&gt;();
+                                    keys(root, queue, lo, hi);
+                                    return queue;
+                                }
                             
-                            Queue&lt;Key&gt; queue = new LinkedList&lt;&gt;();
-                            keys(root, queue, lo, hi);
-                            return queue;
-                            }
+                                private void keys(Node x, Queue&lt;Key&gt; queue, Key lo, Key hi) {
+                                    if (x == null) return;
+                                    int cmplo = lo.compareTo(x.key);
+                                    int cmphi = hi.compareTo(x.key);
+                                    if (cmplo &lt; 0) keys(x.left, queue, lo, hi);
+                                    if (cmplo &lt;= 0 &amp;&amp; cmphi &gt;= 0) queue.add(x.key);
+                                    if (cmphi &gt; 0) keys(x.right, queue, lo, hi);
+                                }
                             
-                            private void keys(Node x, Queue&lt;Key&gt; queue, Key lo, Key hi) {
-                            if (x == null) return;
-                            int cmplo = lo.compareTo(x.key);
-                            int cmphi = hi.compareTo(x.key);
-                            if (cmplo &lt; 0) keys(x.left, queue, lo, hi);
-                            if (cmplo &lt;= 0 &amp;&amp; cmphi &gt;= 0) queue.add(x.key);
-                            if (cmphi &gt; 0) keys(x.right, queue, lo, hi);
-                            }
+                                public int size(Key lo, Key hi) {
+                                    if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
+                                    if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
+
+                                    if (lo.compareTo(hi) &gt; 0) return 0;
+                                    if (contains(hi)) return rank(hi) - rank(lo) + 1;
+                                    else return rank(hi) - rank(lo);
+                                }
                             
-                            public int size(Key lo, Key hi) {
-                            if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
-                            if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
+                                private boolean check() {
+                                    if (!isBST()) System.out.println("Not in symmetric order");
+                                    if (!isSizeConsistent()) System.out.println("Subtree counts not consistent");
+                                    if (!isRankConsistent()) System.out.println("Ranks not consistent");
+                                    if (!is23()) System.out.println("Not a 2-3 tree");
+                                    if (!isBalanced()) System.out.println("Not balanced");
+                                    return isBST() &amp;&amp; isSizeConsistent() &amp;&amp; isRankConsistent() &amp;&amp; is23() &amp;&amp; isBalanced();
+                                }
                             
-                            if (lo.compareTo(hi) &gt; 0) return 0;
-                            if (contains(hi)) return rank(hi) - rank(lo) + 1;
-                            else return rank(hi) - rank(lo);
-                            }
+                                private boolean isBST() {
+                                    return isBST(root, null, null);
+                                }
                             
-                            private boolean check() {
-                            if (!isBST()) System.out.println("Not in symmetric order");
-                            if (!isSizeConsistent()) System.out.println("Subtree counts not consistent");
-                            if (!isRankConsistent()) System.out.println("Ranks not consistent");
-                            if (!is23()) System.out.println("Not a 2-3 tree");
-                            if (!isBalanced()) System.out.println("Not balanced");
-                            return isBST() &amp;&amp; isSizeConsistent() &amp;&amp; isRankConsistent() &amp;&amp; is23() &amp;&amp; isBalanced();
-                            }
+                                private boolean isBST(Node x, Key min, Key max) {
+                                    if (x == null) return true;
+                                    if (min != null &amp;&amp; x.key.compareTo(min) &lt;= 0) return false;
+                                    if (max != null &amp;&amp; x.key.compareTo(max) &gt;= 0) return false;
+                                    return isBST(x.left, min, x.key) &amp;&amp; isBST(x.right, x.key, max);
+                                }
                             
-                            private boolean isBST() {
-                            return isBST(root, null, null);
-                            }
+                                private boolean isSizeConsistent() {
+                                    return isSizeConsistent(root);
+                                }
                             
-                            private boolean isBST(Node x, Key min, Key max) {
-                            if (x == null) return true;
-                            if (min != null &amp;&amp; x.key.compareTo(min) &lt;= 0) return false;
-                            if (max != null &amp;&amp; x.key.compareTo(max) &gt;= 0) return false;
-                            return isBST(x.left, min, x.key) &amp;&amp; isBST(x.right, x.key, max);
-                            }
+                                private boolean isSizeConsistent(Node x) {
+                                    if (x == null) return true;
+                                    if (x.size != size(x.left) + size(x.right) + 1) return false;
+                                    return isSizeConsistent(x.left) &amp;&amp; isSizeConsistent(x.right);
+                                }
                             
-                            private boolean isSizeConsistent() {
-                            return isSizeConsistent(root);
-                            }
+                                private boolean isRankConsistent() {
+                                    for (int i = 0; i &lt; size(); i++)
+                                        if (i != rank(select(i))) return false;
+                                    for (Key key : keys())
+                                        if (key.compareTo(select(rank(key))) != 0) return false;
+                                    return true;
+                                }
                             
-                            private boolean isSizeConsistent(Node x) {
-                            if (x == null) return true;
-                            if (x.size != size(x.left) + size(x.right) + 1) return false;
-                            return isSizeConsistent(x.left) &amp;&amp; isSizeConsistent(x.right);
-                            }
+                                private boolean is23() {
+                                    return is23(root);
+                                }
                             
-                            private boolean isRankConsistent() {
-                            for (int i = 0; i &lt; size(); i++)
-                            if (i != rank(select(i))) return false;
-                            for (Key key : keys())
-                            if (key.compareTo(select(rank(key))) != 0) return false;
-                            return true;
-                            }
+                                private boolean is23(Node x) {
+                                    if (x == null) return true;
+                                    if (isRed(x.right)) return false;
+                                    if (x != root &amp;&amp; isRed(x) &amp;&amp; isRed(x.left))
+                                    return false;
+                                    return is23(x.left) &amp;&amp; is23(x.right);
+                                }
                             
-                            private boolean is23() {
-                            return is23(root);
-                            }
+                                private boolean isBalanced() {
+                                    int black = 0;
+                                    Node x = root;
+                                    while (x != null) {
+                                        if (!isRed(x)) black++;
+                                        x = x.left;
+                                    }
+                                    return isBalanced(root, black);
+                                }
                             
-                            private boolean is23(Node x) {
-                            if (x == null) return true;
-                            if (isRed(x.right)) return false;
-                            if (x != root &amp;&amp; isRed(x) &amp;&amp; isRed(x.left))
-                            return false;
-                            return is23(x.left) &amp;&amp; is23(x.right);
-                            }
-                            
-                            private boolean isBalanced() {
-                            int black = 0;
-                            Node x = root;
-                            while (x != null) {
-                            if (!isRed(x)) black++;
-                            x = x.left;
-                            }
-                            return isBalanced(root, black);
-                            }
-                            
-                            private boolean isBalanced(Node x, int black) {
-                            if (x == null) return black == 0;
-                            if (!isRed(x)) black--;
-                            return isBalanced(x.left, black) &amp;&amp; isBalanced(x.right, black);
-                            }
+                                private boolean isBalanced(Node x, int black) {
+                                    if (x == null) return black == 0;
+                                    if (!isRed(x)) black--;
+                                    return isBalanced(x.left, black) &amp;&amp; isBalanced(x.right, black);
+                                }
                             }
                         </code-block>
                     </tab>
@@ -3021,325 +3021,321 @@
                             template &lt;typename Key, typename Value&gt;
                             class RedBlackBST {
                             private:
-                            static constexpr bool RED = true;
-                            static constexpr bool BLACK = false;
+                                static constexpr bool RED = true;
+                                static constexpr bool BLACK = false;
                             
-                            struct Node {
-                            Key key;
-                            Value val;
-                            Node *left, *right;
-                            bool color;
-                            int size;
+                                struct Node {
+                                    Key key;
+                                    Value val;
+                                    Node *left, *right;
+                                    bool color;
+                                    int size;
+
+                                    Node(const Key&amp; key, const Value&amp; val, bool color, int size) :
+                                    key(key), val(val), left(nullptr), right(nullptr), color(color), size(size) {}
+                                };
                             
-                            Node(const Key&amp; key, const Value&amp; val, bool color, int size) :
-                            key(key), val(val), left(nullptr), right(nullptr), color(color), size(size) {}
-                            };
+                                Node* root;
                             
-                            Node* root;
+                                static bool isRed(Node* x) {
+                                    if (x == nullptr) return false;
+                                    return x-&gt;color == RED;
+                                }
                             
-                            static bool isRed(Node* x) {
-                            if (x == nullptr) return false;
-                            return x-&gt;color == RED;
-                            }
+                                static int size(Node* x) {
+                                    if (x == nullptr) return 0;
+                                    return x-&gt;size;
+                                }
                             
-                            static int size(Node* x) {
-                            if (x == nullptr) return 0;
-                            return x-&gt;size;
-                            }
+                                Node* put(Node* h, const Key&amp; key, const Value&amp; val) {
+                                    if (h == nullptr) return new Node(key, val, RED, 1);
+
+                                    if (key &lt; h-&gt;key) h-&gt;left = put(h-&gt;left, key, val);
+                                    else if (key &gt; h-&gt;key) h-&gt;right = put(h-&gt;right, key, val);
+                                    else h-&gt;val = val;
+
+                                    if (isRed(h-&gt;right) &amp;&amp; !isRed(h-&gt;left)) h = rotateLeft(h);
+                                    if (isRed(h-&gt;left) &amp;&amp; isRed(h-&gt;left-&gt;left)) h = rotateRight(h);
+                                    if (isRed(h-&gt;left) &amp;&amp; isRed(h-&gt;right)) flipColors(h);
+                                    h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
+
+                                    return h;
+                                }
                             
-                            Node* put(Node* h, const Key&amp; key, const Value&amp; val) {
-                            if (h == nullptr) return new Node(key, val, RED, 1);
+                                Node* deleteMin(Node* h) {
+                                    if (h-&gt;left == nullptr)
+                                    return nullptr;
+
+                                    if (!isRed(h-&gt;left) &amp;&amp; !isRed(h-&gt;left-&gt;left))
+                                    h = moveRedLeft(h);
+
+                                    h-&gt;left = deleteMin(h-&gt;left);
+                                    return balance(h);
+                                }
                             
-                            if (key &lt; h-&gt;key) h-&gt;left = put(h-&gt;left, key, val);
-                            else if (key &gt; h-&gt;key) h-&gt;right = put(h-&gt;right, key, val);
-                            else h-&gt;val = val;
+                                Node* deleteMax(Node* h) {
+                                    if (isRed(h-&gt;left))
+                                    h = rotateRight(h);
+
+                                    if (h-&gt;right == nullptr)
+                                    return nullptr;
+
+                                    if (!isRed(h-&gt;right) &amp;&amp; !isRed(h-&gt;right-&gt;left))
+                                    h = moveRedRight(h);
+
+                                    h-&gt;right = deleteMax(h-&gt;right);
+
+                                    return balance(h);
+                                }
                             
-                            if (isRed(h-&gt;right) &amp;&amp; !isRed(h-&gt;left)) h = rotateLeft(h);
-                            if (isRed(h-&gt;left) &amp;&amp; isRed(h-&gt;left-&gt;left)) h = rotateRight(h);
-                            if (isRed(h-&gt;left) &amp;&amp; isRed(h-&gt;right)) flipColors(h);
-                            h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
+                                Node* deleteNode(Node* h, const Key&amp; key) {
+                                    if (key &lt; h-&gt;key) {
+                                    if (!isRed(h-&gt;left) &amp;&amp; !isRed(h-&gt;left-&gt;left))
+                                        h = moveRedLeft(h);
+                                        h-&gt;left = deleteNode(h-&gt;left, key);
+                                    } else {
+                                        if (isRed(h-&gt;left)) h = rotateRight(h);
+                                        if (key == h-&gt;key &amp;&amp; (h-&gt;right == nullptr)) return nullptr;
+                                        if (!isRed(h-&gt;right) &amp;&amp; !isRed(h-&gt;right-&gt;left)) h = moveRedRight(h);
+                                        if (key == h-&gt;key) {
+                                            Node* x = min(h-&gt;right);
+                                            h-&gt;key = x-&gt;key;
+                                            h-&gt;val = x-&gt;val;
+                                            h-&gt;right = deleteMin(h-&gt;right);
+                                        } else h-&gt;right = deleteNode(h-&gt;right, key);
+                                    }
+                                    return balance(h);
+                                }
                             
-                            return h;
-                            }
+                                Node* rotateRight(Node* h) {
+                                    assert(h != nullptr &amp;&amp; isRed(h-&gt;left));
+                                    Node* x = h-&gt;left;
+                                    h-&gt;left = x-&gt;right;
+                                    x-&gt;right = h;
+                                    x-&gt;color=h-&gt;color;
+                                    h-&gt;color=RED;
+                                    x-&gt;size = h-&gt;size;
+                                    h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
+                                    return x;
+                                }
                             
-                            Node* deleteMin(Node* h) {
-                            if (h-&gt;left == nullptr)
-                            return nullptr;
+                                Node* rotateLeft(Node* h) {
+                                    assert(h != nullptr &amp;&amp; isRed(h-&gt;right));
+                                    Node* x = h-&gt;right;
+                                    h-&gt;right = x-&gt;left;
+                                    x-&gt;left = h;
+                                    x-&gt;color=h-&gt;color;
+                                    h-&gt;color=RED;
+                                    x-&gt;size = h-&gt;size;
+                                    h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
+                                    return x;
+                                }
                             
-                            if (!isRed(h-&gt;left) &amp;&amp; !isRed(h-&gt;left-&gt;left))
-                            h = moveRedLeft(h);
+                                static void flipColors(Node* h) {
+                                    h-&gt;color=!h-&gt;color;
+                                    h-&gt;left-&gt;color=!h-&gt;left-&gt;color;
+                                    h-&gt;right-&gt;color=!h-&gt;right-&gt;color;
+                                }
                             
-                            h-&gt;left = deleteMin(h-&gt;left);
-                            return balance(h);
-                            }
+                                Node* moveRedLeft(Node* h) {
+                                    flipColors(h);
+                                    if (isRed(h-&gt;right-&gt;left)) {
+                                        h-&gt;right = rotateRight(h-&gt;right);
+                                        h = rotateLeft(h);
+                                        flipColors(h);
+                                    }
+                                    return h;
+                                }
                             
-                            Node* deleteMax(Node* h) {
-                            if (isRed(h-&gt;left))
-                            h = rotateRight(h);
+                                Node* moveRedRight(Node* h) {
+                                    flipColors(h);
+                                    if (isRed(h-&gt;left-&gt;left)) {
+                                        h = rotateRight(h);
+                                        flipColors(h);
+                                    }
+                                    return h;
+                                }
                             
-                            if (h-&gt;right == nullptr)
-                            return nullptr;
+                                Node* balance(Node* h) {
+                                    if (isRed(h-&gt;right) &amp;&amp; !isRed(h-&gt;left)) h = rotateLeft(h);
+                                    if (isRed(h-&gt;left) &amp;&amp; isRed(h-&gt;left-&gt;left)) h = rotateRight(h);
+                                    if (isRed(h-&gt;left) &amp;&amp; isRed(h-&gt;right)) flipColors(h);
+
+                                    h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
+                                    return h;
+                                }
                             
-                            if (!isRed(h-&gt;right) &amp;&amp; !isRed(h-&gt;right-&gt;left))
-                            h = moveRedRight(h);
+                                Node* min(Node* x) const {
+                                    if (x-&gt;left == nullptr) return x;
+                                    else return min(x-&gt;left);
+                                }
                             
-                            h-&gt;right = deleteMax(h-&gt;right);
+                                Node* max(Node* x) const {
+                                    if (x-&gt;right == nullptr) return x;
+                                    else return max(x-&gt;right);
+                                }
                             
-                            return balance(h);
-                            }
+                                Node* floor(Node* x, const Key&amp; key) const {
+                                    if (x == nullptr) return nullptr;
+                                    if (key == x-&gt;key) return x;
+                                    if (key &lt; x-&gt;key) return floor(x-&gt;left, key);
+                                    Node* t = floor(x-&gt;right, key);
+                                    if (t != nullptr) return t;
+                                    else return x;
+                                }
                             
-                            Node* deleteNode(Node* h, const Key&amp; key) {
-                            if (key &lt; h-&gt;key) {
-                            if (!isRed(h-&gt;left) &amp;&amp; !isRed(h-&gt;left-&gt;left))
-                            h = moveRedLeft(h);
-                            h-&gt;left = deleteNode(h-&gt;left, key);
-                            } else {
-                            if (isRed(h-&gt;left))
-                            h = rotateRight(h);
-                            if (key == h-&gt;key &amp;&amp; (h-&gt;right == nullptr))
-                            return nullptr;
-                            if (!isRed(h-&gt;right) &amp;&amp; !isRed(h-&gt;right-&gt;left))
-                            h = moveRedRight(h);
-                            if (key == h-&gt;key) {
-                            Node* x = min(h-&gt;right);
-                            h-&gt;key = x-&gt;key;
-                            h-&gt;val = x-&gt;val;
-                            h-&gt;right = deleteMin(h-&gt;right);
-                            } else h-&gt;right = deleteNode(h-&gt;right, key);
-                            }
-                            return balance(h);
-                            }
+                                Node* ceiling(Node* x, const Key&amp; key) const {
+                                    if (x == nullptr) return nullptr;
+                                    if (key == x-&gt;key) return x;
+                                    if (key &gt; x-&gt;key) return ceiling(x-&gt;right, key);
+                                    Node* t = ceiling(x-&gt;left, key);
+                                    if (t != nullptr) return t;
+                                    else return x;
+                                }
                             
-                            Node* rotateRight(Node* h) {
-                            assert(h != nullptr &amp;&amp; isRed(h-&gt;left));
-                            Node* x = h-&gt;left;
-                            h-&gt;left = x-&gt;right;
-                            x-&gt;right = h;
-                            x-&gt;color=h-&gt;color;
-                            h-&gt;color=RED;
-                            x-&gt;size = h-&gt;size;
-                            h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
-                            return x;
-                            }
+                                Key select(Node* x, const int rank) const {
+                                    if (x == nullptr) return Key();
+                                    int leftSize = size(x-&gt;left);
+                                    if (leftSize &gt; rank) return select(x-&gt;left, rank);
+                                    else if (leftSize &lt; rank) return select(x-&gt;right, rank - leftSize - 1);
+                                    else return x-&gt;key;
+                                }
                             
-                            Node* rotateLeft(Node* h) {
-                            assert(h != nullptr &amp;&amp; isRed(h-&gt;right));
-                            Node* x = h-&gt;right;
-                            h-&gt;right = x-&gt;left;
-                            x-&gt;left = h;
-                            x-&gt;color=h-&gt;color;
-                            h-&gt;color=RED;
-                            x-&gt;size = h-&gt;size;
-                            h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
-                            return x;
-                            }
+                                int rank(const Key&amp; key, Node* x) const {
+                                    if (x == nullptr) return 0;
+                                    if (key &lt; x-&gt;key) return rank(key, x-&gt;left);
+                                    else if (key &gt; x-&gt;key) return 1 + size(x-&gt;left) + rank(key, x-&gt;right);
+                                    else return size(x-&gt;left);
+                                }
                             
-                            static void flipColors(Node* h) {
-                            h-&gt;color=!h-&gt;color;
-                            h-&gt;left-&gt;color=!h-&gt;left-&gt;color;
-                            h-&gt;right-&gt;color=!h-&gt;right-&gt;color;
-                            }
+                                void keys(Node* x, std::queue&lt;Key&gt;&amp; queue, const Key&amp; lo, const Key&amp; hi) const {
+                                    if (x == nullptr) return;
+                                    if (lo &lt; x-&gt;key) keys(x-&gt;left, queue, lo, hi);
+                                    if (lo &lt;= x-&gt;key &amp;&amp; x-&gt;key &lt;= hi) queue.push(x-&gt;key);
+                                    if (hi &gt; x-&gt;key) keys(x-&gt;right, queue, lo, hi);
+                                }
                             
-                            Node* moveRedLeft(Node* h) {
-                            flipColors(h);
-                            if (isRed(h-&gt;right-&gt;left)) {
-                            h-&gt;right = rotateRight(h-&gt;right);
-                            h = rotateLeft(h);
-                            flipColors(h);
-                            }
-                            return h;
-                            }
-                            
-                            Node* moveRedRight(Node* h) {
-                            flipColors(h);
-                            if (isRed(h-&gt;left-&gt;left)) {
-                            h = rotateRight(h);
-                            flipColors(h);
-                            }
-                            return h;
-                            }
-                            
-                            Node* balance(Node* h) {
-                            if (isRed(h-&gt;right) &amp;&amp; !isRed(h-&gt;left)) h = rotateLeft(h);
-                            if (isRed(h-&gt;left) &amp;&amp; isRed(h-&gt;left-&gt;left)) h = rotateRight(h);
-                            if (isRed(h-&gt;left) &amp;&amp; isRed(h-&gt;right)) flipColors(h);
-                            
-                            h-&gt;size = size(h-&gt;left) + size(h-&gt;right) + 1;
-                            return h;
-                            }
-                            
-                            Node* min(Node* x) const {
-                            if (x-&gt;left == nullptr) return x;
-                            else return min(x-&gt;left);
-                            }
-                            
-                            Node* max(Node* x) const {
-                            if (x-&gt;right == nullptr) return x;
-                            else return max(x-&gt;right);
-                            }
-                            
-                            Node* floor(Node* x, const Key&amp; key) const {
-                            if (x == nullptr) return nullptr;
-                            if (key == x-&gt;key) return x;
-                            if (key &lt; x-&gt;key) return floor(x-&gt;left, key);
-                            Node* t = floor(x-&gt;right, key);
-                            if (t != nullptr) return t;
-                            else return x;
-                            }
-                            
-                            Node* ceiling(Node* x, const Key&amp; key) const {
-                            if (x == nullptr) return nullptr;
-                            if (key == x-&gt;key) return x;
-                            if (key &gt; x-&gt;key) return ceiling(x-&gt;right, key);
-                            Node* t = ceiling(x-&gt;left, key);
-                            if (t != nullptr) return t;
-                            else return x;
-                            }
-                            
-                            Key select(Node* x, const int rank) const {
-                            if (x == nullptr) return Key();
-                            int leftSize = size(x-&gt;left);
-                            if (leftSize &gt; rank) return select(x-&gt;left, rank);
-                            else if (leftSize &lt; rank) return select(x-&gt;right, rank - leftSize - 1);
-                            else return x-&gt;key;
-                            }
-                            
-                            int rank(const Key&amp; key, Node* x) const {
-                            if (x == nullptr) return 0;
-                            if (key &lt; x-&gt;key) return rank(key, x-&gt;left);
-                            else if (key &gt; x-&gt;key) return 1 + size(x-&gt;left) + rank(key, x-&gt;right);
-                            else return size(x-&gt;left);
-                            }
-                            
-                            void keys(Node* x, std::queue&lt;Key&gt;&amp; queue, const Key&amp; lo, const Key&amp; hi) const {
-                            if (x == nullptr) return;
-                            if (lo &lt; x-&gt;key) keys(x-&gt;left, queue, lo, hi);
-                            if (lo &lt;= x-&gt;key &amp;&amp; x-&gt;key &lt;= hi) queue.push(x-&gt;key);
-                            if (hi &gt; x-&gt;key) keys(x-&gt;right, queue, lo, hi);
-                            }
-                            
-                            int height(Node* x) const {
-                            if (x == nullptr) return -1;
-                            return 1 + std::max(height(x-&gt;left), height(x-&gt;right));
-                            }
+                                int height(Node* x) const {
+                                    if (x == nullptr) return -1;
+                                    return 1 + std::max(height(x-&gt;left), height(x-&gt;right));
+                                }
                             
                             public:
-                            RedBlackBST() : root(nullptr) {}
+                                RedBlackBST() : root(nullptr) {}
                             
-                            [[nodiscard]] int size() const {
-                            return size(root);
-                            }
+                                [[nodiscard]] int size() const {
+                                    return size(root);
+                                }
                             
-                            [[nodiscard]] bool isEmpty() const {
-                            return root == nullptr;
-                            }
+                                [[nodiscard]] bool isEmpty() const {
+                                    return root == nullptr;
+                                }
                             
-                            Value get(const Key&amp; key) const {
-                            Node* x = root;
-                            while (x != nullptr) {
-                            if (key &lt; x-&gt;key) x = x-&gt;left;
-                            else if (key &gt; x-&gt;key) x = x-&gt;right;
-                            else return x-&gt;val;
-                            }
-                            return Value();
-                            }
+                                Value get(const Key&amp; key) const {
+                                    Node* x = root;
+                                    while (x != nullptr) {
+                                        if (key &lt; x-&gt;key) x = x-&gt;left;
+                                        else if (key &gt; x-&gt;key) x = x-&gt;right;
+                                        else return x-&gt;val;
+                                    }
+                                    return Value();
+                                }
                             
-                            bool contains(const Key&amp; key) const {
-                            return get(key) != Value();
-                            }
+                                bool contains(const Key&amp; key) const {
+                                    return get(key) != Value();
+                                }
                             
-                            void put(const Key&amp; key, const Value&amp; val) {
-                            root = put(root, key, val);
-                            root-&gt;color=BLACK;
-                            }
+                                void put(const Key&amp; key, const Value&amp; val) {
+                                    root = put(root, key, val);
+                                    root-&gt;color=BLACK;
+                                }
                             
-                            void deleteMin() {
-                            if (isEmpty()) throw std::runtime_error("BST underflow");
+                                void deleteMin() {
+                                    if (isEmpty()) throw std::runtime_error("BST underflow");
+
+                                    if (!isRed(root-&gt;left) &amp;&amp; !isRed(root-&gt;right)) root-&gt;color=RED;
+
+                                    root = deleteMin(root);
+                                    if (!isEmpty()) root-&gt;color=BLACK;
+                                }
                             
-                            if (!isRed(root-&gt;left) &amp;&amp; !isRed(root-&gt;right))
-                            root-&gt;color=RED;
+                                void deleteMax() {
+                                    if (isEmpty()) throw std::runtime_error("BST underflow");
+
+                                    if (!isRed(root-&gt;left) &amp;&amp; !isRed(root-&gt;right))
+                                    root-&gt;color=RED;
+
+                                    root = deleteMax(root);
+                                    if (!isEmpty()) root-&gt;color=BLACK;
+                                }
                             
-                            root = deleteMin(root);
-                            if (!isEmpty()) root-&gt;color=BLACK;
-                            }
+                                void deleteNode(const Key&amp; key) {
+                                    if (!contains(key)) return;
+
+                                    if (!isRed(root-&gt;left) &amp;&amp; !isRed(root-&gt;right))
+                                    root-&gt;color=RED;
+
+                                    root = deleteNode(root, key);
+                                    if (!isEmpty()) root-&gt;color=BLACK;
+                                }
                             
-                            void deleteMax() {
-                            if (isEmpty()) throw std::runtime_error("BST underflow");
+                                [[nodiscard]] int height() const {
+                                    return height(root);
+                                }
                             
-                            if (!isRed(root-&gt;left) &amp;&amp; !isRed(root-&gt;right))
-                            root-&gt;color=RED;
+                                Key min() const {
+                                    if (isEmpty()) throw std::runtime_error("calls min() with empty symbol table");
+                                    return min(root)-&gt;key;
+                                }
                             
-                            root = deleteMax(root);
-                            if (!isEmpty()) root-&gt;color=BLACK;
-                            }
+                                Key max() const {
+                                    if (isEmpty()) throw std::runtime_error("calls max() with empty symbol table");
+                                    return max(root)-&gt;key;
+                                }
                             
-                            void deleteNode(const Key&amp; key) {
-                            if (!contains(key)) return;
+                                Key floor(const Key&amp; key) const {
+                                    if (isEmpty()) throw std::runtime_error("calls floor() with empty symbol table");
+                                    Node* x = floor(root, key);
+                                    if (x == nullptr) throw std::runtime_error("argument to floor() is too small");
+                                    else return x-&gt;key;
+                                }
                             
-                            if (!isRed(root-&gt;left) &amp;&amp; !isRed(root-&gt;right))
-                            root-&gt;color=RED;
+                                Key ceiling(const Key&amp; key) const {
+                                    if (isEmpty()) throw std::runtime_error("calls ceiling() with empty symbol table");
+                                    Node* x = ceiling(root, key);
+                                    if (x == nullptr) throw std::runtime_error("argument to ceiling() is too large");
+                                    else return x-&gt;key;
+                                }
                             
-                            root = deleteNode(root, key);
-                            if (!isEmpty()) root-&gt;color=BLACK;
-                            }
+                                Key select(int rank) const {
+                                    if (rank &lt; 0 || rank &gt;= size()) {
+                                        throw std::invalid_argument("argument to select() is invalid: " + std::to_string(rank));
+                                    }
+                                    return select(root, rank);
+                                }
                             
-                            [[nodiscard]] int height() const {
-                            return height(root);
-                            }
+                                int rank(const Key&amp; key) const {
+                                    return rank(key, root);
+                                }
                             
-                            Key min() const {
-                            if (isEmpty()) throw std::runtime_error("calls min() with empty symbol table");
-                            return min(root)-&gt;key;
-                            }
+                                std::queue&lt;Key&gt; keys() const {
+                                    if (isEmpty()) return std::queue&lt;Key&gt;();
+                                    return keys(min(), max());
+                                }
                             
-                            Key max() const {
-                            if (isEmpty()) throw std::runtime_error("calls max() with empty symbol table");
-                            return max(root)-&gt;key;
-                            }
+                                std::queue&lt;Key&gt; keys(const Key&amp; lo, const Key&amp; hi) const {
+                                    if (isEmpty() || lo &gt; hi) return std::queue&lt;Key&gt;();
+
+                                    std::queue&lt;Key&gt; queue;
+                                    keys(root, queue, lo, hi);
+                                    return queue;
+                                }
                             
-                            Key floor(const Key&amp; key) const {
-                            if (isEmpty()) throw std::runtime_error("calls floor() with empty symbol table");
-                            Node* x = floor(root, key);
-                            if (x == nullptr) throw std::runtime_error("argument to floor() is too small");
-                            else return x-&gt;key;
-                            }
-                            
-                            Key ceiling(const Key&amp; key) const {
-                            if (isEmpty()) throw std::runtime_error("calls ceiling() with empty symbol table");
-                            Node* x = ceiling(root, key);
-                            if (x == nullptr) throw std::runtime_error("argument to ceiling() is too large");
-                            else return x-&gt;key;
-                            }
-                            
-                            Key select(int rank) const {
-                            if (rank &lt; 0 || rank &gt;= size()) {
-                            throw std::invalid_argument("argument to select() is invalid: " + std::to_string(rank));
-                            }
-                            return select(root, rank);
-                            }
-                            
-                            int rank(const Key&amp; key) const {
-                            return rank(key, root);
-                            }
-                            
-                            std::queue&lt;Key&gt; keys() const {
-                            if (isEmpty()) return std::queue&lt;Key&gt;();
-                            return keys(min(), max());
-                            }
-                            
-                            std::queue&lt;Key&gt; keys(const Key&amp; lo, const Key&amp; hi) const {
-                            if (isEmpty() || lo &gt; hi) return std::queue&lt;Key&gt;();
-                            
-                            std::queue&lt;Key&gt; queue;
-                            keys(root, queue, lo, hi);
-                            return queue;
-                            }
-                            
-                            int size(const Key&amp; lo, const Key&amp; hi) const {
-                            if (lo &gt; hi) return 0;
-                            if (contains(hi)) return rank(hi) - rank(lo) + 1;
-                            else return rank(hi) - rank(lo);
-                            }
+                                int size(const Key&amp; lo, const Key&amp; hi) const {
+                                    if (lo &gt; hi) return 0;
+                                    if (contains(hi)) return rank(hi) - rank(lo) + 1;
+                                    else return rank(hi) - rank(lo);
+                                }
                             };
                             
                             #endif // REDBLACKBST_H
@@ -3348,360 +3344,362 @@
                     <tab title="Python">
                         <code-block lang="python" collapsible="true">
                             class Node:
-                            def __init__(self, key, val, color, size):
-                            self.key = key
-                            self.val = val
-                            self.left = None
-                            self.right = None
-                            self.color=color # True for RED, False for BLACK
-                            self.size = size
+                                def __init__(self, key, val, color, size):
+                                    self.key = key
+                                    self.val = val
+                                    self.left = None
+                                    self.right = None
+                                    self.color = color # True for RED, False for BLACK
+                                    self.size = size
                             
                             
                             class RedBlackBST:
-                            RED = True
-                            BLACK = False
+                                RED = True
+                                BLACK = False
                             
-                            def __init__(self):
-                            self.root = None
+                                def __init__(self):
+                                    self.root = None
                             
-                            def is_red(self, x):
-                            if x is None:
-                            return False
-                            return x.color == RedBlackBST.RED
+                                def is_red(self, x):
+                                    if x is None:
+                                        return False
+                                    return x.color == RedBlackBST.RED
                             
-                            def size(self, x):
-                            if x is None:
-                            return 0
-                            return x.size
+                                def size(self, x):
+                                    if x is None:
+                                        return 0
+                                    return x.size
                             
-                            def __len__(self):
-                            return self.size(self.root)
+                                def __len__(self):
+                                    return self.size(self.root)
                             
-                            def is_empty(self):
-                            return self.root is None
+                                def is_empty(self):
+                                    return self.root is None
                             
-                            def get(self, key):
-                            x = self.root
-                            while x is not None:
-                            if key &lt; x.key:
-                            x = x.left
-                            elif key &gt; x.key:
-                            x = x.right
-                            else:
-                            return x.val
-                            return None
+                                def get(self, key):
+                                    x = self.root
+                                    while x is not None:
+                                        if key &lt; x.key:
+                                            x = x.left
+                                        elif key &gt; x.key:
+                                            x = x.right
+                                        else:
+                                            return x.val
+                                    return None
                             
-                            def __contains__(self, key):
-                            return self.get(key) is not None
+                                def __contains__(self, key):
+                                    return self.get(key) is not None
                             
-                            def put(self, key, val):
-                            self.root = self._put(self.root, key, val)
-                            self.root.color=RedBlackBST.BLACK
+                                def put(self, key, val):
+                                    self.root = self._put(self.root, key, val)
+                                    self.root.color=RedBlackBST.BLACK
                             
-                            def _put(self, h, key, val):
-                            if h is None:
-                            return Node(key, val, RedBlackBST.RED, 1)
+                                def _put(self, h, key, val):
+                                    if h is None:
+                                        return Node(key, val, RedBlackBST.RED, 1)
                             
-                            if key &lt; h.key:
-                            h.left = self._put(h.left, key, val)
-                            elif key &gt; h.key:
-                            h.right = self._put(h.right, key, val)
-                            else:
-                            h.val = val
+                                    if key &lt; h.key:
+                                        h.left = self._put(h.left, key, val)
+                                    elif key &gt; h.key:
+                                        h.right = self._put(h.right, key, val)
+                                    else:
+                                        h.val = val
                             
-                            if self.is_red(h.right) and not self.is_red(h.left):
-                            h = self.rotate_left(h)
-                            if self.is_red(h.left) and self.is_red(h.left.left):
-                            h = self.rotate_right(h)
-                            if self.is_red(h.left) and self.is_red(h.right):
-                            self.flip_colors(h)
+                                    if self.is_red(h.right) and not self.is_red(h.left):
+                                        h = self.rotate_left(h)
+                                    if self.is_red(h.left) and self.is_red(h.left.left):
+                                        h = self.rotate_right(h)
+                                    if self.is_red(h.left) and self.is_red(h.right):
+                                        self.flip_colors(h)
                             
-                            h.size = self.size(h.left) + self.size(h.right) + 1
-                            return h
+                                    h.size = self.size(h.left) + self.size(h.right) + 1
+                                    return h
                             
-                            def delete_min(self):
-                            if self.is_empty():
-                            raise Exception("BST underflow")
+                                def delete_min(self):
+                                    if self.is_empty():
+                                        raise Exception("BST underflow")
+
+                                    if not self.is_red(self.root.left) and not self.is_red(self.root.right):
+                                        self.root.color=RedBlackBST.RED
+
+                                    self.root = self._delete_min(self.root)
+                                    if not self.is_empty():
+                                        self.root.color=RedBlackBST.BLACK
                             
-                            if not self.is_red(self.root.left) and not self.is_red(self.root.right):
-                            self.root.color=RedBlackBST.RED
+                                def _delete_min(self, h):
+                                    if h.left is None:
+                                        return None
+
+                                    if not self.is_red(h.left) and not self.is_red(h.left.left):
+                                        h = self.move_red_left(h)
+
+                                    h.left = self._delete_min(h.left)
+                                    return self.balance(h)
                             
-                            self.root = self._delete_min(self.root)
-                            if not self.is_empty():
-                            self.root.color=RedBlackBST.BLACK
+                                def delete_max(self):
+                                    if self.is_empty():
+                                        raise Exception("BST underflow")
+
+                                    if not self.is_red(self.root.left) and not self.is_red(self.root.right):
+                                        self.root.color=RedBlackBST.RED
+
+                                    self.root = self._delete_max(self.root)
+                                    if not self.is_empty():
+                                        self.root.color=RedBlackBST.BLACK
                             
-                            def _delete_min(self, h):
-                            if h.left is None:
-                            return None
+                                def _delete_max(self, h):
+                                    if self.is_red(h.left):
+                                        h = self.rotate_right(h)
                             
-                            if not self.is_red(h.left) and not self.is_red(h.left.left):
-                            h = self.move_red_left(h)
+                                    if h.right is None:
+                                        return None
                             
-                            h.left = self._delete_min(h.left)
-                            return self.balance(h)
+                                    if not self.is_red(h.right) and not self.is_red(h.right.left):
+                                        h = self.move_red_right(h)
                             
-                            def delete_max(self):
-                            if self.is_empty():
-                            raise Exception("BST underflow")
+                                    h.right = self._delete_max(h.right)
+                                    return self.balance(h)
                             
-                            if not self.is_red(self.root.left) and not self.is_red(self.root.right):
-                            self.root.color=RedBlackBST.RED
+                                def delete(self, key):
+                                    if key is None:
+                                        raise Exception("argument to delete() is null")
+                                    if not self.__contains__(key):
+                                        return
                             
-                            self.root = self._delete_max(self.root)
-                            if not self.is_empty():
-                            self.root.color=RedBlackBST.BLACK
+                                    if not self.is_red(self.root.left) and not self.is_red(self.root.right):
+                                        self.root.color=RedBlackBST.RED
                             
-                            def _delete_max(self, h):
-                            if self.is_red(h.left):
-                            h = self.rotate_right(h)
+                                    self.root = self._delete(self.root, key)
+                                    if not self.is_empty():
+                                        self.root.color=RedBlackBST.BLACK
                             
-                            if h.right is None:
-                            return None
+                                def _delete(self, h, key):
+                                    if key &lt; h.key:
+                                        if not self.is_red(h.left) and not self.is_red(h.left.left):
+                                            h = self.move_red_left(h)
+                                            h.left = self._delete(h.left, key)
+                                    else:
+                                        if self.is_red(h.left):
+                                            h = self.rotate_right(h)
+                                        if key == h.key and h.right is None:
+                                            return None
+                                        if not self.is_red(h.right) and not self.is_red(h.right.left):
+                                            h = self.move_red_right(h)
+                                        if key == h.key:
+                                            if h.right is not None:
+                                                x = self._min(h.right)
+                                                h.key = x.key
+                                                h.val = x.val
+                                                h.right = self._delete_min(h.right)
+                                            else:
+                                                return h.left
+                                        else:
+                                            h.right = self._delete(h.right, key)
+
+                                    return self.balance(h)
                             
-                            if not self.is_red(h.right) and not self.is_red(h.right.left):
-                            h = self.move_red_right(h)
+                                def rotate_right(self, h):
+                                    assert h is not None and self.is_red(h.left)
+                                    x = h.left
+                                    h.left = x.right
+                                    x.right = h
+                                    x.color=h.color
+                                    h.color=RedBlackBST.RED
+                                    x.size = h.size
+                                    h.size = self.size(h.left) + self.size(h.right) + 1
+                                    return x
                             
-                            h.right = self._delete_max(h.right)
-                            return self.balance(h)
+                                def rotate_left(self, h):
+                                    assert h is not None and self.is_red(h.right)
+                                    x = h.right
+                                    h.right = x.left
+                                    x.left = h
+                                    x.color=h.color
+                                    h.color=RedBlackBST.RED
+                                    x.size = h.size
+                                    h.size = self.size(h.left) + self.size(h.right) + 1
+                                    return x
                             
-                            def delete(self, key):
-                            if key is None:
-                            raise Exception("argument to delete() is null")
-                            if not self.__contains__(key):
-                            return
+                                def flip_colors(self, h):
+                                    assert h is not None and h.left is not None and h.right is not None
+                                    h.color=not h.color
+                                    h.left.color=not h.left.color
+                                    h.right.color=not h.right.color
                             
-                            if not self.is_red(self.root.left) and not self.is_red(self.root.right):
-                            self.root.color=RedBlackBST.RED
+                                def move_red_left(self, h):
+                                    self.flip_colors(h)
+                                    if self.is_red(h.right.left):
+                                        h.right = self.rotate_right(h.right)
+                                        h = self.rotate_left(h)
+                                        self.flip_colors(h)
+                                    return h
                             
-                            self.root = self._delete(self.root, key)
-                            if not self.is_empty():
-                            self.root.color=RedBlackBST.BLACK
+                                def move_red_right(self, h):
+                                    self.flip_colors(h)
+                                    if self.is_red(h.left.left):
+                                        h = self.rotate_right(h)
+                                        self.flip_colors(h)
+                                    return h
                             
-                            def _delete(self, h, key):
-                            if key &lt; h.key:
-                            if not self.is_red(h.left) and not self.is_red(h.left.left):
-                            h = self.move_red_left(h)
-                            h.left = self._delete(h.left, key)
-                            else:
-                            if self.is_red(h.left):
-                            h = self.rotate_right(h)
-                            if key == h.key and h.right is None:
-                            return None
-                            if not self.is_red(h.right) and not self.is_red(h.right.left):
-                            h = self.move_red_right(h)
-                            if key == h.key:
-                            if h.right is not None:
-                            x = self._min(h.right)
-                            h.key = x.key
-                            h.val = x.val
-                            h.right = self._delete_min(h.right)
-                            else:
-                            return h.left
-                            else:
-                            h.right = self._delete(h.right, key)
+                                def balance(self, h):
+                                    if self.is_red(h.right) and not self.is_red(h.left):
+                                        h = self.rotate_left(h)
+                                    if self.is_red(h.left) and self.is_red(h.left.left):
+                                        h = self.rotate_right(h)
+                                    if self.is_red(h.left) and self.is_red(h.right):
+                                        self.flip_colors(h)
+
+                                h.size = self.size(h.left) + self.size(h.right) + 1
+                                return h
                             
-                            return self.balance(h)
+                                def height(self):
+                                    return self._height(self.root)
                             
-                            def rotate_right(self, h):
-                            assert h is not None and self.is_red(h.left)
-                            x = h.left
-                            h.left = x.right
-                            x.right = h
-                            x.color=h.color
-                            h.color=RedBlackBST.RED
-                            x.size = h.size
-                            h.size = self.size(h.left) + self.size(h.right) + 1
-                            return x
+                                def _height(self, x):
+                                    if x is None:
+                                        return -1
+                                    return 1 + max(self._height(x.left), self._height(x.right))
                             
-                            def rotate_left(self, h):
-                            assert h is not None and self.is_red(h.right)
-                            x = h.right
-                            h.right = x.left
-                            x.left = h
-                            x.color=h.color
-                            h.color=RedBlackBST.RED
-                            x.size = h.size
-                            h.size = self.size(h.left) + self.size(h.right) + 1
-                            return x
+                                def min(self):
+                                    if self.is_empty():
+                                        raise Exception("calls min() with empty symbol table")
+                                    return self._min(self.root).key
                             
-                            def flip_colors(self, h):
-                            assert h is not None and h.left is not None and h.right is not None
-                            h.color=not h.color
-                            h.left.color=not h.left.color
-                            h.right.color=not h.right.color
+                                def _min(self, x):
+                                    if x.left is None:
+                                        return x
+                                    else:
+                                        return self._min(x.left)
                             
-                            def move_red_left(self, h):
-                            self.flip_colors(h)
-                            if self.is_red(h.right.left):
-                            h.right = self.rotate_right(h.right)
-                            h = self.rotate_left(h)
-                            self.flip_colors(h)
-                            return h
+                                def max(self):
+                                    if self.is_empty():
+                                        raise Exception("calls max() with empty symbol table")
+                                    return self._max(self.root).key
                             
-                            def move_red_right(self, h):
-                            self.flip_colors(h)
-                            if self.is_red(h.left.left):
-                            h = self.rotate_right(h)
-                            self.flip_colors(h)
-                            return h
+                                def _max(self, x):
+                                    if x.right is None:
+                                        return x
+                                    else:
+                                        return self._max(x.right)
                             
-                            def balance(self, h):
-                            if self.is_red(h.right) and not self.is_red(h.left):
-                            h = self.rotate_left(h)
-                            if self.is_red(h.left) and self.is_red(h.left.left):
-                            h = self.rotate_right(h)
-                            if self.is_red(h.left) and self.is_red(h.right):
-                            self.flip_colors(h)
+                                def floor(self, key):
+                                    if key is None:
+                                        raise Exception("argument to floor() is null")
+                                    if self.is_empty():
+                                        raise Exception("calls floor() with empty symbol table")
+
+                                    x = self._floor(self.root, key)
+                                    if x is None:
+                                        raise Exception("argument to floor() is too small")
+                                    else:
+                                        return x.key
                             
-                            h.size = self.size(h.left) + self.size(h.right) + 1
-                            return h
+                                def _floor(self, x, key):
+                                    if x is None:
+                                        return None
+                                    if key == x.key:
+                                        return x
+                                    if key &lt; x.key:
+                                        return self._floor(x.left, key)
+                                    t = self._floor(x.right, key)
+                                    if t is not None:
+                                        return t
+                                    else:
+                                        return x
                             
-                            def height(self):
-                            return self._height(self.root)
+                                def ceiling(self, key):
+                                    if key is None:
+                                        raise Exception("argument to ceiling() is null")
+                                    if self.is_empty():
+                                        raise Exception("calls ceiling() with empty symbol table")
+
+                                    x = self._ceiling(self.root, key)
+                                    if x is None:
+                                        raise Exception("argument to ceiling() is too large")
+                                    else:
+                                        return x.key
                             
-                            def _height(self, x):
-                            if x is None:
-                            return -1
-                            return 1 + max(self._height(x.left), self._height(x.right))
+                                def _ceiling(self, x, key):
+                                    if x is None:
+                                        return None
+                                    if key == x.key:
+                                        return x
+                                    if key &gt; x.key:
+                                        return self._ceiling(x.right, key)
+                                    t = self._ceiling(x.left, key)
+                                    if t is not None:
+                                        return t
+                                    else:
+                                        return x
                             
-                            def min(self):
-                            if self.is_empty():
-                            raise Exception("calls min() with empty symbol table")
-                            return self._min(self.root).key
+                                def select(self, rank):
+                                    if rank &lt; 0 or rank &gt;= len(self):
+                                        raise Exception("argument to select() is invalid: " + str(rank))
+                                    return self._select(self.root, rank).key
                             
-                            def _min(self, x):
-                            if x.left is None:
-                            return x
-                            else:
-                            return self._min(x.left)
+                                def _select(self, x, rank):
+                                    if x is None:
+                                        return None
+                                    left_size = self.size(x.left)
+                                    if left_size &gt; rank:
+                                        return self._select(x.left, rank)
+                                    elif left_size &lt; rank:
+                                        return self._select(x.right, rank - left_size - 1)
+                                    else:
+                                        return x
                             
-                            def max(self):
-                            if self.is_empty():
-                            raise Exception("calls max() with empty symbol table")
-                            return self._max(self.root).key
+                                def rank(self, key):
+                                    if key is None:
+                                        raise Exception("argument to rank() is null")
+                                    return self._rank(key, self.root)
                             
-                            def _max(self, x):
-                            if x.right is None:
-                            return x
-                            else:
-                            return self._max(x.right)
+                                def _rank(self, key, x):
+                                    if x is None:
+                                        return 0
+                                    if key &lt; x.key:
+                                        return self._rank(key, x.left)
+                                    elif key &gt; x.key:
+                                        return 1 + self.size(x.left) + self._rank(key, x.right)
+                                    else:
+                                        return self.size(x.left)
                             
-                            def floor(self, key):
-                            if key is None:
-                            raise Exception("argument to floor() is null")
-                            if self.is_empty():
-                            raise Exception("calls floor() with empty symbol table")
-                            x = self._floor(self.root, key)
-                            if x is None:
-                            raise Exception("argument to floor() is too small")
-                            else:
-                            return x.key
+                                def keys(self):
+                                    if self.is_empty():
+                                        return []
+                                    return self.keys_in_range(self.min(), self.max())
                             
-                            def _floor(self, x, key):
-                            if x is None:
-                            return None
-                            if key == x.key:
-                            return x
-                            if key &lt; x.key:
-                            return self._floor(x.left, key)
-                            t = self._floor(x.right, key)
-                            if t is not None:
-                            return t
-                            else:
-                            return x
+                                def keys_in_range(self, lo, hi):
+                                    if lo is None:
+                                        raise Exception("first argument to keys() is null")
+                                    if hi is None:
+                                        raise Exception("second argument to keys() is null")
                             
-                            def ceiling(self, key):
-                            if key is None:
-                            raise Exception("argument to ceiling() is null")
-                            if self.is_empty():
-                            raise Exception("calls ceiling() with empty symbol table")
-                            x = self._ceiling(self.root, key)
-                            if x is None:
-                            raise Exception("argument to ceiling() is too large")
-                            else:
-                            return x.key
+                                    queue = []
+                                    self._keys_in_range(self.root, queue, lo, hi)
+                                    return queue
                             
-                            def _ceiling(self, x, key):
-                            if x is None:
-                            return None
-                            if key == x.key:
-                            return x
-                            if key &gt; x.key:
-                            return self._ceiling(x.right, key)
-                            t = self._ceiling(x.left, key)
-                            if t is not None:
-                            return t
-                            else:
-                            return x
+                                def _keys_in_range(self, x, queue, lo, hi):
+                                    if x is None:
+                                        return
+                                    if lo &lt; x.key:
+                                        self._keys_in_range(x.left, queue, lo, hi)
+                                    if lo &lt;= x.key &lt;= hi:
+                                        queue.append(x.key)
+                                    if hi &gt; x.key:
+                                        self._keys_in_range(x.right, queue, lo, hi)
                             
-                            def select(self, rank):
-                            if rank &lt; 0 or rank &gt;= len(self):
-                            raise Exception("argument to select() is invalid: " + str(rank))
-                            return self._select(self.root, rank).key
+                                def size_in_range(self, lo, hi):
+                                    if lo is None:
+                                        raise Exception("first argument to size() is null")
+                                    if hi is None:
+                                        raise Exception("second argument to size() is null")
                             
-                            def _select(self, x, rank):
-                            if x is None:
-                            return None
-                            left_size = self.size(x.left)
-                            if left_size &gt; rank:
-                            return self._select(x.left, rank)
-                            elif left_size &lt; rank:
-                            return self._select(x.right, rank - left_size - 1)
-                            else:
-                            return x
-                            
-                            def rank(self, key):
-                            if key is None:
-                            raise Exception("argument to rank() is null")
-                            return self._rank(key, self.root)
-                            
-                            def _rank(self, key, x):
-                            if x is None:
-                            return 0
-                            if key &lt; x.key:
-                            return self._rank(key, x.left)
-                            elif key &gt; x.key:
-                            return 1 + self.size(x.left) + self._rank(key, x.right)
-                            else:
-                            return self.size(x.left)
-                            
-                            def keys(self):
-                            if self.is_empty():
-                            return []
-                            return self.keys_in_range(self.min(), self.max())
-                            
-                            def keys_in_range(self, lo, hi):
-                            if lo is None:
-                            raise Exception("first argument to keys() is null")
-                            if hi is None:
-                            raise Exception("second argument to keys() is null")
-                            
-                            queue = []
-                            self._keys_in_range(self.root, queue, lo, hi)
-                            return queue
-                            
-                            def _keys_in_range(self, x, queue, lo, hi):
-                            if x is None:
-                            return
-                            if lo &lt; x.key:
-                            self._keys_in_range(x.left, queue, lo, hi)
-                            if lo &lt;= x.key &lt;= hi:
-                            queue.append(x.key)
-                            if hi &gt; x.key:
-                            self._keys_in_range(x.right, queue, lo, hi)
-                            
-                            def size_in_range(self, lo, hi):
-                            if lo is None:
-                            raise Exception("first argument to size() is null")
-                            if hi is None:
-                            raise Exception("second argument to size() is null")
-                            
-                            if lo &gt; hi:
-                            return 0
-                            if self.__contains__(hi):
-                            return self.rank(hi) - self.rank(lo) + 1
-                            else:
-                            return self.rank(hi) - self.rank(lo)
+                                    if lo &gt; hi:
+                                        return 0
+                                    if self.__contains__(hi):
+                                        return self.rank(hi) - self.rank(lo) + 1
+                                    else:
+                                        return self.rank(hi) - self.rank(lo)
                         </code-block>
                     </tab>
                 </tabs>
