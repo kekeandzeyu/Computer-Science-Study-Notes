@@ -3704,64 +3704,33 @@
                     </tab>
                 </tabs>
             </chapter>
-            <chapter title="10.2.5 Red-Black BST Properties and Applications"
-                     id="10-2-5-red-black-bst-properties-and-applications">
-                <p>
-                    <format color="BlueViolet">Properties</format>
-                </p>
+            <chapter title="10.2.5 Red-Black BST Properties and Applications" id="10-2-5-red-black-bst-properties-and-applications">
+                <p><format color="BlueViolet">Properties</format></p>
                 <list type="alpha-lower">
                     <li>
-                        <p>Height of tree is
-                            <math>\leq 2 \lg N</math>
-                            in the worst case.
-                        </p>
-                        <p>
-                            <format color="LawnGreen">Proof:</format>
-                            Every path from root to
-                            null link has same number of black links. Never two red links in-a-row
-                            .
-                        </p>
+                        <p>Height of tree is <math>\leq 2 \lg N</math> in the worst case.</p>
+                        <p><format color="LawnGreen">Proof:</format> Every path from root to null link has same
+                            of black links. Never two red links in-a-row .</p>
                     </li>
                     <li>
-                        <p>Height of tree is
-                            <math>\sim 1.00 \lg N</math>
-                            in typical
-                            applications.
-                        </p>
+                        <p>Height of tree is <math>\sim 1.00 \lg N</math> in typical applications.</p>
                     </li>
                 </list>
-                <p>
-                    <format color="BlueViolet">Applications:</format>
-                    Red-black trees are
-                    widely used as system symbol tables.
-                </p>
+                <p><format color="BlueViolet">Applications:</format> Red-black trees are widely used as system symbol
+                    tables.</p>
                 <list type="bullet">
                     <li>
-                        <p>
-                            <format color="Fuchsia">Java:</format>
-                            java.util.TreeMap,
-                            java.util.TreeSet
-                        </p>
+                        <p><format color="Fuchsia">Java:</format> <code>java.util.TreeMap</code>, <code>
+                            java.util.TreeSet</code></p>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">C++ STL:</format>
-                            map, multimap, multiset
-                        </p>
+                        <p><format color="Fuchsia">C++ STL:</format> map, multimap, multiset</p>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Linux kernel:</format>
-                            completely fair
-                            scheduler, linux/rbtree.h
-                        </p>
+                        <p><format color="Fuchsia">Linux kernel:</format> completely fair scheduler, linux/rbtree.h</p>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Emacs:</format>
-                            conservative stack
-                            scanning
-                        </p>
+                        <p><format color="Fuchsia">Emacs:</format> conservative stack scanning</p>
                     </li>
                 </list>
             </chapter>
@@ -3989,44 +3958,22 @@
         </chapter>
     </chapter>
     <chapter title="11 Geometric Applications of BSTs" id="11-geometric-applications-of-bsts">
-        <p>
-            <format color="BlueViolet">Topic</format>
-            : Intersections among
-            <format color="OrangeRed">geometric objects</format>
-            .
-        </p>
-        <p>
-            <format color="BlueViolet">Applications</format>
-            : CAD, games,
-            movies, virtual reality, databases...
-        </p>
+        <p><format color="BlueViolet">Topic:</format> Intersections among <format color="OrangeRed">geometric objects
+        </format>.</p>
+        <p><format color="BlueViolet">Applications:</format> CAD, games, movies, virtual reality, databases...</p>
         <chapter title="11.1 1d Range Search" id="11-1-1d-range-search">
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="DarkOrange">Range search</format>
-                        : find all key between
-                        <math>k_{1}</math>
-                        and
-                        <math>k_{2}</math>
-                        .
-                    </p>
+                    <p><format color="DarkOrange">Range search:</format> find all key between <math>k_{1}</math>
+                        and <math>k_{2}</math>.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="DarkOrange">Range count</format>
-                        : # of keys between
-                        <math>k_{1}</math>
-                        and
-                        <math>k_{2}</math>
-                        .
-                    </p>
+                    <p><format color="DarkOrange">Range count:</format> # of keys between <math>k_{1}</math> and
+                        <math>k_{2}</math>.</p>
                 </li>
-                <li>Geometric interpretation: Keys are point on a
-                    <format color="OrangeRed">line</format>
-                    ; find/count points in a given
-                    <format color="OrangeRed">1d interval</format>
-                    .
+                <li>
+                    <p>Geometric interpretation: Keys are point on a <format color="OrangeRed">line</format>
+                    ; find/count points in a given <format color="OrangeRed">1d interval</format>.</p>
                 </li>
             </list>
             <procedure title="1d range count">
@@ -4038,136 +3985,57 @@
                     <p>Check key in current node.</p>
                 </step>
                 <step>
-                    <p>Recursively find all keys in right subtree (if any could fall
-                        in range).</p>
+                    <p>Recursively find all keys in right subtree (if any could fall in range).</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Property</format>
-                : Running
-                time proportinal to
-                <math>R + \ log N</math>
-            </p>
+            <p><format color="BlueViolet">Property:</format> Running time proportinal to <math>R + \ log N</math></p>
         </chapter>
         <chapter title="11.2 Line Segment Intersection" id="11-2-line-segment-intersection">
-            <p>
-                <format color="IndianRed">Goal</format>
-                : Given
-                <math>N</math>
-                horizontal and vertical line segments, find all intersections
-                (all
-                <math>x</math>
-                - and
-                <math>y</math>
-                -coordinates are distinct.
-            </p>
-            <procedure title="Sweep-Line Algorithm =&gt; Sweep Vertical Lines
-from Left to Right">
+            <p><format color="BlueViolet">Goal:</format> Given <math>N</math> horizontal and vertical line segments,
+                find all intersections (all <math>x</math>- and <math>y</math>-coordinates are distinct).</p>
+            <procedure title="Sweep-Line Algorithm =&gt; Sweep Vertical Lines from Left to Right">
                 <step>
-                    <p>
-                        <math>x</math>
-                        -coordinates define events.
-                    </p>
+                    <p><math>x</math>-coordinates define events.</p>
                 </step>
                 <step>
-                    <p>
-                        <math>h</math>
-                        -segments (left endpoint): insert
-                        <math>y</math>
-                        -
-                        coordiantes into BST.
-                    </p>
+                    <p><math>h</math>-segments (left endpoint): insert <math>y</math>- coordiantes into BST.</p>
                 </step>
                 <step>
-                    <p>
-                        <math>h</math>
-                        -segments (right endpoint): remove
-                        <math>y</math>
-                        -
-                        coordiantes from BST.
-                    </p>
+                    <p><math>h</math>-segments (right endpoint): remove <math>y</math>- coordiantes from BST.</p>
                 </step>
                 <step>
-                    <p>
-                        <math>v</math>
-                        - segment: range search for interval of
-                        <math>y</math>
-                        -endpoints.
-                    </p>
+                    <p><math>v</math>- segment: range search for interval of <math>y</math>-endpoints.</p>
                 </step>
             </procedure>
-            <img src="../images_data/d11-2-1.png" alt="Line Segment
-Intersection"/>
-            <p>
-                <format color="LawnGreen">Properties</format>
-                : The sweep-line
-                algorithm takes time proportional to
-                <math>N \log N + R</math>
-                to
-                find all
-                <math>R</math>
-                intersections among
-                <math>N</math>
-                orthogonal line segments.
-            </p>
-            <p>Proof: </p>
+            <img src="../images_data/d11-2-1.png" alt="Line Segment Intersection"/>
+            <p><format color="LawnGreen">Properties:</format> The sweep-line algorithm takes time proportional to
+                <math>N \log N + R</math> to find all <math>R</math> intersections among <math>N</math> orthogonal line
+                segments.</p>
+            <p><format color="LawnGreen">Proof:</format> </p>
             <list type="bullet">
                 <li>
-                    <p>Put
-                        <math>x</math>
-                        -coordinates on a PQ (or sort). =>
-                        <math>N \log N</math>
-                    </p>
+                    <p>Put <math>x</math>-coordinates on a PQ (or sort). =&gt; <math>N \log N</math></p>
                 </li>
                 <li>
-                    <p>Insert
-                        <math>y</math>
-                        -coordinates into BST. =>
-                        <math>N \log N</math>
-                    </p>
+                    <p>Insert <math>y</math>-coordinates into BST. =&gt; <math>N \log N</math></p>
                 </li>
                 <li>
-                    <p>Delete
-                        <math>y</math>
-                        -coordinates from BST. =>
-                        <math>N \log N</math>
-                    </p>
+                    <p>Delete <math>y</math>-coordinates from BST. =&gt; <math>N \log N</math></p>
                 </li>
                 <li>
-                    <p>Range searches in BST. =>
-                        <math>N \log N + R</math>
-                    </p>
+                    <p>Range searches in BST. =&gt; <math>N \log N + R</math></p>
                 </li>
             </list>
         </chapter>
         <chapter title="11.3 Kd-Trees" id="11-3-kd-trees">
-            <p>
-                <format color="MediumVioletRed">Goal</format>
-                : 2d orthogonal range search.
-            </p>
-            <p>
-                <format color="MediumVioletRed">Geometric interpretation</format>
-                :
-                Keys are point in the
-                <format color="OrangeRed">plane</format>
-                ;
-                find/count points in a given
-                <format color="OrangeRed">
-                    <math>h-v</math>
-                    rectangle
-                </format>
-                .
-            </p>
+            <p><format color="BlueViolet">Goal:</format> 2d orthogonal range search.</p>
+            <p><format color="BlueViolet">Geometric interpretation:</format> Keys are point in the <format
+                    color="OrangeRed">plane</format>; find/count points in a given <format color="OrangeRed">
+                    <math>h-v</math> rectangle</format>.</p>
             <chapter title="11.3.1 Grid Implementation" id="11-3-1-grid-implementation">
                 <procedure title="Grid Implementation">
                     <step>
-                        <p>Divide space into
-                            <math>M</math>
-                            -by-
-                            <math>M</math>
-                            grid of
-                            squares.
-                        </p>
+                        <p>Divide space into <math>M</math>-by- <math>M</math> grid of squares.</p>
                     </step>
                     <step>
                         <p>Create list of points contained in each square.</p>
@@ -4176,43 +4044,26 @@ Intersection"/>
                         <p>Use 2d array to directly index relevant square.</p>
                     </step>
                     <step>
-                        <p>Insert: add
-                            <math>(x, y)</math>
-                            to list for corresponding square.
-                        </p>
+                        <p>Insert: add <math>(x, y)</math> to list for corresponding square.</p>
                     </step>
                     <step>
-                        <p>Range search: examine only squares that intersect 2d range
-                            query.</p>
+                        <p>Range search: examine only squares that intersect 2d range query.</p>
                     </step>
                 </procedure>
-                <p>
-                    <format color="BlueViolet">Properties:</format>
-                </p>
+                <p><format color="BlueViolet">Properties:</format></p>
                 <list type="bullet">
                     <li>
-                        <p>Space:
-                            <math>M ^ {2} + N</math>
-                        </p>
+                        <p><format color="Fuchsia">Space:</format> <math>M ^ {2} + N</math></p>
                     </li>
                     <li>
-                        <p>Time:
-                            <math>1 + \frac {N}{M ^ {2}}</math>
-                            per square examined,
-                            on average.
-                        </p>
+                        <p><format color="Fuchsia">Time:</format> <math>1 + \frac {N}{M ^ {2}}</math> per square
+                            examined, on average.</p>
                     </li>
                 </list>
-                <p>
-                    <format color="BlueViolet">Problems:</format>
-                </p>
+                <p><format color="BlueViolet">Problems:</format></p>
                 <list type="bullet">
                     <li>
-                        <p>
-                            <format color="OrangeRed">Clustering</format>
-                            : a well-known
-                            phenomenon in geometric data.
-                        </p>
+                        <p><format color="OrangeRed">Clustering:</format> a well-known phenomenon in geometric data.</p>
                     </li>
                     <li>
                         <p>Lists are too long, even though average length is short.</p>
@@ -4223,36 +4074,14 @@ Intersection"/>
                 </list>
             </chapter>
             <chapter title="11.3.2 Space-Partitioning Trees" id="11-3-2-space-partitioning-trees">
-                <p>
-                    <format color="DarkOrange">Space-Partitioning Trees:</format>
-                    Use
-                    a tree to represent a recursive subdivision of a 2d space.
-                </p>
-                <p>
-                    <format color="DarkOrange">2d Trees:</format>
-                    Recursively divide
-                    space into two halfplanes.
-                </p>
-                <p>
-                    <format color="BlueViolet">Applications:</format>
-                    Ray tracing,
-                    2d range search, Flight simulators, N-body simulation, Nearest
-                    neighbor search, Accelerate rendering in Doom, etc.
-                </p>
-                <chapter id="part-2d-trees">
-                    <title>
-                        Part Ⅰ 2d Trees
-                    </title>
-                    <p>
-                        <format color="BlueViolet">Data Structure:</format>
-                        BST, but
-                        alternate using
-                        <math>x</math>
-                        - and
-                        <math>y</math>
-                        - coordinates as
-                        key.
-                    </p>
+                <p><format color="DarkOrange">Space-Partitioning Trees:</format> Use a tree to represent a recursive
+                    subdivision of a 2d space.</p>
+                <p><format color="DarkOrange">2d Trees:</format> Recursively divide space into two halfplanes.</p>
+                <p><format color="BlueViolet">Applications:</format> Ray tracing, 2d range search, Flight simulators,
+                    N-body simulation, Nearest neighbor search, Accelerate rendering in Doom, etc.</p>
+                <chapter title="Part 1 2d Trees" id="part-2d-trees">
+                    <p><format color="BlueViolet">Data Structure:</format> BST, but alternate using <math>x</math>
+                        - and <math>y</math>- coordinates as key.</p>
                     <list type="bullet">
                         <li>
                             <p>Search gives rectangle containing point.</p>
@@ -4262,8 +4091,7 @@ Intersection"/>
                         </li>
                     </list>
                     <img src="../images_data/d11-2-2.png" alt="2d tree implementation"/>
-                    <procedure title="Range Search - Find all points in a query
-axis-aligned rectangle">
+                    <procedure title="Range Search - Find all points in a query axis-aligned rectangle">
                         <step>
                             <p>Check if point in node lies in given rectangle.</p>
                         </step>
@@ -4274,142 +4102,84 @@ axis-aligned rectangle">
                             <p>Recursively search right/top (if any could fall in rectangle).</p>
                         </step>
                     </procedure>
-                    <p>
-                        <format color="BlueViolet">Properties:</format>
-                    </p>
+                    <p><format color="BlueViolet">Properties</format></p>
                     <list type="bullet">
                         <li>
-                            <p>Typical case:
-                                <math>R + \log N</math>
-                            </p>
+                            <p>Typical case: <math>R + \log N</math></p>
                         </li>
                         <li>
-                            <p>Worst case (assuming tree is balanced):
-                                <math>R + \sqrt{N}</math>
-                            </p>
+                            <p>Worst case (assuming tree is balanced): <math>R + \sqrt{N}</math></p>
                         </li>
                     </list>
-                    <procedure title="Nearest Neighbor Search - Find closest point to
-query point">
+                    <procedure title="Nearest Neighbor Search - Find closest point to query point">
                         <step>
                             <p>Check distance from point in node to query point.</p>
                         </step>
                         <step>
-                            <p>Recursively search left/bottom (if it could contain a closer
-                                point).</p>
+                            <p>Recursively search left/bottom (if it could contain a closer point).</p>
                         </step>
                         <step>
-                            <p>Recursively search right/top (if it could contain a closer
-                                point).</p>
+                            <p>Recursively search right/top (if it could contain a closer point).</p>
                         </step>
                         <step>
                             <p>Organize method so that it begins by searching for query point.</p>
                         </step>
                     </procedure>
-                    <p>
-                        <format color="BlueViolet">Properties:</format>
-                    </p>
+                    <p><format color="BlueViolet">Properties:</format></p>
                     <list type="bullet">
                         <li>
-                            <p>Typical case:
-                                <math>\log N</math>
-                            </p>
+                            <p>Typical case: <math>\log N</math></p>
                         </li>
                         <li>
-                            <p>Worst case (even if tree is balanced):
-                                <math>N</math>
-                            </p>
+                            <p>Worst case (even if tree is balanced): <math>N</math></p>
                         </li>
                     </list>
                 </chapter>
-                <chapter id="part-kd-trees">
-                    <title>
-                        Part Ⅱ Kd Trees
-                    </title>
-                    <p>
-                        <format color="DarkOrange">Kd Tree:</format>
-                        Recursively
-                        partition
-                        <math>k</math>
-                        -dimensional space into 2 halfspaces.
-                    </p>
-                    <p>
-                        <format color="BlueViolet">Implementation:</format>
-                        BST, but
-                        cycle through dimensions ala 2d trees.
-                    </p>
+                <chapter title="Part 2 Kd Trees" id="part-kd-trees">
+                    <p><format color="DarkOrange">Kd Tree:</format> Recursively partition <math>k</math>-dimensional
+                        space into 2 halfspaces.</p>
+                    <p><format color="BlueViolet">Implementation:</format> BST, but cycle through dimensions ala 2d
+                        trees.</p>
                 </chapter>
-                <chapter id="part-n-body-simulation">
-                    <title>
-                        Part Ⅲ N-body Simulation
-                    </title>
-                    <p>
-                        <format color="BlueViolet">Goal:</format>
-                        Simulate the motion
-                        of
-                        <math>N</math>
-                        particles, mutually affected by gravity.
-                    </p>
+                <chapter title="Part 3 N-body Simulation" id="part-n-body-simulation">
+                    <p><format color="BlueViolet">Goal:</format> Simulate the motion of <math>N</math> particles,
+                        mutually affected by gravity.</p>
                     <procedure title="Appel's Algorithm for N-body Simulation">
                         <step>
-                            <p>Build 3d-tree with
-                                <math>N</math>
-                                particles as nodes.
-                            </p>
+                            <p>Build 3d-tree with <math>N</math> particles as nodes.</p>
                         </step>
                         <step>
                             <p>Store center-of-mass of subtree in each node.</p>
                         </step>
                         <step>
-                            <p>To compute total force acting on a particle, traverse tree, but
-                                stop as soon as distance from particle to subdivision is sufficiently
-                                large.</p>
+                            <p>To compute total force acting on a particle, traverse tree, but stop as soon as distance
+                                from particle to subdivision is sufficiently large.</p>
                         </step>
                     </procedure>
-                    <p>
-                        <format color="BlueViolet">Properties:</format>
-                        Running time
-                        per step is
-                        <math>N \log N</math>
-                        .
-                    </p>
+                    <p><format color="BlueViolet">Properties:</format> Running time per step is <math>N \log N</math>
+                        .</p>
                 </chapter>
             </chapter>
         </chapter>
         <chapter title="11.4 Interval Search Tree" id="11-4-interval-search-tree">
-            <p>Create BST, where each node stores an interval
-                <math>(lo, hi)
-                </math>
-                .
-            </p>
+            <p>Create BST, where each node stores an interval <math>(lo, hi)</math>.</p>
             <list type="bullet">
                 <li>
-                    <p>Use left endpoint as BST
-                        <format color="OrangeRed">key</format>
-                        .
-                    </p>
+                    <p>Use left endpoint as BST <format color="OrangeRed">key</format>.</p>
                 </li>
                 <li>
-                    <p>Store
-                        <format color="BlueViolet">max endpoint</format>
-                        in
-                        subtree rooted at node.
-                    </p>
+                    <p>Store <format color="BlueViolet">max endpoint</format> in subtree rooted at node.</p>
                 </li>
             </list>
             <procedure title="Insertion for Interval Search Tree">
                 <step>
-                    <p>Insert into BST, using
-                        <math>lo</math>
-                        as the key.
-                    </p>
+                    <p>Insert into BST, using <math>lo</math> as the key.</p>
                 </step>
                 <step>
                     <p>Update max in each node on search path.</p>
                 </step>
             </procedure>
-            <procedure title="Interval Search for Interval Search Tree"
-                       type="choices">
+            <procedure title="Interval Search for Interval Search Tree" type="choices">
                 <step>
                     <p>If interval in node intersects query interval, return it.</p>
                 </step>
@@ -4423,19 +4193,16 @@ query point">
                     <p>Else go left.</p>
                 </step>
             </procedure>
-            <p>Order of growth of running time for
-                <math>N</math>
-                intervals.
-            </p>
+            <p>Order of growth of running time for <math>N</math> intervals.</p>
             <table style="header-row">
                 <tr>
-                    <td>operation</td>
-                    <td>brute</td>
-                    <td>interval search tree</td>
-                    <td>best in theory</td>
+                    <td>Operation</td>
+                    <td>Brute</td>
+                    <td>Interval search tree</td>
+                    <td>Best in theory</td>
                 </tr>
                 <tr>
-                    <td>insert interval</td>
+                    <td>Insert interval</td>
                     <td>
                         <math>1</math>
                     </td>
@@ -4447,7 +4214,7 @@ query point">
                     </td>
                 </tr>
                 <tr>
-                    <td>find interval</td>
+                    <td>Find interval</td>
                     <td>
                         <math>N</math>
                     </td>
@@ -4459,7 +4226,7 @@ query point">
                     </td>
                 </tr>
                 <tr>
-                    <td>delete interval</td>
+                    <td>Delete interval</td>
                     <td>
                         <math>N</math>
                     </td>
@@ -4471,10 +4238,8 @@ query point">
                     </td>
                 </tr>
                 <tr>
-                    <td>find
-                        <format color="OrangeRed">any one</format>
-                        interval
-                        that intersects
+                    <td>
+                        Find <format color="OrangeRed">any one</format> interval that intersects
                         <math>(lo, hi)</math>
                     </td>
                     <td>
@@ -4488,11 +4253,8 @@ query point">
                     </td>
                 </tr>
                 <tr>
-                    <td>find
-                        <format color="OrangeRed">all</format>
-                        interval
-                        that intersects
-                        <math>(lo, hi)</math>
+                    <td>
+                        find <format color="OrangeRed">all</format> interval that intersects <math>(lo, hi)</math>
                     </td>
                     <td>
                         <math>N</math>
@@ -4507,85 +4269,39 @@ query point">
             </table>
         </chapter>
         <chapter title="11.5 Rectangle Intersection" id="11-5-rectangle-intersection">
-            <p>
-                <format color="BlueViolet">Sweep-line Algorithm</format>
-            </p>
+            <p><format color="BlueViolet">Sweep-line Algorithm</format></p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <math>x</math>
-                        -coordinates of left and right endpoints define
-                        events.
-                    </p>
+                    <p><math>x</math>-coordinates of left and right endpoints define events.</p>
                 </li>
                 <li>
-                    <p>Maintain set of rectangles that intersect the sweep line in an
-                        interval search tree (using
-                        <math>y</math>
-                        -intervals of rectangle).
-                    </p>
+                    <p>Maintain set of rectangles that intersect the sweep line in an interval search tree (using
+                        <math>y</math>-intervals of rectangle).</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Left endpoint:</format>
-                        interval search for
-                        <math>y</math>
-                        -interval of rectangle; insert
-                        <math>y</math>
-                        -interval.
-                    </p>
+                    <p><format color="Fuchsia">Left endpoint:</format> interval search for <math>y</math>-interval of
+                        rectangle; insert <math>y</math>-interval.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Right endpoint:</format>
-                        remove
-                        <math>y
-                        </math>
-                        -interval.
-                    </p>
+                    <p><format color="Fuchsia">Right endpoint:</format> remove <math>y</math>-interval.</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Property:</format>
-                Sweep line
-                algorithm takes time proportional to
-                <math>N \log N + R \log N</math>
-                to find
-                <math>R</math>
-                intersections among a set of
-                <math>N</math>
-                rectangles.
-            </p>
-            <p>
-                <format color="LawnGreen">Proof</format>
-            </p>
+            <p><format color="BlueViolet">Property:</format> Sweep line algorithm takes time proportional to
+                <math>N \log N + R \log N</math> to find <math>R</math> intersections among a set of
+                <math>N</math> rectangles.</p>
+            <p><format color="LawnGreen">Proof</format></p>
             <list type="bullet">
                 <li>
-                    <p>Put
-                        <math>x</math>
-                        -coordinates on a PQ (or sort) =>
-                        <math>N \log N</math>
-                    </p>
+                    <p>Put <math>x</math>-coordinates on a PQ (or sort) =&gt; <math>N \log N</math></p>
                 </li>
                 <li>
-                    <p>Insert
-                        <math>y</math>
-                        -intervals into ST =>
-                        <math>N \log N</math>
-                    </p>
+                    <p>Insert <math>y</math>-intervals into ST =&gt; <math>N \log N</math></p>
                 </li>
                 <li>
-                    <p>Delete
-                        <math>y</math>
-                        -intervals from ST =>
-                        <math>N \log N</math>
-                    </p>
+                    <p>Delete <math>y</math>-intervals from ST =&gt; <math>N \log N</math></p>
                 </li>
                 <li>
-                    <p>Interval searches for y-intervals =>
-                        <math>N \log N + R \log N
-                        </math>
-                    </p>
+                    <p>Interval searches for y-intervals =&gt; <math>N \log N + R \log N</math></p>
                 </li>
             </list>
         </chapter>
@@ -4594,15 +4310,8 @@ query point">
         <table style="none">
             <tr>
                 <td rowspan="2">Implementation</td>
-                <td colspan="3">Worst-Case Cost (after
-                    <math>N</math>
-                    inserts)
-                </td>
-                <td colspan="3">Average Case (after
-                    <math>N</math>
-                    random
-                    inserts)
-                </td>
+                <td colspan="3">Worst-Case Cost (after <math>N</math> inserts)</td>
+                <td colspan="3">Average Case (after <math>N</math> random inserts)</td>
                 <td rowspan="2">Ordered Iteration?</td>
                 <td rowspan="2">Key Interface</td>
             </tr>
