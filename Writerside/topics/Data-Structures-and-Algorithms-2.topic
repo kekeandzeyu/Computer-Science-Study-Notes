@@ -4464,8 +4464,7 @@
                 <td><code>equals</code><code>hashCode()</code></td>
             </tr>
             <tr>
-                <td><a anchor="linear-probing" summary="Linear Probing">Linear
-                    Probing</a></td>
+                <td><a anchor="linear-probing" summary="Linear Probing">Linear Probing</a></td>
                 <td>
                     <math>\log N</math>
                 </td>
@@ -4489,58 +4488,33 @@
             </tr>
         </table>
         <chapter title="12.1 Hash Tables" id="12-1-hash-tables">
-            <p>
-                <format color="BlueViolet">Definitions</format>
-            </p>
+            <p><format color="BlueViolet">Definitions</format></p>
             <list type="decimal">
                 <li>
-                    <p>
-                        <format color="OrangeRed">Hashing</format>
-                        : Save items in a
-                        key-indexed table (index is a function of the key).
-                    </p>
+                    <p><format color="OrangeRed">Hashing:</format> Save items in a key-indexed table (index is a
+                        function of the key).</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="OrangeRed">Hash function</format>
-                        : Method for
-                        computing array index from key.
-                    </p>
+                    <p><format color="OrangeRed">Hash function:</format> Method for computing array index from key.</p>
                     <p>Issues:</p>
                     <list type="alpha-lower">
                         <li>
-                            <p>
-                                <format color="Fuchsia">Equality test</format>
-                                : Method
-                                for checking whether two keys are equal.
-                            </p>
+                            <p><format color="Fuchsia">Equality test:</format> Method for checking whether two keys are
+                                equal.</p>
                         </li>
                         <li>
-                            <p>
-                                <format color="Fuchsia">Collision resolution</format>
-                                :
-                                Algorithm and data structure to handle two keys that hash to the
-                                same array index.
-                            </p>
+                            <p><format color="Fuchsia">Collision resolution:</format> Algorithm and data structure to
+                                handle two keys that hash to the same array index.</p>
                         </li>
                     </list>
                 </li>
                 <li>
-                    <p>
-                        <format color="OrangeRed">Hash code</format>
-                        : An int between
-                        <math>-2^31</math>
-                        and
-                        <math>2^31-1</math>
-                        .
-                    </p>
+                    <p><format color="OrangeRed">Hash code:</format> An int between <math>-2^31</math> and
+                        <math>2^31-1</math>.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="OrangeRed">Hash function</format>
-                        : An int
-                        between 0 and M-1 (for use of array index).
-                    </p>
+                    <p><format color="OrangeRed">Hash function:</format> An int between <math>0</math> and
+                        <math>M-1</math> (for use of array index).</p>
                 </li>
             </list>
             <note>
@@ -4548,15 +4522,15 @@
             </note>
             <code-block lang="java" collapsible="true">
                 public final class StringTest {
-                private final char[] s = "Hello, World!".toCharArray();
-                
-                public int hash() {
-                int hash = 0;
-                for (int i = 0; i &lt; s.length; i++) {
-                hash = (31 * hash) + s[i];
-                }
-                return hash;
-                }
+                    private final char[] s = "Hello, World!".toCharArray();
+
+                    public int hash() {
+                        int hash = 0;
+                        for (int i = 0; i &lt; s.length; i++) {
+                            hash = (31 * hash) + s[i];
+                        }
+                        return hash;
+                    }
                 }
             </code-block>
         </chapter>
@@ -4567,90 +4541,64 @@
             <chapter title="12.2.1 Separate Chaining" id="separate-chaining">
                 <list type="alpha-lower">
                     <li>
-                        <p>
-                            <format color="Fuchsia">Hash:</format>
-                            map key to integer
-                            <math>i</math>
-                            between
-                            <math>0</math>
-                            and
-                            <math>M - 1</math>
-                            .
-                        </p>
+                        <p><format color="Fuchsia">Hash:</format> map key to integer <math>i</math> between
+                            <math>0</math> and <math>M - 1</math>.</p>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Insert:</format>
-                            put at front of
-                            <math>i ^ {\text{th}}</math>
-                            chain (if not already there).
-                        </p>
+                        <p><format color="Fuchsia">Insert:</format> put at front of
+                            <math>i ^ {\text{th}}</math> chain (if not already there).</p>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Search:</format>
-                            need to search
-                            only
-                            <math>i ^ {\text{th}}</math>
-                            chain.
-                        </p>
+                        <p><format color="Fuchsia">Search:</format> need to search only <math>i ^ {\text{th}}</math>
+                            chain.</p>
                     </li>
                 </list>
                 <img src="../images_data/d12-2-1.png" alt="Separate Chaining"/>
-                <p>
-                    <format color="BlueViolet">Properties</format>
-                </p>
+                <p><format color="BlueViolet">Properties</format></p>
                 <list type="bullet">
                     <li>
-                        <p>Number of probes for search/insert/delete is proportional to
-                            <math>\frac {N}{M}</math>
-                            .
-                        </p>
+                        <p>Number of probes for search/insert/delete is proportional to <math>\frac {N}{M}</math>.</p>
                     </li>
                     <li>
-                        <p>Typical choice:
-                            <math>M \sim \frac {N}{5}</math>
-                            (constant
-                            operations)
-                        </p>
+                        <p>Typical choice: <math>M \sim \frac {N}{5}</math> (constant operations)</p>
                     </li>
                 </list>
                 <tabs>
                     <tab title="Java">
                         <code-block lang="java" collapsible="true">
                             public class SeparateChainingHashST {
-                            private final int M = 97; // number of chains
-                            private final Node[] st = new Node[M]; // array of chains
+                                private final int M = 97; // number of chains
+                                private final Node[] st = new Node[M]; // array of chains
                             
-                            private static class Node {
-                            private final Object key;
-                            private Object val;
-                            private final Node next;
+                                private static class Node {
+                                    private final Object key;
+                                    private Object val;
+                                    private final Node next;
                             
-                            public Node(Object key, Object val, Node node) {
-                            this.key = key;
-                            this.val = val;
-                            this.next = node;
-                            }
-                            }
+                                    public Node(Object key, Object val, Node node) {
+                                        this.key = key;
+                                        this.val = val;
+                                        this.next = node;
+                                    }
+                                }
                             
-                            private int hash(Object key) {
-                            return (key.hashCode() &amp; 0x7fffffff) % M; // no bug
-                            }
+                                private int hash(Object key) {
+                                    return (key.hashCode() &amp; 0x7fffffff) % M; // no bug
+                                }
                             
-                            public Object get(Object key) {
-                            int i = hash(key);
-                            for (Node x = st[i]; x != null; x = x.next)
-                            if (key.equals(x.key)) return x.val;
-                            return null;
-                            }
+                                public Object get(Object key) {
+                                    int i = hash(key);
+                                    for (Node x = st[i]; x != null; x = x.next)
+                                        if (key.equals(x.key)) return x.val;
+                                    return null;
+                                }
                             
-                            public void put(Object key, Object val) {
-                            int i = hash(key);
-                            for (Node x = st[i]; x != null; x = x.next)
-                            if (key.equals(x.key)) { x.val = val; return; }
-                            st[i] = new Node(key, val, st[i]);
-                            }
+                                public void put(Object key, Object val) {
+                                    int i = hash(key);
+                                    for (Node x = st[i]; x != null; x = x.next)
+                                        if (key.equals(x.key)) { x.val = val; return; }
+                                    st[i] = new Node(key, val, st[i]);
+                                }
                             }
                         </code-block>
                     </tab>
@@ -4663,43 +4611,43 @@
                             template&lt;typename Key, typename Value&gt;
                             class HashTable {
                             public:
-                            explicit HashTable(size_t size) : table(size) {}
+                                explicit HashTable(size_t size) : table(size) {}
                             
-                            void insert(Key key, Value value) {
-                            size_t hashValue = hashFunction(key);
-                            auto&amp; chain = table[hashValue];
-                            for (auto&amp; pair : chain) {
-                            if (pair.first == key) {
-                            pair.second = value;
-                            return;
-                            }
-                            }
-                            chain.emplace_back(key, value);
-                            }
+                                void insert(Key key, Value value) {
+                                    size_t hashValue = hashFunction(key);
+                                    auto&amp; chain = table[hashValue];
+                                    for (auto&amp; pair : chain) {
+                                        if (pair.first == key) {
+                                            pair.second = value;
+                                            return;
+                                        }
+                                    }
+                                    chain.emplace_back(key, value);
+                                }
                             
-                            std::optional&lt;Value&gt; get(Key key) {
-                            size_t hashValue = hashFunction(key);
-                            auto&amp; chain = table[hashValue];
-                            for (auto&amp; pair : chain) {
-                            if (pair.first == key) {
-                            return pair.second;
-                            }
-                            }
-                            return {};
-                            }
+                                std::optional&lt;Value&gt; get(Key key) {
+                                    size_t hashValue = hashFunction(key);
+                                    auto&amp; chain = table[hashValue];
+                                    for (auto&amp; pair : chain) {
+                                        if (pair.first == key) {
+                                            return pair.second;
+                                        }
+                                    }
+                                    return {};
+                                }
                             
-                            void remove(Key key) {
-                            size_t hashValue = hashFunction(key);
-                            auto&amp; chain = table[hashValue];
-                            chain.remove_if([key](auto pair) { return pair.first == key; });
-                            }
+                                void remove(Key key) {
+                                    size_t hashValue = hashFunction(key);
+                                    auto&amp; chain = table[hashValue];
+                                    chain.remove_if([key](auto pair) { return pair.first == key; });
+                                }
                             
                             private:
-                            std::vector&lt;std::list&lt;std::pair&lt;Key, Value&gt;&gt;&gt; table;
-                            
-                            size_t hashFunction(Key key) {
-                            return key % table.size();
-                            }
+                                std::vector&lt;std::list&lt;std::pair&lt;Key, Value&gt;&gt;&gt; table;
+
+                                size_t hashFunction(Key key) {
+                                    return key % table.size();
+                                }
                             };
                         </code-block>
                     </tab>
@@ -4708,15 +4656,10 @@
             <chapter title="12.2.2 Variant - Two-Probe Hashing" id="12-2-2-variant-two-probe-hashing">
                 <list type="bullet">
                     <li>
-                        <p>Hash to two positions, insert key in shorter of the two chains.
-                        </p>
+                        <p>Hash to two positions, insert key in shorter of the two chains.</p>
                     </li>
                     <li>
-                        <p>Reduces expected length of the longest chain to
-                            <math>\log \log N
-                            </math>
-                            .
-                        </p>
+                        <p>Reduces expected length of the longest chain to <math>\log \log N</math>.</p>
                     </li>
                 </list>
             </chapter>
@@ -4726,108 +4669,67 @@
                 12.3 Collision Solution Ⅱ - Open Addressing
             </title>
             <chapter title="12.3.1 Linear Probing" id="linear-probing">
-                <p>
-                    <format color="DarkOrange">Open addressing:</format>
-                    When a new
-                    key collides, find next empty slot, and put it there.
-                </p>
+                <p><format color="DarkOrange">Open addressing:</format> When a new key collides, find next empty slot,
+                    and put it there.</p>
                 <list type="alpha-lower">
                     <li>
-                        <p>
-                            <format color="Fuchsia">Hash:</format>
-                            Map key to integer
-                            <math>i</math>
-                            between
-                            <math>0</math>
-                            and
-                            <math>M - 1</math>
-                            .
-                        </p>
+                        <p><format color="Fuchsia">Hash:</format> Map key to integer <math>i</math> between
+                            <math>0</math> and <math>M - 1</math>.</p>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Search:</format>
-                            Search table
-                            index
-                            <math>i</math>
-                            ; if occupied but no match, try
-                            <math>i+1</math>
-                            ,
-                            <math>i+2</math>
-                            , etc..
-                        </p>
+                        <p><format color="Fuchsia">Search:</format> Search table index <math>i</math>; if occupied but
+                            no match, try <math>i+1</math>, <math>i+2</math>, etc..</p>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Insert:</format>
-                            Put at table
-                            index
-                            <math>i</math>
-                            if free; if not try
-                            <math>i+1</math>
-                            ,
-                            <math>i+2
-                            </math>
-                            , etc.
-                        </p>
+                        <p><format color="Fuchsia">Insert:</format> Put at table index <math>i</math> if free; if not
+                            try <math>i+1</math>, <math>i+2</math>, etc.</p>
                     </li>
                 </list>
-                <p>Under uniform hashing assumption, the average numbers of probes in
-                    a linear probing hash table of size M that contains
-                    <math>N = \alpha M
-                    </math>
-                    keys is:
-                </p>
+                <p>Under uniform hashing assumption, the average numbers of probes in a linear probing hash table of
+                    size <math>M</math> that contains <math>N = \alpha M</math> keys is:</p>
                 <list type="bullet">
                     <li>
-                        <p>
-                            <format color="Fuchsia">Search hit:</format>
-                            <math>\sim
-                                \frac{1}{2} \left(1 + \frac{1}{1 - \alpha}\right)
-                            </math>
-                        </p>
+                        <p><format color="Fuchsia">Search hit:</format> <math>\sim \frac{1}{2} \left(1 + \frac{1}{1 - \alpha}\right)
+                        </math></p>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Search miss / insert:</format>
-                            <math>\sim \frac{1}{2} \left(1 + \frac{1}{(1 - \alpha)^2}\right)
-                            </math>
-                        </p>
+                        <p><format color="Fuchsia">Search miss / insert:</format>
+                            <math>\sim \frac{1}{2} \left(1 + \frac{1}{(1 - \alpha)^2}\right)</math></p>
                     </li>
                 </list>
                 <tabs>
                     <tab title="Java">
                         <code-block lang="java" collapsible="true">
                             public class LinearProbingHashST&lt;Key, Value&gt; {
-                            private final int M = 30001;
-                            private final Key[] keys = (Key[]) new Object[M];
-                            private final Value[] vals = (Value[]) new Object[M];
+                                private final int M = 30001;
+                                private final Key[] keys = (Key[]) new Object[M];
+                                private final Value[] vals = (Value[]) new Object[M];
                             
-                            /* Map key to integer i between 0 and M - 1. */
-                            private int hash(Key key) {
-                            return (key.hashCode() &amp; 0x7fffffff) % M;
-                            }
+                                /* Map key to integer i between 0 and M - 1. */
+                                private int hash(Key key) {
+                                    return (key.hashCode() &amp; 0x7fffffff) % M;
+                                }
                             
-                            /* Put at table index i if free; if not try i+1, i+2, etc. */
-                            public void put(Key key, Value val) {
-                            int i;
-                            for (i = hash(key); keys[i] != null; i = (i + 1) % M) {
-                            if (keys[i].equals(key)) {
-                            vals[i] = val;
-                            return;
-                            }
-                            }
-                            keys[i] = key;
-                            vals[i] = val;
-                            }
+                                /* Put at table index i if free; if not try i+1, i+2, etc. */
+                                public void put(Key key, Value val) {
+                                    int i;
+                                    for (i = hash(key); keys[i] != null; i = (i + 1) % M) {
+                                        if (keys[i].equals(key)) {
+                                            vals[i] = val;
+                                            return;
+                                        }
+                                    }
+                                    keys[i] = key;
+                                    vals[i] = val;
+                                }
                             
-                            /* Search table index i; if occupied but not match, try i+1, i+2, etc. */
-                            public Value get(Key key) {
-                            for (int i = hash(key); keys[i] != null; i = (i + 1) % M)
-                            if (keys[i].equals(key))
-                            return vals[i];
-                            return null;
-                            }
+                                /* Search table index i; if occupied but not match, try i+1, i+2, etc. */
+                                public Value get(Key key) {
+                                    for (int i = hash(key); keys[i] != null; i = (i + 1) % M)
+                                    if (keys[i].equals(key))
+                                        return vals[i];
+                                    return null;
+                                }
                             }
                         </code-block>
                     </tab>
@@ -4835,148 +4737,146 @@
                         <code-block lang="java" collapsible="true">
                             public class LinearProbingHashST&lt;Key, Value&gt; {
                             
-                            // must be a power of 2
-                            private static final int INIT_CAPACITY = 4;
+                                // must be a power of 2
+                                private static final int INIT_CAPACITY = 4;
+
+                                private int n; // number of key-value pairs in the symbol table
+                                private int m; // size of linear probing table
+                                private Key[] keys; // the keys
+                                private Value[] vals; // the values
                             
-                            private int n; // number of key-value pairs in the symbol table
-                            private int m; // size of linear probing table
-                            private Key[] keys; // the keys
-                            private Value[] vals; // the values
                             
+                                public LinearProbingHashST() {
+                                    this(INIT_CAPACITY);
+                                }
                             
-                            public LinearProbingHashST() {
-                            this(INIT_CAPACITY);
-                            }
+                                public LinearProbingHashST(int capacity) {
+                                    m = capacity;
+                                    n = 0;
+                                    keys = (Key[]) new Object[m];
+                                    vals = (Value[]) new Object[m];
+                                }
                             
-                            public LinearProbingHashST(int capacity) {
-                            m = capacity;
-                            n = 0;
-                            keys = (Key[]) new Object[m];
-                            vals = (Value[]) new Object[m];
-                            }
+                                public int size() {
+                                    return n;
+                                }
                             
-                            public int size() {
-                            return n;
-                            }
+                                public boolean isEmpty() {
+                                    return size() == 0;
+                                }
                             
-                            public boolean isEmpty() {
-                            return size() == 0;
-                            }
+                                public boolean contains(Key key) {
+                                    if (key == null) throw new IllegalArgumentException("argument to contains() is null");
+                                    return get(key) != null;
+                                }
+
+                                // hash function for keys - returns value between 0 and m-1
+                                private int hashTextbook(Key key) {
+                                    return (key.hashCode() &amp; 0x7fffffff) % m;
+                                }
                             
-                            public boolean contains(Key key) {
-                            if (key == null) throw new IllegalArgumentException("argument to contains() is null");
-                            return get(key) != null;
-                            }
+                                // hash function for keys - returns value between 0 and m-1 (assumes m is a power of 2)
+                                // (from Java 7 implementation, protects against poor quality hashCode() implementations)
+                                private int hash(Key key) {
+                                    int h = key.hashCode();
+                                    h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12) ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);
+                                    return h &amp; (m - 1);
+                                }
                             
-                            // hash function for keys - returns value between 0 and m-1
-                            private int hashTextbook(Key key) {
-                            return (key.hashCode() &amp; 0x7fffffff) % m;
-                            }
+                                // resizes the hash table to the given capacity by re-hashing all of the keys
+                                private void resize(int capacity) {
+                                    LinearProbingHashST&lt;Key, Value&gt; temp = new LinearProbingHashST&lt;Key, Value&gt;(capacity);
+                                    for (int i = 0; i &lt; m; i++) {
+                                        if (keys[i] != null) {
+                                            temp.put(keys[i], vals[i]);
+                                        }
+                                    }
+                                    keys = temp.keys;
+                                    vals = temp.vals;
+                                    m = temp.m;
+                                }
                             
-                            // hash function for keys - returns value between 0 and m-1 (assumes m is a power of 2)
-                            // (from Java 7 implementation, protects against poor quality hashCode() implementations)
-                            private int hash(Key key) {
-                            int h = key.hashCode();
-                            h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12) ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);
-                            return h &amp; (m - 1);
-                            }
+                                public void put(Key key, Value val) {
+                                    if (key == null) throw new IllegalArgumentException("first argument to put() is null");
+
+                                    if (val == null) {
+                                        delete(key);
+                                        return;
+                                    }
+
+                                    // double table size if 50% full
+                                    if (n &gt;= m / 2) resize(2 * m);
+
+                                    int i;
+                                    for (i = hash(key); keys[i] != null; i = (i + 1) % m) {
+                                        if (keys[i].equals(key)) {
+                                            vals[i] = val;
+                                            return;
+                                        }
+                                    }
+                                    keys[i] = key;
+                                    vals[i] = val;
+                                    n++;
+                                }
                             
-                            // resizes the hash table to the given capacity by re-hashing all of the keys
-                            private void resize(int capacity) {
-                            LinearProbingHashST&lt;Key, Value&gt; temp = new LinearProbingHashST&lt;Key, Value&gt;(capacity);
-                            for (int i = 0; i &lt; m; i++) {
-                            if (keys[i] != null) {
-                            temp.put(keys[i], vals[i]);
-                            }
-                            }
-                            keys = temp.keys;
-                            vals = temp.vals;
-                            m = temp.m;
-                            }
+                                // Returns the value associated with the specified key.
+                                public Value get(Key key) {
+                                    if (key == null) throw new IllegalArgumentException("argument to get() is null");
+                                    for (int i = hash(key); keys[i] != null; i = (i + 1) % m)
+                                        if (keys[i].equals(key)) return vals[i];
+                                    return null;
+                                }
                             
-                            public void put(Key key, Value val) {
-                            if (key == null) throw new IllegalArgumentException("first argument to put() is null");
+                                public void delete(Key key) {
+                                    if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+                                    if (!contains(key)) return;
+
+                                    // find position i of key
+                                    int i = hash(key);
+                                    while (!key.equals(keys[i])) {
+                                    i = (i + 1) % m;
+                                    }
+
+                                    // delete key and associated value
+                                    keys[i] = null;
+                                    vals[i] = null;
+
+                                    // rehash all keys in same cluster
+                                    i = (i + 1) % m;
+                                    while (keys[i] != null) {
+                                    // delete keys[i] and vals[i] and reinsert
+                                    Key keyToRehash = keys[i];
+                                    Value valToRehash = vals[i];
+                                    keys[i] = null;
+                                    vals[i] = null;
+                                    n--;
+                                    put(keyToRehash, valToRehash);
+                                    i = (i + 1) % m;
+                                    }
+
+                                    n--;
+
+                                    // halves size of array if it's 12.5% full or less
+                                    if (n &gt; 0 &amp;&amp; n &lt;= m / 8) resize(m / 2);
+
+                                    assert check();
+                                }
                             
-                            if (val == null) {
-                            delete(key);
-                            return;
-                            }
-                            
-                            // double table size if 50% full
-                            if (n &gt;= m / 2) resize(2 * m);
-                            
-                            int i;
-                            for (i = hash(key); keys[i] != null; i = (i + 1) % m) {
-                            if (keys[i].equals(key)) {
-                            vals[i] = val;
-                            return;
-                            }
-                            }
-                            keys[i] = key;
-                            vals[i] = val;
-                            n++;
-                            }
-                            
-                            // Returns the value associated with the specified key.
-                            public Value get(Key key) {
-                            if (key == null) throw new IllegalArgumentException("argument to get() is null");
-                            for (int i = hash(key); keys[i] != null; i = (i + 1) % m)
-                            if (keys[i].equals(key))
-                            return vals[i];
-                            return null;
-                            }
-                            
-                            public void delete(Key key) {
-                            if (key == null) throw new IllegalArgumentException("argument to delete() is null");
-                            if (!contains(key)) return;
-                            
-                            // find position i of key
-                            int i = hash(key);
-                            while (!key.equals(keys[i])) {
-                            i = (i + 1) % m;
-                            }
-                            
-                            // delete key and associated value
-                            keys[i] = null;
-                            vals[i] = null;
-                            
-                            // rehash all keys in same cluster
-                            i = (i + 1) % m;
-                            while (keys[i] != null) {
-                            // delete keys[i] and vals[i] and reinsert
-                            Key keyToRehash = keys[i];
-                            Value valToRehash = vals[i];
-                            keys[i] = null;
-                            vals[i] = null;
-                            n--;
-                            put(keyToRehash, valToRehash);
-                            i = (i + 1) % m;
-                            }
-                            
-                            n--;
-                            
-                            // halves size of array if it's 12.5% full or less
-                            if (n &gt; 0 &amp;&amp; n &lt;= m / 8) resize(m / 2);
-                            
-                            assert check();
-                            }
-                            
-                            private boolean check() {
-                            
-                            if (m &lt; 2 * n) {
-                            System.err.println("Hash table size m = " + m + "; array size n = " + n);
-                            return false;
-                            }
-                            
-                            for (int i = 0; i &lt; m; i++) {
-                            if (keys[i] == null) continue;
-                            else if (get(keys[i]) != vals[i]) {
-                            System.err.println("get[" + keys[i] + "] = " + get(keys[i]) + "; vals[i] = " + vals[i]);
-                            return false;
-                            }
-                            }
-                            return true;
-                            }
+                                private boolean check() {
+                                    if (m &lt; 2 * n) {
+                                        System.err.println("Hash table size m = " + m + "; array size n = " + n);
+                                        return false;
+                                    }
+
+                                    for (int i = 0; i &lt; m; i++) {
+                                        if (keys[i] == null) continue;
+                                        else if (get(keys[i]) != vals[i]) {
+                                            System.err.println("get[" + keys[i] + "] = " + get(keys[i]) + "; vals[i] = " + vals[i]);
+                                            return false;
+                                        }
+                                    }
+                                    return true;
+                                }
                             }
                         </code-block>
                     </tab>
@@ -4987,109 +4887,79 @@
                             
                             template&lt;typename Key, typename Value&gt;
                             struct HashNode {
-                            Key key;
-                            Value value;
-                            bool occupied;
+                                Key key;
+                                Value value;
+                                bool occupied;
                             
-                            HashNode() : occupied(false) {}
-                            HashNode(Key key, Value value) : key(key), value(value), occupied(true) {}
+                                HashNode() : occupied(false) {}
+                                HashNode(Key key, Value value) : key(key), value(value), occupied(true) {}
                             };
                             
                             template&lt;typename Key, typename Value&gt;
                             class HashTable {
                             private:
-                            std::vector&lt;HashNode&lt;Key, Value&gt;&gt; table;
-                            int tableSize;
+                                std::vector&lt;HashNode&lt;Key, Value&gt;&gt; table;
+                                int tableSize;
                             
-                            int hashFunction(Key key) {
-                            return key % tableSize;
-                            }
+                                int hashFunction(Key key) {
+                                    return key % tableSize;
+                                }
                             
                             public:
-                            HashTable(int size) : table(size), tableSize(size) {}
+                                HashTable(int size) : table(size), tableSize(size) {}
                             
-                            void insert(Key key, Value value) {
-                            int index = hashFunction(key);
-                            while (table[index].occupied) {
-                            index = (index + 1) % tableSize;
-                            }
-                            table[index] = HashNode&lt;Key, Value&gt;(key, value);
-                            }
+                                void insert(Key key, Value value) {
+                                    int index = hashFunction(key);
+                                    while (table[index].occupied) {
+                                        index = (index + 1) % tableSize;
+                                    }
+                                    table[index] = HashNode&lt;Key, Value&gt;(key, value);
+                                }
                             
-                            std::optional&lt;Value&gt; get(Key key) {
-                            int index = hashFunction(key);
-                            while (table[index].occupied) {
-                            if (table[index].key == key) {
-                            return table[index].value;
-                            }
-                            index = (index + 1) % tableSize;
-                            }
-                            return {};
-                            }
+                                std::optional&lt;Value&gt; get(Key key) {
+                                    int index = hashFunction(key);
+                                    while (table[index].occupied) {
+                                        if (table[index].key == key) {
+                                            return table[index].value;
+                                        }
+                                        index = (index + 1) % tableSize;
+                                    }
+                                    return {};
+                                }
                             
-                            void remove(Key key) {
-                            int index = hashFunction(key);
-                            while (table[index].occupied) {
-                            if (table[index].key == key) {
-                            table[index].occupied = false;
-                            return;
-                            }
-                            index = (index + 1) % tableSize;
-                            }
-                            }
+                                void remove(Key key) {
+                                    int index = hashFunction(key);
+                                    while (table[index].occupied) {
+                                        if (table[index].key == key) {
+                                            table[index].occupied = false;
+                                            return;
+                                        }
+                                        index = (index + 1) % tableSize;
+                                    }
+                                }
                             };
                         </code-block>
                     </tab>
                 </tabs>
-                <p>
-                    <format color="BlueViolet">Knuth's Parking Problem</format>
-                </p>
-                <p>Cars arrive at a one-way street with
-                    <math>M</math>
-                    parking spaces.
-                    Each driver tries to park in their own space
-                    <math>i</math>
-                    : If space
-                    <math>i</math>
-                    is taken, try
-                    <math>i + 1</math>
-                    ,
-                    <math>i + 2</math>
-                    ,
-                    etc. What is the mean displacement of the car?
-                </p>
+                <p><format color="BlueViolet">Knuth's Parking Problem</format></p>
+                <p>Cars arrive at a one-way street with <math>M</math> parking spaces. Each driver tries to park in
+                    their own space <math>i</math>: If space <math>i</math> is taken, try <math>i + 1</math>
+                    , <math>i + 2</math>, etc. What is the mean displacement of the car?</p>
                 <list type="bullet">
                     <li>
-                        <p>
-                            <format color="Fuchsia">Half-full:</format>
-                            With
-                            <math>\frac {M}{2}</math>
-                            cars, mean displacement is
-                            <math>
-                                \sim \frac {3}{2}
-                            </math>
-                            .
-                        </p>
+                        <p><format color="Fuchsia">Half-full:</format> With <math>\frac {M}{2}</math> cars, mean
+                            displacement is <math>\sim \frac {3}{2}</math>.</p>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Full:</format>
-                            With
-                            <math>M</math>
-                            cars, mean displacement is
-                            <math>\sim \sqrt{\frac
-                                {\pi M}{8}}
-                            </math>
-                            .
-                        </p>
+                        <p><format color="Fuchsia">Full:</format> With <math>M</math> cars, mean displacement is
+                            <math>\sim \sqrt{\frac {\pi M}{8}}</math>.</p>
                     </li>
                 </list>
             </chapter>
             <chapter title="12.3.2 Varaint 1 - Double Hashing" id="12-3-2-varaint-1-double-hashing">
                 <list type="bullet">
                     <li>
-                        <p>Use linear probing, but skip a variable amount, not just
-                            1 each time.</p>
+                        <p>Use linear probing, but skip a variable amount, not just 1 each time.</p>
                     </li>
                     <li>
                         <p>Effectively eliminates clustering.</p>
@@ -5101,48 +4971,22 @@
                         <p>More difficult to implement delete.</p>
                     </li>
                 </list>
-                <p>
-                    <format color="Fuchsia">Insert:</format>
-                    Use the
-                    <math>
-                        1 ^{st}
-                    </math>
-                    hash function to calculate index. If there is a
-                    collision, use
-                    <math>2 ^ {nd}</math>
-                    hash value for "step size" for
-                    probing until an empty slot is found. (=>
-                    <math>(h1(key) + i * h2(key))
-                        \% size
-                    </math>
-                    )
-                </p>
+                <p><format color="Fuchsia">Insert:</format> Use the <math>1 ^{\text{st}}</math> hash function to
+                    calculate index. If there is a collision, use <math>2 ^ {\text{nd}}</math> hash value for "step
+                    size" for probing until an empty slot is found. (=&gt; <math>(h1(key) + i * h2(key)) \% size</math>)</p>
             </chapter>
             <chapter title="12.3.3 Variant 2 - Quadratic Probing" id="12-3-3-variant-2-quadratic-probing">
-                <p>
-                    <format color="Fuchsia">Insert:</format>
-                    Use the hash
-                    function to calculate index. If there is a collision, probe the
-                    index using the following probing sequence:
-                </p>
+                <p><format color="Fuchsia">Insert:</format> Use the hash function to calculate index. If there is a
+                    collision, probe the index using the following probing sequence:</p>
                 <list type="bullet">
                     <li>
-                        <p>
-                            <format color="DarkOrange">index 1:</format>
-                            <math>(h(key) + 1 ^ {2}) % tableSize</math>
-                        </p>
+                        <p><format color="DarkOrange">index 1:</format> <math>(h(key) + 1 ^ {2}) % tableSize</math></p>
                     </li>
                     <li>
-                        <p>
-                            <format color="DarkOrange">index 2:</format>
-                            <math>(h(key) + 2 ^ {2}) % tableSize</math>
-                        </p>
+                        <p><format color="DarkOrange">index 2:</format> <math>(h(key) + 2 ^ {2}) % tableSize</math></p>
                     </li>
                     <li>
-                        <p>
-                            <format color="DarkOrange">index 3:</format>
-                            <math>(h(key) + 3 ^ {2}) % tableSize</math>
-                        </p>
+                        <p><format color="DarkOrange">index 3:</format><math>(h(key) + 3 ^ {2}) % tableSize</math></p>
                     </li>
                 </list>
             </chapter>
@@ -5188,9 +5032,7 @@
             </chapter>
         </chapter>
         <chapter title="12.4 Hash Table vs. Balanced Search Tree" id="12-4-hash-table-vs-balanced-search-tree">
-            <p>
-                <format color="BlueViolet">Hash Table</format>
-            </p>
+            <p><format color="BlueViolet">Hash Table</format></p>
             <list type="bullet">
                 <li>
                     <p>Simpler to code.</p>
@@ -5199,20 +5041,13 @@
                     <p>No effective alternative for unordered keys.</p>
                 </li>
                 <li>
-                    <p>Faster for simple keys (a few arithmetic ops versus
-                        <math>log N
-                        </math>
-                        compares).
-                    </p>
+                    <p>Faster for simple keys (a few arithmetic ops versus <math>log N</math> compares).</p>
                 </li>
                 <li>
-                    <p>Better system support in Java for strings (e.g., cached hash
-                        code).</p>
+                    <p>Better system support in Java for strings (e.g., cached hash code).</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Balanced Search Tree</format>
-            </p>
+            <p><format color="BlueViolet">Balanced Search Tree</format></p>
             <list type="bullet">
                 <li>
                     <p>Stronger performance guarantee.</p>
@@ -5221,45 +5056,34 @@
                     <p>Support for ordered ST operations.</p>
                 </li>
                 <li>
-                    <p>Easier to implement <code>compareTo()</code> correctly than
-                        <code>equals()</code> and <code>hashCode()</code>.</p>
+                    <p>Easier to implement <code>compareTo()</code> correctly than <code>equals()</code> and
+                        <code>hashCode()</code>.</p>
                 </li>
             </list>
             <p>Java systems includes both.</p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="DarkOrange">Red-black BSTs:</format>
-                        <code>java.util.TreeMap</code>, <code>java.util.TreeSet</code>.
-                    </p>
+                    <p><format color="DarkOrange">Red-black BSTs:</format> <code>java.util.TreeMap</code>,
+                        <code>java.util.TreeSet</code>.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="DarkOrange">Hash tables:</format>
-                        <code>java.util.HashMap</code>, <code>java.util.IdentityHashMap</code>
-                        .
-                    </p>
+                    <p><format color="DarkOrange">Hash tables:</format> <code>java.util.HashMap</code>,
+                        <code>java.util.IdentityHashMap</code>.</p>
                 </li>
             </list>
             <p>C++ STL includes both.</p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="DarkOrange">Red-black BSTs:</format>
-                        <code>std::set</code>, <code>std::map</code>.
-                    </p>
+                    <p><format color="DarkOrange">Red-black BSTs:</format> <code>std::set</code>,
+                        <code>std::map</code>.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="DarkOrange">Hash tables:</format>
-                        <code>std::unordered_map</code>, <code>std::unordered_set</code>
-                        .
-                    </p>
+                    <p><format color="DarkOrange">Hash tables:</format> <code>std::unordered_map</code>,
+                        <code>std::unordered_set</code>.</p>
                 </li>
             </list>
             <warning>
-                <p>Python uses hash tables to implement dictionaries, but no built
-                    -in red-black BST!</p>
+                <p>Python uses hash tables to implement dictionaries, but no built -in red-black BST!</p>
             </warning>
         </chapter>
     </chapter>
