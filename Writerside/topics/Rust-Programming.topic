@@ -94,6 +94,232 @@
                 </li>
             </list>
             <p><format color="BlueViolet">LLVM Sanitizers</format></p>
+            <list type="bullet">
+                <li>
+                    <p>Instrument source code</p>
+                </li>
+                <li>
+                    <p>Implemented as part of the LLVM compiler suite (e.g. clang)</p>
+                </li>
+                <li>
+                    <p>Because more information is available pre-compilation, there is a lot more analysis that
+                        sanitizers can do (and they’re also easier to implement)</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Types of sanitizers</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">AddressSanitizer:</format> Finds use of improper memory addresses: out of
+                        bounds memory accesses, double free, use after free</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">LeakSanitizer:</format> Finds memory leaks</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">MemorySanitizer:</format> Finds use of uninitialized memory</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">UndefinedBehaviorSanitizer:</format> Finds usage of null pointers,
+                        integer/float overflow, etc</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">ThreadSanitizer:</format> Finds improper usage of threads</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Fundamental limitation of dynamic analysis</format></p>
+            <list type="bullet">
+                <li>
+                    <p>Dynamic analysis can only report bad behavior that actually happened</p>
+                </li>
+                <li>
+                    <p>If your program worked fine with the input you provided, but it might do bad
+                        things in certain edge cases, dynamic analysis cannot tell you anything about</p>
+                </li>
+            </list>
+            <code-block lang="c" collapsible="true">
+                #include &lt;stdio.h&gt;
+                #include &lt;string.h&gt;
+
+                int main() {
+                    char s[100];
+                    int i;
+                    printf("\nEnter a string : "); // The size of the input string may get larger than 100!
+                    gets(s);
+                    for (i = 0; s[i] != '\0'; i++) {
+                        if(s[i] &gt;= 'a' &amp;&amp; s[i] &lt;= 'z') {
+                            s[i] = s[i] -32;
+                        }
+                    }
+                    printf("\nString in Upper Case = %s", s);
+                    return 0;
+                }
+            </code-block>
+            <p><format color="BlueViolet">Fuzzing</format></p>
+            <img src="../images_rust/r1-1-1.png" alt="Fuzzing"/>
+            <list type="bullet">
+                <li>
+                    <p>Very simple but extremely effective</p>
+                </li>
+                <li>
+                    <p>Most common fuzzers: <a href="https://github.com/google/AFL" summary="AFL">AFL (archived)</a> and
+                        <a href="https://llvm.org/docs/LibFuzzer.html" summary="libfuzzer">libfuzzer</a></p>
+                </li>
+                <li>
+                    <p>Still, cannot provide any guarantees that a program is bug-free (if the fuzzer didn’t find
+                        anything in 24 hours, maybe we just didn’t run it long enough)</p>
+                </li>
+                <li>
+                    <p>Google <a href="https://github.com/google/oss-fuzz" summary="OSS-Fuzz">OSS-Fuzz</a> is a large
+                        cluster that fuzzes open-source software 24/7</p>
+                </li>
+            </list>
+        </chapter>
+        <chapter title="1.2 Static Analysis" id="1-2-static-analysis">
+            <p><format color="BlueViolet">linting</format></p>
+            <list type="bullet">
+                <li>
+                    <p>Linters employ very simple techniques (e.g. ctrl+f) to find obvious mistakes.</p>
+                </li>
+                <li>
+                    <p>The person running the linter can configure a set of rules to enforce.</p>
+                    <list type="bullet">
+                        <li>
+                            <p>Rules are intended to improve the style of the codebase.</p>
+                        </li>
+                        <li>
+                            <p>Just because there is a linter error doesn’t mean the code is broken (e.g. it's possible
+                                to call <code>strcpy()</code> without introducing bugs, but many linters will complain
+                                if you call it)</p>
+                        </li>
+                    </list>
+                </li>
+                <li>
+                    <p>Common C/C++ linter: <a href="https://clang.llvm.org/extra/clang-tidy/" summary="clang-tidy">
+                        clang-tidy</a></p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Dataflow Analysis</format></p>
+            <p>We can trace through how the program might execute, keeping track of possible variable values</p>
+            <p><format color="IndianRed">Example 1</format></p>
+            <code-block lang="c" collapsible="true">
+                void printToUpper(const char *str) {
+                    char *upper = strdup(str);
+                    for (int i = 0; str[i] != '\0'; i++) {
+                        if(str[i] >= 'a' &amp;&amp; str[i] &lt;= 'z') {
+                            upper[i] = str[i] - ('a' - 'A');
+                        }
+                    }
+                    printf("%s\n", upper);
+                    free(upper);
+                }
+
+                int main(int argc, char *argv[]) {
+                    printf("Enter a string to make uppercase, or type \"quit\" to quit:\n");
+                    char input[512];
+                    // safely read input string
+                    fgets(input, sizeof(input), stdin);
+                    char *toMakeUppercase;
+                    if (strcmp(input, "quit") != 0) {
+                        toMakeUppercase = input;
+                    }
+                    // The pointer toMakeUppercase can be uninitialized here!
+                    printToUpper(toMakeUppercase);
+                }
+            </code-block>
+            <p><format color="IndianRed">Example 2</format></p>
+            <code-block lang="c" collapsible="true">
+                int main(int argc, char *argv[]) {
+                    // Goal: parse out a string between brackets
+                    // (e.g. " [target string]" -> "target string")
+                    char *parsed = strdup(argv[1]);
+
+                    // Find open bracket
+                    char *open_bracket = strchr(parsed, '[');
+                    if (open_bracket == NULL) {
+                        printf("Malformed input!\n");
+                        return 1; // Early return fails to clean up heap alllocation!
+                    }
+
+                    // Make the output string start after the open bracket
+                    parsed = open_bracket + 1;
+
+                    // Find the close bracket
+                    char *close_bracket = strchr(parsed, ']');
+                    if (close_bracket == NULL) {
+                        printf("Malformed input!\n");
+                        return 1; // Early return fails to clean up heap alllocation!
+                    }
+
+                    // Replace the close bracket with a null
+                    // terminator to end the parsed string there
+                    *close_bracket = '\0';
+
+                    printf("Parsed string: %s\n", parsed);
+                    free(parsed);
+                    return 0;
+                }
+            </code-block>
+            <p><format color="IndianRed">Example 3(Work across functions)</format></p>
+            <code-block lang="c" collapsible="true">
+                void freeSometimes(void *buf) {
+                    if (rand() == 1) {
+                        return;
+                    }
+                    free(buf); // buf can be a heap allocation or a freed allocation!
+                }
+
+                int main() {
+                    void *buf = malloc(8);
+                    freeSometimes(buf);
+                    return 0;
+                }
+            </code-block>
+            <p><format color="BlueViolet">Limitations</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">False positives</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p>Dataflow analysis will follow each branch, even if it’s impossible for some condition to
+                                be true in real life.</p>
+                        </li>
+                        <li>
+                            <p>False positives are the Achille’s heel of static analysis. Need a good signal/noise ratio
+                                or else no one will use your analyzer.</p>
+                        </li>
+                    </list>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Need to limit scope to get reasonable performance</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p>Many static analyzers only analyze a single file at a time: they don't do dataflow
+                                analysis into/out of functions elsewhere in the codebase</p>
+                        </li>
+                        <li>
+                            <p>If you have a huge codebase, loops, tons of conditions, etc., dataflow analysis can get
+                                unwieldy.</p>
+                        </li>
+                    </list>
+                </li>
+                <li>
+                    <p>Static analysis can only report bad behavior that might happen</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Fundamental limitations of static analysis</format></p>
+            <list type="bullet">
+                <li>
+                    <p>If you can only look at a few lines of code, it's hard to tell (without broader context) whether
+                        that code is safe.</p>
+                </li>
+                <li>
+                    <p>Getting broader context is impossible in the general case.</p>
+                </li>
+                <li>
+                    <p>You can always add more specific things to check for, but there will always be other ways to mess
+                        up.</p>
+                </li>
+            </list>
         </chapter>
     </chapter>
 </topic>
