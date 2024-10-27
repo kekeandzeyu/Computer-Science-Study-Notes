@@ -30,7 +30,7 @@ I took down notes carefully when studying. With the the content of my notes gett
 
 If someone's original work is used but not mentioned, or being misused, either way please contact me via email for deletion, thanks.
 
-### Topic 1: Data Structures and Algorithms Part &#8544;, &#8545;, &#8546; & &#8547;
+### Topic 1: Data Structures and Algorithms
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
 

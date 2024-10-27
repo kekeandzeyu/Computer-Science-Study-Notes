@@ -30,7 +30,7 @@ For English version please check [here](README.md)
 
 以下列表是我在完成这份笔记时所参考的内容。如果有作者的原创作品被使用却未被声明，或者被错误使用，请通过邮件与我联系删除，谢谢。
 
-### Topic 1: 数据结构与算法第&#8544;, &#8545 & &#8546;部分
+### Topic 1: 数据结构与算法
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
 
@@ -126,6 +126,8 @@ For English version please check [here](README.md)
 3. 通过邮箱与我联系并指出错误：kekeandzeyu@gmail.com
 
 这份笔记使用[Writerside](https://www.jetbrains.com/writerside/)完成并发布。如果您不熟悉此软件，你也可以直接提出issue或者通过邮箱与我联系。
+
+这个仓库用来存储Writerside编辑时使用的文件；[csstudy 仓库](https://github.com/kekeandzeyu/csstudy) 用来存储发布的html文档。
 
 ## 6 许可证
 
