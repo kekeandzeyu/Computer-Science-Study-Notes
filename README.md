@@ -30,7 +30,7 @@ I took down notes carefully when studying. With the the content of my notes gett
 
 If someone's original work is used but not mentioned, or being misused, either way please contact me via email for deletion, thanks.
 
-### Topic 1: Data Structures and Algorithms Part &#8544;, &#8545; & &#8546;
+### Topic 1: Data Structures and Algorithms Part &#8544;, &#8545;, &#8546; & &#8547;
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
 
@@ -126,6 +126,8 @@ You can help refine this documentation by:
 3. Use email to contact me and point out the mistakes: kekeandzeyu@gmail.com
 
 These notes are taken and published using [Writerside](https://www.jetbrains.com/writerside/). If you are not familiar with this tool, you can also open an issue or contact me via email.
+
+This repository is used for storing the original files edited in Writerside; [csstudy repository](https://github.com/kekeandzeyu/csstudy) is used for storing published web archive. 
 
 ## 6 License
 
