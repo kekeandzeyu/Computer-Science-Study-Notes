@@ -5641,9 +5641,7 @@
     </chapter>
     <chapter title="14 Undirected Graphs" id="14-undirected-graphs">
         <chapter title="14.1 Introduction to Graphs" id="14-1-introduction-to-graphs">
-            <p>
-                <format color="BlueViolet">Terminology</format>
-            </p>
+            <p><format color="BlueViolet">Terminology</format></p>
             <list type="alpha-lower">
                 <li>
                     <p>
@@ -5670,65 +5668,39 @@
                     </p>
                 </li>
                 <li>
-                    <p>Two vertices are
-                        <format color="OrangeRed">connected</format>
-                        if
-                        there is a path between them.
-                    </p>
+                    <p>Two vertices are <format color="OrangeRed">connected</format>
+                        if there is a path between them.</p>
                 </li>
             </list>
             <img src="../images_data/d14-1-1.png" alt="undirected graph"/>
         </chapter>
         <chapter title="14.2 Graph API" id="14-2-graph-api">
-            <p>
-                <format color="BlueViolet">Representation Types</format>
+            <p><format color="BlueViolet">Representation Types</format>
             </p>
             <list type="alpha-lower">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Set-of-edges graph representation:
-                        </format>
-                        Maintain a list of the edges (linked list or array).
-                    </p>
+                    <p><format color="Fuchsia">Set-of-edges graph representation:</format>
+                        Maintain a list of the edges (linked list or array).</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Adjacency-matrix graph
-                            representation:
-                        </format>
-                        Maintain a two-dimensional
-                        <math>V</math>
-                        by
-                        <math>V</math>
-                        boolean array; for each edge
-                        <math>v-w</math>
-                        in the graph: <code>adj[v][w] = adj[w][v] = true</code>.
-                    </p>
+                    <p><format color="Fuchsia">Adjacency-matrix graph representation:</format>
+                        Maintain a two-dimensional <math>V</math> by <math>V</math>
+                        boolean array; for each edge <math>v-w</math> in the graph:
+                        <code>adj[v][w] = adj[w][v] = true</code>.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Adjacency-list graph
-                            representation:
-                        </format>
-                        Maintain vertex-indexed array of lists.
-                    </p>
+                    <p><format color="Fuchsia">Adjacency-list graph representation:</format> Maintain vertex-indexed
+                        array of lists.</p>
                 </li>
             </list>
             <p>In practice: use adjacency-lists representation.</p>
             <list type="bullet">
                 <li>
-                    <p>Algorithms based on iterating over vertices adjacent to
-                        <math>v
-                        </math>
-                        .
-                    </p>
+                    <p>Algorithms based on iterating over vertices adjacent to <math>v</math>.</p>
                 </li>
                 <li>
-                    <p>Real-world graphs tend to be
-                        <format color="OrangeRed">sparse
-                        </format>
-                        (huge number of vertices, small average vertex degree).
-                    </p>
+                    <p>Real-world graphs tend to be <format color="OrangeRed">sparse</format> (huge number of vertices,
+                        small average vertex degree).</p>
                 </li>
             </list>
             <tabs>
@@ -5739,40 +5711,39 @@
                         import java.util.List;
                         
                         public class UndirectedGraph {
+                            private final int numVertices;
+                            private final List&lt;List&lt;Integer&gt;&gt; adjacencyList;
                         
-                        private final int numVertices;
-                        private final List&lt;List&lt;Integer&gt;&gt; adjacencyList;
+                            public UndirectedGraph(int numVertices) {
+                                this.numVertices = numVertices;
+                                adjacencyList = new ArrayList&lt;&gt;(numVertices);
+                                for (int i = 0; i &lt; numVertices; i++) {
+                                    adjacencyList.add(new LinkedList&lt;&gt;());
+                                }
+                            }
                         
-                        public UndirectedGraph(int numVertices) {
-                        this.numVertices = numVertices;
-                        adjacencyList = new ArrayList&lt;&gt;(numVertices);
-                        for (int i = 0; i &lt; numVertices; i++) {
-                        adjacencyList.add(new LinkedList&lt;&gt;());
-                        }
-                        }
+                            public void addEdge(int source, int destination) {
+                                adjacencyList.get(source).add(destination);
+                                adjacencyList.get(destination).add(source);
+                            }
                         
-                        public void addEdge(int source, int destination) {
-                        adjacencyList.get(source).add(destination);
-                        adjacencyList.get(destination).add(source);
-                        }
+                            public int getNumVertices() {
+                                return numVertices;
+                            }
                         
-                        public int getNumVertices() {
-                        return numVertices;
-                        }
+                            public List&lt;List&lt;Integer&gt;&gt; getAdjacencyList() {
+                                return adjacencyList;
+                            }
                         
-                        public List&lt;List&lt;Integer&gt;&gt; getAdjacencyList() {
-                        return adjacencyList;
-                        }
-                        
-                        public void printGraph() {
-                        for (int i = 0; i &lt; numVertices; i++) {
-                        System.out.print("Vertex " + i + ":");
-                        for (Integer vertex : adjacencyList.get(i)) {
-                        System.out.print(" -&gt; " + vertex);
-                        }
-                        System.out.println();
-                        }
-                        }
+                            public void printGraph() {
+                                for (int i = 0; i &lt; numVertices; i++) {
+                                    System.out.print("Vertex " + i + ":");
+                                    for (Integer vertex : adjacencyList.get(i)) {
+                                        System.out.print(" -&gt; " + vertex);
+                                    }
+                                    System.out.println();
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -5787,16 +5758,16 @@
                         
                         class UndirectedGraph {
                         private:
-                        int numVertices;
-                        std::vector&lt;std::list&lt;int&gt;&gt; adjacencyList;
+                            int numVertices;
+                            std::vector&lt;std::list&lt;int&gt;&gt; adjacencyList;
                         
                         public:
-                        explicit UndirectedGraph(const int&amp; numVertices);
-                        void addEdge(const int&amp; source, const int&amp; destination);
-                        [[nodiscard]] bool hasEdge(const int&amp; source, const int&amp; destination) const;
-                        [[nodiscard]] int getNumVertices() const;
-                        [[nodiscard]] const std::vector&lt;std::list&lt;int&gt;&gt;&amp; getAdjacencyList() const;
-                        void printGraph() const;
+                            explicit UndirectedGraph(const int&amp; numVertices);
+                            void addEdge(const int&amp; source, const int&amp; destination);
+                            [[nodiscard]] bool hasEdge(const int&amp; source, const int&amp; destination) const;
+                            [[nodiscard]] int getNumVertices() const;
+                            [[nodiscard]] const std::vector&lt;std::list&lt;int&gt;&gt;&amp; getAdjacencyList() const;
+                            void printGraph() const;
                         };
                         
                         #endif //UNDIRECTEDGRAPH_H
@@ -5809,75 +5780,69 @@
                         #include &lt;algorithm&gt;
                         
                         UndirectedGraph::UndirectedGraph(const int&amp; numVertices) :
-                        numVertices(numVertices), adjacencyList(numVertices) {}
+                            numVertices(numVertices), adjacencyList(numVertices) {}
                         
                         void UndirectedGraph::addEdge(const int&amp; source, const int&amp; destination) {
-                        adjacencyList[source].push_back(destination);
-                        adjacencyList[destination].push_back(source);
+                            adjacencyList[source].push_back(destination);
+                            adjacencyList[destination].push_back(source);
                         }
                         
                         bool UndirectedGraph::hasEdge(const int&amp; source, const int&amp; destination) const {
-                        return std::ranges::any_of(adjacencyList[source],
-                        [&amp;destination](const int&amp; neighbor) {
-                        return neighbor == destination;
-                        });
+                            return std::ranges::any_of(adjacencyList[source],
+                            [&amp;destination](const int&amp; neighbor) {
+                                return neighbor == destination;
+                            });
                         }
                         
                         int UndirectedGraph::getNumVertices() const {
-                        return numVertices;
+                            return numVertices;
                         }
                         
                         const std::vector&lt;std::list&lt;int&gt;&gt;&amp; UndirectedGraph::getAdjacencyList() const {
-                        return adjacencyList;
+                            return adjacencyList;
                         }
                         
                         void UndirectedGraph::printGraph() const {
-                        for (int i = 0; i &lt; numVertices; ++i) {
-                        std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
-                        for (const int&amp; neighbor : adjacencyList[i]) {
-                        std::cout &lt;&lt; " -&gt; " &lt;&lt; neighbor;
-                        }
-                        std::cout &lt;&lt; std::endl;
-                        }
+                            for (int i = 0; i &lt; numVertices; ++i) {
+                                std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
+                                for (const int&amp; neighbor : adjacencyList[i]) {
+                                    std::cout &lt;&lt; " -&gt; " &lt;&lt; neighbor;
+                                }
+                                std::cout &lt;&lt; std::endl;
+                            }
                         }
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class UndirectedGraph:
-                        def __init__(self, num_vertices):
-                        self.num_vertices = num_vertices
-                        self.adjacency_list = [[] for _ in range(num_vertices)]
+                            def __init__(self, num_vertices):
+                                self.num_vertices = num_vertices
+                                self.adjacency_list = [[] for _ in range(num_vertices)]
                         
-                        def add_edge(self, source, destination):
-                        self.adjacency_list[source].append(destination)
-                        self.adjacency_list[destination].append(source)
+                            def add_edge(self, source, destination):
+                                self.adjacency_list[source].append(destination)
+                                self.adjacency_list[destination].append(source)
                         
-                        def get_num_vertices(self):
-                        return self.num_vertices
+                            def get_num_vertices(self):
+                                return self.num_vertices
                         
-                        def get_adjacency_list(self):
-                        return self.adjacency_list
+                            def get_adjacency_list(self):
+                                return self.adjacency_list
                         
-                        def print_graph(self):
-                        for i in range(self.num_vertices):
-                        print(f"Vertex {i}:", end="")
-                        for vertex in self.adjacency_list[i]:
-                        print(f" -&gt; {vertex}", end="")
-                        print()
+                            def print_graph(self):
+                                for i in range(self.num_vertices):
+                                    print(f"Vertex {i}:", end="")
+                                for vertex in self.adjacency_list[i]:
+                                    print(f" -&gt; {vertex}", end="")
+                                print()
                     </code-block>
                 </tab>
             </tabs>
         </chapter>
         <chapter title="14.3 Depth-First Search" id="14-3-depth-first-search">
-            <p>
-                <format color="BlueViolet">Goal:</format>
-                Systematically search
-                through a graph.
-            </p>
-            <p>
-                <format color="BlueViolet">Typical applications</format>
-            </p>
+            <p><format color="BlueViolet">Goal:</format> Systematically search through a graph.</p>
+            <p><format color="BlueViolet">Typical applications</format></p>
             <list type="bullet">
                 <li>
                     <p>Find all vertices connected to a given source vertex.</p>
@@ -5888,37 +5853,21 @@
             </list>
             <procedure title="Depth-First Search">
                 <step>
-                    <p>Mark vertex
-                        <math>v</math>
-                        as visited.
-                    </p>
+                    <p>Mark vertex <math>v</math> as visited.</p>
                 </step>
                 <step>
-                    <p>Recursively visit all the unmarked vertices adjacent to
-                        <math>v
-                        </math>
-                        .
-                    </p>
+                    <p>Recursively visit all the unmarked vertices adjacent to <math>v</math>.</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Properties</format>
-            </p>
+            <p><format color="BlueViolet">Properties</format></p>
             <list type="bullet">
                 <li>
-                    <p>DFS marks all vertices connected to
-                        <math>s</math>
-                        in time
-                        proportional to the sum of their degrees.
-                    </p>
+                    <p>DFS marks all vertices connected to <math>s</math> in time proportional to the sum of their
+                        degrees.</p>
                 </li>
                 <li>
-                    <p>After DFS, can find vertices connected to
-                        <math>s</math>
-                        in
-                        constant time and can find a path to s (if one exists) in time
-                        proportional to its length.
-                    </p>
+                    <p>After DFS, can find vertices connected to <math>s</math> in constant time and can find a path to
+                        <math>s</math> (if one exists) in time proportional to its length.</p>
                 </li>
             </list>
             <tabs>
@@ -5927,58 +5876,58 @@
                         import java.util.Stack;
                         
                         public class DepthFirstSearch {
-                        private final boolean[] marked;
-                        private final int[] edgeTo;
+                            private final boolean[] marked;
+                            private final int[] edgeTo;
                         
-                        public DepthFirstSearch(UndirectedGraph graph, int source) {
-                        this.marked = new boolean[graph.getNumVertices()];
-                        this.edgeTo = new int[graph.getNumVertices()];
-                        dfs(graph, source);
-                        }
+                            public DepthFirstSearch(UndirectedGraph graph, int source) {
+                                this.marked = new boolean[graph.getNumVertices()];
+                                this.edgeTo = new int[graph.getNumVertices()];
+                                dfs(graph, source);
+                            }
                         
-                        private void dfs(UndirectedGraph graph, int source) {
-                        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-                        marked[source] = true;
-                        stack.push(source);
+                            private void dfs(UndirectedGraph graph, int source) {
+                                Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+                                marked[source] = true;
+                                stack.push(source);
+
+                                while (!stack.isEmpty()) {
+                                    int v = stack.pop();
+                                    System.out.print(v + " ");
+
+                                    for (int w : graph.getAdjacencyList().get(v)) {
+                                        if (!marked[w]) {
+                                            marked[w] = true;
+                                            edgeTo[w] = v;
+                                            stack.push(w);
+                                        }
+                                    }
+                                }
+                            }
                         
-                        while (!stack.isEmpty()) {
-                        int v = stack.pop();
-                        System.out.print(v + " ");
+                            public void hasPathTo(int v) {
+                                return marked[v];
+                            }
                         
-                        for (int w : graph.getAdjacencyList().get(v)) {
-                        if (!marked[w]) {
-                        marked[w] = true;
-                        edgeTo[w] = v;
-                        stack.push(w);
-                        }
-                        }
-                        }
-                        }
-                        
-                        public void hasPathTo(int v) {
-                        return marked[v];
-                        }
-                        
-                        public void printPathTo(int v) {
-                        if (!marked[v]) {
-                        System.out.println("No path from source to " + v);
-                        return;
-                        }
-                        Stack&lt;Integer&gt; path = new Stack&lt;&gt;();
-                        for (int x = v; x != 0; x = edgeTo[x]) {
-                        path.push(x);
-                        }
-                        path.push(0);
-                        
-                        System.out.print("Path: ");
-                        while (!path.isEmpty()) {
-                        System.out.print(path.pop());
-                        if (!path.isEmpty()) {
-                        System.out.print(" -&gt; ");
-                        }
-                        }
-                        System.out.println();
-                        }
+                            public void printPathTo(int v) {
+                                if (!marked[v]) {
+                                    System.out.println("No path from source to " + v);
+                                    return;
+                                }
+                                Stack&lt;Integer&gt; path = new Stack&lt;&gt;();
+                                for (int x = v; x != 0; x = edgeTo[x]) {
+                                    path.push(x);
+                                }
+                                path.push(0);
+
+                                System.out.print("Path: ");
+                                while (!path.isEmpty()) {
+                                    System.out.print(path.pop());
+                                    if (!path.isEmpty()) {
+                                        System.out.print(" -&gt; ");
+                                    }
+                                }
+                                System.out.println();
+                            }
                         }
                     </code-block>
                 </tab>
@@ -5993,15 +5942,15 @@
                         
                         class DepthFirstSearch {
                         private:
-                        const UndirectedGraph&amp; graph;
-                        std::vector&lt;bool&gt; marked;
-                        std::vector&lt;int&gt; edgeTo;
+                            const UndirectedGraph&amp; graph;
+                            std::vector&lt;bool&gt; marked;
+                            std::vector&lt;int&gt; edgeTo;
                         
                         public:
-                        DepthFirstSearch(const UndirectedGraph&amp; graph, int source);
-                        void dfs(int v);
-                        [[nodiscard]] bool hasPathTo(int v) const;
-                        void printPathTo(int v) const;
+                            DepthFirstSearch(const UndirectedGraph&amp; graph, int source);
+                            void dfs(int v);
+                            [[nodiscard]] bool hasPathTo(int v) const;
+                            void printPathTo(int v) const;
                         };
                         
                         #endif //DEPTHFIRSTSEARCH_H
@@ -6014,57 +5963,56 @@
                         #include &lt;stack&gt;
                         
                         DepthFirstSearch::DepthFirstSearch(const UndirectedGraph&amp; graph, const int source) :
-                        graph(graph),
-                        marked(graph.getNumVertices(), false),
-                        edgeTo(graph.getNumVertices(), -1)
-                        {
-                        dfs(source);
-                        }
+                            graph(graph),
+                            marked(graph.getNumVertices(), false),
+                            edgeTo(graph.getNumVertices(), -1) {
+                                dfs(source);
+                            }
                         
                         void DepthFirstSearch::dfs(const int v) {
-                        std::stack&lt;int&gt; stack;
-                        marked[v] = true;
-                        stack.push(v);
-                        
-                        while (!stack.empty()) {
-                        const int current = stack.top();
-                        stack.pop();
-                        std::cout &lt;&lt; current &lt;&lt; " ";
-                        
-                        for (int neighbor : this-&gt;graph.getAdjacencyList()[current]) {
-                        if (!marked[neighbor]) {
-                        marked[neighbor] = true;
-                        edgeTo[neighbor] = current;
-                        stack.push(neighbor);
-                        }
-                        }
-                        }
+                            std::stack&lt;int&gt; stack;
+                            marked[v] = true;
+                            stack.push(v);
+
+                            while (!stack.empty()) {
+                                const int current = stack.top();
+                                stack.pop();
+                                std::cout &lt;&lt; current &lt;&lt; " ";
+
+                                for (int neighbor : this-&gt;graph.getAdjacencyList()[current]) {
+                                    if (!marked[neighbor]) {
+                                    marked[neighbor] = true;
+                                    edgeTo[neighbor] = current;
+                                    stack.push(neighbor);
+                                    }
+                                }
+                            }
                         }
                         
                         bool DepthFirstSearch::hasPathTo(const int v) const {
-                        return marked[v];
+                            return marked[v];
                         }
                         
                         void DepthFirstSearch::printPathTo(const int v) const {
-                        if (!hasPathTo(v)) {
-                        std::cout &lt;&lt; "No path from source to " &lt;&lt; v &lt;&lt; std::endl;
-                        return;
-                        }
-                        std::stack&lt;int&gt; path;
-                        for (int x = v; x != edgeTo[v]; x = edgeTo[x]) {
-                        path.push(x);
-                        }
-                        path.push(edgeTo[v]);
-                        
-                        std::cout &lt;&lt; "Path: ";
-                        while (!path.empty()) {
-                        std::cout &lt;&lt; path.top();
-                        path.pop();
-                        if (!path.empty()) {
-                        std::cout &lt;&lt; " -> ";
-                        }
-                        }
-                        std::cout &lt;&lt; std::endl;
+                            if (!hasPathTo(v)) {
+                                std::cout &lt;&lt; "No path from source to " &lt;&lt; v &lt;&lt; std::endl;
+                                return;
+                            }
+                            std::stack&lt;int&gt; path;
+                            for (int x = v; x != edgeTo[v]; x = edgeTo[x]) {
+                                path.push(x);
+                            }
+                            path.push(edgeTo[v]);
+
+                            std::cout &lt;&lt; "Path: ";
+                            while (!path.empty()) {
+                                std::cout &lt;&lt; path.top();
+                                path.pop();
+                                if (!path.empty()) {
+                                    std::cout &lt;&lt; " -> ";
+                                }
+                            }
+                            std::cout &lt;&lt; std::endl;
                         }
                     </code-block>
                 </tab>
@@ -6074,40 +6022,40 @@
                         
                         
                         class DepthFirstSearch:
-                        def __init__(self, graph: UndirectedGraph, source: int):
-                        self.marked = [False] * graph.get_num_vertices()
-                        self.edge_to = [None] * graph.get_num_vertices()
-                        self.dfs(graph, source)
+                            def __init__(self, graph: UndirectedGraph, source: int):
+                                self.marked = [False] * graph.get_num_vertices()
+                                self.edge_to = [None] * graph.get_num_vertices()
+                                self.dfs(graph, source)
                         
-                        def dfs(self, graph, source):
-                        stack = [source]
-                        self.marked[source] = True
+                            def dfs(self, graph, source):
+                                stack = [source]
+                                self.marked[source] = True
                         
-                        while stack:
-                        v = stack.pop()
-                        print(v, end=" ")
+                                while stack:
+                                    v = stack.pop()
+                                    print(v, end=" ")
+
+                                for w in graph.get_adjacency_list()[v]:
+                                    if not self.marked[w]:
+                                        self.marked[w] = True
+                                        self.edge_to[w] = v
+                                        stack.append(w)
                         
-                        for w in graph.get_adjacency_list()[v]:
-                        if not self.marked[w]:
-                        self.marked[w] = True
-                        self.edge_to[w] = v
-                        stack.append(w)
+                            def has_path_to(self, v):
+                                return self.marked[v]
                         
-                        def has_path_to(self, v):
-                        return self.marked[v]
+                            def print_path_to(self, v):
+                                if not self.marked[v]:
+                                    print(f"No path from source to {v}")
+                                    return
                         
-                        def print_path_to(self, v):
-                        if not self.marked[v]:
-                        print(f"No path from source to {v}")
-                        return
-                        
-                        path = []
-                        x = v
-                        while x is not None:
-                        path.append(x)
-                        x = self.edge_to[x]
-                        
-                        print("Path:", " -&gt; ".join(map(str, path[::-1])))
+                                path = []
+                                x = v
+                                while x is not None:
+                                    path.append(x)
+                                    x = self.edge_to[x]
+
+                                print("Path:", " -&gt; ".join(map(str, path[::-1])))
                     </code-block>
                 </tab>
             </tabs>
@@ -6124,36 +6072,20 @@
                     <p>Remove the least recently added vertex v.</p>
                 </step>
                 <step>
-                    <p>Add each of v's unvisited neighbors to the queue, and mark them as
-                        visited.</p>
+                    <p>Add each of v's unvisited neighbors to the queue, and mark them as visited.</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Property</format>
-            </p>
-            <p>BFS computes shortest paths (fewest number of edges) from s to
-                all other vertices in a graph in time proportional to
-                <math>E + V
-                </math>
-                .
-            </p>
+            <p><format color="BlueViolet">Property</format></p>
+            <p>BFS computes shortest paths (fewest number of edges) from s to all other vertices in a graph in time
+                proportional to <math>E + V</math>.</p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Depth-first search:</format>
-                        put
-                        unvisited vertices on
-                        <format color="OrangeRed">stack</format>
-                        .
-                    </p>
+                    <p><format color="Fuchsia">Depth-first search:</format> put unvisited vertices on <format
+                            color="OrangeRed">stack</format>.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Breadth-first search:</format>
-                        put unvisited vertices on
-                        <format color="OrangeRed">queue</format>
-                        .
-                    </p>
+                    <p><format color="Fuchsia">Breadth-first search:</format> put unvisited vertices on <format
+                            color="OrangeRed">queue</format>.</p>
                 </li>
             </list>
             <tabs>
@@ -6164,57 +6096,57 @@
                         import java.util.Queue;
                         
                         public class BreadthFirstSearch {
-                        private boolean[] marked;
-                        private int[] edgeTo;
-                        private int[] distanceTo;
+                            private boolean[] marked;
+                            private int[] edgeTo;
+                            private int[] distanceTo;
                         
-                        public void bfs(UndirectedGraph graph, int startVertex) {
-                        marked = new boolean[graph.getNumVertices()];
-                        edgeTo = new int[graph.getNumVertices()];
-                        distanceTo = new int[graph.getNumVertices()];
+                            public void bfs(UndirectedGraph graph, int startVertex) {
+                                marked = new boolean[graph.getNumVertices()];
+                                edgeTo = new int[graph.getNumVertices()];
+                                distanceTo = new int[graph.getNumVertices()];
+
+                                Queue&lt;Integer&gt; queue = new ArrayDeque&lt;&gt;();
+
+                                marked[startVertex] = true;
+                                distanceTo[startVertex] = 0;
+                                queue.offer(startVertex);
+
+                                while (!queue.isEmpty()) {
+                                    int currentVertex = queue.poll();
+
+                                    List&lt;List&lt;Integer&gt;&gt; adjList = graph.getAdjacencyList();
+                                    for (int adjacentVertex : adjList.get(currentVertex)) {
+                                        if (!marked[adjacentVertex]) {
+                                            marked[adjacentVertex] = true;
+                                            edgeTo[adjacentVertex] = currentVertex;
+                                            distanceTo[adjacentVertex] = distanceTo[currentVertex] + 1; // Update distance
+                                            queue.offer(adjacentVertex);
+                                        }
+                                    }
+                                }
+                            }
                         
-                        Queue&lt;Integer&gt; queue = new ArrayDeque&lt;&gt;();
+                            public int getDistance(int destination) {
+                                if (!marked[destination]) {
+                                    return -1;
+                                }
+                                return distanceTo[destination];
+                            }
                         
-                        marked[startVertex] = true;
-                        distanceTo[startVertex] = 0;
-                        queue.offer(startVertex);
+                            public void printPath(int start, int end) {
+                                if (start == end) {
+                                    System.out.print(start);
+                                    return;
+                                }
                         
-                        while (!queue.isEmpty()) {
-                        int currentVertex = queue.poll();
-                        
-                        List&lt;List&lt;Integer&gt;&gt; adjList = graph.getAdjacencyList();
-                        for (int adjacentVertex : adjList.get(currentVertex)) {
-                        if (!marked[adjacentVertex]) {
-                        marked[adjacentVertex] = true;
-                        edgeTo[adjacentVertex] = currentVertex;
-                        distanceTo[adjacentVertex] = distanceTo[currentVertex] + 1; // Update distance
-                        queue.offer(adjacentVertex);
-                        }
-                        }
-                        }
-                        }
-                        
-                        public int getDistance(int destination) {
-                        if (!marked[destination]) {
-                        return -1;
-                        }
-                        return distanceTo[destination];
-                        }
-                        
-                        public void printPath(int start, int end) {
-                        if (start == end) {
-                        System.out.print(start);
-                        return;
-                        }
-                        
-                        if (edgeTo[end] == 0) {
-                        System.out.print("No path exists");
-                        return;
-                        }
-                        
-                        printPath(start, edgeTo[end]);
-                        System.out.print(" -&gt; " + end);
-                        }
+                                if (edgeTo[end] == 0) {
+                                    System.out.print("No path exists");
+                                    return;
+                                }
+
+                                printPath(start, edgeTo[end]);
+                                System.out.print(" -&gt; " + end);
+                            }
                         }
                     </code-block>
                 </tab>
@@ -6229,17 +6161,17 @@
                         
                         class BreadthFirstSearch {
                         private:
-                        const UndirectedGraph&amp; graph;
-                        int startVertex;
-                        std::vector&lt;bool&gt; marked;
-                        std::vector&lt;int&gt; edgeTo;
-                        std::vector&lt;int&gt; distanceTo;
+                            const UndirectedGraph&amp; graph;
+                            int startVertex;
+                            std::vector&lt;bool&gt; marked;
+                            std::vector&lt;int&gt; edgeTo;
+                            std::vector&lt;int&gt; distanceTo;
                         
                         public:
-                        BreadthFirstSearch(const UndirectedGraph&amp; graph, int startVertex);
-                        void bfs();
-                        [[nodiscard]] int getDistance(int destination) const;
-                        void printPath(int destination) const;
+                            BreadthFirstSearch(const UndirectedGraph&amp; graph, int startVertex);
+                            void bfs();
+                            [[nodiscard]] int getDistance(int destination) const;
+                            void printPath(int destination) const;
                         };
                         
                         #endif //BREADTHFIRSTSEARCH_H
@@ -6258,45 +6190,45 @@
                         distanceTo(graph.getNumVertices(), 0) {}
                         
                         void BreadthFirstSearch::bfs() {
-                        std::queue&lt;int&gt; queue;
-                        marked[startVertex] = true;
-                        queue.push(startVertex);
-                        
-                        while (!queue.empty()) {
-                        const int currentVertex = queue.front();
-                        queue.pop();
-                        
-                        for (const int&amp; neighbor : graph.getAdjacencyList()[currentVertex]) {
-                        if (!marked[neighbor]) {
-                        marked[neighbor] = true;
-                        edgeTo[neighbor] = currentVertex;
-                        distanceTo[neighbor] = distanceTo[currentVertex] + 1;
-                        queue.push(neighbor);
-                        }
-                        }
-                        }
+                            std::queue&lt;int&gt; queue;
+                            marked[startVertex] = true;
+                            queue.push(startVertex);
+
+                            while (!queue.empty()) {
+                                const int currentVertex = queue.front();
+                                queue.pop();
+
+                                for (const int&amp; neighbor : graph.getAdjacencyList()[currentVertex]) {
+                                    if (!marked[neighbor]) {
+                                        marked[neighbor] = true;
+                                        edgeTo[neighbor] = currentVertex;
+                                        distanceTo[neighbor] = distanceTo[currentVertex] + 1;
+                                        queue.push(neighbor);
+                                    }
+                                }
+                            }
                         }
                         
                         int BreadthFirstSearch::getDistance(const int destination) const {
-                        if (!marked[destination]) {
-                        return -1;
-                        }
-                        return distanceTo[destination];
+                            if (!marked[destination]) {
+                                return -1;
+                            }
+                            return distanceTo[destination];
                         }
                         
                         void BreadthFirstSearch::printPath(const int destination) const {
-                        if (startVertex == destination) {
-                        std::cout &lt;&lt; startVertex;
-                        return;
-                        }
+                            if (startVertex == destination) {
+                                std::cout &lt;&lt; startVertex;
+                                return;
+                            }
                         
-                        if (edgeTo[destination] == -1) {
-                        std::cout &lt;&lt; "No path exists";
-                        return;
-                        }
+                            if (edgeTo[destination] == -1) {
+                                std::cout &lt;&lt; "No path exists";
+                                return;
+                            }
                         
-                        printPath(edgeTo[destination]);
-                        std::cout &lt;&lt; " -&gt; " &lt;&lt; destination;
+                            printPath(edgeTo[destination]);
+                            std::cout &lt;&lt; " -&gt; " &lt;&lt; destination;
                         }
                     </code-block>
                 </tab>
