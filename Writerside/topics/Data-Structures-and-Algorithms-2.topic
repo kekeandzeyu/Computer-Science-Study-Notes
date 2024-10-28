@@ -6524,45 +6524,45 @@
                         
                         public class DirectedGraph {
                         
-                        private final int numVertices;
-                        private int numEdges;
-                        private final List&lt;List&lt;Integer&gt;&gt; adjacencyList;
+                            private final int numVertices;
+                            private int numEdges;
+                            private final List&lt;List&lt;Integer&gt;&gt; adjacencyList;
                         
-                        public DirectedGraph(int numVertices) {
-                        this.numVertices = numVertices;
-                        this.numEdges = 0;
-                        this.adjacencyList = new ArrayList&lt;&gt;();
-                        for (int i = 0; i &lt; numVertices; i++) {
-                        adjacencyList.add(i, new ArrayList&lt;&gt;());
-                        }
-                        }
+                            public DirectedGraph(int numVertices) {
+                                this.numVertices = numVertices;
+                                this.numEdges = 0;
+                                this.adjacencyList = new ArrayList&lt;&gt;();
+                                for (int i = 0; i &lt; numVertices; i++) {
+                                    adjacencyList.add(i, new ArrayList&lt;&gt;());
+                                }
+                            }
                         
-                        public void addEdge(int source, int destination) {
-                        adjacencyList.get(source).add(destination);
-                        numEdges++;
-                        }
+                            public void addEdge(int source, int destination) {
+                                adjacencyList.get(source).add(destination);
+                                numEdges++;
+                            }
                         
-                        public int getNumVertices() {
-                        return numVertices;
-                        }
+                            public int getNumVertices() {
+                                return numVertices;
+                            }
                         
-                        public int getNumEdges() {
-                        return numEdges;
-                        }
+                            public int getNumEdges() {
+                                return numEdges;
+                            }
                         
-                        public List&lt;List&lt;Integer&gt;&gt; getAdjacencyList() {
-                        return adjacencyList;
-                        }
+                            public List&lt;List&lt;Integer&gt;&gt; getAdjacencyList() {
+                                return adjacencyList;
+                            }
                         
-                        public void printGraph() {
-                        for (int v = 0; v &lt; numVertices; v++) {
-                        System.out.print("Adjacency list of vertex " + v + " : ");
-                        for (Integer neighbor : adjacencyList.get(v)) {
-                        System.out.print(neighbor + " ");
-                        }
-                        System.out.println();
-                        }
-                        }
+                            public void printGraph() {
+                            for (int v = 0; v &lt; numVertices; v++) {
+                                System.out.print("Adjacency list of vertex " + v + " : ");
+                                for (Integer neighbor : adjacencyList.get(v)) {
+                                    System.out.print(neighbor + " ");
+                                }
+                                System.out.println();
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -6577,16 +6577,16 @@
                         
                         class DirectedGraph {
                         private:
-                        int numVertices;
-                        std::vector&lt;std::list&lt;int&gt;&gt; adjacencyList;
+                            int numVertices;
+                            std::vector&lt;std::list&lt;int&gt;&gt; adjacencyList;
                         
                         public:
-                        explicit DirectedGraph(const int&amp; numVertices);
-                        void addEdge(const int&amp; source, const int&amp; destination);
-                        [[nodiscard]] bool hasEdge(const int&amp; source, const int&amp; destination) const;
-                        [[nodiscard]] int getNumVertices() const;
-                        [[nodiscard]] const std::vector&lt;std::list&lt;int&gt;&gt;&amp; getAdjacencyList() const;
-                        void printGraph() const;
+                            explicit DirectedGraph(const int&amp; numVertices);
+                            void addEdge(const int&amp; source, const int&amp; destination);
+                            [[nodiscard]] bool hasEdge(const int&amp; source, const int&amp; destination) const;
+                            [[nodiscard]] int getNumVertices() const;
+                            [[nodiscard]] const std::vector&lt;std::list&lt;int&gt;&gt;&amp; getAdjacencyList() const;
+                            void printGraph() const;
                         };
                         
                         #endif //DIRECTEDGRAPH_H
@@ -6602,59 +6602,59 @@
                         numVertices(numVertices), adjacencyList(numVertices) {}
                         
                         void DirectedGraph::addEdge(const int&amp; source, const int&amp; destination) {
-                        adjacencyList[source].push_back(destination);
+                            adjacencyList[source].push_back(destination);
                         }
                         
                         bool DirectedGraph::hasEdge(const int&amp; source, const int&amp; destination) const {
-                        return std::ranges::any_of(adjacencyList[source],
-                        [&amp;destination](const int&amp; neighbor) {
-                        return neighbor == destination;
-                        });
+                            return std::ranges::any_of(adjacencyList[source],
+                            [&amp;destination](const int&amp; neighbor) {
+                                return neighbor == destination;
+                            });
                         }
                         
                         int DirectedGraph::getNumVertices() const {
-                        return numVertices;
+                            return numVertices;
                         }
                         
                         const std::vector&lt;std::list&lt;int&gt;&gt;&amp; DirectedGraph::getAdjacencyList() const {
-                        return adjacencyList;
+                            return adjacencyList;
                         }
                         
                         void DirectedGraph::printGraph() const {
-                        for (int i = 0; i &lt; numVertices; ++i) {
-                        std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
-                        for (const int&amp; neighbor : adjacencyList[i]) {
-                        std::cout &lt;&lt; " -> " &lt;&lt; neighbor;
-                        }
-                        std::cout &lt;&lt; std::endl;
-                        }
+                            for (int i = 0; i &lt; numVertices; ++i) {
+                                std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
+                                for (const int&amp; neighbor : adjacencyList[i]) {
+                                    std::cout &lt;&lt; " -> " &lt;&lt; neighbor;
+                                }
+                                std::cout &lt;&lt; std::endl;
+                            }
                         }
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class DirectedGraph:
-                        def __init__(self, num_vertices):
-                        self.num_vertices = num_vertices
-                        self.num_edges = 0
-                        self.adjacency_list = [[] for _ in range(num_vertices)]
+                            def __init__(self, num_vertices):
+                                self.num_vertices = num_vertices
+                                self.num_edges = 0
+                                self.adjacency_list = [[] for _ in range(num_vertices)]
                         
-                        def add_edge(self, source, destination):
-                        self.adjacency_list[source].append(destination)
-                        self.num_edges += 1
+                            def add_edge(self, source, destination):
+                                self.adjacency_list[source].append(destination)
+                                self.num_edges += 1
+
+                            def get_num_vertices(self):
+                                return self.num_vertices
                         
-                        def get_num_vertices(self):
-                        return self.num_vertices
+                            def get_num_edges(self):
+                                return self.num_edges
                         
-                        def get_num_edges(self):
-                        return self.num_edges
-                        
-                        def print_graph(self):
-                        for v in range(self.num_vertices):
-                        print(f"Adjacency list of vertex {v} : ", end="")
-                        for neighbor in self.adjacency_list[v]:
-                        print(f"{neighbor} ", end="")
-                        print()
+                            def print_graph(self):
+                                for v in range(self.num_vertices):
+                                    print(f"Adjacency list of vertex {v} : ", end="")
+                                for neighbor in self.adjacency_list[v]:
+                                    print(f"{neighbor} ", end="")
+                                print()
                     </code-block>
                 </tab>
             </tabs>
@@ -6664,11 +6664,8 @@
                 <note>
                     <p>Every undirected graph is a digraph (with edges in both
                         directions).</p>
-                    <p>DFS is a
-                        <format color="OrangeRed">digraph</format>
-                        algorithm,
-                        same method as for undirected graphs!
-                    </p>
+                    <p>DFS is a <format color="OrangeRed">digraph</format> algorithm, same method as for undirected
+                        graphs!</p>
                 </note>
                 <tabs>
                     <tab title="Java">
@@ -6676,58 +6673,58 @@
                             import java.util.Stack;
                             
                             public class DirectedDepthFirstSearch {
-                            private final boolean[] marked;
-                            private final int[] edgeTo;
+                                private final boolean[] marked;
+                                private final int[] edgeTo;
                             
-                            public DirectedDepthFirstSearch(DirectedGraph graph, int source) {
-                            this.marked = new boolean[graph.getNumVertices()];
-                            this.edgeTo = new int[graph.getNumVertices()];
-                            dfs(graph, source);
-                            }
+                                public DirectedDepthFirstSearch(DirectedGraph graph, int source) {
+                                    this.marked = new boolean[graph.getNumVertices()];
+                                    this.edgeTo = new int[graph.getNumVertices()];
+                                    dfs(graph, source);
+                                }
                             
-                            private void dfs(DirectedGraph graph, int source) {
-                            Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-                            marked[source] = true;
-                            stack.push(source);
+                                private void dfs(DirectedGraph graph, int source) {
+                                    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+                                    marked[source] = true;
+                                    stack.push(source);
+
+                                    while (!stack.isEmpty()) {
+                                        int v = stack.pop();
+                                        System.out.print(v + " ");
+
+                                        for (int w : graph.getAdjacencyList().get(v)) {
+                                            if (!marked[w]) {
+                                                marked[w] = true;
+                                                edgeTo[w] = v;
+                                                stack.push(w);
+                                            }
+                                        }
+                                    }
+                                }
                             
-                            while (!stack.isEmpty()) {
-                            int v = stack.pop();
-                            System.out.print(v + " ");
+                                public boolean hasPathTo(int v) {
+                                    return marked[v];
+                                }
                             
-                            for (int w : graph.getAdjacencyList().get(v)) {
-                            if (!marked[w]) {
-                            marked[w] = true;
-                            edgeTo[w] = v;
-                            stack.push(w);
-                            }
-                            }
-                            }
-                            }
-                            
-                            public boolean hasPathTo(int v) {
-                            return marked[v];
-                            }
-                            
-                            public void printPathTo(int v) {
-                            if (!marked[v]) {
-                            System.out.println("No path from source to " + v);
-                            return;
-                            }
-                            Stack&lt;Integer&gt; path = new Stack&lt;&gt;();
-                            for (int x = v; x != 0; x = edgeTo[x]) {
-                            path.push(x);
-                            }
-                            path.push(0);
-                            
-                            System.out.print("Path: ");
-                            while (!path.isEmpty()) {
-                            System.out.print(path.pop());
-                            if (!path.isEmpty()) {
-                            System.out.print(" -&gt; ");
-                            }
-                            }
-                            System.out.println();
-                            }
+                                public void printPathTo(int v) {
+                                    if (!marked[v]) {
+                                        System.out.println("No path from source to " + v);
+                                        return;
+                                    }
+                                    Stack&lt;Integer&gt; path = new Stack&lt;&gt;();
+                                    for (int x = v; x != 0; x = edgeTo[x]) {
+                                        path.push(x);
+                                    }
+                                    path.push(0);
+
+                                    System.out.print("Path: ");
+                                    while (!path.isEmpty()) {
+                                        System.out.print(path.pop());
+                                        if (!path.isEmpty()) {
+                                            System.out.print(" -&gt; ");
+                                        }
+                                    }
+                                    System.out.println();
+                                }
                             }
                         </code-block>
                     </tab>
@@ -6742,15 +6739,15 @@
                             
                             class DirectedDepthFirstSearch {
                             private:
-                            const DirectedGraph&amp; graph;
-                            std::vector&lt;bool&gt; marked;
-                            std::vector&lt;int&gt; edgeTo;
-                            
+                                const DirectedGraph&amp; graph;
+                                std::vector&lt;bool&gt; marked;
+                                std::vector&lt;int&gt; edgeTo;
+
                             public:
-                            DirectedDepthFirstSearch(const DirectedGraph&amp; graph, int source);
-                            void dfs(int v);
-                            [[nodiscard]] bool hasPathTo(int v) const;
-                            void printPathTo(int v) const;
+                                DirectedDepthFirstSearch(const DirectedGraph&amp; graph, int source);
+                                void dfs(int v);
+                                [[nodiscard]] bool hasPathTo(int v) const;
+                                void printPathTo(int v) const;
                             };
                             
                             #endif //DIRECTEDDEPTHFIRSTSEARCH_H
@@ -6768,53 +6765,53 @@
                             marked(graph.getNumVertices(), false),
                             edgeTo(graph.getNumVertices(), -1)
                             {
-                            dfs(source);
+                                dfs(source);
                             }
                             
                             void DirectedDepthFirstSearch::dfs(const int v) {
-                            std::stack&lt;int&gt; stack;
-                            marked[v] = true;
-                            stack.push(v);
+                                std::stack&lt;int&gt; stack;
+                                marked[v] = true;
+                                stack.push(v);
                             
-                            while (!stack.empty()) {
-                            const int current = stack.top();
-                            stack.pop();
-                            std::cout &lt;&lt; current &lt;&lt; " ";
-                            
-                            for (int neighbor : this-&gt;graph.getAdjacencyList()[current]) {
-                            if (!marked[neighbor]) {
-                            marked[neighbor] = true;
-                            edgeTo[neighbor] = current;
-                            stack.push(neighbor);
-                            }
-                            }
-                            }
+                                while (!stack.empty()) {
+                                    const int current = stack.top();
+                                    stack.pop();
+                                    std::cout &lt;&lt; current &lt;&lt; " ";
+
+                                    for (int neighbor : this-&gt;graph.getAdjacencyList()[current]) {
+                                        if (!marked[neighbor]) {
+                                            marked[neighbor] = true;
+                                            edgeTo[neighbor] = current;
+                                            stack.push(neighbor);
+                                        }
+                                    }
+                                }
                             }
                             
                             bool DirectedDepthFirstSearch::hasPathTo(const int v) const {
-                            return marked[v];
+                                return marked[v];
                             }
                             
                             void DirectedDepthFirstSearch::printPathTo(const int v) const {
-                            if (!hasPathTo(v)) {
-                            std::cout &lt;&lt; "No path from source to " &lt;&lt; v &lt;&lt; std::endl;
-                            return;
-                            }
-                            std::stack&lt;int&gt; path;
-                            for (int x = v; x != edgeTo[v]; x = edgeTo[x]) {
-                            path.push(x);
-                            }
-                            path.push(edgeTo[v]);
-                            
-                            std::cout &lt;&lt; "Path: ";
-                            while (!path.empty()) {
-                            std::cout &lt;&lt; path.top();
-                            path.pop();
-                            if (!path.empty()) {
-                            std::cout &lt;&lt; " -> ";
-                            }
-                            }
-                            std::cout &lt;&lt; std::endl;
+                                if (!hasPathTo(v)) {
+                                    std::cout &lt;&lt; "No path from source to " &lt;&lt; v &lt;&lt; std::endl;
+                                    return;
+                                }
+                                std::stack&lt;int&gt; path;
+                                for (int x = v; x != edgeTo[v]; x = edgeTo[x]) {
+                                    path.push(x);
+                                }
+                                path.push(edgeTo[v]);
+
+                                std::cout &lt;&lt; "Path: ";
+                                while (!path.empty()) {
+                                    std::cout &lt;&lt; path.top();
+                                    path.pop();
+                                    if (!path.empty()) {
+                                        std::cout &lt;&lt; " -> ";
+                                    }
+                                }
+                                std::cout &lt;&lt; std::endl;
                             }
                         </code-block>
                     </tab>
@@ -6824,40 +6821,40 @@
                             
                             
                             class DirectedDepthFirstSearch:
-                            def __init__(self, graph: DirectedGraph, source: int):
-                            self.marked = [False] * graph.get_num_vertices()
-                            self.edge_to = [None] * graph.get_num_vertices()
-                            self.dfs(graph, source)
+                                def __init__(self, graph: DirectedGraph, source: int):
+                                    self.marked = [False] * graph.get_num_vertices()
+                                    self.edge_to = [None] * graph.get_num_vertices()
+                                    self.dfs(graph, source)
                             
-                            def dfs(self, graph, source):
-                            stack = [source]
-                            self.marked[source] = True
+                                def dfs(self, graph, source):
+                                    stack = [source]
+                                    self.marked[source] = True
                             
-                            while stack:
-                            v = stack.pop()
-                            print(v, end=" ")
+                                    while stack:
+                                        v = stack.pop()
+                                        print(v, end=" ")
                             
-                            for w in graph.get_adjacency_list()[v]:
-                            if not self.marked[w]:
-                            self.marked[w] = True
-                            self.edge_to[w] = v
-                            stack.append(w)
+                                    for w in graph.get_adjacency_list()[v]:
+                                        if not self.marked[w]:
+                                            self.marked[w] = True
+                                            self.edge_to[w] = v
+                                            stack.append(w)
+
+                                def has_path_to(self, v):
+                                    return self.marked[v]
                             
-                            def has_path_to(self, v):
-                            return self.marked[v]
-                            
-                            def print_path_to(self, v):
-                            if not self.marked[v]:
-                            print(f"No path from source to {v}")
-                            return
-                            
-                            path = []
-                            x = v
-                            while x is not None:
-                            path.append(x)
-                            x = self.edge_to[x]
-                            
-                            print("Path:", " -&gt; ".join(map(str, path[::-1])))
+                                def print_path_to(self, v):
+                                    if not self.marked[v]:
+                                        print(f"No path from source to {v}")
+                                        return
+
+                                    path = []
+                                    x = v
+                                    while x is not None:
+                                        path.append(x)
+                                        x = self.edge_to[x]
+
+                                    print("Path:", " -&gt; ".join(map(str, path[::-1])))
                         </code-block>
                     </tab>
                 </tabs>
@@ -6866,27 +6863,19 @@
                 <note>
                     <p>Every undirected graph is a digraph (with edges in both
                         directions).</p>
-                    <p>BFS is a
-                        <format color="OrangeRed">digraph</format>
-                        algorithm,
-                        same method as for undirected graphs!
-                    </p>
+                    <p>BFS is a <format color="OrangeRed">digraph</format> algorithm, same method as for undirected
+                        graphs!</p>
                 </note>
-                <p>
-                    <format color="BlueViolet">Reachability application:</format>
-                </p>
+                <p><format color="BlueViolet">Reachability application:</format></p>
                 <list type="bullet">
                     <li>
                         <p>Program control-flow analysis</p>
                     </li>
                     <li>
-                        <p>Mark-sweep garbage collector: if ao object is unreachable, it is
-                            garbage.</p>
+                        <p>Mark-sweep garbage collector: if ao object is unreachable, it is garbage.</p>
                     </li>
                 </list>
-                <p>
-                    <format color="BlueViolet">Application</format>
-                </p>
+                <p><format color="BlueViolet">Application</format></p>
                 <list type="bullet">
                     <li>
                         <p>Web crawler</p>
@@ -6900,57 +6889,57 @@
                             import java.util.Queue;
                             
                             public class BreadthFirstSearch {
-                            private boolean[] marked;
-                            private int[] edgeTo;
-                            private int[] distanceTo;
+                                private boolean[] marked;
+                                private int[] edgeTo;
+                                private int[] distanceTo;
                             
-                            public void bfs(UndirectedGraph graph, int startVertex) {
-                            marked = new boolean[graph.getNumVertices()];
-                            edgeTo = new int[graph.getNumVertices()];
-                            distanceTo = new int[graph.getNumVertices()];
+                                public void bfs(UndirectedGraph graph, int startVertex) {
+                                    marked = new boolean[graph.getNumVertices()];
+                                    edgeTo = new int[graph.getNumVertices()];
+                                    distanceTo = new int[graph.getNumVertices()];
+
+                                    Queue&lt;Integer&gt; queue = new ArrayDeque&lt;&gt;();
+
+                                    marked[startVertex] = true;
+                                    distanceTo[startVertex] = 0;
+                                    queue.offer(startVertex);
+
+                                    while (!queue.isEmpty()) {
+                                        int currentVertex = queue.poll();
+
+                                        List&lt;List&lt;Integer&gt;&gt; adjList = graph.getAdjacencyList();
+                                        for (int adjacentVertex : adjList.get(currentVertex)) {
+                                            if (!marked[adjacentVertex]) {
+                                                marked[adjacentVertex] = true;
+                                                edgeTo[adjacentVertex] = currentVertex;
+                                                distanceTo[adjacentVertex] = distanceTo[currentVertex] + 1; // Update distance
+                                                queue.offer(adjacentVertex);
+                                            }
+                                        }
+                                    }
+                                }
                             
-                            Queue&lt;Integer&gt; queue = new ArrayDeque&lt;&gt;();
+                                public int getDistance(int destination) {
+                                    if (!marked[destination]) {
+                                        return -1;
+                                    }
+                                    return distanceTo[destination];
+                                }
                             
-                            marked[startVertex] = true;
-                            distanceTo[startVertex] = 0;
-                            queue.offer(startVertex);
+                                public void printPath(int start, int end) {
+                                    if (start == end) {
+                                        System.out.print(start);
+                                        return;
+                                    }
                             
-                            while (!queue.isEmpty()) {
-                            int currentVertex = queue.poll();
+                                    if (edgeTo[end] == 0) {
+                                        System.out.print("No path exists");
+                                        return;
+                                    }
                             
-                            List&lt;List&lt;Integer&gt;&gt; adjList = graph.getAdjacencyList();
-                            for (int adjacentVertex : adjList.get(currentVertex)) {
-                            if (!marked[adjacentVertex]) {
-                            marked[adjacentVertex] = true;
-                            edgeTo[adjacentVertex] = currentVertex;
-                            distanceTo[adjacentVertex] = distanceTo[currentVertex] + 1; // Update distance
-                            queue.offer(adjacentVertex);
-                            }
-                            }
-                            }
-                            }
-                            
-                            public int getDistance(int destination) {
-                            if (!marked[destination]) {
-                            return -1;
-                            }
-                            return distanceTo[destination];
-                            }
-                            
-                            public void printPath(int start, int end) {
-                            if (start == end) {
-                            System.out.print(start);
-                            return;
-                            }
-                            
-                            if (edgeTo[end] == 0) {
-                            System.out.print("No path exists");
-                            return;
-                            }
-                            
-                            printPath(start, edgeTo[end]);
-                            System.out.print(" -&gt; " + end);
-                            }
+                                    printPath(start, edgeTo[end]);
+                                    System.out.print(" -&gt; " + end);
+                                }
                             }
                         </code-block>
                     </tab>
@@ -6965,17 +6954,17 @@
                             
                             class BreadthFirstSearch {
                             private:
-                            const UndirectedGraph&amp; graph;
-                            int startVertex;
-                            std::vector&lt;bool&gt; marked;
-                            std::vector&lt;int&gt; edgeTo;
-                            std::vector&lt;int&gt; distanceTo;
+                                const UndirectedGraph&amp; graph;
+                                int startVertex;
+                                std::vector&lt;bool&gt; marked;
+                                std::vector&lt;int&gt; edgeTo;
+                                std::vector&lt;int&gt; distanceTo;
                             
                             public:
-                            BreadthFirstSearch(const UndirectedGraph&amp; graph, int startVertex);
-                            void bfs();
-                            [[nodiscard]] int getDistance(int destination) const;
-                            void printPath(int destination) const;
+                                BreadthFirstSearch(const UndirectedGraph&amp; graph, int startVertex);
+                                void bfs();
+                                [[nodiscard]] int getDistance(int destination) const;
+                                void printPath(int destination) const;
                             };
                             
                             #endif //BREADTHFIRSTSEARCH_H
@@ -6995,45 +6984,45 @@
                             distanceTo(graph.getNumVertices(), 0) {}
                             
                             void BreadthFirstSearch::bfs() {
-                            std::queue&lt;int&gt; queue;
-                            marked[startVertex] = true;
-                            queue.push(startVertex);
+                                std::queue&lt;int&gt; queue;
+                                marked[startVertex] = true;
+                                queue.push(startVertex);
                             
-                            while (!queue.empty()) {
-                            const int currentVertex = queue.front();
-                            queue.pop();
+                                while (!queue.empty()) {
+                                    const int currentVertex = queue.front();
+                                    queue.pop();
                             
-                            for (const int&amp; neighbor : graph.getAdjacencyList()[currentVertex]) {
-                            if (!marked[neighbor]) {
-                            marked[neighbor] = true;
-                            edgeTo[neighbor] = currentVertex;
-                            distanceTo[neighbor] = distanceTo[currentVertex] + 1;
-                            queue.push(neighbor);
-                            }
-                            }
-                            }
+                                    for (const int&amp; neighbor : graph.getAdjacencyList()[currentVertex]) {
+                                        if (!marked[neighbor]) {
+                                            marked[neighbor] = true;
+                                            edgeTo[neighbor] = currentVertex;
+                                            distanceTo[neighbor] = distanceTo[currentVertex] + 1;
+                                            queue.push(neighbor);
+                                        }
+                                    }
+                                }
                             }
                             
                             int BreadthFirstSearch::getDistance(const int destination) const {
-                            if (!marked[destination]) {
-                            return -1;
-                            }
-                            return distanceTo[destination];
+                                if (!marked[destination]) {
+                                    return -1;
+                                }
+                                return distanceTo[destination];
                             }
                             
                             void BreadthFirstSearch::printPath(const int destination) const {
-                            if (startVertex == destination) {
-                            std::cout &lt;&lt; startVertex;
-                            return;
-                            }
+                                if (startVertex == destination) {
+                                    std::cout &lt;&lt; startVertex;
+                                    return;
+                                }
                             
-                            if (edgeTo[destination] == -1) {
-                            std::cout &lt;&lt; "No path exists";
-                            return;
-                            }
+                                if (edgeTo[destination] == -1) {
+                                    std::cout &lt;&lt; "No path exists";
+                                    return;
+                                }
                             
-                            printPath(edgeTo[destination]);
-                            std::cout &lt;&lt; " -&gt; " &lt;&lt; destination;
+                                printPath(edgeTo[destination]);
+                                std::cout &lt;&lt; " -&gt; " &lt;&lt; destination;
                             }
                         </code-block>
                     </tab>
@@ -7045,73 +7034,55 @@
                             
                             
                             class BreadthFirstSearch:
-                            def __init__(self, graph: DirectedGraph, start_vertex: int):
-                            self.marked = [False] * graph.get_num_vertices()
-                            self.edge_to = [None] * graph.get_num_vertices()
-                            self.distance_to = [sys.maxsize] * graph.get_num_vertices()
+                                def __init__(self, graph: DirectedGraph, start_vertex: int):
+                                    self.marked = [False] * graph.get_num_vertices()
+                                    self.edge_to = [None] * graph.get_num_vertices()
+                                    self.distance_to = [sys.maxsize] * graph.get_num_vertices()
+
+                                    self.bfs(graph, start_vertex)
                             
-                            self.bfs(graph, start_vertex)
+                                def bfs(self, graph: UndirectedGraph, start_vertex: int):
+                                    queue = deque([start_vertex])
+                                    self.marked[start_vertex] = True
+                                    self.distance_to[start_vertex] = 0
+
+                                    while queue:
+                                        current_vertex = queue.popleft()
+
+                                        for adjacent_vertex in graph.get_adjacency_list()[current_vertex]:
+                                            if not self.marked[adjacent_vertex]:
+                                                self.marked[adjacent_vertex] = True
+                                                self.edge_to[adjacent_vertex] = current_vertex
+                                                self.distance_to[adjacent_vertex] = self.distance_to[current_vertex] + 1
+                                                queue.append(adjacent_vertex)
+
+                                def get_distance(self, destination: int) -&gt; int:
+                                    if not self.marked[destination]:
+                                        return -1
+                                    return self.distance_to[destination]
                             
-                            def bfs(self, graph: UndirectedGraph, start_vertex: int):
-                            queue = deque([start_vertex])
-                            self.marked[start_vertex] = True
-                            self.distance_to[start_vertex] = 0
+                                def print_path(self, start: int, end: int):
+                                    if start == end:
+                                        print(start, end="")
+                                    return
                             
-                            while queue:
-                            current_vertex = queue.popleft()
+                                    if self.edge_to[end] is None:
+                                        print("No path exists")
+                                        return
                             
-                            for adjacent_vertex in graph.get_adjacency_list()[current_vertex]:
-                            if not self.marked[adjacent_vertex]:
-                            self.marked[adjacent_vertex] = True
-                            self.edge_to[adjacent_vertex] = current_vertex
-                            self.distance_to[adjacent_vertex] = self.distance_to[current_vertex] + 1
-                            queue.append(adjacent_vertex)
-                            
-                            def get_distance(self, destination: int) -&gt; int:
-                            if not self.marked[destination]:
-                            return -1
-                            return self.distance_to[destination]
-                            
-                            def print_path(self, start: int, end: int):
-                            if start == end:
-                            print(start, end="")
-                            return
-                            
-                            if self.edge_to[end] is None:
-                            print("No path exists")
-                            return
-                            
-                            self.print_path(start, self.edge_to[end])
-                            print(f" -&gt; {end}", end="")
+                                    self.print_path(start, self.edge_to[end])
+                                    print(f" -&gt; {end}", end="")
                         </code-block>
                     </tab>
                 </tabs>
             </chapter>
         </chapter>
         <chapter title="15.4 Topological Sort" id="15-4-topological-sort">
-            <p>
-                <format color="DarkOrange">DAG:</format>
-                Directed
-                <format color
-                                ="OrangeRed">Acyclic
-                </format>
-                Graph.
-            </p>
-            <p>
-                <format color="DarkOrange">Topological sort:</format>
-                Redraw DAG
-                so all edges point upwards.
-            </p>
-            <p>
-                <format color="BlueViolet">Property:</format>
-                A digraph has a
-                topological order iff no directed cycle.
-            </p>
-            <p>
-                <format color="BlueViolet">Application:</format>
-                Precedence
-                scheduling, cycle inheritance, spreadsheet recalculation, etc.
-            </p>
+            <p><format color="DarkOrange">DAG:</format> Directed <format color="OrangeRed">Acyclic</format> Graph.</p>
+            <p><format color="DarkOrange">Topological sort:</format> Redraw DAG so all edges point upwards.</p>
+            <p><format color="BlueViolet">Property:</format> A digraph has a topological order iff no directed cycle.</p>
+            <p><format color="BlueViolet">Application:</format> Precedence scheduling, cycle inheritance, spreadsheet
+                recalculation, etc.</p>
             <chapter id="15-4-1-algorithm-depth-first-search">
                 <title>
                     15.4.1 Algorithm Ⅰ - Depth-First Search
@@ -7132,38 +7103,38 @@
                             import java.util.Stack;
                             
                             public class TopologicalSort {
-                            private final DirectedGraph graph;
-                            private final boolean[] visited;
-                            private final Stack&lt;Integer&gt; postorder;
+                                private final DirectedGraph graph;
+                                private final boolean[] visited;
+                                private final Stack&lt;Integer&gt; postorder;
                             
-                            public TopologicalSort(DirectedGraph graph) {
-                            this.graph = graph;
-                            this.visited = new boolean[graph.getNumVertices()];
-                            this.postorder = new Stack&lt;&gt;();
-                            }
+                                public TopologicalSort(DirectedGraph graph) {
+                                    this.graph = graph;
+                                    this.visited = new boolean[graph.getNumVertices()];
+                                    this.postorder = new Stack&lt;&gt;();
+                                }
                             
-                            public List&lt;Integer&gt; topologicalSort() {
-                            for (int v = 0; v &lt; graph.getNumVertices(); v++) {
-                            if (!visited[v]) {
-                            dfs(v);
-                            }
-                            }
-                            List&lt;Integer&gt; sortedVertices = new ArrayList&lt;&gt;();
-                            while (!postorder.isEmpty()) {
-                            sortedVertices.add(postorder.pop());
-                            }
-                            return sortedVertices;
-                            }
+                                public List&lt;Integer&gt; topologicalSort() {
+                                    for (int v = 0; v &lt; graph.getNumVertices(); v++) {
+                                        if (!visited[v]) {
+                                            dfs(v);
+                                        }
+                                    }
+                                    List&lt;Integer&gt; sortedVertices = new ArrayList&lt;&gt;();
+                                    while (!postorder.isEmpty()) {
+                                        sortedVertices.add(postorder.pop());
+                                    }
+                                    return sortedVertices;
+                                }
                             
-                            private void dfs(int v) {
-                            visited[v] = true;
-                            for (Integer neighbor : graph.getAdjacencyList().get(v)) {
-                            if (!visited[neighbor]) {
-                            dfs(neighbor);
-                            }
-                            }
-                            postorder.push(v);
-                            }
+                                private void dfs(int v) {
+                                    visited[v] = true;
+                                    for (Integer neighbor : graph.getAdjacencyList().get(v)) {
+                                        if (!visited[neighbor]) {
+                                            dfs(neighbor);
+                                        }
+                                    }
+                                    postorder.push(v);
+                                }
                             }
                         </code-block>
                     </tab>
@@ -7179,15 +7150,15 @@
                             
                             class TopologicalSort {
                             private:
-                            const DirectedGraph&amp; graph;
-                            std::vector&lt;bool&gt; visited;
-                            std::stack&lt;int&gt; postorder;
+                                const DirectedGraph&amp; graph;
+                                std::vector&lt;bool&gt; visited;
+                                std::stack&lt;int&gt; postorder;
                             
-                            void dfs(int v);
+                                void dfs(int v);
                             
                             public:
-                            explicit TopologicalSort(const DirectedGraph&amp; graph);
-                            std::vector&lt;int&gt; topologicalSort();
+                                explicit TopologicalSort(const DirectedGraph&amp; graph);
+                                std::vector&lt;int&gt; topologicalSort();
                             };
                             
                             #endif //TOPOLOGICALSORT_H
@@ -7201,51 +7172,51 @@
                             graph(graph), visited(graph.getNumVertices(), false) {}
                             
                             void TopologicalSort::dfs(const int v) {
-                            visited[v] = true;
-                            for (const int&amp; neighbor : graph.getAdjacencyList()[v]) {
-                            if (!visited[neighbor]) {
-                            dfs(neighbor);
-                            }
-                            }
-                            postorder.push(v);
+                                visited[v] = true;
+                                for (const int&amp; neighbor : graph.getAdjacencyList()[v]) {
+                                    if (!visited[neighbor]) {
+                                        dfs(neighbor);
+                                    }
+                                }
+                                postorder.push(v);
                             }
                             
                             std::vector&lt;int&gt; TopologicalSort::topologicalSort() {
-                            for (int v = 0; v &lt; graph.getNumVertices(); ++v) {
-                            if (!visited[v]) {
-                            dfs(v);
-                            }
-                            }
+                                for (int v = 0; v &lt; graph.getNumVertices(); ++v) {
+                                    if (!visited[v]) {
+                                        dfs(v);
+                                    }
+                                }
                             
-                            std::vector&lt;int&gt; sortedVertices;
-                            while (!postorder.empty()) {
-                            sortedVertices.push_back(postorder.top());
-                            postorder.pop();
-                            }
-                            return sortedVertices;
+                                std::vector&lt;int&gt; sortedVertices;
+                                while (!postorder.empty()) {
+                                    sortedVertices.push_back(postorder.top());
+                                    postorder.pop();
+                                }
+                                return sortedVertices;
                             }
                         </code-block>
                     </tab>
                     <tab title="Python">
                         <code-block lang="python" collapsible="true">
                             class TopologicalSort:
-                            def __init__(self, graph):
-                            self.graph = graph # Store the DirectedGraph object
-                            self.visited = [False] * self.graph.get_num_vertices()
-                            self.postorder = []
+                                def __init__(self, graph):
+                                    self.graph = graph # Store the DirectedGraph object
+                                    self.visited = [False] * self.graph.get_num_vertices()
+                                    self.postorder = []
                             
-                            def topological_sort(self):
-                            for v in range(self.graph.get_num_vertices()):
-                            if not self.visited[v]:
-                            self.dfs(v)
-                            return self.postorder[::-1]
+                                def topological_sort(self):
+                                    for v in range(self.graph.get_num_vertices()):
+                                        if not self.visited[v]:
+                                            self.dfs(v)
+                                            return self.postorder[::-1]
                             
                             def dfs(self, v):
-                            self.visited[v] = True
-                            for neighbor in self.graph.adjacency_list[v]:
-                            if not self.visited[neighbor]:
-                            self.dfs(neighbor)
-                            self.postorder.append(v)
+                                self.visited[v] = True
+                                for neighbor in self.graph.adjacency_list[v]:
+                                    if not self.visited[neighbor]:
+                                        self.dfs(neighbor)
+                                        self.postorder.append(v)
                         </code-block>
                     </tab>
                 </tabs>
@@ -7276,43 +7247,43 @@
                             
                             public class TopologicalSort {
                             
-                            public static List&lt;Integer&gt; topologicalSort(DirectedGraph graph) {
-                            int numVertices = graph.getNumVertices();
-                            List&lt;List&lt;Integer&gt;&gt; adjList = graph.getAdjacencyList();
+                                public static List&lt;Integer&gt; topologicalSort(DirectedGraph graph) {
+                                    int numVertices = graph.getNumVertices();
+                                    List&lt;List&lt;Integer&gt;&gt; adjList = graph.getAdjacencyList();
+
+                                    int[] inDegree = new int[numVertices];
+                                    for (int u = 0; u &lt; numVertices; u++) {
+                                        for (int v : adjList.get(u)) {
+                                            inDegree[v]++;
+                                        }
+                                    }
                             
-                            int[] inDegree = new int[numVertices];
-                            for (int u = 0; u &lt; numVertices; u++) {
-                            for (int v : adjList.get(u)) {
-                            inDegree[v]++;
-                            }
-                            }
+                                    Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+                                    for (int i = 0; i &lt; numVertices; i++) {
+                                        if (inDegree[i] == 0) {
+                                            queue.offer(i);
+                                        }
+                                    }
                             
-                            Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
-                            for (int i = 0; i &lt; numVertices; i++) {
-                            if (inDegree[i] == 0) {
-                            queue.offer(i);
-                            }
-                            }
+                                    List&lt;Integer&gt; sortedOrder = new ArrayList&lt;&gt;();
+                                    while (!queue.isEmpty()) {
+                                        int u = queue.poll();
+                                        sortedOrder.add(u);
+
+                                        for (int v : adjList.get(u)) {
+                                            if (--inDegree[v] == 0) {
+                                                queue.offer(v);
+                                            }
+                                        }
+                                    }
                             
-                            List&lt;Integer&gt; sortedOrder = new ArrayList&lt;&gt;();
-                            while (!queue.isEmpty()) {
-                            int u = queue.poll();
-                            sortedOrder.add(u);
+                                    if (sortedOrder.size() != numVertices) {
+                                        System.err.println("Error: Graph contains a cycle!");
+                                        return new ArrayList&lt;&gt;();
+                                    }
                             
-                            for (int v : adjList.get(u)) {
-                            if (--inDegree[v] == 0) {
-                            queue.offer(v);
-                            }
-                            }
-                            }
-                            
-                            if (sortedOrder.size() != numVertices) {
-                            System.err.println("Error: Graph contains a cycle!");
-                            return new ArrayList&lt;&gt;();
-                            }
-                            
-                            return sortedOrder;
-                            }
+                                    return sortedOrder;
+                                }
                             }
                         </code-block>
                     </tab>
@@ -7324,72 +7295,72 @@
                             #include &lt;vector&gt;
                             
                             std::vector&lt;int&gt; topologicalSort(const DirectedGraph&amp; graph) {
-                            const int numVertices = graph.getNumVertices();
-                            std::vector&lt;int&gt; inDegree(numVertices, 0);
-                            std::vector&lt;int&gt; sortedOrder;
-                            std::queue&lt;int&gt; queue;
+                                const int numVertices = graph.getNumVertices();
+                                std::vector&lt;int&gt; inDegree(numVertices, 0);
+                                std::vector&lt;int&gt; sortedOrder;
+                                std::queue&lt;int&gt; queue;
                             
-                            for (int u = 0; u &lt; numVertices; ++u) {
-                            for (const int&amp; v : graph.getAdjacencyList()[u]) {
-                            inDegree[v]++;
-                            }
-                            }
+                                for (int u = 0; u &lt; numVertices; ++u) {
+                                    for (const int&amp; v : graph.getAdjacencyList()[u]) {
+                                        inDegree[v]++;
+                                    }
+                                }
                             
-                            for (int i = 0; i &lt; numVertices; ++i) {
-                            if (inDegree[i] == 0) {
-                            queue.push(i);
-                            }
-                            }
+                                for (int i = 0; i &lt; numVertices; ++i) {
+                                    if (inDegree[i] == 0) {
+                                        queue.push(i);
+                                    }
+                                }
                             
-                            while (!queue.empty()) {
-                            int u = queue.front();
-                            queue.pop();
-                            sortedOrder.push_back(u);
+                                while (!queue.empty()) {
+                                    int u = queue.front();
+                                    queue.pop();
+                                    sortedOrder.push_back(u);
+
+                                    for (const int&amp; v : graph.getAdjacencyList()[u]) {
+                                        if (--inDegree[v] == 0) {
+                                            queue.push(v);
+                                        }
+                                    }
+                                }
                             
-                            for (const int&amp; v : graph.getAdjacencyList()[u]) {
-                            if (--inDegree[v] == 0) {
-                            queue.push(v);
-                            }
-                            }
-                            }
+                                // Check for cycles!
+                                if (sortedOrder.size() != numVertices) {
+                                    std::cerr &lt;&lt; "Error: Graph contains a cycle!" &lt;&lt; std::endl;
+                                    return {};
+                                }
                             
-                            // Check for cycles!
-                            if (sortedOrder.size() != numVertices) {
-                            std::cerr &lt;&lt; "Error: Graph contains a cycle!" &lt;&lt; std::endl;
-                            return {};
-                            }
-                            
-                            return sortedOrder;
+                                return sortedOrder;
                             }
                         </code-block>
                     </tab>
                     <tab title="Python">
                         <code-block lang="python" collapsible="true">
                             def topological_sort(graph):
-                            num_vertices = graph.get_num_vertices()
-                            in_degree = [0] * num_vertices
-                            sorted_order = []
-                            queue = []
+                                num_vertices = graph.get_num_vertices()
+                                in_degree = [0] * num_vertices
+                                sorted_order = []
+                                queue = []
                             
                             for u in range(num_vertices):
-                            for v in graph.adjacency_list[u]:
-                            in_degree[v] += 1
+                                for v in graph.adjacency_list[u]:
+                                    in_degree[v] += 1
                             
                             for i in range(num_vertices):
-                            if in_degree[i] == 0:
-                            queue.append(i)
+                                if in_degree[i] == 0:
+                                    queue.append(i)
                             
                             while queue:
-                            u = queue.pop(0)
-                            sorted_order.append(u)
+                                u = queue.pop(0)
+                                sorted_order.append(u)
                             
-                            for v in graph.adjacency_list[u]:
-                            in_degree[v] -= 1
-                            if in_degree[v] == 0:
-                            queue.append(v)
+                                for v in graph.adjacency_list[u]:
+                                    in_degree[v] -= 1
+                                    if in_degree[v] == 0:
+                                        queue.append(v)
                             
-                            if len(sorted_order) != num_vertices:
-                            return None
+                                    if len(sorted_order) != num_vertices:
+                                        return None
                             
                             return sorted_order
                         </code-block>
@@ -7406,35 +7377,12 @@
                 </tr>
                 <tr>
                     <td>Definition</td>
+                    <td><math>v</math> and <math>w</math> are <format color="OrangeRed">connected</format>
+                        if there is a path between <math>v</math> and <math>w</math></td>
                     <td>
-                        <math>v</math>
-                        and
-                        <math>w</math>
-                        are
-                        <format color="OrangeRed">
-                            connected
-                        </format>
-                        if there is a path between
-                        <math>v</math>
-                        and
-                        <math>w</math>
-                    </td>
-                    <td>
-                        <math>v</math>
-                        and
-                        <math>w</math>
-                        are
-                        <format color="OrangeRed">
-                            strongly connected
-                        </format>
-                        if there is a directed path from
-                        <math>v</math>
-                        to
-                        <math>w</math>
-                        and a directed graph from
-                        <math>w</math>
-                        to
-                        <math>v</math>
+                        <math>v</math> and <math>w</math> are <format color="OrangeRed">strongly connected</format>
+                        if there is a directed path from <math>v</math> to <math>w</math> and a directed graph from
+                        <math>w</math> to <math>v</math>
                     </td>
                 </tr>
                 <tr>
@@ -7444,10 +7392,8 @@
                 </tr>
                 <tr>
                     <td>Detail</td>
-                    <td><img src="../images_data/d15-5-1.png" alt="Connected Components"/>
-                    </td>
-                    <td><img src="../images_data/d15-5-2.png" alt="Strongly-Connected
-    Components"/></td>
+                    <td><img src="../images_data/d15-5-1.png" alt="Connected Components"/></td>
+                    <td><img src="../images_data/d15-5-2.png" alt="Strongly-Connected Components"/></td>
                 </tr>
             </table>
             <procedure title="Strongly-Connected Components">
@@ -7465,68 +7411,68 @@
                         
                         public class StronglyConnectedComponents {
                         
-                        private final DirectedGraph graph;
-                        private boolean[] visited;
-                        private final Stack&lt;Integer&gt; stack;
-                        private int sccCount;
+                            private final DirectedGraph graph;
+                            private boolean[] visited;
+                            private final Stack&lt;Integer&gt; stack;
+                            private int sccCount;
                         
-                        public StronglyConnectedComponents(DirectedGraph graph) {
-                        this.graph = graph;
-                        this.visited = new boolean[graph.getNumVertices()];
-                        this.stack = new Stac&lt;&gt;();
-                        this.sccCount = 0;
-                        }
+                            public StronglyConnectedComponents(DirectedGraph graph) {
+                                this.graph = graph;
+                                this.visited = new boolean[graph.getNumVertices()];
+                                this.stack = new Stac&lt;&gt;();
+                                this.sccCount = 0;
+                            }
                         
-                        public void findStronglyConnectedComponents() {
-                        for (int i = 0; i &lt; graph.getNumVertices(); i++) {
-                        if (!visited[i]) {
-                        dfsFirst(i);
-                        }
-                        }
+                            public void findStronglyConnectedComponents() {
+                                for (int i = 0; i &lt; graph.getNumVertices(); i++) {
+                                    if (!visited[i]) {
+                                        dfsFirst(i);
+                                    }
+                                }
                         
-                        DirectedGraph transposedGraph = transposeGraph();
+                                DirectedGraph transposedGraph = transposeGraph();
                         
-                        visited = new boolean[graph.getNumVertices()];
-                        while (!stack.isEmpty()) {
-                        int vertex = stack.pop();
-                        if (!visited[vertex]) {
-                        sccCount++;
-                        System.out.print("SCC " + sccCount + ": ");
-                        dfsSecond(transposedGraph, vertex);
-                        System.out.println();
-                        }
-                        }
+                            visited = new boolean[graph.getNumVertices()];
+                            while (!stack.isEmpty()) {
+                                int vertex = stack.pop();
+                                if (!visited[vertex]) {
+                                    sccCount++;
+                                    System.out.print("SCC " + sccCount + ": ");
+                                    dfsSecond(transposedGraph, vertex);
+                                    System.out.println();
+                                }
+                            }
                         }
                         
                         private void dfsFirst(int vertex) {
-                        visited[vertex] = true;
-                        for (int neighbor : graph.getAdjacencyList().get(vertex)) {
-                        if (!visited[neighbor]) {
-                        dfsFirst(neighbor);
-                        }
-                        }
-                        stack.push(vertex);
+                            visited[vertex] = true;
+                            for (int neighbor : graph.getAdjacencyList().get(vertex)) {
+                                if (!visited[neighbor]) {
+                                    dfsFirst(neighbor);
+                                }
+                            }
+                            stack.push(vertex);
                         }
                         
                         private void dfsSecond(DirectedGraph transposedGraph, int vertex) {
-                        visited[vertex] = true;
-                        System.out.print(vertex + " ");
-                        for (int neighbor : transposedGraph.getAdjacencyList().get(vertex)) {
-                        if (!visited[neighbor]) {
-                        dfsSecond(transposedGraph, neighbor);
-                        }
-                        }
+                            visited[vertex] = true;
+                            System.out.print(vertex + " ");
+                            for (int neighbor : transposedGraph.getAdjacencyList().get(vertex)) {
+                                if (!visited[neighbor]) {
+                                    dfsSecond(transposedGraph, neighbor);
+                                }
+                            }
                         }
                         
                         private DirectedGraph transposeGraph() {
-                        DirectedGraph transposedGraph = new DirectedGraph(graph.getNumVertices());
-                        for (int i = 0; i &lt; graph.getNumVertices(); i++) {
-                        for (int neighbor : graph.getAdjacencyList().get(i)) {
-                        transposedGraph.addEdge(neighbor, i);
-                        }
-                        }
-                        return transposedGraph;
-                        }
+                            DirectedGraph transposedGraph = new DirectedGraph(graph.getNumVertices());
+                            for (int i = 0; i &lt; graph.getNumVertices(); i++) {
+                                for (int neighbor : graph.getAdjacencyList().get(i)) {
+                                    transposedGraph.addEdge(neighbor, i);
+                                }
+                            }
+                            return transposedGraph;
+                            }
                         }
                     </code-block>
                 </tab>
@@ -7542,17 +7488,17 @@
                         
                         class StronglyConnectedComponents {
                         private:
-                        const DirectedGraph&amp; graph;
-                        std::vector&lt;bool&gt; visited;
-                        std::stack&lt;int&gt; finishingStack;
-                        int sccCount;
+                            const DirectedGraph&amp; graph;
+                            std::vector&lt;bool&gt; visited;
+                            std::stack&lt;int&gt; finishingStack;
+                            int sccCount;
                         
-                        void dfsFirst(int vertex);
-                        void dfsSecond(const DirectedGraph&amp; transposedGraph, int vertex);
+                            void dfsFirst(int vertex);
+                            void dfsSecond(const DirectedGraph&amp; transposedGraph, int vertex);
                         
                         public:
-                        explicit StronglyConnectedComponents(const DirectedGraph&amp; graph);
-                        void findStronglyConnectedComponents();
+                            explicit StronglyConnectedComponents(const DirectedGraph&amp; graph);
+                            void findStronglyConnectedComponents();
                         };
                         
                         #endif //STRONGLYCONNECTEDCOMPONENTS_H
@@ -7567,95 +7513,95 @@
                         graph(graph), visited(graph.getNumVertices(), false), sccCount(0) {}
                         
                         void StronglyConnectedComponents::dfsFirst(int vertex) {
-                        visited[vertex] = true;
-                        for (const int&amp; neighbor : graph.getAdjacencyList()[vertex]) {
-                        if (!visited[neighbor]) {
-                        dfsFirst(neighbor);
-                        }
-                        }
-                        finishingStack.push(vertex);
+                            visited[vertex] = true;
+                            for (const int&amp; neighbor : graph.getAdjacencyList()[vertex]) {
+                                if (!visited[neighbor]) {
+                                    dfsFirst(neighbor);
+                                }
+                            }
+                            finishingStack.push(vertex);
                         }
                         
                         void StronglyConnectedComponents::dfsSecond(const DirectedGraph&amp; transposedGraph, int vertex) {
-                        visited[vertex] = true;
-                        std::cout &lt;&lt; vertex &lt;&lt; " ";
-                        for (const int&amp; neighbor : transposedGraph.getAdjacencyList()[vertex]) {
-                        if (!visited[neighbor]) {
-                        dfsSecond(transposedGraph, neighbor);
-                        }
-                        }
+                            visited[vertex] = true;
+                            std::cout &lt;&lt; vertex &lt;&lt; " ";
+                            for (const int&amp; neighbor : transposedGraph.getAdjacencyList()[vertex]) {
+                                if (!visited[neighbor]) {
+                                    dfsSecond(transposedGraph, neighbor);
+                                }
+                            }
                         }
                         
                         void StronglyConnectedComponents::findStronglyConnectedComponents() {
-                        for (int i = 0; i &lt; graph.getNumVertices(); ++i) {
-                        if (!visited[i]) {
-                        dfsFirst(i);
-                        }
-                        }
+                            for (int i = 0; i &lt; graph.getNumVertices(); ++i) {
+                                if (!visited[i]) {
+                                    dfsFirst(i);
+                                }
+                            }
                         
-                        DirectedGraph transposedGraph(graph.getNumVertices());
-                        for (int i = 0; i &lt; graph.getNumVertices(); ++i) {
-                        for (const int&amp; neighbor : graph.getAdjacencyList()[i]) {
-                        transposedGraph.addEdge(neighbor, i);
-                        }
-                        }
+                            DirectedGraph transposedGraph(graph.getNumVertices());
+                            for (int i = 0; i &lt; graph.getNumVertices(); ++i) {
+                                for (const int&amp; neighbor : graph.getAdjacencyList()[i]) {
+                                    transposedGraph.addEdge(neighbor, i);
+                                }
+                            }
                         
-                        visited.assign(graph.getNumVertices(), false);
-                        while (!finishingStack.empty()) {
-                        int vertex = finishingStack.top();
-                        finishingStack.pop();
+                            visited.assign(graph.getNumVertices(), false);
+                            while (!finishingStack.empty()) {
+                                int vertex = finishingStack.top();
+                                finishingStack.pop();
                         
-                        if (!visited[vertex]) {
-                        std::cout &lt;&lt; "SCC " &lt;&lt; ++sccCount &lt;&lt; ": ";
-                        dfsSecond(transposedGraph, vertex);
-                        std::cout &lt;&lt; std::endl;
-                        }
-                        }
+                                if (!visited[vertex]) {
+                                    std::cout &lt;&lt; "SCC " &lt;&lt; ++sccCount &lt;&lt; ": ";
+                                    dfsSecond(transposedGraph, vertex);
+                                    std::cout &lt;&lt; std::endl;
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class StronglyConnectedComponents:
-                        def __init__(self, graph):
-                        self.graph = graph
-                        self.visited = [False] * graph.num_vertices
-                        self.finishing_stack = []
-                        self.scc_count = 0
+                            def __init__(self, graph):
+                                self.graph = graph
+                                self.visited = [False] * graph.num_vertices
+                                self.finishing_stack = []
+                                self.scc_count = 0
                         
-                        def dfs_first(self, vertex):
-                        self.visited[vertex] = True
-                        for neighbor in self.graph.adjacency_list[vertex]:
-                        if not self.visited[neighbor]:
-                        self.dfs_first(neighbor)
-                        self.finishing_stack.append(vertex)
+                            def dfs_first(self, vertex):
+                                self.visited[vertex] = True
+                                for neighbor in self.graph.adjacency_list[vertex]:
+                                    if not self.visited[neighbor]:
+                                        self.dfs_first(neighbor)
+                                        self.finishing_stack.append(vertex)
                         
-                        def dfs_second(self, transposed_graph, vertex):
-                        self.visited[vertex] = True
-                        print(f"{vertex} ", end="")
-                        for neighbor in transposed_graph.adjacency_list[vertex]:
-                        if not self.visited[neighbor]:
-                        self.dfs_second(transposed_graph, neighbor)
+                            def dfs_second(self, transposed_graph, vertex):
+                                self.visited[vertex] = True
+                                print(f"{vertex} ", end="")
+                                for neighbor in transposed_graph.adjacency_list[vertex]:
+                                    if not self.visited[neighbor]:
+                                        self.dfs_second(transposed_graph, neighbor)
                         
-                        def find_strongly_connected_components(self):
-                        # 1. DFS on original graph to get finishing times
-                        for i in range(self.graph.num_vertices):
-                        if not self.visited[i]:
-                        self.dfs_first(i)
+                            def find_strongly_connected_components(self):
+                                # 1. DFS on original graph to get finishing times
+                                for i in range(self.graph.num_vertices):
+                                    if not self.visited[i]:
+                                        self.dfs_first(i)
                         
-                        transposed_graph = DirectedGraph(self.graph.num_vertices)
-                        for i in range(self.graph.num_vertices):
-                        for neighbor in self.graph.adjacency_list[i]:
-                        transposed_graph.add_edge(neighbor, i)
-                        
-                        self.visited = [False] * self.graph.num_vertices
-                        while self.finishing_stack:
-                        vertex = self.finishing_stack.pop()
-                        if not self.visited[vertex]:
-                        self.scc_count += 1
-                        print(f"SCC {self.scc_count}: ", end="")
-                        self.dfs_second(transposed_graph, vertex)
-                        print()
+                                transposed_graph = DirectedGraph(self.graph.num_vertices)
+                                for i in range(self.graph.num_vertices):
+                                    for neighbor in self.graph.adjacency_list[i]:
+                                        transposed_graph.add_edge(neighbor, i)
+
+                                self.visited = [False] * self.graph.num_vertices
+                                while self.finishing_stack:
+                                    vertex = self.finishing_stack.pop()
+                                    if not self.visited[vertex]:
+                                        self.scc_count += 1
+                                        print(f"SCC {self.scc_count}: ", end="")
+                                        self.dfs_second(transposed_graph, vertex)
+                                        print()
                     </code-block>
                 </tab>
             </tabs>
