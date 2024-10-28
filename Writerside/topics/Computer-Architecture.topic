@@ -2560,7 +2560,7 @@ Conversion"/>
                     </code-block>
                 </chapter>
             </chapter>
-            <chapter title="6.3 x86 Instructions" id="6-3-risc-instructions-x86" switcher-key="x86">
+            <chapter title="6.3 x86 Instructions" id="6-3-instructions-x86" switcher-key="x86">
                 <p>In high-level languages, variable types determine operation.</p>
                 <p>In assembly, operation determines type, i.e., how register contents
                     are treated.</p>
@@ -2826,11 +2826,373 @@ Conversion"/>
                 </code-block>
             </chapter>
         </chapter>
-        <chapter id="4-risc-functions">
-            <title>
-                4 RISC-Ⅴ Functions
-            </title>
+        <chapter title="7 Control Flow Instructions" id="7-control-flow-instructions-x86" switcher-key="x86">
+            <chapter title="7.1 Conditional Codes" id="7-1-conditional-codes">
+                <p><format color="BlueViolet">Processor State (Partial)</format></p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Temporary Data:</format> %rax, ...</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Location of runtime stack:</format> %rsp, ...</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Location of current code control point:</format> %rip, ...</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Status of recent tests:</format> CF, ZF, SF, OF, ... =&gt; Conditional Codes!</p>
+                    </li>
+                </list>
+                <p><format color="BlueViolet">Conditional Codes</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Single bit registers, GDB prints these as one "rflags" register or "eflags"(more
+                            commonly used, lower 32 bits).</p>
+                    </li>
+                    <li>
+                        <p>Implicitly set (as side effect) of arithmetic operations.</p>
+                        <list type="bullet">
+                            <li>
+                                <p><format color="Fuchsia">CF (Carry Flag):</format> Overflowing or underflowing
+                                    in an unsigned range.</p>
+                            </li>
+                            <li>
+                                <p><format color="Fuchsia">ZF (Zero Flag):</format> The result of an operation
+                                    is zero</p>
+                            </li>
+                            <li>
+                                <p><format color="Fuchsia">SF (Sign Flag):</format> The result of an operation,
+                                    interpreted as a signed two's complement number, is negative (MSB is 1).</p>
+                            </li>
+                            <li>
+                                <p><format color="Fuchsia">OF (Overflow FLag):</format> Overflow in signed two's
+                                    complement.</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+                <p><format color="BlueViolet">Instructions</format></p>
+                <list type="decimal">
 
+                    <li>
+                        <p><code>cmp a, b</code></p>
+                        <p>Computes <math>b-a</math>, set conditional codes based on result, <format
+                                color="OrangeRed"> but does not change b!</format></p>
+                        <p>Used for <code>if (a &lt; b)</code></p>
+                    </li>
+
+                    <li>
+                        <p><code>test a, b</code></p>
+                        <p>Computes <math>b&amp;a</math>, set conditional codes based on the result, <format
+                                color="OrangeRed"> but does not change b!</format></p>
+                        <p><format color="Fuchsia">Most common use:</format> <code>test %rx, %rx</code> to
+                            compare %rx to zero</p>
+                        <p><format color="Fuchsia">Second most common use:</format> <code>test %rX, %rY</code>
+                            to test if any of the 1-bits in <code>%rY</code> are also 1 in <code>%rX</code>.</p>
+                    </li>
+
+                </list>
+            </chapter>
+            <chapter title="7.2 Conditional Branches" id="7-2-conditional-Branches">
+                <p><format color="BlueViolet">Jumping</format></p>
+                <table style="header-row">
+                    <tr>
+                        <td><code>jX</code></td>
+                        <td>Condition</td>
+                        <td>Description</td>
+                    </tr>
+                    <tr>
+                        <td><code>jmp</code></td>
+                        <td>1</td>
+                        <td>Unconditional</td>
+                    </tr>
+                    <tr>
+                        <td><code>je</code></td>
+                        <td><code>ZF</code></td>
+                        <td>Equal/Zero</td>
+                    </tr>
+                    <tr>
+                        <td><code>jne</code></td>
+                        <td><code>~ZF</code></td>
+                        <td>Not Equal/Not Zero</td>
+                    </tr>
+                    <tr>
+                        <td><code>js</code></td>
+                        <td><code>SF</code></td>
+                        <td>Negative</td>
+                    </tr>
+                    <tr>
+                        <td><code>jns</code></td>
+                        <td><code>~SF</code></td>
+                        <td>Non-Negative</td>
+                    </tr>
+                    <tr>
+                        <td><code>jq</code></td>
+                        <td><code>~(SF^OF)&amp;~ZF</code></td>
+                        <td>Greater (Signed)</td>
+                    </tr>
+                    <tr>
+                        <td><code>jqe</code></td>
+                        <td><code>~(SF^OF)</code></td>
+                        <td>Greater or Equal (Signed)</td>
+                    </tr>
+                    <tr>
+                        <td><code>jl</code></td>
+                        <td><code>(SF^OF)</code></td>
+                        <td>Less (Signed)</td>
+                    </tr>
+                    <tr>
+                        <td><code>jle</code></td>
+                        <td><code>(SF^OF)|ZF</code></td>
+                        <td>Less or Equal (Signed)</td>
+                    </tr>
+                    <tr>
+                        <td><code>ja</code></td>
+                        <td><code>~CF&amp;~ZF</code></td>
+                        <td>Above (unsigned)</td>
+                    </tr>
+                    <tr>
+                        <td><code>jb</code></td>
+                        <td><code>CF</code></td>
+                        <td>Below (unsigned)</td>
+                    </tr>
+                </table>
+                <p><format color="BlueViolet"><code>SetX</code> Instructions:</format> Set low-order byte of destination
+                    to 0 or 1 based on combinations of condition codes. <format color="OrangeRed">Does not alter
+                        remaining 7 bytes!</format></p>
+                <table style="header-row">
+                    <tr>
+                        <td><code>SetX</code></td>
+                        <td>Condition</td>
+                        <td>Description</td>
+                    </tr>
+                    <tr>
+                        <td><code>sete</code></td>
+                        <td><code>ZF</code></td>
+                        <td>Equal/Zero</td>
+                    </tr>
+                    <tr>
+                        <td><code>setne</code></td>
+                        <td><code>~ZF</code></td>
+                        <td>Not Equal/Not Zero</td>
+                    </tr>
+                    <tr>
+                        <td><code>sets</code></td>
+                        <td><code>SF</code></td>
+                        <td>Negative</td>
+                    </tr>
+                    <tr>
+                        <td><code>setns</code></td>
+                        <td><code>~SF</code></td>
+                        <td>Non-Negative</td>
+                    </tr>
+                    <tr>
+                        <td><code>setg</code></td>
+                        <td><code>~(SF^OF)&amp;~ZF</code></td>
+                        <td>Greater (Signed)</td>
+                    </tr>
+                    <tr>
+                        <td><code>setge</code></td>
+                        <td><code>~(SF^OF)</code></td>
+                        <td>Greater or Equal (Signed)</td>
+                    </tr>
+                    <tr>
+                        <td><code>setl</code></td>
+                        <td><code>(SF^OF)</code></td>
+                        <td>Less (Signed)</td>
+                    </tr>
+                    <tr>
+                        <td><code>setle</code></td>
+                        <td><code>(SF^OF)|ZF</code></td>
+                        <td>Less or Equal (Signed)</td>
+                    </tr>
+                    <tr>
+                        <td><code>seta</code></td>
+                        <td><code>~CF&amp;~ZF</code></td>
+                        <td>Above (unsigned)</td>
+                    </tr>
+                    <tr>
+                        <td><code>setb</code></td>
+                        <td><code>CF</code></td>
+                        <td>Below (unsigned)</td>
+                    </tr>
+                </table>
+                <note>
+                    <p>Typically use <code>movzbl</code> to finish job</p>
+                    <p><code>movzbl</code> takes this byte and zero-extends it into a larger 32-bit register or memory
+                        location. Zero-extending means it copies the byte into the lower 8 bits of the destination and
+                        fills the remaining higher bits with zeros.</p>
+                </note>
+                <p><format color="BlueViolet">Normal version vs. goto version</format></p>
+                <compare first-title="Normal version" second-title="goto version">
+                    <code-block lang="c">
+                        #include &lt;stdio.h&gt;
+
+                        int main() {
+                            int x = 5;
+
+                            if (x > 3) {
+                                printf("x is greater than 3\n");
+                            } else {
+                                printf("x is less than or equal to 3\n");
+                            }
+
+                            return 0;
+                        }
+                    </code-block>
+                    <code-block lang="c">
+                        #include &lt;stdio.h&gt;
+
+                        int main() {
+                            int x = 5;
+
+                            if (x > 3) {
+                                goto greater_than_three;
+                            } else {
+                                goto less_than_or_equal_to_three;
+                            }
+
+                            greater_than_three:
+                                printf("x is greater than 3\n");
+                                goto end; // Jump to the end to avoid the other block
+
+                            less_than_or_equal_to_three:
+                                printf("x is less than or equal to 3\n");
+
+                            end:
+                                return 0;
+                        }
+                    </code-block>
+                </compare>
+                <p><format color="IndianRed">Example</format></p>
+                <code-block lang="plain text" ignore-vars="true" collapsible="true">
+                    0000000000000000 &lt;main&gt;:
+                    #include &lt;stdio.h&gt;
+
+                    int main() {
+                    0:	f3 0f 1e fa          	endbr64
+                    4:	55                   	push   %rbp
+                    5:	48 89 e5             	mov    %rsp,%rbp
+                    8:	48 83 ec 10          	sub    $0x10,%rsp
+                    int y = 15;
+                    c:	c7 45 fc 0f 00 00 00 	movl   $0xf,-0x4(%rbp)
+
+                    if (y &lt; 10) {
+                    13:	83 7d fc 09          	cmpl   $0x9,-0x4(%rbp)
+                    17:	7f 05                	jg     1e &lt;main+0x1e&gt;
+                    y = y * 2;
+                    19:	d1 65 fc             	shll   $1,-0x4(%rbp)
+                    1c:	eb 04                	jmp    22 &lt;main+0x22&gt;
+                    } else {
+                    y = y + 1;
+                    1e:	83 45 fc 01          	addl   $0x1,-0x4(%rbp)
+                    }
+
+                    printf("y = %d\n", y);
+                    22:	8b 45 fc             	mov    -0x4(%rbp),%eax
+                    25:	89 c6                	mov    %eax,%esi
+                    27:	48 8d 05 00 00 00 00 	lea    0x0(%rip),%rax        # 2e &lt;main+0x2e&gt;
+                    2e:	48 89 c7             	mov    %rax,%rdi
+                    31:	b8 00 00 00 00       	mov    $0x0,%eax
+                    36:	e8 00 00 00 00       	call   3b &lt;main+0x3b&gt;
+                    return 0;
+                    3b:	b8 00 00 00 00       	mov    $0x0,%eax
+                    40:	c9                   	leave
+                    41:	c3                   	ret
+                </code-block>
+            </chapter>
+            <chapter title="7.3 Loops" id="7-3-loops">
+                <p><format color="IndianRed">Example</format></p>
+                <code-block lang="plain text" ignore-vars="true" collapsible="true">
+                    0000000000000000 &lt;main&gt;:
+                    #include &lt;stdio.h&gt;
+
+                    int main() {
+                    0:	f3 0f 1e fa          	endbr64
+                    4:	55                   	push   %rbp
+                    5:	48 89 e5             	mov    %rsp,%rbp
+                    8:	48 83 ec 10          	sub    $0x10,%rsp
+                    int i;
+                    for (i = 0; i &lt; 5; i++) {
+                    c:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
+                    13:	eb 1d                	jmp    32 &lt;main+0x32&gt;
+                    printf("Iteration: %d\n", i);
+                    15:	8b 45 fc             	mov    -0x4(%rbp),%eax
+                    18:	89 c6                	mov    %eax,%esi
+                    1a:	48 8d 05 00 00 00 00 	lea    0x0(%rip),%rax        # 21 &lt;main+0x21&gt;
+                    21:	48 89 c7             	mov    %rax,%rdi
+                    24:	b8 00 00 00 00       	mov    $0x0,%eax
+                    29:	e8 00 00 00 00       	call   2e &lt;main+0x2e&gt;
+                    for (i = 0; i &lt; 5; i++) {
+                    2e:	83 45 fc 01          	addl   $0x1,-0x4(%rbp)
+                    32:	83 7d fc 04          	cmpl   $0x4,-0x4(%rbp)
+                    36:	7e dd                	jle    15 &lt;main+0x15&gt;
+                    }
+                    return 0;
+                    38:	b8 00 00 00 00       	mov    $0x0,%eax
+                    3d:	c9                   	leave
+                    3e:	c3                   	ret
+                </code-block>
+            </chapter>
+            <chapter title="7.4 Switch Statements" id="7-4-switch-statements">
+                <p><format color="IndianRed">Example</format></p>
+                <code-block lang="plain text" ignore-vars="true" collapsible="true">
+                    0000000000000000 &lt;main&gt;:
+                    #include &lt;stdio.h&gt;
+
+                    int main() {
+                    0:	f3 0f 1e fa          	endbr64
+                    4:	55                   	push   %rbp
+                    5:	48 89 e5             	mov    %rsp,%rbp
+                    8:	48 83 ec 10          	sub    $0x10,%rsp
+                    int x = 2;
+                    c:	c7 45 fc 02 00 00 00 	movl   $0x2,-0x4(%rbp)
+                    int result = 0;
+                    13:	c7 45 f8 00 00 00 00 	movl   $0x0,-0x8(%rbp)
+
+                    switch (x) {
+                    1a:	83 7d fc 03          	cmpl   $0x3,-0x4(%rbp)
+                    1e:	74 26                	je     46 &lt;main+0x46&gt;
+                    20:	83 7d fc 03          	cmpl   $0x3,-0x4(%rbp)
+                    24:	7f 29                	jg     4f &lt;main+0x4f&gt;
+                    26:	83 7d fc 01          	cmpl   $0x1,-0x4(%rbp)
+                    2a:	74 08                	je     34 &lt;main+0x34&gt;
+                    2c:	83 7d fc 02          	cmpl   $0x2,-0x4(%rbp)
+                    30:	74 0b                	je     3d &lt;main+0x3d&gt;
+                    32:	eb 1b                	jmp    4f &lt;main+0x4f&gt;
+                    case 1:
+                    result = 10;
+                    34:	c7 45 f8 0a 00 00 00 	movl   $0xa,-0x8(%rbp)
+                    break;
+                    3b:	eb 19                	jmp    56 &lt;main+0x56&gt;
+                    case 2:
+                    result = 20;
+                    3d:	c7 45 f8 14 00 00 00 	movl   $0x14,-0x8(%rbp)
+                    break;
+                    44:	eb 10                	jmp    56 &lt;main+0x56&gt;
+                    case 3:
+                    result = 30;
+                    46:	c7 45 f8 1e 00 00 00 	movl   $0x1e,-0x8(%rbp)
+                    break;
+                    4d:	eb 07                	jmp    56 &lt;main+0x56&gt;
+                    default:
+                    result = 0;
+                    4f:	c7 45 f8 00 00 00 00 	movl   $0x0,-0x8(%rbp)
+                    }
+
+                    printf("Result: %d\n", result);
+                    56:	8b 45 f8             	mov    -0x8(%rbp),%eax
+                    59:	89 c6                	mov    %eax,%esi
+                    5b:	48 8d 05 00 00 00 00 	lea    0x0(%rip),%rax        # 62 &lt;main+0x62&gt;
+                    62:	48 89 c7             	mov    %rax,%rdi
+                    65:	b8 00 00 00 00       	mov    $0x0,%eax
+                    6a:	e8 00 00 00 00       	call   6f &lt;main+0x6f&gt;
+                    return 0;
+                    6f:	b8 00 00 00 00       	mov    $0x0,%eax
+                    74:	c9                   	leave
+                    75:	c3                   	ret
+                </code-block>
+            </chapter>
         </chapter>
     </chapter>
 
