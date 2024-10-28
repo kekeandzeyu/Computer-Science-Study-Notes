@@ -6240,67 +6240,57 @@
                         
                         
                         class BreadthFirstSearch:
-                        def __init__(self, graph: UndirectedGraph, start_vertex: int):
-                        self.marked = [False] * graph.get_num_vertices()
-                        self.edge_to = [None] * graph.get_num_vertices()
-                        self.distance_to = [sys.maxsize] * graph.get_num_vertices()
+                            def __init__(self, graph: UndirectedGraph, start_vertex: int):
+                                self.marked = [False] * graph.get_num_vertices()
+                                self.edge_to = [None] * graph.get_num_vertices()
+                                self.distance_to = [sys.maxsize] * graph.get_num_vertices()
                         
-                        self.bfs(graph, start_vertex)
+                                self.bfs(graph, start_vertex)
                         
-                        def bfs(self, graph: UndirectedGraph, start_vertex: int):
-                        queue = deque([start_vertex])
-                        self.marked[start_vertex] = True
-                        self.distance_to[start_vertex] = 0
+                            def bfs(self, graph: UndirectedGraph, start_vertex: int):
+                                queue = deque([start_vertex])
+                                self.marked[start_vertex] = True
+                                self.distance_to[start_vertex] = 0
                         
-                        while queue:
-                        current_vertex = queue.popleft()
+                                while queue:
+                                    current_vertex = queue.popleft()
                         
-                        for adjacent_vertex in graph.get_adjacency_list()[current_vertex]:
-                        if not self.marked[adjacent_vertex]:
-                        self.marked[adjacent_vertex] = True
-                        self.edge_to[adjacent_vertex] = current_vertex
-                        self.distance_to[adjacent_vertex] = self.distance_to[current_vertex] + 1
-                        queue.append(adjacent_vertex)
+                                for adjacent_vertex in graph.get_adjacency_list()[current_vertex]:
+                                    if not self.marked[adjacent_vertex]:
+                                        self.marked[adjacent_vertex] = True
+                                        self.edge_to[adjacent_vertex] = current_vertex
+                                        self.distance_to[adjacent_vertex] = self.distance_to[current_vertex] + 1
+                                        queue.append(adjacent_vertex)
                         
-                        def get_distance(self, destination: int) -> int:
-                        if not self.marked[destination]:
-                        return -1
-                        return self.distance_to[destination]
+                            def get_distance(self, destination: int) -> int:
+                                if not self.marked[destination]:
+                                    return -1
+                                return self.distance_to[destination]
                         
-                        def print_path(self, start: int, end: int):
-                        if start == end:
-                        print(start, end="")
-                        return
-                        
-                        if self.edge_to[end] is None:
-                        print("No path exists")
-                        return
-                        
-                        self.print_path(start, self.edge_to[end])
-                        print(f" -&gt; {end}", end="")
+                            def print_path(self, start: int, end: int):
+                                if start == end:
+                                    print(start, end="")
+                                    return
+
+                                if self.edge_to[end] is None:
+                                    print("No path exists")
+                                    return
+
+                                self.print_path(start, self.edge_to[end])
+                                print(f" -&gt; {end}", end="")
                     </code-block>
                 </tab>
             </tabs>
         </chapter>
         <chapter title="14.5 Connected Components" id="14-5-connected-components">
-            <p>
-                <format color="DarkOrange">Connected Components:</format>
-                A
-                connected component is maximal set of connected vertices.
-            </p>
+            <p><format color="DarkOrange">Connected Components:</format> A connected component is maximal set of
+                connected vertices.</p>
             <procedure title="Find all Connected Components">
                 <step>
-                    <p>Mark vertex
-                        <math>v</math>
-                        as visited.
-                    </p>
+                    <p>Mark vertex <math>v</math> as visited.</p>
                 </step>
                 <step>
-                    <p>Recursively visit all the unmarked vertices adjacent to
-                        <math>v
-                        </math>
-                        .
-                    </p>
+                    <p>Recursively visit all the unmarked vertices adjacent to <math>v</math>.</p>
                 </step>
             </procedure>
             <tabs>
@@ -6311,56 +6301,56 @@
                         
                         public class ConnectedComponents {
                         
-                        private final int[] id;
-                        private int count;
+                            private final int[] id;
+                            private int count;
                         
-                        public ConnectedComponents(UndirectedGraph graph) {
-                        int numVertices = graph.getNumVertices();
-                        id = new int[numVertices];
-                        count = 0;
+                            public ConnectedComponents(UndirectedGraph graph) {
+                                int numVertices = graph.getNumVertices();
+                                id = new int[numVertices];
+                                count = 0;
+
+                                for (int i = 0; i &lt; numVertices; i++) {
+                                    id[i] = i;
+                                }
+
+                                for (int i = 0; i &lt; numVertices; i++) {
+                                    if (id[i] == i) {
+                                        dfs(graph, i);
+                                        count++;
+                                    }
+                                }
+                            }
                         
-                        for (int i = 0; i &lt; numVertices; i++) {
-                        id[i] = i;
-                        }
+                            private void dfs(UndirectedGraph graph, int v) {
+                                id[v] = count;
+                                for (int w : graph.getAdjacencyList().get(v)) {
+                                    if (id[w] == w) {
+                                        dfs(graph, w);
+                                    }
+                                }
+                            }
                         
-                        for (int i = 0; i &lt; numVertices; i++) {
-                        if (id[i] == i) {
-                        dfs(graph, i);
-                        count++;
-                        }
-                        }
-                        }
+                            public boolean isConnected(int v, int w) {
+                                return id[v] == id[w];
+                            }
                         
-                        private void dfs(UndirectedGraph graph, int v) {
-                        id[v] = count;
-                        for (int w : graph.getAdjacencyList().get(v)) {
-                        if (id[w] == w) {
-                        dfs(graph, w);
-                        }
-                        }
-                        }
+                            public int getCount() {
+                                return count;
+                            }
                         
-                        public boolean isConnected(int v, int w) {
-                        return id[v] == id[w];
-                        }
-                        
-                        public int getCount() {
-                        return count;
-                        }
-                        
-                        public void printComponents() {
-                        System.out.println("Number of connected components: " + count);
-                        List&lt;List&lt;Integer&gt;&gt; components = new ArrayList&lt;&gt;(count);
-                        for (int i = 0; i &lt; count; i++) {
-                        components.add(new ArrayList&lt;&gt;());
-                        }
-                        for (int i = 0; i &lt; id.length; i++) {
-                        components.get(id[i]).add(i);
-                        }
-                        for (int i = 0; i &lt; count; i++) {
-                        System.out.println("Component " + i + ": " + components.get(i));
-                        }
-                        }
+                            public void printComponents() {
+                                System.out.println("Number of connected components: " + count);
+                                List&lt;List&lt;Integer&gt;&gt; components = new ArrayList&lt;&gt;(count);
+                                for (int i = 0; i &lt; count; i++) {
+                                    components.add(new ArrayList&lt;&gt;());
+                                }
+                                for (int i = 0; i &lt; id.length; i++) {
+                                    components.get(id[i]).add(i);
+                                }
+                                for (int i = 0; i &lt; count; i++) {
+                                    System.out.println("Component " + i + ": " + components.get(i));
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -6374,16 +6364,16 @@
                         
                         class ConnectedComponents {
                         private:
-                        std::vector&lt;int&gt; id;
-                        int count;
+                            std::vector&lt;int&gt; id;
+                            int count;
                         
-                        void dfs(const UndirectedGraph&amp; graph, int v);
+                            void dfs(const UndirectedGraph&amp; graph, int v);
                         
                         public:
-                        explicit ConnectedComponents(const UndirectedGraph&amp; graph);
-                        [[nodiscard]] bool isConnected(int v, int w) const;
-                        [[nodiscard]] int getCount() const;
-                        void printComponents() const;
+                            explicit ConnectedComponents(const UndirectedGraph&amp; graph);
+                            [[nodiscard]] bool isConnected(int v, int w) const;
+                            [[nodiscard]] int getCount() const;
+                            void printComponents() const;
                         };
                         
                         #endif // CONNECTEDCOMPONENTS_H
@@ -6395,53 +6385,53 @@
                         #include &lt;iostream&gt;
                         
                         ConnectedComponents::ConnectedComponents(const UndirectedGraph&amp; graph) : count(0) {
-                        const int numVertices = graph.getNumVertices();
-                        id.resize(numVertices);
+                            const int numVertices = graph.getNumVertices();
+                            id.resize(numVertices);
                         
-                        for (int i = 0; i &lt; numVertices; ++i) {
-                        id[i] = i;
-                        }
+                            for (int i = 0; i &lt; numVertices; ++i) {
+                                id[i] = i;
+                            }
                         
-                        for (int i = 0; i &lt; numVertices; ++i) {
-                        if (id[i] == i) {
-                        dfs(graph, i);
-                        ++count;
-                        }
-                        }
+                            for (int i = 0; i &lt; numVertices; ++i) {
+                                if (id[i] == i) {
+                                    dfs(graph, i);
+                                    ++count;
+                                }
+                            }
                         }
                         
                         void ConnectedComponents::dfs(const UndirectedGraph&amp; graph, int v) {
-                        id[v] = count;
-                        for (const int&amp; w : graph.getAdjacencyList()[v]) {
-                        if (id[w] == w) {
-                        dfs(graph, w);
-                        }
-                        }
+                            id[v] = count;
+                            for (const int&amp; w : graph.getAdjacencyList()[v]) {
+                                if (id[w] == w) {
+                                    dfs(graph, w);
+                                }
+                            }
                         }
                         
                         bool ConnectedComponents::isConnected(int v, int w) const {
-                        return id[v] == id[w];
+                            return id[v] == id[w];
                         }
                         
                         int ConnectedComponents::getCount() const {
-                        return count;
+                            return count;
                         }
                         
                         void ConnectedComponents::printComponents() const {
-                        std::cout &lt;&lt; "Number of connected components: " &lt;&lt; count &lt;&lt; std::endl;
+                            std::cout &lt;&lt; "Number of connected components: " &lt;&lt; count &lt;&lt; std::endl;
                         
-                        std::vector&lt;std::vector&lt;int&gt;&gt; components(count);
-                        for (int i = 0; i &lt; id.size(); ++i) {
-                        components[id[i]].push_back(i);
-                        }
+                            std::vector&lt;std::vector&lt;int&gt;&gt; components(count);
+                            for (int i = 0; i &lt; id.size(); ++i) {
+                                components[id[i]].push_back(i);
+                            }
                         
-                        for (int i = 0; i &lt; count; ++i) {
-                        std::cout &lt;&lt; "Component " &lt;&lt; i &lt;&lt; ": ";
-                        for (const int&amp; vertex : components[i]) {
-                        std::cout &lt;&lt; vertex &lt;&lt; " ";
-                        }
-                        std::cout &lt;&lt; std::endl;
-                        }
+                            for (int i = 0; i &lt; count; ++i) {
+                                std::cout &lt;&lt; "Component " &lt;&lt; i &lt;&lt; ": ";
+                                for (const int&amp; vertex : components[i]) {
+                                    std::cout &lt;&lt; vertex &lt;&lt; " ";
+                                }
+                                std::cout &lt;&lt; std::endl;
+                            }
                         }
                     </code-block>
                 </tab>
@@ -6451,36 +6441,36 @@
                         
                         
                         class ConnectedComponents:
-                        def __init__(self, graph: UndirectedGraph):
-                        self.id = list(range(graph.get_num_vertices()))
-                        self.count = 0
+                            def __init__(self, graph: UndirectedGraph):
+                                self.id = list(range(graph.get_num_vertices()))
+                                self.count = 0
                         
-                        for i in range(graph.get_num_vertices()):
-                        if self.id[i] == i:
-                        self.dfs(graph, i)
-                        self.count += 1
+                                for i in range(graph.get_num_vertices()):
+                                    if self.id[i] == i:
+                                        self.dfs(graph, i)
+                                        self.count += 1
                         
-                        def dfs(self, graph: UndirectedGraph, v: int):
-                        self.id[v] = self.count
-                        for w in graph.get_adjacency_list()[v]:
-                        if self.id[w] == w:
-                        self.dfs(graph, w)
+                            def dfs(self, graph: UndirectedGraph, v: int):
+                                self.id[v] = self.count
+                                for w in graph.get_adjacency_list()[v]:
+                                    if self.id[w] == w:
+                                        self.dfs(graph, w)
                         
-                        def is_connected(self, v: int, w: int) -> bool:
-                        return self.id[v] == self.id[w]
+                            def is_connected(self, v: int, w: int) -> bool:
+                                return self.id[v] == self.id[w]
                         
-                        def get_count(self) -&gt; int:
-                        return self.count
+                            def get_count(self) -&gt; int:
+                                return self.count
                         
-                        def print_components(self):
-                        print("Number of connected components:", self.count)
-                        components = [[] for _ in range(self.count)]
-                        
-                        for i in range(len(self.id)):
-                        components[self.id[i]].append(i)
-                        
-                        for i, component in enumerate(components):
-                        print(f"Component {i}: {component}")
+                            def print_components(self):
+                                print("Number of connected components:", self.count)
+                                components = [[] for _ in range(self.count)]
+
+                                for i in range(len(self.id)):
+                                    components[self.id[i]].append(i)
+
+                                for i, component in enumerate(components):
+                                    print(f"Component {i}: {component}")
                     </code-block>
                 </tab>
             </tabs>
@@ -6488,72 +6478,33 @@
         <chapter title="14.6 Important Questions" id="14-6-important-questions">
             <list type="decimal">
                 <li>
-                    <p>
-                        <format color="PaleGoldenRod">Q:</format>
-                        Implement depth-first
-                        search in an undirected graph without using recursion.
-                    </p>
-                    <p>
-                        <format color="SkyBlue">A:</format>
-                        Simply replace a queue with
-                        a stack in breadth-first search.
-                    </p>
+                    <p><format color="PaleGoldenRod">Q:</format> Implement depth-first search in an undirected graph
+                        without using recursion.</p>
+                    <p><format color="SkyBlue">A:</format> Simply replace a queue with a stack in breadth-first search.</p>
                 </li>
                 <li>
                     <p>Given a connected graph with no cycles</p>
                     <list type="bullet">
                         <li>
-                            <p>
-                                <format color="PaleGoldenRod">Q:</format>
-                                <format style=
-                                                "italic">Diameter
-                                </format>
-                                : design a linear-time algorithm to find
-                                the longest simple path in the graph.
-                            </p>
-                            <p>
-                                <format color="SkyBlue">A:</format>
-                                to compute the diameter,
-                                pick a vertex
-                                <math>s</math>
-                                ; run BFS from
-                                <math>s</math>
-                                ; then
-                                run BFS again from the vertex that is furthest from
-                                <math>s</math>
-                                .
-                            </p>
+                            <p><format color="PaleGoldenRod">Q:</format> <format style="italic">Diameter:</format> design
+                                a linear-time algorithm to find the longest simple path in the graph.</p>
+                            <p><format color="SkyBlue">A:</format> to compute the diameter, pick a vertex <math>s</math>
+                                ; run BFS from <math>s</math>; then run BFS again from the vertex that is furthest from
+                                <math>s</math>.</p>
                         </li>
                         <li>
-                            <p>
-                                <format color="PaleGoldenRod">Q:</format>
-                                <format style=
-                                                "italic">Center
-                                </format>
-                                : design a linear-time algorithm to find
-                                the center of the graph.
-                            </p>
-                            <p>
-                                <format color="SkyBlue">A:</format>
-                                consider vertices on the
-                                longest path.
-                            </p>
+                            <p><format color="PaleGoldenRod">Q:</format> <format style="italic">Center:</format> design a
+                                linear-time algorithm to find the center of the graph.</p>
+                            <p><format color="SkyBlue">A:</format> Consider vertices on the longest path.</p>
                         </li>
                     </list>
                 </li>
                 <li>
-                    <p>
-                        <format color="PaleGoldenRod">Q:</format>
-                        An Euler cycle in a
-                        graph is a cycle (not necessarily simple) that uses every edge in the
-                        graph exactly one. Design a linear-time algorithm to determine whether
-                        a graph has an Euler cycle, and if so, find one.
-                    </p>
-                    <p>
-                        <format color="SkyBlue">A:</format>
-                        use depth-first search and
-                        piece together the cycles you discover.
-                    </p>
+                    <p><format color="PaleGoldenRod">Q:</format> An Euler cycle in a graph is a cycle (not necessarily
+                        simple) that uses every edge in the graph exactly one. Design a linear-time algorithm to
+                        determine whether a graph has an Euler cycle, and if so, find one.</p>
+                    <p><format color="SkyBlue">A:</format> use depth-first search and piece together the cycles you
+                        discover.</p>
                 </li>
             </list>
         </chapter>
@@ -6561,11 +6512,7 @@
     <chapter title="15 Directed Graphs" id="15-directed-graphs">
         <chapter title="15.1 Introduction to Directed Graphs" id="15-1-introduction-to-directed-graphs">
             <p>Directed graph: Set of vertices connected pairwise by
-                <format color
-                                ="OrangeRed">directed edges
-                </format>
-                .
-            </p>
+                <format color="OrangeRed">directed edges</format>.</p>
             <img src="../images_data/d15-1-1.png" alt="Directed graph"/>
         </chapter>
         <chapter title="15.2 Directed Graph API" id="15-2-directed-graph-api">
