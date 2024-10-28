@@ -493,14 +493,9 @@
     </chapter>
     <chapter title="2 SQL Part Ⅱ" id="2-sql-part">
         <chapter title="2.1 Join Queries" id="2-1-join-queries">
-            <p>
-                <format color="BlueViolet">Join:</format>
-                Form cross product of the
-                tables, output all tuples and select specific columns.
-            </p>
-            <p>
-                <format color="BlueViolet">Example:</format>
-            </p>
+            <p><format color="BlueViolet">Join:</format> Form cross product of the tables, output all tuples and select
+                specific columns.</p>
+            <p><format color="BlueViolet">Example:</format></p>
             <p>Sailors</p>
             <table style="header-row">
                 <tr>
@@ -646,9 +641,7 @@
             </table>
         </chapter>
         <chapter title="2.2 Select &amp; Where Advanced" id="2-2-select-where-advanced">
-            <p>
-                <format color="BlueViolet">Arithmetic Expressions</format>
-            </p>
+            <p><format color="BlueViolet">Arithmetic Expressions</format></p>
             <code-block lang="sql" collapsible="true">
                 SELECT S.age, S.age-5 AS age1, 2*S.age AS age2
                 FROM Sailors AS S
@@ -656,13 +649,9 @@
             </code-block>
             <note>
                 <p>Comparison is "=" not "==" !!!</p>
-                <p>
-                    <format color="OrangeRed">But SQLite allows this!</format>
-                </p>
+                <p><format color="OrangeRed">But SQLite allows this!</format></p>
             </note>
-            <p>
-                <format color="IndianRed">SQL Calculator</format>
-            </p>
+            <p><format color="IndianRed">SQL Calculator</format></p>
             <code-block lang="sql" collapsible="true">
                 SELECT
                 log(1000) as three,
@@ -684,9 +673,7 @@
                     <td>1</td>
                 </tr>
             </table>
-            <p>
-                <format color="BlueViolet">String Comparison</format>
-            </p>
+            <p><format color="BlueViolet">String Comparison</format></p>
             <compare type="left-right" first-title="Old-School SQL" second-title="Standard Regular Expressions">
                 <code-block lang="sql">
                     SELECT S.sname
@@ -699,16 +686,8 @@
                     WHERE S.sname ~ 'B.*';
                 </code-block>
             </compare>
-            <p>
-                <format color="BlueViolet">Boolean Logic vs. Set Operators</format>
-            </p>
-            <p>
-                <format color="IndianRed">Reserve a red
-                    <format style="bold">or</format>
-                    a
-                    green boat
-                </format>
-            </p>
+            <p><format color="BlueViolet">Boolean Logic vs. Set Operators</format></p>
+            <p><format color="IndianRed">Reserve a red <format style="bold">or</format> a green boat</format></p>
             <compare type="left-right" first-title="Boolean Logic" second-title="Set Operators">
                 <code-block lang="sql">
                     SELECT R.sid
@@ -719,21 +698,15 @@
                     SELECT R.sid
                     FROM Boats B, Reserves R
                     WHERE R.bid = B.bid AND B.color = 'red';
-                    \/
+                    
                     UNION ALL
-                    \/
+                    
                     SELECT R.sid
                     FROM Boats B, Reserves R
                     WHERE R.bid = B.bid AND B.color = 'green';
                 </code-block>
             </compare>
-            <p>
-                <format color="IndianRed">Reserve a red
-                    <format style="bold">and</format>
-                    a
-                    green boat
-                </format>
-            </p>
+            <p><format color="IndianRed">Reserve a red <format style="bold">and</format> a green boat</format></p>
             <compare type="left-right" first-title="Boolean Logic (Wrong!)" second-title="Set Operators">
                 <code-block lang="sql">
                     -- A boat cannot be red and green at the same time
@@ -745,71 +718,107 @@
                     SELECT R.sid
                     FROM Boats B, Reserves R
                     WHERE R.bid = B.bid AND B.color = 'red';
-                    \/
+                    
                     INTERSECT
-                    \/
+                    
                     SELECT R.sid
                     FROM Boats B, Reserves R
                     WHERE R.bid = B.bid AND B.color = 'green';
                 </code-block>
             </compare>
-            <p>
-                <format color="BlueViolet">Set Semantics</format>
-            </p>
+            <p><format color="BlueViolet">Set Semantics</format></p>
             <p>Default (Think of each letter as being a tuple in a relation):</p>
             <p>R = {A, A, A, A, B, B, C, D}</p>
             <p>S = {A, A, B, B, B, C, E}</p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="Fuchsia">UNION:</format>
-                        {A, B, C, D, E}
-                    </p>
+                    <p><format color="Fuchsia">UNION:</format> {A, B, C, D, E}</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">INTERSECT:</format>
-                        {A, B, C}
-                    </p>
+                    <p><format color="Fuchsia">INTERSECT:</format> {A, B, C}</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">EXCEPT:</format>
-                        {D}
-                    </p>
+                    <p><format color="Fuchsia">EXCEPT:</format> {D}</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">"ALL": Multiset Semantics</format>
-            </p>
+            <p><format color="BlueViolet">"ALL": Multiset Semantics</format></p>
             <p>R = {A, A, A, A, B, B, C, D} = {A(4), B(2), C(1), D(1)}</p>
             <p>S = {A, A, B, B, B, C, E} = {A(2), B(3), C(1), E(1)}</p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="Fuchsia">UNION ALL (sum of all cardinalities):
-                        </format>
-                        {A(6), B(5), C(2), D(1), E(1)}
-                    </p>
+                    <p><format color="Fuchsia">UNION ALL (sum of all cardinalities):</format> {A(6), B(5), C(2), D(1),
+                        E(1)}</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">INTERSECT ALL (min of cardinalities):
-                        </format>
+                    <p><format color="Fuchsia">INTERSECT ALL (min of cardinalities):</format>
                         {A(min(4,2)), B(min(2,3)), C(min(1,1)), D(min(1,0)), E(min(0,1))}
-                        = {A, A, B, B, C}
-                    </p>
+                        = {A, A, B, B, C}</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">EXCEPT ALL (subtract cardinalities):
-                        </format>
-                        {A(4-2), B(2-3), C(1-1), D(1-0), E(0-1)} = {A, A, D}
-                    </p>
+                    <p><format color="Fuchsia">EXCEPT ALL (subtract cardinalities):</format>
+                        {A(4-2), B(2-3), C(1-1), D(1-0), E(0-1)} = {A, A, D}</p>
                 </li>
             </list>
         </chapter>
         <chapter title="2.3 Nested Queries" id="2-3-nested-queries">
+            <list type="decimal">
+
+                <li>
+                    <p><format color="Fuchsia">In</format></p>
+                    <p><format color="IndianRed">Example</format></p>
+                    <code-block lang="sql" collapsible="true">
+                        SELECT S.sname
+                        FROM Sailors S
+                        WHERE S.sid IN
+                            (SELECT R.sid
+                            FROM Reserves R
+                            WHERE R.bid = 102); -- Subquery
+                    </code-block>
+                </li>
+
+                <li>
+                    <p><format color="Fuchsia">Not In</format></p>
+                    <p><format color="IndianRed">Example</format></p>
+                    <code-block lang="sql" collapsible="true">
+                        SELECT S.sname
+                        FROM Sailors S
+                        WHERE S.sid NOT IN
+                            (SELECT R.sid
+                            FROM Reserves R
+                            WHERE R.bid = 103); -- Subquery
+                    </code-block>
+                </li>
+
+                <li>
+                    <p><format color="Fuchsia">Exists</format></p>
+                    <p><format color="IndianRed">Example 1 (bit odd, but legal)</format></p>
+                    <code-block lang="sql" collapsible="true">
+                        SELECT S.sname
+                        FROM Sailors S
+                        WHERE EXISTS
+                            (SELECT *
+                            FROM Reserves R
+                            WHERE R.bid = 103);
+                        /* The query will output all the sailors if there is at least one sailor who reserves boat 103
+                        or return nothing if there isn't */
+                    </code-block>
+
+                    <p><format color="IndianRed">Example 2 (Nested Queries with Correlation)</format></p>
+                    <code-block lang="sql" collapsible="true">
+                        SELECT S.sname
+                        FROM Sailors S
+                        WHERE EXISTS
+                            (SELECT *
+                            FROM Reserves R
+                            WHERE R.bid = 103 AND R.sid = S.sid);
+                        /* The query will output all the sailors who reserve boat 103.
+                        *  In this example, the subquery will take every tuple of the sailors and run it,
+                        *  tuple by tuple.
+                        */
+                    </code-block>
+                </li>
+
+            </list>
         </chapter>
     </chapter>
 
