@@ -15,9 +15,7 @@
         </title>
         <chapter title="1 Number Representation" id="1-number-representation">
             <chapter title="1.1 Number Base" id="1-1-number-base">
-                <p>
-                    <format color="BlueViolet">Commonly Used Number Bases:</format>
-                </p>
+                <p><format color="BlueViolet">Commonly Used Number Bases:</format></p>
                 <list type="bullet">
                     <li>
                         <p>
@@ -671,9 +669,8 @@ Conversion"/>
         </chapter>
         <chapter title="2 C Introduction" id="2-c-introduction">
             <note>
-                <p>For more information, please refer to <a href="C-Programming.topic"
-                                                            anchor="intro" summary="C++ Introduction">introduction in
-                    C++ programming</a>.</p>
+                <p>For more information, please refer to <a href="C-Programming.topic" anchor="intro" summary=
+                        "C++ Introduction">introduction in C++ programming</a>.</p>
             </note>
             <chapter title="2.1 Variable C Types" id="2-1-variable-c-types">
                 <p>
@@ -1255,9 +1252,7 @@ Conversion"/>
                 </li>
             </list>
             <img src="../images_architecture/a2-1-1.png" alt="C Memory Layout"/>
-            <p>
-                <format color="BlueViolet">Storage for C Programs</format>
-            </p>
+            <p><format color="BlueViolet">Storage for C Programs</format></p>
             <list>
                 <li>
                     <p>
@@ -3193,6 +3188,182 @@ Conversion"/>
                     75:	c3                   	ret
                 </code-block>
             </chapter>
+        </chapter>
+    </chapter>
+    <chapter title="8 Program Optimization" id="8-program-optimization" switcher-key="x86">
+        <p><format color="BlueViolet">Limitations of Optimizing Compilers</format></p>
+        <list type="bullet">
+            <li>
+                <p>Operate under fundamental constraint.</p>
+            </li>
+            <li>
+                <p>Behavior that may be obvious to programmers can be obfuscated by languages and code styles.</p>
+            </li>
+            <li>
+                <p>When in doubt, the compiler must be conservative.</p>
+            </li>
+            <li>
+                <p>...</p>
+            </li>
+        </list>
+        <chapter title="8.1 Generally Useful Optimizations" id="8-1-generally-useful-optimizations">
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Reduce frequency with which computation performed</format></p>
+                    <compare first-title="Raw" second-title="Optimized">
+                        <code-block lang="c">
+                            void set_row(double *a, double *b, long i, long n) {
+                                long j;
+                                for (j = 0; j &lt; n; j++) {
+                                    a[i * n + j] = b[j];
+                                }
+                            }
+                        </code-block>
+                        <code-block lang="c">
+                            void set_row(double *a, double *b, long i, long n) {
+                                long j;
+                                int ni = n + i;
+                                for (j = 0; j &lt; n; j++) {
+                                    a[ni + j] = b[j];
+                                }
+                            }
+                        </code-block>
+                    </compare>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Reduction in Strength: Shift, add instead of multiply or divide</format>
+                    </p>
+                    <compare first-title="Raw" second-title="Optimized">
+                        <code-block lang="c">
+                            for (int i = 0; i &lt; n; i++) {
+                                int ni = n * i;
+                                for (int j = 0; j &lt; n; j++)
+                                    a[ni + j] = b[j];
+                            }
+                        </code-block>
+                        <code-block lang="c">
+                            int ni = 0;
+                            for (int i = 0; i &lt; n; i++) {
+                                for (int j = 0; j &lt; n; j++)
+                                    a[ni + j] = b[j];
+                                ni += n;
+                            }
+                        </code-block>
+                    </compare>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Share Common Subexpressions</format></p>
+                    <compare first-title="Raw" second-title="Optimized">
+                        <code-block lang="c">
+                            /* Sum neighbors of i, j */
+                            up = val[(i - 1) * n + j];
+                            down = val[(i + 1) * n + j];
+                            left = val[i * n + j - 1];
+                            down = val[i * n + j + 1];
+                            sum = up + down + left + right;
+                            // 3 multiplications
+                        </code-block>
+                        <code-block lang="c">
+                            long inj = i * n + j;
+                            up = val[inj - n];
+                            down = val[inj + n];
+                            left = val[inj - 1];
+                            down = val[inj + 1];
+                            sum = up + down + left + right;
+                            // 1 multiplication
+                        </code-block>
+                    </compare>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Remove unnecessary procedure calls</format></p>
+                </li>
+            </list>
+        </chapter>
+        <chapter title="8.2 Optimization Blockers" id="8-2-optimization-blockers">
+            <list type="bullet">
+                <li id="procedure-calls">
+                    <p><format color="Fuchsia">Procedure Calls</format></p>
+                    <compare first-title="Raw" second-title="Optimized">
+                        <code-block>
+                            /* Convert string to lower case with quadratic performance*/
+                            void lower(char* s) {
+                                size_t i;
+                                for (i = 0; i &lt; strlen(s); i++) {
+                                    if (s[i] &gt;= 'A' &amp;&amp; s[i] &lt;= 'Z')
+                                        s[i] += 'a' - 'A';
+                                }
+                            }
+                        </code-block>
+                        <code-block>
+                            /* Optimized code */
+                            void lower(char* s) {
+                                size_t i;
+                                size_t len = strlen(s);
+                                for (i = 0; i &lt; len; i++) {
+                                    if (s[i] &gt;= 'A' &amp;&amp; s[i] &lt;= 'Z')
+                                        s[i] += 'a' - 'A';
+                                }
+                            }
+                        </code-block>
+                    </compare>
+                    <list type="bullet">
+                        <li>
+                            <p><code>strlen()</code> takes linear time to scan the string until it reaches the null
+                                character.</p>
+                        </li>
+                        <li>
+                            <p>Why couldn't compiler move <code>strlen()</code> out of inner loop?</p>
+                            <list type="bullet">
+                                <li>
+                                    <p>Procedure may have side effects.</p>
+                                </li>
+                                <li>
+                                    <p>Function may not return the same value for a given argument.</p>
+                                </li>
+                                <li>
+                                    <p>Compiler treats procedure call as a black box =&gt; weak optimizaion!</p>
+                                </li>
+                                <li>
+                                    <p>You can use GCC with inline functions and optimization O1, but better do yur own
+                                        code motion.</p>
+                                </li>
+                            </list>
+                        </li>
+                    </list>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Memory Alias</format></p>
+                    <code-block lang="c">
+                        void sum_rows1(double *a, double *b, long n)  {
+                            long i, j;
+                            for (i = 0; i &lt; n; i++) {
+                                b[i] = 0;
+                                for (j = 0; j &lt; n; j++) {
+                                    b[i] += a[i * n + j];
+                                }
+                            }
+                        }
+
+                        int main() {
+                            double A[9] =
+                            {0, 1, 2,
+                            4, 8, 16,
+                            32, 64, 128};
+                            double B[3] = A + 3;
+                            sum_rows1(A, B, 3);
+                            return 0;
+                        }
+                    </code-block>
+                    <p>Memory and registers have to pass values over and over again!</p>
+                    <p>The optimizer cannot optimize because the code may updates a[i] on every iteration!</p>
+                </li>
+            </list>
+        </chapter>
+        <chapter title="8.3 Exploit Instruction-Level Parallelism" id="8-3-exploit-instruction-level-parallelism">
+            <p><format color="DarkOrange">CPE (Cycle Per Element)</format></p>
+            <img src="../images_architecture/a8-3-1.png" alt="Modern COU Design"/>
+        </chapter>
+        <chapter title="8.4 Dealing with Conditions" id="8-4-dealing-with-conditions">
         </chapter>
     </chapter>
 
