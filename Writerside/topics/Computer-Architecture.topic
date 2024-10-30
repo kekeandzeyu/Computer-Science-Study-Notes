@@ -3361,9 +3361,72 @@ Conversion"/>
         </chapter>
         <chapter title="8.3 Exploit Instruction-Level Parallelism" id="8-3-exploit-instruction-level-parallelism">
             <p><format color="DarkOrange">CPE (Cycle Per Element)</format></p>
-            <img src="../images_architecture/a8-3-1.png" alt="Modern COU Design"/>
+            <list type="bullet">
+                <li>
+                    <p>Convenient way to express performance of program that operates on vectors or lists.</p>
+                </li>
+                <li>
+                    <p>Cycles = CPE*n + Overhead, CPE is slope of line.</p>
+                </li>
+            </list>
+            <img src="../images_architecture/a8-3-1.png" alt="CPE"/>
+            <p><format color="BlueViolet">Modern CPU Design</format></p>
+            <img src="../images_architecture/a8-3-2.png" alt="Modern CPU Design"/>
+            <p><format color="BlueViolet">Pipelined Functional Units</format></p>
+            <img src="../images_architecture/a8-3-3.png" alt="Pipelined Functional Units"/>
+            <list type="bullet">
+                <li>
+                    <p>Divide computation into stages.</p>
+                </li>
+                <li>
+                    <p>Pass partial computations from stage to stage.</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Loop Unrolling:</format> Reason: Breaks sequential dependency</p>
+            <p><format color="IndianRed">No Loop Unrolling</format></p>
+            <code-block lang="c">
+                for (i = 0; i &lt; length; i++) {
+                    x = x + d[i];
+                }
+            </code-block>
+            <img src="../images_architecture/a8-3-4.png" alt="No Loop Unrolling"/>
+            <p><format color="IndianRed">Loop Unrolling (<math>\times {2}{1}</math>)</format></p>
+            <code-block lang="c">
+                for (int i = 0; i &lt; limit; i +=2)
+                    x = x + d[i] + d[i + 1];
+                }
+            </code-block>
+            <p><format color="IndianRed">Loop Unrolling (<math>\times {2}{1a}</math>)</format></p>
+            <code-block lang="c">
+                for (int i = 0; i &lt; limit; i +=2)
+                    x = x + (d[i] + d[i + 1]);
+                }
+            </code-block>
+            <img src="../images_architecture/a8-3-5.png" alt="Loop Unrolling (2*1a)"/>
+            <p><format color="IndianRed">Loop Unrolling (<math>\times {2}{2}</math>)</format></p>
+            <code-block lang="c">
+                for (int i = 0; i &lt; limit; i +=4)
+                    x0 = x0 + d[i];
+                    x1 = x1 + d[i + 1];
+                }
+            </code-block>
+            <img src="../images_architecture/a8-3-6.png" alt="Loop Unrolling (2*2)"/>
         </chapter>
         <chapter title="8.4 Dealing with Conditions" id="8-4-dealing-with-conditions">
+            <p><format color="OrangeRed">Instruction Control Unit</format> must work well ahead of <format
+                    color="OrangeRed">Execution Unit</format> to generate enough operations to keep EU busy!</p>
+            <procedure title="Branch Prediction">
+                <step>
+                    <p>Guess which way branch will go.</p>
+                </step>
+                <step>
+                    <p>Begin executing instructions at predicted position, but don’t actually modify register or memory
+                        data.</p>
+                </step>
+                <step>
+                    <p>If correct, execute; if mispredict, recover.</p>
+                </step>
+            </procedure>
         </chapter>
     </chapter>
 
