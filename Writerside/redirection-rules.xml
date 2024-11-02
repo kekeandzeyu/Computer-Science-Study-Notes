@@ -19,4 +19,8 @@
         <description>Created after removal of "test" from Computer Science Study Notes</description>
         <accepts>test.html</accepts>
     </rule>
+    <rule id="2d183f83">
+        <description>Created after removal of "Empty MD Topic" from Computer Science Study Notes</description>
+        <accepts>Empty-MD-Topic.html</accepts>
+    </rule>
 </rules>

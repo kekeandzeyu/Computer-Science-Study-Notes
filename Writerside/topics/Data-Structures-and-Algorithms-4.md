@@ -1883,7 +1883,7 @@ N \log N + N</math></p>
 
 <p>For more examples on algorithm designing using reductions, please visit 
 <a href="Data-Structures-and-Algorithms-1.topic" anchor="convex-hull" 
-summary="Convex Hull">convex hull</a> or <a href="Data-Structures-and-Algorithms-3.md"  anchor="shortest-path-properties" 
+summary="Convex Hull">convex hull</a> or <a href="Data-Structures-and-Algorithms-3.topic"  anchor="shortest-path-properties" 
 summary="Shortest Path">shortest path</a>.</p>
 
 ### 24.3 Establishing Lower Bounds

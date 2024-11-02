@@ -77,7 +77,7 @@
             </chapter>
             <chapter title="1.1.2 Strings in Python" id="1-1-2-strings-in-python">
                 <p>For more information on strings, please visit
-                    <a href="Data-Structures-and-Algorithms-3.md" anchor="strings-in-java"
+                    <a href="Data-Structures-and-Algorithms-3.topic" anchor="strings-in-java"
                        summary="Strings in Java">strings in Java</a>.</p>
                 <p>
                     <format color="BlueViolet">Examples in Python:</format>

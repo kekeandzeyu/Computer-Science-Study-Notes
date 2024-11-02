@@ -523,7 +523,7 @@ Conversion"/>
                         <p>
                             <format color="Fuchsia">Largest number:</format>
                             0b1111...111 represents
-                            <math>2^{N – 1} + \text{bias}</math>
+                            <math>2^{N} - 1 + \text{bias}</math>
                             .
                         </p>
                     </li>

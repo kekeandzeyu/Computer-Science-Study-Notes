@@ -311,7 +311,7 @@
         <chapter title="4 Streams" id="4-streams">
             <chapter title="4.1 Strings" id="4-1-strings">
                 <p>For more information on strings, please visit
-                    <a href="Data-Structures-and-Algorithms-3.md" anchor="strings-in-java"
+                    <a href="Data-Structures-and-Algorithms-3.topic" anchor="strings-in-java"
                        summary="Strings in Java">strings in Java</a>.</p>
                 <p>
                     <format color="BlueViolet">Examples in C++:</format>

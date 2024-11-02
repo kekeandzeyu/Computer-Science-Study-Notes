@@ -2495,7 +2495,7 @@
             </list>
             <note>
                 <p>For more information about the performance of insertion sort,
-                    please refer to the <a href="Data-Structures-and-Algorithms-3.md"
+                    please refer to the <a href="Data-Structures-and-Algorithms-3.topic"
                                            anchor="sortperf" summary="Table for Comparing Performance of Sorting
 Algorithm">table for sorting performance</a> or the <a
                             anchor="conclusion" summary="Conclusion">conclusion table</a>.</p>
@@ -3522,7 +3522,7 @@ Algorithm">table for sorting performance</a> or the <a
             </tip>
             <note>
                 <p>For more information about the performance of mergesort, please
-                    refer to the <a href="Data-Structures-and-Algorithms-3.md"
+                    refer to the <a href="Data-Structures-and-Algorithms-3.topic"
                                     anchor="sortperf" summary="Table for Comparing Performance of Sorting
 Algorithm">table for sorting performance</a> or the <a
                             anchor="conclusion" summary="Conclusion">conclusion table</a>.</p>
@@ -4218,7 +4218,7 @@ Algorithm">table for sorting performance</a> or the <a
             </list>
             <note>
                 <p>For more information about the performance of quicksort, please
-                    refer to the <a href="Data-Structures-and-Algorithms-3.md"
+                    refer to the <a href="Data-Structures-and-Algorithms-3.topic"
                                     anchor="sortperf" summary="Table for Comparing Performance of Sorting
 Algorithm">table for sorting performance</a> or the <a
                             anchor="conclusion" summary="Conclusion">conclusion table</a>.</p>
@@ -5992,7 +5992,7 @@ smaller than one (or both) of its children's">
             </tip>
             <note>
                 <p>For information about the performance of heapsort, please refer
-                    to the <a href="Data-Structures-and-Algorithms-3.md" anchor="sortperf"
+                    to the <a href="Data-Structures-and-Algorithms-3.topic" anchor="sortperf"
                               summary="Table for Comparing Performance of Sorting Algorithm">table
                         for sorting performance</a>.</p>
             </note>
