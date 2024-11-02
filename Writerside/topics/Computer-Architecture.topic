@@ -48,18 +48,10 @@
                         </p>
                         <list type="bullet">
                             <li>
-                                <p>
-                                    <format color="LawnGreen">Symbols:</format>
-                                    0, 1
-                                </p>
+                                <p><format color="LawnGreen">Symbols:</format> 0, 1</p>
                             </li>
                             <li>
-                                <p>
-                                    <format color="LawnGreen">Notation:</format>
-                                    <math>
-                                        101011_{2} = 0\text{b}101011
-                                    </math>
-                                </p>
+                                <p><format color="LawnGreen">Notation:</format><math>101011_{2} = 0\text{b}101011</math></p>
                             </li>
                             <li>
                                 <p>Converting numbers to base 2 lets us represent numbers as
@@ -455,7 +447,7 @@ Conversion"/>
                 <list type="bullet">
                     <li>
                         <p>
-                            <format color="Fuchsia">IIf number is positive:</format>
+                            <format color="Fuchsia">If number is positive:</format>
                         </p>
                         <list type="bullet">
                             <li>
@@ -729,17 +721,13 @@ Conversion"/>
                         return 0;
                     }
                 </code-block>
-                <p>
-                    <format color="DarkOrange">Enum:</format>
-                    A group of related integer
-                    constants.
-                </p>
+                <p><format color="DarkOrange">Enum:</format> A group of related integer constants.</p>
                 <code-block lang="c++" collapsible="true">
                     enum enum_name {
-                    constant1, // Assigned 0 by default
-                    constant2, // Assigned 1 by default
-                    constant3, // Assigned 2 by default
-                    ...
+                        constant1, // Assigned 0 by default
+                        constant2, // Assigned 1 by default
+                        constant3, // Assigned 2 by default
+                        ...
                     };
                 </code-block>
                 <p>
@@ -1086,7 +1074,7 @@ Conversion"/>
                                 <p><format color="OrangeRed">Early termination</format></p>
                             </li>
                         </list>
-                        <p><format color="LawnGreen">Examples</format></p>
+                        <p><format color="IndianRed">Examples</format></p>
                         <code-block lang="c" collapsible="true">
                             unsigned char value1 = 0x41; // Hexadecimal 41 (decimal 65)
                             unsigned char value2 = 0x00; // Hexadecimal 00 (decimal 0)
@@ -1112,7 +1100,7 @@ Conversion"/>
                                         <p>Fill with 0’s on right</p>
                                     </li>
                                 </list>
-                                <p><format color="LawnGreen">Examples</format></p>
+                                <p><format color="IndianRed">Examples</format></p>
                                 <img src="../images_architecture/a3-1-1.png" alt="Left Shift"/>
                             </li>
                             <li>
@@ -1129,7 +1117,7 @@ Conversion"/>
                                         <p>Arithmetic shift: Replicate most significant bit on left</p>
                                     </li>
                                 </list>
-                                <p><format color="LawnGreen">Examples</format></p>
+                                <p><format color="IndianRed">Examples</format></p>
                                 <img src="../images_architecture/a3-1-2.png" alt="Right Shift"/>
                             </li>
                             <li>
@@ -1142,7 +1130,7 @@ Conversion"/>
             <chapter title="3.2 Multiplication &amp; Division" id="3-2-mutliplication-division">
                 <chapter title="3.2.1 Power-of-2 Multiply with Shift" id="3-2-1-power-of-2-multiplication">
                     <p><code>u &lt;&lt; k</code> gives <math>u * 2^k</math>, works for both signed and unsigned.</p>
-                    <p><format color="HotPink">Examples</format></p>
+                    <p><format color="IndianRed">Examples</format></p>
                     <code-block lang="c" collapsible="true">
                         int x = 8;
                         int y = x &lt;&lt; 2; // 32
@@ -1156,7 +1144,7 @@ Conversion"/>
                         <li>
                             <p><format color="Fuchsia">Unsigned power-of-2 division</format></p>
                             <p><code>u &gt;&gt; k</code> gives <math>u / 2^k</math>, use logical shift</p>
-                            <p><format color="HotPink">Examples</format></p>
+                            <p><format color="IndianRed">Examples</format></p>
                             <table>
                                 <tr>
                                     <td></td>
