@@ -1587,126 +1587,55 @@
             </tabs>
         </chapter>
         <chapter title="17.2 Shortest Path Properties" id="shortest-path-properties">
-            <p>
-                <format color="BlueViolet">Cost of undirected shortest paths:</format>
-                <math>E \log V + E</math>
-            </p>
-            <p>
-                <format color="LawnGreen">Proof:</format>
-                Undirected shortest paths
-                (with nonnegative weights) reduces to directed shortest path.
-            </p>
+            <p><format color="BlueViolet">Cost of undirected shortest paths:</format> <math>E \log V + E</math></p>
+            <p><format color="LawnGreen">Proof:</format> Undirected shortest paths (with nonnegative weights) reduces to
+                directed shortest path.</p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <math>E \log V</math>
-                        cost of shortest paths in digraph
-                    </p>
+                    <p><math>E \log V</math> cost of shortest paths in digraph</p>
                 </li>
                 <li>
-                    <p>
-                        <math>E</math>
-                        cost of reduction
-                    </p>
+                    <p><math>E</math> cost of reduction</p>
                 </li>
             </list>
             <procedure title="Edge Relaxation" type="choices">
                 <step>
-                    <p><code>distTo[v]</code> is length of shortest
-                        <format color
-                                        ="OrangeRed">known
-                        </format>
-                        path from
-                        <math>s</math>
-                        to
-                        <math>v</math>
-                        .
-                    </p>
+                    <p><code>distTo[v]</code> is length of shortest <format color="OrangeRed">known</format> path from
+                        <math>s</math> to <math>v</math>.</p>
                 </step>
                 <step>
-                    <p><code>distTo[w]</code> is length of shortest
-                        <format color
-                                        ="OrangeRed">known
-                        </format>
-                        path from
-                        <math>s</math>
-                        to
-                        <math>w</math>
-                        .
-                    </p>
+                    <p><code>distTo[w]</code> is length of shortest <format color="OrangeRed">known</format> path from
+                        <math>s</math> to <math>w</math>.</p>
                 </step>
                 <step>
-                    <p><code>edgeTo[w]</code> is last edge on shortest
-                        <format color
-                                        ="OrangeRed">known
-                        </format>
-                        path from
-                        <math>s</math>
-                        to
-                        <math>w</math>
-                        .
-                    </p>
+                    <p><code>edgeTo[w]</code> is last edge on shortest <format color="OrangeRed">known</format> path
+                        from <math>s</math> to <math>w</math>.</p>
                 </step>
                 <step>
-                    <p>If
-                        <math>e = v->w</math>
-                        gives shorter path to
-                        <math>w
-                        </math>
-                        through
-                        <math>v</math>
-                        , update both <code>distTo[w]
-                        </code> and <code>edgeTo[w]</code>.
-                    </p>
+                    <p>If <math>e = v->w</math> gives shorter path to <math>w</math> through <math>v</math>, update both
+                        <code>distTo[w]</code> and <code>edgeTo[w]</code>.</p>
                 </step>
             </procedure>
             <img src="../images_data/d17-2-1.png" alt="Edge Relaxation"/>
-            <p>
-                <format color="BlueViolet">Correctness Proof:</format>
-                Shortest-paths optimality conditions
-            </p>
-            <p>Let
-                <math>G</math>
-                be an edge-weighted digraph.
-            </p>
-            <p>Then <code>distTo[]</code> are the shortest path distances from
-                <math>s</math>
-                iff:
-            </p>
+            <p><format color="LawnGreen">Correctness Proof:</format> Shortest-paths optimality conditions</p>
+            <p>Let <math>G</math> be an edge-weighted digraph.</p>
+            <p>Then <code>distTo[]</code> are the shortest path distances from <math>s</math> iff:</p>
             <list type="bullet">
                 <li>
                     <p>distTo[s] = 0.</p>
                 </li>
                 <li>
-                    <p>For each vertex v, distTo[v] is the length of some path from
-                        <math>s</math>
-                        to
-                        <math>v</math>
-                        .
-                    </p>
+                    <p>For each vertex v, distTo[v] is the length of some path from <math>s</math> to <math>v</math>.</p>
                 </li>
                 <li>
-                    <p>For each edge
-                        <math>e = v -> w</math>
-                        , distTo[w] &lt;= distTo[v] +
-                        e.weight().
-                    </p>
+                    <p>For each edge <math>e = v -> w</math>, distTo[w] &lt;= distTo[v] + e.weight().</p>
                 </li>
             </list>
-            <p>
-                <format color="LawnGreen">Proof</format>
-            </p>
+            <p><format color="LawnGreen">Proof</format></p>
             <list type="bullet">
                 <li>
-                    <p>Suppose that
-                        <math>s = v_{0} → v_{1} → v_{2} → ... → v_{k} = w
-                        </math>
-                        is a shortest path from
-                        <math>s</math>
-                        to
-                        <math>w</math>
-                        .
-                    </p>
+                    <p>Suppose that <math>s = v_{0} → v_{1} → v_{2} → ... → v_{k} = w</math> is a shortest path from
+                        <math>s</math> to <math>w</math>.</p>
                 </li>
                 <li>
                     <p>Then, </p>
@@ -1718,48 +1647,24 @@
                         \text{distTo}[v_{k}] &amp; = \text{distTo}[v_{k - 1}] + \text{e}_{k}.\text{weight}() \\
                         \end{align*}
                     </code-block>
-                    <p>
-                        <math>\text{e}_{i}</math>
-                        =
-                        <math>\text{i}^{\text{th}}</math>
-                        edge
-                        on shortest path from
-                        <math>s</math>
-                        to
-                        <math>w</math>
-                        .
-                    </p>
+                    <p><math>\text{e}_{i}</math> = <math>\text{i}^{\text{th}}</math> edge on shortest path from <math>s
+                    </math> to <math>w</math>.</p>
                 </li>
                 <li>
-                    <p>Add inequalities; simplify; and substitute
-                        <math>\text{distTo}[v_{0}] = \text{distTo}[s] = 0</math>
+                    <p>Add inequalities; simplify; and substitute <math>\text{distTo}[v_{0}] = \text{distTo}[s] = 0</math>
                     </p>
                     <code-block lang="tex">
                         \text{distTo}[w] = \text{distTo}[v_{k}] \leq \text{e}_{1}.\text{weight}()
                         + \text{e}_{2}.\text{weight}() + ... + \text{e}_{k}.\text{weight}()
                     </code-block>
-                    <p>
-                        <math>\text{e}_{1}.\text{weight}() + \text{e}_{2}.\text{weight}()
-                            + ... + \text{e}_{k}.\text{weight}()
-                        </math>
-                        is the weight of shortest
-                        path from
-                        <math>s</math>
-                        to
-                        <math>w</math>
-                        .
-                    </p>
+                    <p><math>\text{e}_{1}.\text{weight}() + \text{e}_{2}.\text{weight}() + ... + \text{e}_{k}.\text{weight}()
+                        </math> is the weight of shortest path from <math>s</math> to <math>w</math>.</p>
                 </li>
                 <li>
-                    <p>Thus, <code>distTo[w]</code> is the weight of shortest path to
-                        <math>w</math>
-                        .
-                    </p>
+                    <p>Thus, <code>distTo[w]</code> is the weight of shortest path to <math>w</math>.</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Different Implementations</format>
-            </p>
+            <p><format color="BlueViolet">Different Implementations</format></p>
             <list type="bullet">
                 <li>
                     <p>Dijkstra's algorithm (nonnegative weights).</p>
@@ -1776,79 +1681,49 @@
             <procedure title="Dijkstra's Algorithm">
                 <step>
                     <p>Consider vertices in increasing order of distance from s.</p>
-                    <p>(non-tree vertex with the lowest <code>distTo[]</code> value)
-                    </p>
+                    <p>(non-tree vertex with the lowest <code>distTo[]</code> value)</p>
                 </step>
                 <step>
-                    <p>Add vertex to tree and relaw all edges pointing from that vertex.
-                    </p>
+                    <p>Add vertex to tree and relaw all edges pointing from that vertex.</p>
                 </step>
             </procedure>
-            <p>
-                <format color="LawnGreen">Correctness Proof:</format>
-                Dijkstra's
-                algorithm computes a SPT in any edge-weighted digraph with
-                <format color="OrangeRed">nonnegative</format>
-                weights.
-            </p>
+            <p><format color="LawnGreen">Correctness Proof:</format> Dijkstra's algorithm computes a SPT in any
+                edge-weighted digraph with <format color="OrangeRed">nonnegative</format> weights.</p>
             <list type="bullet">
                 <li>
-                    <p>Each edge
-                        <math>e = v→w</math>
-                        is relaxed exactly once
-                        (when v is relaxed), leaving
-                        <math>\text{distTo}[w] ≤ \text{distTo}[v] + \text{e.weight()}</math>
-                        .
-                    </p>
+                    <p>Each edge <math>e = v->w</math> is relaxed exactly once (when v is relaxed), leaving
+                        <math>\text{distTo}[w] ≤ \text{distTo}[v] + \text{e.weight()}</math>.</p>
                 </li>
                 <li>
                     <p>Inequality holds until algorithm terminates because: </p>
                     <list type="bullet">
                         <li>
-                            <p><code>distTo[w]</code> cannot increase => <code>distTo[]
-                            </code> values are monotone decreasing.</p>
+                            <p><code>distTo[w]</code> cannot increase =&gt; <code>distTo[]</code> values are monotone
+                                decreasing.</p>
                         </li>
                         <li>
-                            <p><code>distTo[v]</code> will not change => we choose lowest
-                                <code>distTo[]</code> value at each step and edge weights are
-                                nonnegative)</p>
+                            <p><code>distTo[v]</code> will not change => we choose lowest <code>distTo[]</code> value at
+                                each step and edge weights are nonnegative)</p>
                         </li>
                     </list>
                 </li>
                 <li>
-                    <p>Thus, upon termination, shortest-paths optimality conditions
-                        hold.</p>
+                    <p>Thus, upon termination, shortest-paths optimality conditions hold.</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Prim’s algorithm is essentially the
-                    same algorithm as Dijkstra's algorithm
-                </format>
-            </p>
+            <p><format color="BlueViolet">Prim’s algorithm is essentially the same algorithm as Dijkstra's algorithm
+                </format></p>
             <list type="bullet">
                 <li>
-                    <p>Both are in a family of algorithms that compute a graph's
-                        spanning tree.</p>
+                    <p>Both are in a family of algorithms that compute a graph's spanning tree.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Prim's</format>
-                        : Closest vertex to
-                        the
-                        <format color="OrangeRed">tree</format>
-                        (via an undirected
-                        edge).
-                    </p>
+                    <p><format color="Fuchsia">Prim's:</format> Closest vertex to the <format color="OrangeRed">tree
+                    </format> (via an undirected edge).</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Dijkstra's</format>
-                        : Closest vertex
-                        to the
-                        <format color="OrangeRed">source</format>
-                        (via a
-                        directed path).
-                    </p>
+                    <p><format color="Fuchsia">Dijkstra's:</format> Closest vertex to the <format color="OrangeRed">
+                        source</format> (via a directed path).</p>
                 </li>
             </list>
             <note>
@@ -1864,57 +1739,57 @@
                         
                         public class Dijkstra {
                         
-                        private final double[] distTo;
-                        private final DirectedEdge[] edgeTo;
-                        private final boolean[] marked;
-                        private final PriorityQueue&lt;Integer&gt; pq;
+                            private final double[] distTo;
+                            private final DirectedEdge[] edgeTo;
+                            private final boolean[] marked;
+                            private final PriorityQueue&lt;Integer&gt; pq;
                         
-                        public Dijkstra(EdgeWeightedDigraph G, int s) {
-                        distTo = new double[G.V()];
-                        edgeTo = new DirectedEdge[G.V()];
-                        marked = new boolean[G.V()];
-                        for (int v = 0; v &lt; G.V(); v++)
-                        distTo[v] = Double.POSITIVE_INFINITY;
-                        distTo[s] = 0.0;
-                        pq = new PriorityQueue&lt;&gt;(Comparator.comparingDouble(v -> distTo[v]));
-                        pq.offer(s);
-                        while (!pq.isEmpty()) {
-                        int v = pq.poll();
-                        marked[v] = true;
-                        for (DirectedEdge e : G.adj(v)) {
-                        relax(e);
-                        }
-                        }
-                        }
+                            public Dijkstra(EdgeWeightedDigraph G, int s) {
+                                distTo = new double[G.V()];
+                                edgeTo = new DirectedEdge[G.V()];
+                                marked = new boolean[G.V()];
+                                for (int v = 0; v &lt; G.V(); v++)
+                                    distTo[v] = Double.POSITIVE_INFINITY;
+                                distTo[s] = 0.0;
+                                pq = new PriorityQueue&lt;&gt;(Comparator.comparingDouble(v -> distTo[v]));
+                                pq.offer(s);
+                                while (!pq.isEmpty()) {
+                                    int v = pq.poll();
+                                    marked[v] = true;
+                                    for (DirectedEdge e : G.adj(v)) {
+                                        relax(e);
+                                    }
+                                }
+                            }
                         
-                        private void relax(DirectedEdge e) {
-                        int v = e.from();
-                        int w = e.to();
-                        if (distTo[w] &gt; distTo[v] + e.weight()) {
-                        distTo[w] = distTo[v] + e.weight();
-                        edgeTo[w] = e;
-                        if (!marked[w]) {
-                        pq.offer(w);
-                        }
-                        }
-                        }
+                            private void relax(DirectedEdge e) {
+                                int v = e.from();
+                                int w = e.to();
+                                if (distTo[w] &gt; distTo[v] + e.weight()) {
+                                    distTo[w] = distTo[v] + e.weight();
+                                    edgeTo[w] = e;
+                                    if (!marked[w]) {
+                                        pq.offer(w);
+                                    }
+                                }
+                            }
                         
-                        public double distTo(int v) {
-                        return distTo[v];
-                        }
+                            public double distTo(int v) {
+                                return distTo[v];
+                            }
                         
-                        public boolean hasPathTo(int v) {
-                        return distTo[v] &lt; Double.POSITIVE_INFINITY;
-                        }
+                            public boolean hasPathTo(int v) {
+                                return distTo[v] &lt; Double.POSITIVE_INFINITY;
+                            }
                         
-                        public Iterable&lt;DirectedEdge&amp;gt pathTo(int v) {
-                        if (!hasPathTo(v)) return null;
-                        List&lt;DirectedEdge&gt; path = new ArrayList&lt;&gt;();
-                        for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
-                        path.add(e);
-                        }
-                        return path;
-                        }
+                            public Iterable&lt;DirectedEdge&amp;gt pathTo(int v) {
+                                if (!hasPathTo(v)) return null;
+                                List&lt;DirectedEdge&gt; path = new ArrayList&lt;&gt;();
+                                for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
+                                    path.add(e);
+                                }
+                                return path;
+                            }
                         }
                     </code-block>
                 </tab>
@@ -1929,20 +1804,20 @@
                         
                         class Dijkstra {
                         private:
-                        std::vector&lt;double&gt; distTo;
-                        std::vector&lt;DirectedEdge&gt; edgeTo;
-                        std::vector&lt;bool&gt; marked;
-                        std::priority_queue&lt;std::pair&lt;double, int&gt;, std::vector&lt;std::pair&lt;double, int&gt;&gt;,
-                        std::greater&lt;&gt;&gt; pq;
-                        
-                        void relax(const DirectedEdge&amp; e);
+                            std::vector&lt;double&gt; distTo;
+                            std::vector&lt;DirectedEdge&gt; edgeTo;
+                            std::vector&lt;bool&gt; marked;
+                            std::priority_queue&lt;std::pair&lt;double, int&gt;, std::vector&lt;std::pair&lt;double, int&gt;&gt;,
+                            std::greater&lt;&gt;&gt; pq;
+
+                            void relax(const DirectedEdge&amp; e);
                         
                         public:
-                        explicit Dijkstra(const EdgeWeightedDigraph&amp; G, int s);
-                        
-                        [[nodiscard]] double getdistTo(int v) const;
-                        [[nodiscard]] bool hasPathTo(int v) const;
-                        [[nodiscard]] std::vector&lt;DirectedEdge&gt; pathTo(int v) const;
+                            explicit Dijkstra(const EdgeWeightedDigraph&amp; G, int s);
+
+                            [[nodiscard]] double getdistTo(int v) const;
+                            [[nodiscard]] bool hasPathTo(int v) const;
+                            [[nodiscard]] std::vector&lt;DirectedEdge&gt; pathTo(int v) const;
                         };
                         
                         #endif // DIJKSTRA_H
@@ -1956,49 +1831,48 @@
                         Dijkstra::Dijkstra(const EdgeWeightedDigraph&amp; G, int s) :
                         distTo(G.getV(), std::numeric_limits&lt;double&gt;::infinity()),
                         edgeTo(G.getV(), DirectedEdge()),
-                        marked(G.getV(), false)
-                        {
-                        distTo[s] = 0.0;
-                        pq.emplace(0.0, s);
-                        
-                        while (!pq.empty()) {
-                        int v = pq.top().second;
-                        pq.pop();
-                        
-                        if (marked[v]) continue;
-                        
-                        marked[v] = true;
-                        for (const auto&amp; e : G.getAdj(v)) {
-                        relax(e);
-                        }
-                        }
+                        marked(G.getV(), false) {
+                            distTo[s] = 0.0;
+                            pq.emplace(0.0, s);
+
+                            while (!pq.empty()) {
+                                int v = pq.top().second;
+                                pq.pop();
+
+                                if (marked[v]) continue;
+
+                                marked[v] = true;
+                                for (const auto&amp; e : G.getAdj(v)) {
+                                    relax(e);
+                                }
+                            }
                         }
                         
                         void Dijkstra::relax(const DirectedEdge&amp; e) {
-                        int v = e.from();
-                        int w = e.to();
-                        if (distTo[w] &gt; distTo[v] + e.getWeight()) {
-                        distTo[w] = distTo[v] + e.getWeight();
-                        edgeTo[w] = e;
-                        pq.emplace(distTo[w], w);
-                        }
+                            int v = e.from();
+                            int w = e.to();
+                            if (distTo[w] &gt; distTo[v] + e.getWeight()) {
+                                distTo[w] = distTo[v] + e.getWeight();
+                                edgeTo[w] = e;
+                                pq.emplace(distTo[w], w);
+                            }
                         }
                         
                         double Dijkstra::getdistTo(int v) const {
-                        return distTo[v];
+                            return distTo[v];
                         }
                         
                         bool Dijkstra::hasPathTo(int v) const {
-                        return distTo[v] &lt; std::numeric_limits&lt;double&gt;::infinity();
+                            return distTo[v] &lt; std::numeric_limits&lt;double&gt;::infinity();
                         }
                         
                         std::vector&lt;DirectedEdge&gt; Dijkstra::pathTo(int v) const {
-                        if (!hasPathTo(v)) return {};
-                        std::vector&lt;DirectedEdge&gt; path;
-                        for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
-                        path.push_back(e);
-                        }
-                        return path;
+                            if (!hasPathTo(v)) return {};
+                            std::vector&lt;DirectedEdge&gt; path;
+                            for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
+                                path.push_back(e);
+                            }
+                            return path;
                         }
                     </code-block>
                 </tab>
@@ -2009,62 +1883,54 @@
                         
                         
                         class Dijkstra:
-                        def __init__(self, G, s):
-                        self.distTo = [float('inf')] * G.get_V()
-                        self.edgeTo = [None] * G.get_V()
-                        self.marked = [False] * G.get_V()
-                        self.pq = []
+                            def __init__(self, G, s):
+                                self.distTo = [float('inf')] * G.get_V()
+                                self.edgeTo = [None] * G.get_V()
+                                self.marked = [False] * G.get_V()
+                                self.pq = []
                         
-                        self.distTo[s] = 0.0
-                        heapq.heappush(self.pq, (0.0, s))
+                                self.distTo[s] = 0.0
+                                heapq.heappush(self.pq, (0.0, s))
                         
-                        while self.pq:
-                        _, v = heapq.heappop(self.pq)
+                                while self.pq:
+                                    _, v = heapq.heappop(self.pq)
                         
-                        if self.marked[v]:
-                        continue
+                                if self.marked[v]:
+                                    continue
                         
-                        self.marked[v] = True
-                        for e in G.get_adj(v):
-                        self.relax(e)
+                                self.marked[v] = True
+                                for e in G.get_adj(v):
+                                    self.relax(e)
                         
-                        def relax(self, e):
-                        v = e.from_vertex()
-                        w = e.to_vertex()
-                        if self.distTo[w] &gt; self.distTo[v] + e.get_weight():
-                        self.distTo[w] = self.distTo[v] + e.get_weight()
-                        self.edgeTo[w] = e
-                        heapq.heappush(self.pq, (self.distTo[w], w))
+                            def relax(self, e):
+                                v = e.from_vertex()
+                                w = e.to_vertex()
+                                if self.distTo[w] &gt; self.distTo[v] + e.get_weight():
+                                    self.distTo[w] = self.distTo[v] + e.get_weight()
+                                    self.edgeTo[w] = e
+                                    heapq.heappush(self.pq, (self.distTo[w], w))
                         
-                        def dist_to(self, v):
-                        return self.distTo[v]
+                            def dist_to(self, v):
+                                return self.distTo[v]
                         
-                        def has_path_to(self, v):
-                        return self.distTo[v] &lt; float('inf')
+                            def has_path_to(self, v):
+                                return self.distTo[v] &lt; float('inf')
                         
-                        def path_to(self, v):
-                        if not self.has_path_to(v):
-                        return None
-                        path = []
-                        
-                        for e in reversed(self.edgeTo[v:v + 1]):
-                        if e is not None:
-                        path.append(e)
-                        return path
+                            def path_to(self, v):
+                                if not self.has_path_to(v):
+                                    return None
+                                path = []
+
+                                for e in reversed(self.edgeTo[v:v + 1]):
+                                    if e is not None:
+                                        path.append(e)
+                                return path
                     </code-block>
                 </tab>
             </tabs>
-            <p>
-                <format color="BlueViolet">Property</format>
-            </p>
-            <p>Running time depends on PQ implementation:
-                <math>V</math>
-                insert,
-                <math>V</math>
-                delete-min,
-                <math>E</math>
-                decrease-key.
-            </p>
+            <p><format color="BlueViolet">Property</format></p>
+            <p>Running time depends on PQ implementation: <math>V</math> insert, <math>V</math> delete-min, <math>E</math>
+                decrease-key.</p>
             <table style="header-row">
                 <tr>
                     <td>PQ Implementation</td>
@@ -2137,9 +2003,7 @@
                 </tr>
             </table>
             <p>*: amortized</p>
-            <p>
-                <format color="BlueViolet">Bottom Line</format>
-            </p>
+            <p><format color="BlueViolet">Bottom Line</format></p>
             <list type="bullet">
                 <li>
                     <p>Array implementation optimal for dense graph.</p>
@@ -2148,8 +2012,7 @@
                     <p>Binary heap much faster for sparse graphs.</p>
                 </li>
                 <li>
-                    <p>4-way heap worth the trouble in performance-critical
-                        situations.</p>
+                    <p>4-way heap worth the trouble in performance-critical situations.</p>
                 </li>
                 <li>
                     <p>Fibonacci heap best in theory, but not worth implementing.</p>
@@ -2165,35 +2028,23 @@
                     <p>Relax all edges pointing from that vertex.</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Property:</format>
-                Topological sort
-                algorithm computes SPT in any edgeweighted DAG in time proportional
-                to
-                <math>E + V</math>
-                .
-            </p>
+            <p><format color="BlueViolet">Property:</format> Topological sort algorithm computes SPT in any edgeweighted
+                DAG in time proportional to <math>E + V</math>.</p>
             <list type="bullet">
                 <li>
-                    <p>Each edge
-                        <math>e = v→w</math>
-                        is relaxed exactly once
-                        (when v is relaxed), leaving
-                        <math>\text{distTo}[w] ≤ \text{distTo}[v] + \text{e.weight()}</math>
-                        .
-                    </p>
+                    <p>Each edge <math>e = v->w</math> is relaxed exactly once (when v is relaxed), leaving
+                        <math>\text{distTo}[w] ≤ \text{distTo}[v] + \text{e.weight()}</math>.</p>
                 </li>
                 <li>
                     <p>Inequality holds until algorithm terminates because: </p>
                     <list type="bullet">
                         <li>
-                            <p><code>distTo[w]</code> cannot increase => <code>distTo[]
-                            </code> values are monotone decreasing.</p>
+                            <p><code>distTo[w]</code> cannot increase => <code>distTo[]</code> values are monotone
+                                decreasing.</p>
                         </li>
                         <li>
-                            <p><code>distTo[v]</code> will not change => we choose lowest
-                                <code>distTo[]</code> value at each step and edge weights are
-                                nonnegative)</p>
+                            <p><code>distTo[v]</code> will not change => we choose lowest <code>distTo[]</code> value at
+                                each step and edge weights are nonnegative)</p>
                         </li>
                     </list>
                 </li>
@@ -2202,10 +2053,7 @@
                         hold.</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Longest paths in edge-weighted DAGs:
-                </format>
-            </p>
+            <p><format color="BlueViolet">Longest paths in edge-weighted DAGs:</format></p>
             <p>Formulate as a shortest paths problem in edge-weighted DAGs.</p>
             <list type="bullet">
                 <li>
@@ -2228,96 +2076,96 @@
                         
                         public class ShortestPathTopological {
                         
-                        private final EdgeWeightedDigraph graph;
-                        private final int source;
-                        private final double[] distTo;
-                        private final DirectedEdge[] edgeTo;
+                            private final EdgeWeightedDigraph graph;
+                            private final int source;
+                            private final double[] distTo;
+                            private final DirectedEdge[] edgeTo;
                         
-                        public ShortestPathTopological(EdgeWeightedDigraph graph, int source) {
-                        this.graph = graph;
-                        this.source = source;
-                        distTo = new double[graph.V()];
-                        edgeTo = new DirectedEdge[graph.V()];
+                            public ShortestPathTopological(EdgeWeightedDigraph graph, int source) {
+                                this.graph = graph;
+                                this.source = source;
+                                distTo = new double[graph.V()];
+                                edgeTo = new DirectedEdge[graph.V()];
+
+                                for (int v = 0; v &lt; graph.V(); v++) {
+                                    distTo[v] = Double.POSITIVE_INFINITY;
+                                }
+                                distTo[source] = 0.0;
+
+                                TopologicalSort topologicalSort = new TopologicalSort();
+                                List&lt;Integer&gt; sorted = topologicalSort.sort(graph);
+
+                                for (int v : sorted) {
+                                    relax(v);
+                                }
+                            }
                         
-                        for (int v = 0; v &lt; graph.V(); v++) {
-                        distTo[v] = Double.POSITIVE_INFINITY;
-                        }
-                        distTo[source] = 0.0;
+                            private void relax(int v) {
+                                for (DirectedEdge edge : graph.adj(v)) {
+                                    int w = edge.to();
+                                    if (distTo[w] &gt; distTo[v] + edge.weight()) {
+                                        distTo[w] = distTo[v] + edge.weight();
+                                        edgeTo[w] = edge;
+                                    }
+                                }
+                            }
                         
-                        TopologicalSort topologicalSort = new TopologicalSort();
-                        List&lt;Integer&gt; sorted = topologicalSort.sort(graph);
+                            public double distTo(int v) {
+                                return distTo[v];
+                            }
                         
-                        for (int v : sorted) {
-                        relax(v);
-                        }
-                        }
+                            public boolean hasPathTo(int v) {
+                                return distTo[v] &lt; Double.POSITIVE_INFINITY;
+                            }
                         
-                        private void relax(int v) {
-                        for (DirectedEdge edge : graph.adj(v)) {
-                        int w = edge.to();
-                        if (distTo[w] &gt; distTo[v] + edge.weight()) {
-                        distTo[w] = distTo[v] + edge.weight();
-                        edgeTo[w] = edge;
-                        }
-                        }
-                        }
+                            public Iterable&lt;DirectedEdge&gt; pathTo(int v) {
+                                if (!hasPathTo(v)) return null;
+                                List&lt;DirectedEdge&gt; path = new ArrayList&lt;&gt;();
+                                for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
+                                    path.addFirst(e);
+                                }
+                                return path;
+                            }
                         
-                        public double distTo(int v) {
-                        return distTo[v];
-                        }
+                            private static class TopologicalSort {
+                                public List&lt;Integer&gt; sort(EdgeWeightedDigraph graph) {
+                                    int V = graph.V();
+                                    List&lt;Integer&gt; sorted = new ArrayList&lt;&gt;();
+                                    int[] inDegree = new int[V];
+                                    Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+
+                                    for (int v = 0; v &lt; V; v++) {
+                                        for (DirectedEdge edge : graph.adj(v)) {
+                                            inDegree[edge.to()]++;
+                                        }
+                                    }
                         
-                        public boolean hasPathTo(int v) {
-                        return distTo[v] &lt; Double.POSITIVE_INFINITY;
-                        }
+                                    for (int v = 0; v &lt; V; v++) {
+                                        if (inDegree[v] == 0) {
+                                            queue.offer(v);
+                                        }
+                                    }
                         
-                        public Iterable&lt;DirectedEdge&gt; pathTo(int v) {
-                        if (!hasPathTo(v)) return null;
-                        List&lt;DirectedEdge&gt; path = new ArrayList&lt;&gt;();
-                        for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
-                        path.addFirst(e);
-                        }
-                        return path;
-                        }
-                        
-                        private static class TopologicalSort {
-                        public List&lt;Integer&gt; sort(EdgeWeightedDigraph graph) {
-                        int V = graph.V();
-                        List&lt;Integer&gt; sorted = new ArrayList&lt;&gt;();
-                        int[] inDegree = new int[V];
-                        Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
-                        
-                        for (int v = 0; v &lt; V; v++) {
-                        for (DirectedEdge edge : graph.adj(v)) {
-                        inDegree[edge.to()]++;
-                        }
-                        }
-                        
-                        for (int v = 0; v &lt; V; v++) {
-                        if (inDegree[v] == 0) {
-                        queue.offer(v);
-                        }
-                        }
-                        
-                        while (!queue.isEmpty()) {
-                        int u = queue.poll();
-                        sorted.add(u);
-                        
-                        for (DirectedEdge edge : graph.adj(u)) {
-                        int v = edge.to();
-                        inDegree[v]--;
-                        if (inDegree[v] == 0) {
-                        queue.offer(v);
-                        }
-                        }
-                        }
-                        
-                        if (sorted.size() != V) {
-                        throw new IllegalArgumentException("Graph contains a cycle.");
-                        }
-                        
-                        return sorted;
-                        }
-                        }
+                                    while (!queue.isEmpty()) {
+                                        int u = queue.poll();
+                                        sorted.add(u);
+
+                                        for (DirectedEdge edge : graph.adj(u)) {
+                                            int v = edge.to();
+                                            inDegree[v]--;
+                                            if (inDegree[v] == 0) {
+                                                queue.offer(v);
+                                            }
+                                        }
+                                    }
+
+                                    if (sorted.size() != V) {
+                                        throw new IllegalArgumentException("Graph contains a cycle.");
+                                    }
+
+                                    return sorted;
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -2331,29 +2179,29 @@
                         
                         class ShortestPathTopological {
                         private:
-                        const EdgeWeightedDigraph&amp; graph;
-                        int source;
-                        std::vector&lt;double&gt; distTo;
-                        std::vector&lt;DirectedEdge&gt; edgeTo;
+                            const EdgeWeightedDigraph&amp; graph;
+                            int source;
+                            std::vector&lt;double&gt; distTo;
+                            std::vector&lt;DirectedEdge&gt; edgeTo;
                         
-                        class TopologicalSort {
+                            class TopologicalSort {
+                            public:
+                                explicit TopologicalSort(const EdgeWeightedDigraph&amp; graph);
+                                [[nodiscard]] std::vector&lt;int&gt; sort() const;
+                                private:
+                                const EdgeWeightedDigraph&amp; graph;
+                            };
+                        
+                            void relax(int v);
+                        
                         public:
-                        explicit TopologicalSort(const EdgeWeightedDigraph&amp; graph);
-                        [[nodiscard]] std::vector&lt;int&gt; sort() const;
-                        private:
-                        const EdgeWeightedDigraph&amp; graph;
-                        };
+                            explicit ShortestPathTopological(const EdgeWeightedDigraph&amp; graph, int source);
                         
-                        void relax(int v);
+                            [[nodiscard]] double getdistTo(int v) const;
                         
-                        public:
-                        explicit ShortestPathTopological(const EdgeWeightedDigraph&amp; graph, int source);
+                            [[nodiscard]] bool hasPathTo(int v) const;
                         
-                        [[nodiscard]] double getdistTo(int v) const;
-                        
-                        [[nodiscard]] bool hasPathTo(int v) const;
-                        
-                        [[nodiscard]] std::vector&lt;DirectedEdge&gt; pathTo(int v) const;
+                            [[nodiscard]] std::vector&lt;DirectedEdge&gt; pathTo(int v) const;
                         };
                         
                         #endif // SHORTESTPATHTOPOLOGICAL_H
@@ -2371,85 +2219,85 @@
                         ShortestPathTopological::ShortestPathTopological(const EdgeWeightedDigraph &amp;graph, int source)
                         : graph(graph), source(source), distTo(graph.getV(), std::numeric_limits&lt;double&gt;::infinity()),
                         edgeTo(graph.getV()) {
-                        distTo[source] = 0.0;
-                        
-                        TopologicalSort topologicalSort(graph);
-                        std::vector&lt;int&gt; sorted = topologicalSort.sort();
-                        
-                        for (int v : sorted) {
-                        relax(v);
-                        }
+                            distTo[source] = 0.0;
+
+                            TopologicalSort topologicalSort(graph);
+                            std::vector&lt;int&gt; sorted = topologicalSort.sort();
+
+                            for (int v : sorted) {
+                                relax(v);
+                            }
                         }
                         
                         void ShortestPathTopological::relax(const int v) {
-                        for (const DirectedEdge&amp; edge : graph.getAdj(v)) {
-                        int w = edge.to();
-                        if (distTo[w] &gt; distTo[v] + edge.getWeight()) {
-                        distTo[w] = distTo[v] + edge.getWeight();
-                        edgeTo[w] = edge;
-                        }
-                        }
+                            for (const DirectedEdge&amp; edge : graph.getAdj(v)) {
+                                int w = edge.to();
+                                if (distTo[w] &gt; distTo[v] + edge.getWeight()) {
+                                    distTo[w] = distTo[v] + edge.getWeight();
+                                    edgeTo[w] = edge;
+                                }
+                            }
                         }
                         
                         double ShortestPathTopological::getdistTo(const int v) const {
-                        return distTo[v];
+                            return distTo[v];
                         }
                         
                         bool ShortestPathTopological::hasPathTo(const int v) const {
-                        return distTo[v] &lt; std::numeric_limits&lt;double&gt;::infinity();
+                            return distTo[v] &lt; std::numeric_limits&lt;double&gt;::infinity();
                         }
                         
                         std::vector&lt;DirectedEdge&gt; ShortestPathTopological::pathTo(const int v) const {
-                        std::vector&lt;DirectedEdge&gt; path;
-                        if (!hasPathTo(v)) {
-                        return path;
-                        }
+                            std::vector&lt;DirectedEdge&gt; path;
+                            if (!hasPathTo(v)) {
+                                return path;
+                            }
                         
-                        for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
-                        path.push_back(e);
-                        }
-                        std::ranges::reverse(path);
-                        return path;
+                            for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
+                                path.push_back(e);
+                            }
+                            std::ranges::reverse(path);
+                            return path;
                         }
                         
                         ShortestPathTopological::TopologicalSort::TopologicalSort(const EdgeWeightedDigraph &amp;graph) :
                         graph(graph) {}
                         
                         std::vector&lt;int&gt; ShortestPathTopological::TopologicalSort::sort() const {
-                        const int V = graph.getV();
-                        std::vector&lt;int&gt; sorted;
-                        std::vector&lt;int&gt; inDegree(V, 0);
-                        std::queue&lt;int&gt; queue;
-                        
-                        for (int v = 0; v &lt; V; ++v) {
-                        for (const DirectedEdge&amp; e : graph.getAdj(v)) {
-                        inDegree[e.to()]++;
-                        }
-                        }
-                        
-                        for (int v = 0; v &lt; V; ++v) {
-                        if (inDegree[v] == 0) {
-                        queue.push(v);
-                        }
-                        }
-                        
-                        while (!queue.empty()) {
-                        int u = queue.front();
-                        queue.pop();
-                        sorted.push_back(u);
-                        
-                        for (const DirectedEdge&amp; e : graph.getAdj(u)) {
-                        int w = e.to();
-                        if (--inDegree[w] == 0) {
-                        queue.push(w);
-                        }
-                        }
-                        }
-                        
-                        if (sorted.size() != static_cast&lt;size_t&gt;(V)) {
-                        throw std::runtime_error("Graph contains a cycle!");
-                        }
-                        return sorted;
+                            const int V = graph.getV();
+                            std::vector&lt;int&gt; sorted;
+                            std::vector&lt;int&gt; inDegree(V, 0);
+                            std::queue&lt;int&gt; queue;
+
+                            for (int v = 0; v &lt; V; ++v) {
+                                for (const DirectedEdge&amp; e : graph.getAdj(v)) {
+                                    inDegree[e.to()]++;
+                                }
+                            }
+
+                            for (int v = 0; v &lt; V; ++v) {
+                                if (inDegree[v] == 0) {
+                                    queue.push(v);
+                                }
+                            }
+
+                            while (!queue.empty()) {
+                                int u = queue.front();
+                                queue.pop();
+                                sorted.push_back(u);
+
+                                for (const DirectedEdge&amp; e : graph.getAdj(u)) {
+                                    int w = e.to();
+                                    if (--inDegree[w] == 0) {
+                                        queue.push(w);
+                                    }
+                                }
+                            }
+
+                            if (sorted.size() != static_cast&lt;size_t&gt;(V)) {
+                                throw std::runtime_error("Graph contains a cycle!");
+                            }
+                            return sorted;
                         }
                     </code-block>
                 </tab>
@@ -2463,107 +2311,86 @@
                         
                         
                         class ShortestPathTopological:
-                        def __init__(self, graph: EdgeWeightedDigraph, source: int):
-                        self.graph = graph
-                        self.source = source
-                        self.dist_to = [float('inf')] * graph.get_V()
-                        self.edge_to: List[Optional[DirectedEdge]] = [None] * graph.get_V()
-                        self.dist_to[source] = 0.0
+                            def __init__(self, graph: EdgeWeightedDigraph, source: int):
+                                self.graph = graph
+                                self.source = source
+                                self.dist_to = [float('inf')] * graph.get_V()
+                                self.edge_to: List[Optional[DirectedEdge]] = [None] * graph.get_V()
+                                self.dist_to[source] = 0.0
                         
-                        topological_order = self._topological_sort()
-                        for v in topological_order:
-                        self._relax(v)
+                                topological_order = self._topological_sort()
+                                for v in topological_order:
+                                    self._relax(v)
                         
-                        def _relax(self, v: int):
-                        for edge in self.graph.get_adj(v):
-                        w = edge.to_vertex()
-                        if self.dist_to[w] > self.dist_to[v] + edge.get_weight():
-                        self.dist_to[w] = self.dist_to[v] + edge.get_weight()
-                        self.edge_to[w] = edge
+                            def _relax(self, v: int):
+                                for edge in self.graph.get_adj(v):
+                                    w = edge.to_vertex()
+                                if self.dist_to[w] > self.dist_to[v] + edge.get_weight():
+                                    self.dist_to[w] = self.dist_to[v] + edge.get_weight()
+                                    self.edge_to[w] = edge
                         
-                        def get_dist_to(self, v: int) -&gt; float:
-                        return self.dist_to[v]
+                            def get_dist_to(self, v: int) -&gt; float:
+                                return self.dist_to[v]
                         
-                        def has_path_to(self, v: int) -&gt; bool:
-                        return self.dist_to[v] &lt; float('inf')
+                            def has_path_to(self, v: int) -&gt; bool:
+                                return self.dist_to[v] &lt; float('inf')
                         
-                        def path_to(self, v: int) -&gt; Optional[List[str]]:
-                        if not self.has_path_to(v):
-                        return None
-                        path: List[DirectedEdge] = []
-                        e = self.edge_to[v]
-                        while e is not None:
-                        path.append(e)
-                        e = self.edge_to[e.from_vertex()]
-                        return [str(edge) for edge in path[::-1]]
+                            def path_to(self, v: int) -&gt; Optional[List[str]]:
+                                if not self.has_path_to(v):
+                                    return None
+                                path: List[DirectedEdge] = []
+                                e = self.edge_to[v]
+                                while e is not None:
+                                    path.append(e)
+                                    e = self.edge_to[e.from_vertex()]
+                                return [str(edge) for edge in path[::-1]]
                         
-                        def _topological_sort(self) -&gt; List[int]:
-                        V = self.graph.get_V()
-                        in_degree = [0] * V
-                        for v in range(V):
-                        for edge in self.graph.get_adj(v):
-                        in_degree[edge.to_vertex()] += 1
-                        
-                        queue = deque([v for v in range(V) if in_degree[v] == 0])
-                        sorted_order = []
-                        while queue:
-                        u = queue.popleft()
-                        sorted_order.append(u)
-                        for edge in self.graph.get_adj(u):
-                        v = edge.to_vertex()
-                        in_degree[v] -= 1
-                        if in_degree[v] == 0:
-                        queue.append(v)
-                        
-                        if len(sorted_order) != V:
-                        raise ValueError("Graph contains a cycle.")
-                        
-                        return sorted_order
+                            def _topological_sort(self) -&gt; List[int]:
+                                V = self.graph.get_V()
+                                in_degree = [0] * V
+                                for v in range(V):
+                                    for edge in self.graph.get_adj(v):
+                                        in_degree[edge.to_vertex()] += 1
+
+                                queue = deque([v for v in range(V) if in_degree[v] == 0])
+                                sorted_order = []
+                                while queue:
+                                    u = queue.popleft()
+                                    sorted_order.append(u)
+                                    for edge in self.graph.get_adj(u):
+                                        v = edge.to_vertex()
+                                    in_degree[v] -= 1
+                                    if in_degree[v] == 0:
+                                    queue.append(v)
+
+                                if len(sorted_order) != V:
+                                    raise ValueError("Graph contains a cycle.")
+
+                                return sorted_order
                     </code-block>
                 </tab>
             </tabs>
-            <p>
-                <format color="BlueViolet">Application Ⅰ - Content-Aware
-                    Resizing
-                </format>
-            </p>
-            <p>
-                <format color="DarkOrange">Seam Carving:</format>
-                Resize an image
-                without distortion for display on cell phones and web browsers.
-            </p>
+            <p><format color="BlueViolet">Application Ⅰ - Content-Aware Resizing</format></p>
+            <p><format color="DarkOrange">Seam Carving:</format> Resize an image without distortion for display on cell
+                phones and web browsers.</p>
             <list type="bullet">
                 <li>
-                    <p>Grid DAG: vertex = pixel; edge = from pixel to 3 downward
-                        neighbors.</p>
+                    <p>Grid DAG: vertex = pixel; edge = from pixel to 3 downward neighbors.</p>
                 </li>
                 <li>
-                    <p>Weight of pixel = energy function of 8 neighboring pixels.
-                    </p>
+                    <p>Weight of pixel = energy function of 8 neighboring pixels.</p>
                 </li>
                 <li>
-                    <p>Seam = shortest path (sum of vertex weights) from top to
-                        bottom.</p>
+                    <p>Seam = shortest path (sum of vertex weights) from top to bottom.</p>
                 </li>
             </list>
             <img src="../images_data/d17-4-1.png" alt="Seam Carving"/>
-            <p>
-                <format color="BlueViolet">Application &#8545; - Parallel Job
-                    Scheduling
-                </format>
-            </p>
-            <p>
-                <format color="DarkOrange">Parallel Job Scheduling:</format>
-                Given a set of jobs with durations and precedence constraints,
-                schedule the jobs (by finding a start time for each) so as to achieve
-                the minimum completion time, while respecting the constraints.
-            </p>
-            <p>To solve a parallel job-scheduling problem, create edge-weighted
-                DAG, use
-                <format color="OrangeRed">longest path</format>
-                from the
-                source to schedule each job:
-            </p>
+            <p><format color="BlueViolet">Application &#8545; - Parallel Job Scheduling</format></p>
+            <p><format color="DarkOrange">Parallel Job Scheduling:</format> Given a set of jobs with durations and
+                precedence constraints, schedule the jobs (by finding a start time for each) so as to achieve the
+                minimum completion time, while respecting the constraints.</p>
+            <p>To solve a parallel job-scheduling problem, create edge-weighted DAG, use <format color="OrangeRed">
+                longest path</format> from the source to schedule each job:</p>
             <list>
                 <li>
                     <p>Source and sink vertices.</p>
@@ -2585,49 +2412,31 @@
                         </li>
                     </list>
                 </li>
-                <li>One edge for each precedence constraint (0 weight).</li>
+                <li>
+                    <p>One edge for each precedence constraint (0 weight).</p>
+                </li>
             </list>
             <img src="../images_data/d17-4-2.png" alt="Parallel Job Scheduling"
             /><img src="../images_data/d17-4-3.png" alt="Parallel Job Scheduling"
         />
         </chapter>
         <chapter title="17.5 Negative Weights" id="17-5-negative-weights">
-            <p>
-                <format color="DarkOrange">Negative Cycle:</format>
-                A
-                <format
-                        color="OrangeRed">negative cycle
-                </format>
-                is a directed cycle whose
-                sum of edge weights is negative.
-            </p>
+            <p><format color="DarkOrange">Negative Cycle:</format> A <format color="OrangeRed">negative cycle</format>
+                is a directed cycle whose sum of edge weights is negative.</p>
             <note>
-                <p>Assuming all vertices reachable from s, a SPT exists iff no
-                    negative cycles.</p>
+                <p>Assuming all vertices reachable from s, a SPT exists iff no negative cycles.</p>
             </note>
             <procedure title="Bellman-Ford Algorithm">
                 <step>
-                    <p>Initialize distTo[s] = 0 and distTo[v] = &#x221E; for all
-                        other vertices.</p>
+                    <p>Initialize distTo[s] = 0 and distTo[v] = &#x221E; for all other vertices.</p>
                 </step>
                 <step>
                     <p>Repeat V times, relax each edge.</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Practical Improvement:</format>
-                If
-                distTo[v] does not change during pass
-                <math>i</math>
-                , no need to
-                relax any edge pointing from v in pass
-                <math>i+1</math>
-                =>
-                maintain
-                <format color="OrangeRed">queue</format>
-                of vertices
-                whose distTo[] changed.
-            </p>
+            <p><format color="BlueViolet">Practical Improvement:</format> If distTo[v] does not change during pass
+                <math>i</math>, no need to relax any edge pointing from v in pass <math>i+1</math> =&gt; maintain
+                <format color="OrangeRed">queue</format> of vertices whose distTo[] changed.</p>
             <table style="header-row">
                 <tr>
                     <td>Algorithm</td>
@@ -2686,7 +2495,6 @@
                     <td>
                         <p><format style="bold">Bellman-Ford</format></p>
                         <p><format style="bold">(queue-based)</format></p>
-
                     </td>
                     <td>
                         <math>E + V</math>
@@ -2721,77 +2529,77 @@
                         import java.util.Queue;
                         
                         public class BellmanFordSP {
-                        private final double[] distTo;
-                        private final DirectedEdge[] edgeTo;
-                        private final boolean[] onQueue;
-                        private final int[] cost;
-                        private final int s;
-                        private boolean hasNegativeCycle;
+                            private final double[] distTo;
+                            private final DirectedEdge[] edgeTo;
+                            private final boolean[] onQueue;
+                            private final int[] cost;
+                            private final int s;
+                            private boolean hasNegativeCycle;
                         
-                        private final Queue&lt;Integer&gt; q;
+                            private final Queue&lt;Integer&gt; q;
                         
-                        public BellmanFordSP(EdgeWeightedDigraph G, int s) {
-                        this.s = s;
-                        distTo = new double[G.V()];
-                        edgeTo = new DirectedEdge[G.V()];
-                        onQueue = new boolean[G.V()];
-                        cost = new int[G.V()];
-                        for (int v = 0; v &lt; G.V(); v++)
-                        distTo[v] = Double.POSITIVE_INFINITY;
-                        distTo[s] = 0.0;
+                            public BellmanFordSP(EdgeWeightedDigraph G, int s) {
+                                this.s = s;
+                                distTo = new double[G.V()];
+                                edgeTo = new DirectedEdge[G.V()];
+                                onQueue = new boolean[G.V()];
+                                cost = new int[G.V()];
+                                for (int v = 0; v &lt; G.V(); v++)
+                                    distTo[v] = Double.POSITIVE_INFINITY;
+                                distTo[s] = 0.0;
+
+                                q = new LinkedList&lt;&gt;();
+                                q.add(s);
+                                onQueue[s] = true;
+
+                                while (!q.isEmpty()) {
+                                    int v = q.remove();
+                                    onQueue[v] = false;
+                                    relax(G, v);
+                                }
+                            }
                         
-                        q = new LinkedList&lt;&gt;();
-                        q.add(s);
-                        onQueue[s] = true;
+                            private void relax(EdgeWeightedDigraph G, int v) {
+                                for (DirectedEdge e : G.adj(v)) {
+                                    int w = e.to();
+                                    if (distTo[w] &gt; distTo[v] + e.weight()) {
+                                        distTo[w] = distTo[v] + e.weight();
+                                        edgeTo[w] = e;
+                                        cost[w]++;
+
+                                        if (!onQueue[w]) {
+                                            q.add(w);
+                                            onQueue[w] = true;
+                                        }
+
+                                        if (cost[w] &gt;= G.V()) {
+                                            hasNegativeCycle = true;
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
                         
-                        while (!q.isEmpty()) {
-                        int v = q.remove();
-                        onQueue[v] = false;
-                        relax(G, v);
-                        }
-                        }
+                            public double distTo(int v) {
+                                return distTo[v];
+                            }
                         
-                        private void relax(EdgeWeightedDigraph G, int v) {
-                        for (DirectedEdge e : G.adj(v)) {
-                        int w = e.to();
-                        if (distTo[w] &gt; distTo[v] + e.weight()) {
-                        distTo[w] = distTo[v] + e.weight();
-                        edgeTo[w] = e;
-                        cost[w]++;
+                            public boolean hasPathTo(int v) {
+                                return distTo[v] &lt; Double.POSITIVE_INFINITY;
+                            }
                         
-                        if (!onQueue[w]) {
-                        q.add(w);
-                        onQueue[w] = true;
-                        }
+                            public Iterable&lt;DirectedEdge&gt; pathTo(int v) {
+                                if (!hasPathTo(v)) return null;
+                                List&lt;DirectedEdge&gt; path = new ArrayList&lt;&gt;();
+                                for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
+                                    path.add(e);
+                                }
+                                return path;
+                            }
                         
-                        if (cost[w] &gt;= G.V()) {
-                        hasNegativeCycle = true;
-                        return;
-                        }
-                        }
-                        }
-                        }
-                        
-                        public double distTo(int v) {
-                        return distTo[v];
-                        }
-                        
-                        public boolean hasPathTo(int v) {
-                        return distTo[v] &lt; Double.POSITIVE_INFINITY;
-                        }
-                        
-                        public Iterable&lt;DirectedEdge&gt; pathTo(int v) {
-                        if (!hasPathTo(v)) return null;
-                        List&lt;DirectedEdge&gt; path = new ArrayList&lt;&gt;();
-                        for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
-                        path.add(e);
-                        }
-                        return path;
-                        }
-                        
-                        public boolean hasNegativeCycle() {
-                        return hasNegativeCycle;
-                        }
+                            public boolean hasNegativeCycle() {
+                                return hasNegativeCycle;
+                            }
                         }
                     </code-block>
                 </tab>
@@ -2806,24 +2614,24 @@
                         
                         class BellmanFordSP {
                         private:
-                        std::vector&lt;double&gt; distTo;
-                        std::vector&lt;DirectedEdge&gt; edgeTo;
-                        std::vector&lt;bool&gt; onQueue;
-                        std::vector&lt;int&gt; cost;
-                        int s;
-                        bool hasNegativeCycle;
-                        
-                        std::queue&lt;int&gt; q;
+                            std::vector&lt;double&gt; distTo;
+                            std::vector&lt;DirectedEdge&gt; edgeTo;
+                            std::vector&lt;bool&gt; onQueue;
+                            std::vector&lt;int&gt; cost;
+                            int s;
+                            bool hasNegativeCycle;
+
+                            std::queue&lt;int&gt; q;
                         
                         public:
-                        BellmanFordSP(const EdgeWeightedDigraph&amp; G, int s);
-                        [[nodiscard]] double getdistTo(int v) const;
-                        [[nodiscard]] bool hasPathTo(int v) const;
-                        [[nodiscard]] std::vector&lt;DirectedEdge&gt; pathTo(int v) const;
-                        [[nodiscard]] bool NegativeCycle() const;
+                            BellmanFordSP(const EdgeWeightedDigraph&amp; G, int s);
+                            [[nodiscard]] double getdistTo(int v) const;
+                            [[nodiscard]] bool hasPathTo(int v) const;
+                            [[nodiscard]] std::vector&lt;DirectedEdge&gt; pathTo(int v) const;
+                            [[nodiscard]] bool NegativeCycle() const;
                         
                         private:
-                        void relax(const EdgeWeightedDigraph&amp; G, int v);
+                            void relax(const EdgeWeightedDigraph&amp; G, int v);
                         };
                         
                         #endif // BELLMANFORDSP_H
@@ -2842,60 +2650,60 @@
                         s(s),
                         hasNegativeCycle(false) {
                         
-                        distTo[s] = 0.0;
-                        q.push(s);
-                        onQueue[s] = true;
-                        
-                        while (!q.empty()) {
-                        int v = q.front();
-                        q.pop();
-                        onQueue[v] = false;
-                        relax(G, v);
-                        }
+                            distTo[s] = 0.0;
+                            q.push(s);
+                            onQueue[s] = true;
+
+                            while (!q.empty()) {
+                                int v = q.front();
+                                q.pop();
+                                onQueue[v] = false;
+                                relax(G, v);
+                            }
                         }
                         
                         double BellmanFordSP::getdistTo(const int v) const {
-                        return distTo[v];
+                            return distTo[v];
                         }
                         
                         bool BellmanFordSP::hasPathTo(const int v) const {
-                        return distTo[v] &lt; std::numeric_limits&lt;double&gt;::infinity();
+                            return distTo[v] &lt; std::numeric_limits&lt;double&gt;::infinity();
                         }
                         
                         std::vector&lt;DirectedEdge&gt; BellmanFordSP::pathTo(const int v) const {
-                        if (!hasPathTo(v)) {
-                        return {};
-                        }
-                        std::vector&lt;DirectedEdge&gt; path;
-                        for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
-                        path.push_back(e);
-                        }
-                        return path;
+                            if (!hasPathTo(v)) {
+                                return {};
+                            }
+                            std::vector&lt;DirectedEdge&gt; path;
+                            for (DirectedEdge e = edgeTo[v]; e.from() != -1; e = edgeTo[e.from()]) {
+                                path.push_back(e);
+                            }
+                            return path;
                         }
                         
                         bool BellmanFordSP::NegativeCycle() const {
-                        return hasNegativeCycle;
+                            return hasNegativeCycle;
                         }
                         
                         void BellmanFordSP::relax(const EdgeWeightedDigraph&amp; G, const int v) {
-                        for (const DirectedEdge&amp; e : G.getAdj(v)) {
-                        int w = e.to();
-                        if (distTo[w] &gt; distTo[v] + e.getWeight()) {
-                        distTo[w] = distTo[v] + e.getWeight();
-                        edgeTo[w] = e;
-                        cost[w]++;
-                        
-                        if (!onQueue[w]) {
-                        q.push(w);
-                        onQueue[w] = true;
-                        }
-                        
-                        if (cost[w] &gt;= G.getV()) {
-                        hasNegativeCycle = true;
-                        return;
-                        }
-                        }
-                        }
+                            for (const DirectedEdge&amp; e : G.getAdj(v)) {
+                                int w = e.to();
+                                if (distTo[w] &gt; distTo[v] + e.getWeight()) {
+                                    distTo[w] = distTo[v] + e.getWeight();
+                                    edgeTo[w] = e;
+                                    cost[w]++;
+
+                                    if (!onQueue[w]) {
+                                        q.push(w);
+                                        onQueue[w] = true;
+                                    }
+
+                                    if (cost[w] &gt;= G.getV()) {
+                                        hasNegativeCycle = true;
+                                        return;
+                                    }
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -2904,71 +2712,66 @@
                         from EdgeWeightedDigraph import EdgeWeightedDigraph
                         
                         class BellmanFordSP:
-                        def __init__(self, G, s):
-                        self.distTo = [float("inf") for _ in range(G.get_V())]
-                        self.edgeTo = [None for _ in range(G.get_V())]
-                        self.onQueue = [False for _ in range(G.get_V())]
-                        self.cost = [0 for _ in range(G.get_V())]
-                        self.s = s
-                        self.hasNegativeCycle = False
+                            def __init__(self, G, s):
+                                self.distTo = [float("inf") for _ in range(G.get_V())]
+                                self.edgeTo = [None for _ in range(G.get_V())]
+                                self.onQueue = [False for _ in range(G.get_V())]
+                                self.cost = [0 for _ in range(G.get_V())]
+                                self.s = s
+                                self.hasNegativeCycle = False
+
+                                self.distTo[s] = 0.0
+                                self.q = [s]
+                                self.onQueue[s] = True
+
+                                while self.q:
+                                    v = self.q.pop(0)
+                                    self.onQueue[v] = False
+                                    self.relax(G, v)
                         
-                        self.distTo[s] = 0.0
-                        self.q = [s]
-                        self.onQueue[s] = True
+                            def distTo(self, v):
+                                return self.distTo[v]
                         
-                        while self.q:
-                        v = self.q.pop(0)
-                        self.onQueue[v] = False
-                        self.relax(G, v)
+                            def hasPathTo(self, v):
+                                return self.distTo[v] != float("inf")
                         
-                        def distTo(self, v):
-                        return self.distTo[v]
+                            def pathTo(self, v):
+                                if not self.hasPathTo(v):
+                                    return None
+                                path = []
+                                e = self.edgeTo[v]
+                                while e is not None:
+                                    path.append(e)
+                                    e = self.edgeTo[e.from_vertex()]
+                                return path
                         
-                        def hasPathTo(self, v):
-                        return self.distTo[v] != float("inf")
+                            def hasNegativeCycle(self):
+                                return self.hasNegativeCycle
                         
-                        def pathTo(self, v):
-                        if not self.hasPathTo(v):
-                        return None
-                        path = []
-                        e = self.edgeTo[v]
-                        while e is not None:
-                        path.append(e)
-                        e = self.edgeTo[e.from_vertex()]
-                        return path
-                        
-                        def hasNegativeCycle(self):
-                        return self.hasNegativeCycle
-                        
-                        def relax(self, G, v):
-                        for e in G.get_adj(v):
-                        w = e.to_vertex()
-                        if self.distTo[w] &gt; self.distTo[v] + e.get_weight():
-                        self.distTo[w] = self.distTo[v] + e.get_weight()
-                        self.edgeTo[w] = e
-                        self.cost[w] += 1
-                        
-                        if not self.onQueue[w]:
-                        self.q.append(w)
-                        self.onQueue[w] = True
-                        
-                        if self.cost[w] &gt;= G.get_V():
-                        self.hasNegativeCycle = True
-                        return
+                            def relax(self, G, v):
+                                for e in G.get_adj(v):
+                                    w = e.to_vertex()
+                                    if self.distTo[w] &gt; self.distTo[v] + e.get_weight():
+                                        self.distTo[w] = self.distTo[v] + e.get_weight()
+                                        self.edgeTo[w] = e
+                                        self.cost[w] += 1
+
+                                        if not self.onQueue[w]:
+                                            self.q.append(w)
+                                            self.onQueue[w] = True
+
+                                        if self.cost[w] &gt;= G.get_V():
+                                            self.hasNegativeCycle = True
+                                return
                     </code-block>
                 </tab>
             </tabs>
-            <p>
-                <format color="BlueViolet">Find A Negative Cycle</format>
-            </p>
-            <p>If there is a negative cycle, Bellman-Ford gets stuck in loop,
-                updating distTo[] and edgeTo[] entries of vertices in the cycle.</p>
-            <p>If any vertex v is updated in phase V, there exists a negative
-                cycle (and can trace back edgeTo[v] entries to find it).</p>
-            <p>
-                <format color="BlueViolet">Application - Arbitrage Detection
-                </format>
-            </p>
+            <p><format color="BlueViolet">Find A Negative Cycle</format></p>
+            <p>If there is a negative cycle, Bellman-Ford gets stuck in loop, updating distTo[] and edgeTo[] entries of
+                vertices in the cycle.</p>
+            <p>If any vertex v is updated in phase V, there exists a negative cycle (and can trace back edgeTo[v]
+                entries to find it).</p>
+            <p><format color="BlueViolet">Application - Arbitrage Detection</format></p>
             <p>Currency exchange graph.</p>
             <list type="bullet">
                 <li>
@@ -2984,30 +2787,14 @@
             <img src="../images_data/d17-5-1.png" alt="Arbitrage Detection"/>
             <procedure title="Arbitrage Detection">
                 <step>
-                    <p>Let weight of edge
-                        <math>v->w</math>
-                        be
-                        <math>- ln</math>
-                        (exchange rate from currency
-                        <math>v</math>
-                        to
-                        <math>w</math>
-                        ).
-                    </p>
+                    <p>Let weight of edge <math>v->w</math> be <math>- ln</math> (exchange rate from currency
+                        <math>v</math> to <math>w</math>).</p>
                 </step>
                 <step>
-                    <p>Multiplication turns to addition;
-                        <math>\gt 1</math>
-                        turns to
-                        <math>\lt 0.</math>
-                    </p>
+                    <p>Multiplication turns to addition; <math>\gt 1</math> turns to <math>\lt 0.</math></p>
                 </step>
                 <step>
-                    <p>Find a directed cycle whose sum of edge weights is
-                        <math>\lt 0
-                        </math>
-                        (negative cycle).
-                    </p>
+                    <p>Find a directed cycle whose sum of edge weights is <math>\lt 0</math> (negative cycle).</p>
                 </step>
             </procedure>
         </chapter>

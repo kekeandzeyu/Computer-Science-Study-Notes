@@ -505,11 +505,7 @@ Conversion"/>
                 </note>
             </chapter>
             <chapter title="1.6 Bias Notation" id="1-6-bias-notation">
-                <p>
-                    <format color="BlueViolet">Idea:</format>
-                    Just like unsigned,
-                    but shifted on the number line.
-                </p>
+                <p><format color="BlueViolet">Idea:</format> Just like unsigned, but shifted on the number line.</p>
                 <list type="bullet">
                     <li>
                         <p>
