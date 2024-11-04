@@ -1277,15 +1277,8 @@
     </chapter>
     <chapter title="17 Shortest Paths" id="shortest-paths">
         <chapter title="17.1 Shortest Paths APIs" id="17-1-shortest-paths-apis">
-            <p>
-                <format color="BlueViolet">Goal:</format>
-                Given an edge-weighted
-                digraph, find the shortest path from
-                <math>s</math>
-                to
-                <math>t</math>
-                .
-            </p>
+            <p><format color="BlueViolet">Goal:</format> Given an edge-weighted digraph, find the shortest path from
+                <math>s</math> to <math>t</math>.</p>
             <list type="bullet">
                 <li>
                     <p>Navigation</p>
@@ -1330,39 +1323,37 @@
                     <p>Optimal truck routing through given traffic congestion pattern</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Directed Edge</format>
-            </p>
+            <p><format color="BlueViolet">Directed Edge</format></p>
             <tabs>
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
                         public class DirectedEdge {
-                        private final int v;
-                        private final int w;
-                        private final double weight;
+                            private final int v;
+                            private final int w;
+                            private final double weight;
                         
-                        public DirectedEdge(int v, int w, double weight) {
-                        this.v = v;
-                        this.w = w;
-                        this.weight = weight;
-                        }
+                            public DirectedEdge(int v, int w, double weight) {
+                                this.v = v;
+                                this.w = w;
+                                this.weight = weight;
+                            }
                         
-                        public int from() {
-                        return v;
-                        }
+                            public int from() {
+                                return v;
+                            }
                         
-                        public int to() {
-                        return w;
-                        }
+                            public int to() {
+                                return w;
+                            }
                         
-                        public double weight() {
-                        return weight;
-                        }
+                            public double weight() {
+                                return weight;
+                            }
                         
-                        @Override
-                        public String toString() {
-                        return v + "-&gt;" + w + " " + String.format("%5.2f", weight);
-                        }
+                            @Override
+                            public String toString() {
+                                return v + "-&gt;" + w + " " + String.format("%5.2f", weight);
+                            }
                         }
                     </code-block>
                 </tab>
@@ -1375,16 +1366,16 @@
                         
                         class DirectedEdge {
                         private:
-                        int v;
-                        int w;
-                        double weight;
+                            int v;
+                            int w;
+                            double weight;
                         
                         public:
-                        explicit DirectedEdge(int v = -1, int w = -1, double weight = 0.0);
-                        [[nodiscard]] int from() const;
-                        [[nodiscard]] int to() const;
-                        [[nodiscard]] double getWeight() const;
-                        friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DirectedEdge&amp; e);
+                            explicit DirectedEdge(int v = -1, int w = -1, double weight = 0.0);
+                            [[nodiscard]] int from() const;
+                            [[nodiscard]] int to() const;
+                            [[nodiscard]] double getWeight() const;
+                            friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DirectedEdge&amp; e);
                         };
                         
                         #endif // DIRECTEDEDGE_H
@@ -1399,48 +1390,46 @@
                         : v(v), w(w), weight(weight) {}
                         
                         int DirectedEdge::from() const {
-                        return v;
+                            return v;
                         }
                         
                         int DirectedEdge::to() const {
-                        return w;
+                            return w;
                         }
                         
                         double DirectedEdge::getWeight() const {
-                        return weight;
+                            return weight;
                         }
                         
                         std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const DirectedEdge&amp; e) {
-                        out &lt;&lt; e.v &lt;&lt; "->" &lt;&lt; e.w &lt;&lt; " " &lt;&lt; e.weight;
-                        return out;
+                            out &lt;&lt; e.v &lt;&lt; "->" &lt;&lt; e.w &lt;&lt; " " &lt;&lt; e.weight;
+                            return out;
                         }
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class DirectedEdge:
-                        def __init__(self, v, w, weight):
-                        self.v = v
-                        self.w = w
-                        self.weight = weight
+                            def __init__(self, v, w, weight):
+                                self.v = v
+                                self.w = w
+                                self.weight = weight
                         
-                        def from_vertex(self):
-                        return self.v
+                            def from_vertex(self):
+                                return self.v
                         
-                        def to_vertex(self):
-                        return self.w
+                            def to_vertex(self):
+                                return self.w
                         
-                        def get_weight(self):
-                        return self.weight
+                            def get_weight(self):
+                                return self.weight
                         
-                        def __str__(self):
-                        return f"{self.v}-&gt;{self.w} ({self.weight})"
+                            def __str__(self):
+                                return f"{self.v}-&gt;{self.w} ({self.weight})"
                     </code-block>
                 </tab>
             </tabs>
-            <p>
-                <format color="BlueViolet">Edge-Weighted Digraph</format>
-            </p>
+            <p><format color="BlueViolet">Edge-Weighted Digraph</format></p>
             <tabs>
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
@@ -1448,48 +1437,48 @@
                         import java.util.List;
                         
                         public class EdgeWeightedDigraph {
-                        private final int V;
-                        private final List&lt;DirectedEdge&gt;[] adj;
+                            private final int V;
+                            private final List&lt;DirectedEdge&gt;[] adj;
                         
-                        public EdgeWeightedDigraph(int V) {
-                        this.V = V;
-                        adj = (List&lt;DirectedEdge&gt;[]) new ArrayList[V];
-                        for (int v = 0; v &lt; V; v++)
-                        adj[v] = new ArrayList&lt;DirectedEdge&gt;();
-                        }
+                            public EdgeWeightedDigraph(int V) {
+                                this.V = V;
+                                adj = (List&lt;DirectedEdge&gt;[]) new ArrayList[V];
+                                for (int v = 0; v &lt; V; v++)
+                                    adj[v] = new ArrayList&lt;DirectedEdge&gt;();
+                                }
                         
-                        public void addEdge(int source, int destination, double weight) {
-                        DirectedEdge e = new DirectedEdge(source, destination, weight);
-                        adj[source].add(e);
-                        }
+                            public void addEdge(int source, int destination, double weight) {
+                                DirectedEdge e = new DirectedEdge(source, destination, weight);
+                                adj[source].add(e);
+                            }
                         
-                        public Iterable&lt;DirectedEdge&gt; adj(int v) {
-                        return adj[v];
-                        }
+                            public Iterable&lt;DirectedEdge&gt; adj(int v) {
+                                return adj[v];
+                            }
                         
-                        public int V() {
-                        return V;
-                        }
+                            public int V() {
+                                return V;
+                            }
                         
-                        public int E() {
-                        int count = 0;
-                        for (int v = 0; v &lt; V; v++)
-                        count += adj[v].size();
-                        return count;
-                        }
+                            public int E() {
+                                int count = 0;
+                                for (int v = 0; v &lt; V; v++)
+                                    count += adj[v].size();
+                                return count;
+                            }
                         
-                        public String toString() {
-                        StringBuilder s = new StringBuilder();
-                        s.append(V).append(" vertices, ").append(E()).append(" edges ").append("\n");
-                        for (int v = 0; v &lt; V; v++) {
-                        s.append(v).append(": ");
-                        for (DirectedEdge e : adj[v]) {
-                        s.append(e).append(" ");
-                        }
-                        s.append("\n");
-                        }
-                        return s.toString();
-                        }
+                            public String toString() {
+                                StringBuilder s = new StringBuilder();
+                                s.append(V).append(" vertices, ").append(E()).append(" edges ").append("\n");
+                                for (int v = 0; v &lt; V; v++) {
+                                    s.append(v).append(": ");
+                                    for (DirectedEdge e : adj[v]) {
+                                        s.append(e).append(" ");
+                                    }
+                                    s.append("\n");
+                                }
+                                return s.toString();
+                            }
                         }
                     </code-block>
                 </tab>
@@ -1504,16 +1493,16 @@
                         
                         class EdgeWeightedDigraph {
                         private:
-                        int V;
-                        std::vector&lt;std::vector&lt;DirectedEdge&gt;&gt; adj;
+                            int V;
+                            std::vector&lt;std::vector&lt;DirectedEdge&gt;&gt; adj;
                         
                         public:
-                        explicit EdgeWeightedDigraph(int V);
-                        void addEdge(int source, int destination, double weight);
-                        [[nodiscard]] std::vector&lt;DirectedEdge&gt; getAdj(int v) const;
-                        [[nodiscard]] int getV() const;
-                        [[nodiscard]] int getE() const;
-                        friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const EdgeWeightedDigraph&amp; G);
+                            explicit EdgeWeightedDigraph(int V);
+                            void addEdge(int source, int destination, double weight);
+                            [[nodiscard]] std::vector&lt;DirectedEdge&gt; getAdj(int v) const;
+                            [[nodiscard]] int getV() const;
+                            [[nodiscard]] int getE() const;
+                            friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const EdgeWeightedDigraph&amp; G);
                         };
                         
                         #endif // EDGEWEIGHTEDDIGRAPH_H
@@ -1525,38 +1514,37 @@
                         
                         EdgeWeightedDigraph::EdgeWeightedDigraph(const int V) : V(V), adj(V) {}
                         
-                        void EdgeWeightedDigraph::addEdge(const int source, const int destination,
-                        const double weight) {
-                        const DirectedEdge e(source, destination, weight);
-                        adj[source].push_back(e);
+                        void EdgeWeightedDigraph::addEdge(const int source, const int destination, const double weight) {
+                            const DirectedEdge e(source, destination, weight);
+                            adj[source].push_back(e);
                         }
                         
                         std::vector&lt;DirectedEdge&gt; EdgeWeightedDigraph::getAdj(const int v) const {
-                        return adj[v];
+                            return adj[v];
                         }
                         
                         int EdgeWeightedDigraph::getV() const {
-                        return V;
+                            return V;
                         }
                         
                         int EdgeWeightedDigraph::getE() const {
-                        std::size_t count = 0;
-                        for (int v = 0; v &lt; V; ++v) {
-                        count += adj[v].size();
-                        }
-                        return static_cast&lt;int&gt;(count);
+                            std::size_t count = 0;
+                            for (int v = 0; v &lt; V; ++v) {
+                                count += adj[v].size();
+                            }
+                            return static_cast&lt;int&gt;(count);
                         }
                         
                         std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const EdgeWeightedDigraph&amp; G) {
-                        out &lt;&lt; G.V &lt;&lt; " vertices, " &lt;&lt; G.getE() &lt;&lt; " edges\n";
-                        for (int v = 0; v &lt; G.V; ++v) {
-                        out &lt;&lt; v &lt;&lt; ": ";
-                        for (const auto&amp; e : G.adj[v]) {
-                        out &lt;&lt; e &lt;&lt; " ";
-                        }
-                        out &lt;&lt; "\n";
-                        }
-                        return out;
+                            out &lt;&lt; G.V &lt;&lt; " vertices, " &lt;&lt; G.getE() &lt;&lt; " edges\n";
+                            for (int v = 0; v &lt; G.V; ++v) {
+                                out &lt;&lt; v &lt;&lt; ": ";
+                                for (const auto&amp; e : G.adj[v]) {
+                                    out &lt;&lt; e &lt;&lt; " ";
+                                }
+                                out &lt;&lt; "\n";
+                            }
+                            return out;
                         }
                     </code-block>
                 </tab>
@@ -1566,34 +1554,34 @@
                         
                         
                         class EdgeWeightedDigraph:
-                        def __init__(self, V):
-                        self.V = V
-                        self.adj = [[] for _ in range(V)]
+                            def __init__(self, V):
+                                self.V = V
+                                self.adj = [[] for _ in range(V)]
                         
-                        def add_edge(self, source, destination, weight):
-                        e = DirectedEdge(source, destination, weight)
-                        self.adj[source].append(e)
+                            def add_edge(self, source, destination, weight):
+                                e = DirectedEdge(source, destination, weight)
+                                self.adj[source].append(e)
                         
-                        def get_adj(self, v):
-                        return self.adj[v]
+                            def get_adj(self, v):
+                                return self.adj[v]
                         
-                        def get_V(self):
-                        return self.V
+                            def get_V(self):
+                                return self.V
                         
-                        def get_E(self):
-                        count = 0
-                        for v in range(self.V):
-                        count += len(self.adj[v])
-                        return count
+                            def get_E(self):
+                                count = 0
+                                for v in range(self.V):
+                                    count += len(self.adj[v])
+                                return count
                         
-                        def __str__(self):
-                        s = f"{self.V} vertices, {self.get_E()} edges\n"
-                        for v in range(self.V):
-                        s += f"{v}: "
-                        for e in self.adj[v]:
-                        s += f"{e} "
-                        s += "\n"
-                        return s
+                            def __str__(self):
+                                s = f"{self.V} vertices, {self.get_E()} edges\n"
+                                for v in range(self.V):
+                                    s += f"{v}: "
+                                for e in self.adj[v]:
+                                    s += f"{e} "
+                                    s += "\n"
+                                return s
                     </code-block>
                 </tab>
             </tabs>
