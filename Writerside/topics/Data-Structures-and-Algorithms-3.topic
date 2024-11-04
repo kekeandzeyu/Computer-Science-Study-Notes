@@ -682,30 +682,17 @@
                     <p>Start with vertex <math>0</math> and greedily grow tree <math>T</math></p>
                 </step>
                 <step>
-                    <p>Add to
-                        <math>T</math>
-                        the min weight edge with exactly one
-                        endpoint in
-                        <math>T</math>
-                        .
-                    </p>
+                    <p>Add to <math>T</math> the min weight edge with exactly one endpoint in <math>T</math>.</p>
                 </step>
                 <step>
-                    <p>Repeat until
-                        <math>V - 1</math>
-                        edges.
-                    </p>
+                    <p>Repeat until <math>V - 1</math> edges.</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Correctness Proof</format>
-            </p>
-            <p>Prim's Algorithm is a special case of the greedy MST algorithm.
-            </p>
+            <p><format color="LawnGreen">Correctness Proof</format></p>
+            <p>Prim's Algorithm is a special case of the greedy MST algorithm.</p>
             <list>
                 <li>
-                    <p>Suppose edge e = min weight edge connecting a vertex on the tree
-                        to a vertex not on the tree.</p>
+                    <p>Suppose edge e = min weight edge connecting a vertex on the tree to a vertex not on the tree.</p>
                 </li>
                 <li>
                     <p>Cut = set of vertices connected on tree.</p>
@@ -720,70 +707,27 @@
             <chapter title="16.5.1 Lazy Implementation" id="16-5-1-lazy-implementation">
                 <procedure title="Lazy Implementation">
                     <step>
-                        <p>Maintain a PQ of
-                            <format color="OrangeRed">edges
-                            </format>
-                            with (at least) one endpoint in T.
+                        <p>Maintain a PQ of <format color="OrangeRed">edges</format> with (at least) one endpoint in T.
                         </p>
                     </step>
                     <step>
                         <p>Key = edge; priority = weight of edge.</p>
                     </step>
                     <step>
-                        <p>Delete-min to determine next edge
-                            <math>e = v-w</math>
-                            to
-                            add to
-                            <math>T</math>
-                            .
-                        </p>
+                        <p>Delete-min to determine next edge <math>e = v-w</math> to add to <math>T</math>.</p>
                     </step>
                     <step>
-                        <p>Disregard if both endpoints
-                            <math>v</math>
-                            and
-                            <math>w
-                            </math>
-                            are in
-                            <math>T</math>
-                            .
-                        </p>
+                        <p>Disregard if both endpoints <math>v</math> and <math>w</math> are in <math>T</math>.</p>
                     </step>
                     <step>
-                        <p>Otherwise, let
-                            <math>w</math>
-                            be the vertex not in
-                            <math>T
-                            </math>
-                            .
-                        </p>
-                        <p>Add to PQ any edge incident to
-                            <math>w</math>
-                            (assuming
-                            other endpoint not in T)
-                        </p>
-                        <p>Add
-                            <math>e</math>
-                            to
-                            <math>T</math>
-                            and mark
-                            <math>w
-                            </math>
-                            .
-                        </p>
+                        <p>Otherwise, let <math>w</math> be the vertex not in <math>T</math>.</p>
+                        <p>Add to PQ any edge incident to <math>w</math> (assuming other endpoint not in T)</p>
+                        <p>Add <math>e</math> to <math>T</math> and mark <math>w</math>.</p>
                     </step>
                 </procedure>
-                <p>
-                    <format color="BlueViolet">Property:</format>
-                    Lazy Prim's
-                    algorithm computes the MST in time proportional to
-                    <math>E \log E
-                    </math>
-                    and extra space proportional to
-                    <math>E</math>
-                    (in the worst
-                    case).
-                </p>
+                <p><format color="BlueViolet">Property:</format> Lazy Prim's algorithm computes the MST in time
+                    proportional to <math>E \log E</math> and extra space proportional to <math>E</math> (in the worst
+                    case).</p>
                 <table style="header-row">
                     <tr>
                         <td>Operation</td>
@@ -817,50 +761,50 @@
                             import java.util.PriorityQueue;
                             
                             public class PrimMSTLazy {
-                            private final boolean[] marked;
-                            private final PriorityQueue&lt;Edge&gt; pq;
-                            private final List&lt;Edge&gt; mst;
-                            private double weight;
+                                private final boolean[] marked;
+                                private final PriorityQueue&lt;Edge&gt; pq;
+                                private final List&lt;Edge&gt; mst;
+                                private double weight;
                             
-                            public PrimMSTLazy(EdgeWeightedGraph graph) {
-                            marked = new boolean[graph.getVertices()];
-                            pq = new PriorityQueue&lt;&gt;();
-                            mst = new ArrayList&lt;&gt;();
-                            weight = 0.0;
+                                public PrimMSTLazy(EdgeWeightedGraph graph) {
+                                    marked = new boolean[graph.getVertices()];
+                                    pq = new PriorityQueue&lt;&gt;();
+                                    mst = new ArrayList&lt;&gt;();
+                                    weight = 0.0;
+
+                                    visit(graph, 0);
+                                    while (!pq.isEmpty()) {
+                                        Edge e = pq.poll();
+
+                                        int v = e.getEitherVertex();
+                                        int w = e.getOtherVertex(v);
+
+                                        if (marked[v] &amp;&amp; marked[w]) continue;
+                                        mst.add(e);
+                                        weight += e.getWeight();
+
+                                        if (!marked[v]) visit(graph, v);
+                                        if (!marked[w]) visit(graph, w);
+                                    }
+                                }
                             
-                            visit(graph, 0);
-                            while (!pq.isEmpty()) {
-                            Edge e = pq.poll();
+                                private void visit(EdgeWeightedGraph graph, int v) {
+                                    marked[v] = true;
+
+                                    for (Edge e : graph.getAdjacencyList(v)) {
+                                        if (!marked[e.getOtherVertex(v)]) {
+                                            pq.offer(e);
+                                        }
+                                    }
+                                }
                             
-                            int v = e.getEitherVertex();
-                            int w = e.getOtherVertex(v);
+                                public Iterable&lt;Edge&gt; edges() {
+                                    return mst;
+                                }
                             
-                            if (marked[v] &amp;&amp; marked[w]) continue;
-                            mst.add(e);
-                            weight += e.getWeight();
-                            
-                            if (!marked[v]) visit(graph, v);
-                            if (!marked[w]) visit(graph, w);
-                            }
-                            }
-                            
-                            private void visit(EdgeWeightedGraph graph, int v) {
-                            marked[v] = true;
-                            
-                            for (Edge e : graph.getAdjacencyList(v)) {
-                            if (!marked[e.getOtherVertex(v)]) {
-                            pq.offer(e);
-                            }
-                            }
-                            }
-                            
-                            public Iterable&lt;Edge&gt; edges() {
-                            return mst;
-                            }
-                            
-                            public double weight() {
-                            return weight;
-                            }
+                                public double weight() {
+                                    return weight;
+                                }
                             }
                         </code-block>
                     </tab>
@@ -873,48 +817,47 @@
                             
                             class PrimMSTLazy {
                             private:
-                            std::vector&lt;bool&gt; marked;
-                            std::priority_queue&lt;Edge, std::vector&lt;Edge&gt;, std::greater&lt;&gt;&gt; pq;
-                            std::vector&lt;Edge&gt; mst;
-                            double weight;
+                                std::vector&lt;bool&gt; marked;
+                                std::priority_queue&lt;Edge, std::vector&lt;Edge&gt;, std::greater&lt;&gt;&gt; pq;
+                                std::vector&lt;Edge&gt; mst;
+                                double weight;
                             
-                            void visit(const EdgeWeightedGraph&amp; graph, int v) {
-                            marked[v] = true;
-                            for (const Edge&amp; e : graph.getAdjacencyList(v)) {
-                            if (!marked[e.getOtherVertex(v)]) {
-                            pq.push(e);
-                            }
-                            }
-                            }
+                                void visit(const EdgeWeightedGraph&amp; graph, int v) {
+                                    marked[v] = true;
+                                    for (const Edge&amp; e : graph.getAdjacencyList(v)) {
+                                        if (!marked[e.getOtherVertex(v)]) {
+                                            pq.push(e);
+                                        }
+                                    }
+                                }
                             
                             public:
-                            explicit PrimMSTLazy(const EdgeWeightedGraph&amp; graph) :
-                            marked(graph.getVertices(), false), weight(0.0) {
+                                explicit PrimMSTLazy(const EdgeWeightedGraph&amp; graph) :
+                                    marked(graph.getVertices(), false), weight(0.0) {
+                                    visit(graph, 0);
+                                    while (!pq.empty()) {
+                                        Edge e = pq.top();
+                                        pq.pop();
+
+                                        int v = e.getEitherVertex();
+                                        int w = e.getOtherVertex(v);
+
+                                        if (marked[v] &amp;&amp; marked[w]) continue;
+                                        mst.push_back(e);
+                                        weight += e.getWeight();
+
+                                        if (!marked[v]) visit(graph, v);
+                                        if (!marked[w]) visit(graph, w);
+                                    }
+                                }
                             
-                            visit(graph, 0);
-                            while (!pq.empty()) {
-                            Edge e = pq.top();
-                            pq.pop();
+                                [[nodiscard]] const std::vector&lt;Edge&gt;&amp; edges() const {
+                                    return mst;
+                                }
                             
-                            int v = e.getEitherVertex();
-                            int w = e.getOtherVertex(v);
-                            
-                            if (marked[v] &amp;&amp; marked[w]) continue;
-                            mst.push_back(e);
-                            weight += e.getWeight();
-                            
-                            if (!marked[v]) visit(graph, v);
-                            if (!marked[w]) visit(graph, w);
-                            }
-                            }
-                            
-                            [[nodiscard]] const std::vector&lt;Edge&gt;&amp; edges() const {
-                            return mst;
-                            }
-                            
-                            [[nodiscard]] double getWeight() const {
-                            return weight;
-                            }
+                                [[nodiscard]] double getWeight() const {
+                                    return weight;
+                                }
                             };
                         </code-block>
                     </tab>
@@ -927,58 +870,50 @@
                             
                             
                             class PrimMSTLazy:
-                            def __init__(self, graph: EdgeWeightedGraph):
-                            self.marked: List[bool] = [False] * graph.get_vertices()
-                            self.pq: List[Edge] = [] # Min-heap for edges
-                            self.mst: List[Edge] = [] # Stores the MST edges
-                            self.weight: float = 0.0
+                                def __init__(self, graph: EdgeWeightedGraph):
+                                    self.marked: List[bool] = [False] * graph.get_vertices()
+                                    self.pq: List[Edge] = [] # Min-heap for edges
+                                    self.mst: List[Edge] = [] # Stores the MST edges
+                                    self.weight: float = 0.0
                             
-                            self._visit(graph, 0) # Start from vertex 0
-                            while self.pq:
-                            edge: Edge = heapq.heappop(self.pq)
+                                    self._visit(graph, 0) # Start from vertex 0
+                                    while self.pq:
+                                        edge: Edge = heapq.heappop(self.pq)
                             
-                            v: int = edge.get_either_vertex()
-                            w: int = edge.get_other_vertex(v)
+                                        v: int = edge.get_either_vertex()
+                                        w: int = edge.get_other_vertex(v)
                             
-                            if self.marked[v] and self.marked[w]:
-                            continue # Ignore if both vertices are already in the MST
+                                        if self.marked[v] and self.marked[w]:
+                                            continue # Ignore if both vertices are already in the MST
                             
-                            self.mst.append(edge)
-                            self.weight += edge.get_weight()
+                                        self.mst.append(edge)
+                                        self.weight += edge.get_weight()
                             
-                            if not self.marked[v]:
-                            self._visit(graph, v)
-                            if not self.marked[w]:
-                            self._visit(graph, w)
+                                        if not self.marked[v]:
+                                            self._visit(graph, v)
+                                        if not self.marked[w]:
+                                            self._visit(graph, w)
                             
-                            def _visit(self, graph: EdgeWeightedGraph, v: int):
-                            """Adds edges connected to vertex v to the priority queue."""
-                            self.marked[v] = True
-                            for edge in graph.get_adjacency_list(v):
-                            if not self.marked[edge.get_other_vertex(v)]:
-                            heapq.heappush(self.pq, edge)
+                                def _visit(self, graph: EdgeWeightedGraph, v: int):
+                                    """Adds edges connected to vertex v to the priority queue."""
+                                    self.marked[v] = True
+                                    for edge in graph.get_adjacency_list(v):
+                                        if not self.marked[edge.get_other_vertex(v)]:
+                                            heapq.heappush(self.pq, edge)
                             
-                            def edges(self) -&gt; Iterable[Edge]:
-                            return self.mst
+                                def edges(self) -&gt; Iterable[Edge]:
+                                    return self.mst
                             
-                            def weight(self) -&gt; float:
-                            return self.weight
+                                def weight(self) -&gt; float:
+                                    return self.weight
                         </code-block>
                     </tab>
                 </tabs>
             </chapter>
             <chapter title="16.5.2 Eager Implementation" id="16-5-2-eager-implementation">
-                <p>
-                    <format color="BlueViolet">Property</format>
-                </p>
-                <p>Running time depends on PQ implementation:
-                    <math>V</math>
-                    insert,
-                    <math>V</math>
-                    delete-min,
-                    <math>E</math>
-                    decrease-key.
-                </p>
+                <p><format color="BlueViolet">Property</format></p>
+                <p>Running time depends on PQ implementation: <math>V</math> insert, <math>V</math> delete-min, <math>E
+                </math> decrease-key.</p>
                 <table style="header-row">
                     <tr>
                         <td>PQ Implementation</td>
@@ -1051,9 +986,7 @@
                     </tr>
                 </table>
                 <p>*: amortized</p>
-                <p>
-                    <format color="BlueViolet">Bottom Line</format>
-                </p>
+                <p><format color="BlueViolet">Bottom Line</format></p>
                 <list type="bullet">
                     <li>
                         <p>Array implementation optimal for dense graph.</p>
@@ -1077,61 +1010,61 @@
                             
                             public class PrimMST {
                             private final boolean[] marked;
-                            private final Edge[] edgeTo;
-                            private final double[] distTo;
-                            private final IndexedPriorityQueue pq;
-                            private final List&lt;Edge&gt; mst;
+                                private final Edge[] edgeTo;
+                                private final double[] distTo;
+                                private final IndexedPriorityQueue pq;
+                                private final List&lt;Edge&gt; mst;
                             
-                            public PrimMST(EdgeWeightedGraph graph) {
-                            marked = new boolean[graph.getVertices()];
-                            edgeTo = new Edge[graph.getVertices()];
-                            distTo = new double[graph.getVertices()];
-                            pq = new IndexedPriorityQueue(graph.getVertices());
-                            mst = new ArrayList&lt;&gt;();
+                                public PrimMST(EdgeWeightedGraph graph) {
+                                    marked = new boolean[graph.getVertices()];
+                                    edgeTo = new Edge[graph.getVertices()];
+                                    distTo = new double[graph.getVertices()];
+                                    pq = new IndexedPriorityQueue(graph.getVertices());
+                                    mst = new ArrayList&lt;&gt;();
+
+                                    for (int v = 0; v &lt; graph.getVertices(); v++) {
+                                        distTo[v] = Double.POSITIVE_INFINITY;
+                                    }
+                                    distTo[0] = 0.0;
+                                    pq.insert(0, 0.0);
+                                    while (!pq.isEmpty()) {
+                                        visit(graph, pq.delMin());
+                                    }
+                                }
                             
-                            for (int v = 0; v &lt; graph.getVertices(); v++) {
-                            distTo[v] = Double.POSITIVE_INFINITY;
-                            }
-                            distTo[0] = 0.0;
-                            pq.insert(0, 0.0);
-                            while (!pq.isEmpty()) {
-                            visit(graph, pq.delMin());
-                            }
-                            }
+                                private void visit(EdgeWeightedGraph graph, int vertex) {
+                                    marked[vertex] = true;
+                                    for (Edge edge : graph.getAdjacencyList(vertex)) {
+                                        int w = edge.getOtherVertex(vertex);
+                                        if (marked[w]) continue;
+                                        if (edge.getWeight() &lt; distTo[w]) {
+                                            edgeTo[w] = edge;
+                                            distTo[w] = edge.getWeight();
+                                            if (pq.contains(w)) {
+                                                pq.decreaseKey(w, distTo[w]);
+                                            } else {
+                                                pq.insert(w, distTo[w]);
+                                            }
+                                        }
+                                    }
+                                }
                             
-                            private void visit(EdgeWeightedGraph graph, int vertex) {
-                            marked[vertex] = true;
-                            for (Edge edge : graph.getAdjacencyList(vertex)) {
-                            int w = edge.getOtherVertex(vertex);
-                            if (marked[w]) continue;
-                            if (edge.getWeight() &lt; distTo[w]) {
-                            edgeTo[w] = edge;
-                            distTo[w] = edge.getWeight();
-                            if (pq.contains(w)) {
-                            pq.decreaseKey(w, distTo[w]);
-                            } else {
-                            pq.insert(w, distTo[w]);
-                            }
-                            }
-                            }
-                            }
+                                public Iterable&lt;Edge&gt; edges() {
+                                    for (int v = 1; v &lt; edgeTo.length; v++) {
+                                        if (edgeTo[v] != null) {
+                                            mst.add(edgeTo[v]);
+                                        }
+                                    }
+                                    return mst;
+                                }
                             
-                            public Iterable&lt;Edge&gt; edges() {
-                            for (int v = 1; v &lt; edgeTo.length; v++) {
-                            if (edgeTo[v] != null) {
-                            mst.add(edgeTo[v]);
-                            }
-                            }
-                            return mst;
-                            }
-                            
-                            public double weight() {
-                            double weight = 0.0;
-                            for (Edge edge : mst) {
-                            weight += edge.getWeight();
-                            }
-                            return weight;
-                            }
+                                public double weight() {
+                                    double weight = 0.0;
+                                    for (Edge edge : mst) {
+                                        weight += edge.getWeight();
+                                    }
+                                    return weight;
+                                }
                             }
                         </code-block>
                     </tab>
@@ -1144,60 +1077,58 @@
                             
                             class PrimMST {
                             private:
-                            std::vector&lt;bool&gt; marked;
-                            std::vector&lt;Edge&gt; edgeTo;
-                            std::vector&lt;double&gt; distTo;
-                            IndexedPriorityQueue pq;
-                            std::vector&lt;Edge&gt; mst;
+                                std::vector&lt;bool&gt; marked;
+                                std::vector&lt;Edge&gt; edgeTo;
+                                std::vector&lt;double&gt; distTo;
+                                IndexedPriorityQueue pq;
+                                std::vector&lt;Edge&gt; mst;
                             
-                            void visit(const EdgeWeightedGraph&amp; graph, int vertex) {
-                            marked[vertex] = true;
-                            for (const Edge&amp; edge : graph.getAdjacencyList(vertex)) {
-                            const int w = edge.getOtherVertex(vertex);
-                            if (marked[w]) continue;
-                            if (edge.getWeight() &lt; distTo[w]) {
-                            edgeTo[w] = edge;
-                            distTo[w] = edge.getWeight();
-                            if (pq.contains(w)) {
-                            pq.decreaseKey(w, distTo[w]);
-                            } else {
-                            pq.insert(w, distTo[w]);
-                            }
-                            }
-                            }
-                            }
+                                void visit(const EdgeWeightedGraph&amp; graph, int vertex) {
+                                    marked[vertex] = true;
+                                    for (const Edge&amp; edge : graph.getAdjacencyList(vertex)) {
+                                        const int w = edge.getOtherVertex(vertex);
+                                        if (marked[w]) continue;
+                                        if (edge.getWeight() &lt; distTo[w]) {
+                                            edgeTo[w] = edge;
+                                            distTo[w] = edge.getWeight();
+                                            if (pq.contains(w)) {
+                                                pq.decreaseKey(w, distTo[w]);
+                                            } else {
+                                                pq.insert(w, distTo[w]);
+                                            }
+                                        }
+                                    }
+                                }
                             
                             public:
-                            explicit PrimMST(const EdgeWeightedGraph&amp; graph) :
-                            marked(graph.getVertices(), false),
-                            edgeTo(graph.getVertices()),
-                            distTo(graph.getVertices(), std::numeric_limits&lt;double&gt;::infinity()),
-                            pq(graph.getVertices()) {
+                                explicit PrimMST(const EdgeWeightedGraph&amp; graph) :
+                                marked(graph.getVertices(), false), edgeTo(graph.getVertices()),
+                                distTo(graph.getVertices(), std::numeric_limits&lt;double&gt;::infinity()),
+                                pq(graph.getVertices()) {
+                                    distTo[0] = 0.0;
+                                    pq.insert(0, 0.0);
+                                    while (!pq.isEmpty()) {
+                                        visit(graph, pq.delMin());
+                                    }
+                                }
                             
-                            distTo[0] = 0.0;
-                            pq.insert(0, 0.0);
-                            while (!pq.isEmpty()) {
-                            visit(graph, pq.delMin());
-                            }
-                            }
+                                const std::vector&lt;Edge&gt;&amp; edges() {
+                                    mst.clear();
+                                    for (int v = 1; v &lt; edgeTo.size(); v++) {
+                                        if (edgeTo[v].getWeight() != 0.0) {
+                                            mst.push_back(edgeTo[v]);
+                                        }
+                                    }
+                                    return mst;
+                                }
                             
-                            const std::vector&lt;Edge&gt;&amp; edges() {
-                            mst.clear();
-                            for (int v = 1; v &lt; edgeTo.size(); v++) {
-                            if (edgeTo[v].getWeight() != 0.0) {
-                            mst.push_back(edgeTo[v]);
-                            }
-                            }
-                            return mst;
-                            }
-                            
-                            [[nodiscard]] double weight() const {
-                            double weight = 0.0;
-                            for (const Edge&amp; edge : mst) {
-                            weight += edge.getWeight();
-                            }
-                            return weight;
-                            }
+                                [[nodiscard]] double weight() const {
+                                    double weight = 0.0;
+                                    for (const Edge&amp; edge : mst) {
+                                        weight += edge.getWeight();
+                                    }
+                                    return weight;
+                                }
                             };
                         </code-block>
                     </tab>
@@ -1210,44 +1141,44 @@
                             
                             
                             class PrimMSTEager:
-                            def __init__(self, graph: EdgeWeightedGraph):
-                            self.marked: List[bool] = [False] * graph.get_vertices()
-                            self.edge_to: List[Edge] = [None] * graph.get_vertices()
-                            self.dist_to: List[float] = [float('inf')] * graph.get_vertices()
-                            self.pq: IndexedPriorityQueue = IndexedPriorityQueue(graph.get_vertices())
-                            self.mst: List[Edge] = []
+                                def __init__(self, graph: EdgeWeightedGraph):
+                                    self.marked: List[bool] = [False] * graph.get_vertices()
+                                    self.edge_to: List[Edge] = [None] * graph.get_vertices()
+                                    self.dist_to: List[float] = [float('inf')] * graph.get_vertices()
+                                    self.pq: IndexedPriorityQueue = IndexedPriorityQueue(graph.get_vertices())
+                                    self.mst: List[Edge] = []
                             
-                            self.dist_to[0] = 0.0
-                            self.pq.insert(0, 0.0)
+                                    self.dist_to[0] = 0.0
+                                    self.pq.insert(0, 0.0)
                             
-                            while not self.pq.is_empty():
-                            self._visit(graph, self.pq.del_min())
+                                    while not self.pq.is_empty():
+                                        self._visit(graph, self.pq.del_min())
                             
-                            def _visit(self, graph: EdgeWeightedGraph, vertex: int):
-                            self.marked[vertex] = True
-                            for edge in graph.get_adjacency_list(vertex):
-                            w: int = edge.get_other_vertex(vertex)
-                            if self.marked[w]:
-                            continue
+                                def _visit(self, graph: EdgeWeightedGraph, vertex: int):
+                                    self.marked[vertex] = True
+                                    for edge in graph.get_adjacency_list(vertex):
+                                        w: int = edge.get_other_vertex(vertex)
+                                        if self.marked[w]:
+                                            continue
                             
-                            if edge.get_weight() &lt; self.dist_to[w]:
-                            self.dist_to[w] = edge.get_weight()
-                            self.edge_to[w] = edge
-                            if self.pq.contains(w):
-                            self.pq.decrease_key(w, self.dist_to[w])
-                            else:
-                            self.pq.insert(w, self.dist_to[w])
+                                    if edge.get_weight() &lt; self.dist_to[w]:
+                                        self.dist_to[w] = edge.get_weight()
+                                        self.edge_to[w] = edge
+                                    if self.pq.contains(w):
+                                        self.pq.decrease_key(w, self.dist_to[w])
+                                    else:
+                                        self.pq.insert(w, self.dist_to[w])
                             
-                            def edges(self) -&gt; Iterable[Edge]:
-                            """Returns an iterable of edges in the MST."""
-                            for v in range(1, len(self.edge_to)):
-                            if self.edge_to[v] is not None:
-                            self.mst.append(self.edge_to[v])
-                            return self.mst
+                                def edges(self) -&gt; Iterable[Edge]:
+                                    """Returns an iterable of edges in the MST."""
+                                    for v in range(1, len(self.edge_to)):
+                                        if self.edge_to[v] is not None:
+                                            self.mst.append(self.edge_to[v])
+                                    return self.mst
                             
-                            def weight(self) -&gt; float:
-                            """Returns the total weight of the MST."""
-                            return sum(edge.get_weight() for edge in self.mst)
+                                def weight(self) -&gt; float:
+                                    """Returns the total weight of the MST."""
+                                    return sum(edge.get_weight() for edge in self.mst)
                         </code-block>
                     </tab>
                 </tabs>
@@ -1255,94 +1186,50 @@
         </chapter>
         <chapter title="16.6 MST Context" id="16-6-mst-context">
             <chapter title="16.6.1 Euclidean MST" id="16-6-1-euclidean-mst">
-                <p>
-                    <format color="OrangeRed">Euclidean MST:</format>
-                    Given
-                    <math>N
-                    </math>
-                    points in the plane, find MST connecting them, where the
-                    distances between point pairs are their
-                    <format color=
-                                    "OrangeRed">Euclidean
-                    </format>
-                    distances.
-                </p>
-                <p>
-                    <format color="LawnGreen">Methods:</format>
-                    Exploit geometry
-                    and do it in
-                    <math>\sim cN \log N</math>
+                <p><format color="OrangeRed">Euclidean MST:</format> Given <math>N</math> points in the plane, find MST
+                    connecting them, where the distances between point pairs are their <format color="OrangeRed">
+                        Euclidean</format> distances.</p>
+                <p><format color="LawnGreen">Methods:</format> Exploit geometry and do it in <math>\sim cN \log N</math>
                 </p>
             </chapter>
             <chapter title="16.6.2 Single Link Clustering" id="16-6-2-single-link-clustering">
-                <p>
-                    <format color="BlueViolet">Definitions</format>
-                </p>
+                <p><format color="BlueViolet">Definitions</format></p>
                 <list type="bullet">
                     <li>
-                        <p>
-                            <format color="DarkOrange">k-clustering:</format>
-                            Divide
-                            a set of objects calssify into
-                            <math>k</math>
-                            coherent groups.
-                        </p>
+                        <p><format color="DarkOrange">k-clustering:</format> Divide a set of objects calssify into
+                            <math>k</math> coherent groups.</p>
                     </li>
                     <li>
-                        <p>
-                            <format color="DarkOrange">Distance Function:</format>
-                            Numeric value specifying "closeness" of two objects.
-                        </p>
+                        <p><format color="DarkOrange">Distance Function:</format> Numeric value specifying "closeness"
+                            of two objects.</p>
                     </li>
                     <li>
-                        <p>
-                            <format color="DarkOrange">Single link:</format>
-                            Distance
-                            between two clusters equals the distance between the two closest
-                            objects (one in each cluster).
-                        </p>
+                        <p><format color="DarkOrange">Single link:</format> Distance between two clusters equals the
+                            distance between the two closest objects (one in each cluster).</p>
                     </li>
                     <li>
-                        <p>
-                            <format color="DarkOrange">Single-link clustering:</format>
-                            Given an integer k, find a k-clustering that maximizes the
-                            distance between two closest clusters.
-                        </p>
+                        <p><format color="DarkOrange">Single-link clustering:</format> Given an integer k, find a
+                            k-clustering that maximizes the distance between two closest clusters.</p>
                     </li>
                 </list>
                 <img src="../images_data/d16-6-1.png" alt="Clustering"/>
                 <procedure title='"Well-known" algorithm in science literature for single-link clustering:'>
                     <step>
-                        <p>Form
-                            <math>V</math>
-                            clusters of one object each.
-                        </p>
+                        <p>Form <math>V</math> clusters of one object each.</p>
                     </step>
                     <step>
-                        <p>Find the closest pair of objects such that each object is
-                            in a different cluster, and merge the two clusters.</p>
+                        <p>Find the closest pair of objects such that each object is in a different cluster, and merge
+                            the two clusters.</p>
                     </step>
                     <step>
-                        <p>Repeat until there are exactly
-                            <math>k</math>
-                            clusters.
-                        </p>
+                        <p>Repeat until there are exactly <math>k</math> clusters.</p>
                     </step>
                 </procedure>
                 <note>
-                    <p>This is Kruskal's algorithm (stop when
-                        <math>k</math>
-                        connected
-                        components).
-                    </p>
-                    <p>Run Prim's algorithm and delete
-                        <math>k–1</math>
-                        max weight edges.
-                    </p>
+                    <p>This is Kruskal's algorithm (stop when <math>k</math> connected components).</p>
+                    <p>Run Prim's algorithm and delete <math>k–1</math> max weight edges.</p>
                 </note>
-                <p>
-                    <format color="BlueViolet">Applications</format>
-                </p>
+                <p><format color="BlueViolet">Applications</format></p>
                 <list>
                     <li>
                         <p>Routing in mobile ad hoc networks.</p>
@@ -1354,11 +1241,7 @@
                         <p>Similarity searching in medical image databases.</p>
                     </li>
                     <li>
-                        <p>Skycat: cluster
-                            <math>10 ^ {9}</math>
-                            sky objects into stars,
-                            quasars, galaxies.
-                        </p>
+                        <p>Skycat: cluster <math>10 ^ {9}</math> sky objects into stars, quasars, galaxies.</p>
                     </li>
                 </list>
             </chapter>
@@ -1366,64 +1249,28 @@
         <chapter title="16.7 Important Questions" id="16-7-important-questions">
             <list type="decimal">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Q: Bottleneck minimum spanning tree:
-                        </format>
-                        Given a connected edge-weighted graph, design an
-                        efficient algorithm to find a minimum bottleneck spanning tree.
-                        The bottleneck capacity of a spanning tree is the weights of its
-                        largest edge. A minimum bottleneck spanning tree is a spanning
-                        tree of minimum bottleneck capacity.
-                    </p>
-                    <p>
-                        <format color="LawnGreen">A:</format>
-                        Prove that an MST is
-                        a minimum bottleneck spanning tree.
-                    </p>
+                    <p><format color="Fuchsia">Q: Bottleneck minimum spanning tree:</format> Given a connected
+                        edge-weighted graph, design an efficient algorithm to find a minimum bottleneck spanning tree.
+                        The bottleneck capacity of a spanning tree is the weights of its largest edge. A minimum
+                        bottleneck spanning tree is a spanning tree of minimum bottleneck capacity.</p>
+                    <p><format color="LawnGreen">A:</format> Prove that an MST is a minimum bottleneck spanning tree.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Q: Is an edge in a MST:</format>
-                        Given an edge-weighted graph
-                        <math>G</math>
-                        and an edge
-                        <math>e
-                        </math>
-                        , design a linear-time algorithm to determine whether
-                        <math>e</math>
-                        appears in some MST of
-                        <math>G</math>
-                        .
-                    </p>
-                    <p>Note: Since your algorithm must take linear time in the worst
-                        case, you cannot afford to compute the MST itself.</p>
-                    <p>
-                        <format color="LawnGreen">A:</format>
-                        Consider the subgraph
-                        <math>G'</math>
-                        of
-                        <math>G</math>
-                        containing only those edges
-                        whose weight is strictly less than that of
-                        <math>e</math>
-                        .
-                    </p>
+                    <p><format color="Fuchsia">Q: Is an edge in a MST:</format> Given an edge-weighted graph
+                        <math>G</math> and an edge <math>e</math>, design a linear-time algorithm to determine whether
+                        <math>e</math> appears in some MST of <math>G</math>.</p>
+                    <p>Note: Since your algorithm must take linear time in the worst case, you cannot afford to compute
+                        the MST itself.</p>
+                    <p><format color="LawnGreen">A:</format> Consider the subgraph <math>G'</math> of <math>G</math>
+                        containing only those edges whose weight is strictly less than that of <math>e</math>.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Q: Minimum-weight feedback edge set:
-                        </format>
-                        A feedback edge set of a graph is a subset of edges that
-                        contains at least one edge from every cycle in the graph. If the
-                        edges of a feedback edge set are removed, the resulting graph is
-                        acyclic. Given an edge-weighted graph, design an efficient
-                        algorithm to find a feedback edge set of minimum weight. Assume
-                        the edge weights are positive.
-                    </p>
-                    <p>
-                        <format color="LawnGreen">A:</format>
-                        Complement of an MST.
-                    </p>
+                    <p><format color="Fuchsia">Q: Minimum-weight feedback edge set:</format> A feedback edge set of a
+                        graph is a subset of edges that contains at least one edge from every cycle in the graph. If the
+                        edges of a feedback edge set are removed, the resulting graph is acyclic. Given an edge-weighted
+                        graph, design an efficient algorithm to find a feedback edge set of minimum weight. Assume
+                        the edge weights are positive.</p>
+                    <p><format color="LawnGreen">A:</format> Complement of an MST.</p>
                 </li>
             </list>
         </chapter>
