@@ -12,26 +12,11 @@
     <secondary-label ref="wip"></secondary-label>
     <chapter title="16 Minimum Spanning Trees" id="16-minimum-spanning-trees">
         <chapter title="16.1 Introduction to MSTs" id="16-1-introduction-to-msts">
-            <p>
-                <format color="DarkOrange">Spanning tree:</format>
-                A
-                <format
-                        color="OrangeRed">spanning tree
-                </format>
-                is a subgraph
-                <math>T
-                </math>
-                that is both a
-                <format color="OrangeRed">tree</format>
-                (connected and acyclic) and
-                <format color="OrangeRed">spanning
-                </format>
-                (includes all of the vertices).
-            </p>
+            <p><format color="DarkOrange">Spanning tree:</format> A <format color="OrangeRed">spanning tree
+                </format> is a subgraph <math>T</math> that is both a <format color="OrangeRed">tree</format> (connected
+                and acyclic) and <format color="OrangeRed">spanning</format> (includes all of the vertices).</p>
             <img src="../images_data/d16-1-1.png" alt="Spanning Tree"/>
-            <p>
-                <format color="BlueViolet">Application:</format>
-            </p>
+            <p><format color="BlueViolet">Application:</format></p>
             <list type="bullet">
                 <li>
                     <p>Dithering</p>
@@ -62,37 +47,26 @@
                     </p>
                 </li>
                 <li>
-                    <p>Autoconfig protocol for Ethernet bridging to avoid cycles in a
-                        network</p>
+                    <p>Autoconfig protocol for Ethernet bridging to avoid cycles in a network</p>
                 </li>
                 <li>
-                    <p>Approximation algorithms for NP-hard problems (e.g., TSP, Steiner
-                        tree)</p>
+                    <p>Approximation algorithms for NP-hard problems (e.g., TSP, Steiner tree)</p>
                 </li>
                 <li>
-                    <p>Network design (communication, electrical, hydraulic, computer,
-                        road).</p>
+                    <p>Network design (communication, electrical, hydraulic, computer, road)</p>
                 </li>
             </list>
         </chapter>
         <chapter title="16.2 Greedy Algorithm" id="16-2-greedy-algorithm">
-            <p>
-                <format color="BlueViolet">Definitions</format>
-            </p>
+            <p><format color="BlueViolet">Definitions</format></p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="DarkOrange">Cut:</format>
-                        A cut in a graph is a
-                        partition of its vertices into two (nonempty) sets.
-                    </p>
+                    <p><format color="DarkOrange">Cut:</format> A cut in a graph is a partition of its vertices into two
+                        (nonempty) sets.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="DarkOrange">Crossing edge:</format>
-                        A crossing
-                        edge connects a vertex in one set with a vertex in the other.
-                    </p>
+                    <p><format color="DarkOrange">Crossing edge:</format> A crossing edge connects a vertex in one set
+                        with a vertex in the other.</p>
                 </li>
             </list>
             <img src="../images_data/d16-2-1.png" alt="Greedy Algorithm"/>
@@ -101,60 +75,31 @@
                     <p>Start with all edges colored gray.</p>
                 </step>
                 <step>
-                    <p>Find cut with no black crossing edges; color its
-                        min-weight edge black.</p>
+                    <p>Find cut with no black crossing edges; color its min-weight edge black.</p>
                 </step>
                 <step>
-                    <p>Repeat until
-                        <math>V - 1</math>
-                        edges are colored black.
-                    </p>
+                    <p>Repeat until <math>V - 1</math> edges are colored black.</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Correctness Proof</format>
-            </p>
+            <p><format color="LawnGreen">Correctness Proof</format></p>
             <list type="decimal">
                 <li>
                     <p>Given any cut, the crossing edge of min weight is in MST.</p>
-                    <p>
-                        <format color="LawnGreen">Proof</format>
-                    </p>
-                    <p>Suppose min-weight crossing edge
-                        <math>e</math>
-                        is not in the
-                        MST.
-                    </p>
+                    <p><format color="LawnGreen">Proof</format></p>
+                    <p>Suppose min-weight crossing edge <math>e</math> is not in the MST.</p>
                     <list type="bullet">
                         <li>
-                            <p>Adding
-                                <math>e</math>
-                                to the MST creates a cycle.
-                            </p>
+                            <p>Adding <math>e</math> to the MST creates a cycle.</p>
                         </li>
                         <li>
-                            <p>Some other edge
-                                <math>f</math>
-                                in cycle must be a crossing
-                                edge.
-                            </p>
+                            <p>Some other edge <math>f</math> in cycle must be a crossing edge.</p>
                         </li>
                         <li>
-                            <p>Removing
-                                <math>f</math>
-                                and adding
-                                <math>e</math>
-                                is also a
-                                spanning edge.
-                            </p>
+                            <p>Removing <math>f</math> and adding <math>e</math> is also a spanning edge.</p>
                         </li>
                         <li>
-                            <p>Since weight of
-                                <math>e</math>
-                                is less than the weight of
-                                <math>f</math>
-                                , that spanning tree is lower height.
-                            </p>
+                            <p>Since weight of <math>e</math> is less than the weight of <math>f</math>, that spanning
+                                tree is lower height.</p>
                         </li>
                         <li>
                             <p>Contradiction.</p>
@@ -164,20 +109,14 @@
                 </li>
                 <li>
                     <p>The greedy algorithm computes the MST.</p>
-                    <p>
-                        <format color="MediumVioletRed">Proof</format>
-                    </p>
+                    <p><format color="LawnGreen">Proof</format></p>
                     <list type="bullet">
                         <li>
                             <p>Any edge colored black is in the MST (via cut property).</p>
                         </li>
                         <li>
-                            <p>Fewer than
-                                <math>V - 1</math>
-                                black edges => cut with no
-                                black crossing edges. (consider cut whose vertices are one
-                                connected component)
-                            </p>
+                            <p>Fewer than <math>V - 1</math> black edges =&gt; cut with no black crossing edges
+                                (consider cut whose vertices are one connected component).</p>
                         </li>
                     </list>
                 </li>
@@ -195,16 +134,14 @@
             </warning>
         </chapter>
         <chapter title="16.3 Edge-weighted Graph Implementation" id="16-3-edge-weighted-graph-implementation">
-            <p>
-                <format color="BlueViolet">Edge</format>
-            </p>
+            <p><format color="BlueViolet">Edge</format></p>
             <tabs>
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
                         public class Edge implements Comparable&lt;Edge&gt; {
-                        private final int source;
-                        private final int destination;
-                        private final double weight;
+                            private final int source;
+                            private final int destination;
+                            private final double weight;
                         
                         public Edge(int source, int destination, double weight) {
                         this.source = source;
