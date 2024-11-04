@@ -143,39 +143,39 @@
                             private final int destination;
                             private final double weight;
                         
-                        public Edge(int source, int destination, double weight) {
-                        this.source = source;
-                        this.destination = destination;
-                        this.weight = weight;
-                        }
+                            public Edge(int source, int destination, double weight) {
+                                this.source = source;
+                                this.destination = destination;
+                                this.weight = weight;
+                            }
                         
-                        public int getEitherVertex() {
-                        return source;
-                        }
+                            public int getEitherVertex() {
+                                return source;
+                            }
                         
-                        public int getOtherVertex(int vertex) {
-                        if (vertex == source) {
-                        return destination;
-                        } else if (vertex == destination) {
-                        return source;
-                        } else {
-                        throw new IllegalArgumentException("Invalid vertex");
-                        }
-                        }
+                            public int getOtherVertex(int vertex) {
+                                if (vertex == source) {
+                                    return destination;
+                                } else if (vertex == destination) {
+                                    return source;
+                                } else {
+                                    throw new IllegalArgumentException("Invalid vertex");
+                                }
+                            }
                         
-                        public double getWeight() {
-                        return weight;
-                        }
+                            public double getWeight() {
+                                return weight;
+                            }
                         
-                        @Override
-                        public String toString() {
-                        return "(" + source + " - " + destination + " : " + weight + ")";
-                        }
+                            @Override
+                            public String toString() {
+                                return "(" + source + " - " + destination + " : " + weight + ")";
+                            }
                         
-                        @Override
-                        public int compareTo(Edge other) {
-                        return Double.compare(this.weight, other.weight);
-                        }
+                            @Override
+                            public int compareTo(Edge other) {
+                                return Double.compare(this.weight, other.weight);
+                            }
                         }
                     </code-block>
                 </tab>
@@ -183,24 +183,24 @@
                     <code-block lang="c++" collapsible="true">
                         #ifndef EDGE_H
                         #define EDGE_H
-                        
+
                         #include &lt;string&gt;
-                        
+
                         class Edge {
                         private:
-                        int source;
-                        int destination;
-                        double weight;
-                        
+                            int source;
+                            int destination;
+                            double weight;
+
                         public:
-                        Edge(int source, int destination, double weight);
-                        [[nodiscard]] int getEitherVertex() const;
-                        [[nodiscard]] int getOtherVertex(int vertex) const;
-                        [[nodiscard]] double getWeight() const;
-                        bool operator&lt;(const Edge&amp; other) const;
-                        [[nodiscard]] std::string toString() const;
+                            Edge(int source, int destination, double weight);
+                            [[nodiscard]] int getEitherVertex() const;
+                            [[nodiscard]] int getOtherVertex(int vertex) const;
+                            [[nodiscard]] double getWeight() const;
+                            bool operator&lt;(const Edge&amp; other) const;
+                            [[nodiscard]] std::string toString() const;
                         };
-                        
+
                         #endif // EDGE_H
                     </code-block>
                 </tab>
@@ -212,71 +212,69 @@
                         #include &lt;iomanip&gt;
                         
                         Edge::Edge(const int source, const int destination, const double weight)
-                        : source(source), destination(destination), weight(weight) {}
+                            : source(source), destination(destination), weight(weight) {}
                         
                         int Edge::getEitherVertex() const {
-                        return source;
+                            return source;
                         }
                         
                         int Edge::getOtherVertex(const int vertex) const {
-                        if (vertex == source) {
-                        return destination;
-                        } else if (vertex == destination) {
-                        return source;
-                        } else {
-                        throw std::invalid_argument("Invalid vertex");
-                        }
+                            if (vertex == source) {
+                                return destination;
+                            } else if (vertex == destination) {
+                                return source;
+                            } else {
+                                throw std::invalid_argument("Invalid vertex");
+                            }
                         }
                         
                         double Edge::getWeight() const {
-                        return weight;
+                            return weight;
                         }
                         
                         bool Edge::operator&lt;(const Edge&amp; other) const {
-                        return weight &lt; other.weight;
+                            return weight &lt; other.weight;
                         }
                         
                         std::string Edge::toString() const {
-                        std::ostringstream oss;
-                        oss &lt;&lt; "(" &lt;&lt; source &lt;&lt; " - " &lt;&lt; destination &lt;&lt; " : " &lt;&lt;
-                        std::fixed &lt;&lt; std::setprecision(2) &lt;&lt; weight &lt;&lt; ")";
-                        return oss.str();
+                            std::ostringstream oss;
+                            oss &lt;&lt; "(" &lt;&lt; source &lt;&lt; " - " &lt;&lt; destination &lt;&lt; " : " &lt;&lt;
+                            std::fixed &lt;&lt; std::setprecision(2) &lt;&lt; weight &lt;&lt; ")";
+                            return oss.str();
                         }
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class Edge:
-                        def __init__(self, source: int, destination: int, weight: float):
-                        self.source = source
-                        self.destination = destination
-                        self.weight = weight
+                            def __init__(self, source: int, destination: int, weight: float):
+                                self.source = source
+                                self.destination = destination
+                                self.weight = weight
                         
-                        def get_either_vertex(self) -&gt; int:
-                        return self.source
+                            def get_either_vertex(self) -&gt; int:
+                                return self.source
                         
-                        def get_other_vertex(self, vertex: int) -&gt; int:
-                        if vertex == self.source:
-                        return self.destination
-                        elif vertex == self.destination:
-                        return self.source
-                        else:
-                        raise ValueError("Invalid vertex")
+                            def get_other_vertex(self, vertex: int) -&gt; int:
+                                if vertex == self.source:
+                                    return self.destination
+                                elif vertex == self.destination:
+                                    return self.source
+                                else:
+                                    raise ValueError("Invalid vertex")
                         
-                        def get_weight(self) -&gt; float:
-                        return self.weight
+                            def get_weight(self) -&gt; float:
+                                return self.weight
                         
-                        def __str__(self) -&gt; str:
-                        return f"({self.source} - {self.destination} : {self.weight})"
+                            def __str__(self) -&gt; str:
+                                return f"({self.source} - {self.destination} : {self.weight})"
                         
-                        def __lt__(self, other: 'Edge') -&gt; bool:
-                        return self.weight &lt; other.weight
+                            def __lt__(self, other: 'Edge') -&gt; bool:
+                                return self.weight &lt; other.weight
                     </code-block>
                 </tab>
             </tabs>
-            <p>
-                <format color="BlueViolet">Edge-weighted Graph</format>
-            </p>
+            <p><format color="BlueViolet">Edge-weighted Graph</format></p>
             <tabs>
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
@@ -284,40 +282,40 @@
                         import java.util.List;
                         
                         public class EdgeWeightedGraph {
-                        private final int vertices;
-                        private final List&lt;Edge&gt;[] adjacencyList;
+                            private final int vertices;
+                            private final List&lt;Edge&gt;[] adjacencyList;
                         
-                        public EdgeWeightedGraph(int vertices) {
-                        this.vertices = vertices;
-                        this.adjacencyList = new ArrayList[vertices];
-                        for (int i = 0; i &lt; vertices; i++) {
-                        adjacencyList[i] = new ArrayList&lt;&gt;();
-                        }
-                        }
+                            public EdgeWeightedGraph(int vertices) {
+                                this.vertices = vertices;
+                                this.adjacencyList = new ArrayList[vertices];
+                                for (int i = 0; i &lt; vertices; i++) {
+                                    adjacencyList[i] = new ArrayList&lt;&gt;();
+                                }
+                            }
                         
-                        public void addEdge(int source, int destination, double weight) {
-                        adjacencyList[source].add(new Edge(source, destination, weight));
-                        adjacencyList[destination].add(new Edge(destination, source, weight));
-                        }
+                            public void addEdge(int source, int destination, double weight) {
+                                adjacencyList[source].add(new Edge(source, destination, weight));
+                                adjacencyList[destination].add(new Edge(destination, source, weight));
+                            }
                         
-                        public int getVertices() {
-                        return vertices;
-                        }
+                            public int getVertices() {
+                                return vertices;
+                            }
                         
-                        public List&lt;Edge&gt; getAdjacencyList(int vertex) {
-                        return adjacencyList[vertex];
-                        }
+                            public List&lt;Edge&gt; getAdjacencyList(int vertex) {
+                                return adjacencyList[vertex];
+                            }
                         
-                        public void printGraph() {
-                        for (int i = 0; i &lt; vertices; i++) {
-                        List&lt;Edge&gt; edges = adjacencyList[i];
-                        System.out.print("Vertex " + i + ":");
-                        for (Edge edge : edges) {
-                        System.out.print(" " + edge);
-                        }
-                        System.out.println();
-                        }
-                        }
+                            public void printGraph() {
+                                for (int i = 0; i &lt; vertices; i++) {
+                                    List&lt;Edge&gt; edges = adjacencyList[i];
+                                    System.out.print("Vertex " + i + ":");
+                                    for (Edge edge : edges) {
+                                        System.out.print(" " + edge);
+                                    }
+                                    System.out.println();
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -331,15 +329,15 @@
                         
                         class EdgeWeightedGraph {
                         private:
-                        int vertices;
-                        std::vector&lt;std::vector&lt;Edge&gt;&gt; adjacencyList;
+                            int vertices;
+                            std::vector&lt;std::vector&lt;Edge&gt;&gt; adjacencyList;
                         
                         public:
-                        explicit EdgeWeightedGraph(int vertices);
-                        void addEdge(int source, int destination, double weight);
-                        [[nodiscard]] int getVertices() const;
-                        [[nodiscard]] const std::vector&lt;Edge&gt;&amp; getAdjacencyList(int vertex) const;
-                        void printGraph() const;
+                            explicit EdgeWeightedGraph(int vertices);
+                            void addEdge(int source, int destination, double weight);
+                            [[nodiscard]] int getVertices() const;
+                            [[nodiscard]] const std::vector&lt;Edge&gt;&amp; getAdjacencyList(int vertex) const;
+                            void printGraph() const;
                         };
                         
                         #endif // EDGEWEIGHTEDGRAPH_H
@@ -351,31 +349,31 @@
                         #include &lt;iostream&gt;
                         
                         EdgeWeightedGraph::EdgeWeightedGraph(const int vertices)
-                        : vertices(vertices), adjacencyList(vertices) {}
+                            : vertices(vertices), adjacencyList(vertices) {}
                         
                         void EdgeWeightedGraph::addEdge(const int source, const int destination, const double weight) {
-                        const Edge edge(source, destination, weight);
-                        adjacencyList[source].push_back(edge);
-                        adjacencyList[destination].emplace_back(destination, source, weight);
+                            const Edge edge(source, destination, weight);
+                            adjacencyList[source].push_back(edge);
+                            adjacencyList[destination].emplace_back(destination, source, weight);
                         }
                         
                         int EdgeWeightedGraph::getVertices() const {
-                        return vertices;
+                            return vertices;
                         }
                         
                         const std::vector&lt;Edge&gt;&amp; EdgeWeightedGraph::getAdjacencyList(int vertex) const {
-                        return adjacencyList[vertex];
+                            return adjacencyList[vertex];
                         }
                         
                         void EdgeWeightedGraph::printGraph() const {
-                        for (int i = 0; i &lt; vertices; ++i) {
-                        const std::vector&lt;Edge&gt;&amp; edges = adjacencyList[i];
-                        std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
-                        for (const Edge&amp; edge : edges) {
-                        std::cout &lt;&lt; " " &lt;&lt; edge.toString();
-                        }
-                        std::cout &lt;&lt; std::endl;
-                        }
+                            for (int i = 0; i &lt; vertices; ++i) {
+                                const std::vector&lt;Edge&gt;&amp; edges = adjacencyList[i];
+                                std::cout &lt;&lt; "Vertex " &lt;&lt; i &lt;&lt; ":";
+                                for (const Edge&amp; edge : edges) {
+                                    std::cout &lt;&lt; " " &lt;&lt; edge.toString();
+                                }
+                                std::cout &lt;&lt; std::endl;
+                            }
                         }
                     </code-block>
                 </tab>
@@ -385,96 +383,60 @@
                         
                         
                         class EdgeWeightedGraph:
-                        def __init__(self, vertices: int):
-                        self.vertices = vertices
-                        self.adjacency_list: list[list[Edge]] = [[] for _ in range(vertices)]
+                            def __init__(self, vertices: int):
+                                self.vertices = vertices
+                                self.adjacency_list: list[list[Edge]] = [[] for _ in range(vertices)]
                         
-                        def add_edge(self, source: int, destination: int, weight: float):
-                        self.adjacency_list[source].append(Edge(source, destination, weight))
-                        self.adjacency_list[destination].append(Edge(destination, source, weight))
+                            def add_edge(self, source: int, destination: int, weight: float):
+                                self.adjacency_list[source].append(Edge(source, destination, weight))
+                                self.adjacency_list[destination].append(Edge(destination, source, weight))
                         
-                        def get_vertices(self) -&gt; int:
-                        return self.vertices
+                            def get_vertices(self) -&gt; int:
+                                return self.vertices
                         
-                        def get_adjacency_list(self, vertex: int) -&gt; list[Edge]:
-                        return self.adjacency_list[vertex]
+                            def get_adjacency_list(self, vertex: int) -&gt; list[Edge]:
+                                return self.adjacency_list[vertex]
                         
-                        def print_graph(self):
-                        for i in range(self.vertices):
-                        print(f"Vertex {i}:", end="")
-                        for edge in self.adjacency_list[i]:
-                        print(f" {edge}", end="")
-                        print()
+                            def print_graph(self):
+                                for i in range(self.vertices):
+                                    print(f"Vertex {i}:", end="")
+                                    for edge in self.adjacency_list[i]:
+                                        print(f" {edge}", end="")
+                                    print()
                     </code-block>
                 </tab>
             </tabs>
         </chapter>
-        <chapter title="16.4 Kruskal's Algorithm" id="16-4-kruskal-s-algorithm">
+        <chapter title="16.4 Kruskal's Algorithm" id="16-4-kruskal-algorithm">
             <procedure title="Kruskal's Algorithm">
                 <step>
                     <p>Consider edges in ascending order of weight.</p>
                 </step>
                 <step>
-                    <p>Add next edge to tree
-                        <math>T</math>
-                        unless doing so
-                        would create a cycle.
-                    </p>
+                    <p>Add next edge to tree <math>T</math> unless doing so would create a cycle.</p>
                 </step>
             </procedure>
             <procedure title="Union-Find for Cycle Challenge" type="choices">
                 <step>
-                    <p>Maintain a set for each connected component in
-                        <math>T
-                        </math>
-                    </p>
+                    <p>Maintain a set for each connected component in <math>T</math></p>
                 </step>
                 <step>
-                    <p>If
-                        <math>v</math>
-                        and
-                        <math>w</math>
-                        are in same set,
-                        then adding
-                        <math>v-w</math>
-                        would create a cycle.
-                    </p>
+                    <p>If <math>v</math> and <math>w</math> are in same set, then adding <math>v-w</math> would create a
+                        cycle.</p>
                 </step>
                 <step>
-                    <p>To add
-                        <math>v-w</math>
-                        to
-                        <math>T</math>
-                        , merge sets
-                        containing
-                        <math>v</math>
-                        and
-                        <math>w</math>
-                        .
-                    </p>
+                    <p>To add <math>v-w</math> to <math>T</math>, merge sets containing <math>v</math> and <math>w</math>
+                        .</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Correctness Proof</format>
-            </p>
-            <p>Kruskal's Algorithm is a special case of the greedy MST algorithm.
-            </p>
+            <p><format color="LawnGreen">Correctness Proof</format></p>
+            <p>Kruskal's Algorithm is a special case of the greedy MST algorithm.</p>
             <list type="bullet">
                 <li>
-                    <p>Suppose Kruskal's algorithm colors the edge
-                        <math>e = v–w</math>
-                        black.
-                    </p>
+                    <p>Suppose Kruskal's algorithm colors the edge <math>e = v–w</math> black.</p>
                 </li>
                 <li>
-                    <p>Cut = set of vertices connected to
-                        <math>v</math>
-                        in tree
-                        <math>
-                            T
-                        </math>
-                        .
-                    </p>
+                    <p>Cut = set of vertices connected to <math>v</math> in tree <math>T</math>.</p>
                 </li>
                 <li>
                     <p>No crossing edge is black.</p>
@@ -483,17 +445,10 @@
                     <p>No crossing edge has lower weight.</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Property:</format>
-                Kruskal's algorithm
-                computes MST in time proportional to
-                <math>E \log E</math>
-                (in the
-                worst case).
+            <p><format color="BlueViolet">Property:</format> Kruskal's algorithm computes MST in time proportional to
+                <math>E \log E</math> (in the worst case).
             </p>
-            <p>
-                <format color="LawnGreen">Proof</format>
-            </p>
+            <p><format color="LawnGreen">Proof</format></p>
             <table style="header-row">
                 <tr>
                     <td>Operation</td>
@@ -538,11 +493,7 @@
                 </tr>
             </table>
             <note>
-                <p>If edges are already sorted, order of growth is
-                    <math>E \log* V
-                    </math>
-                    .
-                </p>
+                <p>If edges are already sorted, order of growth is <math>E \log* V</math>.</p>
             </note>
             <tabs>
                 <tab title="Java">
@@ -552,36 +503,36 @@
                         import java.util.PriorityQueue;
                         
                         public class KruskalsAlgorithm {
-                        public static List&lt;Edge&gt; findMinimumSpanningTree(EdgeWeightedGraph graph) {
-                        int vertices = graph.getVertices();
-                        List&lt;Edge&gt; minimumSpanningTree = new ArrayList&lt;&gt;();
-                        PriorityQueue&lt;Edge&gt; minHeap = new PriorityQueue&lt;&gt;(graph.getVertices());
-                        UnionFind unionFind = new UnionFind(vertices);
+                            public static List&lt;Edge&gt; findMinimumSpanningTree(EdgeWeightedGraph graph) {
+                                int vertices = graph.getVertices();
+                                List&lt;Edge&gt; minimumSpanningTree = new ArrayList&lt;&gt;();
+                                PriorityQueue&lt;Edge&gt; minHeap = new PriorityQueue&lt;&gt;(graph.getVertices());
+                                UnionFind unionFind = new UnionFind(vertices);
+
+                                for (int i = 0; i &lt; vertices; i++) {
+                                    for (Edge edge : graph.getAdjacencyList(i)) {
+                                        if (edge.getEitherVertex() &lt; i) {
+                                            minHeap.offer(edge);
+                                        }
+                                    }
+                                }
                         
-                        for (int i = 0; i &lt; vertices; i++) {
-                        for (Edge edge : graph.getAdjacencyList(i)) {
-                        if (edge.getEitherVertex() &lt; i) {
-                        minHeap.offer(edge);
-                        }
-                        }
-                        }
-                        
-                        while (!minHeap.isEmpty() &amp;&amp; minimumSpanningTree.size() &lt; vertices - 1) {
-                        Edge edge = minHeap.poll();
-                        int source = edge.getEitherVertex();
-                        int destination = edge.getOtherVertex(source);
-                        
-                        int sourceRoot = unionFind.find(source);
-                        int destinationRoot = unionFind.find(destination);
-                        
-                        if (sourceRoot != destinationRoot) {
-                        minimumSpanningTree.add(edge);
-                        unionFind.union(sourceRoot, destinationRoot);
-                        }
-                        }
-                        
-                        return minimumSpanningTree;
-                        }
+                                while (!minHeap.isEmpty() &amp;&amp; minimumSpanningTree.size() &lt; vertices - 1) {
+                                    Edge edge = minHeap.poll();
+                                    int source = edge.getEitherVertex();
+                                    int destination = edge.getOtherVertex(source);
+
+                                    int sourceRoot = unionFind.find(source);
+                                    int destinationRoot = unionFind.find(destination);
+
+                                    if (sourceRoot != destinationRoot) {
+                                        minimumSpanningTree.add(edge);
+                                        unionFind.union(sourceRoot, destinationRoot);
+                                    }
+                                }
+
+                                return minimumSpanningTree;
+                            }
                         }
                     </code-block>
                 </tab>
@@ -593,71 +544,71 @@
                         
                         class UnionFind {
                         public:
-                        explicit UnionFind(int size);
-                        int find(int element);
-                        void unionSets(int element1, int element2);
+                            explicit UnionFind(int size);
+                            int find(int element);
+                            void unionSets(int element1, int element2);
                         
                         private:
-                        std::vector&lt;int&gt; parent;
-                        std::vector&lt;int&gt; rank;
+                            std::vector&lt;int&gt; parent;
+                            std::vector&lt;int&gt; rank;
                         };
                         
                         std::vector&lt;Edge&gt; findMinimumSpanningTree(const EdgeWeightedGraph&amp; graph) {
-                        const int vertices = graph.getVertices();
-                        std::vector&lt;Edge&gt; minimumSpanningTree;
-                        std::priority_queue&lt;Edge, std::vector&lt;Edge&gt;, std::greater&lt;&gt;&gt; minHeap;
-                        UnionFind unionFind(vertices);
+                            const int vertices = graph.getVertices();
+                            std::vector&lt;Edge&gt; minimumSpanningTree;
+                            std::priority_queue&lt;Edge, std::vector&lt;Edge&gt;, std::greater&lt;&gt;&gt; minHeap;
+                            UnionFind unionFind(vertices);
+
+                            for (int i = 0; i &lt; vertices; ++i) {
+                                for (const Edge&amp; edge : graph.getAdjacencyList(i)) {
+                                    minHeap.push(edge);
+                                }
+                            }
                         
-                        for (int i = 0; i &lt; vertices; ++i) {
-                        for (const Edge&amp; edge : graph.getAdjacencyList(i)) {
-                        minHeap.push(edge);
-                        }
-                        }
+                            // Build the minimum spanning tree
+                            while (!minHeap.empty() &amp;&amp; minimumSpanningTree.size() &lt; vertices - 1) {
+                                Edge edge = minHeap.top();
+                                minHeap.pop();
+                                const int source = edge.getEitherVertex();
+                                int destination = edge.getOtherVertex(source);
                         
-                        // Build the minimum spanning tree
-                        while (!minHeap.empty() &amp;&amp; minimumSpanningTree.size() &lt; vertices - 1) {
-                        Edge edge = minHeap.top();
-                        minHeap.pop();
-                        const int source = edge.getEitherVertex();
-                        int destination = edge.getOtherVertex(source);
+                                // Check if connecting these vertices creates a cycle
+                                if (unionFind.find(source) != unionFind.find(destination)) {
+                                    minimumSpanningTree.push_back(edge);
+                                    unionFind.unionSets(source, destination);
+                                }
+                            }
                         
-                        // **Corrected Condition:** Check if connecting these vertices creates a cycle
-                        if (unionFind.find(source) != unionFind.find(destination)) {
-                        minimumSpanningTree.push_back(edge);
-                        unionFind.unionSets(source, destination);
-                        }
-                        }
-                        
-                        return minimumSpanningTree;
+                            return minimumSpanningTree;
                         }
                         
                         UnionFind::UnionFind(const int size) : parent(size), rank(size, 1) {
-                        for (int i = 0; i &lt; size; ++i) {
-                        parent[i] = i;
-                        }
+                            for (int i = 0; i &lt; size; ++i) {
+                                parent[i] = i;
+                            }
                         }
                         
                         int UnionFind::find(const int element) {
-                        if (parent[element] != element) {
-                        parent[element] = find(parent[element]);
-                        }
-                        return parent[element];
+                            if (parent[element] != element) {
+                                parent[element] = find(parent[element]);
+                            }
+                            return parent[element];
                         }
                         
                         void UnionFind::unionSets(const int element1, const int element2) {
-                        const int root1 = find(element1);
-                        const int root2 = find(element2);
-                        
-                        if (root1 != root2) {
-                        if (rank[root1] &gt; rank[root2]) {
-                        parent[root2] = root1;
-                        } else if (rank[root1] &lt; rank[root2]) {
-                        parent[root1] = root2;
-                        } else {
-                        parent[root2] = root1;
-                        rank[root1]++;
-                        }
-                        }
+                            const int root1 = find(element1);
+                            const int root2 = find(element2);
+
+                            if (root1 != root2) {
+                                if (rank[root1] &gt; rank[root2]) {
+                                    parent[root2] = root1;
+                                } else if (rank[root1] &lt; rank[root2]) {
+                                    parent[root1] = root2;
+                                } else {
+                                    parent[root2] = root1;
+                                    rank[root1]++;
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -670,57 +621,57 @@
                         
                         
                         class KruskalsAlgorithm:
-                        @staticmethod
-                        def find_minimum_spanning_tree(graph: EdgeWeightedGraph) -&gt; List[Edge]:
-                        vertices: int = graph.get_vertices()
-                        minimum_spanning_tree: List[Edge] = []
-                        min_heap: list[Edge] = []
-                        union_find = UnionFind(vertices)
+                            @staticmethod
+                            def find_minimum_spanning_tree(graph: EdgeWeightedGraph) -&gt; List[Edge]:
+                                vertices: int = graph.get_vertices()
+                                minimum_spanning_tree: List[Edge] = []
+                                min_heap: list[Edge] = []
+                                union_find = UnionFind(vertices)
                         
-                        # Add edges to the min-heap, ensuring no duplicates
-                        for i in range(vertices):
-                        for edge in graph.get_adjacency_list(i):
-                        # Add edge only if its source vertex is smaller than its destination
-                        if edge.source &lt; edge.destination:
-                        heapq.heappush(min_heap, edge)
-                        
-                        while min_heap and len(minimum_spanning_tree) &lt; vertices - 1:
-                        edge: Edge = heapq.heappop(min_heap)
-                        source: int = edge.get_either_vertex()
-                        destination: int = edge.get_other_vertex(source)
-                        
-                        source_root: int = union_find.find(source)
-                        destination_root: int = union_find.find(destination)
-                        
-                        if source_root != destination_root:
-                        minimum_spanning_tree.append(edge)
-                        union_find.union(source_root, destination_root)
-                        
-                        return minimum_spanning_tree
+                                # Add edges to the min-heap, ensuring no duplicates
+                                for i in range(vertices):
+                                    for edge in graph.get_adjacency_list(i):
+                                    # Add edge only if its source vertex is smaller than its destination
+                                    if edge.source &lt; edge.destination:
+                                        heapq.heappush(min_heap, edge)
+
+                                while min_heap and len(minimum_spanning_tree) &lt; vertices - 1:
+                                    edge: Edge = heapq.heappop(min_heap)
+                                    source: int = edge.get_either_vertex()
+                                    destination: int = edge.get_other_vertex(source)
+
+                                    source_root: int = union_find.find(source)
+                                    destination_root: int = union_find.find(destination)
+
+                                    if source_root != destination_root:
+                                    minimum_spanning_tree.append(edge)
+                                    union_find.union(source_root, destination_root)
+
+                                return minimum_spanning_tree
                         
                         
                         class UnionFind:
-                        def __init__(self, size: int):
-                        self.parent: List[int] = [i for i in range(size)]
-                        self.rank: List[int] = [1] * size
+                            def __init__(self, size: int):
+                                self.parent: List[int] = [i for i in range(size)]
+                                self.rank: List[int] = [1] * size
                         
-                        def find(self, element: int) -&gt; int:
-                        if self.parent[element] != element:
-                        self.parent[element] = self.find(self.parent[element])
-                        return self.parent[element]
+                            def find(self, element: int) -&gt; int:
+                                if self.parent[element] != element:
+                                    self.parent[element] = self.find(self.parent[element])
+                                return self.parent[element]
                         
-                        def union(self, element1: int, element2: int):
-                        root1: int = self.find(element1)
-                        root2: int = self.find(element2)
+                            def union(self, element1: int, element2: int):
+                                root1: int = self.find(element1)
+                                root2: int = self.find(element2)
                         
-                        if root1 != root2:
-                        if self.rank[root1] &gt; self.rank[root2]:
-                        self.parent[root2] = root1
-                        elif self.rank[root1] &lt; self.rank[root2]:
-                        self.parent[root1] = root2
-                        else:
-                        self.parent[root2] = root1
-                        self.rank[root1] += 1
+                                if root1 != root2:
+                                    if self.rank[root1] &gt; self.rank[root2]:
+                                        self.parent[root2] = root1
+                                    elif self.rank[root1] &lt; self.rank[root2]:
+                                        self.parent[root1] = root2
+                                    else:
+                                        self.parent[root2] = root1
+                                        self.rank[root1] += 1
                     </code-block>
                 </tab>
             </tabs>
@@ -728,11 +679,7 @@
         <chapter title="16.5 Prim's Algorithm" id="16-5-prim-s-algorithm">
             <procedure title="Prim's Algorithm">
                 <step>
-                    <p>Start with vertex
-                        <math>0</math>
-                        and greedily grow tree
-                        <math>T</math>
-                    </p>
+                    <p>Start with vertex <math>0</math> and greedily grow tree <math>T</math></p>
                 </step>
                 <step>
                     <p>Add to
