@@ -4133,45 +4133,42 @@
     </chapter>
     <chapter title="19 Radix Sort" id="19-radix-sort">
         <chapter title="19.1 Strings in Java" id="strings-in-java">
-            <p>
-                <format color="DarkOrange">String:</format>
-                Sequence of characters.
-            </p>
-            <p>
-                <format color="BlueViolet">The char data type</format>
-            </p>
+            <p><format color="DarkOrange">String:</format> Sequence of characters.</p>
+            <p><format color="BlueViolet">The char data type</format></p>
             <list type="bullet">
                 <li>
-                    <format color="Fuchsia">C char data type:</format>
-                    Typically an
-                    8-bit integer.
+                    <p><format color="Fuchsia">C char data type:</format> Typically an 8-bit integer.</p>
                     <list type="bullet">
-                        <li>Supports 7-bit ASCII.</li>
-                        <li>Can represent only 256 characters.</li>
+                        <li>
+                            <p>Supports 7-bit ASCII.</p>
+                        </li>
+                        <li>
+                            <p>Can represent only 256 characters.</p>
+                        </li>
                     </list>
                 </li>
                 <li>
-                    <format color="Fuchsia">Java char data type:</format>
-                    A 16-bit
-                    unsigned integer.
+                    <p><format color="Fuchsia">Java char data type:</format> A 16-bit unsigned integer.</p>
                     <list type="bullet">
-                        <li>Supports original 16-bit Unicode.</li>
-                        <li>Supports 21-bit Unicode 3.0 (awkwardly).</li>
+                        <li>
+                            <p>Supports original 16-bit Unicode.</p>
+                        </li>
+                        <li>
+                            <p>Supports 21-bit Unicode 3.0 (awkwardly).</p>
+                        </li>
                     </list>
                 </li>
             </list>
-            <p>
-                <format color="IndianRed">Examples</format>
-            </p>
+            <p><format color="IndianRed">Examples</format></p>
             <code-block lang="java" collapsible="true">
                 public class StringTest {
-                public static void main(String[] args) {
-                String s1 = "Hello";
-                System.out.println(s1.length()); // 5
-                System.out.println(s1.charAt(0)); // H
-                System.out.println(s1.substring(0, 1)); // H
-                System.out.println(s1.concat(" World")); // Hello World
-                }
+                    public static void main(String[] args) {
+                        String s1 = "Hello";
+                        System.out.println(s1.length()); // 5
+                        System.out.println(s1.charAt(0)); // H
+                        System.out.println(s1.substring(0, 1)); // H
+                        System.out.println(s1.concat(" World")); // Hello World
+                    }
                 }
             </code-block>
             <table style="both">
@@ -4265,113 +4262,86 @@
             <note>
                 <list type="decimal">
                     <li>
-                        <p>
-                            <math>40 + 2N</math>
-                            bytes for a virgin String of length
-                            <math>
-                                N
-                            </math>
-                            .
-                        </p>
+                        <p><math>40 + 2N</math> bytes for a virgin String of length <math>N</math>.</p>
                     </li>
                     <li>
-                        <p>StringBuffer data type is similar, but thread safe (and slower
-                            ).</p>
+                        <p>StringBuffer data type is similar, but thread safe (and slower).</p>
                     </li>
                 </list>
             </note>
         </chapter>
         <chapter title="19.2 Key-Indexed Counting" id="19-2-key-indexed-counting">
-            <p>
-                <format color="BlueViolet">Assumption:</format>
-                Keys are integers
-                between
-                <math>0</math>
-                and
-                <math>R - 1</math>
-                . Can use key as an array
-                index.
-            </p>
-            <p>
-                <format color="BlueViolet">Goal:</format>
-                Sort an array of
-                <math>N
-                </math>
-                integers between
-                <math>0</math>
-                and
-                <math>R - 1</math>
-                .
-            </p>
+            <p><format color="BlueViolet">Assumption:</format> Keys are integers between <math>0</math> and <math>R - 1
+                </math>. Can use key as an array index.</p>
+            <p><format color="BlueViolet">Goal:</format> Sort an array of <math>N</math> integers between <math>0</math>
+                and <math>R - 1</math>.</p>
             <procedure title="Key-Indexed Counting">
-                <step>Count frequencies of each letter using key as index.</step>
-                <step>Compute frequency cumulates which specify destinations.</step>
-                <step>Access cumulates using key as index to move items.</step>
-                <step>Copy back into original array.</step>
+                <step>
+                    <p>Count frequencies of each letter using key as index.</p>
+                </step>
+                <step>
+                    <p>Compute frequency cumulates which specify destinations.</p>
+                </step>
+                <step>
+                    <p>Access cumulates using key as index to move items.</p>
+                </step>
+                <step>
+                    <p>Copy back into original array.</p>
+                </step>
             </procedure>
             <img src="../images_data/d19-2-1.png" alt="Key-Indexed Counting"/>
-            <p>
-                <format color="BlueViolet">Properties</format>
-            </p>
+            <p><format color="BlueViolet">Properties</format></p>
             <list type="bullet">
-                <li>Key-indexed counting uses
-                    <math>\sim 11 N + 4 R</math>
-                    array
-                    accesses to sort
-                    <math>N</math>
-                    items whose keys are integers between
-                    <math>0</math>
-                    and
-                    <math>R - 1</math>
-                    .
+                <li>
+                    <p>Key-indexed counting uses <math>\sim 11 N + 4 R</math> array accesses to sort <math>N</math>
+                        items whose keys are integers between <math>0</math> and <math>R - 1</math>.</p>
                 </li>
-                <li>Key-indexed counting uses extra space proportional to
-                    <math>
-                        N + R
-                    </math>
-                    .
+                <li>
+                    <p>Key-indexed counting uses extra space proportional to <math>N + R</math>.</p>
                 </li>
-                <li>Key-indexed counting is stable.</li>
+                <li>
+                    <p>Key-indexed counting is stable.</p>
+                </li>
             </list>
             <tabs>
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
                         public class KeyIndexedSorting {
-                        public static void sort(Squirrel[] students) {
-                        int N = students.length;
-                        int R = 5; // Assuming grades are from 0 to 4
+                            public static void sort(Squirrel[] students) {
+                                int N = students.length;
+                                int R = 5; // Assuming grades are from 0 to 4
+
+                                int[] count = new int[R + 1];
+                                for (Squirrel student : students) {
+                                    count[student.grade + 1]++;
+                                }
+
+                                for (int r = 0; r &lt; R; r++) {
+                                    count[r + 1] += count[r];
+                                }
+
+                                Squirrel[] aux = new Squirrel[N];
+                                for (Squirrel student : students) {
+                                    aux[count[student.grade]++] = student;
+                                }
+
+                                System.arraycopy(aux, 0, students, 0, N);
+                            }
                         
-                        int[] count = new int[R + 1];
-                        for (Squirrel student : students) {
-                        count[student.grade + 1]++;
-                        }
-                        
-                        for (int r = 0; r &lt; R; r++) {
-                        count[r + 1] += count[r];
-                        }
-                        
-                        Squirrel[] aux = new Squirrel[N];
-                        for (Squirrel student : students) {
-                        aux[count[student.grade]++] = student;
-                        }
-                        
-                        System.arraycopy(aux, 0, students, 0, N);
-                        }
-                        
-                        static class Squirrel {
-                        String name;
-                        int grade;
-                        
-                        public Squirrel(String name, int grade) {
-                        this.name = name;
-                        this.grade = grade;
-                        }
-                        
-                        @Override
-                        public String toString() {
-                        return name + " (Grade: " + grade + ")";
-                        }
-                        }
+                            static class Squirrel {
+                                String name;
+                                int grade;
+
+                                public Squirrel(String name, int grade) {
+                                    this.name = name;
+                                    this.grade = grade;
+                                }
+
+                                @Override
+                                public String toString() {
+                                    return name + " (Grade: " + grade + ")";
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -4383,138 +4353,123 @@
                         #include &lt;string&gt;
                         
                         struct Squirrel {
-                        std::string name;
-                        int grade;
+                            std::string name;
+                            int grade;
                         
-                        Squirrel(std::string n, const int g) : name(std::move(n)), grade(g) {}
+                            Squirrel(std::string n, const int g) : name(std::move(n)), grade(g) {}
                         
-                        friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Squirrel&amp; s) {
-                        os &lt;&lt; s.name &lt;&lt; " (Grade: " &lt;&lt; s.grade &lt;&lt; ")";
-                        return os;
-                        }
+                            friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Squirrel&amp; s) {
+                                os &lt;&lt; s.name &lt;&lt; " (Grade: " &lt;&lt; s.grade &lt;&lt; ")";
+                                return os;
+                            }
                         };
                         
                         void sort(std::vector&lt;Squirrel&gt;&amp; students) {
-                        const int N = static_cast&lt;int&gt;(students.size());
-                        constexpr int R = 5; // Assuming grades are from 0 to 4
-                        
-                        std::vector&lt;int&gt; count(R + 1, 0);
-                        for (int i = 0; i &lt; N; i++) {
-                        count[students[i].grade + 1]++;
-                        }
-                        
-                        for (int r = 0; r &lt; R; r++) {
-                        count[r + 1] += count[r];
-                        }
-                        
-                        std::vector&lt;Squirrel&gt; aux(N);
-                        for (int i = 0; i &lt; N; i++) {
-                        aux[count[students[i].grade]++] = students[i];
-                        }
-                        
-                        students = aux;
+                            const int N = static_cast&lt;int&gt;(students.size());
+                            constexpr int R = 5; // Assuming grades are from 0 to 4
+
+                            std::vector&lt;int&gt; count(R + 1, 0);
+                            for (int i = 0; i &lt; N; i++) {
+                                count[students[i].grade + 1]++;
+                            }
+
+                            for (int r = 0; r &lt; R; r++) {
+                                count[r + 1] += count[r];
+                            }
+
+                            std::vector&lt;Squirrel&gt; aux(N);
+                            for (int i = 0; i &lt; N; i++) {
+                                aux[count[students[i].grade]++] = students[i];
+                            }
+
+                            students = aux;
                         }
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class Squirrel:
-                        def __init__(self, name, grade):
-                        self.name = name
-                        self.grade = grade
+                            def __init__(self, name, grade):
+                                self.name = name
+                                self.grade = grade
                         
-                        def __str__(self):
-                        return f"{self.name} (Grade: {self.grade})"
+                            def __str__(self):
+                                return f"{self.name} (Grade: {self.grade})"
                         
-                        def sort(students):
-                        N = len(students)
-                        R = 5 # Assuming grades are from 0 to 4
-                        
-                        count = [0] * (R + 1)
-                        for student in students:
-                        count[student.grade + 1] += 1
-                        
-                        for r in range(R):
-                        count[r + 1] += count[r]
-                        
-                        aux = [None] * N
-                        for student in students:
-                        aux[count[student.grade]] = student
-                        count[student.grade] += 1
-                        
-                        students[:] = aux
+                            def sort(students):
+                                N = len(students)
+                                R = 5 # Assuming grades are from 0 to 4
+
+                                count = [0] * (R + 1)
+                                for student in students:
+                                    count[student.grade + 1] += 1
+
+                                for r in range(R):
+                                    count[r + 1] += count[r]
+
+                                aux = [None] * N
+                                for student in students:
+                                    aux[count[student.grade]] = student
+                                    count[student.grade] += 1
+
+                                students[:] = aux
                     </code-block>
                 </tab>
             </tabs>
         </chapter>
         <chapter title="19.3 LSD Radix Sort" id="lsd">
             <procedure title="LSD Radix Sort">
-                <step>Consider characters from right to left.</step>
-                <step>Stably sort using dth character as the key (using key-indexed
-                    counting).
+                <step>
+                    <p>Consider characters from right to left.</p>
+                </step>
+                <step>
+                    <p>Stably sort using dth character as the key (using key-indexed counting).</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Correctness Proof:</format>
-                LSD sorts
-                fixed-length strings in ascending order.
-            </p>
-            <p>
-                <format color="LawnGreen">Proof</format>
-            </p>
-            <p>After pass
-                <math>i</math>
-                , strings are sorted by last
-                <math>i
-                </math>
-                characters.
-            </p>
+            <p><format color="BlueViolet">Correctness Proof:</format> LSD sorts fixed-length strings in ascending order.</p>
+            <p><format color="LawnGreen">Proof</format></p>
+            <p>After pass <math>i</math>, strings are sorted by last <math>i</math> characters.</p>
             <list>
-                <li>If two strings differ on sort key, key-indexed sort puts them in
-                    proper relative order.
+                <li>
+                    <p>If two strings differ on sort key, key-indexed sort puts them in proper relative order.</p>
                 </li>
-                <li>If two strings agree on sort key, stability keeps them in proper
-                    relative order.
+                <li>
+                    <p>If two strings agree on sort key, stability keeps them in proper relative order.</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Property:</format>
-                LSD sort is stable.
-            </p>
-            <p>Google (or presidential) Interview Question: Sort one million
-                32-bit integers using LSD radix sort.</p>
+            <p><format color="BlueViolet">Property:</format> LSD sort is stable.</p>
+            <p>Google (or presidential) Interview Question: Sort one million 32-bit integers using LSD radix sort.</p>
             <note>
-                For information about the performance of insertion sort, please refer
-                to the <a anchor="sortperf"
+                <p>For information about the performance of insertion sort, please refer to the <a anchor="sortperf"
                           summary="Table for Comparing Performance of Sorting Algorithm">table
-                for sorting performance</a>.
+                        for sorting performance</a>.</p>
             </note>
             <tabs>
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
                         public class LSDStringSort {
-                        public static void sort(String[] a, int W) {
-                        int N = a.length;
-                        int R = 256; // extended ASCII alphabet size
-                        String[] aux = new String[N];
-                        
-                        for (int d = W - 1; d &gt;= 0; d--) {
-                        int[] count = new int[R + 1];
-                        for (String string : a) {
-                        count[string.charAt(d) + 1]++;
-                        }
-                        
-                        for (int r = 0; r &lt; R; r++) {
-                        count[r + 1] += count[r];
-                        }
-                        
-                        for (String s : a) {
-                        aux[count[s.charAt(d)]++] = s;
-                        }
-                        
-                        System.arraycopy(aux, 0, a, 0, N);
-                        }
-                        }
+                            public static void sort(String[] a, int W) {
+                                int N = a.length;
+                                int R = 256; // extended ASCII alphabet size
+                                String[] aux = new String[N];
+
+                                for (int d = W - 1; d &gt;= 0; d--) {
+                                    int[] count = new int[R + 1];
+                                    for (String string : a) {
+                                        count[string.charAt(d) + 1]++;
+                                    }
+
+                                    for (int r = 0; r &lt; R; r++) {
+                                        count[r + 1] += count[r];
+                                    }
+
+                                    for (String s : a) {
+                                        aux[count[s.charAt(d)]++] = s;
+                                    }
+
+                                    System.arraycopy(aux, 0, a, 0, N);
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
@@ -4525,96 +4480,86 @@
                         #include &lt;vector&gt;
                         
                         void lsdSort(std::vector&lt;std::string&gt;&amp; a, const int w) {
-                        const int n = static_cast&lt;int&gt;(a.size());
-                        int R = 256;
-                        std::vector&lt;std::string&gt; aux(n);
-                        
-                        for (int d = w - 1; d &gt;= 0; d--) {
-                        std::vector&lt;int&gt; count(R + 1, 0);
-                        
-                        for (int i = 0; i &lt; n; i++) {
-                        count[a[i][d] + 1]++;
-                        }
-                        
-                        for (int r = 0; r &lt; R; r++) {
-                        count[r + 1] += count[r];
-                        }
-                        
-                        for (int i = 0; i &lt; n; i++) {
-                        aux[count[a[i][d]]++] = a[i];
-                        }
-                        
-                        for (int i = 0; i &lt; n; i++) {
-                        a[i] = aux[i];
-                        }
-                        }
+                            const int n = static_cast&lt;int&gt;(a.size());
+                            int R = 256;
+                            std::vector&lt;std::string&gt; aux(n);
+
+                            for (int d = w - 1; d &gt;= 0; d--) {
+                                std::vector&lt;int&gt; count(R + 1, 0);
+
+                                for (int i = 0; i &lt; n; i++) {
+                                    count[a[i][d] + 1]++;
+                                }
+
+                                for (int r = 0; r &lt; R; r++) {
+                                    count[r + 1] += count[r];
+                                }
+
+                                for (int i = 0; i &lt; n; i++) {
+                                    aux[count[a[i][d]]++] = a[i];
+                                }
+
+                                for (int i = 0; i &lt; n; i++) {
+                                    a[i] = aux[i];
+                                }
+                            }
                         }
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         def lsd_sort(a, w):
-                        n = len(a)
-                        R = 256
-                        aux = [""] * n
+                            n = len(a)
+                            R = 256
+                            aux = [""] * n
                         
-                        for d in range(w - 1, -1, -1):
-                        count = [0] * (R + 1)
-                        
-                        for i in range(n):
-                        count[ord(a[i][d]) + 1] += 1
-                        
-                        for r in range(R):
-                        count[r + 1] += count[r]
-                        
-                        for i in range(n):
-                        aux[count[ord(a[i][d])]] = a[i]
-                        count[ord(a[i][d])] += 1
-                        
-                        a[:] = aux
+                            for d in range(w - 1, -1, -1):
+                                count = [0] * (R + 1)
+
+                            for i in range(n):
+                                count[ord(a[i][d]) + 1] += 1
+
+                            for r in range(R):
+                                count[r + 1] += count[r]
+
+                            for i in range(n):
+                                aux[count[ord(a[i][d])]] = a[i]
+                                count[ord(a[i][d])] += 1
+
+                            a[:] = aux
                     </code-block>
                 </tab>
             </tabs>
         </chapter>
         <chapter title="19.4 MSD Radix Sort" id="msd">
             <procedure title="MSD Radix Sort">
-                <step>Partition array into
-                    <math>R</math>
-                    pieces according to first
-                    character (use key-indexed counting).
+                <step>
+                    <p>Partition array into <math>R</math> pieces according to first character (use key-indexed counting
+                        ).</p>
                 </step>
-                <step>Recursively sort all strings that start with each character
-                    (key-indexed counts delineate subarrays to sort).
+                <step>
+                    <p>Recursively sort all strings that start with each character (key-indexed counts delineate
+                        subarrays to sort).</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Variable-length strings:</format>
-                Treat
-                strings as if they had an extra char at end (smaller than any char)
-            </p>
+            <p><format color="BlueViolet">Variable-length strings:</format> Treat strings as if they had an extra char
+                at end (smaller than any char)</p>
             <note>
-                C strings =>Have extra char '\0' at end => no extra work needed.
+                <p>C strings =>Have extra char '\0' at end =&gt; no extra work needed.</p>
             </note>
-            <p>
-                <format color="BlueViolet">Potential for Disastrous Performance:
-                </format>
-            </p>
+            <p><format color="BlueViolet">Potential for Disastrous Performance</format></p>
             <list type="decimal">
                 <li>
                     <p>Much too slow for small subarrays.</p>
                     <list type="bullet">
-                        <li>Each function call needs its own <code>count[]</code> array.
+                        <li>
+                            <p>Each function call needs its own <code>count[]</code> array.</p>
                         </li>
-                        <li>ASCII (256 counts): 100x slower than copy pass for
-                            <math>
-                                N = 2
-                            </math>
-                            .
+                        <li>
+                            <p>ASCII (256 counts): 100x slower than copy pass for <math>N = 2</math>.</p>
                         </li>
-                        <li>Unicode (65,536 counts): 32,000x slower for
-                            <math>N = 2
-                            </math>
-                            .
+                        <li>
+                            <p>Unicode (65,536 counts): 32,000x slower for <math>N = 2</math>.</p>
                         </li>
                     </list>
                 </li>
@@ -4622,39 +4567,33 @@
                     <p>Huge number of small subarrays because of recursion.</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Improvements</format>
-            </p>
+            <p><format color="BlueViolet">Improvements</format></p>
             <p>Cutoff to insertion sort for small subarrays.</p>
             <list type="bullet">
-                <li>Insertion sort, but start at
-                    <math>d^{th}</math>
-                    character.
+                <li>
+                    <p>Insertion sort, but start at <math>d^{th}</math> character.</p>
                 </li>
-                <li>Implement <code>less()</code> so that it compares starting at
-                    <math>d^{th}</math>
-                    character.
+                <li>
+                    <p>Implement <code>less()</code> so that it compares starting at <math>d^{th}</math> character.</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Performance</format>
-            </p>
+            <p><format color="BlueViolet">Performance</format></p>
             <p>Number of characters examined.</p>
             <list>
-                <li>MSD examines just enough characters to sort the keys.</li>
-                <li>Number of characters examined depends on keys.</li>
-                <li>Can be sublinear in input size!</li>
+                <li>
+                    <p>MSD examines just enough characters to sort the keys.</p>
+                </li>
+                <li>
+                    <p>Number of characters examined depends on keys.</p>
+                </li>
+                <li>
+                    <p>Can be sublinear in input size!</p>
+                </li>
             </list>
-            <p>
-                <format color="BlueViolet">MSD String Sort vs. Quicksort for
-                    Strings
-                </format>
-            </p>
+            <p><format color="BlueViolet">MSD String Sort vs. Quicksort for Strings</format></p>
             <list type="alpha-lower">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Disadvantages of MSD string sort:</format>
-                    </p>
+                    <p><format color="Fuchsia">Disadvantages of MSD string sort:</format></p>
                     <list type="bullet">
                         <li>Extra space for aux[] arrays.</li>
                         <li>Extra space for count[] arrays.</li>
@@ -4663,88 +4602,83 @@
                     </list>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Disadvantage of quicksort</format>
-                    </p>
+                    <p><format color="Fuchsia">Disadvantage of quicksort</format></p>
                     <list type="bullet">
                         <li>Linearithmic number of string compares (not linear).</li>
-                        <li>Has to rescan many characters in keys with long prefix matches
-                            .
-                        </li>
+                        <li>Has to rescan many characters in keys with long prefix matches .</li>
                     </list>
                 </li>
             </list>
             <note>
-                For information about the performance of MSD radix sort, please refer
-                to the <a anchor="sortperf" summary=
-                    "Table for Comparing Performance of Sorting Algorithm">table for
-                sorting performance</a>.
+                <p>For information about the performance of MSD radix sort, please refer
+                to the <a anchor="sortperf" summary="Table for Comparing Performance of Sorting Algorithm">table for
+                        sorting performance</a>.</p>
             </note>
             <tabs>
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
                         public class MSDStringSort {
-                        private static final int R = 256;
-                        private static final int CUTOFF = 15;
+                            private static final int R = 256;
+                            private static final int CUTOFF = 15;
                         
-                        public static void sort(String[] a) {
-                        String[] aux = new String[a.length];
-                        sort(a, aux, 0, a.length - 1, 0);
-                        }
+                            public static void sort(String[] a) {
+                                String[] aux = new String[a.length];
+                                sort(a, aux, 0, a.length - 1, 0);
+                            }
                         
-                        private static void sort(String[] a, String[] aux, int low, int high, int d) {
-                        if (high &lt;= low + CUTOFF) {
-                        insertionSort(a, low, high, d);
-                        return;
-                        }
+                            private static void sort(String[] a, String[] aux, int low, int high, int d) {
+                                if (high &lt;= low + CUTOFF) {
+                                    insertionSort(a, low, high, d);
+                                    return;
+                                }
+
+                                int[] count = new int[R + 2];
+                                for (int i = low; i &lt;= high; i++) {
+                                    int c = charAt(a[i], d);
+                                    count[c + 2]++;
+                                }
+
+                                for (int r = 0; r &lt; R + 1; r++) {
+                                    count[r + 1] += count[r];
+                                }
+
+                                for (int i = low; i &lt;= high; i++) {
+                                    int c = charAt(a[i], d);
+                                    aux[count[c + 1]++] = a[i];
+                                }
+
+                                if (high + 1 - low &gt;= 0) System.arraycopy(aux, 0, a, low, high + 1 - low);
+
+                                for (int r = 0; r &lt; R; r++) {
+                                    sort(a, aux, low + count[r], low + count[r + 1] - 1, d + 1);
+                                }
+                            }
                         
-                        int[] count = new int[R + 2];
-                        for (int i = low; i &lt;= high; i++) {
-                        int c = charAt(a[i], d);
-                        count[c + 2]++;
-                        }
+                            private static int charAt(String s, int d) {
+                                if (d &lt; s.length()) {
+                                    return s.charAt(d);
+                                } else {
+                                    return -1;
+                                }
+                            }
                         
-                        for (int r = 0; r &lt; R + 1; r++) {
-                        count[r + 1] += count[r];
-                        }
+                            private static void insertionSort(String[] a, int low, int high, int d) {
+                                for (int i = low; i &lt;= high; i++) {
+                                    for (int j = i; j &gt; low &amp;&amp; less(a[j], a[j - 1], d); j--) {
+                                        swap(a, j, j - 1);
+                                    }
+                                }
+                            }
                         
-                        for (int i = low; i &lt;= high; i++) {
-                        int c = charAt(a[i], d);
-                        aux[count[c + 1]++] = a[i];
-                        }
+                            private static boolean less(String v, String w, int d) {
+                                return v.substring(d).compareTo(w.substring(d)) &lt; 0;
+                            }
                         
-                        if (high + 1 - low &gt;= 0) System.arraycopy(aux, 0, a, low, high + 1 - low);
-                        
-                        for (int r = 0; r &lt; R; r++) {
-                        sort(a, aux, low + count[r], low + count[r + 1] - 1, d + 1);
-                        }
-                        }
-                        
-                        private static int charAt(String s, int d) {
-                        if (d &lt; s.length()) {
-                        return s.charAt(d);
-                        } else {
-                        return -1;
-                        }
-                        }
-                        
-                        private static void insertionSort(String[] a, int low, int high, int d) {
-                        for (int i = low; i &lt;= high; i++) {
-                        for (int j = i; j &gt; low &amp;&amp; less(a[j], a[j - 1], d); j--) {
-                        swap(a, j, j - 1);
-                        }
-                        }
-                        }
-                        
-                        private static boolean less(String v, String w, int d) {
-                        return v.substring(d).compareTo(w.substring(d)) &lt; 0;
-                        }
-                        
-                        private static void swap(String[] a, int i, int j) {
-                        String temp = a[i];
-                        a[i] = a[j];
-                        a[j] = temp;
-                        }
+                            private static void swap(String[] a, int i, int j) {
+                                String temp = a[i];
+                                a[i] = a[j];
+                                a[j] = temp;
+                            }
                         }
                     </code-block>
                 </tab>
@@ -4757,172 +4691,150 @@
                         
                         class MSDStringSort {
                         private:
-                        static constexpr int R = 256;
-                        static constexpr int CUTOFF = 15;
+                            static constexpr int R = 256;
+                            static constexpr int CUTOFF = 15;
                         
                         public:
-                        static void sort(std::vector&lt;std::string&gt;&amp; a) {
-                        std::vector&lt;std::string&gt; aux(a.size());
-                        sort(a, aux, 0, static_cast&lt;int&gt;(a.size()) - 1, 0);
-                        }
+                            static void sort(std::vector&lt;std::string&gt;&amp; a) {
+                                std::vector&lt;std::string&gt; aux(a.size());
+                                sort(a, aux, 0, static_cast&lt;int&gt;(a.size()) - 1, 0);
+                            }
                         
                         private:
-                        static void sort(std::vector&lt;std::string&gt;&amp; a, std::vector&lt;std::string&gt;&amp; aux, const
-                        int low, const int high, const int d) {
-                        if (high &lt;= low + CUTOFF) {
-                        insertionSort(a, low, high, d);
-                        return;
-                        }
+                            static void sort(std::vector&lt;std::string&gt;&amp; a, std::vector&lt;std::string&gt;&amp; aux, const
+                                int low, const int high, const int d) {
+                                if (high &lt;= low + CUTOFF) {
+                                    insertionSort(a, low, high, d);
+                                    return;
+                                }
                         
-                        std::vector&lt;int&gt; count(R + 2, 0);
-                        for (int i = low; i &lt;= high; i++) {
-                        const int c = charAt(a[i], d);
-                        count[c + 2]++;
-                        }
+                                std::vector&lt;int&gt; count(R + 2, 0);
+                                for (int i = low; i &lt;= high; i++) {
+                                    const int c = charAt(a[i], d);
+                                    count[c + 2]++;
+                                }
                         
-                        for (int r = 0; r &lt; R + 1; r++) {
-                        count[r + 1] += count[r];
-                        }
+                                for (int r = 0; r &lt; R + 1; r++) {
+                                    count[r + 1] += count[r];
+                                }
                         
-                        for (int i = low; i &lt;= high; i++) {
-                        const int c = charAt(a[i], d);
-                        aux[count[c + 1]++] = a[i];
-                        }
+                                for (int i = low; i &lt;= high; i++) {
+                                    const int c = charAt(a[i], d);
+                                    aux[count[c + 1]++] = a[i];
+                                }
                         
-                        std::copy_n(aux.begin(), (high + 1 - low), a.begin() + low);
+                                std::copy_n(aux.begin(), (high + 1 - low), a.begin() + low);
+
+                                for (int r = 0; r &lt; R; r++) {
+                                    sort(a, aux, low + count[r], low + count[r + 1] - 1, d + 1);
+                                }
+                            }
                         
-                        for (int r = 0; r &lt; R; r++) {
-                        sort(a, aux, low + count[r], low + count[r + 1] - 1, d + 1);
-                        }
-                        }
+                            static int charAt(const std::string&amp; s, const int d) {
+                                if (d &lt; s.length()) {
+                                    return s[d];
+                                } else {
+                                    return -1;
+                                }
+                            }
                         
-                        static int charAt(const std::string&amp; s, const int d) {
-                        if (d &lt; s.length()) {
-                        return s[d];
-                        } else {
-                        return -1;
-                        }
-                        }
+                            static void insertionSort(std::vector&lt;std::string&gt;&amp; a, const int low, const int high,
+                            const int d) {
+                                for (int i = low; i &lt;= high; i++) {
+                                    for (int j = i; j &gt; low &amp;&amp; less(a[j], a[j - 1], d); j--) {
+                                        std::swap(a[j], a[j - 1]);
+                                    }
+                                }
+                            }
                         
-                        static void insertionSort(std::vector&lt;std::string&gt;&amp; a, const int low, const int high,
-                        const int d) {
-                        for (int i = low; i &lt;= high; i++) {
-                        for (int j = i; j &gt; low &amp;&amp; less(a[j], a[j - 1], d); j--) {
-                        std::swap(a[j], a[j - 1]);
-                        }
-                        }
-                        }
-                        
-                        static bool less(const std::string&amp; v, const std::string&amp; w, const int d) {
-                        return v.substr(d) &lt; w.substr(d);
-                        }
+                            static bool less(const std::string&amp; v, const std::string&amp; w, const int d) {
+                                return v.substr(d) &lt; w.substr(d);
+                            }
                         };
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         def char_at(s, d):
-                        if d &lt; len(s):
-                        return ord(s[d])
-                        else:
-                        return -1
+                            if d &lt; len(s):
+                                return ord(s[d])
+                            else:
+                                return -1
                         
                         def insertion_sort(arr, low, high, d):
-                        for i in range(low, high + 1):
-                        for j in range(i, low, -1):
-                        if arr[j][d:] &lt; arr[j - 1][d:]:
-                        arr[j], arr[j - 1] = arr[j - 1], arr[j]
-                        else:
-                        break
+                            for i in range(low, high + 1):
+                                for j in range(i, low, -1):
+                                    if arr[j][d:] &lt; arr[j - 1][d:]:
+                                        arr[j], arr[j - 1] = arr[j - 1], arr[j]
+                                    else:
+                                        break
                         
                         def msd_string_sort(arr):
-                        CUTOFF = 15
-                        aux = [None] * len(arr)
-                        sort(arr, 0, len(arr) - 1, 0, aux, CUTOFF)
+                            CUTOFF = 15
+                            aux = [None] * len(arr)
+                            sort(arr, 0, len(arr) - 1, 0, aux, CUTOFF)
                         
                         def sort(arr, low, high, d, aux, CUTOFF):
-                        if high &lt;= low + CUTOFF:
-                        insertion_sort(arr, low, high, d)
-                        return
+                            if high &lt;= low + CUTOFF:
+                                insertion_sort(arr, low, high, d)
+                            return
                         
-                        R = 256
-                        count = [0] * (R + 2)
+                            R = 256
+                            count = [0] * (R + 2)
                         
-                        for i in range(low, high + 1):
-                        c = char_at(arr[i], d)
-                        count[c + 2] += 1
-                        
-                        for r in range(R + 1):
-                        count[r + 1] += count[r]
-                        
-                        for i in range(low, high + 1):
-                        c = char_at(arr[i], d)
-                        aux[count[c + 1]] = arr[i]
-                        count[c + 1] += 1
-                        
-                        for i in range(low, high + 1):
-                        arr[i] = aux[i - low]
-                        
-                        for r in range(R):
-                        sort(arr, low + count[r], low + count[r + 1] - 1, d + 1, aux, CUTOFF)
+                            for i in range(low, high + 1):
+                                c = char_at(arr[i], d)
+                                count[c + 2] += 1
+
+                            for r in range(R + 1):
+                                count[r + 1] += count[r]
+
+                            for i in range(low, high + 1):
+                                c = char_at(arr[i], d)
+                                aux[count[c + 1]] = arr[i]
+                                count[c + 1] += 1
+
+                            for i in range(low, high + 1):
+                                arr[i] = aux[i - low]
+
+                            for r in range(R):
+                                sort(arr, low + count[r], low + count[r + 1] - 1, d + 1, aux, CUTOFF)
                     </code-block>
                 </tab>
             </tabs>
         </chapter>
         <chapter title="19.5 3-Way Radix Quicksort" id="3Q">
-            <p>Do 3-way partitioning on the
-                <math>d^{th}</math>
-                character.
-            </p>
-            <p>
-                <format color="BlueViolet">Properties</format>
-            </p>
+            <p>Do 3-way partitioning on the <math>d^{th}</math> character.</p>
+            <p><format color="BlueViolet">Properties</format></p>
             <list>
                 <li>Less overhead than R-way partitioning in MSD string sort.</li>
                 <li>
                     <p>Does not re-examine characters equal to the partitioning char.</p>
-                    <p>(but does re-examine characters not equal to the partitioning char)
-                    </p>
+                    <p>(but does re-examine characters not equal to the partitioning char)</p>
                 </li>
             </list>
             <img src="../images_data/d19-5-1.png" alt="3-Way Radix Quicksort"/>
-            <p>
-                <format color="BlueViolet">3-Way String Quicksort vs. Standard
-                    Quicksort
-                </format>
-            </p>
+            <p><format color="BlueViolet">3-Way String Quicksort vs. Standard Quicksort</format></p>
             <list type="decimal">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Standard quicksort</format>
-                    </p>
+                    <p><format color="Fuchsia">Standard quicksort</format></p>
                     <list type="bullet">
-                        <li>Uses ~ 2 N ln N string compares on average.</li>
-                        <li>Costly for keys with long common prefixes (and this is a
-                            common case!)
-                        </li>
+                        <li>Uses <math>\sim 2 N \n N</math> string compares on average.</li>
+                        <li>Costly for keys with long common prefixes (and this is a common case!)</li>
                     </list>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">3-way string (radix) quicksort</format>
-                    </p>
+                    <p><format color="Fuchsia">3-way string (radix) quicksort</format></p>
                     <list type="bullet">
-                        <li>Uses ~ 2 N ln N character compares on average for random strings.</li>
+                        <li>Uses <math>\sim 2 N \ln N</math> character compares on average for random strings.</li>
                         <li>Avoids re-comparing long common prefixes.</li>
                     </list>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">3-way String !uicksort vs. MSD String
-                    Sort
-                </format>
-            </p>
+            <p><format color="BlueViolet">3-way String Quicksort vs. MSD String Sort</format></p>
             <list type="decimal">
                 <li>
-                    <p>
-                        <format color="Fuchsia">MSD string sort</format>
-                    </p>
+                    <p><format color="Fuchsia">MSD string sort</format></p>
                     <list type="bullet">
                         <li>Is cache-inefficient.</li>
                         <li>Too much memory storing count[].</li>
@@ -4930,9 +4842,7 @@
                     </list>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">3-way string quicksort</format>
-                    </p>
+                    <p><format color="Fuchsia">3-way string quicksort</format></p>
                     <list>
                         <li>Has a short inner loop.</li>
                         <li>Is cache-friendly.</li>
@@ -4945,59 +4855,59 @@
                     <code-block lang="java" collapsible="true">
                         public class ThreeWayRadixQuicksortStrings {
                         
-                        private static final int CUTOFF = 15;
+                            private static final int CUTOFF = 15;
+
+                            private static int charAt(String s, int d) {
+                                if (d &lt; s.length()) return s.charAt(d);
+                                else return -1;
+                            }
                         
-                        private static int charAt(String s, int d) {
-                        if (d &lt; s.length()) return s.charAt(d);
-                        else return -1;
-                        }
+                            public static void sort(String[] a) {
+                                sort(a, 0, a.length - 1, 0);
+                            }
                         
-                        public static void sort(String[] a) {
-                        sort(a, 0, a.length - 1, 0);
-                        }
+                            private static void sort(String[] a, int lo, int hi, int d) {
+                                if (hi &lt;= lo + CUTOFF) {
+                                    insertionSort(a, lo, hi, d);
+                                    return;
+                                }
+
+                                int lt = lo, gt = hi;
+                                int v = charAt(a[lo], d);
+                                int i = lo + 1;
+                                while (i &lt;= gt) {
+                                    int t = charAt(a[i], d);
+                                    if (t &lt; v) exch(a, lt++, i++);
+                                    else if (t &gt; v) exch(a, i, gt--);
+                                    else i++;
+                                }
+
+                                sort(a, lo, lt - 1, d);
+                                if (v &gt;= 0) sort(a, lt, gt, d + 1);
+                                sort(a, gt + 1, hi, d);
+                            }
                         
-                        private static void sort(String[] a, int lo, int hi, int d) {
-                        if (hi &lt;= lo + CUTOFF) {
-                        insertionSort(a, lo, hi, d);
-                        return;
-                        }
+                            private static void insertionSort(String[] a, int lo, int hi, int d) {
+                                for (int i = lo; i &lt;= hi; i++) {
+                                    for (int j = i; j &gt; lo &amp;&amp; less(a[j], a[j - 1], d); j--) {
+                                        exch(a, j, j - 1);
+                                    }
+                                }
+                            }
                         
-                        int lt = lo, gt = hi;
-                        int v = charAt(a[lo], d);
-                        int i = lo + 1;
-                        while (i &lt;= gt) {
-                        int t = charAt(a[i], d);
-                        if (t &lt; v) exch(a, lt++, i++);
-                        else if (t &gt; v) exch(a, i, gt--);
-                        else i++;
-                        }
+                            private static boolean less(String v, String w, int d) {
+                                for (int i = d; i &lt; Math.min(v.length(), w.length()); i++) {
+                                    if (v.charAt(i) &lt; w.charAt(i)) return true;
+                                    if (v.charAt(i) &gt; w.charAt(i)) return false;
+                                }
+                                return v.length() &lt; w.length();
+                            }
                         
-                        sort(a, lo, lt - 1, d);
-                        if (v &gt;= 0) sort(a, lt, gt, d + 1);
-                        sort(a, gt + 1, hi, d);
-                        }
-                        
-                        private static void insertionSort(String[] a, int lo, int hi, int d) {
-                        for (int i = lo; i &lt;= hi; i++) {
-                        for (int j = i; j &gt; lo &amp;&amp; less(a[j], a[j - 1], d); j--) {
-                        exch(a, j, j - 1);
-                        }
-                        }
-                        }
-                        
-                        private static boolean less(String v, String w, int d) {
-                        for (int i = d; i &lt; Math.min(v.length(), w.length()); i++) {
-                        if (v.charAt(i) &lt; w.charAt(i)) return true;
-                        if (v.charAt(i) &gt; w.charAt(i)) return false;
-                        }
-                        return v.length() &lt; w.length();
-                        }
-                        
-                        private static void exch(String[] a, int i, int j) {
-                        String temp = a[i];
-                        a[i] = a[j];
-                        a[j] = temp;
-                        }
+                            private static void exch(String[] a, int i, int j) {
+                                String temp = a[i];
+                                a[i] = a[j];
+                                a[j] = temp;
+                            }
                         }
                     </code-block>
                 </tab>
@@ -5009,55 +4919,55 @@
                         
                         class ThreeWayRadixQuicksortStrings {
                         private:
-                        static constexpr int CUTOFF = 15;
+                            static constexpr int CUTOFF = 15;
+
+                            static int charAt(const std::string&amp; s, const int d) {
+                                if (d &lt; s.length()) return s[d];
+                                else return -1;
+                            }
                         
-                        static int charAt(const std::string&amp; s, const int d) {
-                        if (d &lt; s.length()) return s[d];
-                        else return -1;
-                        }
+                            static void sort(std::vector&lt;std::string&gt;&amp; a, const int lo, const int hi, const int d) {
+                                if (hi &lt;= lo + CUTOFF) {
+                                    insertionSort(a, lo, hi, d);
+                                    return;
+                                }
+
+                                int lt = lo, gt = hi;
+                                const int v = charAt(a[lo], d);
+                                int i = lo + 1;
+                                while (i &lt;= gt) {
+                                    int t = charAt(a[i], d);
+                                    if (t &lt; v) std::swap(a[lt++], a[i++]);
+                                    else if (t &gt; v) std::swap(a[i], a[gt--]);
+                                    else i++;
+                                }
+
+                                sort(a, lo, lt - 1, d);
+                                if (v &gt;= 0) sort(a, lt, gt, d + 1);
+                                sort(a, gt + 1, hi, d);
+                            }
                         
-                        static void sort(std::vector&lt;std::string&gt;&amp; a, const int lo, const int hi, const int d) {
-                        if (hi &lt;= lo + CUTOFF) {
-                        insertionSort(a, lo, hi, d);
-                        return;
-                        }
+                            static void insertionSort(std::vector&lt;std::string&gt;&amp; a, const int lo, const int hi, const
+                            int d) {
+                                for (int i = lo; i &lt;= hi; i++) {
+                                    for (int j = i; j &gt; lo &amp;&amp; less(a[j], a[j - 1], d); j--) {
+                                        std::swap(a[j], a[j - 1]);
+                                    }
+                                }
+                            }
                         
-                        int lt = lo, gt = hi;
-                        const int v = charAt(a[lo], d);
-                        int i = lo + 1;
-                        while (i &lt;= gt) {
-                        int t = charAt(a[i], d);
-                        if (t &lt; v) std::swap(a[lt++], a[i++]);
-                        else if (t &gt; v) std::swap(a[i], a[gt--]);
-                        else i++;
-                        }
-                        
-                        sort(a, lo, lt - 1, d);
-                        if (v &gt;= 0) sort(a, lt, gt, d + 1);
-                        sort(a, gt + 1, hi, d);
-                        }
-                        
-                        static void insertionSort(std::vector&lt;std::string&gt;&amp; a, const int lo, const int hi, const
-                        int d) {
-                        for (int i = lo; i &lt;= hi; i++) {
-                        for (int j = i; j &gt; lo &amp;&amp; less(a[j], a[j - 1], d); j--) {
-                        std::swap(a[j], a[j - 1]);
-                        }
-                        }
-                        }
-                        
-                        static bool less(const std::string&amp; v, const std::string&amp; w, const int d) {
-                        for (int i = d; i &lt; std::min(v.length(), w.length()); i++) {
-                        if (v[i] &lt; w[i]) return true;
-                        if (v[i] &gt; w[i]) return false;
-                        }
-                        return v.length() &lt; w.length();
-                        }
+                            static bool less(const std::string&amp; v, const std::string&amp; w, const int d) {
+                                for (int i = d; i &lt; std::min(v.length(), w.length()); i++) {
+                                    if (v[i] &lt; w[i]) return true;
+                                    if (v[i] &gt; w[i]) return false;
+                                }
+                                return v.length() &lt; w.length();
+                            }
                         
                         public:
-                        static void sort(std::vector&lt;std::string&gt;&amp; a) {
-                        sort(a, 0, static_cast&lt;int&gt;(a.size()) - 1, 0);
-                        }
+                            static void sort(std::vector&lt;std::string&gt;&amp; a) {
+                                sort(a, 0, static_cast&lt;int&gt;(a.size()) - 1, 0);
+                            }
                         };
                     </code-block>
                 </tab>
@@ -5066,52 +4976,48 @@
                         CUTOFF = 15
                         
                         def char_at(s, d):
-                        if d &lt; len(s):
-                        return ord(s[d])
-                        else:
-                        return -1
+                            if d &lt; len(s):
+                                return ord(s[d])
+                            else:
+                                return -1
                         
                         def insertion_sort(arr, lo, hi, d):
-                        for i in range(lo, hi + 1):
-                        for j in range(i, lo, -1):
-                        if arr[j][d:] &lt; arr[j - 1][d:]:
-                        arr[j], arr[j - 1] = arr[j - 1], arr[j]
-                        else:
-                        break
+                            for i in range(lo, hi + 1):
+                                for j in range(i, lo, -1):
+                                    if arr[j][d:] &lt; arr[j - 1][d:]:
+                                        arr[j], arr[j - 1] = arr[j - 1], arr[j]
+                                    else:
+                                        break
                         
                         def three_way_radix_quicksort(arr):
-                        def sort(arr, lo, hi, d):
-                        if hi &lt;= lo + CUTOFF:
-                        insertion_sort(arr, lo, hi, d)
-                        return
-                        lt, gt = lo, hi
-                        v = char_at(arr[lo], d)
-                        i = lo + 1
-                        while i &lt;= gt:
-                        t = char_at(arr[i], d)
-                        if t &lt; v:
-                        arr[lt], arr[i] = arr[i], arr[lt]
-                        lt += 1
-                        i += 1
-                        elif t &gt; v:
-                        arr[gt], arr[i] = arr[i], arr[gt]
-                        gt -= 1
-                        else:
-                        i += 1
-                        sort(arr, lo, lt - 1, d)
-                        if v &gt;= 0:
-                        sort(arr, lt, gt, d + 1)
-                        sort(arr, gt + 1, hi, d)
-                        
-                        sort(arr, 0, len(arr) - 1, 0)
+                            def sort(arr, lo, hi, d):
+                                if hi &lt;= lo + CUTOFF:
+                                    insertion_sort(arr, lo, hi, d)
+                                return
+                                lt, gt = lo, hi
+                                v = char_at(arr[lo], d)
+                                i = lo + 1
+                                while i &lt;= gt:
+                                    t = char_at(arr[i], d)
+                                    if t &lt; v:
+                                        arr[lt], arr[i] = arr[i], arr[lt]
+                                        lt += 1
+                                        i += 1
+                                    elif t &gt; v:
+                                        arr[gt], arr[i] = arr[i], arr[gt]
+                                        gt -= 1
+                                    else:
+                                        i += 1
+                            sort(arr, lo, lt - 1, d)
+                            if v &gt;= 0:
+                            sort(arr, lt, gt, d + 1)
+                            sort(arr, gt + 1, hi, d)
+
+                            sort(arr, 0, len(arr) - 1, 0)
                     </code-block>
                 </tab>
             </tabs>
-            <p>
-                <format color="BlueViolet">Summary of the Performance of Sorting
-                    Algorithms
-                </format>
-            </p>
+            <p><format color="BlueViolet">Summary of the Performance of Sorting Algorithms</format></p>
             <table style="header-row" id="sortperf">
                 <tr>
                     <td>Algorithm</td>
@@ -5155,8 +5061,7 @@
                     <td><a href="Data-Structures-and-Algorithms-1.topic" anchor=
                             "quicksort" summary="Quicksort">Quicksort</a></td>
                     <td>
-                        <math>1.39 N \lg N</math>
-                        *
+                        <math>1.39 N \lg N</math> *
                     </td>
                     <td>
                         <math>1.39 N \lg N</math>
@@ -5214,8 +5119,7 @@
                     <td><a anchor="3Q" summary="3-Way Radix Quicksort">3-Way String
                         Quicksort</a></td>
                     <td>
-                        <math>1.39 W N \lg R</math>
-                        *
+                        <math>1.39 W N \lg R</math> *
                     </td>
                     <td>
                         <math>1.39 N \lg N</math>
@@ -5232,783 +5136,20 @@
             <p>★: average-length W keys</p>
         </chapter>
         <chapter title="19.6 Suffix Arrays" id="19-6-suffix-arrays">
-            <p>
-                <format color="BlueViolet">Keyword in context search:</format>
-                Given a text of N characters, preprocess it to enable fast substring
-                search (find all occurrences of query string context).
-            </p>
-            <p>
-                <format color="BlueViolet">Applications:</format>
-                Linguistics,
-                databases, web search, word processing, ...
-            </p>
-            <p>
-                <format color="BlueViolet">Keyword-in-context search:</format>
-                suffix-sorting solution.
-            </p>
+            <p><format color="BlueViolet">Keyword in context search:</format> Given a text of N characters, preprocess
+                it to enable fast substring search (find all occurrences of query string context).</p>
+            <p><format color="BlueViolet">Applications:</format> Linguistics, databases, web search, word processing,
+                ...</p>
+            <p><format color="BlueViolet">Keyword-in-context search:</format> suffix-sorting solution.</p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Preprocess:</format>
-                        <format color=
-                                        "OrangeRed">suffix sort
-                        </format>
-                        the text.
-                    </p>
+                    <p><format color="Fuchsia">Preprocess:</format> <format color="OrangeRed">suffix sort</format>
+                        the text.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Query:</format>
-                        binary search for query;
-                        scan until mismatch.
-                    </p>
+                    <p><format color="Fuchsia">Query:</format> binary search for query; scan until mismatch.</p>
                 </li>
             </list>
-        </chapter>
-    </chapter>
-    <chapter title="20 Tries" id="20-tries">
-        <chapter title="20.1 R-Way Tries" id="rway">
-            <p>
-                <format color="BlueViolet">Tries (from retrieval, but pronounced
-                    "try"):
-                </format>
-                Store characters in nodes (not keys), each node has
-                <math>R</math>
-                children, one for each possible character.
-            </p>
-            <img src="../images_data/d20-1-1.png" alt="Tries"/>
-            <procedure title="Trie Search">
-                <step>
-                    <p>Follow links corresponding to each character in the key.</p>
-                </step>
-                <step>
-                    <p>
-                        <format color="Fuchsia">Search hit:</format>
-                        node where search
-                        ends has a non-null value.
-                    </p>
-                </step>
-                <step>
-                    <p>
-                        <format color="Fuchsia">Search miss:</format>
-                        reach null link
-                        or node where search ends has null value.
-                    </p>
-                </step>
-            </procedure>
-            <procedure title="Trie Delete">
-                <step>
-                    <p>Find the node corresponding to key and set value to null.</p>
-                </step>
-                <step>
-                    <p>If node has null value and all null links, remove that node
-                        (and recur).</p>
-                </step>
-            </procedure>
-            <tabs>
-                <tab title="Java">
-                    <code-block lang="java" collapsible="true">
-                        import java.util.HashMap;
-                        
-                        public class RWayTrie {
-                        
-                        private static final int R = 256;
-                        
-                        private final Node root;
-                        
-                        private static class Node {
-                        private boolean isEndOfWord;
-                        private final HashMap&lt;Character, Node&gt; children;
-                        
-                        public Node() {
-                        isEndOfWord = false;
-                        children = new HashMap&lt;&gt;();
-                        }
-                        }
-                        
-                        public RWayTrie() {
-                        root = new Node();
-                        }
-                        
-                        public void insert(String word) {
-                        Node current = root;
-                        for (char c : word.toCharArray()) {
-                        if (!current.children.containsKey(c)) {
-                        current.children.put(c, new Node());
-                        }
-                        current = current.children.get(c);
-                        }
-                        current.isEndOfWord = true;
-                        }
-                        
-                        public boolean search(String word) {
-                        Node current = root;
-                        for (char c : word.toCharArray()) {
-                        if (!current.children.containsKey(c)) {
-                        return false;
-                        }
-                        current = current.children.get(c);
-                        }
-                        return current.isEndOfWord;
-                        }
-                        
-                        public boolean startsWith(String prefix) {
-                        Node current = root;
-                        for (char c : prefix.toCharArray()) {
-                        if (!current.children.containsKey(c)) {
-                        return false;
-                        }
-                        current = current.children.get(c);
-                        }
-                        return true;
-                        }
-                        }
-                    </code-block>
-                </tab>
-                <tab title="C++">
-                    <code-block lang="c++" collapsible="true">
-                        #include &lt;iostream&gt;
-                        #include &lt;unordered_map&gt;
-                        #include &lt;ranges&gt;
-                        
-                        constexpr int R = 26;
-                        
-                        struct Node {
-                        bool isEndOfWord;
-                        std::unordered_map&lt;char, Node*&gt; children;
-                        
-                        Node() : isEndOfWord(false) {}
-                        };
-                        
-                        class RWayTrie {
-                        private:
-                        Node* root;
-                        
-                        static void deleteNode(Node* node) {
-                        if (node == nullptr) {
-                        return;
-                        }
-                        
-                        for (Node* child : node-&gt;children | std::views::values) {
-                        deleteNode(child);
-                        }
-                        
-                        delete node;
-                        }
-                        
-                        public:
-                        RWayTrie() {
-                        root = new Node();
-                        }
-                        
-                        void insert(const std::string&amp; word) const
-                        {
-                        Node* current = root;
-                        for (char c : word) {
-                        if (!current-&gt;children.contains(c)) {
-                        current-&gt;children[c] = new Node();
-                        }
-                        current = current-&gt;children[c];
-                        }
-                        current-&gt;isEndOfWord = true;
-                        }
-                        
-                        [[nodiscard]] bool search(const std::string&amp; word) const {
-                        Node* current = root;
-                        for (char c : word) {
-                        if (!current-&gt;children.contains(c)) {
-                        return false;
-                        }
-                        current = current-&gt;children[c];
-                        }
-                        return current-&gt;isEndOfWord;
-                        }
-                        
-                        [[nodiscard]] bool startsWith(const std::string&amp; prefix) const {
-                        Node* current = root;
-                        for (char c : prefix) {
-                        if (!current-&gt;children.contains(c)) {
-                        return false;
-                        }
-                        current = current-&gt;children[c];
-                        }
-                        return true;
-                        }
-                        
-                        ~RWayTrie() {
-                        deleteNode(root);
-                        }
-                        };
-                    </code-block>
-                </tab>
-                <tab title="Python">
-                    <code-block lang="python" collapsible="true">
-                        class Node:
-                        def __init__(self):
-                        self.isEndOfWord = False
-                        self.children = {} # Dictionary to store child nodes
-                        
-                        
-                        class RWayTrie:
-                        def __init__(self):
-                        self.root = Node()
-                        
-                        def insert(self, word):
-                        current = self.root
-                        for char in word:
-                        if char not in current.children:
-                        current.children[char] = Node()
-                        current = current.children[char]
-                        current.isEndOfWord = True
-                        
-                        def search(self, word):
-                        current = self.root
-                        for char in word:
-                        if char not in current.children:
-                        return False
-                        current = current.children[char]
-                        return current.isEndOfWord
-                        
-                        def startsWith(self, prefix):
-                        current = self.root
-                        for char in prefix:
-                        if char not in current.children:
-                        return False
-                        current = current.children[char]
-                        return True
-                    </code-block>
-                </tab>
-            </tabs>
-        </chapter>
-        <chapter title="20.2 Ternary Search Tries" id="tst">
-            <p>
-                <format color="BlueViolet">Ternary Search Trees</format>
-            </p>
-            <list type="bullet">
-                <li>
-                    <p>Store characters and values in nodes (not keys).</p>
-                </li>
-                <li>
-                    <p>Each node has 3 children: smaller (left), equal (middle),
-                        larger (right).</p>
-                </li>
-            </list>
-            <img src="../images_data/d20-2-1.png" alt="TST Representation"/>
-            <procedure title="TST Search">
-                <step>
-                    <p>Follow links corresponding to each character in the key.</p>
-                    <list type="bullet">
-                        <li>
-                            <p>If less, take left link; if greater, take right link.</p>
-                        </li>
-                        <li>
-                            <p>If equal, take the middle link and move to the next key character.
-                            </p>
-                        </li>
-                    </list>
-                </step>
-                <step>
-                    <p>Search hit &amp; miss: </p>
-                    <list type="bullet">
-                        <li>
-                            <p>
-                                <format color="Fuchsia">Search hit:</format>
-                                Node where search
-                                ends has a non-null value.
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                <format color="Fuchsia">Search miss:</format>
-                                Reach null link
-                                or node where search ends has null value.
-                            </p>
-                        </li>
-                    </list>
-                </step>
-            </procedure>
-            <tabs>
-                <tab title="Java">
-                    <code-block lang="java" collapsible="true">
-                        public class TernarySearchTree {
-                        
-                        private Node root;
-                        
-                        private static class Node {
-                        char data;
-                        boolean isEndOfString;
-                        Node left, equal, right;
-                        
-                        public Node(char data) {
-                        this.data = data;
-                        this.isEndOfString = false;
-                        this.left = null;
-                        this.equal = null;
-                        this.right = null;
-                        }
-                        }
-                        
-                        public TernarySearchTree() {
-                        root = null;
-                        }
-                        
-                        public void insert(String word) {
-                        root = insertRecursive(root, word, 0);
-                        }
-                        
-                        private Node insertRecursive(Node node, String word, int index) {
-                        char c = word.charAt(index);
-                        
-                        if (node == null) {
-                        node = new Node(c);
-                        }
-                        
-                        if (c &lt; node.data) {
-                        node.left = insertRecursive(node.left, word, index);
-                        } else if (c &gt; node.data) {
-                        node.right = insertRecursive(node.right, word, index);
-                        } else {
-                        if (index &lt; word.length() - 1) {
-                        node.equal = insertRecursive(node.equal, word, index + 1);
-                        } else {
-                        node.isEndOfString = true;
-                        }
-                        }
-                        return node;
-                        }
-                        
-                        public boolean search(String word) {
-                        return searchRecursive(root, word, 0);
-                        }
-                        
-                        private boolean searchRecursive(Node node, String word, int index) {
-                        if (node == null) {
-                        return false;
-                        }
-                        
-                        char c = word.charAt(index);
-                        
-                        if (c &lt; node.data) {
-                        return searchRecursive(node.left, word, index);
-                        } else if (c &gt; node.data) {
-                        return searchRecursive(node.right, word, index);
-                        } else {
-                        if (index == word.length() - 1) {
-                        return node.isEndOfString;
-                        } else {
-                        return searchRecursive(node.equal, word, index + 1);
-                        }
-                        }
-                        }
-                        
-                        public void getWordsWithPrefix(String prefix) {
-                        Node node = getPrefixNode(root, prefix, 0);
-                        if (node != null) {
-                        traverseAndPrint(node, prefix);
-                        }
-                        }
-                        
-                        private Node getPrefixNode(Node node, String prefix, int index) {
-                        if (node == null) {
-                        return null;
-                        }
-                        
-                        char c = prefix.charAt(index);
-                        
-                        if (c &lt; node.data) {
-                        return getPrefixNode(node.left, prefix, index);
-                        } else if (c &gt; node.data) {
-                        return getPrefixNode(node.right, prefix, index);
-                        } else {
-                        if (index == prefix.length() - 1) {
-                        return node;
-                        } else {
-                        return getPrefixNode(node.equal, prefix, index + 1);
-                        }
-                        }
-                        }
-                        
-                        private void traverseAndPrint(Node node, String prefix) {
-                        if (node == null) {
-                        return;
-                        }
-                        
-                        if (node.isEndOfString) {
-                        System.out.println(prefix);
-                        }
-                        
-                        traverseAndPrint(node.left, prefix);
-                        traverseAndPrint(node.equal, prefix + node.data);
-                        traverseAndPrint(node.right, prefix);
-                        }
-                        }
-                    </code-block>
-                </tab>
-                <tab title="C++">
-                    <code-block lang="c++" collapsible="true">
-                        #include &lt;iostream&gt;
-                        #include &lt;string&gt;
-                        
-                        class TernarySearchTree {
-                        private:
-                        struct Node {
-                        char data;
-                        bool isEndOfString;
-                        Node *left, *equal, *right;
-                        
-                        explicit Node(const char data) : data(data), isEndOfString(false), left(nullptr),
-                        equal(nullptr), right(nullptr) {}
-                        };
-                        
-                        Node *root;
-                        
-                        static Node* insertRecursive(Node* node, const std::string&amp; word, const int index) {
-                        const char c = word[index];
-                        
-                        if (node == nullptr) {
-                        node = new Node(c);
-                        }
-                        
-                        if (c &lt; node-&gt;data) {
-                        node-&gt;left = insertRecursive(node-&gt;left, word, index);
-                        } else if (c &gt; node-&gt;data) {
-                        node-&gt;right = insertRecursive(node-&gt;right, word, index);
-                        } else {
-                        if (index &lt; word.length() - 1) {
-                        node-&gt;equal = insertRecursive(node-&gt;equal, word, index + 1);
-                        } else {
-                        node-&gt;isEndOfString = true;
-                        }
-                        }
-                        return node;
-                        }
-                        
-                        static bool searchRecursive(const Node* node, const std::string&amp; word, const int index) {
-                        if (node == nullptr) {
-                        return false;
-                        }
-                        
-                        const char c = word[index];
-                        
-                        if (c &lt; node-&gt;data) {
-                        return searchRecursive(node->left, word, index);
-                        } else if (c &gt; node-&gt;data) {
-                        return searchRecursive(node->right, word, index);
-                        } else {
-                        if (index == word.length() - 1) {
-                        return node-&gt;isEndOfString;
-                        } else {
-                        return searchRecursive(node-&gt;equal, word, index + 1);
-                        }
-                        }
-                        }
-                        
-                        static Node* getPrefixNode(Node* node, const std::string&amp; prefix, const int index) {
-                        if (node == nullptr) {
-                        return nullptr;
-                        }
-                        
-                        const char c = prefix[index];
-                        
-                        if (c &lt; node-&gt;data) {
-                        return getPrefixNode(node-&gt;left, prefix, index);
-                        } else if (c &gt; node-&gt;data) {
-                        return getPrefixNode(node-&gt;right, prefix, index);
-                        } else {
-                        if (index == prefix.length() - 1) {
-                        return node;
-                        } else {
-                        return getPrefixNode(node->equal, prefix, index + 1);
-                        }
-                        }
-                        }
-                        
-                        static void traverseAndPrint(const Node* node, const std::string&amp; prefix) {
-                        if (node == nullptr) {
-                        return;
-                        }
-                        
-                        if (node-&gt;isEndOfString) {
-                        std::cout &lt;&lt; prefix &lt;&lt; std::endl;
-                        }
-                        
-                        traverseAndPrint(node-&gt;left, prefix);
-                        traverseAndPrint(node-&gt;equal, prefix + node-&gt;data);
-                        traverseAndPrint(node-&gt;right, prefix);
-                        }
-                        
-                        static void deleteNodes(const Node* node) {
-                        if (node == nullptr) {
-                        return;
-                        }
-                        deleteNodes(node-&gt;left);
-                        deleteNodes(node-&gt;equal);
-                        deleteNodes(node-&gt;right);
-                        delete node;
-                        }
-                        
-                        public:
-                        TernarySearchTree() : root(nullptr) {}
-                        
-                        void insert(const std::string&amp; word) {
-                        root = insertRecursive(root, word, 0);
-                        }
-                        
-                        [[nodiscard]] bool search(const std::string&amp; word) const{
-                        return searchRecursive(root, word, 0);
-                        }
-                        
-                        void getWordsWithPrefix(const std::string&amp; prefix) const {
-                        Node* node = getPrefixNode(root, prefix, 0);
-                        if (node != nullptr) {
-                        traverseAndPrint(node, prefix);
-                        }
-                        }
-                        
-                        ~TernarySearchTree() {
-                        deleteNodes(root);
-                        }
-                        };
-                    </code-block>
-                </tab>
-                <tab title="Python">
-                    <code-block lang="python" collapsible="true">
-                        class Node:
-                        def __init__(self, data):
-                        self.data = data
-                        self.isEndOfString = False
-                        self.left = None
-                        self.equal = None
-                        self.right = None
-                        
-                        class TernarySearchTree:
-                        def __init__(self):
-                        self.root = None
-                        
-                        def insert(self, word):
-                        self.root = self._insert_recursive(self.root, word, 0)
-                        
-                        def _insert_recursive(self, node, word, index):
-                        c = word[index]
-                        
-                        if node is None:
-                        node = Node(c)
-                        
-                        if c &lt; node.data:
-                        node.left = self._insert_recursive(node.left, word, index)
-                        elif c &gt; node.data:
-                        node.right = self._insert_recursive(node.right, word, index)
-                        else:
-                        if index &lt; len(word) - 1:
-                        node.equal = self._insert_recursive(node.equal, word, index + 1)
-                        else:
-                        node.isEndOfString = True
-                        return node
-                        
-                        def search(self, word):
-                        return self._search_recursive(self.root, word, 0)
-                        
-                        def _search_recursive(self, node, word, index):
-                        if node is None:
-                        return False
-                        
-                        c = word[index]
-                        
-                        if c &lt; node.data:
-                        return self._search_recursive(node.left, word, index)
-                        elif c &gt; node.data:
-                        return self._search_recursive(node.right, word, index)
-                        else:
-                        if index == len(word) - 1:
-                        return node.isEndOfString
-                        else:
-                        return self._search_recursive(node.equal, word, index + 1)
-                        
-                        def get_words_with_prefix(self, prefix):
-                        node = self._get_prefix_node(self.root, prefix, 0)
-                        if node is not None:
-                        self._traverse_and_print(node, prefix)
-                        
-                        def _get_prefix_node(self, node, prefix, index):
-                        if node is None:
-                        return None
-                        
-                        c = prefix[index]
-                        
-                        if c &lt; node.data:
-                        return self._get_prefix_node(node.left, prefix, index)
-                        elif c &gt; node.data:
-                        return self._get_prefix_node(node.right, prefix, index)
-                        else:
-                        if index == len(prefix) - 1:
-                        return node
-                        else:
-                        return self._get_prefix_node(node.equal, prefix, index + 1)
-                        
-                        def _traverse_and_print(self, node, prefix):
-                        if node is None:
-                        return
-                        
-                        if node.isEndOfString:
-                        print(prefix)
-                        
-                        self._traverse_and_print(node.left, prefix)
-                        self._traverse_and_print(node.equal, prefix + node.data)
-                        self._traverse_and_print(node.right, prefix)
-                    </code-block>
-                </tab>
-            </tabs>
-            <p id="tst-with-r2">
-                <format color="BlueViolet">TST with
-                    <math>R^{2}
-                    </math>
-                    branching at root:
-                </format>
-                Hybrid of R-way trie and TST
-            </p>
-            <list type="bullet">
-                <li>
-                    <p>Do
-                        <math>R^{2}</math>
-                        -way branching at root.
-                    </p>
-                </li>
-                <li>
-                    <p>Each of
-                        <math>R^{2}</math>
-                        root nodes points to a TST.
-                    </p>
-                </li>
-            </list>
-            <p>
-                <format color="BlueViolet">TST vs. Hashing</format>
-            </p>
-            <table style="header-row">
-                <tr>
-                    <td>TSTs</td>
-                    <td>Hashing</td>
-                </tr>
-                <tr>
-                    <td>Works only for strings (or digital keys)</td>
-                    <td>Need to examine entire key</td>
-                </tr>
-                <tr>
-                    <td>Only examines just enough key characters</td>
-                    <td>Search hits and misses cost about the same</td>
-                </tr>
-                <tr>
-                    <td>Search miss may involve only a few characters</td>
-                    <td>Performance relies on hash function</td>
-                </tr>
-                <tr>
-                    <td>Supports ordered symbol table operations (plus others!)</td>
-                    <td>Does not support ordered symbol table operations</td>
-                </tr>
-            </table>
-            <note>
-                <p>TSTs are: </p>
-                <list type="bullet">
-                    <li>
-                        <p>Faster than hashing (especially for search misses).</p>
-                    </li>
-                    <li>
-                        <p>More flexible than red-black BSTs.</p>
-                    </li>
-                </list>
-            </note>
-            <table style="none">
-                <tr>
-                    <td rowspan="2">Implementation</td>
-                    <td colspan="4">Character Accesses (typical case)</td>
-                </tr>
-                <tr>
-                    <td>Search Hit</td>
-                    <td>Search Miss</td>
-                    <td>Insert</td>
-                    <td>Space (references)</td>
-                </tr>
-                <tr>
-                    <td><a href="Data-Structures-and-Algorithms-2.topic" anchor
-                            ="red-black-bsts" summary="Red-Black BSTs">Red-Black BST</a></td>
-                    <td>
-                        <math>L+c \lg^{2} N</math>
-                    </td>
-                    <td>
-                        <math>c \lg^{2} N</math>
-                    </td>
-                    <td>
-                        <math>c \lg^{2} N</math>
-                    </td>
-                    <td>
-                        <math>4N</math>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a href="Data-Structures-and-Algorithms-2.topic" anchor
-                            ="linear-probing" summary="Linear Probing">Hashing (linear
-                        probing)</a></td>
-                    <td>
-                        <math>L</math>
-                    </td>
-                    <td>
-                        <math>L</math>
-                    </td>
-                    <td>
-                        <math>L</math>
-                    </td>
-                    <td>
-                        <math>4N</math>
-                        to
-                        <math>16N</math>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a anchor="rway" summary="R-Way Tries">R-Way Trie</a></td>
-                    <td>
-                        <math>L</math>
-                    </td>
-                    <td>
-                        <math>\log_{R} N</math>
-                    </td>
-                    <td>
-                        <math>L</math>
-                    </td>
-                    <td>
-                        <math>(R+1)N</math>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a anchor="tst" summary="TST">TST</a></td>
-                    <td>
-                        <math>L+\ln N</math>
-                    </td>
-                    <td>
-                        <math>\ln N</math>
-                    </td>
-                    <td>
-                        <math>L+\ln N</math>
-                    </td>
-                    <td>
-                        <math>4N</math>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a anchor="tst-with-r2" summary="TST with R^2">TST with R^2
-                    </a></td>
-                    <td>
-                        <math>L+\ln N</math>
-                    </td>
-                    <td>
-                        <math>\ln N</math>
-                    </td>
-                    <td>
-                        <math>L+\ln N</math>
-                    </td>
-                    <td>
-                        <math>4N + R^{2}</math>
-                    </td>
-                </tr>
-            </table>
         </chapter>
     </chapter>
 
