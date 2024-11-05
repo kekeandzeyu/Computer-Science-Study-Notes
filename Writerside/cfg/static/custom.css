@@ -1,17 +1,20 @@
 @font-face {
-    font-family: 'Google Sans';
+    font-family: 'SF Pro Text';
     font-style: normal;
-    font-weight: 400;
-    src: url(../static/GoogleSans-Medium.ttf) format('truetype'),
-         url(../static/GoogleSans-Medium.woff) format('woff'),
-         url(../static/GoogleSans-Medium.woff2) format('woff2'),
-         url(../static/GoogleSans-Medium.eot) format('embedded-opentype'),
-         url(../static/GoogleSans-Medium.svg#GoogleSans-Medium) format('svg');
+    font-weight: 500;
+    src: url(../static/SF-Pro-Text-Medium.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 500;
+    src: url(../static/SF-Pro-Display-Medium.otf) format('opentype');
 }
 
 :root {
-    --rs-font-family-ui: "Google Sans";
-    --rs-font-family-headers: "Google Sans";
+    --rs-font-family-ui: "SF Pro Text";
+    --rs-font-family-headers: "SF Pro Display";
 }
 
 td, th {
