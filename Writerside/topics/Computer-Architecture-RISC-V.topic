@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="RISC-V" id="Computer-Architecture-RISC-V">
+
+    <show-structure for="chapter" depth="3"/>
+    <title>
+        RISC-Ⅴ Architecture
+    </title>
+    <chapter title="6 Introduction to Assembly Language" id="6-introduction-to-assembly-language-riscv">
+        <chapter title="6.1 Assembly Language" id="6-1-assembly-language-riscv">
+            <p><format color="DarkOrange">Assembly (also known as Assembly language, ASM):</format>
+                A low-level programming language where the program instructions match a particular architecture's operations.</p>
+            <p><format color="DarkOrange">Architecture:</format> (also ISA: instruction set architecture) The
+                parts of a processor design that one needs to understand for writing assembly/machine code.</p>
+            <p><format color="BlueViolet">Properties:</format></p>
+            <list type="bullet">
+                <li>
+                    <p>Splits a program into many small instructions that each do one
+                        single part of the process.</p>
+                </li>
+                <li>
+                    <p>Each architecture will have a different set of operations that it
+                        supports (although there are similarities).</p>
+                </li>
+                <li>
+                    <p>Assembly is not <format style="italic">portable</format> to other architectures.</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Complex/Reduced Instruction Set
+                Computing</format></p>
+            <list type="alpha-lower">
+                <li>
+                    <p>Early trend - add more and more instructions to do elaborate
+                        operations</p>
+                    <p>
+                        <format color="Fuchsia">Complex Instruction Set Computing (CISC)
+                        </format>
+                    </p>
+                    <list type="bullet">
+                        <li>
+                            <p>Difficult to learn and comprehend language</p>
+                        </li>
+                        <li>
+                            <p>Less work for the compiler</p>
+                        </li>
+                        <li>
+                            <p>Complicated hardware runs more slowly</p>
+                        </li>
+                    </list>
+                </li>
+                <li>
+                    <p>Opposite philosophy later began to dominate</p>
+                    <p>
+                        <format color="Fuchsia">Reduced Instruction Set Computing (RISC)
+                        </format>
+                    </p>
+                    <list type="bullet">
+                        <li>
+                            <p>Simple (and smaller) instruction set makes it easier to build
+                                fast hardware.</p>
+                        </li>
+                        <li>
+                            <p>Let software do the complicated operations by composing simpler
+                                ones.</p>
+                        </li>
+                    </list>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Code:</format></p>
+            <p>op dst, src1, src2</p>
+            <list type="bullet">
+                <li>
+                    <p><code>op</code>: operation name ("operator")</p>
+                </li>
+                <li>
+                    <p><code>dst</code>: register getting result ("destination")</p>
+                </li>
+                <li>
+                    <p><code>src1</code>: first register for operation ("source 1")</p>
+                </li>
+                <li>
+                    <p><code>src2</code>: second register for operation ("source 2")</p>
+                </li>
+            </list>
+        </chapter>
+        <chapter title="6.2 Registers" id="6-2-registers-riscv">
+            <p>Assembly uses registers to store values. Registers are: </p>
+            <list type="bullet">
+                <li>
+                    <p>Small memories of a fixed size.</p>
+                </li>
+                <li>
+                    <p>Can be read or written.</p>
+                </li>
+                <li>
+                    <p>Limited in number.</p>
+                </li>
+                <li>
+                    <p>Very fast and low power to access.</p>
+                </li>
+            </list>
+            <table style="both">
+                <tr>
+                    <td>Registers</td>
+                    <td>Memory</td>
+                </tr>
+                <tr>
+                    <td>Speed</td>
+                    <td>Fast</td>
+                    <td>Slow</td>
+                </tr>
+                <tr>
+                    <td>Size</td>
+                    <td><p>Small</p>
+                        <p>e.g., 32 registers * 32 bit = 128 bytes</p></td>
+                    <td><p>Big</p>
+                        <p>4-32 GB</p></td>
+                </tr>
+                <tr>
+                    <td>Connection</td>
+                    <td colspan="2">
+                        <p>More variables than registers?</p>
+                        <p>Keep most frequently used in registers and move the rest to
+                            memory</p>
+                    </td>
+                </tr>
+            </table>
+            <img src="../images_architecture/a6-2-1.png" alt="Registers"/>
+            <warning>
+                <p>Some important notes about registers: </p>
+                <list type="bullet">
+                    <li>
+                        <p>Each ISA has a predetermined number of registers, registers are
+                            built in with hardware.</p>
+                    </li>
+                    <li>
+                        <p>Register denoted by 'x' can be referenced by number (x0 - x31) or
+                            by name (s0 - s11, t0 - t6).</p>
+                        <list type="bullet">
+                            <li>
+                                <p><format color="Fuchsia">Safe registers:</format> Registers that hold programmer variables</p>
+                                <list type="bullet">
+                                    <li>
+                                        <p>s0 - s1 &lt;=&gt; x8 - x9</p>
+                                    </li>
+                                    <li>
+                                        <p>s2 - s1 &lt;=&gt; x8 - x9</p>
+                                    </li>
+                                </list>
+                            </li>
+                            <li>
+                                <p>
+                                    <format color="Fuchsia">Temporary registers:</format>
+                                    Registers that hold temporary variables
+                                </p>
+                                <list type="bullet">
+                                    <li>
+                                        <p>t0 - t2 &lt;=&gt; x5 - x7</p>
+                                    </li>
+                                    <li>
+                                        <p>t3 - t6 &lt;=&gt; x28 - x31</p>
+                                    </li>
+                                </list>
+                            </li>
+                            <li>
+                                <p>Other registers have special functions!</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p>Registers have no type!</p>
+                    </li>
+                    <li>
+                        <p>Register zero (x0 or zero) always has the value 0 and cannot be
+                            changed! Any instruction writing to x0 has no effect!</p>
+                    </li>
+                    <li>
+                        <p>In high-level languages, number of variables limited only by
+                            available memory.</p>
+                    </li>
+                </list>
+            </warning>
+        </chapter>
+        <chapter id="6-3-risc-instructions-riscv">
+            <title>
+                6.3 RISC-Ⅴ Instructions
+            </title>
+            <p>In high-level languages, variable types determine operation.</p>
+            <p>In assembly, operation determines type, i.e., how register contents
+                are treated.</p>
+            <p><format color="BlueViolet">Operations</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Transfer data between memory and register</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p>Load data from memory into register</p>
+                        </li>
+                        <li>
+                            <p>Store register data into memory</p>
+                        </li>
+                    </list>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Perform arithmetic function on register or memory data</format></p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Transfer control</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p>Unconditional jumps to/from procedures</p>
+                        </li>
+                        <li>
+                            <p>Conditional branches</p>
+                        </li>
+                        <li>
+                            <p>Indirect branches</p>
+                        </li>
+                    </list>
+                </li>
+            </list>
+            <chapter title="6.3.1 Basic Arithmetic Instructions" id="6-3-1-basic-arithmetic-instructions">
+                <note>
+                    <p>Assume here that the variables a, b and c are assigned to
+                        registers s1, s2 and s3, respectively.</p>
+                </note>
+                <p>
+                    <format color="BlueViolet">Types:</format>
+                </p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Integer Addition</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p>C: a = b + c;</p>
+                            </li>
+                            <li>
+                                <p>RISC-Ⅴ: add s1, s2, s3</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Integer Subtraction</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p>C: a = b - c;</p>
+                            </li>
+                            <li>
+                                <p>RISC-Ⅴ: sub s1, s2, s3</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+                <note>
+                    <p><format color="Fuchsia">add:</format> Perform addition</p>
+                    <p><format color="Fuchsia">addw:</format> Addition with words (32 bits)</p>
+                </note>
+            </chapter>
+            <chapter title="6.3.2 Immediate Instructions" id="6-3-2-immediate-instructions">
+                <p><format color="DarkOrange">Immediates:</format> Numerical constants.</p>
+                <p><format color="BlueViolet">Syntax:</format> opi dst, src, imm</p>
+                <list type="bullet">
+                    <li>
+                        <p>Operation names end with "i", replace <math>2 ^ {\text{nd}}</math>
+                            source register with an immeidate.</p>
+                    </li>
+                    <li>
+                        <p>Immediates can up to 12-bits in size.</p>
+                    </li>
+                    <li>
+                        <p>Interpreted as sign-extended two's complement.</p>
+                    </li>
+                    <li>
+                        <p>RISC-Ⅴ hardwires the register zero (x0) to value 0.</p>
+                        <p>Example: RISC-Ⅴ: add x3 x4 0</p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f = g</p>
+                    </li>
+                </list>
+                <warning>
+                    <p>No <code>subi</code> instruction, since RISC-Ⅴ is all about reducing
+                        # of instructions.</p>
+                </warning>
+            </chapter>
+            <chapter title="6.3.3 Data Transfer Instructions" id="6-3-3-data-transfer-instructions">
+                <p>Specialized
+                    <format color="OrangeRed">data transfer instructions
+                    </format>
+                    move data between registers and memory.
+                </p>
+                <list type="bullet">
+                    <li>
+                        <p>
+                            <format color="Fuchsia">Store:</format>
+                            register TO memory
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <format color="Fuchsia">Load:</format>
+                            register FROM memory
+                        </p>
+                    </li>
+                </list>
+                <p>
+                    <format color="BlueViolet">Syntax:</format>
+                    memop reg, off (bAbbr)
+                </p>
+                <list type="bullet">
+                    <li>
+                        <p><code>memop</code>: operation name ("operator")</p>
+                    </li>
+                    <li>
+                        <p><code>reg</code>: register for operation source or destination.</p>
+                    </li>
+                    <li>
+                        <p><code>bAbbr</code>: register with pointer to memory ("base
+                            address")</p>
+                    </li>
+                    <li>
+                        <p><code>off</code>: Address offset (immediate) in bytes ("offset")</p>
+                    </li>
+                </list>
+                <p>
+                    <format color="BlueViolet">Types:</format>
+                </p>
+                <list type="bullet">
+                    <li>
+                        <p>
+                            <format color="Fuchsia">Load Word:</format>
+                            Takes data at
+                            address <code>bAbbr+off</code> FROM memory and places it into <code>
+                            reg</code>.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <format color="Fuchsia">Store Word:</format>
+                            Takes data in
+                            <code>reg</code> and stores it TO memory at <code>bAbbr+off</code>.
+                        </p>
+                    </li>
+                </list>
+                <p>
+                    <format color="BlueViolet">Example:</format>
+                    address of int array
+                    [] -> s3, value of b -> s2
+                </p>
+                <list type="bullet">
+                    <li>
+                        <p>C: array[10] = array[3] + b;</p>
+                    </li>
+                    <li>
+                        <p>RISC-Ⅴ</p>
+                        <p>lw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t0,
+                            <format color=
+                                            "OrangeRed">l2
+                            </format>
+                            (s3)&nbsp;&nbsp;&nbsp;&nbsp;# t0 = A[
+                            <format color="OrangeRed">3
+                            </format>
+                            ]
+                        </p>
+                        <p>add&nbsp;&nbsp;&nbsp;&nbsp;t0, s2, t0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# t0 = A[3] + b</p>
+                        <p>sw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t0,
+                            <format color="OrangeRed">40</format>
+                            (s3)&nbsp;&nbsp;# A[
+                            <format
+                                    color="OrangeRed">10
+                            </format>
+                            ] = A[3] + b
+                        </p>
+                    </li>
+                </list>
+            </chapter>
+            <chapter title="6.3.4 Control Flow Instructions" id="6-3-4-control-flow-instructions">
+                <p><format color="DarkOrange">Labels in RISC-Ⅴ:</format> Defined by a text and followed by a colon (e.g., main:) and refers to the
+                    instructions that follows; generate control flow by jumping to labels.</p>
+                <p><format color="BlueViolet">Types:</format></p>
+                <list type="alpha-lower">
+                    <li>
+                        <p>
+                            <format color="Fuchsia">Branch If Equal</format>
+                            (beq)
+                        </p>
+                        <list type="bullet">
+                            <li>
+                                <p>
+                                    <format color="LawnGreen">Syntax:</format>
+                                    beq reg1,
+                                    reg2, label
+                                </p>
+                            </li>
+                            <li>
+                                <p>If value in reg1 == value in reg2, go to label.</p>
+                            </li>
+                            <li>
+                                <p>Otherwise go to next instruction.</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p>
+                            <format color="Fuchsia">Branch If Not Equal</format>
+                            (bne)
+                        </p>
+                        <list type="bullet">
+                            <li>
+                                <p>
+                                    <format color="LawnGreen">Syntax:</format>
+                                    bne reg1,
+                                    reg2, label
+                                </p>
+                            </li>
+                            <li>
+                                <p>If value in reg1 &#8800; value in reg2, go to label.</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p>
+                            <format color="Fuchsia">Jump</format>
+                            (j)
+                        </p>
+                        <list type="bullet">
+                            <li>
+                                <p>
+                                    <format color="LawnGreen">Syntax:</format>
+                                    j label
+                                </p>
+                            </li>
+                            <li>
+                                <p>Unconditional jump to label.</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p>
+                            <format color="Fuchsia">Branch Less Than</format>
+                            (blt)
+                        </p>
+                        <list type="bullet">
+                            <li>
+                                <p>
+                                    <format color="LawnGreen">Syntax:</format>
+                                    blt reg1, reg2,
+                                    label
+                                </p>
+                            </li>
+                            <li>
+                                <p>If value in reg1 &lt; value in reg2, go to label.</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p>
+                            <format color="Fuchsia">Branch Less Than or Equal</format>
+                            (ble)
+                        </p>
+                        <list type="bullet">
+                            <li>
+                                <p>
+                                    <format color="LawnGreen">Syntax:</format>
+                                    ble reg1, reg2,
+                                    label
+                                </p>
+                            </li>
+                            <li>
+                                <p>If value in reg1 &#8804; value in reg2, go to label.</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+                <compare first-title="C" second-title="RISCV (beq)">
+                    <code-block lang="c">
+                        if (i == j) {
+                        a = b; /* then */
+                        } else {
+                        a = -b; /* else */
+                        }
+                    </code-block>
+                    <code-block lang="python">
+                        # i -> s0, j -> s1
+                        # a -> s2, b -> s3
+                        beq s0, s1, then
+                        else:
+                        sub s2, x0, s3
+                        j end
+                        then:
+                        add s2, s3, x0
+                        end:
+                    </code-block>
+                </compare>
+                <p>
+                    <format color="BlueViolet">Loops in RISC-Ⅴ:</format>
+                </p>
+                <list type="bullet">
+                    <li>
+                        <p>There are three types of loops in C: while, do...while, and
+                            for.</p>
+                    </li>
+                    <li>
+                        <p>These can be created with branch instructions as well.</p>
+                    </li>
+                    <li>
+                        <p>The key to decision making is the branch statement.</p>
+                    </li>
+                </list>
+                <p>
+                    <format color="BlueViolet">Program Counter:</format>
+                </p>
+                <list type="bullet">
+                    <li>
+                        <p>Program Counter (PC): A special register that contains the
+                            current address of the code that is being executed.</p>
+                    </li>
+                    <li>
+                        <p>Branches and Jumps change the flow of execution by modifying
+                            the PC.</p>
+                    </li>
+                    <li>
+                        <p>Instructions are stored as data in memory (code section) and
+                            have addresses! Labels get converted to instruction addresses.</p>
+                    </li>
+                    <li>
+                        <p>The PC tracks where in memory the current instruction is.</p>
+                    </li>
+                </list>
+            </chapter>
+            <chapter title="6.3.5 Shifting Instructions" id="6-3-5-shifting-instructions">
+                <p><format color="BlueViolet">Shifting Operations</format></p>
+                <table style="header-row">
+                    <tr>
+                        <td>Instruction Name</td>
+                        <td>RISC-Ⅴ</td>
+                    </tr>
+                    <tr>
+                        <td>Shift Left Logical</td>
+                        <td>sll s1, s2, s3</td>
+                    </tr>
+                    <tr>
+                        <td>Shift Left Logical Imm</td>
+                        <td>sll1 s1, s2, imm</td>
+                    </tr>
+                    <tr>
+                        <td>Shift Right Logical</td>
+                        <td>srl s1, s2, s3</td>
+                    </tr>
+                    <tr>
+                        <td>Shift Right Logical Imm</td>
+                        <td>srli s1, s2, imm</td>
+                    </tr>
+                    <tr>
+                        <td>Shift Right Arithmetic</td>
+                        <td>sra s1, s2, s3</td>
+                    </tr>
+                    <tr>
+                        <td>Shift Right Arithmetic Imm</td>
+                        <td>srai s1, s2, imm</td>
+                    </tr>
+                </table>
+                <note>
+                    <p>For a 32-bit RISC-Ⅴ system,</p>
+                    <list type="bullet">
+                        <li>
+                            <p>When using immediate, only values 0-31 are practical.</p>
+                        </li>
+                        <li>
+                            <p>When using variable, only lowest 5 bits are used.</p>
+                        </li>
+                    </list>
+                </note>
+                <code-block lang="plain text">
+                    addi t0, x0, -256 # t0=0xFFFFFF00
+                    slli s0, t0, 3    # s0=0xFFFFF800
+                    srli s1, t0, 8    # s1=0x00FFFFFF
+                    srai s2, t0, 8    # s2=0xFFFFFFFF
+
+                    addi t1, x0, -22  # t1=0xFFFFFFEA
+                    sll s3, t0, t1    # s3=0xFFFC0000
+                </code-block>
+            </chapter>
+        </chapter>
+        <chapter title="6.4 C, Assembly &amp; Machine Code" id="6-4-c-assembly-machine-code-riscv">
+            <p>Compile with the following code (debugging-friendly):</p>
+            <code-block lang="plain text">
+                gcc –Og p1.c -o p
+            </code-block>
+            <img src="../images_architecture/a6-4-1.png" alt="C, Assembly &amp; Machine Code"/>
+            <p>Use the following command to generate the assembly code:</p>
+            <code-block lang="plain text">
+                gcc –Og –S p1.c
+            </code-block>
+            <p>Use the following command to disassembly the machine code:</p>
+            <code-block lang="plain text">
+                objdump –d p1
+            </code-block>
+        </chapter>
+    </chapter>
+</topic>

@@ -8,7 +8,10 @@
 
     <toc-element topic="Cover.md"/>
     <toc-element topic="C-Programming.topic"/>
-    <toc-element topic="Computer-Architecture.topic"/>
+    <toc-element topic="Computer-Architecture.topic">
+        <toc-element topic="Computer-Architecture-RISC-V.topic"/>
+        <toc-element topic="Computer-Architecture-x86-64.topic"/>
+    </toc-element>
     <toc-element topic="Data-Structures-and-Algorithms.topic">
         <toc-element topic="Data-Structures-and-Algorithms-1.topic"/>
         <toc-element topic="Data-Structures-and-Algorithms-2.topic"/>

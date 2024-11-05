@@ -1,0 +1,1064 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="x86-64" id="Computer-Architecture-x86-64">
+
+    <show-structure for="chapter" depth="3"/>
+    <title>
+        x86-64 Architecture
+    </title>
+    <chapter title="6 Introduction to Assembly Language" id="6-introduction-to-assembly-language-x86">
+        <chapter title="6.1 Assembly Language" id="6-1-assembly-language-x86">
+            <p><format color="DarkOrange">Assembly (also known as Assembly language, ASM):</format>
+                A low-level programming language where the program instructions match a particular architecture's operations.</p>
+            <p><format color="DarkOrange">Architecture:</format> (also ISA: instruction set architecture) The
+                parts of a processor design that one needs to understand
+                for writing assembly/machine code.</p>
+            <p><format color="BlueViolet">Properties:</format></p>
+            <list type="bullet">
+                <li>
+                    <p>Splits a program into many small instructions that each do one
+                        single part of the process.</p>
+                </li>
+                <li>
+                    <p>Each architecture will have a different set of operations that it
+                        supports (although there are similarities).</p>
+                </li>
+                <li>
+                    <p>Assembly is not <format style="italic">portable</format> to other architectures.</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Complex/Reduced Instruction Set
+                Computing</format></p>
+            <list type="alpha-lower">
+                <li>
+                    <p>Early trend - add more and more instructions to do elaborate
+                        operations</p>
+                    <p>
+                        <format color="Fuchsia">Complex Instruction Set Computing (CISC)
+                        </format>
+                    </p>
+                    <list type="bullet">
+                        <li>
+                            <p>Difficult to learn and comprehend language</p>
+                        </li>
+                        <li>
+                            <p>Less work for the compiler</p>
+                        </li>
+                        <li>
+                            <p>Complicated hardware runs more slowly</p>
+                        </li>
+                    </list>
+                </li>
+                <li>
+                    <p>Opposite philosophy later began to dominate</p>
+                    <p>
+                        <format color="Fuchsia">Reduced Instruction Set Computing (RISC)
+                        </format>
+                    </p>
+                    <list type="bullet">
+                        <li>
+                            <p>Simple (and smaller) instruction set makes it easier to build
+                                fast hardware.</p>
+                        </li>
+                        <li>
+                            <p>Let software do the complicated operations by composing simpler
+                                ones.</p>
+                        </li>
+                    </list>
+                </li>
+            </list>
+        </chapter>
+        <chapter title="6.2 Registers" id="6-2-registers-x86">
+            <p>Assembly uses registers to store values. Registers are: </p>
+            <list type="bullet">
+                <li>
+                    <p>Small memories of a fixed size.</p>
+                </li>
+                <li>
+                    <p>Can be read or written.</p>
+                </li>
+                <li>
+                    <p>Limited in number.</p>
+                </li>
+                <li>
+                    <p>Very fast and low power to access.</p>
+                </li>
+            </list>
+            <table style="both">
+                <tr>
+                    <td>Registers</td>
+                    <td>Memory</td>
+                </tr>
+                <tr>
+                    <td>Speed</td>
+                    <td>Fast</td>
+                    <td>Slow</td>
+                </tr>
+                <tr>
+                    <td>Size</td>
+                    <td><p>Small</p>
+                        <p>e.g., 32 registers * 32 bit = 128 bytes</p></td>
+                    <td><p>Big</p>
+                        <p>4-32 GB</p></td>
+                </tr>
+                <tr>
+                    <td>Connection</td>
+                    <td colspan="2">
+                        <p>More variables than registers?</p>
+                        <p>Keep most frequently used in registers and move the rest to
+                            memory</p>
+                    </td>
+                </tr>
+            </table>
+            <img src="../images_architecture/a6-2-1.png" alt="Registers"/>
+            <p><format color="BlueViolet">x86-84 Registers</format></p>
+            <table style="none">
+                <tr>
+                    <td>%rax&nbsp;&nbsp;%eax</td>
+                    <td>%r8&nbsp;&nbsp;%r8d</td>
+                </tr>
+                <tr>
+                    <td>%rbx&nbsp;&nbsp;%ebx</td>
+                    <td>%r9&nbsp;&nbsp;%r9d</td>
+                </tr>
+                <tr>
+                    <td>%rcx&nbsp;&nbsp;%ecx</td>
+                    <td>%r10&nbsp;&nbsp;%r10d</td>
+                </tr>
+                <tr>
+                    <td>%rdx&nbsp;&nbsp;%edx</td>
+                    <td>%r11&nbsp;&nbsp;%r11d</td>
+                </tr>
+                <tr>
+                    <td>%rsi&nbsp;&nbsp;%esi</td>
+                    <td>%r12&nbsp;&nbsp;%r12d</td>
+                </tr>
+                <tr>
+                    <td>%rdi&nbsp;&nbsp;%edi</td>
+                    <td>%r13&nbsp;&nbsp;%r13d</td>
+                </tr>
+                <tr>
+                    <td>%rsp&nbsp;&nbsp;%esp</td>
+                    <td>%r14&nbsp;&nbsp;%r14d</td>
+                </tr>
+                <tr>
+                    <td>%rbp&nbsp;&nbsp;%ebp</td>
+                    <td>%r15&nbsp;&nbsp;%r15d</td>
+                </tr>
+            </table>
+            <note>
+                <p>Usages for the LHS:</p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">%rax:</format> 64 bits</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">%eax:</format> lower 32 bits of rax ( can also be used for storing smaller integers)</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">%ax:</format> lower 16 bits of eax</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">%al:</format> lower 8 bits of ax</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">%ah:</format> upper 8 bits of ax</p>
+                    </li>
+                </list>
+                <p>Usages for the RHS</p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">%r13:</format> 64 bits</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">%r13d (doubleword):</format> lower 32 bits of rax ( can also be used for storing smaller integers)</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">%r13w (word):</format> lower 16 bits of eax</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">%r13b (byte):</format> lower 8 bits of ax</p>
+                    </li>
+                </list>
+                <p>Stack pointer: %rsp (%esp), you cannot use it!</p>
+            </note>
+        </chapter>
+        <chapter title="6.3 x86-64 Instructions" id="6-3-instructions-x86">
+            <p>In high-level languages, variable types determine operation.</p>
+            <p>In assembly, operation determines type, i.e., how register contents
+                are treated.</p>
+            <p><format color="BlueViolet">Operations</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Transfer data between memory and register</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p>Load data from memory into register</p>
+                        </li>
+                        <li>
+                            <p>Store register data into memory</p>
+                        </li>
+                    </list>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Perform arithmetic function on register or memory data</format></p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Transfer control</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p>Unconditional jumps to/from procedures</p>
+                        </li>
+                        <li>
+                            <p>Conditional branches</p>
+                        </li>
+                        <li>
+                            <p>Indirect branches</p>
+                        </li>
+                    </list>
+                </li>
+            </list>
+            <chapter title="6.3.1 Moving Data Instructions" id="6-3-1-moving-data-instructions">
+                <p>movq source, dest</p>
+                <p><format color="BlueViolet">Operand Types</format></p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Immediate:</format> Constant integer data. Like C constants, but prefix with '$'.</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Memory:</format> : 8 consecutive bytes of memory at address given by register (for movq).</p>
+                        <p>This is corresponding to <code>movq</code>. The <code>mov</code> instruction without a
+                            suffix is size-dependent. <code>mov</code> defaults to 32-bit operations when the size isn't
+                            explicitly indicated.</p>
+                        <p>Recommend to use the explicit suffixes (movq, movl, movw, movb) whenever possible</p>
+                    </li>
+                </list>
+                <img src="../images_architecture/a6-2-2.png" alt="movq Operand Combinations"/>
+                <p><format color="BlueViolet">Memory Addressing Mode</format></p>
+                <list type="decimal">
+                    <li>
+                        <p>Normal (R) => pointer dereferencing in C</p>
+                        <code>movq (%rcx),%rax</code> equals:
+                        <code-block lang="c">
+                            rax = *rcx
+                        </code-block>
+                    </li>
+                    <li>
+                        <p>Displacement D(R) => accessing data at a fixed offset from a base address</p>
+                        <p><code>movq 8(%rbp), %rdx</code> equals:</p>
+                        <code-block lang="c">
+                            rdx = *(((char*)rbp) + 8)
+                        </code-block>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Complete Mode:</format> D(Rb,Ri,S)</p>
+                        <list type="bullet">
+                            <li>
+                                <p><format color="LawnGreen">D:</format> Constant "displacement" 1, 2, or 4 bytes</p>
+                            </li>
+                            <li>
+                                <p><format color="LawnGreen">Rb:</format> Base register: Any of 16 integer registers</p>
+                            </li>
+                            <li>
+                                <p><format color="LawnGreen">Ri:</format> Index register: Any, except for %rsp</p>
+                            </li>
+                            <li>
+                                <p><format color="LawnGreen">S:</format> Scale: 1, 2, 4, or 8</p>
+                            </li>
+                        </list>
+                        <p><format color="HotPink">Example:</format> <code>movl (&#37;rbx,&#37;rdi,4), %eax</code></p>
+                        <list type="decimal">
+                            <li>
+                                <p>Calculate the address: %rbx + (4 * %rdi) (e.g., base address + 4 * 5 = base address
+                                    + 20).</p>
+                            </li>
+                            <li>
+                                <p>Access the 32-bit value at that calculated address.</p>
+                            </li>
+                            <li>
+                                <p>Move the retrieved value into the %eax register.</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+            </chapter>
+            <chapter title="6.3.2 Address Computation Instructions" id="6-3-2-address-aomputation-instructions">
+                <p><code>leaq src, dst</code></p>
+                <code-block lang="plain text" ignore-vars="true">
+                    leaq (%rdi,%rdi,2), %rax ; Calculate the address of the element at index rdx in an array of integers pointed to by rsi (assuming 4 bytes per integer)
+                </code-block>
+                <p>It can also be used for arithmetic expressions.</p>
+                <code-block lang="plain text" ignore-vars="true">
+                    leaq (%rdi,%rdi,2), %rax  ; Calculate rax = rdi + (rdi * 2) = 3 * rdi
+                </code-block>
+            </chapter>
+            <chapter title="6.3.3 Arithmetic Instructions" id="6-3-3-arithmetic-instructions">
+                <p><format color="BlueViolet">Two Operand Instructions:</format></p>
+                <table style="header-row">
+                    <tr>
+                        <td>Format</td>
+                        <td>Computation</td>
+                    </tr>
+                    <tr>
+                        <td><code>addq src, dest</code></td>
+                        <td>dest = dest + src</td>
+                    </tr>
+                    <tr>
+                        <td><code>subq src, dest</code></td>
+                        <td>dest = dest - src</td>
+                    </tr>
+                    <tr>
+                        <td><code>imulq src, dest</code></td>
+                        <td>dest = dest * src</td>
+                    </tr>
+                    <tr>
+                        <td><code>salq src, dest</code></td>
+                        <td>dest = dest &lt;&lt; src</td>
+                    </tr>
+                    <tr>
+                        <td><code>sarq src, dest</code> (Arithmetic Shift)</td>
+                        <td>dest = dest &gt;&gt; src</td>
+                    </tr>
+                    <tr>
+                        <td><code>shrq src, dest</code> (Logical Shift)</td>
+                        <td>dest = dest &gt;&gt; src</td>
+                    </tr>
+                    <tr>
+                        <td><code>xorq src, dest</code></td>
+                        <td>dest = dest ^ src</td>
+                    </tr>
+                    <tr>
+                        <td><code>andq src, dest</code></td>
+                        <td>dest = dest &amp; src</td>
+                    </tr>
+                    <tr>
+                        <td><code>orq src, dest</code></td>
+                        <td>dest = dest | src</td>
+                    </tr>
+                </table>
+                <note>
+                    <p>Watch out for the argument order!</p>
+                    <p>Intel docs use "op dest, src"!</p>
+                </note>
+                <p><format color="BlueViolet">One Operand Instructions:</format></p>
+                <table style="header-row">
+                    <tr>
+                        <td>Format</td>
+                        <td>Computation</td>
+                    </tr>
+                    <tr>
+                        <td><code>incq dest</code></td>
+                        <td>dest = dest + 1</td>
+                    </tr>
+                    <tr>
+                        <td><code>decq src, dest</code></td>
+                        <td>dest = dest - 1</td>
+                    </tr>
+                    <tr>
+                        <td><code>negq src, dest</code></td>
+                        <td>dest = - dest</td>
+                    </tr>
+                    <tr>
+                        <td><code>notq dest</code></td>
+                        <td>dest = ~ dest</td>
+                    </tr>
+                    <tr>
+                        <td><code>sarq src, dest</code> (Arithmetic Shift)</td>
+                        <td>dest = dest &gt;&gt; src</td>
+                    </tr>
+                    <tr>
+                        <td><code>shrq src, dest</code> (Logical Shift)</td>
+                        <td>dest = dest &gt;&gt; src</td>
+                    </tr>
+                    <tr>
+                        <td><code>xorq src, dest</code></td>
+                        <td>dest = dest ^ src</td>
+                    </tr>
+                    <tr>
+                        <td><code>andq src, dest</code></td>
+                        <td>dest = dest &amp; src</td>
+                    </tr>
+                    <tr>
+                        <td><code>orq src, dest</code></td>
+                        <td>dest = dest | src</td>
+                    </tr>
+                </table>
+                <p><format color="HotPink">Example</format></p>
+                <code-block lang="c" collapsible="true">
+                    long arith(long x, long y, long z) {
+                    long t1 = x + y;
+                    long t2 = z + t1;
+                    long t3 = x + 4;
+                    long t4 = y * 48;
+                    long t5 = t3 + t4;
+                    long rval = t2 * t5;
+                    return rval;
+                    }
+                </code-block>
+                <code-block lang="plain text" collapsible="true" ignore-vars="true">
+                    0000000000001149 &lt;arith&gt;:
+                    1149:	f3 0f 1e fa          	endbr64
+                    114d:	55                   	push   %rbp
+                    114e:	48 89 e5             	mov    %rsp,%rbp
+                    1151:	48 89 7d c8          	mov    %rdi,-0x38(%rbp)   # Store x on the stack
+                    1155:	48 89 75 c0          	mov    %rsi,-0x40(%rbp)   # Store y on the stack
+                    1159:	48 89 55 b8          	mov    %rdx,-0x48(%rbp)   # Store z on the stack
+                    115d:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx  # Load x into rdx
+                    1161:	48 8b 45 c0          	mov    -0x40(%rbp),%rax  # Load y into rax
+                    1165:	48 01 d0             	add    %rdx,%rax         # t1 = x + y
+                    1168:	48 89 45 d0          	mov    %rax,-0x30(%rbp)   # Store t1 on the stack
+                    116c:	48 8b 55 b8          	mov    -0x48(%rbp),%rdx  # Load z into rdx
+                    1170:	48 8b 45 d0          	mov    -0x30(%rbp),%rax  # Load t1 into rax
+                    1174:	48 01 d0             	add    %rdx,%rax         # t2 = z + t1
+                    1177:	48 89 45 d8          	mov    %rax,-0x28(%rbp)   # Store t2 on the stack
+                    117b:	48 8b 45 c8          	mov    -0x38(%rbp),%rax  # Load x into rax
+                    117f:	48 83 c0 04          	add    $0x4,%rax         # t3 = x + 4
+                    1183:	48 89 45 e0          	mov    %rax,-0x20(%rbp)   # Store t3 on the stack
+                    1187:	48 8b 55 c0          	mov    -0x40(%rbp),%rdx  # Load y into rdx
+                    118b:	48 89 d0             	mov    %rdx,%rax         # Copy y into rax (for multiplication)
+                    118e:	48 01 c0             	add    %rax,%rax         # Multiply y by 2 (left shift)
+                    1191:	48 01 d0             	add    %rdx,%rax         # Add y (original value) so now its 3y
+                    1194:	48 c1 e0 04          	shl    $0x4,%rax         # Multiply by 16 (left shift 4) 3y*16 = 48y
+                    1198:	48 89 45 e8          	mov    %rax,-0x18(%rbp)   # Store t4 = 48 * y on the stack
+                    119c:	48 8b 55 e0          	mov    -0x20(%rbp),%rdx  # Load t3 into rdx
+                    11a0:	48 8b 45 e8          	mov    -0x18(%rbp),%rax  # Load t4 into rax
+                    11a4:	48 01 d0             	add    %rdx,%rax         # t5 = t3 + t4
+                    11a7:	48 89 45 f0          	mov    %rax,-0x10(%rbp)   # Store t5 on the stack
+                    11ab:	48 8b 45 d8          	mov    -0x28(%rbp),%rax  # Load t2 into rax
+                    11af:	48 0f af 45 f0       	imul   -0x10(%rbp),%rax  # rval = t2 * t5
+                    11b4:	48 89 45 f8          	mov    %rax,-0x8(%rbp)    # Store rval on the stack
+                    11b8:	48 8b 45 f8          	mov    -0x8(%rbp),%rax   # Move rval into rax (return value)
+                    11bc:	5d                   	pop    %rbp              # Restore the caller's base pointer
+                    11bd:	c3                   	ret                      # Return from the function
+                </code-block>
+            </chapter>
+        </chapter>
+        <chapter title="6.4 C, Assembly &amp; Machine Code" id="6-4-c-assembly-machine-code-x86">
+            <p>Compile with the following code (debugging-friendly):</p>
+            <code-block lang="plain text">
+                gcc –Og p1.c -o p
+            </code-block>
+            <img src="../images_architecture/a6-4-1.png" alt="C, Assembly &amp; Machine Code"/>
+            <p>Use the following command to generate the assembly code:</p>
+            <code-block lang="plain text">
+                gcc –Og –S p1.c
+            </code-block>
+            <p>Use the following command to disassembly the machine code:</p>
+            <code-block lang="plain text">
+                objdump –d p1
+            </code-block>
+        </chapter>
+    </chapter>
+    <chapter title="7 Control Flow Instructions" id="7-control-flow-instructions-x86">
+        <chapter title="7.1 Conditional Codes" id="7-1-conditional-codes-x86">
+            <p><format color="BlueViolet">Processor State (Partial)</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Temporary Data:</format> %rax, ...</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Location of runtime stack:</format> %rsp, ...</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Location of current code control point:</format> %rip, ...</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Status of recent tests:</format> CF, ZF, SF, OF, ... =&gt; Conditional Codes!</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Conditional Codes</format></p>
+            <list type="bullet">
+                <li>
+                    <p>Single bit registers, GDB prints these as one "rflags" register or "eflags"(more
+                        commonly used, lower 32 bits).</p>
+                </li>
+                <li>
+                    <p>Implicitly set (as side effect) of arithmetic operations.</p>
+                    <list type="bullet">
+                        <li>
+                            <p><format color="Fuchsia">CF (Carry Flag):</format> Overflowing or underflowing
+                                in an unsigned range.</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">ZF (Zero Flag):</format> The result of an operation
+                                is zero</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">SF (Sign Flag):</format> The result of an operation,
+                                interpreted as a signed two's complement number, is negative (MSB is 1).</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">OF (Overflow FLag):</format> Overflow in signed two's
+                                complement.</p>
+                        </li>
+                    </list>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Instructions</format></p>
+            <list type="decimal">
+
+                <li>
+                    <p><code>cmp a, b</code></p>
+                    <p>Computes <math>b-a</math>, set conditional codes based on result, <format
+                            color="OrangeRed"> but does not change b!</format></p>
+                    <p>Used for <code>if (a &lt; b)</code></p>
+                </li>
+
+                <li>
+                    <p><code>test a, b</code></p>
+                    <p>Computes <math>b&amp;a</math>, set conditional codes based on the result, <format
+                            color="OrangeRed"> but does not change b!</format></p>
+                    <p><format color="Fuchsia">Most common use:</format> <code>test %rx, %rx</code> to
+                        compare %rx to zero</p>
+                    <p><format color="Fuchsia">Second most common use:</format> <code>test %rX, %rY</code>
+                        to test if any of the 1-bits in <code>%rY</code> are also 1 in <code>%rX</code>.</p>
+                </li>
+
+            </list>
+        </chapter>
+        <chapter title="7.2 Conditional Branches" id="7-2-conditional-Branches-x86">
+            <p><format color="BlueViolet">Jumping</format></p>
+            <table style="header-row">
+                <tr>
+                    <td><code>jX</code></td>
+                    <td>Condition</td>
+                    <td>Description</td>
+                </tr>
+                <tr>
+                    <td><code>jmp</code></td>
+                    <td>1</td>
+                    <td>Unconditional</td>
+                </tr>
+                <tr>
+                    <td><code>je</code></td>
+                    <td><code>ZF</code></td>
+                    <td>Equal/Zero</td>
+                </tr>
+                <tr>
+                    <td><code>jne</code></td>
+                    <td><code>~ZF</code></td>
+                    <td>Not Equal/Not Zero</td>
+                </tr>
+                <tr>
+                    <td><code>js</code></td>
+                    <td><code>SF</code></td>
+                    <td>Negative</td>
+                </tr>
+                <tr>
+                    <td><code>jns</code></td>
+                    <td><code>~SF</code></td>
+                    <td>Non-Negative</td>
+                </tr>
+                <tr>
+                    <td><code>jq</code></td>
+                    <td><code>~(SF^OF)&amp;~ZF</code></td>
+                    <td>Greater (Signed)</td>
+                </tr>
+                <tr>
+                    <td><code>jqe</code></td>
+                    <td><code>~(SF^OF)</code></td>
+                    <td>Greater or Equal (Signed)</td>
+                </tr>
+                <tr>
+                    <td><code>jl</code></td>
+                    <td><code>(SF^OF)</code></td>
+                    <td>Less (Signed)</td>
+                </tr>
+                <tr>
+                    <td><code>jle</code></td>
+                    <td><code>(SF^OF)|ZF</code></td>
+                    <td>Less or Equal (Signed)</td>
+                </tr>
+                <tr>
+                    <td><code>ja</code></td>
+                    <td><code>~CF&amp;~ZF</code></td>
+                    <td>Above (unsigned)</td>
+                </tr>
+                <tr>
+                    <td><code>jb</code></td>
+                    <td><code>CF</code></td>
+                    <td>Below (unsigned)</td>
+                </tr>
+            </table>
+            <p><format color="BlueViolet"><code>SetX</code> Instructions:</format> Set low-order byte of destination
+                to 0 or 1 based on combinations of condition codes. <format color="OrangeRed">Does not alter
+                    remaining 7 bytes!</format></p>
+            <table style="header-row">
+                <tr>
+                    <td><code>SetX</code></td>
+                    <td>Condition</td>
+                    <td>Description</td>
+                </tr>
+                <tr>
+                    <td><code>sete</code></td>
+                    <td><code>ZF</code></td>
+                    <td>Equal/Zero</td>
+                </tr>
+                <tr>
+                    <td><code>setne</code></td>
+                    <td><code>~ZF</code></td>
+                    <td>Not Equal/Not Zero</td>
+                </tr>
+                <tr>
+                    <td><code>sets</code></td>
+                    <td><code>SF</code></td>
+                    <td>Negative</td>
+                </tr>
+                <tr>
+                    <td><code>setns</code></td>
+                    <td><code>~SF</code></td>
+                    <td>Non-Negative</td>
+                </tr>
+                <tr>
+                    <td><code>setg</code></td>
+                    <td><code>~(SF^OF)&amp;~ZF</code></td>
+                    <td>Greater (Signed)</td>
+                </tr>
+                <tr>
+                    <td><code>setge</code></td>
+                    <td><code>~(SF^OF)</code></td>
+                    <td>Greater or Equal (Signed)</td>
+                </tr>
+                <tr>
+                    <td><code>setl</code></td>
+                    <td><code>(SF^OF)</code></td>
+                    <td>Less (Signed)</td>
+                </tr>
+                <tr>
+                    <td><code>setle</code></td>
+                    <td><code>(SF^OF)|ZF</code></td>
+                    <td>Less or Equal (Signed)</td>
+                </tr>
+                <tr>
+                    <td><code>seta</code></td>
+                    <td><code>~CF&amp;~ZF</code></td>
+                    <td>Above (unsigned)</td>
+                </tr>
+                <tr>
+                    <td><code>setb</code></td>
+                    <td><code>CF</code></td>
+                    <td>Below (unsigned)</td>
+                </tr>
+            </table>
+            <note>
+                <p>Typically use <code>movzbl</code> to finish job</p>
+                <p><code>movzbl</code> takes this byte and zero-extends it into a larger 32-bit register or memory
+                    location. Zero-extending means it copies the byte into the lower 8 bits of the destination and
+                    fills the remaining higher bits with zeros.</p>
+            </note>
+            <p><format color="BlueViolet">Normal version vs. goto version</format></p>
+            <compare first-title="Normal version" second-title="goto version">
+                <code-block lang="c">
+                    #include &lt;stdio.h&gt;
+
+                    int main() {
+                    int x = 5;
+
+                    if (x > 3) {
+                    printf("x is greater than 3\n");
+                    } else {
+                    printf("x is less than or equal to 3\n");
+                    }
+
+                    return 0;
+                    }
+                </code-block>
+                <code-block lang="c">
+                    #include &lt;stdio.h&gt;
+
+                    int main() {
+                    int x = 5;
+
+                    if (x > 3) {
+                    goto greater_than_three;
+                    } else {
+                    goto less_than_or_equal_to_three;
+                    }
+
+                    greater_than_three:
+                    printf("x is greater than 3\n");
+                    goto end; // Jump to the end to avoid the other block
+
+                    less_than_or_equal_to_three:
+                    printf("x is less than or equal to 3\n");
+
+                    end:
+                    return 0;
+                    }
+                </code-block>
+            </compare>
+            <p><format color="IndianRed">Example</format></p>
+            <code-block lang="plain text" ignore-vars="true" collapsible="true">
+                0000000000000000 &lt;main&gt;:
+                #include &lt;stdio.h&gt;
+
+                int main() {
+                0:	f3 0f 1e fa          	endbr64
+                4:	55                   	push   %rbp
+                5:	48 89 e5             	mov    %rsp,%rbp
+                8:	48 83 ec 10          	sub    $0x10,%rsp
+                int y = 15;
+                c:	c7 45 fc 0f 00 00 00 	movl   $0xf,-0x4(%rbp)
+
+                if (y &lt; 10) {
+                13:	83 7d fc 09          	cmpl   $0x9,-0x4(%rbp)
+                17:	7f 05                	jg     1e &lt;main+0x1e&gt;
+                y = y * 2;
+                19:	d1 65 fc             	shll   $1,-0x4(%rbp)
+                1c:	eb 04                	jmp    22 &lt;main+0x22&gt;
+                } else {
+                y = y + 1;
+                1e:	83 45 fc 01          	addl   $0x1,-0x4(%rbp)
+                }
+
+                printf("y = %d\n", y);
+                22:	8b 45 fc             	mov    -0x4(%rbp),%eax
+                25:	89 c6                	mov    %eax,%esi
+                27:	48 8d 05 00 00 00 00 	lea    0x0(%rip),%rax        # 2e &lt;main+0x2e&gt;
+                2e:	48 89 c7             	mov    %rax,%rdi
+                31:	b8 00 00 00 00       	mov    $0x0,%eax
+                36:	e8 00 00 00 00       	call   3b &lt;main+0x3b&gt;
+                return 0;
+                3b:	b8 00 00 00 00       	mov    $0x0,%eax
+                40:	c9                   	leave
+                41:	c3                   	ret
+            </code-block>
+        </chapter>
+        <chapter title="7.3 Loops" id="7-3-loops-x86">
+            <p><format color="IndianRed">Example</format></p>
+            <code-block lang="plain text" ignore-vars="true" collapsible="true">
+                0000000000000000 &lt;main&gt;:
+                #include &lt;stdio.h&gt;
+
+                int main() {
+                0:	f3 0f 1e fa          	endbr64
+                4:	55                   	push   %rbp
+                5:	48 89 e5             	mov    %rsp,%rbp
+                8:	48 83 ec 10          	sub    $0x10,%rsp
+                int i;
+                for (i = 0; i &lt; 5; i++) {
+                c:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
+                13:	eb 1d                	jmp    32 &lt;main+0x32&gt;
+                printf("Iteration: %d\n", i);
+                15:	8b 45 fc             	mov    -0x4(%rbp),%eax
+                18:	89 c6                	mov    %eax,%esi
+                1a:	48 8d 05 00 00 00 00 	lea    0x0(%rip),%rax        # 21 &lt;main+0x21&gt;
+                21:	48 89 c7             	mov    %rax,%rdi
+                24:	b8 00 00 00 00       	mov    $0x0,%eax
+                29:	e8 00 00 00 00       	call   2e &lt;main+0x2e&gt;
+                for (i = 0; i &lt; 5; i++) {
+                2e:	83 45 fc 01          	addl   $0x1,-0x4(%rbp)
+                32:	83 7d fc 04          	cmpl   $0x4,-0x4(%rbp)
+                36:	7e dd                	jle    15 &lt;main+0x15&gt;
+                }
+                return 0;
+                38:	b8 00 00 00 00       	mov    $0x0,%eax
+                3d:	c9                   	leave
+                3e:	c3                   	ret
+            </code-block>
+        </chapter>
+        <chapter title="7.4 Switch Statements" id="7-4-switch-statements-x86">
+            <p><format color="IndianRed">Example</format></p>
+            <code-block lang="plain text" ignore-vars="true" collapsible="true">
+                0000000000000000 &lt;main&gt;:
+                #include &lt;stdio.h&gt;
+
+                int main() {
+                0:	f3 0f 1e fa          	endbr64
+                4:	55                   	push   %rbp
+                5:	48 89 e5             	mov    %rsp,%rbp
+                8:	48 83 ec 10          	sub    $0x10,%rsp
+                int x = 2;
+                c:	c7 45 fc 02 00 00 00 	movl   $0x2,-0x4(%rbp)
+                int result = 0;
+                13:	c7 45 f8 00 00 00 00 	movl   $0x0,-0x8(%rbp)
+
+                switch (x) {
+                1a:	83 7d fc 03          	cmpl   $0x3,-0x4(%rbp)
+                1e:	74 26                	je     46 &lt;main+0x46&gt;
+                20:	83 7d fc 03          	cmpl   $0x3,-0x4(%rbp)
+                24:	7f 29                	jg     4f &lt;main+0x4f&gt;
+                26:	83 7d fc 01          	cmpl   $0x1,-0x4(%rbp)
+                2a:	74 08                	je     34 &lt;main+0x34&gt;
+                2c:	83 7d fc 02          	cmpl   $0x2,-0x4(%rbp)
+                30:	74 0b                	je     3d &lt;main+0x3d&gt;
+                32:	eb 1b                	jmp    4f &lt;main+0x4f&gt;
+                case 1:
+                result = 10;
+                34:	c7 45 f8 0a 00 00 00 	movl   $0xa,-0x8(%rbp)
+                break;
+                3b:	eb 19                	jmp    56 &lt;main+0x56&gt;
+                case 2:
+                result = 20;
+                3d:	c7 45 f8 14 00 00 00 	movl   $0x14,-0x8(%rbp)
+                break;
+                44:	eb 10                	jmp    56 &lt;main+0x56&gt;
+                case 3:
+                result = 30;
+                46:	c7 45 f8 1e 00 00 00 	movl   $0x1e,-0x8(%rbp)
+                break;
+                4d:	eb 07                	jmp    56 &lt;main+0x56&gt;
+                default:
+                result = 0;
+                4f:	c7 45 f8 00 00 00 00 	movl   $0x0,-0x8(%rbp)
+                }
+
+                printf("Result: %d\n", result);
+                56:	8b 45 f8             	mov    -0x8(%rbp),%eax
+                59:	89 c6                	mov    %eax,%esi
+                5b:	48 8d 05 00 00 00 00 	lea    0x0(%rip),%rax        # 62 &lt;main+0x62&gt;
+                62:	48 89 c7             	mov    %rax,%rdi
+                65:	b8 00 00 00 00       	mov    $0x0,%eax
+                6a:	e8 00 00 00 00       	call   6f &lt;main+0x6f&gt;
+                return 0;
+                6f:	b8 00 00 00 00       	mov    $0x0,%eax
+                74:	c9                   	leave
+                75:	c3                   	ret
+            </code-block>
+        </chapter>
+    </chapter>
+    <chapter title="8 Program Optimization" id="8-program-optimization">
+        <p><format color="BlueViolet">Limitations of Optimizing Compilers</format></p>
+        <list type="bullet">
+            <li>
+                <p>Operate under fundamental constraint.</p>
+            </li>
+            <li>
+                <p>Behavior that may be obvious to programmers can be obfuscated by languages and code styles.</p>
+            </li>
+            <li>
+                <p>When in doubt, the compiler must be conservative.</p>
+            </li>
+            <li>
+                <p>...</p>
+            </li>
+        </list>
+        <chapter title="8.1 Generally Useful Optimizations" id="8-1-generally-useful-optimizations">
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Reduce frequency with which computation performed</format></p>
+                    <compare first-title="Raw" second-title="Optimized">
+                        <code-block lang="c">
+                            void set_row(double *a, double *b, long i, long n) {
+                            long j;
+                            for (j = 0; j &lt; n; j++) {
+                            a[i * n + j] = b[j];
+                            }
+                            }
+                        </code-block>
+                        <code-block lang="c">
+                            void set_row(double *a, double *b, long i, long n) {
+                            long j;
+                            int ni = n + i;
+                            for (j = 0; j &lt; n; j++) {
+                            a[ni + j] = b[j];
+                            }
+                            }
+                        </code-block>
+                    </compare>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Reduction in Strength: Shift, add instead of multiply or divide</format>
+                    </p>
+                    <compare first-title="Raw" second-title="Optimized">
+                        <code-block lang="c">
+                            for (int i = 0; i &lt; n; i++) {
+                            int ni = n * i;
+                            for (int j = 0; j &lt; n; j++)
+                            a[ni + j] = b[j];
+                            }
+                        </code-block>
+                        <code-block lang="c">
+                            int ni = 0;
+                            for (int i = 0; i &lt; n; i++) {
+                            for (int j = 0; j &lt; n; j++)
+                            a[ni + j] = b[j];
+                            ni += n;
+                            }
+                        </code-block>
+                    </compare>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Share Common Subexpressions</format></p>
+                    <compare first-title="Raw" second-title="Optimized">
+                        <code-block lang="c">
+                            /* Sum neighbors of i, j */
+                            up = val[(i - 1) * n + j];
+                            down = val[(i + 1) * n + j];
+                            left = val[i * n + j - 1];
+                            down = val[i * n + j + 1];
+                            sum = up + down + left + right;
+                            // 3 multiplications
+                        </code-block>
+                        <code-block lang="c">
+                            long inj = i * n + j;
+                            up = val[inj - n];
+                            down = val[inj + n];
+                            left = val[inj - 1];
+                            down = val[inj + 1];
+                            sum = up + down + left + right;
+                            // 1 multiplication
+                        </code-block>
+                    </compare>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Remove unnecessary procedure calls</format></p>
+                </li>
+            </list>
+        </chapter>
+        <chapter title="8.2 Optimization Blockers" id="8-2-optimization-blockers">
+            <list type="bullet">
+                <li id="procedure-calls">
+                    <p><format color="Fuchsia">Procedure Calls</format></p>
+                    <compare first-title="Raw" second-title="Optimized">
+                        <code-block>
+                            /* Convert string to lower case with quadratic performance*/
+                            void lower(char* s) {
+                            size_t i;
+                            for (i = 0; i &lt; strlen(s); i++) {
+                            if (s[i] &gt;= 'A' &amp;&amp; s[i] &lt;= 'Z')
+                            s[i] += 'a' - 'A';
+                            }
+                            }
+                        </code-block>
+                        <code-block>
+                            /* Optimized code */
+                            void lower(char* s) {
+                            size_t i;
+                            size_t len = strlen(s);
+                            for (i = 0; i &lt; len; i++) {
+                            if (s[i] &gt;= 'A' &amp;&amp; s[i] &lt;= 'Z')
+                            s[i] += 'a' - 'A';
+                            }
+                            }
+                        </code-block>
+                    </compare>
+                    <list type="bullet">
+                        <li>
+                            <p><code>strlen()</code> takes linear time to scan the string until it reaches the null
+                                character.</p>
+                        </li>
+                        <li>
+                            <p>Why couldn't compiler move <code>strlen()</code> out of inner loop?</p>
+                            <list type="bullet">
+                                <li>
+                                    <p>Procedure may have side effects.</p>
+                                </li>
+                                <li>
+                                    <p>Function may not return the same value for a given argument.</p>
+                                </li>
+                                <li>
+                                    <p>Compiler treats procedure call as a black box =&gt; weak optimizaion!</p>
+                                </li>
+                                <li>
+                                    <p>You can use GCC with inline functions and optimization O1, but better do yur own
+                                        code motion.</p>
+                                </li>
+                            </list>
+                        </li>
+                    </list>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Memory Alias</format></p>
+                    <code-block lang="c">
+                        void sum_rows1(double *a, double *b, long n)  {
+                        long i, j;
+                        for (i = 0; i &lt; n; i++) {
+                        b[i] = 0;
+                        for (j = 0; j &lt; n; j++) {
+                        b[i] += a[i * n + j];
+                        }
+                        }
+                        }
+
+                        int main() {
+                        double A[9] =
+                        {0, 1, 2,
+                        4, 8, 16,
+                        32, 64, 128};
+                        double B[3] = A + 3;
+                        sum_rows1(A, B, 3);
+                        return 0;
+                        }
+                    </code-block>
+                    <p>Memory and registers have to pass values over and over again!</p>
+                    <p>The optimizer cannot optimize because the code may updates a[i] on every iteration!</p>
+                </li>
+            </list>
+        </chapter>
+        <chapter title="8.3 Exploit Instruction-Level Parallelism" id="8-3-exploit-instruction-level-parallelism">
+            <p><format color="DarkOrange">CPE (Cycle Per Element)</format></p>
+            <list type="bullet">
+                <li>
+                    <p>Convenient way to express performance of program that operates on vectors or lists.</p>
+                </li>
+                <li>
+                    <p>Cycles = CPE*n + Overhead, CPE is slope of line.</p>
+                </li>
+            </list>
+            <img src="../images_architecture/a8-3-1.png" alt="CPE"/>
+            <p><format color="BlueViolet">Modern CPU Design</format></p>
+            <img src="../images_architecture/a8-3-2.png" alt="Modern CPU Design"/>
+            <p><format color="BlueViolet">Pipelined Functional Units</format></p>
+            <img src="../images_architecture/a8-3-3.png" alt="Pipelined Functional Units"/>
+            <list type="bullet">
+                <li>
+                    <p>Divide computation into stages.</p>
+                </li>
+                <li>
+                    <p>Pass partial computations from stage to stage.</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Loop Unrolling:</format> Reason: Breaks sequential dependency</p>
+            <p><format color="IndianRed">No Loop Unrolling</format></p>
+            <code-block lang="c">
+                for (i = 0; i &lt; length; i++) {
+                x = x + d[i];
+                }
+            </code-block>
+            <img src="../images_architecture/a8-3-4.png" alt="No Loop Unrolling"/>
+            <p><format color="IndianRed">Loop Unrolling (<math>\times {2}{1}</math>)</format></p>
+            <code-block lang="c">
+                for (int i = 0; i &lt; limit; i +=2)
+                x = x + d[i] + d[i + 1];
+                }
+            </code-block>
+            <p><format color="IndianRed">Loop Unrolling (<math>\times {2}{1a}</math>)</format></p>
+            <code-block lang="c">
+                for (int i = 0; i &lt; limit; i +=2)
+                x = x + (d[i] + d[i + 1]);
+                }
+            </code-block>
+            <img src="../images_architecture/a8-3-5.png" alt="Loop Unrolling (2*1a)"/>
+            <p><format color="IndianRed">Loop Unrolling (<math>\times {2}{2}</math>)</format></p>
+            <code-block lang="c">
+                for (int i = 0; i &lt; limit; i +=4)
+                x0 = x0 + d[i];
+                x1 = x1 + d[i + 1];
+                }
+            </code-block>
+            <img src="../images_architecture/a8-3-6.png" alt="Loop Unrolling (2*2)"/>
+        </chapter>
+        <chapter title="8.4 Dealing with Conditions" id="8-4-dealing-with-conditions">
+            <p><format color="OrangeRed">Instruction Control Unit</format> must work well ahead of <format
+                    color="OrangeRed">Execution Unit</format> to generate enough operations to keep EU busy!</p>
+            <procedure title="Branch Prediction">
+                <step>
+                    <p>Guess which way branch will go.</p>
+                </step>
+                <step>
+                    <p>Begin executing instructions at predicted position, but don’t actually modify register or memory
+                        data.</p>
+                </step>
+                <step>
+                    <p>If correct, execute; if mispredict, recover.</p>
+                </step>
+            </procedure>
+        </chapter>
+    </chapter>
+    <chapter title="9 Memory Hierarchy" id="9-memory-hierarchy">
+    </chapter>
+</topic>
