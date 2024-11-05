@@ -13,7 +13,7 @@
         <toc-element topic="Data-Structures-and-Algorithms-1.topic"/>
         <toc-element topic="Data-Structures-and-Algorithms-2.topic"/>
         <toc-element topic="Data-Structures-and-Algorithms-3.topic"/>
-        <toc-element topic="Data-Structures-and-Algorithms-4.md"/>
+        <toc-element topic="Data-Structures-and-Algorithms-4.topic"/>
     </toc-element>
     <toc-element topic="Database-System.topic"/>
     <toc-element topic="Operating-System.topic"/>
