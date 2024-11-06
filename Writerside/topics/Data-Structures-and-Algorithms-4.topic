@@ -719,20 +719,9 @@
     </chapter>
     <chapter title="21 Substring Search" id="21-substring-search">
         <chapter title="21.1 Introduction" id="21-1-introduction">
-            <p>
-                <format color="BlueViolet">Goal</format>
-                : Find pattern of length
-                <math>M</math>
-                in text of length
-                <math>N</math>
-                (typically
-                <math>N \ll M</math>
-                ).
-            </p>
-            <p>
-                <format color="BlueViolet">Applications</format>
-                :
-            </p>
+            <p><format color="BlueViolet">Goal:</format> Find pattern of length <math>M</math> in text of length
+                <math>N</math> (typically <math>N \ll M</math>).</p>
+            <p><format color="BlueViolet">Applications:</format></p>
             <list type="bullet">
                 <li>
                     <p>Find &amp; replace</p>
@@ -752,90 +741,79 @@
             </list>
         </chapter>
         <chapter title="21.2 Brute-Force Substring Search" id="brute-force">
-            <p>
-                <format color="BlueViolet">Disadvantages</format>
-            </p>
+            <p><format color="BlueViolet">Disadvantages</format></p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Theoretical challenge:</format>
-                        Linear
-                        -time guarantee (Worst case:
-                        <math>\sim MN</math>
-                        ).
-                    </p>
+                    <p><format color="Fuchsia">Theoretical challenge:</format> Linear -time guarantee (Worst case:
+                        <math>\sim MN</math>).</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Practical challenge:</format>
-                        Avoid
-                        backup in text stream (Brute-force algorithm needs backup for
-                        every mismatch).
-                    </p>
+                    <p><format color="Fuchsia">Practical challenge:</format> Avoid backup in text stream (Brute-force
+                        algorithm needs backup for every mismatch).</p>
                 </li>
             </list>
             <tabs>
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
                         public static int search (String pat, String txt) {
-                        int M = pat.length();
-                        int N = txt.length();
-                        int i, j;
-                        for (i = 0; i &lt;= N - M; i++) {
-                        for (j = 0; j &lt; M; j++) {
-                        if (txt.charAt(i + j) != pat.charAt(j)) {
-                        break;
-                        }
-                        }
-                        if (j == M) {
-                        return i;
-                        }
-                        }
-                        return N;
+                            int M = pat.length();
+                            int N = txt.length();
+                            int i, j;
+                            for (i = 0; i &lt;= N - M; i++) {
+                                for (j = 0; j &lt; M; j++) {
+                                    if (txt.charAt(i + j) != pat.charAt(j)) {
+                                        break;
+                                    }
+                                }
+                                if (j == M) {
+                                    return i;
+                                }
+                            }
+                            return N;
                         }
                     </code-block>
                 </tab>
                 <tab title="Java (alternate implementation)">
                     <code-block lang="java" collapsible="true">
                         public static int search(String pat, String txt) {
-                        int i, M = pat.length();
-                        int j, N = txt.length();
-                        for (i = 0, j = 0; i &lt; N &amp;&amp; j &lt; M; i++) {
-                        if (txt.charAt(i) == pat.charAt(j)) {
-                        j++;
-                        }
-                        else {
-                        i -= j;
-                        j = 0;
-                        }
-                        }
-                        if (j == M) {
-                        return i - M;
-                        }
-                        else {
-                        return N;
-                        }
+                            int i, M = pat.length();
+                            int j, N = txt.length();
+                            for (i = 0, j = 0; i &lt; N &amp;&amp; j &lt; M; i++) {
+                                if (txt.charAt(i) == pat.charAt(j)) {
+                                    j++;
+                                }
+                                else {
+                                    i -= j;
+                                    j = 0;
+                                }
+                            }
+                            if (j == M) {
+                                return i - M;
+                            }
+                            else {
+                                return N;
+                            }
                         }
                     </code-block>
                 </tab>
                 <tab title="C++">
                     <code-block lang="c++" collapsible="true">
                         int bruteForceSubstringSearch(const std::string&amp; text, const std::string&amp; pattern) {
-                        int n = text.length();
-                        int m = pattern.length();
+                            int n = text.length();
+                            int m = pattern.length();
                         
-                        for (int i = 0; i &lt;= n - m; i++) {
-                        int j;
-                        for (j = 0; j &lt; m; j++) {
-                        if (text[i + j] != pattern[j]) {
-                        break;
-                        }
-                        }
-                        if (j == m) {
-                        return i;
-                        }
-                        }
-                        return -1;
+                            for (int i = 0; i &lt;= n - m; i++) {
+                                int j;
+                                for (j = 0; j &lt; m; j++) {
+                                    if (text[i + j] != pattern[j]) {
+                                        break;
+                                    }
+                                }
+                                if (j == m) {
+                                    return i;
+                                }
+                            }
+                            return -1;
                         }
                     </code-block>
                 </tab>
@@ -863,44 +841,18 @@
         </chapter>
         <chapter title="21.3 Knuth-Morris-Pratt" id="KMP">
             <chapter title="21.3.1 Proposition" id="21-3-1-proposition">
-                <p>
-                    <format color="BlueViolet">Property:</format>
-                    KMP substring search
-                    accesses no more than
-                    <math>M + N</math>
-                    chars to search for a pattern
-                    of length
-                    <math>M</math>
-                    in a text of length
-                    <math>N</math>
-                    .
-                </p>
-                <p>
-                    <format color="LawnGreen">Proof:</format>
-                    Each pattern char
-                    accessed once when constructing DFA; each text char accessed once (in
-                    the worst case) when simulating DFA.
-                </p>
-                <p>
-                    <format color="BlueViolet">Property:</format>
-                    KMP constructs
-                    <code>dfa[][]</code> in time and space proportional to
-                    <math>RM</math>
-                    , where
-                    <math>R</math>
-                    is the alphabet size and
-                    <math>M</math>
-                    is the
-                    pattern length.
-                </p>
+                <p><format color="BlueViolet">Property:</format> KMP substring search accesses no more than
+                    <math>M + N</math> chars to search for a pattern of length <math>M</math> in a text of length
+                    <math>N</math>.</p>
+                <p><format color="LawnGreen">Proof:</format> Each pattern char accessed once when constructing DFA; each
+                    text char accessed once (in the worst case) when simulating DFA.</p>
+                <p><format color="BlueViolet">Property:</format> KMP constructs <code>dfa[][]</code> in time and space
+                    proportional to <math>RM</math>, where <math>R</math> is the alphabet size and <math>M</math>
+                    is the pattern length.</p>
             </chapter>
             <chapter title="21.3.2 DFA" id="21-3-2-dfa">
-                <p>
-                    <format color="DarkOrange">Deterministic Finite State Automaton
-                        (DFA)
-                    </format>
-                    is an abstract string-search machine.
-                </p>
+                <p><format color="DarkOrange">Deterministic Finite State Automaton (DFA)</format> is an abstract
+                    string-search machine.</p>
                 <list type="bullet">
                     <li>
                         <p>Finite number of states (including start and halt).</p>
@@ -914,119 +866,92 @@
                 </list>
                 <img src="../images_data/d21-3-1.png" alt="DFA"/>
                 <note>
-                    <p>DFA state = number of characters in pattern that have been matched
-                        (length of longest prefix of <code>pat[]</code> that is a suffix of
-                        <code>txt[0...i]</code>).</p>
+                    <p>DFA state = number of characters in pattern that have been matched (length of longest prefix of
+                        <code>pat[]</code> that is a suffix of <code>txt[0...i]</code>).</p>
                 </note>
                 <procedure title="DFA Construction">
                     <step>
-                        <p>If in state
-                            <math>j</math>
-                            (first
-                            <math>j</math>
-                            characters of
-                            pattern have already been matched and next char <code>c == pat.
-                                charAt(j)</code> (next char matches), go to
-                            <math>j+1</math>
-                            (now
-                            first
-                            <math>j+1</math>
-                            characters of pattern have been matched).
-                        </p>
+                        <p>If in state <math>j</math> (first <math>j</math> characters of pattern have already been
+                            matched and next char <code>c == pat.charAt(j)</code> (next char matches), go to
+                            <math>j+1</math> (now first <math>j+1</math> characters of pattern have been matched).</p>
                     </step>
                     <step>
-                        <p>If in state
-                            <math>j</math>
-                            and next char <code>c != pat.charAt
-                                (j)</code>, then the last
-                            <math>j-1</math>
-                            characters of input are
-                            <code>pat[1...j - 1]</code>, followed by c. Simulate <code>
-                                pat[1...j - 1]</code> on DFA and take transition c (only longest
-                            possible matched suffix now lies <code>pat[1...j - 1]</code>
-                            followed by c).
-                        </p>
+                        <p>If in state <math>j</math> and next char <code>c != pat.charAt(j)</code>, then the last
+                            <math>j-1</math> characters of input are <code>pat[1...j - 1]</code>, followed by c.
+                            Simulate <code>pat[1...j - 1]</code> on DFA and take transition c (only longest possible
+                            matched suffix now lies <code>pat[1...j - 1]</code> followed by c).</p>
                     </step>
                 </procedure>
                 <note>
-                    <p>Use state X to simulate <code>pat[1...j-1]</code>, takes only
-                        constant time!</p>
+                    <p>Use state X to simulate <code>pat[1...j-1]</code>, takes only constant time!</p>
                 </note>
                 <procedure title="DFA Construction for Code">
                     <step>
-                        <p>Copy <code>dfa[][X]</code> to <code>dfa[][j]</code> for
-                            mismatch case.</p>
+                        <p>Copy <code>dfa[][X]</code> to <code>dfa[][j]</code> for mismatch case.</p>
                     </step>
                     <step>
-                        <p>Set <code>dfa[pat.charAt(j)][j]</code> to
-                            <math>j+1</math>
-                            for
-                            match case.
-                        </p>
+                        <p>Set <code>dfa[pat.charAt(j)][j]</code> to <math>j+1</math> for match case.</p>
                     </step>
                     <step>
-                        <p>Update
-                            <math>X</math>
-                            .
-                        </p>
+                        <p>Update <math>X</math>.</p>
                     </step>
                 </procedure>
                 <tabs>
                     <tab title="Java">
                         <code-block lang="java" collapsible="true">
                             public class KMP {
-                            private final int R;
-                            private final int m;
-                            private final int[][] dfa;
+                                private final int R;
+                                private final int m;
+                                private final int[][] dfa;
                             
-                            public KMP(String pat) {
-                            this.R = 256;
-                            this.m = pat.length();
+                                public KMP(String pat) {
+                                    this.R = 256;
+                                    this.m = pat.length();
+
+                                    dfa = new int[R][m];
+                                    dfa[pat.charAt(0)][0] = 1;
+                                    for (int x = 0, j = 1; j &lt; m; j++) {
+                                        for (int c = 0; c &lt; R; c++)
+                                            dfa[c][j] = dfa[c][x];
+                                        dfa[pat.charAt(j)][j] = j + 1;
+                                        x = dfa[pat.charAt(j)][x];
+                                    }
+                                }
                             
-                            dfa = new int[R][m];
-                            dfa[pat.charAt(0)][0] = 1;
-                            for (int x = 0, j = 1; j &lt; m; j++) {
-                            for (int c = 0; c &lt; R; c++)
-                            dfa[c][j] = dfa[c][x];
-                            dfa[pat.charAt(j)][j] = j + 1;
-                            x = dfa[pat.charAt(j)][x];
-                            }
-                            }
+                                public KMP(char[] pattern, int R) {
+                                    this.R = R;
+                                    this.m = pattern.length;
+
+                                    int m = pattern.length;
+                                    dfa = new int[R][m];
+                                    dfa[pattern[0]][0] = 1;
+                                    for (int x = 0, j = 1; j &lt; m; j++) {
+                                        for (int c = 0; c &lt; R; c++)
+                                            dfa[c][j] = dfa[c][x];
+                                        dfa[pattern[j]][j] = j + 1;
+                                        x = dfa[pattern[j]][x];
+                                    }
+                                }
                             
-                            public KMP(char[] pattern, int R) {
-                            this.R = R;
-                            this.m = pattern.length;
-                            
-                            int m = pattern.length;
-                            dfa = new int[R][m];
-                            dfa[pattern[0]][0] = 1;
-                            for (int x = 0, j = 1; j &lt; m; j++) {
-                            for (int c = 0; c &lt; R; c++)
-                            dfa[c][j] = dfa[c][x];
-                            dfa[pattern[j]][j] = j + 1;
-                            x = dfa[pattern[j]][x];
-                            }
-                            }
-                            
-                            public int search(String txt) {
-                            int n = txt.length();
-                            int i, j;
-                            for (i = 0, j = 0; i &lt; n &amp;&amp; j &lt; m; i++) {
-                            j = dfa[txt.charAt(i)][j];
-                            }
-                            if (j == m) return i - m;
-                            return n;
-                            }
-                            
-                            public int search(char[] text) {
-                            int n = text.length;
-                            int i, j;
-                            for (i = 0, j = 0; i &lt; n &amp;&amp; j &lt; m; i++) {
-                            j = dfa[text[i]][j];
-                            }
-                            if (j == m) return i - m;
-                            return n;
-                            }
+                                public int search(String txt) {
+                                    int n = txt.length();
+                                    int i, j;
+                                    for (i = 0, j = 0; i &lt; n &amp;&amp; j &lt; m; i++) {
+                                        j = dfa[txt.charAt(i)][j];
+                                    }
+                                    if (j == m) return i - m;
+                                    return n;
+                                }
+
+                                public int search(char[] text) {
+                                    int n = text.length;
+                                    int i, j;
+                                    for (i = 0, j = 0; i &lt; n &amp;&amp; j &lt; m; i++) {
+                                        j = dfa[text[i]][j];
+                                    }
+                                    if (j == m) return i - m;
+                                    return n;
+                                }
                             }
                         </code-block>
                     </tab>
@@ -1037,59 +962,59 @@
                             
                             class KMP {
                             private:
-                            const int R;
-                            const int m;
-                            std::vector&lt;std::vector&lt;int&gt;&gt; dfa;
+                                const int R;
+                                const int m;
+                                std::vector&lt;std::vector&lt;int&gt;&gt; dfa;
                             
                             public:
-                            explicit KMP(const std::string&amp; pat) : R(256), m(static_cast&lt;int&gt;(pat.length())),
-                            dfa(R, std::vector&lt;int&gt;(m)) {
-                            dfa[pat[0]][0] = 1;
-                            for (int x = 0, j = 1; j &lt; m; j++) {
-                            for (int c = 0; c &lt; R; c++)
-                            dfa[c][j] = dfa[c][x];
-                            dfa[pat[j]][j] = j + 1;
-                            x = dfa[pat[j]][x];
-                            }
-                            }
+                                explicit KMP(const std::string&amp; pat) : R(256), m(static_cast&lt;int&gt;(pat.length())),
+                                    dfa(R, std::vector&lt;int&gt;(m)) {
+                                    dfa[pat[0]][0] = 1;
+                                    for (int x = 0, j = 1; j &lt; m; j++) {
+                                        for (int c = 0; c &lt; R; c++)
+                                            dfa[c][j] = dfa[c][x];
+                                        dfa[pat[j]][j] = j + 1;
+                                        x = dfa[pat[j]][x];
+                                    }
+                                }
                             
-                            [[nodiscard]] int search(const std::string&amp; txt) const {
-                            const int n = static_cast&lt;int&gt;(txt.length());
-                            int i, j;
-                            for (i = 0, j = 0; i &lt; n &amp;&amp; j &lt; m; i++) {
-                            j = dfa[txt[i]][j];
-                            }
-                            if (j == m) return i - m;
-                            return n;
-                            }
+                                [[nodiscard]] int search(const std::string&amp; txt) const {
+                                    const int n = static_cast&lt;int&gt;(txt.length());
+                                    int i, j;
+                                    for (i = 0, j = 0; i &lt; n &amp;&amp; j &lt; m; i++) {
+                                        j = dfa[txt[i]][j];
+                                    }
+                                    if (j == m) return i - m;
+                                    return n;
+                                }
                             };
                         </code-block>
                     </tab>
                     <tab title="Python">
                         <code-block lang="python" collapsible="true">
                             class KMP:
-                            def __init__(self, pat):
-                            self.R = 256
-                            self.m = len(pat)
-                            self.dfa = [[0] * self.m for _ in range(self.R)]
+                                def __init__(self, pat):
+                                    self.R = 256
+                                    self.m = len(pat)
+                                    self.dfa = [[0] * self.m for _ in range(self.R)]
                             
-                            self.dfa[ord(pat[0])][0] = 1
-                            x = 0
-                            for j in range(1, self.m):
-                            for c in range(self.R):
-                            self.dfa[c][j] = self.dfa[c][x]
-                            self.dfa[ord(pat[j])][j] = j + 1
-                            x = self.dfa[ord(pat[j])][x]
+                                    self.dfa[ord(pat[0])][0] = 1
+                                    x = 0
+                                    for j in range(1, self.m):
+                                        for c in range(self.R):
+                                            self.dfa[c][j] = self.dfa[c][x]
+                                        self.dfa[ord(pat[j])][j] = j + 1
+                                        x = self.dfa[ord(pat[j])][x]
                             
-                            def search(self, txt):
-                            n = len(txt)
-                            i, j = 0, 0
-                            while i &lt; n and j &lt; self.m:
-                            j = self.dfa[ord(txt[i])][j]
-                            i += 1
-                            if j == self.m:
-                            return i - self.m
-                            return n
+                                def search(self, txt):
+                                    n = len(txt)
+                                    i, j = 0, 0
+                                    while i &lt; n and j &lt; self.m:
+                                        j = self.dfa[ord(txt[i])][j]
+                                        i += 1
+                                        if j == self.m:
+                                            return i - self.m
+                                        return n
                         </code-block>
                     </tab>
                 </tabs>
@@ -1264,136 +1189,99 @@
                     <p>Scan characters in pattern from right to left.</p>
                 </step>
                 <step>
-                    <p>Can skip as many as
-                        <math>M</math>
-                        text chars when finding one
-                        not in the pattern.
-                    </p>
+                    <p>Can skip as many as <math>M</math> text chars when finding one not in the pattern.</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">How much to skip?</format>
-            </p>
+            <p><format color="BlueViolet">How much to skip?</format></p>
             <list type="alpha-lower">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Mismatch character not in pattern.
-                        </format>
-                    </p>
+                    <p><format color="Fuchsia">Mismatch character not in pattern.</format></p>
                     <img src="../images_data/d21-4-1.png" alt="Case 1"/>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Mismatch character in pattern.</format>
-                    </p>
+                    <p><format color="Fuchsia">Mismatch character in pattern.</format></p>
                     <img src="../images_data/d21-4-2.png" alt="Case 2"/>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Mismatch character in pattern (but
-                            heuristic no help).
-                        </format>
-                    </p>
+                    <p><format color="Fuchsia">Mismatch character in pattern (but heuristic no help).</format></p>
                     <img src="../images_data/d21-4-3.png" alt="Case 3"/>
                 </li>
             </list>
             <note>
-                <p>Precompute index of rightmost occurrence of character c in pattern
-                    (-1 if character not in pattern).</p>
+                <p>Precompute index of rightmost occurrence of character c in pattern (-1 if character not in pattern).
+                </p>
             </note>
-            <p>
-                <format color="BlueViolet">Property:</format>
-                Substring search with
-                the Boyer-Moore mismatched character heuristic takes about
-                <math>
-                    \sim \frac{N}{m}
-                </math>
-                character (sublinear) compares to search for
-                a pattern of length
-                <math>M</math>
-                in a text of length
-                <math>N</math>
-                .
-            </p>
-            <p>
-                <format color="BlueViolet">Worst Case:</format>
-                Can be as bad as
-                <math>\sim MN</math>
-                .
-            </p>
-            <p>
-                <format color="BlueViolet">Boyer-Moore variant:</format>
-                Can
-                improve worst case to
-                <math>\sim 3N</math>
-                character compares
-                by adding a KMP-like rule to guard against repetitive patterns.
-            </p>
+            <p><format color="BlueViolet">Property:</format> Substring search with the Boyer-Moore mismatched character
+                heuristic takes about <math>\sim \frac{N}{m}</math> character (sublinear) compares to search for a
+                pattern of length <math>M</math> in a text of length <math>N</math>.</p>
+            <p><format color="BlueViolet">Worst Case:</format> Can be as bad as <math>\sim MN</math>.</p>
+            <p><format color="BlueViolet">Boyer-Moore variant:</format> Can improve worst case to <math>\sim 3N</math>
+                character compares by adding a KMP-like rule to guard against repetitive patterns.</p>
             <tabs>
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
                         public class BoyerMoore {
-                        private final int R;
-                        private final int[] right;
-                        private char[] pattern;
-                        private String pat;
+                            private final int R;
+                            private final int[] right;
+                            private char[] pattern;
+                            private String pat;
                         
-                        public BoyerMoore(String pat) {
-                        this.R = 256;
-                        this.pat = pat;
+                            public BoyerMoore(String pat) {
+                                this.R = 256;
+                                this.pat = pat;
+
+                                right = new int[R];
+                                for (int c = 0; c &lt; R; c++)
+                                    right[c] = -1;
+                                for (int j = 0; j &lt; pat.length(); j++)
+                                    right[pat.charAt(j)] = j;
+                            }
                         
-                        right = new int[R];
-                        for (int c = 0; c &lt; R; c++)
-                        right[c] = -1;
-                        for (int j = 0; j &lt; pat.length(); j++)
-                        right[pat.charAt(j)] = j;
-                        }
+                            public BoyerMoore(char[] pattern, int R) {
+                                this.R = R;
+                                this.pattern = new char[pattern.length];
+                                System.arraycopy(pattern, 0, this.pattern, 0, pattern.length);
+
+                                right = new int[R];
+                                for (int c = 0; c &lt; R; c++)
+                                    right[c] = -1;
+                                for (int j = 0; j &lt; pattern.length; j++)
+                                    right[pattern[j]] = j;
+                            }
                         
-                        public BoyerMoore(char[] pattern, int R) {
-                        this.R = R;
-                        this.pattern = new char[pattern.length];
-                        System.arraycopy(pattern, 0, this.pattern, 0, pattern.length);
+                            public int search(String txt) {
+                                int M = pat.length();
+                                int N = txt.length();
+                                int skip;
+                                for (int i = 0; i &lt;= N - M; i += skip) {
+                                    skip = 0;
+                                    for (int j = M - 1; j &gt;= 0; j--) {
+                                        if (pat.charAt(j) != txt.charAt(i + j)) {
+                                            skip = Math.max(1, j - right[txt.charAt(i + j)]);
+                                            break;
+                                        }
+                                    }
+                                    if (skip == 0) return i;
+                                }
+                                return N;
+                            }
                         
-                        right = new int[R];
-                        for (int c = 0; c &lt; R; c++)
-                        right[c] = -1;
-                        for (int j = 0; j &lt; pattern.length; j++)
-                        right[pattern[j]] = j;
-                        }
-                        
-                        public int search(String txt) {
-                        int M = pat.length();
-                        int N = txt.length();
-                        int skip;
-                        for (int i = 0; i &lt;= N - M; i += skip) {
-                        skip = 0;
-                        for (int j = M - 1; j &gt;= 0; j--) {
-                        if (pat.charAt(j) != txt.charAt(i + j)) {
-                        skip = Math.max(1, j - right[txt.charAt(i + j)]);
-                        break;
-                        }
-                        }
-                        if (skip == 0) return i;
-                        }
-                        return N;
-                        }
-                        
-                        public int search(char[] text) {
-                        int M = pattern.length;
-                        int N = text.length;
-                        int skip;
-                        for (int i = 0; i &lt;= N - M; i += skip) {
-                        skip = 0;
-                        for (int j = M - 1; j &gt;= 0; j--) {
-                        if (pattern[j] != text[i + j]) {
-                        skip = Math.max(1, j - right[text[i + j]]);
-                        break;
-                        }
-                        }
-                        if (skip == 0) return i;
-                        }
-                        return N;
-                        }
+                            public int search(char[] text) {
+                                int M = pattern.length;
+                                int N = text.length;
+                                int skip;
+                                for (int i = 0; i &lt;= N - M; i += skip) {
+                                    skip = 0;
+                                    for (int j = M - 1; j &gt;= 0; j--) {
+                                        if (pattern[j] != text[i + j]) {
+                                            skip = Math.max(1, j - right[text[i + j]]);
+                                            break;
+                                        }
+                                    }
+                                    if (skip == 0) return i;
+                                }
+                                return N;
+                            }
                         }
                     </code-block>
                 </tab>
@@ -1405,36 +1293,36 @@
                         
                         class BoyerMoore {
                         private:
-                        int R;
-                        std::vector&lt;int&gt; right;
-                        std::string pat;
+                            int R;
+                            std::vector&lt;int&gt; right;
+                            std::string pat;
                         
                         public:
-                        explicit BoyerMoore(const std::string&amp; pat) {
-                        this-&gt;R = 256;
-                        this-&gt;pat = pat;
-                        
-                        this-&gt;right.resize(R, -1);
-                        for (int j = 0; j &lt; pat.size(); j++) {
-                        this-&gt;right[pat[j]] = j;
-                        }
-                        }
+                            explicit BoyerMoore(const std::string&amp; pat) {
+                                this-&gt;R = 256;
+                                this-&gt;pat = pat;
+
+                                this-&gt;right.resize(R, -1);
+                                for (int j = 0; j &lt; pat.size(); j++) {
+                                    this-&gt;right[pat[j]] = j;
+                                }
+                            }
                         
                         [[nodiscard]] int search(const std::string&amp; txt) const {
-                        const int M = static_cast&lt;int&gt;(pat.size());
-                        const int N = static_cast&lt;int&gt;(txt.size());
-                        int skip;
-                        for (int i = 0; i &lt;= N - M; i += skip) {
-                        skip = 0;
-                        for (int j = M - 1; j &gt;= 0; j--) {
-                        if (pat[j] != txt[i + j]) {
-                        skip = std::max(1, j - right[txt[i + j]]);
-                        break;
-                        }
-                        }
-                        if (skip == 0) return i;
-                        }
-                        return N;
+                            const int M = static_cast&lt;int&gt;(pat.size());
+                            const int N = static_cast&lt;int&gt;(txt.size());
+                            int skip;
+                            for (int i = 0; i &lt;= N - M; i += skip) {
+                                skip = 0;
+                                for (int j = M - 1; j &gt;= 0; j--) {
+                                    if (pat[j] != txt[i + j]) {
+                                        skip = std::max(1, j - right[txt[i + j]]);
+                                        break;
+                                    }
+                                }
+                                if (skip == 0) return i;
+                            }
+                            return N;
                         }
                         };
                     </code-block>
@@ -1442,28 +1330,28 @@
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         class BoyerMoore:
-                        def __init__(self, pat):
-                        self.R = 256
-                        self.pat = pat
-                        self.right = [-1] * self.R
+                            def __init__(self, pat):
+                                self.R = 256
+                                self.pat = pat
+                                self.right = [-1] * self.R
                         
-                        for j in range(len(pat)):
-                        self.right[ord(pat[j])] = j
+                                for j in range(len(pat)):
+                                    self.right[ord(pat[j])] = j
                         
-                        def search(self, txt):
-                        M = len(self.pat)
-                        N = len(txt)
-                        skip = 1
-                        
-                        for i in range(0, N - M + 1, skip):
-                        skip = 0
-                        for j in range(M - 1, -1, -1):
-                        if self.pat[j] != txt[i + j]:
-                        skip = max(1, j - self.right[ord(txt[i + j])])
-                        break
-                        if skip == 0:
-                        return i
-                        return N
+                            def search(self, txt):
+                                M = len(self.pat)
+                                N = len(txt)
+                                skip = 1
+
+                                for i in range(0, N - M + 1, skip):
+                                    skip = 0
+                                    for j in range(M - 1, -1, -1):
+                                        if self.pat[j] != txt[i + j]:
+                                            skip = max(1, j - self.right[ord(txt[i + j])])
+                                            break
+                                    if skip == 0:
+                                        return i
+                                return N
                     </code-block>
                 </tab>
             </tabs>
@@ -1471,48 +1359,25 @@
         <chapter title="21.5 Rabin-Karp" id="21-5-rabin-karp">
             <procedure title="Rabin-Karp (Modular Hashing)">
                 <step>
-                    <p>Compute a hash of pattern characters
-                        <math>0</math>
-                        to
-                        <math>
-                            M - 1
-                        </math>
-                        .
-                    </p>
+                    <p>Compute a hash of pattern characters <math>0</math> to <math>M - 1</math>.</p>
                 </step>
                 <step>
-                    <p>For each
-                        <math>i</math>
-                        , compute a hash of text characters
-                        <math>i</math>
-                        to
-                        <math>M + i - 1</math>
-                        .
-                    </p>
+                    <p>For each <math>i</math>, compute a hash of text characters <math>i</math> to
+                        <math>M + i - 1</math>.</p>
                 </step>
                 <step>
                     <p>If pattern hash = text substring hash, check for a match.</p>
                 </step>
             </procedure>
-            <p>
-                <format color="BlueViolet">Modular Hashing Function:</format>
-                Using the notation
-                <math>t_{i}</math>
-                for <code>txt.charAt(i)</code>,
-                we wish to compute:
-            </p>
+            <p><format color="BlueViolet">Modular Hashing Function:</format> Using the notation <math>t_{i}</math> for
+                <code>txt.charAt(i)</code>, we wish to compute:</p>
             <code-block lang="tex">
                 x_{i} = t_{i} R^{M-1} + t_{i+1} R^{M-2} + ... + t_{i+M-1} R^{0} \mod Q
             </code-block>
             <p>M-digit, base-R integer, modulo Q.</p>
             <tip>
-                <p>
-                    <format color="BlueViolet">Horner's method:</format>
-                    Linear-time
-                    method to evaluate degree-
-                    <math>M</math>
-                    polynomial.
-                </p>
+                <p><format color="BlueViolet">Horner's method:</format> Linear-time method to evaluate degree-<math>M
+                    </math>polynomial.</p>
                 <img src="../images_data/d21-5-1.png" alt="Horner's Method"/>
             </tip>
             <p>Based on the function above, we can get:</p>
@@ -1524,61 +1389,61 @@
                 <tab title="Java">
                     <code-block lang="java" collapsible="true">
                         public class RabinKarp {
-                        private final long patHash;
-                        private final int M;
-                        private final long Q;
-                        private final int R;
-                        private long RM;
+                            private final long patHash;
+                            private final int M;
+                            private final long Q;
+                            private final int R;
+                            private long RM;
                         
-                        public RabinKarp(String pat) {
-                        M = pat.length();
-                        R = 256;
-                        Q = longRandomPrime();
-                        RM = 1;
-                        for (int i = 1; i &lt;= M - 1; i++)
-                        RM = (R * RM) % Q;
-                        patHash = hash(pat, M);
-                        }
+                            public RabinKarp(String pat) {
+                                M = pat.length();
+                                R = 256;
+                                Q = longRandomPrime();
+                                RM = 1;
+                                for (int i = 1; i &lt;= M - 1; i++)
+                                    RM = (R * RM) % Q;
+                                patHash = hash(pat, M);
+                            }
                         
-                        private long hash(String key, int M) {
-                        long h = 0;
-                        for (int j = 0; j &lt; M; j++)
-                        h = (R * h + key.charAt(j)) % Q;
-                        return h;
-                        }
+                            private long hash(String key, int M) {
+                                long h = 0;
+                                for (int j = 0; j &lt; M; j++)
+                                    h = (R * h + key.charAt(j)) % Q;
+                                return h;
+                            }
                         
-                        // Las Vegas version: does pat[] match txt[i..i-M+1] ?
-                        private boolean check(String txt, int i) {
-                        for (int j = 0; j &lt; M; j++)
-                        if (patHash != hash(txt.substring(i, i + M), M))
-                        return false;
-                        return true;
-                        }
+                            // Las Vegas version: does pat[] match txt[i..i-M+1] ?
+                            private boolean check(String txt, int i) {
+                                for (int j = 0; j &lt; M; j++)
+                                    if (patHash != hash(txt.substring(i, i + M), M))
+                                        return false;
+                                return true;
+                            }
                         
-                        // Monte Carlo version: always return true
-                        private static long longRandomPrime() {
-                        return (1L &lt;&lt; 31) - 1;
-                        }
+                            // Monte Carlo version: always return true
+                            private static long longRandomPrime() {
+                                return (1L &lt;&lt; 31) - 1;
+                            }
                         
-                        public int search(String txt) {
-                        int N = txt.length();
-                        if (N &lt; M) return N;
-                        long txtHash = hash(txt, M);
-                        
-                        if ((patHash == txtHash) &amp;&amp; check(txt, 0))
-                        return 0;
-                        
-                        for (int i = M; i &lt; N; i++) {
-                        txtHash = (txtHash + Q - RM * txt.charAt(i - M) % Q) % Q;
-                        txtHash = (txtHash * R + txt.charAt(i)) % Q;
-                        
-                        int offset = i - M + 1;
-                        if ((patHash == txtHash) &amp;&amp; check(txt, offset))
-                        return offset;
-                        }
-                        
-                        return N;
-                        }
+                            public int search(String txt) {
+                                int N = txt.length();
+                                if (N &lt; M) return N;
+                                long txtHash = hash(txt, M);
+
+                                if ((patHash == txtHash) &amp;&amp; check(txt, 0))
+                                    return 0;
+
+                                for (int i = M; i &lt; N; i++) {
+                                    txtHash = (txtHash + Q - RM * txt.charAt(i - M) % Q) % Q;
+                                    txtHash = (txtHash * R + txt.charAt(i)) % Q;
+
+                                    int offset = i - M + 1;
+                                    if ((patHash == txtHash) &amp;&amp; check(txt, offset))
+                                        return offset;
+                                }
+
+                                return N;
+                            }
                         }
                     </code-block>
                 </tab>
@@ -1589,128 +1454,122 @@
                         
                         class RabinKarp {
                         private:
-                        long long patHash;
-                        int M;
-                        long long Q;
-                        int R;
-                        long long RM;
-                        std::string pat;
+                            long long patHash;
+                            int M;
+                            long long Q;
+                            int R;
+                            long long RM;
+                            std::string pat;
                         
                         public:
-                        explicit RabinKarp(const std::string&amp; pat) : pat(pat) {
-                        M = static_cast&lt;int&gt;(pat.length());
-                        R = 256;
-                        Q = longRandomPrime();
-                        RM = 1;
-                        for (int i = 1; i &lt;= M - 1; i++)
-                        RM = (R * RM) % Q;
-                        patHash = hash(pat, M);
-                        }
+                            explicit RabinKarp(const std::string&amp; pat) : pat(pat) {
+                                M = static_cast&lt;int&gt;(pat.length());
+                                R = 256;
+                                Q = longRandomPrime();
+                                RM = 1;
+                                for (int i = 1; i &lt;= M - 1; i++)
+                                    RM = (R * RM) % Q;
+                                patHash = hash(pat, M);
+                            }
                         
-                        [[nodiscard]] long long hash(const std::string&amp; key, const int M) const {
-                        long long h = 0;
-                        for (int j = 0; j &lt; M; j++)
-                        h = (R * h + key[j]) % Q;
-                        return h;
-                        }
+                            [[nodiscard]] long long hash(const std::string&amp; key, const int M) const {
+                                long long h = 0;
+                                for (int j = 0; j &lt; M; j++)
+                                    h = (R * h + key[j]) % Q;
+                                return h;
+                            }
                         
-                        // Las Vegas version: does pat[] match txt[i..i-M+1] ?
-                        [[nodiscard]] bool check(const std::string&amp; txt, const int i) const {
-                        for (int j = 0; j &lt; M; j++)
-                        if (txt[i + j] != pat[j])
-                        return false;
-                        return true;
-                        }
+                            // Las Vegas version: does pat[] match txt[i..i-M+1] ?
+                            [[nodiscard]] bool check(const std::string&amp; txt, const int i) const {
+                                for (int j = 0; j &lt; M; j++)
+                                    if (txt[i + j] != pat[j])
+                                        return false;
+                                return true;
+                            }
                         
-                        // Monte Carlo version: always return true
+                            // Monte Carlo version: always return true
+
+                            static long long longRandomPrime() {
+                                return 16777213;
+                            }
                         
-                        static long long longRandomPrime() {
-                        return 16777213;
-                        }
-                        
-                        [[nodiscard]] int search(const std::string&amp; txt) const {
-                        const int N = static_cast&lt;int&gt;(txt.length());
-                        if (N &lt; M) return N;
-                        long long txtHash = hash(txt, M);
-                        
-                        if ((patHash == txtHash) &amp;&amp; check(txt, 0))
-                        return 0;
-                        
-                        for (int i = M; i &lt; N; i++) {
-                        txtHash = (txtHash + Q - RM * txt[i - M] % Q) % Q;
-                        txtHash = (txtHash * R + txt[i]) % Q;
-                        
-                        int offset = i - M + 1;
-                        if ((patHash == txtHash) &amp;&amp; check(txt, offset))
-                        return offset;
-                        }
-                        
-                        return N;
-                        }
+                            [[nodiscard]] int search(const std::string&amp; txt) const {
+                                const int N = static_cast&lt;int&gt;(txt.length());
+                                if (N &lt; M) return N;
+                                long long txtHash = hash(txt, M);
+
+                                if ((patHash == txtHash) &amp;&amp; check(txt, 0))
+                                    return 0;
+
+                                for (int i = M; i &lt; N; i++) {
+                                    txtHash = (txtHash + Q - RM * txt[i - M] % Q) % Q;
+                                    txtHash = (txtHash * R + txt[i]) % Q;
+
+                                    int offset = i - M + 1;
+                                    if ((patHash == txtHash) &amp;&amp; check(txt, offset))
+                                        return offset;
+                                }
+
+                                return N;
+                            }
                         };
                     </code-block>
                 </tab>
                 <tab title="Python">
                     <code-block lang="python" collapsible="true">
                         def long_random_prime():
-                        return (1 &lt;&lt; 31) - 1
+                            return (1 &lt;&lt; 31) - 1
                         
                         
                         class RabinKarp:
-                        def __init__(self, pat):
-                        self.pat = pat
-                        self.M = len(pat)
-                        self.R = 256
-                        self.Q = long_random_prime()
-                        self.RM = 1
-                        for i in range(1, self.M):
-                        self.RM = (self.R * self.RM) % self.Q
-                        self.pat_hash = self.hash(pat, self.M)
+                            def __init__(self, pat):
+                                self.pat = pat
+                                self.M = len(pat)
+                                self.R = 256
+                                self.Q = long_random_prime()
+                                self.RM = 1
+                                for i in range(1, self.M):
+                                    self.RM = (self.R * self.RM) % self.Q
+                                self.pat_hash = self.hash(pat, self.M)
                         
-                        def hash(self, key, M):
-                        h = 0
-                        for j in range(M):
-                        h = (self.R * h + ord(key[j])) % self.Q
-                        return h
+                            def hash(self, key, M):
+                                h = 0
+                                for j in range(M):
+                                    h = (self.R * h + ord(key[j])) % self.Q
+                                return h
                         
-                        # Las Vegas version: does pat[] match txt[i..i-M+1] ?
-                        def check(self, txt, i):
-                        for j in range(self.M):
-                        if self.pat_hash != self.hash(txt[i:i+self.M], self.M):
-                        return False
-                        return True
+                            # Las Vegas version: does pat[] match txt[i..i-M+1] ?
+                            def check(self, txt, i):
+                                for j in range(self.M):
+                                    if self.pat_hash != self.hash(txt[i:i+self.M], self.M):
+                                        return False
+                                return True
                         
-                        # Monte Carlo version: always return true
-                        
-                        def search(self, txt):
-                        N = len(txt)
-                        if N &lt; self.M:
-                        return N
-                        txt_hash = self.hash(txt, self.M)
-                        
-                        if (self.pat_hash == txt_hash) and self.check(txt, 0):
-                        return 0
-                        
-                        for i in range(self.M, N):
-                        txt_hash = (txt_hash + self.Q - self.RM * ord(txt[i - self.M]) % self.Q) % self.Q
-                        txt_hash = (txt_hash * self.R + ord(txt[i])) % self.Q
-                        
-                        offset = i - self.M + 1
-                        if (self.pat_hash == txt_hash) and self.check(txt, offset):
-                        return offset
-                        
-                        return N
+                            # Monte Carlo version: always return true
+
+                            def search(self, txt):
+                                N = len(txt)
+                                if N &lt; self.M:
+                                    return N
+                                txt_hash = self.hash(txt, self.M)
+
+                                if (self.pat_hash == txt_hash) and self.check(txt, 0):
+                                    return 0
+
+                                for i in range(self.M, N):
+                                    txt_hash = (txt_hash + self.Q - self.RM * ord(txt[i - self.M]) % self.Q) % self.Q
+                                    txt_hash = (txt_hash * self.R + ord(txt[i])) % self.Q
+
+                                    offset = i - self.M + 1
+                                    if (self.pat_hash == txt_hash) and self.check(txt, offset):
+                                        return offset
+
+                                return N
                     </code-block>
                 </tab>
             </tabs>
-            <p>
-                <format color="BlueViolet">Cost of searching for an
-                    <math>M</math>
-                    -character pattern in an
-                    <math>N</math>
-                    -character text
-                </format>
-            </p>
+            <p><format color="BlueViolet">Cost of searching for an <math>M</math>-character pattern in an <math>N
+                    </math>-character text</format></p>
             <table style="none">
                 <tr>
                     <td rowspan="2">Algorithm</td>
@@ -1725,8 +1584,7 @@
                     <td>Typical</td>
                 </tr>
                 <tr>
-                    <td><a anchor="brute-force" summary="Brute Force Algorithm">Brute
-                        Force</a></td>
+                    <td><a anchor="brute-force" summary="Brute Force Algorithm">Brute Force</a></td>
                     <td>-</td>
                     <td>
                         <math>MN</math>
