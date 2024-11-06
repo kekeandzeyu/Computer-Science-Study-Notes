@@ -27,4 +27,8 @@
         <description>Created after removal of "Empty MD Topic" from Computer Science Study Notes</description>
         <accepts>Empty-MD-Topic.html</accepts>
     </rule>
+    <rule id="def4144">
+        <description>Created after removal of "Empty MD Topic" from Computer Science Study Notes</description>
+        <accepts>Empty-MD-Topic.html</accepts>
+    </rule>
 </rules>
