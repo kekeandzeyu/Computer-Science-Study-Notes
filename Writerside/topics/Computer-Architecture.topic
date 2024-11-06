@@ -8,7 +8,7 @@
     <title>
         Computer Architecture
     </title>
-    <img src="../images_architecture/a1-1-1.png" alt="Computer Architecture"/>
+    <img src="../images_architecture/a1-1-1.png" alt="Computer Architecture" width="400"/>
     <p>In this part, we will explore more about computer architecture, both RISC-Ⅴ and x86-64 architecture.</p>
     <chapter title="1 Number Representation" id="1-number-representation">
         <chapter title="1.1 Number Base" id="1-1-number-base">
@@ -341,27 +341,19 @@
             <p><format color="BlueViolet">Idea:</format> Just like unsigned, but shifted on the number line.</p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Smallest number:</format>
-                        0b0000...000 represents
-                        <math>\text{bias}</math>
-                        .
-                    </p>
+                    <p><format color="Fuchsia">Smallest number:</format> <math>\texttt{0b0000...000}</math> represents
+                        <math>\text{bias}</math>.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Largest number:</format>
-                        0b1111...111 represents
-                        <math>2^{N} - 1 + \text{bias}</math>
-                        .
-                    </p>
+                    <p><format color="Fuchsia">Largest number:</format> <math>\texttt{0b1111...111}</math> represents
+                        <math>2^{N} - 1 + \text{bias}</math>.</p>
                 </li>
             </list>
             <img src="../images_architecture/a1-1-6.png" alt="Bias Notation"/>
-            <p>
-                <format color="BlueViolet">To convert from bias to decimal:
-                </format>
-            </p>
+            <note>
+                <p>The range of numbers in standard bias is <math>[–(2^{N – 1} – 1), 2^{N - 1}]</math></p>
+            </note>
+            <p><format color="BlueViolet">To convert from bias to decimal:</format></p>
             <list type="bullet">
                 <li>
                     <p>Read as unsigned decimal.</p>
@@ -370,31 +362,35 @@
                     <p>Add the bias.</p>
                 </li>
             </list>
-            <p>Example: Assuming standard bias, what is 0b00000001 in decimal?</p>
+            <p><format color="IndianRed">Example:</format> Assuming standard bias, what is <math>\texttt{0b00000001}
+                </math> in decimal?</p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <math>N = 8</math>
-                        , so standard bias is:
-                        <math>–(2^{8–1} – 1)
-                            = –127
-                        </math>
-                        .
-                    </p>
+                    <p><math>N = 8</math>, so standard bias is: <math>–(2^{8–1} – 1) = –127</math>.</p>
                 </li>
                 <li>
                     <p>Read as unsigned: 1</p>
                 </li>
                 <li>
-                    <p>Add the bias:
-                        <math>1 + (--127) = –126</math>
-                    </p>
+                    <p>Add the bias: <math>1 + (-127) = –126</math></p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">To convert from decimal to bias notation:
-                </format>
-            </p>
+            <tip>
+                <p>Intuition:</p>
+                <list type="bullet">
+                    <li>
+                        <p>Unsigned 8-bit integer represent: <math>[a, b]</math></p>
+                    </li>
+                    <li>
+                        <p>Standard bias shifts to center at 0: <math>[–127, 128]</math></p>
+                    </li>
+                    <li>
+                        <p><math>\texttt{0b00000000}</math> is the smallest number (<math>–127</math>), so <math>
+                            \texttt{0b00000001}</math> must be <math>–126</math>.</p>
+                    </li>
+                </list>
+            </tip>
+            <p><format color="BlueViolet">To convert from decimal to bias notation:</format></p>
             <list type="bullet">
                 <li>
                     <p>Subtract the bias.</p>
@@ -403,23 +399,16 @@
                     <p>Convert to unsigned binary.</p>
                 </li>
             </list>
-            <p>Example: What is –126 in 8-bit biased notation?</p>
-            <list>
+            <p><format color="IndianRed">Example:</format> What is <math>–126</math> in 8-bit biased notation?</p>
+            <list type="bullet">
                 <li>
-                    <p>
-                        <math>N = 8</math>
-                        , so standard bias is:
-                        <math>–(2^{8–1} – 1)
-                            = –127
-                        </math>
-                        .
-                    </p>
+                    <p><math>N = 8</math>, so standard bias is:<math>–(2^{8–1} – 1) = –127</math>.</p>
                 </li>
                 <li>
-                    <p>Subtract the bias: –126 – (–127) = 1</p>
+                    <p>Subtract the bias: <math>–126 – (–127) = 1</math></p>
                 </li>
                 <li>
-                    <p>Write in base-2: 0b00000001</p>
+                    <p>Write in base-2: <math>\texttt{0b00000001}</math></p>
                 </li>
             </list>
             <table style="header-row">
@@ -428,15 +417,15 @@
                 </tr>
                 <tr>
                     <td>Can represent negative numbers</td>
-                    <td>&#x2713;</td>
+                    <td>✓</td>
                 </tr>
                 <tr>
                     <td>Doing math is easy</td>
-                    <td>&#x03C7;</td>
+                    <td>χ</td>
                 </tr>
                 <tr>
                     <td>Every bit sequence represents a unique number</td>
-                    <td>&#x2713;</td>
+                    <td>✓</td>
                 </tr>
             </table>
         </chapter>
@@ -445,45 +434,28 @@
             <p>Rightmost is the least significant bit (LSB).</p>
             <list type="bullet">
                 <li>
-                    <p>Want to represent the same number using more bits than
-                        before.</p>
+                    <p>Want to represent the same number using more bits than before.</p>
                     <list type="bullet">
                         <li>
-                            <p>Easy for positive numbers (add leading 0's), more
-                                complicated for negative numbers.</p>
+                            <p>Easy for positive numbers (add leading 0's), more complicated for negative numbers.</p>
                         </li>
                         <li>
-                            <p>
-                                <format color="Fuchsia">Sign and magnitude:</format>
-                                add 0's after the sign bit.
-                            </p>
+                            <p><format color="Fuchsia">Sign and magnitude:</format> add 0's after the sign bit.</p>
                         </li>
                         <li>
-                            <p>
-                                <format color="Fuchsia">One's/Two's Complement:</format>
-                                copy MSB.
-                            </p>
+                            <p><format color="Fuchsia">One's/Two's Complement:</format> copy MSB.</p>
                         </li>
                     </list>
                 </li>
+            </list>
+            <p><format color="IndianRed">Example:</format></p>
+            <list type="bullet">
                 <li>
-                    <p>
-                        <format color="Fuchsia">Example:</format>
-                    </p>
-                    <list type="bullet">
-                        <li>
-                            <p>
-                                <format color="LawnGreen">Sign and magnitude:</format>
-                                0b1101 = 0b10000101.
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                <format color="LawnGreen">One's/Two's complement:</format>
-                                0b1100 = 0b11111100.
-                            </p>
-                        </li>
-                    </list>
+                    <p><format color="Fuchsia">Sign and magnitude:</format>0b1101 = 0b10000101.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">One's/Two's complement:</format> <math>\texttt{0b1100} =
+                        \texttt{0b11111100}</math>.</p>
                 </li>
             </list>
         </chapter>
