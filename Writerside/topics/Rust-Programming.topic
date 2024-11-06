@@ -322,4 +322,102 @@
             </list>
         </chapter>
     </chapter>
+    <chapter title="2 Memory Safety">
+        <p><format color="BlueViolet">Good Memory Management</format></p>
+        <list type="bullet">
+            <li>
+                <p>Pre/postconditions are essential to breaking code into small pieces with welldefined interfaces in
+                    between.</p>
+            </li>
+            <li>
+                <p>It's the programmer's responsibility to make sure the pre/postconditions are upheld, the compiler
+                    does not know what your postconditions are.</p>
+            </li>
+            <li>
+                <p>If you free too early, other parts of your code might still be using pointers to that memory.</p>
+            </li>
+            <li>
+                <p>If you don't free anywhere (or you free in a function that only gets called sometimes), you'll have a
+                    memory leak.</p>
+            </li>
+            <li>
+                <p>Good C/C++ code will clearly define how memory is passed around and "who" is responsible for cleaning
+                    it up.</p>
+            </li>
+            <li>
+                <p>If you read C/C++ code, you'll see notions of "ownership" in the comments, where the "owner" is
+                    responsible for the memory.</p>
+            </li>
+        </list>
+        <p><format color="BlueViolet">Ownership in Rust: Use Teddy Bear Analogy</format></p>
+        <list type="bullet">
+            <li>
+                <code-block lang="rust">
+                    let julio = "I have the teddy bear!".to_string();
+                </code-block>
+                <p>Julio is the owner of the teddy bear. He can do whatever he wants with it.</p>
+                <p>Julio is responsible for putting the gift back where they found it before leaving (free the memory!)
+                </p>
+            </li>
+            <li>
+                <code-block lang="rust">
+                    let ryan = julio;
+                </code-block>
+                <p>Now, Ryan is the owner of the toy! Ryan can do anything he wants with the toy!</p>
+                <p>Ryan is now responsible for putting the toy back where Julio found it before leaving (free the memory)
+                .</p>
+                <p>Julio has no ownership of the toy anymore, and can't do anything with this bear anymore.</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">Function Calls</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Ownership Transfered</p>
+                        <code-block lang="rust" collapsible="true">
+                            fn take_ownership(s: String) { // s takes ownership of the String
+                                println!("{}", s);
+                            } // s goes out of scope and the string is dropped (memory freed)
+
+                            fn main() {
+                                let julio = "I have the teddy bear!".to_string();
+                                take_ownership(julio); // Ownership is transferred to the function
+                                // println!("{}", julio); // This will cause a compile-time error because julio no longer owns the string
+                            }
+                        </code-block>
+                        <p>This means that at the end of the function execution, they will be responsible for freeing
+                            the toy in memory!</p>
+                    </li>
+                    <li>
+                        <p>Borrowing</p>
+                        <code-block lang="rust" collapsible="true">
+                            fn borrow_teddy(bear: &amp;String) {  // The &amp; signifies borrowing
+                                println!("Playing with the bear: {}", bear);
+                            } // The borrow ends here.  The original owner (julio) still has the teddy bear.
+
+                            fn main() {
+                                let julio = "I have the teddy bear!".to_string();
+                                borrow_teddy(&amp;julio); // Borrow julio using a reference
+                                println!("{}", julio); // This is perfectly fine now!  julio still owns the string.
+                            }
+                        </code-block>
+                    </li>
+                </list>
+            </li>
+        </list>
+        <p><format color="BlueViolet">Ownership Rules</format></p>
+        <list type="bullet">
+            <li>
+                <p>Each value in Rust has a variable that's called its <format style="italic">owner</format>.</p>
+            </li>
+            <li>
+                <p>There can only be one owner at a time.</p>
+            </li>
+            <li>
+                <p>When the owner goes out of scope, the values will be dropped.</p>
+            </li>
+        </list>
+        <note>
+            <p>Because of ownership model, you can't have memory leaks and so forth!</p>
+        </note>
+    </chapter>
 </topic>
