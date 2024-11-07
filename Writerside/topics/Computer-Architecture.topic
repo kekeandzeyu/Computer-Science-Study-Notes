@@ -1004,11 +1004,7 @@
         </chapter>
     </chapter>
     <chapter title="4 C Memory Layout" id="4-c-memory-layout">
-        <p>Program's
-            <format color="OrangeRed" style="italic">address space
-            </format>
-            contains 4 regions:
-        </p>
+        <p>Program's <format color="OrangeRed" style="italic">address space</format> contains 4 regions:</p>
         <list type="bullet">
             <li>
                 <p>

@@ -1061,4 +1061,162 @@
     </chapter>
     <chapter title="9 Memory Hierarchy" id="9-memory-hierarchy">
     </chapter>
+    <chapter title="10 Linking" id="10-linking">
+        <p><format color="IndianRed">Example</format></p>
+        <p>main.c</p>
+        <code-block lang="c" collapsible="true">
+            int sum(int *a, int n);
+
+            int array[2] = {1, 2};
+
+            int main() {
+                int val = sum(array, 2);
+                return val;
+            }
+        </code-block>
+        <p>sum.c</p>
+        <code-block lang="c" collapsible="true">
+            int sum(int *a, int n) {
+                int i, s = 0;
+                for (i = 0; i &lt; n; i++) {
+                    s += a[i];
+                }
+                return s;
+            }
+        </code-block>
+        <p>Compile with the following command:</p>
+        <code-block lang="bash">
+            $ gcc -Og -o prog main.c sum.c
+            $ ./prog
+        </code-block>
+        <img src="../images_architecture/ax10-1-1.png" alt="Linking"/>
+        <p><format color="BlueViolet">Advantages of linkers</format></p>
+        <list type="decimal">
+            <li>
+                <p><format color="Fuchsia">Modularity:</format> Program can be written as a collection of smaller source
+                    files, rather than one monolithic mass. Can build libraries of common functions.</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">Efficiency:</format> Separate compilation and libraries.</p>
+            </li>
+        </list>
+        <p><format color="BlueViolet">Types of linking</format></p>
+        <list type="bullet">
+            <li>
+                <p><format color="Fuchsia">Static Linking:</format> Executable files and running memory images contain
+                    only the library code they actually use.</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">Dynamic Linking:</format> Executable files contain no library code. During
+                    execution, single copy of library code can be shared across all executing processes.</p>
+            </li>
+        </list>
+        <chapter title="10.1 Static Linking" id="10-1-static-linking">
+            <procedure title="Static Linking">
+                <step>
+                    <p><format color="Fuchsia">Symbol resolution</format></p>
+                    <p>Programs define and reference symbols (global variables, functions, <format style="italic">static
+                        </format> variable (with static attribute)).</p>
+                    <p>Symbol definitions are stored in object file (by assembler) in symbol table. During symbol
+                        resolution step, the linker associates each symbol reference with exactly one symbol definition.
+                    </p>
+                </step>
+                <step>
+                    <p><format color="Fuchsia">Relocation</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p>Merges separate code and data sections into single sections.</p>
+                        </li>
+                        <li>
+                            <p>Relocates symbols from their relative locations in the <code>.o</code> files to their
+                                final absolute memory locations in the executable.</p>
+                        </li>
+                        <li>
+                            <p>Updates all references to these symbols to reflect their new positions.</p>
+                        </li>
+                    </list>
+                </step>
+            </procedure>
+            <p><format color="BlueViolet">Three types of object files</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Relocatable object file (<code>.o</code> file):</format> Contains
+                    code and data in a form that can be combined with other relocatable object files to form executable
+                    object file.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Executable object file (<code>a.out</code> file)</format> Contains code
+                        and data in a form that can be copied directly into memory and then executed.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Shared object file (<code>.so</code> file):</format> Special type of
+                        relocatable object file that can be loaded into memory and linked dynamically, at either load
+                        time or run-time.</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Executable and Linkable Format (ELF): One unified format for relocatable
+                object files, executable object files &amp; shared object files</format></p>
+            <img src="../images_architecture/ax10-1-2.png" alt="ELF"/>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Elf header:</format> Word size, byte ordering, file type (.o, exec, .so),
+                        machine type, etc.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Segment header table (only for executable object file):</format> Page
+                        size, virtual address memory segments (sections), segment sizes (indicate where different
+                        segments of the code go, like stack, shared library, etc.).</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">.text section (read only):</format> code.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">.rodata section (read only):</format> Read only data: jump tables, string
+                        constants, ...</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">.data section:</format> Initialized global variables.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">.bss section (Block Started by Symbol):</format> Uninitialized global
+                        variables, has section header but occupies no space.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">.symtab section:</format> Symbol table for procedure and static variable
+                        names, section names and locations.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">.rel.text section:</format> Relocation info for .text section, addresses
+                        of instructions that will need to be modified in the executable.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">.rel.data section:</format> Relocation info for .data section, addresses
+                        of pointer data that will need to be modified in the merged executable.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">.debug section:</format> Info for symbolic debugging (gcc -g).</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Section header table:</format> Offsets and sizes of each section.</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Linker Symbols</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Global symbols:</format> Symbols defined by module m that can be
+                        referenced by other modules. These correspond to nonstatic C functions and global variables.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">External symbols:</format> Global symbols that are referenced by module m
+                        but defined by some other module. These correspond to nonstatic C functions and global variables
+                        that are defined in other modules.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Local symbols:</format> Symbols that are defined and referenced
+                        exclusively by module m. These correspond to static C functions and global variables that are
+                        defined with the static attribute.</p>
+                </li>
+            </list>
+        </chapter>
+    </chapter>
 </topic>
