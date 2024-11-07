@@ -78,19 +78,21 @@ For English version please check [here](README.md)
 
 2. CMU 15-213: Introduction to Computer Systems (Carnegie Mellon University) by Professor Randal E. Briant, David R. O'Hallaron, Brian Railing, Phillip Gibbons, David Varodayan, Mohamed Farag, and the rest of CMU 15-213 staff.
 
-3. <https://en.wikipedia.org/wiki/Byte>.
+3. Computer Systems: A Programmer's Perspective (3rd Edition) by Randal E. Bryant & David R. O'Hallaron.
 
-4. <https://en.cppreference.com/w/cpp/language/sizeof>.
+4. <https://en.wikipedia.org/wiki/Byte>.
 
-5. <https://en.wikipedia.org/wiki/Sizeof>.
+5. <https://en.cppreference.com/w/cpp/language/sizeof>.
 
-6. By Aeroid - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=137790829.
+6. <https://en.wikipedia.org/wiki/Sizeof>.
 
-7. <https://en.wikipedia.org/wiki/Segmentation_fault>.
+7. By Aeroid - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=137790829.
 
-8. <https://en.wikipedia.org/wiki/Bus_error>.
+8. <https://en.wikipedia.org/wiki/Segmentation_fault>.
 
-9. <https://en.wikipedia.org/wiki/Floating-point_arithmetic>.
+9. <https://en.wikipedia.org/wiki/Bus_error>.
+
+10. <https://en.wikipedia.org/wiki/Floating-point_arithmetic>.
 
 ### Topic 5: 操作系统
 
