@@ -311,9 +311,7 @@
             </tip>
         </chapter>
         <chapter title="1.4 SQL Queries" id="1-4-sql-queries">
-            <p>
-                <format color="BlueViolet">Basic Single Table Queries:</format>
-            </p>
+            <p><format color="BlueViolet">Basic Single Table Queries:</format></p>
             <code-block lang="sql" collapsible="true">
                 SELECT [DISTINCT] &lt;column expression list&gt;
                 FROM &lt;single table&gt;
@@ -331,8 +329,7 @@
                         expression over column refs.</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Example:</format>
+            <p><format color="BlueViolet">Example:</format>
             </p>
             <code-block lang="sql" collapsible="true">
                 SELECT S.name, S.gpa, S.age*2 AS a2
@@ -583,9 +580,7 @@
                     <td>102</td>
                 </tr>
             </table>
-            <p>
-                <format color="BlueViolet">Self-Joins</format>
-            </p>
+            <p><format color="BlueViolet">Self-Joins</format></p>
             <code-block lang="sql" collapsible="true">
                 SELECT x.sname AS sname1,
                 x.age AS age1,
@@ -639,6 +634,8 @@
                     <td>19</td>
                 </tr>
             </table>
+            <p><format color="BlueViolet">Inner Join</format></p>
+
         </chapter>
         <chapter title="2.2 Select &amp; Where Advanced" id="2-2-select-where-advanced">
             <p><format color="BlueViolet">Arithmetic Expressions</format></p>
@@ -762,7 +759,6 @@
         </chapter>
         <chapter title="2.3 Nested Queries" id="2-3-nested-queries">
             <list type="decimal">
-
                 <li>
                     <p><format color="Fuchsia">In</format></p>
                     <p><format color="IndianRed">Example</format></p>
@@ -817,8 +813,36 @@
                         */
                     </code-block>
                 </li>
-
             </list>
+            <p><format color="IndianRed">Example for Division</format></p>
+            <code-block lang="sql" collapsible="true">
+                SELECT S.sname
+                FROM Sailors S
+                WHERE NOT EXISTS
+                    (SELECT B.bid
+                    FROM Boats B
+                    WHERE NOT EXISTS
+                        (SELECT R.sid
+                        FROM Reserves R
+                        WHERE R.bid = B.bid AND R.sid = S.sid));
+            </code-block>
+            <p><format color="BlueViolet">ARGMAX</format></p>
+            <p><format color="IndianRed">Example: Sailor with the Highest Rating</format></p>
+            <compare type="top-bottom" first-title="All the sailors with the highest rating" second-title="Limited to one line">
+                <code-block lang="sql">
+                    SELECT *
+                    FROM Sailors S
+                    WHERE S.rating >= ALL
+                        (SELECT S2.rating
+                        FROM Sailors S2);
+                </code-block>
+                <code-block lang="sql">
+                    SELECT *
+                    FROM Sailors S
+                    ORDER BY S.rating DESC
+                    LIMIT 1;
+                </code-block>
+            </compare>
         </chapter>
     </chapter>
 
