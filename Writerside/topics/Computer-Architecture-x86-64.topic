@@ -1154,6 +1154,8 @@
                         time or run-time.</p>
                 </li>
             </list>
+        </chapter>
+        <chapter title="10.2 ELF Object Files" id="10-2-elf-object-files">
             <p><format color="BlueViolet">Executable and Linkable Format (ELF): One unified format for relocatable
                 object files, executable object files &amp; shared object files</format></p>
             <img src="../images_architecture/ax10-1-2.png" alt="ELF"/>
@@ -1175,14 +1177,17 @@
                         constants, ...</p>
                 </li>
                 <li>
-                    <p><format color="Fuchsia">.data section:</format> Initialized global variables.</p>
+                    <p><format color="Fuchsia">.data section:</format> Initialized global and static variables. Local C
+                        variables are maintained at run time on the stack and do not appear in either the .data or .bss
+                        sections.</p>
                 </li>
                 <li>
-                    <p><format color="Fuchsia">.bss section (Block Started by Symbol):</format> Uninitialized global
-                        variables, has section header but occupies no space.</p>
+                    <p><format color="Fuchsia">.bss section (Block Started by Symbol):</format> (Preciesly in modern gcc)
+                        Uninitialized and static variables, along with any global or static variables that are
+                        initialized to zero, has section header but occupies no space.</p>
                 </li>
                 <li>
-                    <p><format color="Fuchsia">.symtab section:</format> Symbol table for procedure and static variable
+                    <p><format color="Fuchsia">.symtab section:</format> Symbol table for functions and global variables'
                         names, section names and locations.</p>
                 </li>
                 <li>
@@ -1215,6 +1220,67 @@
                     <p><format color="Fuchsia">Local symbols:</format> Symbols that are defined and referenced
                         exclusively by module m. These correspond to static C functions and global variables that are
                         defined with the static attribute.</p>
+                </li>
+            </list>
+            <p><format color="IndianRed">Example (symbols.c)</format></p>
+            <code-block lang="c" collapsible="true">
+                int incr = 1;
+
+                static int foo(int a) {
+                    int b = a + incr;
+                    return b;
+                }
+
+                int main(int argc, char* argv[]) {
+                    printf("%d\n", foo(5));
+                    return 0;
+                }
+            </code-block>
+            <p><code>incr</code>, <code>foo</code>, <code>main</code>, <code>printf</code> will be on the symbol table
+                of symbols.o.</p>
+            <tip>
+                <p>You can find this with <code>readelf</code></p>
+                <code-block lang="bash">
+                    $ readelf -s symbols.o
+                </code-block>
+            </tip>
+            <p><format color="BlueViolet">Types of Duplicate Symbol Definitions</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">strong:</format> procedures and initialized globals.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">weak:</format> uninitialized globals, or ones declared with specifier
+                        <code>extern</code>.</p>
+                </li>
+            </list>
+            <p><format color="IndianRed">Linker's Symbol Rules</format></p>
+            <list type="bullet">
+                <li>
+                    <p>Multiple strong symbols are not allowed. Each item can be defined only once, otherwise will
+                        cause linker error.</p>
+                </li>
+                <li>
+                    <p>Given a strong symbol and multiple weak symbols, choose the strong symbol.</p>
+                </li>
+                <li>
+                    <p>If there are multiple weak symbols, pick an arbitrary one (can override this with
+                        <code>gcc –fno-common</code>).</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Three types of symbols that do not have entries in the section header table
+            </format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">ABS:</format> Symbols that should not be relocated</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">UNDEF:</format> Symbols that are referenced in this object module but
+                        defined elsewhere.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">COMMON:</format> Uninitialized data objects that are not yet allocated
+                        (Precisely, uninitialized global variables).</p>
                 </li>
             </list>
         </chapter>

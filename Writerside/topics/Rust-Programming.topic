@@ -364,8 +364,8 @@
                     let ryan = julio;
                 </code-block>
                 <p>Now, Ryan is the owner of the toy! Ryan can do anything he wants with the toy!</p>
-                <p>Ryan is now responsible for putting the toy back where Julio found it before leaving (free the memory)
-                .</p>
+                <p>Ryan is now responsible for putting the toy back where Julio found it before leaving (free the memory
+                    ).</p>
                 <p>Julio has no ownership of the toy anymore, and can't do anything with this bear anymore.</p>
             </li>
             <li>

@@ -13,47 +13,30 @@
             Ⅰ C++ Fundamentals
         </title>
         <chapter title="1 C &amp; C++ Introduction" id="intro">
-            <p>
-                <format color="BlueViolet">Properties:</format>
-            </p>
+            <p><format color="BlueViolet">Properties:</format></p>
             <list type="bullet">
                 <li>
-                    <p>C/C++ is a
-                        <format color="OrangeRed">compiled</format>
-                        language.
-                    </p>
+                    <p>C/C++ is a <format color="OrangeRed">compiled</format> language.</p>
                 </li>
                 <li>
-                    <p>C/C++
-                        <format style="italic">compilers</format>
-                        map C/C++
-                        programs into architecture-specific machine code (string of 0s
-                        and 1s).
-                    </p>
+                    <p>C/C++ <format style="italic">compilers</format> map C/C++ programs into architecture-specific
+                        machine code (string of 0s and 1s).</p>
                     <list type="bullet">
                         <li>
-                            <p>Unlike Java, which converts to architecture-independent
-                                bytecode (run by JVM => Java Virtual Machine).</p>
+                            <p>Unlike Java, which converts to architecture-independent bytecode (run by JVM => Java
+                                Virtual Machine).</p>
                         </li>
                         <li>
-                            <p>Unlike Python, which directly
-                                <format style="italic">
-                                    interprets
-                                </format>
-                                the code.
-                            </p>
+                            <p>Unlike Python, which directly <format style="italic">interprets</format> the code.</p>
                         </li>
                         <li>
-                            <p>Main difference is when your program is mapped to low-level
-                                machine instructions, CPU will directly interprets and runs.
-                            </p>
+                            <p>Main difference is when your program is mapped to low-level machine instructions, CPU
+                                will directly interprets and runs.</p>
                         </li>
                     </list>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Compilation Advantages:</format>
-            </p>
+            <p><format color="BlueViolet">Compilation Advantages:</format></p>
             <list>
                 <li>
                     <p>
@@ -105,6 +88,10 @@
                 </li>
             </list>
             <img src="../images_c/c1-1.png" alt="Compilation"/>
+            <note>
+                <p>For more information about how to compile and run the code, please refer to Computer Architecture
+                    part.</p>
+            </note>
         </chapter>
         <chapter title="2 Types and Structs" id="2-types-and-structs">
             <chapter title="2.1 Primitive Types" id="2-1-primitive-types">
@@ -313,9 +300,7 @@
                 <p>For more information on strings, please visit
                     <a href="Data-Structures-and-Algorithms-3.topic" anchor="strings-in-java"
                        summary="Strings in Java">strings in Java</a>.</p>
-                <p>
-                    <format color="BlueViolet">Examples in C++:</format>
-                </p>
+                <p><format color="BlueViolet">Examples in C++:</format></p>
                 <code-block lang="c++">
                     std::string str = "Hello, World!";
                     std::cout &lt;&lt; str[1] &lt;&lt; std::endl; // e
@@ -1057,10 +1042,8 @@
         </note>
         <chapter title="6 Containers" id="6-containers">
             <chapter title="6.1 Sequence Containers" id="6-1-sequence-containers">
-                <p>
-                    <format color="DarkOrange">Sequence Containers:</format>
-                    Containers which provide access to a linear sequence of elements.
-                </p>
+                <p><format color="DarkOrange">Sequence Containers:</format>
+                    Containers which provide access to a linear sequence of elements. </p>
                 <list type="bullet">
                     <li>
                         <p><code>std::vector&lt;T&gt;</code></p>
@@ -1079,13 +1062,8 @@
                     </li>
                 </list>
                 <chapter title="6.1.1 Vector" id="6-1-1-vector">
-                    <p>
-                        <format color="DarkOrange">Vector:</format>
-                        An array with changeable size.
-                    </p>
-                    <p>
-                        <format color="BlueViolet">Example</format>
-                    </p>
+                    <p><format color="DarkOrange">Vector:</format> An array with changeable size.</p>
+                    <p><format color="BlueViolet">Example</format></p>
                     <code-block lang="c++" collapsible="true">
                         #include &lt;iostream&gt;
                         #include &lt;vector&gt;
