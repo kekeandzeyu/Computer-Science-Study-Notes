@@ -1285,4 +1285,279 @@
             </list>
         </chapter>
     </chapter>
+    <chapter title="11 Exceptional Control Flow" id="11-exceptional-control-flow">
+        <p>From startup to shutdown, each CPU core simply reads and executes (interprets) a sequence of instructions,
+            one at a time (externally), but it is not sufficient to react to changes in system state, which are <format
+            color="DarkOrange">Exceptional Control Flow (ECF)</format>.</p>
+        <p><format color="BlueViolet">Exceptional Control Flow exists at all levels of a computer system</format></p>
+        <list type="bullet">
+            <li>
+                <p>Low Level Mechanisms</p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Exceptions:</format> Change in control flow in response to a system
+                            event (i.e., change in system state), implemented using combination of hardware and OS
+                            software.</p>
+                    </li>
+                </list>
+            </li>
+            <li>
+                <p>High Level Mechanisms</p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Process context switch:</format> Implemented by OS software and
+                            hardware timer.</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Signals:</format> Implemented by OS software.</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Nonlocal jumps:</format> Implemented by C runtime library.</p>
+                    </li>
+                </list>
+            </li>
+        </list>
+        <chapter title="11.1 Exceptions" id="11-1-exceptions">
+            <p>An <format color="DarkOrange">exception</format> is a transfer of control to the OS kernel in response to
+                some event (i.e., change in processor state).</p>
+            <list type="bullet">
+                <li>
+                    <p>Kernel is the memory-resident part of the OS.</p>
+                </li>
+                <li>
+                    <p>Examples of events: Divide by 0, arithmetic overflow, page fault, I/O request completes, typing
+                        <shortcut>Ctrl-C</shortcut></p>
+                </li>
+            </list>
+            <img src="../images_architecture/ax11-1-1.png" alt="Anatomy of an Exception"/>
+            <p><format color="BlueViolet">Exception Handling</format></p>
+            <img src="../images_architecture/ax11-1-2.png" alt="Exception Handling"/>
+            <list type="bullet">
+                <li>
+                    <p>Each type of event has a unique exception number <math>k</math>.</p>
+                </li>
+                <li>
+                    <p><math>k</math> = index into exception table (a.k.a. interrupt vector).</p>
+                </li>
+                <li>
+                    <p>Handler <math>k</math> is called each time exception <math>k</math> occurs.</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Classes of Exceptions</format></p>
+            <img src="../images_architecture/ax11-1-3.png" alt="Taxonomy of Hardware ECF"/>
+            <list type="decimal">
+                <li>
+                    <p><format color="Fuchsia">Asynchronous Exceptions:</format> Caused by events external
+                        to the processor.</p>
+                    <p>Interrupts:</p>
+                    <list type="bullet">
+                        <li>
+                            <p>Indicated by setting the processor’s interrupt pin.</p>
+                        </li>
+                        <li>
+                            <p>Handler returns to "next" instruction.</p>
+                        </li>
+                        <li>
+                            <p><format color="IndianRed">Examples</format></p>
+                            <list type="bullet">
+                                <li>
+                                    <p><format color="GreenYellow">Timer interrupt:</format> Every few ms, an external
+                                        timer chip triggers an interrupt, used by the kernel to take back control from
+                                        user programs (avoiding infinite loops, etc.).</p>
+                                </li>
+                                <li>
+                                    <p><format color="GreenYellow">I/O interrupt from external device:</format> Hitting
+                                        <shortcut>Ctrl-C</shortcut> at the keyboard, arrival of a packet from a network,
+                                        arrival of data from a disk.</p>
+                                </li>
+                            </list>
+                        </li>
+                    </list>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Synchronous Exceptions:</format> Caused by events that occur as a result
+                        of executing an instruction.</p>
+                    <list type="bullet">
+                        <li>
+                            <p><format color="GreenYellow">Traps</format></p>
+                            <list type="bullet">
+                                <li>
+                                    <p>Intentional, set program up to "trip the trap" and do something.</p>
+                                </li>
+                                <li>
+                                    <p><format color="IndianRed">Examples:</format> system calls, gdb breakpoints.</p>
+                                </li>
+                                <li>
+                                    <p>Returns control to "next" instruction.</p>
+                                </li>
+                            </list>
+                        </li>
+                        <li>
+                            <p><format color="GreenYellow">Faults</format></p>
+                            <list type="bullet">
+                                <li>
+                                    <p>Unintentional but possibly recoverable.</p>
+                                </li>
+                                <li>
+                                    <p><format color="IndianRed">Examples:</format> page faults (recoverable),
+                                        protection faults (unrecoverable), floating point exceptions.</p>
+                                </li>
+                                <li>
+                                    <p>Either re-executes faulting ("current") instruction or aborts.</p>
+                                </li>
+                            </list>
+                        </li>
+                        <li>
+                            <p><format color="GreenYellow"></format></p>
+                            <list type="bullet">
+                                <li>
+                                    <p>Unintentional and unrecoverable.</p>
+                                </li>
+                                <li>
+                                    <p><format color="IndianRed">Examples:</format> illegal instruction, parity error,
+                                        machine check.</p>
+                                </li>
+                                <li>
+                                    <p>Aborts current program.</p>
+                                </li>
+                            </list>
+                        </li>
+                    </list>
+                </li>
+            </list>
+            <p><format color="BlueViolet">System Calls Examples: Opening Files</format></p>
+            <list type="bullet">
+                <li>
+                    <p>User calls: <code>open(filename, options)</code></p>
+                </li>
+                <li>
+                    <p>Calls <code>__open</code> function, which invokes system call instruction <code>syscall</code>.</p>
+                </li>
+                <li>
+                    <p>%rax contains syscall number, and return value in %rax. Negative value is an error corresponding
+                        to negative errno.</p>
+                </li>
+                <li>
+                    <p>Almost like a function call, but executed by kernel. Plus, "address" of "function" is in %rax.
+                    </p>
+                </li>
+            </list>
+            <p>open_examples.c</p>
+            <code-block lang="c" collapsible="true">
+                #include &lt;fcntl.h&gt;  // For open flags (O_RDONLY, etc.)
+                #include &lt;unistd.h&gt; // For close
+                #include &lt;stdio.h&gt;  // For perror (error handling)
+
+                int main() {
+                    int fd;
+
+                    fd = open("my_file.txt", O_RDONLY);
+
+                    if (fd == -1) {
+                        perror("open failed");
+                        return 1;
+                    }
+
+                    if (close(fd) == -1) {
+                        perror("close failed");
+                        return 1;
+                    }
+
+                    return 0;
+                }
+            </code-block>
+            <p>open_examples.s</p>
+            <code-block lang="plain text" collapsible="true">
+                .file	"open_example.c"
+                # GNU C17 (Ubuntu 13.2.0-23ubuntu4) version 13.2.0 (x86_64-linux-gnu)
+                #	compiled by GNU C version 13.2.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
+
+                # GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+                # options passed: -mtune=generic -march=x86-64 -O0 -fasynchronous-unwind-tables -fstack-protector-strong -fstack-clash-protection -fcf-protection
+                    .text
+                    .section	.rodata
+                .LC0:
+                    .string	"my_file.txt"
+                .LC1:
+                    .string	"open failed"
+                .LC2:
+                    .string	"close failed"
+                    .text
+                    .globl	main
+                    .type	main, @function
+                    main:
+                .LFB0:
+                .cfi_startproc
+                endbr64
+                pushq	%rbp	#
+                .cfi_def_cfa_offset 16
+                .cfi_offset 6, -16
+                movq	%rsp, %rbp	#,
+                .cfi_def_cfa_register 6
+                subq	$16, %rsp	#,
+                # open_example.c:8:     fd = open("my_file.txt", O_RDONLY);
+                movl	$0, %esi	#,
+                leaq	.LC0(%rip), %rax	#, tmp85
+                movq	%rax, %rdi	# tmp85,
+                movl	$0, %eax	#,
+                call	open@PLT	#
+                movl	%eax, -4(%rbp)	# tmp86, fd
+                # open_example.c:10:     if (fd == -1) {
+                cmpl	$-1, -4(%rbp)	#, fd
+                jne	.L2	#,
+                # open_example.c:11:         perror("open failed");
+                leaq	.LC1(%rip), %rax	#, tmp87
+                movq	%rax, %rdi	# tmp87,
+                call	perror@PLT	#
+                # open_example.c:12:         return 1;
+                movl	$1, %eax	#, _2
+                jmp	.L3	#
+                .L2:
+                # open_example.c:15:     if (close(fd) == -1) {
+                movl	-4(%rbp), %eax	# fd, tmp88
+                movl	%eax, %edi	# tmp88,
+                call	close@PLT	#
+                # open_example.c:15:     if (close(fd) == -1) {
+                cmpl	$-1, %eax	#, _1
+                jne	.L4	#,
+                # open_example.c:16:         perror("close failed");
+                leaq	.LC2(%rip), %rax	#, tmp89
+                movq	%rax, %rdi	# tmp89,
+                call	perror@PLT	#
+                # open_example.c:17:         return 1;
+                movl	$1, %eax	#, _2
+                jmp	.L3	#
+                .L4:
+                # open_example.c:20:     return 0;
+                movl	$0, %eax	#, _2
+                .L3:
+                # open_example.c:21: }
+                leave
+                .cfi_def_cfa 7, 8
+                ret
+                .cfi_endproc
+                .LFE0:
+                    .size	main, .-main
+                    .ident	"GCC: (Ubuntu 13.2.0-23ubuntu4) 13.2.0"
+                    .section	.note.GNU-stack,"",@progbits
+                    .section	.note.gnu.property,"a"
+                    .align 8
+                    .long	1f - 0f
+                    .long	4f - 1f
+                    .long	5
+                0:
+                    .string	"GNU"
+                1:
+                    .align 8
+                    .long	0xc0000002
+                    .long	3f - 2f
+                2:
+                    .long	0x3
+                3:
+                    .align 8
+                4:
+
+            </code-block>
+        </chapter>
+    </chapter>
 </topic>
