@@ -6,7 +6,7 @@
 
 For English version please check [here](README.md)
 
-点击[这里](https://csstudy.pages.dev/)阅读笔记, 不要点击Github Pages
+点击[这里](https://csstudy.pages.dev/)阅读笔记, 不要点击Github Pages哦
 
 ## 1 目的及背景
 
