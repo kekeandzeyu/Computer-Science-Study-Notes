@@ -146,26 +146,11 @@
                 </table>
             </chapter>
             <chapter title="2.2 Structs" id="structs">
-                <p>
-                    <format color="BlueViolet">Definition:</format>
-                </p>
-                <p>
-                    <format color="DarkOrange">Struct:</format>
-                    A
-                    <format style=
-                                    "bold">struct
-                    </format>
-                    is a group of
-                    <format style="bold">named variables
-                    </format>
-                    , each with their own type, that allows programmers
-                    to
-                    <format style="bold">bundle different types</format>
-                    together!
-                </p>
-                <p>
-                    <format color="BlueViolet">Example:</format>
-                </p>
+                <p><format color="BlueViolet">Definition:</format></p>
+                <p><format color="DarkOrange">Struct:</format> A <format style="bold">struct</format> is a group of
+                    <format style="bold">named variables</format>, each with their own type, that allows programmers to
+                    <format style="bold">bundle different types</format> together!</p>
+                <p><format color="BlueViolet">Example:</format></p>
                 <compare type="top-bottom" first-title="C++" second-title="C">
                     <code-block lang="c++">
                         struct Student {

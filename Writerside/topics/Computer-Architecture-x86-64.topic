@@ -287,11 +287,11 @@
             </chapter>
             <chapter title="6.3.2 Address Computation Instructions" id="6-3-2-address-aomputation-instructions">
                 <p><code>leaq src, dst</code></p>
-                <code-block lang="plain text" ignore-vars="true">
-                    leaq (%rdi,%rdi,2), %rax ; Calculate the address of the element at index rdx in an array of integers pointed to by rsi (assuming 4 bytes per integer)
+                <code-block lang="nasm" ignore-vars="true">
+                    leaq (%rdi,%rdi,2), %rax ; # Calculate the address of the element at index rdx in an array of integers pointed to by rsi (assuming 4 bytes per integer)
                 </code-block>
                 <p>It can also be used for arithmetic expressions.</p>
-                <code-block lang="plain text" ignore-vars="true">
+                <code-block lang="nasm" ignore-vars="true">
                     leaq (%rdi,%rdi,2), %rax  ; Calculate rax = rdi + (rdi * 2) = 3 * rdi
                 </code-block>
             </chapter>
@@ -398,7 +398,7 @@
                     return rval;
                     }
                 </code-block>
-                <code-block lang="plain text" collapsible="true" ignore-vars="true">
+                <code-block lang="nasm" collapsible="true" ignore-vars="true">
                     0000000000001149 &lt;arith&gt;:
                     1149:	f3 0f 1e fa          	endbr64
                     114d:	55                   	push   %rbp
@@ -438,17 +438,17 @@
         </chapter>
         <chapter title="6.4 C, Assembly &amp; Machine Code" id="6-4-c-assembly-machine-code-x86">
             <p>Compile with the following code (debugging-friendly):</p>
-            <code-block lang="plain text">
-                gcc –Og p1.c -o p
+            <code-block lang="bash">
+                $ gcc –Og p1.c -o p
             </code-block>
             <img src="../images_architecture/a6-4-1.png" alt="C, Assembly &amp; Machine Code"/>
             <p>Use the following command to generate the assembly code:</p>
-            <code-block lang="plain text">
-                gcc –Og –S p1.c
+            <code-block lang="bash">
+                $ gcc –Og –S p1.c
             </code-block>
             <p>Use the following command to disassembly the machine code:</p>
-            <code-block lang="plain text">
-                objdump –d p1
+            <code-block lang="bash">
+                $ objdump –d p1
             </code-block>
         </chapter>
     </chapter>
@@ -691,7 +691,7 @@
                 </code-block>
             </compare>
             <p><format color="IndianRed">Example</format></p>
-            <code-block lang="plain text" ignore-vars="true" collapsible="true">
+            <code-block lang="nasm" ignore-vars="true" collapsible="true">
                 0000000000000000 &lt;main&gt;:
                 #include &lt;stdio.h&gt;
 
@@ -729,7 +729,7 @@
         </chapter>
         <chapter title="7.3 Loops" id="7-3-loops-x86">
             <p><format color="IndianRed">Example</format></p>
-            <code-block lang="plain text" ignore-vars="true" collapsible="true">
+            <code-block lang="nasm" ignore-vars="true" collapsible="true">
                 0000000000000000 &lt;main&gt;:
                 #include &lt;stdio.h&gt;
 
@@ -762,7 +762,7 @@
         </chapter>
         <chapter title="7.4 Switch Statements" id="7-4-switch-statements-x86">
             <p><format color="IndianRed">Example</format></p>
-            <code-block lang="plain text" ignore-vars="true" collapsible="true">
+            <code-block lang="nasm" ignore-vars="true" collapsible="true">
                 0000000000000000 &lt;main&gt;:
                 #include &lt;stdio.h&gt;
 

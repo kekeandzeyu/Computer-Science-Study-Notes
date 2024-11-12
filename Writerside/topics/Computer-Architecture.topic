@@ -466,106 +466,75 @@
                     "C++ Introduction">introduction in C++ programming</a>.</p>
         </note>
         <chapter title="2.1 Variable C Types" id="2-1-variable-c-types">
-            <p>
-                <format color="BlueViolet">char:</format>
-                A char takes up to 1
-                byte.
-            </p>
-            <p>7 bits are enough to store a char (
-                <math>2^{7}=128</math>
-                ), but
-                we add a bit to round up to 1 byte since computers usually deal with
-                multiple of bytes.
-            </p>
-            <p>
-                <format color="BlueViolet">Typecasting in C:</format>
-                C is a "
-                weakly" typed language, you can
-                <format color="OrangeRed">typecast
-                </format>
-                from any type to any other.
-            </p>
+            <p><format color="BlueViolet">char:</format> A char takes up to 1 byte.</p>
+            <p>7 bits are enough to store a char (<math>2^{7}=128</math>), but we add a bit to round up to 1 byte since
+                computers usually deal with multiple of bytes.</p>
+            <p><format color="BlueViolet">Typecasting in C:</format> C is a "weakly" typed language, you can <format
+                    color="OrangeRed">typecast</format> from any type to any other.</p>
             <note>
                 <p>For more information on struct, please visit <a
                         href="C-Programming.topic" anchor="structs" summary="Struct in C++">
                     struct in C++</a>.</p>
             </note>
-            <p>
-                <format color="BlueViolet">Union</format>
-            </p>
-            <p>Unions are similar to structs, but all members share the same
-                memory location, and union only provides enough space for the largest
-                element.</p>
+            <p><format color="BlueViolet">Union</format></p>
+            <p>Unions are similar to structs, but all members share the same memory location, and union only provides
+                enough space for the largest element.</p>
             <code-block lang="c" collapsible="true">
                 #include &lt;stdio.h&gt;
 
                 union Shape {
-                int radius; // For circle
-                struct {
-                int width;
-                int height;
-                } rectangle; // For rectangle
+                    int radius; // For circle
+                    struct {
+                        int width;
+                        int height;
+                    } rectangle; // For rectangle
                 };
 
                 int main() {
-                union Shape shape;
-                shape.radius = 5;
-                printf("Radius: %d\n", shape.radius); // Radius: 5
+                    union Shape shape;
+                    shape.radius = 5;
+                    printf("Radius: %d\n", shape.radius); // Radius: 5
 
-                shape.rectangle.width = 10;
-                shape.rectangle.height = 20;
-                printf("Width: %d, Height: %d\n", shape.rectangle.width, shape.rectangle.height);
-                // Width: 10, Height: 20
+                    shape.rectangle.width = 10;
+                    shape.rectangle.height = 20;
+                    printf("Width: %d, Height: %d\n", shape.rectangle.width, shape.rectangle.height); // Width: 10, Height: 20
 
-                printf("Radius: %d\n", shape.radius); // No meaning, the radius has been overwritten!
+                    printf("Radius: %d\n", shape.radius); // No meaning, the radius has been overwritten!
 
-                return 0;
+                    return 0;
                 }
             </code-block>
             <p><format color="DarkOrange">Enum:</format> A group of related integer constants.</p>
             <code-block lang="c++" collapsible="true">
                 enum enum_name {
-                constant1, // Assigned 0 by default
-                constant2, // Assigned 1 by default
-                constant3, // Assigned 2 by default
-                ...
+                    constant1, // Assigned 0 by default
+                    constant2, // Assigned 1 by default
+                    constant3, // Assigned 2 by default
+                    ...
                 };
             </code-block>
-            <p>
-                <format color="BlueViolet">CPP (C Preprocessor) Macro</format>
-            </p>
-            <p>Prior to compilation, preprocess by performing string replacement in
-                the program based on all #define macros.</p>
-            <p>For example, #define PI 3.14159 => Replace all PI with (3.14159) =>
-                In effect, makes PI a "constant".</p>
+            <p><format color="BlueViolet">CPP (C Preprocessor) Macro</format></p>
+            <p>Prior to compilation, preprocess by performing string replacement in the program based on all
+                <code>#define</code> macros.</p>
+            <p>For example, #define PI 3.14159 =&gt; Replace all PI with (3.14159) =&gt; In effect, makes PI a
+                "constant".</p>
         </chapter>
         <chapter title="2.2 Addresses &amp; Pointers" id="2-2-addresses-pointers">
-            <p>
-                <format color="BlueViolet">Definitions</format>
-            </p>
+            <p><format color="BlueViolet">Definitions</format></p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="DarkOrange">Address:</format>
-                        An address refers to a
-                        particular memory location.
+                    <p><format color="DarkOrange">Address:</format> An address refers to a particular memory location.
                     </p>
                 </li>
                 <li>
-                    <p>
-                        <format color="DarkOrange">Pointer:</format>
-                        A pointer is a variable
-                        that contains the address of another variable.
-                    </p>
+                    <p><format color="DarkOrange">Pointer:</format> A pointer is a variable that contains the address of
+                        another variable.</p>
                 </li>
             </list>
             <list type="bullet">
                 <li>
-                    <p>The size of an address (and thus, the size of a pointer) in bytes depend
-                        on architecture, e.g., for 32-bit, have
-                        <math>2^32</math>
-                        possible addresses.
-                    </p>
+                    <p>The size of an address (and thus, the size of a pointer) in bytes depend on architecture, e.g.,
+                        for 32-bit, have <math>2^32</math> possible addresses.</p>
                 </li>
                 <li>
                     <p>byte-addressed = each of its addresses points to a unique byte</p>
@@ -573,8 +542,7 @@
                 </li>
             </list>
             <note>
-                <p>Don't confuse the address referring to a memory location with the
-                    value stored there.</p>
+                <p>Don't confuse the address referring to a memory location with the value stored there.</p>
             </note>
             <code-block lang="c" collapsible="true">
                 int *p; // Declaration, and tells compiler that variable p is address of an int
@@ -588,13 +556,11 @@
 
                 void *p1; // Can be used to store any address
             </code-block>
-            <p>
-                <format color="BlueViolet">By value vs. By reference</format>
-            </p>
+            <p><format color="BlueViolet">By value vs. By reference</format></p>
             <compare type="left-right" first-title="By value" second-title="By reference">
                 <code-block lang="c">
                     void addOne (int x) {
-                    x = x + 1; // x = 4, copy of data
+                        x = x + 1; // x = 4, copy of data
                     }
 
                     int y = 3;
@@ -602,7 +568,7 @@
                 </code-block>
                 <code-block lang="c">
                     void addOne (int *x) {
-                    *x = *x + 1;
+                        *x = *x + 1;
                     }
 
                     int y = 3;
@@ -611,9 +577,7 @@
             </compare>
         </chapter>
         <chapter title="2.3 Array" id="2-3-array">
-            <p>
-                <format color="BlueViolet">Declaration &amp; Initialization</format>
-            </p>
+            <p><format color="BlueViolet">Declaration &amp; Initialization</format></p>
             <code-block lang="c" collapsible="true">
                 int arr[5]; // Declare an array of 5 integers
                 int arr1[] = {1, 2, 3, 4, 5}; // Declare and initialize an array of 5 integers
@@ -628,36 +592,21 @@
                 }
             </code-block>
             <note>
-                <p>An array variable and a pointer to the first (
-                    <math>
-                        0^{\text{th}}
-                    </math>
-                    ) element are nearly idenPcal declarations.
-                </p>
+                <p>An array variable and a pointer to the first (<math>0^{\text{th}}</math>) element are nearly idenPcal
+                    declarations.</p>
                 <p>arr[0] is same as *arr, arr[2] is same as *(arr+2)</p>
             </note>
-            <p>
-                <format color="BlueViolet">Pointer Arithmetic</format>
-            </p>
+            <p><format color="BlueViolet">Pointer Arithmetic</format></p>
             <list type="bullet">
                 <li>
-                    <p>
-                        <format color="Fuchsia">pointer+n:</format>
-                        Add n*sizeof("whatever
-                        pointer is pointing to")
-                    </p>
+                    <p><format color="Fuchsia">pointer+n:</format> Add n*sizeof("whatever pointer is pointing to")</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">pointer-n:</format>
-                        Subtract n*sizeof("
-                        whatever pointer is pointing to")
+                    <p><format color="Fuchsia">pointer-n:</format> Subtract n*sizeof("whatever pointer is pointing to")
                     </p>
                 </li>
             </list>
-            <p>
-                <format color="IndianRed">Examples</format>
-            </p>
+            <p><format color="IndianRed">Examples</format></p>
             <code-block lang="c" collapsible="true">
                 int arr[] = {1, 2, 3, 4, 5};
                 int *p = arr;
@@ -665,7 +614,7 @@
             </code-block>
             <code-block lang="c" collapsible="true">
                 void increment_ptr(int32_t **h) {
-                *h = *h + 1;
+                    *h = *h + 1;
                 }
 
                 int32_t arr[3] = {50, 60, 70};
@@ -687,17 +636,12 @@
                 // K&amp;R: "An array name is not a variable"
                 // a is not a variable, so asking for the address of it is meaningless
             </code-block>
-            <p>
-                <format color="BlueViolet">Potential Pitfalls</format>
-            </p>
+            <p><format color="BlueViolet">Potential Pitfalls</format></p>
             <list type="bullet">
                 <li>
                     <p>Array bounds are not checked during element access</p>
-                    <p>
-                        <format color="LawnGreen">Consequence:</format>
-                        We can accidentally
-                        access off the the end of the array!
-                    </p>
+                    <p><format color="LawnGreen">Consequence:</format> We can accidentally access off the the end of the
+                        array!</p>
                 </li>
                 <li>
                     <p>An array is passed to a function as a pointer</p>

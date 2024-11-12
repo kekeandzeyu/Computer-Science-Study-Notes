@@ -12,9 +12,16 @@
     src: url(../static/SF-Pro-Display-Medium.otf) format('opentype');
 }
 
+@font-face {
+    font-famile: "Jetbrains mono";
+    font-style: normal;
+    src: url(../static/JetBrainsMono-Regular.woff2) format('woff2');
+}
+
 :root {
     --rs-font-family-ui: "SF Pro Text";
     --rs-font-family-headers: "SF Pro Display";
+    --rs-font-family-mono: "Jetbrains mono";
 }
 
 td, th {
