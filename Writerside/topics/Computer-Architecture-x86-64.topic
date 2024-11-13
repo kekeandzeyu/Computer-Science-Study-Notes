@@ -1425,7 +1425,23 @@
                     </list>
                 </li>
             </list>
-            <p><format color="BlueViolet">System Calls Examples: Opening Files</format></p>
+            <p><format color="BlueViolet">System Calls:</format> Whenever a program wants to cause an effect outside its
+                own process, it must ask the kernel for help.</p>
+            <list type="bullet">
+                <li>
+                    <p>Read/write files.</p>
+                </li>
+                <li>
+                    <p>Get current time.</p>
+                </li>
+                <li>
+                    <p>Allocate RAM (sbrk).</p>
+                </li>
+                <li>
+                    <p>Create new processes.</p>
+                </li>
+            </list>
+            <p><format color="IndianRed">System Calls Examples: Opening Files</format></p>
             <list type="bullet">
                 <li>
                     <p>User calls: <code>open(filename, options)</code></p>
@@ -1467,7 +1483,7 @@
                 }
             </code-block>
             <p>open_examples.s</p>
-            <code-block lang="plain text" collapsible="true">
+            <code-block lang="nasm" collapsible="true">
                 .file	"open_example.c"
                 # GNU C17 (Ubuntu 13.2.0-23ubuntu4) version 13.2.0 (x86_64-linux-gnu)
                 #	compiled by GNU C version 13.2.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
@@ -1558,6 +1574,233 @@
                 4:
 
             </code-block>
+        </chapter>
+        <chapter title="11.2 Processes" id="11-2-processes">
+            <p><format color="DarkOrange">Process:</format> An instance of a <format color="OrangeRed">running</format>
+                program.
+                It is identified by Process ID (PID), user account, command name.</p>
+            <p>Two key abtractions:</p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Private address space:</format> Each program seems to have exclusive use
+                        of main memory. This is provided by kernel mechanism called virtual memory.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Logical control flow:</format> Each program seems to have exclusive use
+                        of the CPU. This is provided by kernel mechanism called context switching.</p>
+                </li>
+            </list>
+            <p>From startup to shutdown, each CPU core simply reads and executesa sequence of machine instructions, one
+                at a time*. This sequence is the CPU’s <format color="DarkOrange">control flow</format> (or <format
+                        color="DarkOrange">flow of control</format>).</p>
+            <note>
+                <p>*: Many modern CPUs execute several instructions at once and/or out of program order, but this is
+                    invisible to the programmer.</p>
+            </note>
+            <chapter title="11.2.1 Context Switch" id="11-2-1context-switch">
+                <p>Processes are managed by a shared chunk of memory-resident OS code called the kernel. The kernel is
+                    not a separate process, but rather runs as part of some existing process.</p>
+                <p>Control flow passes from one process to another via a <format color="DarkOrange">context switch
+                    </format>.</p>
+                <img src="../images_architecture/ax11-2-1.png" alt="Context Switch"/>
+                <p><format color="BlueViolet">Context Switching (Uniprocessor)</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Single processor executes multiple processes concurrently.</p>
+                    </li>
+                    <li>
+                        <p>Process executions interleaved (multitasking).</p>
+                    </li>
+                    <li>
+                        <p>Address spaces managed by virtual memory system.</p>
+                    </li>
+                </list>
+                <procedure title="Context Switching (Uniprocessor)">
+                    <step>
+                        <p>Save current registers in memory</p>
+                    </step>
+                    <step>
+                        <p>Schedule next process for execution</p>
+                    </step>
+                    <step>
+                        <p>Load saved registers and switch address space (context switch)</p>
+                    </step>
+                </procedure>
+                <p><format color="BlueViolet">Context Switching (Multicore)</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Multiple CPUs on single chip.</p>
+                    </li>
+                    <li>
+                        <p>Share main memory (and some caches).</p>
+                    </li>
+                    <li>
+                        <p>Each can execute a separate process. Scheduling of processes onto cores done by kernel.</p>
+                    </li>
+                </list>
+            </chapter>
+            <chapter title="11.2.2 Concurrent Flows" id="11-2-2-concurrent-flows">
+                <img src="../images_architecture/ax11-2-2.png" alt="Concurrent Processes"/>
+                <p><format color="DarkOrange">Concurrent Flow:</format> A logical flow whose execution overlaps in time with
+                    another flow.</p>
+                <note>
+                    <p>Flows X and Y are concurrent with respect to each other if and only if X begins after Y begins and
+                        before Y finishes, or Y begins after X begins and before X finishes.</p>
+                    <p>In the example above, A and B, A and C run concurrently. However, B and C do not run concurrently.</p>
+                </note>
+                <p><format color="DarkOrange">Parallel Flows:</format> Two flows are running concurrently on different
+                    processor cores or computers.</p>
+            </chapter>
+            <chapter title="11.2.3 System Calls" id="11-2-3-system-calls">
+                <p>On error, most system-level functions return −1 and set global variable <code>errno</code> to
+                    indicate cause.</p>
+                <code-block lang="c" collapsible="true">
+                    pid_t pid = fork();
+                    if(pid == -1) {
+                        fprintf(stderr, "fork error: %s\n", strerror(errno));
+                        exit(1);
+                    }
+                </code-block>
+                <p>Can simplify somewhat using an error-reporting function:</p>
+                <code-block lang="c" collapsible="true">
+                    void unix_error(char *msg) /* Unix-style error */
+                    {
+                        fprintf(stderr, "%s: %s\n", msg, strerror(errno));
+                        exit(1);
+                    }
+
+                    /* Example of using unix_error */
+                    if ((pid = fork()) &lt; 0)
+                        unix_error("fork error");
+                </code-block>
+                <p>Simplify even further by using Stevens-style error-handling wrappers:</p>
+                <code-block lang="c" collapsible="true">
+                    pid_t Fork(void)
+                    {
+                        pid_t pid;
+                        if ((pid = fork()) &lt; 0)
+                            unix_error("Fork error");
+                        return pid;
+                    }
+
+                    /* Example of using Fork */
+                    pid = Fork();
+                </code-block>
+            </chapter>
+            <chapter title="11.2.4 Process Control" id="11-2-4-process-control">
+                <p><format color="BlueViolet">Obtaining Process IDs</format></p>
+                <list type="bullet">
+                    <li>
+                        <p><code>pid_t getpid(void)</code> Returns PID of current process.</p>
+                    </li>
+                    <li>
+                        <p><code>pid_t getppid(void)</code> Returns PID of parent process.</p>
+                    </li>
+                </list>
+                <p><format color="BlueViolet">Process States</format></p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Running:</format> Process is either executing instructions, or it
+                            could be executing instructions if there were enough CPU cores.</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Blocked/Sleeping:</format> Process cannot execute any more
+                            instructions until some external event happens (usually I/O).</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Stopped:</format> Process has been prevented from executing by user
+                            action (control-Z).</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Terminated/Zombie:</format> Process is finished. Parent process has
+                            not yet been notified.</p>
+                    </li>
+                </list>
+                <p><format color="BlueViolet">Terminating Processes</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Receiving a signal whose default action is to terminate.</p>
+                    </li>
+                    <li>
+                        <p>Returning from the <code>main</code> routine.</p>
+                    </li>
+                    <li>
+                        <p>Calling the <code>exit</code> function.</p>
+                    </li>
+                </list>
+                <p><code>void exit(int status):</code> Terminates with an exit status of <code>status</code>. Convention
+                    is that normal return status is 0, nonzero on error. Another way to explicitly set the exit status
+                    is to return an integer value from the main routine.</p>
+                <note>
+                    <p><code>exit</code> is called once but never returns!</p>
+                </note>
+                <p><format color="BlueViolet">Creating Processes:</format> Parent process creates a new running child
+                    process by calling <code>int fork(void)</code></p>
+                <list type="bullet">
+                    <li>
+                        <p>Returns 0 to the child process, and child's PID to parent process.</p>
+                    </li>
+                    <li>
+                        <p>Child is almost identical to parent:</p>
+                        <list type="bullet">
+                            <li>
+                                <p>Child get an identical (but separate) copy of the parent's virtual address space.</p>
+                            </li>
+                            <li>
+                                <p>Child gets identical copies of the parent's open file descriptors.</p>
+                            </li>
+                            <li>
+                                <p>Child has a different PID than the parent.</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+                <note>
+                    <p><code>fork</code> is called once but returns twice!</p>
+                </note>
+                <img src="../images_architecture/ax11-2-3.png" alt="Conceptual View of fork"/>
+                <p><format color="IndianRed">Example</format></p>
+                <code-block lang="c" collapsible="true">
+                    /* fork.c */
+                    int main(int argc, char** argv)
+                    {
+                        pid_t pid;
+                        int x = 1;
+
+                        pid = Fork();
+                        if (pid == 0) { /* Child */
+                            printf("child : x=%d\n", ++x);
+                            return 0;
+                        }
+
+                        /* Parent */
+                        printf("parent: x=%d\n", --x);
+                        return 0;
+                    }
+                </code-block>
+                <code-block lang="bash">
+                    $ ./fork
+                    parent: x=0
+                    child : x=2
+                </code-block>
+                <list type="bullet">
+                    <li>
+                        <p>Call once, return twice.</p>
+                    </li>
+                    <li>
+                        <p>Concurrent execution: Can't predict execution order of parent and child.</p>
+                    </li>
+                    <li>
+                        <p>Duplicate but separate address space: x has a value of 1 when fork returns in parent and
+                            child, and subsequent changes to x are independent.</p>
+                    </li>
+                    <li>
+                        <p>Shared open files: <code>stdout</code> is the same in both parent and child.</p>
+                    </li>
+                </list>
+                <p>Process Graphs: Topological sort of the graph corresponds to a feasible total ordering.</p>
+                <img src="../images_architecture/ax11-2-4.png" alt="Process Graphs"/>
+            </chapter>
         </chapter>
     </chapter>
 </topic>
