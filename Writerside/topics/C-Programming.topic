@@ -39,27 +39,14 @@
             <p><format color="BlueViolet">Compilation Advantages:</format></p>
             <list>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Excellent run-time performance:
-                        </format>
-                    </p>
-                    <p>Generally much faster than Python or Java for comparable code
-                        because it
-                        <format color="OrangeRed">optimizes for the given
-                            architecture
-                        </format>
-                        .
-                    </p>
+                    <p><format color="Fuchsia">Excellent run-time performance:</format></p>
+                    <p>Generally much faster than Python or Java for comparable code because it
+                        <format color="OrangeRed">optimizes for the given architecture</format>.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Fair compilation time:</format>
-                    </p>
-                    <p>Enhancements in compilation procedure (Makefiles) allow us to
-                        <format color="OrangeRed">recompile only the modified files
-                        </format>
-                        .
-                    </p>
+                    <p><format color="Fuchsia">Fair compilation time:</format></p>
+                    <p>Enhancements in compilation procedure (Makefiles) allow us to <format color="OrangeRed">recompile
+                        only the modified files</format>.</p>
                 </li>
             </list>
             <p>
@@ -67,15 +54,10 @@
             </p>
             <list type="bullet">
                 <li>
-                    <p>Compiled files, including the executable, are arcitecture-
-                        specific (CPU type and OS).</p>
+                    <p>Compiled files, including the executable, are arcitecture-specific (CPU type and OS).</p>
                     <list type="bullet">
                         <li>
-                            <p>Executable must be
-                                <format color="OrangeRed">rebuilt
-                                </format>
-                                on each new system.
-                            </p>
+                            <p>Executable must be <format color="OrangeRed">rebuilt</format> on each new system.</p>
                         </li>
                         <li>
                             <p>i.e. "porting your code" to a new architecture.</p>
@@ -83,8 +65,8 @@
                     </list>
                 </li>
                 <li>
-                    <p>Instead of "Edit -> Run [repeat]" cycle, "Edit -> Compile ->
-                        Run [repeat]" iteration cycle can be slow.</p>
+                    <p>Instead of "Edit -> Run [repeat]" cycle, "Edit -> Compile -> Run [repeat]" iteration cycle can be
+                        slow.</p>
                 </li>
             </list>
             <img src="../images_c/c1-1.png" alt="Compilation"/>
