@@ -1800,6 +1800,172 @@
                 </list>
                 <p>Process Graphs: Topological sort of the graph corresponds to a feasible total ordering.</p>
                 <img src="../images_architecture/ax11-2-4.png" alt="Process Graphs"/>
+                <p><format color="BlueViolet">Reaping Child Processes:</format> When process terminates, it still
+                    consumes system resources.</p>
+                <procedure title="Reaping Child Processes">
+                    <step>
+                        <p>Performed by parent on terminated child (using <code>wait</code> or <code>waitpid</code>).
+                        </p>
+                    </step>
+                    <step>
+                        <p>Parent is given exit status information.</p>
+                    </step>
+                    <step>
+                        <p>Kernel then deletes zombie child process.</p>
+                    </step>
+                </procedure>
+                <p>If parent doesn't reap...</p>
+                <list type="bullet">
+                    <li>
+                        <p>The orphaned child should be reaped by <code>init</code> process (pid == 1).</p>
+                    </li>
+                    <li>
+                        <p>Unless it was <code>init</code> that terminated! Then need to reboot...</p>
+                    </li>
+                    <li>
+                        <p>Only need explicit reaping in long-running processes, e.g., shells and servers.</p>
+                    </li>
+                </list>
+                <note>
+                    <p>Non-terminating child needs to must be killed</p>
+                </note>
+                <p><format color="BlueViolet">wait</format> Synchronizing with Children</p>
+                <p>Parent reaps a child with one of these system calls:</p>
+                <list type="bullet">
+                    <li>
+                        <p><code>pid_t wait(int *status)</code> Suspends current process until one of its children
+                            terminates, returns PID of child, records exit status in <code>status</code>.</p>
+                    </li>
+                    <li>
+                        <p><code>pid_t waitpid(pid_t pid, int *status, int options)</code> More flexible version of
+                            <code>wait</code>, can wait for a specific child or group of children, can be told to return
+                            immediately if there are no children to reap.</p>
+                    </li>
+                </list>
+                <p><format color="IndianRed"><code>wait</code> Example1</format></p>
+                <code-block lang="c" collapsible="true">
+                    void fork9() {
+                        int child_status;
+                        if (fork() == 0) {
+                            printf("HC: hello from child\n");
+                            exit(0);
+                        } else {
+                            printf("HP: hello from parent\n");
+                            wait(&amp;child_status);
+                            printf("CT: child has terminated\n");
+                        }
+                        printf("Bye\n");
+                    }
+                </code-block>
+                <img src="../images_architecture/ax11-2-5.png" alt="wait Example"/>
+                <p>Feasible Outputs: HC HP CT Bye or HP HC CT Bye</p>
+                <p><format color="BlueViolet"><code>wait</code> Status Codes</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Return value of <code>wait</code> is the pid of the child process that terminated.</p>
+                    </li>
+                    <li>
+                        <p>If <code>status != NULL</code>, then the integer it points to will be set to a value that
+                            indicates the exit status.</p>
+                        <list type="bullet">
+                            <li>
+                                <p>More information than the value passed to exit.</p>
+                            </li>
+                            <li>
+                                <p>Must be decoded, using macros defined in sys/wait.h: WIFEXITED, WEXITSTATUS,
+                                    WIFSIGNALED, WTERMSIG, WIFSTOPPED, WSTOPSIG, WIFCONTINUED...</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+                <p><format color="IndianRed"><code>wait</code> Example2</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>If multiple children completed, will take in arbitrary order.</p>
+                    </li>
+                    <li>
+                        <p>Can use macros WIFEXITED and WEXITSTATUS to get information about exit status.</p>
+                    </li>
+                </list>
+                <code-block lang="c" collapsible="true">
+                    void fork10() {
+                        pid_t pid[N];
+                        inti, child_status;
+                        for (i = 0; i &lt; N; i++)
+                            if ((pid[i] = fork()) == 0)
+                                exit(100+i); /* Child */
+                        for (i = 0; i &lt; N; i++) { /* Parent */
+                            pid_t wpid = wait(&amp;child_status);
+                            if (WIFEXITED(child_status))
+                                printf("Child %d terminated with exit status %d\n",
+                                       wpid, WEXITSTATUS(child_status));
+                            else
+                                printf("Child %d terminate abnormally\n", wpid);
+                        }
+                    }
+                </code-block>
+                <p><format color="BlueViolet"><code>execve</code> Loading and Running Programs</format></p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Loads and runs in the current process</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p><code>int execve(char *filename, char *argv[], char *envp[])</code></p>
+                            </li>
+                            <li>
+                                <p>Executable file <code>filename</code>: Can be object file or script file beginning with
+                                    <code>#!interpreter</code> (e.g., <code>#!/bin/bash</code>)</p>
+                            </li>
+                            <li>
+                                <p>... with argument list <code>argv</code> (By convention <code>argv[0]==filename</code>)</p>
+                            </li>
+                            <li>
+                                <p>... and environment variable list <code>envp</code>: "name=value" strings (e.g., USER=droh)
+                                    <code>getenv</code>, <code>putenv</code>, <code>printenv</code></p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Overwrites code, data, and stack:</format> Retains PID, open files
+                            and signal context.</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Called once and never returns (except if there is an error)</format>
+                        </p>
+                    </li>
+                </list>
+                <img src="../images_architecture/ax11-2-6.png" alt="Structure of the stack when a new program starts"/>
+                <p><format color="IndianRed">Example:</format> Execute "/bin/ls –lt /usr/include" in child process using
+                    current environment</p>
+                <code-block lang="c" collapsible="true">
+                    if ((pid = Fork()) == 0) { /* Child runs program */
+                        if (execve(myargv[0], myargv, environ) &lt; 0) {
+                            printf("%s: %s\n", myargv[0], strerror(errno)); exit(1);
+                        }
+                    }
+                </code-block>
+                <img src="../images_architecture/ax11-2-7.png" alt="execve Example"/>
+                <p><format color="BlueViolet"><code>execve</code> and process memory layout</format></p>
+                <p>To load and run a new program <code>a.out</code> in the current process using <code>execve</code>:</p>
+                <list type="bullet">
+                    <li>
+                        <p>Free <code>vm_area_struct</code>'s and page tables for old areas.</p>
+                    </li>
+                    <li>
+                        <p>Create <code>vm_area_struct</code>'s and page tables for new areas.</p>
+                        <list type="bullet">
+                            <li>
+                                <p>Programs and initialized data backed by object files.</p>
+                            </li>
+                            <li>
+                                <p><code>.bss</code> and stack backed by anonymous files.</p>
+                            </li>
+                        </list>
+                    </li>
+                    <li>
+                        <p>Set PC to entry point in <code>.text</code></p>
+                    </li>
+                </list>
             </chapter>
         </chapter>
     </chapter>
