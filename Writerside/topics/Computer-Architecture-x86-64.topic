@@ -1967,6 +1967,440 @@
                     </li>
                 </list>
             </chapter>
+            <chapter title="11.3 Shell" id="11-3-shell">
+                <p><format color="BlueViolet">Simple Shell Implementation</format></p>
+                <code-block lang="c" collapsible="true">
+                int main(int argc, char** argv)
+                {
+                    char cmdline[MAXLINE]; /* command line */
+                    while (1) {
+                        /* read */
+                        printf("> ");
+                        fgets(cmdline, MAXLINE, stdin);
+                        if (feof(stdin))
+                            exit(0);
+                        /* evaluate */
+                        eval(cmdline);
+                    }
+                }
+                </code-block>
+                <p><format color="BlueViolet">Simple Shell <code>eval</code> Function</format></p>
+                <code-block lang="c" collapsible="true">
+                void eval(char *cmdline)
+                {
+                    char *argv[MAXARGS]; /* Argument list execve() */
+                    char buf[MAXLINE]; /* Holds modified command line */
+                    int bg; /* Should the job run in bg or fg? */
+                    pid_tpid; /* Processid */
+                    strcpy(buf, cmdline);
+                    bg= parseline(buf, argv);
+                    if (argv[0] == NULL)
+                        return; /* Ignore empty lines */
+                    if (!builtin_command(argv)) {
+                        if ((pid = Fork()) == 0) { /* Child runs user job */
+                            execve(argv[0], argv, environ);
+                            // If we get here, execve failed.
+                            printf("%s: %s\n", argv[0], strerror(errno));
+                            exit(127);
+                        }
+                        /* Parent waits for foreground job to terminate */
+                        if(!bg) {
+                            intstatus;
+                            if (waitpid(pid, &amp;status, 0) &lt; 0)
+                                unix_error("waitfg: waitpid error");
+                        }
+                        else
+                            printf("%d %s\n", pid, cmdline);
+                    }
+                    return;
+                }
+                </code-block>
+                <p><format color="BlueViolet">Problems with Simple Shell Example</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Shell designed to run indefinitely: should not accumulate unneeded resources.</p>
+                    </li>
+                    <li>
+                        <p>Background jobs could run the entire computer out of memory, more likely, run out of PIDs.
+                        </p>
+                    </li>
+                </list>
+            </chapter>
+            <chapter title="11.4 Signals" id="11-4-signals">
+                <p><format color="DarkOrange">Signals:</format> A signal is a small message that notifies a process that
+                    an event of some type has occurred in the system.</p>
+                <list type="bullet">
+                    <li>
+                        <p>Akin to exceptions and interrupts.</p>
+                    </li>
+                    <li>
+                        <p>Sent from the kernel (sometimes at the request of another process) to a process.</p>
+                    </li>
+                    <li>
+                        <p>Signal type is identified by small integer ID's (1-30)</p>
+                    </li>
+                    <li>
+                        <p>Only information in a signal is its ID and the fact that it arrived.</p>
+                    </li>
+                </list>
+                <table style="header-row">
+                    <tr>
+                        <td>
+                            <p>ID</p>
+                        </td>
+                        <td>
+                            <p>Name</p>
+                        </td>
+                        <td>
+                            <p>Default Action</p>
+                        </td>
+                        <td>
+                            <p>Corresponding Event</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>2</p>
+                        </td>
+                        <td>
+                            <p>SIGINT</p>
+                        </td>
+                        <td>
+                            <p>Terminate</p>
+                        </td>
+                        <td>
+                            <p>User typed <shortcut>Ctrl-C</shortcut></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>9</p>
+                        </td>
+                        <td>
+                            <p>SIGKILL</p>
+                        </td>
+                        <td>
+                            <p>Terminate</p>
+                        </td>
+                        <td>
+                            <p>Kill program (cannot override or ignore)</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>11</p>
+                        </td>
+                        <td>
+                            <p>SIGSEGV</p>
+                        </td>
+                        <td>
+                            <p>Terminate</p>
+                        </td>
+                        <td>
+                            <p>Segmentation violation</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>14</p>
+                        </td>
+                        <td>
+                            <p>SIGALRM</p>
+                        </td>
+                        <td>
+                            <p>Terminate</p>
+                        </td>
+                        <td>
+                            <p>Timer Signal</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>17</p>
+                        </td>
+                        <td>
+                            <p>SIGCHLD</p>
+                        </td>
+                        <td>
+                            <p>Ignore</p>
+                        </td>
+                        <td>
+                            <p>Child stopped or terminated</p>
+                        </td>
+                    </tr>
+                </table>
+                <p><format color="BlueViolet">Terminology</format></p>
+                <list type="decimal">
+
+                    <li>
+                        <p>Kernel sends a signal to a destination process by updating some state in the context of the
+                            destination process for following reasons:</p>
+                        <list type="bullet">
+                            <li>
+                                <p>Kernel has detected a system event such as divide-by-zero (SIGFPE) or the termination of a
+                                    child process (SIGCHLD).</p>
+                            </li>
+                            <li>
+                                <p>Another process has invoked the <code>kill</code> system call to explicitly request the
+                                    kernel to send a signal to the destination process.</p>
+                            </li>
+                        </list>
+                    </li>
+
+                    <li>
+                        <p>A destination process receives a signal when it is forced by the kernel to react in some way
+                            to the signal.</p>
+                        <p>Some possible ways to react:</p>
+                        <list type="bullet">
+                            <li>
+                                <p><format color="Fuchsia">Ignore the signal (do nothing).</format></p>
+                            </li>
+                            <li>
+                                <p><format color="Fuchsia">Terminate the process (with optional core dump).</format></p>
+                            </li>
+                            <li>
+                                <p><format color="Fuchsia">Catch the signal by executing a user-level function called signal
+                                    handler.</format></p>
+                            </li>
+                        </list>
+                    </li>
+
+                    <li>
+                        <p>A signal is pending if sent but not yet received.</p>
+                        <list type="bullet">
+                            <li>
+                                <p>There can be at most one pending signal of each type.</p>
+                            </li>
+                            <li>
+                                <p>A pending signal is received at most once.</p>
+                            </li>
+                            <li>
+                                <p>Important: Signals are not queued.</p>
+                            </li>
+                            <li>
+                                <p>Kernel sets bit k in <code>pending</code> when a signal of type k is sent.</p>
+                            </li>
+                            <li>
+                                <p>Kernel clears bit k in <code>pending</code> when a signal of type k is received.</p>
+                            </li>
+                        </list>
+                    </li>
+
+                    <li>
+                        <p>A process can block the receipt of certain signals.</p>
+                        <list type="bullet">
+                            <li>
+                                <p>Blocked signals can be sent, but will not be received until the signal is unblocked.
+                                </p>
+                            </li>
+                            <li>
+                                <p>Some signals cannot be blocked (SIGKILL, SIGSTOP) or can only be blocked when sent by
+                                    other processes (SIGSEGV, SIGILL, etc).</p>
+                            </li>
+                            <li>
+                                <p>Can be set and cleared by using the <code>sigprocmask</code> function.</p>
+                            </li>
+                            <li>
+                                <p>Also referred to as the signal mask.</p>
+                            </li>
+                        </list>
+                    </li>
+                </list>
+                <chapter title="11.4.1 Sending Signals" id="11-4-1-sending-signals">
+                    <img src="../images_architecture/ax11-4-1.png" alt="Sending Signals"/>
+                    <p><format color="BlueViolet">Sending Signals with <code>/bin/kill</code> Program:</format>
+                        <code>/bin/kill</code> program sends arbitrary signal to a process or process group.</p>
+                    <list type="bullet">
+                        <li>
+                            <p><code>kill -9 1234</code> sends SIGKILL to process 1234.</p>
+                        </li>
+                        <li>
+                            <p><code>kill -9 -1234</code> sends SIGKILL to to every process in process group 1234.</p>
+                        </li>
+                    </list>
+                    <p><format color="BlueViolet">Sending Signals from the Keyboard:</format> Typing <code>Ctrl-C</code>
+                        (<code>Ctrl-Z</code>) causes the kernel to send a SIGINT (SIGTSTP) to every job in the
+                        foreground process group.</p>
+                    <list type="bullet">
+                        <li>
+                            <p><format color="Fuchsia">SIGINT:</format> default action is to terminate each process.</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">SIGTSTP:</format> default action is to stop (suspend) each
+                                process.</p>
+                        </li>
+                    </list>
+                    <note>
+                        <p>Process state legend:</p>
+                        <p>First letter:</p>
+                        <p>S: Sleeping T: Stopped R: Running</p>
+                        <p>Second letter:</p>
+                        <p>s: session leader +: foreground proc group</p>
+                    </note>
+                    <p><format color="BlueViolet">Sending Signals with the <code>kill</code> Function</format></p>
+                    <code-block lang="c" collapsible="true">
+                        #include &lt;sys/types.h&gt;
+                        #include &lt;signal.h&gt;
+
+                        int kill(pid_t pid, int sig);
+                    </code-block>
+                    <list type="bullet">
+                        <li>
+                            <p>If pid is greater than zero, then the kill function sends signal number sig to process
+                                pid.</p>
+                        </li>
+                        <li>
+                            <p>If pid is equal to zero, then kill sends signal sig to every process in the process group
+                                of the calling process, including the calling process itself.</p>
+                        </li>
+                        <li>
+                            <p>If pid is less than zero, then kill sends signal sig to every process in process group
+                                |pid| (the absolute value of pid).</p>
+                        </li>
+                    </list>
+                    <code-block lang="c" collapsible="true">
+                        int main()
+                        {
+                            pid_t pid;
+
+                            /* Child sleeps until SIGKILL signal received, then dies */
+                            if ((pid = Fork()) == 0) {
+                                Pause(); /* Wait for a signal to arrive */
+                                printf("control should never reach here!\n");
+                                exit(0);
+                            }
+
+                            /* Parent sends a SIGKILL signal to a child */
+                            Kill(pid, SIGKILL);
+                            exit(0);
+                        }
+                    </code-block>
+                </chapter>
+                <chapter title="11.4.2 Receiving Signals" id="11-4-2-receiving-signals">
+                    <p>Suppose kernel is returning from an exception handler and is ready to pass control to process p,
+                        Kernel computes pnb = pending &amp; ~blocked, the set of pending nonblocked signals for process
+                        p.</p>
+                    <list type="bullet">
+                        <li>
+                            <p>If (pnb == 0), pass control to next instruction in the logical flow for p.</p>
+                        </li>
+                        <li>
+                            <p>Else,</p>
+                            <list type="bullet">
+                                <li>
+                                    <p>Choose least nonzero bit k in pnb and force process p to receive signal k.</p>
+                                </li>
+                                <li>
+                                    <p>The receipt of the signal triggers some action by p.</p>
+                                </li>
+                                <li>
+                                    <p>Repeat for all nonzero k in <code>pnb</code>.</p>
+                                </li>
+                                <li>
+                                    <p>Pass control to next instruction in logical flow for p.</p>
+                                </li>
+                            </list>
+                        </li>
+                    </list>
+                    <p><format color="BlueViolet">Types of Default Actions</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p>The process terminates.</p>
+                        </li>
+                        <li>
+                            <p>The process stops until restarted by a SIGCONT signal.</p>
+                        </li>
+                        <li>
+                            <p>The process ignores the signal.</p>
+                        </li>
+                    </list>
+                    <p><format color="BlueViolet">Installing Signal Handlers:</format> The <code>signal</code>
+                        (<code>handler_t *signal(int signum, handler_t *handler)</code>) function modifies the
+                        default action associated with the receipt of signal signum:</p>
+                    <list type="bullet">
+                        <li>
+                            <p>SIG_IGN: ignore signals of type signum.</p>
+                        </li>
+                        <li>
+                            <p>SIG_DFL: revert to the default action on receipt of signals of type signum.</p>
+                        </li>
+                        <li>
+                            <p>Otherwise, <code>handler</code> is the address of a user-level signal handler.
+                                When the handler executes its return statement, control passes back to
+                                instruction in the control flow of the process that was interrupted by receipt
+                                of the signal.</p>
+                        </li>
+                    </list>
+                    <p>A signal handler is a separate logical flow (not process) that runs concurrently with the main
+                        program, but this flow exists only until returns to main program.</p>
+                    <img src="../images_architecture/ax11-4-2.png" alt="Signal Handling"/>
+                    <p>Another way of seeing this:</p>
+                    <img src="../images_architecture/ax11-4-3.png" alt="Signal Handling"/>
+                    <p><format color="BlueViolet">Nested Signal Handlers:</format> Handlers can be interrupted by other
+                        handlers</p>
+                    <img src="../images_architecture/ax11-4-4.png" alt="Nested Signal Handlers"/>
+                </chapter>
+                <chapter title="11.4.3 Block &amp; Unblocking Signals" id="11-4-3-blocking-unblocking-signals">
+                    <list type="bullet">
+                        <li>
+                            <p><format color="Fuchsia">Implicit blocking mechanism:</format> Kernel blocks any pending
+                                signals of type currently being handled.</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia">Explicit blocking and unblocking mechanism:</format>
+                                <code>sigprocmask</code> function.</p>
+                        </li>
+                    </list>
+                </chapter>
+            </chapter>
+            <chapter title="11.5 Writing Signal Handlers" id="11-5-writing-signal-handlers">
+                <p><format color="BlueViolet">Guidelines for Writing Safe Handlers</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>G0: Keep your handlers as simple as possible. e.g., set a global flag and return.</p>
+                    </li>
+                    <li>
+                        <p>G1: Call only async-signal-safe functions in your handlers. <code>printf</code>, <code>
+                            sprintf</code>, <code>malloc</code>, and <code>exit</code> are not safe!</p>
+                    </li>
+                    <li>
+                        <p>G2: Save and restore <code>errno</code> on entry and exit, so that other handlers don't
+                            overwrite your value of <code>errno</code>.</p>
+                    </li>
+                    <li>
+                        <p>G3: Protect accesses to shared data structures by temporarily blocking all signals to prevent
+                            possible corruption.</p>
+                    </li>
+                    <li>
+                        <p>G4: Declare global variables as volatile to prevent compiler from storing them in a register.
+                        </p>
+                    </li>
+                    <li>
+                        <p>G5: Declare global flags as <code>volatile sig_atomic_t</code>. flag: variable that is only
+                            read or written (e.g. flag = 1, not flag++). Flag declared this way does not need to be
+                            protected like other globals.</p>
+                    </li>
+                </list>
+                <p>Function is async-signal-safe if either reentrant (e.g., all variables stored on stack frame) or
+                    non-interruptible by signals.</p>
+                <p><format color="BlueViolet">Safe Formatted Output:</format></p>
+                <p><format color="BlueViolet">Correct Signal Handling:</format> Must wait for all terminated child
+                    processes, can't use signals to count events, such as children terminating.</p>
+                <p>Synchronizing Flows to Avoid Races: Simple shell with a subtle synchronization error because it
+                    assumes parent runs before child.</p>
+                <p><format color="BlueViolet">Protable Signal Handling</format></p>
+                <p>Different systems have different signal-handling semantics. Use <code>sigaction</code> function
+                    (int sigaction(int signum, struct sigaction *act, struct sigaction *oldact);), which allows users to
+                    clearly specify the signal-handling semantics they want when they install a handler.</p>
+                <p><format color="BlueViolet">Explicitly Waiting for Signals:</format> Handlers for program explicitly
+                    waiting for SIGCHLD to arrive.</p>
+                <p>Waiting for Signals with <code>sigsuspend</code>, equivalent to:</p>
+                <code-block lang="c">
+                    sigprocmask(SIG_SETMASK, &amp;mask, &amp;prev);
+                    pause();
+                    sigprocmask(SIG_SETMASK, &amp;prev, NULL);
+                </code-block>
+            </chapter>
         </chapter>
     </chapter>
 </topic>
