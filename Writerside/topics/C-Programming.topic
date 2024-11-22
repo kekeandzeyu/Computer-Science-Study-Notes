@@ -49,9 +49,7 @@
                         only the modified files</format>.</p>
                 </li>
             </list>
-            <p>
-                <format color="BlueViolet">Compilation Disadvantages:</format>
-            </p>
+            <p><format color="BlueViolet">Compilation Disadvantages:</format></p>
             <list type="bullet">
                 <li>
                     <p>Compiled files, including the executable, are arcitecture-specific (CPU type and OS).</p>
@@ -166,19 +164,14 @@
                 <p>There are three types of initialization: </p>
                 <list type="alpha-lower">
                     <li>
-                        <p>
-                            <format color="Fuchsia">Direct Initialization:</format>
-                        </p>
+                        <p><format color="Fuchsia">Direct Initialization:</format></p>
                         <code-block lang="c++">
                             int numOne = 12.0;
                             // numOne = 12, doesn't type check with direct initialization
                         </code-block>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Uniform Initialization (C++ 11):
-                            </format>
-                        </p>
+                        <p><format color="Fuchsia">Uniform Initialization (C++ 11):</format></p>
                         <code-block lang="c++">
                             int numTwo {12.0};
                             // narrowing conversion of '1.2e+1' from 'double' to 'int'
@@ -186,10 +179,8 @@
                         </code-block>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Structured binding (C++ 17):</format>
-                            Can access multiple values returned by a function.
-                        </p>
+                        <p><format color="Fuchsia">Structured binding (C++ 17):</format> Can access multiple values
+                            returned by a function.</p>
                         <code-block lang="c++">
                             #include &lt;iostream&gt;
                             #include &lt;tuple&gt;
@@ -214,24 +205,20 @@
                         </code-block>
                     </li>
                 </list>
-                <p>
-                    <format color="BlueViolet">Advantages for Uniform Initialization:
-                    </format>
-                </p>
+                <p><format color="BlueViolet">Advantages for Uniform Initialization:</format></p>
                 <list type="decimal">
                     <li>
-                        <p>It's safe! It doesn't allow for narrowing conversions — which
-                            can lead to unexpected behaviour (or critical system failures)</p>
+                        <p>It's safe! It doesn't allow for narrowing conversions — which can lead to unexpected
+                            behaviour (or critical system failures)</p>
                     </li>
                     <li>
-                        <p>It's ubiquitous! it works for all types like vectors, maps, and
-                            custom classes, among other things!</p></li>
+                        <p>It's ubiquitous! it works for all types like vectors, maps, and custom classes, among other
+                            things!</p>
+                    </li>
                 </list>
             </chapter>
             <chapter title="3.2 References" id="3-2-references">
-                <p>
-                    <format color="BlueViolet">Example:</format>
-                </p>
+                <p><format color="BlueViolet">Example:</format></p>
                 <code-block lang="c++">
                     int x = 5;
                     int&amp; ref = x; // ref is a reference to x

@@ -771,6 +771,267 @@
             <img src="../images_architecture/a2-5-2.png" alt="Word Alignment"/>
             <p>sizeof(hello) = 12</p>
         </chapter>
+        <chapter title="2.6 Compilation, Run, Debug &amp; Disassembly" id="2-6-compilation-run-disassembly">
+            <p><format color="IndianRed">Example</format></p>
+            <code-block lang="c" collapsible="true">
+                #include &lt;stdio.h&gt;
+
+                int main() {
+                    int x = 5, y = 6;
+                    printf("x + y = %d\n", x + y);
+                    return 0;
+                }
+            </code-block>
+            <procedure title="Compile &amp; Run">
+                <step>
+                    <p>Compile the program into assembly code</p>
+                    <code-block lang="bash">
+                        $ gcc -S -o hello.s hello.c
+                    </code-block>
+                    <p>Then we get hello.s file:</p>
+                    <code-block lang="NASM" collapsible="true">
+                        	.file	"hello.c"
+                            .text
+                            .section	.rodata
+                        .LC0:
+                            .string	"x + y = %d\n"
+                            .text
+                            .globl	main
+                            .type	main, @function
+                        main:
+                        .LFB0:
+                            .cfi_startproc
+                            endbr64
+                            pushq	%rbp
+                            .cfi_def_cfa_offset 16
+                            .cfi_offset 6, -16
+                            movq	%rsp, %rbp
+                            .cfi_def_cfa_register 6
+                            subq	$16, %rsp
+                            movl	$5, -8(%rbp)
+                            movl	$6, -4(%rbp)
+                            movl	-8(%rbp), %edx
+                            movl	-4(%rbp), %eax
+                            addl	%edx, %eax
+                            movl	%eax, %esi
+                            leaq	.LC0(%rip), %rax
+                            movq	%rax, %rdi
+                            movl	$0, %eax
+                            call	printf@PLT
+                            movl	$0, %eax
+                            leave
+                            .cfi_def_cfa 7, 8
+                            ret
+                            .cfi_endproc
+                        .LFE0:
+                            .size	main, .-main
+                            .ident	"GCC: (Ubuntu 13.2.0-23ubuntu4) 13.2.0"
+                            .section	.note.GNU-stack,"",@progbits
+                            .section	.note.gnu.property,"a"
+                            .align 8
+                            .long	1f - 0f
+                            .long	4f - 1f
+                            .long	5
+                        0:
+                            .string	"GNU"
+                        1:
+                            .align 8
+                            .long	0xc0000002
+                            .long	3f - 2f
+                        2:
+                            .long	0x3
+                        3:
+                            .align 8
+                        4:
+                    </code-block>
+                </step>
+                <step>
+                    <p>Compile the assembly code into an executable</p>
+                    <code-block lang="bash">
+                        $ gcc -o hello hello.s
+                    </code-block>
+                </step>
+                <step>
+                    <p>Run the executable</p>
+                    <code-block lang="bash">
+                        $ ./hello
+                    </code-block>
+                    <p>Then we get the folllowing in the bash:</p>
+                    <code-block lang="bash">
+                        x + y = 11
+                    </code-block>
+                </step>
+                <step>
+                    <p>Disassemble the executable</p>
+                    <code-block lang="bash">
+                        $ objdump -d hello &gt; hello1.s
+                    </code-block>
+                    <p>Then we get the hello1.s file:</p>
+                    <code-block lang="NASM" collapsible="true" ignore-vars="true">
+                        
+                        hello:     file format elf64-x86-64
+                        
+                        
+                        Disassembly of section .init:
+                        
+                        0000000000001000 &lt;_init&gt;:
+                            1000:	f3 0f 1e fa          	endbr64
+                            1004:	48 83 ec 08          	sub    $0x8,%rsp
+                            1008:	48 8b 05 d9 2f 00 00 	mov    0x2fd9(%rip),%rax        # 3fe8 &lt;__gmon_start__@Base&gt;
+                            100f:	48 85 c0             	test   %rax,%rax
+                            1012:	74 02                	je     1016 &lt;_init+0x16&gt;
+                            1014:	ff d0                	call   *%rax
+                            1016:	48 83 c4 08          	add    $0x8,%rsp
+                            101a:	c3                   	ret
+                        
+                        Disassembly of section .plt:
+                        
+                        0000000000001020 &lt;.plt&gt;:
+                            1020:	ff 35 9a 2f 00 00    	push   0x2f9a(%rip)        # 3fc0 &lt;_GLOBAL_OFFSET_TABLE_+0x8&gt;
+                            1026:	ff 25 9c 2f 00 00    	jmp    *0x2f9c(%rip)        # 3fc8 &lt;_GLOBAL_OFFSET_TABLE_+0x10&gt;
+                            102c:	0f 1f 40 00          	nopl   0x0(%rax)
+                            1030:	f3 0f 1e fa          	endbr64
+                            1034:	68 00 00 00 00       	push   $0x0
+                            1039:	e9 e2 ff ff ff       	jmp    1020 &lt;_init+0x20&gt;
+                            103e:	66 90                	xchg   %ax,%ax
+                        
+                        Disassembly of section .plt.got:
+                        
+                        0000000000001040 &lt;__cxa_finalize@plt&gt;:
+                            1040:	f3 0f 1e fa          	endbr64
+                            1044:	ff 25 ae 2f 00 00    	jmp    *0x2fae(%rip)        # 3ff8 &lt;__cxa_finalize@GLIBC_2.2.5&gt;
+                            104a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+                        
+                        Disassembly of section .plt.sec:
+                        
+                        0000000000001050 &lt;printf@plt&gt;:
+                            1050:	f3 0f 1e fa          	endbr64
+                            1054:	ff 25 76 2f 00 00    	jmp    *0x2f76(%rip)        # 3fd0 &lt;printf@GLIBC_2.2.5&gt;
+                            105a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+                        
+                        Disassembly of section .text:
+                        
+                        0000000000001060 &lt;_start&gt;:
+                            1060:	f3 0f 1e fa          	endbr64
+                            1064:	31 ed                	xor    %ebp,%ebp
+                            1066:	49 89 d1             	mov    %rdx,%r9
+                            1069:	5e                   	pop    %rsi
+                            106a:	48 89 e2             	mov    %rsp,%rdx
+                            106d:	48 83 e4 f0          	and    $0xfffffffffffffff0,%rsp
+                            1071:	50                   	push   %rax
+                            1072:	54                   	push   %rsp
+                            1073:	45 31 c0             	xor    %r8d,%r8d
+                            1076:	31 c9                	xor    %ecx,%ecx
+                            1078:	48 8d 3d ca 00 00 00 	lea    0xca(%rip),%rdi        # 1149 &lt;main&gt;
+                            107f:	ff 15 53 2f 00 00    	call   *0x2f53(%rip)        # 3fd8 &lt;__libc_start_main@GLIBC_2.34&gt;
+                            1085:	f4                   	hlt
+                            1086:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+                            108d:	00 00 00 
+                        
+                        0000000000001090 &lt;deregister_tm_clones&gt;:
+                            1090:	48 8d 3d 79 2f 00 00 	lea    0x2f79(%rip),%rdi        # 4010 &lt;__TMC_END__&gt;
+                            1097:	48 8d 05 72 2f 00 00 	lea    0x2f72(%rip),%rax        # 4010 &lt;__TMC_END__&gt;
+                            109e:	48 39 f8             	cmp    %rdi,%rax
+                            10a1:	74 15                	je     10b8 &lt;deregister_tm_clones+0x28&gt;
+                            10a3:	48 8b 05 36 2f 00 00 	mov    0x2f36(%rip),%rax        # 3fe0 &lt;_ITM_deregisterTMCloneTable@Base&gt;
+                            10aa:	48 85 c0             	test   %rax,%rax
+                            10ad:	74 09                	je     10b8 &lt;deregister_tm_clones+0x28&gt;
+                            10af:	ff e0                	jmp    *%rax
+                            10b1:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+                            10b8:	c3                   	ret
+                            10b9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+                        
+                        00000000000010c0 &lt;register_tm_clones&gt;:
+                            10c0:	48 8d 3d 49 2f 00 00 	lea    0x2f49(%rip),%rdi        # 4010 &lt;__TMC_END__&gt;
+                            10c7:	48 8d 35 42 2f 00 00 	lea    0x2f42(%rip),%rsi        # 4010 &lt;__TMC_END__&gt;
+                            10ce:	48 29 fe             	sub    %rdi,%rsi
+                            10d1:	48 89 f0             	mov    %rsi,%rax
+                            10d4:	48 c1 ee 3f          	shr    $0x3f,%rsi
+                            10d8:	48 c1 f8 03          	sar    $0x3,%rax
+                            10dc:	48 01 c6             	add    %rax,%rsi
+                            10df:	48 d1 fe             	sar    $1,%rsi
+                            10e2:	74 14                	je     10f8 &lt;register_tm_clones+0x38&gt;
+                            10e4:	48 8b 05 05 2f 00 00 	mov    0x2f05(%rip),%rax        # 3ff0 &lt;_ITM_registerTMCloneTable@Base&gt;
+                            10eb:	48 85 c0             	test   %rax,%rax
+                            10ee:	74 08                	je     10f8 &lt;register_tm_clones+0x38&gt;
+                            10f0:	ff e0                	jmp    *%rax
+                            10f2:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+                            10f8:	c3                   	ret
+                            10f9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+                        
+                        0000000000001100 &lt;__do_global_dtors_aux&gt;:
+                            1100:	f3 0f 1e fa          	endbr64
+                            1104:	80 3d 05 2f 00 00 00 	cmpb   $0x0,0x2f05(%rip)        # 4010 &lt;__TMC_END__&gt;
+                            110b:	75 2b                	jne    1138 &lt;__do_global_dtors_aux+0x38&gt;
+                            110d:	55                   	push   %rbp
+                            110e:	48 83 3d e2 2e 00 00 	cmpq   $0x0,0x2ee2(%rip)        # 3ff8 &lt;__cxa_finalize@GLIBC_2.2.5&gt;
+                            1115:	00 
+                            1116:	48 89 e5             	mov    %rsp,%rbp
+                            1119:	74 0c                	je     1127 &lt;__do_global_dtors_aux+0x27&gt;
+                            111b:	48 8b 3d e6 2e 00 00 	mov    0x2ee6(%rip),%rdi        # 4008 &lt;__dso_handle&gt;
+                            1122:	e8 19 ff ff ff       	call   1040 &lt;__cxa_finalize@plt&gt;
+                            1127:	e8 64 ff ff ff       	call   1090 &lt;deregister_tm_clones&gt;
+                            112c:	c6 05 dd 2e 00 00 01 	movb   $0x1,0x2edd(%rip)        # 4010 &lt;__TMC_END__&gt;
+                            1133:	5d                   	pop    %rbp
+                            1134:	c3                   	ret
+                            1135:	0f 1f 00             	nopl   (%rax)
+                            1138:	c3                   	ret
+                            1139:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+                        
+                        0000000000001140 &lt;frame_dummy&gt;:
+                            1140:	f3 0f 1e fa          	endbr64
+                            1144:	e9 77 ff ff ff       	jmp    10c0 &lt;register_tm_clones&gt;
+                        
+                        0000000000001149 &lt;main&gt;:
+                            1149:	f3 0f 1e fa          	endbr64
+                            114d:	55                   	push   %rbp
+                            114e:	48 89 e5             	mov    %rsp,%rbp
+                            1151:	48 83 ec 10          	sub    $0x10,%rsp
+                            1155:	c7 45 f8 05 00 00 00 	movl   $0x5,-0x8(%rbp)
+                            115c:	c7 45 fc 06 00 00 00 	movl   $0x6,-0x4(%rbp)
+                            1163:	8b 55 f8             	mov    -0x8(%rbp),%edx
+                            1166:	8b 45 fc             	mov    -0x4(%rbp),%eax
+                            1169:	01 d0                	add    %edx,%eax
+                            116b:	89 c6                	mov    %eax,%esi
+                            116d:	48 8d 05 90 0e 00 00 	lea    0xe90(%rip),%rax        # 2004 &lt;_IO_stdin_used+0x4&gt;
+                            1174:	48 89 c7             	mov    %rax,%rdi
+                            1177:	b8 00 00 00 00       	mov    $0x0,%eax
+                            117c:	e8 cf fe ff ff       	call   1050 &lt;printf@plt&gt;
+                            1181:	b8 00 00 00 00       	mov    $0x0,%eax
+                            1186:	c9                   	leave
+                            1187:	c3                   	ret
+                        
+                        Disassembly of section .fini:
+                        
+                        0000000000001188 &lt;_fini&gt;:
+                            1188:	f3 0f 1e fa          	endbr64
+                            118c:	48 83 ec 08          	sub    $0x8,%rsp
+                            1190:	48 83 c4 08          	add    $0x8,%rsp
+                            1194:	c3                   	ret
+                    </code-block>
+                </step>
+                <step>
+                    <p>Debug the executable</p>
+                    <code-block lang="bash">
+                        $ gdb hello
+                    </code-block>
+                    <p>Then we can get the following in the bash:</p>
+                    <code-block lang="bash" collapsible="true">
+                        (gdb) break main
+                        Breakpoint 1 at 0x1151
+                        (gdb) r
+                        Starting program: /home/kekeandzeyu/sample/hello
+                        Downloading separate debug info for system-supplied DSO at 0x7ffff7fc3000
+                        [Thread debugging using libthread_db enabled]
+                        Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+                        Breakpoint 1, 0x0000555555555151 in main ()
+                        (gdb) si
+                        0x0000555555555155 in main ()
+                        (gdb) quit
+                    </code-block>
+                </step>
+            </procedure>
+        </chapter>
     </chapter>
     <chapter title="3 Bits, Bytes &amp; Integers" id="3-bites-bytes-integers">
         <chapter title="3.1 Bits Manipulation" id="3-1-bits-manipulation">
