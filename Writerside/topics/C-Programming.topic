@@ -973,19 +973,11 @@
         <title>
             Ⅱ Standard Template Library (STL)
         </title>
-        <p>The
-            <format color="DarkOrange">Standard Template Library (STL)
-            </format>
-            is a software library originally designed by Alexander Stepanov
-            for the C++ programming language that influenced many parts of the C++
-            Standard Library. It provides four components called algorithms,
-            containers, functions, and iterators.
-        </p>
-        <p>The
-            <format color="DarkOrange">C++ Standard Library</format>
-            is a collection of classes and functions, which are written in the core
-            language and part of the C++ ISO Standard itself.
-        </p>
+        <p>The <format color="DarkOrange">Standard Template Library (STL)</format> is a software library originally
+            designed by Alexander Stepanov for the C++ programming language that influenced many parts of the C++
+            Standard Library. It provides four components called algorithms, containers, functions, and iterators.</p>
+        <p>The <format color="DarkOrange">C++ Standard Library</format> is a collection of classes and functions, which
+            are written in the core language and part of the C++ ISO Standard itself.</p>
         <note>
             <p>The STL and the C++ Standard Library are two distinct entities.</p>
             <p>However, due to the popular use of "STL" and "Standard Template
@@ -996,8 +988,8 @@
         </note>
         <chapter title="6 Containers" id="6-containers">
             <chapter title="6.1 Sequence Containers" id="6-1-sequence-containers">
-                <p><format color="DarkOrange">Sequence Containers:</format>
-                    Containers which provide access to a linear sequence of elements. </p>
+                <p><format color="DarkOrange">Sequence Containers:</format> Containers which provide access to a linear
+                    sequence of elements.</p>
                 <list type="bullet">
                     <li>
                         <p><code>std::vector&lt;T&gt;</code></p>
@@ -1017,7 +1009,7 @@
                 </list>
                 <chapter title="6.1.1 Vector" id="6-1-1-vector">
                     <p><format color="DarkOrange">Vector:</format> An array with changeable size.</p>
-                    <p><format color="BlueViolet">Example</format></p>
+                    <p><format color="IndianRed">Example</format></p>
                     <code-block lang="c++" collapsible="true">
                         #include &lt;iostream&gt;
                         #include &lt;vector&gt;
@@ -1056,33 +1048,19 @@
                         </tr>
                     </table>
                     <warning>
-                        <p>If you write your program
-                            <format color="GreenYellow">correctly
-                            </format>
-                            , bounds checking will just
-                            <format color="OrangeRed">slow
-                            </format>
-                            you down.
-                        </p>
+                        <p>If you write your program <format color="GreenYellow">correctly</format>, bounds checking
+                            will just <format color="OrangeRed">slow</format> you down.</p>
                     </warning>
-                    <p>
-                        <format color="BlueViolet">Advantages:</format>
-                    </p>
+                    <p><format color="BlueViolet">Advantages:</format></p>
                     <list type="bullet">
                         <li>
                             <p>Fast, lightweight &amp; intuitive.</p>
                         </li>
                         <li>
-                            <p>Grow efficiently
-                                <format color="GreenYellow">in one direction
-                                </format>
-                                .
-                            </p>
+                            <p>Grow efficiently <format color="GreenYellow">in one direction</format>.</p>
                         </li>
                     </list>
-                    <p>
-                        <format color="BlueViolet">Disadvantages:</format>
-                    </p>
+                    <p><format color="BlueViolet">Disadvantages:</format></p>
                     <list type="bullet">
                         <li>
                             <p>cannot push_front!</p>
@@ -1295,10 +1273,9 @@
             </chapter>
         </chapter>
         <chapter title="7 Templates" id="7-templates">
+            <p>We can use templates to keep the logic, but change the type!</p>
             <chapter title="7.1 Template Functions" id="7-1-template-functions">
-                <p>
-                    <format color="IndianRed">Examples</format>
-                </p>
+                <p><format color="IndianRed">Example</format></p>
                 <code-block lang="c++">
                     template &lt;typename T&gt;
                     std::pair&lt;T, T&gt; my_minmax(T a, T b) {
@@ -1310,18 +1287,10 @@
                 <code-block lang="c++">
                     my_minmax(cout, cout);
                 </code-block>
-                <p>
-                    <format color="Fuchsia">Semantic error:</format>
-                    you can’t call
-                    operator &lt; on two streams.
-                </p>
-                <p>
-                    <format color="Fuchsia">Conceptual error:</format>
-                    you can’t
-                    find the min or max of two streams.
-                </p>
-                <p>The compiler deduces the types and literally replaces the types.
-                    Compiler will produce semantic errors, not conceptual error.</p>
+                <p><format color="Fuchsia">Semantic error:</format> you can't call operator &lt; on two streams.</p>
+                <p><format color="Fuchsia">Conceptual error:</format> you can't find the min or max of two streams.</p>
+                <p>The compiler deduces the types and literally replaces the types. Compiler will produce semantic
+                    errors, not conceptual error.</p>
                 <code-block lang="c++" collapsible="true">
                     template &lt;typename Collection, typename DataType&gt;
                     int countOccurences(const Collection&amp; list, DataType val) {

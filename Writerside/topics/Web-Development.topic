@@ -8,13 +8,9 @@
         Web Development
     </title>
     <chapter title="1 HTML" id="1-html">
-        <p>
-            <format color="DarkOrange">HTML (HyperText Markup Language):</format>
-            A declarative language that include directives with content.
-        </p>
-        <p>
-            <format color="BlueViolet">Approach</format>
-        </p>
+        <p><format color="DarkOrange">HTML (HyperText Markup Language):</format> A declarative language that include
+            directives with content.</p>
+        <p><format color="BlueViolet">Approach</format></p>
         <list type="bullet">
             <li>
                 <p>Start with content to be displayed.</p>
@@ -88,9 +84,7 @@
                 <p><format color="Fuchsia">&lt;script&gt;:</format> Used to add Javascript to a page (can be used in body as well)</p>
             </li>
         </list>
-        <p>
-            <format color="IndianRed">Example</format>
-        </p>
+        <p><format color="IndianRed">Example</format></p>
         <code-block lang="html" collapsible="true">
             &lt;!DOCTYPE html&gt;
             &lt;html lang="en"&gt;
