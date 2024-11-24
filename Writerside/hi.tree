@@ -4,9 +4,11 @@
 
 <instance-profile id="hi"
                  name="Computer Science Study Notes"
-                  start-page="Cover.md">
+                  start-page="Cover.topic">
 
-    <toc-element topic="Cover.md"/>
+    <toc-element topic="Cover.topic"/>
+    <toc-element topic="Section-Starting-Page.topic"/>
+    <toc-element topic="Artificial-Intelligence.topic"/>
     <toc-element topic="C-Programming.topic"/>
     <toc-element topic="Computer-Architecture.topic">
         <toc-element topic="Computer-Architecture-RISC-V.topic"/>

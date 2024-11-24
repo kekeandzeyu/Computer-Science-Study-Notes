@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Get Started" id="Section-Starting-Page">
+
+    <section-starting-page>
+        <title>Quick Start</title>
+        <description>
+            Here are some steps you can take to get started with the notes (with more topics coming their way).
+        </description>
+
+        <spotlight>
+            <a href="https://kkzy.pages.dev" type="account" summary=
+                    "Want to know more about the author? Check out my website!">My Profile</a>
+            <a href="https://github.com/kekeandzeyu/Computer-Science-Study-Notes" type="search" summary=
+                    "Want to know more about the story behind the notes? Go to the repository in GitHub!">
+                Repository in Github</a>
+        </spotlight>
+
+        <!--    Add several topics that are most important for this section.    -->
+        <primary>
+            <title>Get Started with Computer Science</title>
+            <a href="C-Programming.topic" summary="Get started with C++"/>
+            <a href="Python-Programming.topic" summary="Get started with Python"/>
+            <a href="Data-Structures-and-Algorithms.topic" summary="Use data structures and algorithms to achieve more"/>
+        </primary>
+
+        <!--    Add several topics that are less important or are relevant only for advanced/experienced users.    -->
+        <secondary>
+            <title>Deeper into Computer Science</title>
+            <a href="Computer-Architecture.topic" summary="Understand the architecture of computers"/>
+            <a href="Operating-System.topic" summary="Wha can operating systems do?"/>
+        </secondary>
+
+    </section-starting-page>
+
+</topic>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+    id="Cover" title="Cover" switcher-label="Language">
+
+    <show-structure depth = "0"/>
+    <title>
+        Cover
+    </title>
+    <img src = "photo.png" alt = "Favicon"/>
+    <chapter title="致读者" id="to-all-readers-zh-CN" switcher-key="中文">
+        <p>我们都是迷失在璀璨梦境里的繁星，不顾一切只为点亮黑暗。</p>
+    </chapter>
+    <chapter title="To all Readers" id="to-all-readers-en" switcher-key="English">
+        <p>We are all lost stars, trying to light up the dark.</p>
+    </chapter>
+
+</topic>
