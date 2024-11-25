@@ -21,6 +21,7 @@
         <toc-element topic="Data-Structures-and-Algorithms-4.topic"/>
     </toc-element>
     <toc-element topic="Database-System.topic"/>
+    <toc-element topic="Java-Programming.topic"/>
     <toc-element topic="Operating-System.topic"/>
     <toc-element topic="Python-Programming.topic"/>
     <toc-element topic="Rust-Programming.topic"/>

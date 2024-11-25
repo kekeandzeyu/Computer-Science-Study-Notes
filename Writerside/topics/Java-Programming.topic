@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Java Programming" id="Java-Programming">
+
+    <chapter title="1 Class Terminology" id="Class-Terminology">
+        <p>In Java, classes can contain not just functions (a.k.a. methods), but also data.</p>
+        <p>To run a class, we must define a main method (but not all classes have a main method). Unlike python, there's
+            no need to import if the two files are in the same project.</p>
+        <p>Classes can be instantiated as objects. The class provides a blueprint that all instances (objects) will
+            follow.</p>
+        <p>A variable or method defined in a class is also called a member of that class.</p>
+        <note>
+            <p>It's better to know object-oriented programming here. Check out <a href="Python-Programming.topic" anchor
+                    ="6-object-oriented-programming" summary="OOP in Python">OOP in Python</a> for basic understanding!
+            </p>
+        </note>
+        <p><format color="IndianRed">Example with Terminology</format></p>
+        <code-block lang="Java" collapsible="true">
+            /* penguin.java */
+            public class penguin {
+                public int age; // Instance variables, can have as many of these as you want
+                public static String binomen = "Spheniscidae"; // Static variable, shared by all instances of the class
+
+                /* Constructor (similar to a method, but not a method), determines how to instantiate the class */
+                public penguin(int age) {
+                    this.age = age;
+                }
+
+                /* Static Method, can be called without creating an instance of the class */
+                public static void makeNoise() {
+                    System.out.println("Aw!");
+                }
+
+                /* Non-static method, a.k.a. Instance Method, can only be called by creating an instance of the class */
+                public void addage(int years) {
+                    age += years;
+                }
+
+                public static penguin compareAge(penguin p1, penguin p2) {
+                    if (p1.age > p2.age) {
+                        System.out.println("p1 is older");
+                        return p1;
+                    } else {
+                        System.out.println("p2 is older");
+                        return p2;
+                    }
+                }
+            }
+        </code-block>
+        <code-block lang="Java" collapsible="true">
+            /* Main.java */
+            public class Main {
+                public static void main(String[] args) {
+                    penguin p1 = new penguin(5); // Instantiation and Assignment, ok to separate them
+                    p1.makeNoise(); // Aw! (Not Recommended, but works)
+                    p1.addage(2); // Calling non-static method
+                    System.out.println(p1.age); // 7
+
+                    penguin p2 = new penguin(3);
+                    penguin older = penguin.compareAge(p1, p2); // p1 is older, return p1
+                    // Static methods must access instance variables via a specific instance!
+
+                    penguin.makeNoise(); // Aw! (Calling static method)
+                    penguin.addage(2); // Error, cannot call non-static method without an instance
+                    penguin.name("Penguin"); // Syntax Error!
+                }
+            }
+        </code-block>
+        <tip>
+            <p><format color="BlueViolet">Key differences between static and non-static (a.k.a. instance) members:
+            </format></p>
+            <list type="bullet">
+                <li>
+                    <p>Static memberss are invoked using the class name, e.g. <code>penguin.makeNoise();</code>,
+                    <code>penguin.binomen</code></p>
+                    <p>It is acceptible to use instance to invoke static methods (e.g. <code>p1.makeNoise();</code>),
+                        but some compilers and IDEs will issue a warning.</p>
+                    <p>Static methods must access instance variables via a specific instance (
+                        <code>penguin.compareAge(p1, p2)</code>)!</p>
+                </li>
+                <li>
+                    <p>Non-static members must be invoked using instances, and cannot be invoked using class name!</p>
+                </li>
+            </list>
+        </tip>
+        <p><format color="BlueViolet">Initialing an array</format></p>
+        <compare first-title="Java" second-title="Python">
+            <code-block lang="Java">
+                int[] arr1 = new int[5]; // Array of 5 elements, all initialized to 0
+                int[] arr2 = {1, 2, 3, 4, 5};
+            </code-block>
+            <code-block lang="Python">
+                arr1 = [0] * 5
+                arr2 = [1, 2, 3, 4, 5]
+            </code-block>
+        </compare>
+    </chapter>
+</topic>
