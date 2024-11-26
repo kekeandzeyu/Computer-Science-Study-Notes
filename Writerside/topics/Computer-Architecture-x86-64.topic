@@ -1045,7 +1045,7 @@
         <chapter title="8.4 Dealing with Conditions" id="8-4-dealing-with-conditions">
             <p><format color="OrangeRed">Instruction Control Unit</format> must work well ahead of <format
                     color="OrangeRed">Execution Unit</format> to generate enough operations to keep EU busy!</p>
-            <procedure title="Branch Prediction">
+            <procedure title="Branch Prediction" id="branch-prediction">
                 <step>
                     <p>Guess which way branch will go.</p>
                 </step>
@@ -1112,7 +1112,7 @@
             </li>
         </list>
         <chapter title="10.1 Static Linking" id="10-1-static-linking">
-            <procedure title="Static Linking">
+            <procedure title="Static Linking" id="static-linking">
                 <step>
                     <p><format color="Fuchsia">Symbol resolution</format></p>
                     <p>Programs define and reference symbols (global variables, functions, <format style="italic">static
@@ -1408,7 +1408,7 @@
                             </list>
                         </li>
                         <li>
-                            <p><format color="GreenYellow"></format></p>
+                            <p><format color="GreenYellow">Features</format></p>
                             <list type="bullet">
                                 <li>
                                     <p>Unintentional and unrecoverable.</p>
@@ -1615,7 +1615,7 @@
                         <p>Address spaces managed by virtual memory system.</p>
                     </li>
                 </list>
-                <procedure title="Context Switching (Uniprocessor)">
+                <procedure title="Context Switching (Uniprocessor)" id="context-switching">
                     <step>
                         <p>Save current registers in memory</p>
                     </step>
@@ -1802,7 +1802,7 @@
                 <img src="../images_architecture/ax11-2-4.png" alt="Process Graphs"/>
                 <p><format color="BlueViolet">Reaping Child Processes:</format> When process terminates, it still
                     consumes system resources.</p>
-                <procedure title="Reaping Child Processes">
+                <procedure title="Reaping Child Processes" id="reaping-child-processes">
                     <step>
                         <p>Performed by parent on terminated child (using <code>wait</code> or <code>waitpid</code>).
                         </p>
