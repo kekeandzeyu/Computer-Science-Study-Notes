@@ -2403,4 +2403,79 @@
             </chapter>
         </chapter>
     </chapter>
+    <chapter title="12 System I/O" id="12-system-io">
+        <chapter title="12.1 Unix I/O" id="12-1-unix-io">
+            <p><format color="BlueViolet">Overview</format></p>
+            <list type="bullet">
+                <li>
+                    <p>A file is a sequence of bytes.</p>
+                </li>
+                <li>
+                    <p>All I/O devices are represented as files, e.g. <code>/dev/sda2</code> represents disk partition,
+                        <code>/dev/tty2</code> represents terminal, <code>/dev/null</code> represents discard all
+                        writes/read empty file.</p>
+                </li>
+                <li>
+                    <p>Kernel data structures are exposed as files.</p>
+                </li>
+                <li>
+                    <p>Kernel offers a set of basic operations for all files.</p>
+                    <list type="bullet">
+                        <li>
+                            <p><format color="Fuchsia"><code>open()</code> and <code>close()</code>:</format> Opening
+                                and closing files.</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia"><code>read()</code> and <code>write()</code>:</format> Reading
+                                and writing a file.</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia"><code>stat()</code>, <code>lstat()</code> and <code>fstat()
+                                </code>:</format> Look up information about a file (size, type, last modification time,
+                                ...).</p>
+                        </li>
+                        <li>
+                            <p><format color="Fuchsia"><code>lseek()</code>:</format> Changing the current file position
+                                (seek), indicates next offset into file to read or write.</p>
+                        </li>
+                    </list>
+                </li>
+            </list>
+            <p><format color="BlueViolet">File Types</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Regular File:</format> Contains arbitrary data.</p>
+                    <p>Application programs often distinguish between text files (regular files that contain only ASCII
+                        or Unicode characters) and binary files (everything else). To the kernel there is no difference.
+                        </p>
+                    <p>Text file is sequence of text lines, and text line is sequence of characters terminated (not
+                        separated!) by end of line indicator.</p>
+                    <note>
+                        <p><format color="BlueViolet">Different End of line (EOL) indicators</format></p>
+                        <list type="bullet">
+                            <li>
+                                <p><format color="Fuchsia">All "Unix":</format> Single byte <math>\texttt{0x0A}</math>
+                                    (Line Feed LF)</p>
+                            </li>
+                            <li>
+                                <p><format color="Fuchsia">DOS, Windows:</format> Two bytes <math>\texttt{0x0D}</math>
+                                    (Carriage Return CR) <math>\texttt{0x0A}</math> (Line Feed LF)</p>
+                            </li>
+                        </list>
+                    </note>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Directory:</format> Index for a related group of files.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Socket:</format> For communicating with a process on another machine.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Named pipes (FIFOs), Symbolic links, Character and block devices...
+                        </format></p>
+                </li>
+            </list>
+
+        </chapter>
+    </chapter>
 </topic>
