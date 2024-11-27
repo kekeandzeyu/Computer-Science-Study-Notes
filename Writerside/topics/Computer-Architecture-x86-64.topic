@@ -2465,17 +2465,113 @@
                     </note>
                 </li>
                 <li>
-                    <p><format color="Fuchsia">Directory:</format> Index for a related group of files.</p>
+                    <p><format color="Fuchsia">Directory:</format> A file consisting of an array of links, where each
+                        link maps a filename to a file, which may be another directory.</p>
+                    <p>Each directory contains at least two entries. .(dot) maps to the directory itself, and ..
+                        (dot-dot) is a link to the parent directory in the directory hierarchy.</p>
+                    <p>All files are organized as a hierarchy anchored by root directory named /(slash).</p>
+                    <img src="../images_architecture/ax12-1-1.png" alt="Directory Hierarchy"/>
+                    <p><format color="OrangeRed">Commands for manipulating directories:</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p><code>mkdir</code>: create empty directory.</p>
+                        </li>
+                        <li>
+                            <p><code>ls</code>: view directory contents.</p>
+                        </li>
+                        <li>
+                            <p><code>rmdir</code>: delete empty directory.</p>
+                        </li>
+                        <li>
+                            <p><code>cd</code>: change working directory.</p>
+                        </li>
+                        <li>
+                            <p><code>pwd</code>: print working directory.</p>
+                        </li>
+                    </list>
+                    <note>
+                        <p>In Bash and other similar shells, the variable <code>$PWD</code> holds the absolute path of
+                            the current working directory.</p>
+                    </note>
                 </li>
                 <li>
                     <p><format color="Fuchsia">Socket:</format> For communicating with a process on another machine.</p>
+
                 </li>
                 <li>
                     <p><format color="Fuchsia">Named pipes (FIFOs), Symbolic links, Character and block devices...
                         </format></p>
                 </li>
             </list>
-
+            <p><format color="BlueViolet">Operations</format></p>
+            <list type="decimal">
+                <li>
+                    <p><format color="Fuchsia">Opening Files:</format> Opening a file informs the kernel that you are
+                        getting ready to access that file, and returns a small identifying integer file descriptor.</p>
+                    <p><format color="IndianRed">Example</format></p>
+                    <code-block lang="c" collapsible="true">
+                        int fd; /* file descriptor */
+                        if ((fd = open("/etc/hosts", O_RDONLY)) &lt; 0) {
+                            perror("open");
+                            exit(1);
+                        }
+                    </code-block>
+                    <note>
+                        <list type="decimal">
+                            <li>
+                                <p><code>fd == -1</code> indicates an error occurred.</p>
+                            </li>
+                            <li>
+                                <p>Each process begins life with three open files: 0 for standard input (stdin), 1
+                                        for standard output (stdout), and 2 for standard error (stderr).</p>
+                            </li>
+                        </list>
+                    </note>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Closing Files:</format> Closing a file informs the kernel that you are
+                        finished accessing that file.</p>
+                    <p><format color="IndianRed">Example</format></p>
+                    <code-block lang="c" collapsible="true">
+                        if (close(fd) &lt; 0) {
+                            fprintf(stderr, "%s: write error: %s",
+                            filename, strerror(errno));
+                            exit(1);
+                        }
+                    </code-block>
+                    <p>Not to close a file more than once, and closing a file can fail =&gt; The OS is taking this
+                        opportunity to report a delayed error from a previous write operation, and you might silently
+                        lose data if you don't check!</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Reading Files:</format> Reading a file copies bytes from the current file
+                        position to memory, and then updates file position.</p>
+                    <p><format color="IndianRed">Example</format></p>
+                    <code-block lang="c" collapsible="true">
+                        char buf[512];
+                        int fd; /* file descriptor */
+                        int nbytes; /* number of bytes read */
+                        /* Open file fd ... */
+                        /* Then read up to 512 bytes from file fd */
+                        if ((nbytes = read(fd, buf, sizeof(buf))) &lt; 0) {
+                            perror("read");
+                            exit(1);
+                        }
+                    </code-block>
+                    <p>Returns number of bytes read from file <code>fd</code> into <code>buf</code>.</p>
+                    <list type="bullet">
+                        <li>
+                            <p>Return type <code>ssize_t</code> is signed integer.</p>
+                        </li>
+                        <li>
+                            <p>nbytes &lt; 0 indicates that an error occurred.</p>
+                        </li>
+                        <li>
+                            <p>Short counts (nbytes &lt; sizeof(buf)) are possible and are not errors!</p>
+                        </li>
+                    </list>
+                </li>
+            </list>
         </chapter>
     </chapter>
 </topic>
