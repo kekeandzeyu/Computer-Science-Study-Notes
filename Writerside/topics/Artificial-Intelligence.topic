@@ -190,6 +190,93 @@
                         }
                     </code-block>
                 </tab>
+                <tab title="C++">
+                    <code-block lang="c++">
+                        #include &lt;iostream&gt;
+                        #include &lt;queue&gt;
+                        #include &lt;vector&gt;
+                        #include &lt;unordered_map&gt;
+                        #include &lt;unordered_set&gt;
+                        #include &lt;functional&gt;
+                        
+                        struct Node {
+                            int state;
+                            Node* parent;
+                            int cost;
+                        
+                            explicit Node(const int s, Node* p = nullptr, const int c = 0) : state(s), parent(p), cost(c) {}
+                        
+                            // Comparison operator for priority queue (min-heap)
+                            bool operator&gt;(const Node&amp; other) const {
+                                return cost &gt; other.cost;
+                            }
+                        };
+
+                        std::vector&lt;int&gt; uniform_cost_search(const std::unordered_map&lt;int, std::unordered_map&lt;int, int&gt;&gt;&amp; graph, int start, int goal) {
+                            std::priority_queue&lt;Node, std::vector&lt;Node&gt;, std::greater&lt;&gt;&gt; priority_queue;
+                            priority_queue.emplace(start);
+                            std::unordered_set&lt;int&gt; explored;
+                        
+                            while (!priority_queue.empty()) {
+                                Node current_node = priority_queue.top();
+                                priority_queue.pop();
+                        
+                                if (current_node.state == goal) {
+                                    std::vector&lt;int&gt; path;
+                                    const Node* current = &amp;current_node;
+                                                while (current) {
+                                        path.push_back(current-&gt;state);
+                                        current = current-&gt;parent;
+                                    }
+                                    std::reverse(path.begin(), path.end());
+                                    return path;
+                                }
+                        
+                                explored.insert(current_node.state);
+                        
+                                if (graph.contains(current_node.state)) { 
+                                    for (const auto&amp;[fst, snd] : graph.at(current_node.state)) {
+                                        int successor = fst;
+                                        const int cost = snd;
+                        
+                                        if (!explored.contains(successor)) {
+                                            Node successor_node(successor, &amp;current_node, current_node.cost + cost); // Use pointer to current_node
+                        
+                                            bool in_queue = false;
+                                            std::vector&lt;Node&gt; temp_queue;
+                                            while(!priority_queue.empty()){
+                                                Node queue_node = priority_queue.top();
+                                                priority_queue.pop();
+                                                if (queue_node.state == successor){
+                                                    in_queue = true;
+                                                    if (queue_node &gt; successor_node){
+                                                        temp_queue.push_back(successor_node);
+                                                    }
+                                                    else {
+                                                        temp_queue.push_back(queue_node);
+                                                    }
+                                                }
+                                                else{
+                                                    temp_queue.push_back(queue_node);
+                                                }
+                                            }
+                        
+                                            for (const auto&amp; node : temp_queue){
+                                                priority_queue.push(node);
+                                            }
+                        
+                                            if (!in_queue) {
+                                                priority_queue.push(successor_node);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        
+                            return {}; 
+                        }
+                    </code-block>
+                </tab>
                 <tab title="Python">
                     <code-block lang="python">
                         import heapq
@@ -242,6 +329,25 @@
                     </code-block>
                 </tab>
             </tabs>
+            <list type="bullet">
+                <li>
+                    <p>If that solution costs <math>C^*</math> and arcs cost at least <math>\varepsilon</math>, then the
+                        "effective depth" is roughly <math>C^*/\varepsilon</math>.</p>
+                </li>
+                <li>
+                    <p>Time complexity: <math>O(b^{C^*/\varepsilon})</math></p>
+                </li>
+                <li>
+                    <p>Space complexity: <math>O(b^{C^*/\varepsilon})</math></p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Completeness:</format> Assuming best solution has a finite cost and
+                        minimum arc cost is positive, yes!</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Optimality:</format> Yes!</p>
+                </li>
+            </list>
         </chapter>
     </chapter>
 </topic>
