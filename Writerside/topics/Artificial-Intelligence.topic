@@ -5,6 +5,243 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="Artificial Intelligence" id="Artificial-Intelligence">
 
-    <p>To be continued...</p>
-    <p>Check out for other topics!</p>
+    <!-- TODO: Change the title after learning informed search algorithms -->
+    <chapter title="1 Uninformed Search" id="1-search">
+        <chapter title="1.1 Agent Design" id="1-1-agent-design">
+            <p>There are mainly two types of agents.</p>
+            <list type="decimal">
+                <li>
+                    <p><format color="Fuchsia">Reflex Agents:</format> Choose action based on current percept (and maybe
+                        memory), may have memory or a model of the world's current state, do not consider the future
+                        consequences of their actions.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Planning Agents:</format> Decisions based on (hypothesized) consequences
+                        of actions, must have a model of how the world evolves in response to actions, and must
+                        formulate a goal (test).</p>
+                </li>
+            </list>
+        </chapter>
+        <chapter title="1.2 Search Problems and Algorithms" id="1-2-search-problems-and-algorithms">
+            <p><format color="BlueViolet">Search Problems</format></p>
+            <list type="bullet">
+                <li>
+                    <p>A state space.</p>
+                </li>
+                <li>
+                    <p>A successor function (with actions, costs).</p>
+                </li>
+                <li>
+                    <p>A start state and a goal test.</p>
+                </li>
+                <li>
+                    <p>A solution is a sequence of actions (a plan) which transforms the start state to a goal state.
+                    </p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">State Space Graphs vs. Search Trees</format></p>
+            <img src="../images_ai/ai1-2-1.png" alt="State Space Graphs vs. Search Trees"/>
+            <p><format color="BlueViolet">Search Algorithms</format></p>
+            <list type="bullet">
+                <li>
+                    <p>Uninformed search algorithms (blind search).</p>
+                    <list type="bullet">
+                        <li>
+                            <p>Depth-First Search</p>
+                        </li>
+                        <li>
+                            <p>Breadth-First Search</p>
+                        </li>
+                        <li>
+                            <p>Uniform-Cost Search</p>
+                        </li>
+                    </list>
+                </li>
+                <!-- TODO: Add the details of Informed Search Algorithms here! -->
+                <li>
+                    <p>Informed search algorithms (heuristic search).</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Depth-First Search</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Completeness:</format> <math>m</math> could be infinite, so only if we
+                        prevent cycles.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Optimality:</format> No, it finds the "leftmost" solution, regardless of
+                        depth or cost.</p>
+                </li>
+            </list>
+            <img src="../images_ai/ai1-2-2.png" alt="Depth-First Search"/>
+            <p><format color="BlueViolet">Breadth-First Search</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Completeness:</format> <math>s</math> must be finite if a solution exists
+                        , so yes!</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Optimality:</format> Only if costs are all 1.</p>
+                </li>
+            </list>
+            <img src="../images_ai/ai1-2-3.png" alt="Breadth-First Search"/>
+            <note>
+                <p>For more information on DFS &amp; BFS, please visit <a href="Data-Structures-and-Algorithms-2.topic"
+                                                                          anchor="14-3-depth-first-search"
+                                                                          summary="DFS &amp; BFS">DFS &amp; BFS in Data
+                Structures and Algorithms</a>.</p>
+            </note>
+            <p><format color="BlueViolet">Iterative Deepening:</format> get DFS’s space advantage with BFS's
+                time / shallow solution advantages, run Run a DFS with depth limit 1, 2, 3, ...</p>
+            <p><format color="BlueViolet">Uniform Cost Search:</format> Expand the node with the lowest path cost.</p>
+            <procedure title="Uniform Cost Search" id="uniform-cost-search">
+                <step>
+                    <p>Dequeue the node with the lowest path cost (current_node).</p>
+                </step>
+                <step>
+                    <p>If current_node is the goal state, reconstruct and return the path.</p>
+                </step>
+                <step>
+                    <p>Expand current_node: For each successor (neighbor) of current_node,</p>
+                    <list type="bullet">
+                        <li>
+                            <p>If the successor is not in the explored set and not already in the priority queue, create
+                                a new node for the successor with the calculated cost and parent set to current_node,
+                                and insert the successor node into the priority queue.</p>
+                        </li>
+                        <li>
+                            <p>Else if the successor is already in the priority queue with a higher cost, update the
+                                successor's cost in the priority queue and its parent to current_node.</p>
+                        </li>
+                    </list>
+                </step>
+            </procedure>
+            <tabs>
+                <tab title="Java">
+                    <code-block lang="java">
+                        import java.util.*;
+
+                        class Node implements Comparable&lt;Node&gt; {
+                            String state;
+                            Node parent;
+                            int cost;
+
+                            public Node(String state, Node parent, int cost) {
+                                this.state = state;
+                                this.parent = parent;
+                                this.cost = cost;
+                            }
+
+                            @Override
+                            public int compareTo(Node other) {
+                                return Integer.compare(this.cost, other.cost);
+                            }
+                        }
+
+                        public class UCS {
+
+                            public static List&lt;String&gt; uniformCostSearch(Map&lt;String, Map&lt;String, Integer&gt;&gt; graph, String start, String goal) {
+                                PriorityQueue&lt;Node&gt; priorityQueue = new PriorityQueue&lt;&gt;();
+                                priorityQueue.offer(new Node(start, null, 0));
+                                Set&lt;String&gt; explored = new HashSet&lt;&gt;();
+
+                                while (!priorityQueue.isEmpty()) {
+                                    Node current = priorityQueue.poll();
+
+                                    if (current.state.equals(goal)) {
+                                        List&lt;String&gt; path = new ArrayList&lt;&gt;();
+                                        while (current != null) {
+                                            path.add(current.state);
+                                            current = current.parent;
+                                        }
+                                        Collections.reverse(path);
+                                        return path;
+                                    }
+
+                                    explored.add(current.state);
+
+                                    Map&lt;String, Integer&gt; successors = graph.getOrDefault(current.state, Collections.emptyMap());
+                                    for (Map.Entry&lt;String, Integer&gt; entry : successors.entrySet()) {
+                                        String successor = entry.getKey();
+                                        int cost = entry.getValue();
+                                        Node successorNode = new Node(successor, current, current.cost + cost);
+
+                                        if (!explored.contains(successor)) {
+                                            boolean inQueue = false;
+                                            for (Node n : priorityQueue) {
+                                                if (n.state.equals(successor)) {
+                                                    inQueue = true;
+                                                    if (n.cost &gt; successorNode.cost) {
+                                                        priorityQueue.remove(n);  // Remove higher cost node
+                                                        priorityQueue.offer(successorNode); // Add lower cost node
+                                                        break; // Important: Exit loop after updating
+                                                    }
+                                                }
+                                            }
+                                            if (!inQueue) {
+                                                priorityQueue.offer(successorNode);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                return null; // No path found
+                            }
+                        }
+                    </code-block>
+                </tab>
+                <tab title="Python">
+                    <code-block lang="python">
+                        import heapq
+
+                        class Node:
+                            def __init__(self, state, parent=None, cost=0):
+                                self.state = state
+                                self.parent = parent
+                                self.cost = cost
+
+                            def __lt__(self, other):
+                                return self.cost &lt; other.cost
+
+                        def uniform_cost_search(graph, start, goal):
+                            priority_queue = []
+                            heapq.heappush(priority_queue, Node(start))
+                            explored = set()
+
+                            while priority_queue:
+                                current_node = heapq.heappop(priority_queue)
+
+                                if current_node.state == goal:
+                                    path = []
+                                    while current_node:
+                                        path.append(current_node.state)
+                                        current_node = current_node.parent
+                                    return path[::-1]
+
+                                explored.add(current_node.state)
+
+                                for successor, cost in graph.get(current_node.state, {}).items():  # Directly access successors and costs
+                                    successor_node = Node(successor, current_node, current_node.cost + cost)
+
+
+                                    if successor not in explored:
+                                        in_queue = False
+                                            for i, node in enumerate(priority_queue):
+                                                if node.state == successor:
+                                                    in_queue = True
+                                                    if node.cost > successor_node.cost:
+                                                        priority_queue[i] = successor_node
+                                                        heapq.heapify(priority_queue)
+                                                    break
+
+                                            if not in_queue:
+                                                heapq.heappush(priority_queue, successor_node)
+
+
+                        return None
+                    </code-block>
+                </tab>
+            </tabs>
+        </chapter>
+    </chapter>
 </topic>
