@@ -118,7 +118,7 @@
             </procedure>
             <tabs>
                 <tab title="Java">
-                    <code-block lang="java">
+                    <code-block lang="Java" collapsible="true">
                         import java.util.*;
 
                         class Node implements Comparable&lt;Node&gt; {
@@ -191,7 +191,7 @@
                     </code-block>
                 </tab>
                 <tab title="C++">
-                    <code-block lang="c++">
+                    <code-block lang="C++" collapsible="true">
                         #include &lt;iostream&gt;
                         #include &lt;queue&gt;
                         #include &lt;vector&gt;
@@ -278,7 +278,7 @@
                     </code-block>
                 </tab>
                 <tab title="Python">
-                    <code-block lang="python">
+                    <code-block lang="Python" collapsible="true">
                         import heapq
 
                         class Node:

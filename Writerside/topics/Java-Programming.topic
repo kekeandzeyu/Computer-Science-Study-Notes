@@ -98,4 +98,34 @@
             </code-block>
         </compare>
     </chapter>
+    <chapter title="2 Inheritance" id="Inheritance">
+        <p>Inheritance is a way to create a new class that reuses the properties of an existing class. The new class is
+            called a subclass, and the existing class is called a superclass.</p>
+        <p>Java does not support multiple inheritance, but it does support multi-level inheritance.</p>
+        <p>Subclasses can override methods of the superclass, but they can also call the superclass's method using
+            <code>super.methodName()</code>.</p>
+        <p>Subclasses can also call the superclass's constructor using <code>super()</code>.</p>
+        <p><format color="IndianRed">Example with Inheritance</format></p>
+        <code-block lang="Java" collapsible="true">
+            public class Animal {
+                public void makeNoise() {
+                    System.out.println("Some sound");
+                }
+            }
+
+            public class Dog extends Animal {
+                public void makeNoise() {
+                    System.out.println("Bark");
+                    System.out.println("Woof");
+                }
+
+                public void superNoise() {
+                    super.makeNoise();
+                    for (int i = 0; i &lt; 3; i++) {
+                        super.makeNoise();
+                    }
+                }
+            }
+        </code-block>
+    </chapter>
 </topic>
