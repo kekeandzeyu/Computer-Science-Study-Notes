@@ -5,8 +5,7 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="Artificial Intelligence" id="Artificial-Intelligence">
 
-    <!-- TODO: Change the title after learning informed search algorithms -->
-    <chapter title="1 Uninformed Search" id="1-search">
+    <chapter title="1 Search" id="1-search">
         <chapter title="1.1 Agent Design" id="1-1-agent-design">
             <p>There are mainly two types of agents.</p>
             <list type="decimal">
@@ -44,7 +43,7 @@
             <p><format color="BlueViolet">Search Algorithms</format></p>
             <list type="bullet">
                 <li>
-                    <p>Uninformed search algorithms (blind search).</p>
+                    <p><format color="Fuchsia">Uninformed search algorithms (blind search)</format></p>
                     <list type="bullet">
                         <li>
                             <p>Depth-First Search</p>
@@ -57,9 +56,13 @@
                         </li>
                     </list>
                 </li>
-                <!-- TODO: Add the details of Informed Search Algorithms here! -->
                 <li>
-                    <p>Informed search algorithms (heuristic search).</p>
+                    <p><format color="Fuchsia">Informed search algorithms (heuristic search)</format></p>
+                    <list type="bullet">
+                        <li>
+                            <p>A* Search</p>
+                        </li>
+                    </list>
                 </li>
             </list>
             <p><format color="BlueViolet">Depth-First Search</format></p>
@@ -93,31 +96,41 @@
             </note>
             <p><format color="BlueViolet">Iterative Deepening:</format> get DFS’s space advantage with BFS's
                 time / shallow solution advantages, run Run a DFS with depth limit 1, 2, 3, ...</p>
-            <p><format color="BlueViolet">Uniform Cost Search:</format> Expand the node with the lowest path cost.</p>
-            <procedure title="Uniform Cost Search" id="uniform-cost-search">
-                <step>
-                    <p>Dequeue the node with the lowest path cost (current_node).</p>
-                </step>
-                <step>
-                    <p>If current_node is the goal state, reconstruct and return the path.</p>
-                </step>
-                <step>
-                    <p>Expand current_node: For each successor (neighbor) of current_node,</p>
-                    <list type="bullet">
-                        <li>
-                            <p>If the successor is not in the explored set and not already in the priority queue, create
-                                a new node for the successor with the calculated cost and parent set to current_node,
-                                and insert the successor node into the priority queue.</p>
-                        </li>
-                        <li>
-                            <p>Else if the successor is already in the priority queue with a higher cost, update the
-                                successor's cost in the priority queue and its parent to current_node.</p>
-                        </li>
-                    </list>
-                </step>
-            </procedure>
-            <tabs>
-                <tab title="Java">
+            <chapter title="1.2.1 Uniform Cost Search" id="1-2-1-uniform-cost-search">
+                <p><format color="BlueViolet">Uniform Cost Search:</format> Expand the node with the lowest path cost.
+                </p>
+                <note>
+                    <p>Uniform Cost Search (UCS) uses same idea with Dijkstra's algorithm; however, UCS focuses on the
+                        optimal path towards the goal, while Dijkstra's algorithm will provide optimal paths to all
+                        nodes.</p>
+                    <p>For more information on Dijkstra's Algorithm, please visit <a
+                            href="Data-Structures-and-Algorithms-3.topic" anchor="17-3-dijkstra-s-algorithm"
+                            summary="Dijkstra's Algorithm">Data Structures and Algorithms part</a> for more.</p>
+                </note>
+                <procedure title="Uniform Cost Search" id="uniform-cost-search">
+                    <step>
+                        <p>Dequeue the node with the lowest path cost (current_node).</p>
+                    </step>
+                    <step>
+                        <p>If current_node is the goal state, reconstruct and return the path.</p>
+                    </step>
+                    <step>
+                        <p>Expand current_node: For each successor (neighbor) of current_node,</p>
+                        <list type="bullet">
+                            <li>
+                                <p>If the successor is not in the explored set and not already in the priority queue, create
+                                    a new node for the successor with the calculated cost and parent set to current_node,
+                                    and insert the successor node into the priority queue.</p>
+                            </li>
+                            <li>
+                                <p>Else if the successor is already in the priority queue with a higher cost, update the
+                                    successor's cost in the priority queue and its parent to current_node.</p>
+                            </li>
+                        </list>
+                    </step>
+                </procedure>
+                <tabs>
+                    <tab title="Java">
                     <code-block lang="Java" collapsible="true">
                         import java.util.*;
 
@@ -189,8 +202,8 @@
                             }
                         }
                     </code-block>
-                </tab>
-                <tab title="C++">
+                    </tab>
+                    <tab title="C++">
                     <code-block lang="C++" collapsible="true">
                         #include &lt;iostream&gt;
                         #include &lt;queue&gt;
@@ -198,14 +211,14 @@
                         #include &lt;unordered_map&gt;
                         #include &lt;unordered_set&gt;
                         #include &lt;functional&gt;
-                        
+
                         struct Node {
                             int state;
                             Node* parent;
                             int cost;
-                        
+
                             explicit Node(const int s, Node* p = nullptr, const int c = 0) : state(s), parent(p), cost(c) {}
-                        
+
                             // Comparison operator for priority queue (min-heap)
                             bool operator&gt;(const Node&amp; other) const {
                                 return cost &gt; other.cost;
@@ -216,11 +229,11 @@
                             std::priority_queue&lt;Node, std::vector&lt;Node&gt;, std::greater&lt;&gt;&gt; priority_queue;
                             priority_queue.emplace(start);
                             std::unordered_set&lt;int&gt; explored;
-                        
+
                             while (!priority_queue.empty()) {
                                 Node current_node = priority_queue.top();
                                 priority_queue.pop();
-                        
+
                                 if (current_node.state == goal) {
                                     std::vector&lt;int&gt; path;
                                     const Node* current = &amp;current_node;
@@ -231,17 +244,17 @@
                                     std::reverse(path.begin(), path.end());
                                     return path;
                                 }
-                        
+
                                 explored.insert(current_node.state);
-                        
-                                if (graph.contains(current_node.state)) { 
+
+                                if (graph.contains(current_node.state)) {
                                     for (const auto&amp;[fst, snd] : graph.at(current_node.state)) {
                                         int successor = fst;
                                         const int cost = snd;
-                        
+
                                         if (!explored.contains(successor)) {
                                             Node successor_node(successor, &amp;current_node, current_node.cost + cost); // Use pointer to current_node
-                        
+
                                             bool in_queue = false;
                                             std::vector&lt;Node&gt; temp_queue;
                                             while(!priority_queue.empty()){
@@ -260,11 +273,11 @@
                                                     temp_queue.push_back(queue_node);
                                                 }
                                             }
-                        
+
                                             for (const auto&amp; node : temp_queue){
                                                 priority_queue.push(node);
                                             }
-                        
+
                                             if (!in_queue) {
                                                 priority_queue.push(successor_node);
                                             }
@@ -272,12 +285,12 @@
                                     }
                                 }
                             }
-                        
-                            return {}; 
+
+                            return {};
                         }
                     </code-block>
-                </tab>
-                <tab title="Python">
+                    </tab>
+                    <tab title="Python">
                     <code-block lang="Python" collapsible="true">
                         import heapq
 
@@ -327,27 +340,135 @@
 
                         return None
                     </code-block>
-                </tab>
-            </tabs>
-            <list type="bullet">
-                <li>
-                    <p>If that solution costs <math>C^*</math> and arcs cost at least <math>\varepsilon</math>, then the
-                        "effective depth" is roughly <math>C^*/\varepsilon</math>.</p>
-                </li>
-                <li>
-                    <p>Time complexity: <math>O(b^{C^*/\varepsilon})</math></p>
-                </li>
-                <li>
-                    <p>Space complexity: <math>O(b^{C^*/\varepsilon})</math></p>
-                </li>
-                <li>
-                    <p><format color="Fuchsia">Completeness:</format> Assuming best solution has a finite cost and
-                        minimum arc cost is positive, yes!</p>
-                </li>
-                <li>
-                    <p><format color="Fuchsia">Optimality:</format> Yes!</p>
-                </li>
-            </list>
+                    </tab>
+                </tabs>
+                <list type="bullet">
+                    <li>
+                        <p>If that solution costs <math>C^*</math> and arcs cost at least <math>\varepsilon</math>, then the
+                            "effective depth" is roughly <math>C^*/\varepsilon</math>.</p>
+                    </li>
+                    <li>
+                        <p>Time complexity: <math>O(b^{C^*/\varepsilon})</math></p>
+                    </li>
+                    <li>
+                        <p>Space complexity: <math>O(b^{C^*/\varepsilon})</math></p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Completeness:</format> Assuming best solution has a finite cost and
+                            minimum arc cost is positive, yes!</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Optimality:</format> Yes!</p>
+                    </li>
+                </list>
+            </chapter>
+            <chapter title="1.2.2 Heuristics (A* Search)" id="1-2-2-heuristics">
+                <p>In AI, A <format color="DarkOrange">heuristic</format> is a function that estimates how close a state
+                    is to a goal in a search problem.</p>
+                <p><format color="BlueViolet">Greedy Search:</format> Strategy: Expand a node that you think is closest
+                    to a goal state using heuristic. </p>
+                <p><format color="BlueViolet">Combining UCS &amp; Greedy Search</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Uniform cost orders by path cost, or backward cost <math>g(n)</math>.</p>
+                    </li>
+                    <li>
+                        <p>Greedy orders by goal proximity, or forward cost <math>h(n)</math>.</p>
+                    </li>
+                    <li>
+                        <p>A* Search orders by the sum: <math>f(n) = g(n) + h(n)</math>.</p>
+                    </li>
+                </list>
+                <note>
+                    <p>A* search only terminates when we dequeue a goal (to find optimal path).</p>
+                </note>
+                <p><format color="BlueViolet">Admissibility</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Inadmissible (pessimistic) heuristics can break optimality by overestimating the cost to
+                            reach the goal, so A* may not find the actual optimal path.</p>
+                    </li>
+                    <li>
+                        <p>Admissible (optimistic) heuristics slow down bad plans but never outweigh true costs.</p>
+                    </li>
+                </list>
+                <p>A heuristic h is admissible (optimistic) if, <math>\forall n</math>,</p>
+                <code-block lang="TeX">
+                    0 \leq h(n) \leq h^*(n)
+                </code-block>
+                <p>where <math>h(n)</math> is cost indicated by <math>h</math> to reach a goal from <math>n</math>,
+                    <math>h^*(n)</math> is the optimal cost to reach a goal from <math>n</math>.</p>
+                <p><format color="BlueViolet">Optimality of A* Search</format></p>
+                <p>Assume <math>A</math> is an optimal goal node, <math>B</math> is a suboptimal goal node,
+                    <math>h</math> is admissible, prove that <math>A</math> will exit the fringe before <math>B</math>.</p>
+                <p><format color="LawnGreen">Proof</format></p>
+                <p>Imagine <math>B</math> is on the fringe, Some ancestor <math>n</math> of <math>A</math> is on the
+                    fringe, too (maybe <math>A</math>!)</p>
+                <procedure title="n will be expanded before B">
+                    <step>
+                        <p><math>f(n)</math> is less or equal to <math>f(A)</math>.</p>
+                        <code-block lang="TeX">
+                            \begin{alignat*}{2}
+                            f(n) &amp;= g(n) + h(n) &amp;\qquad&amp; \text{Definition of f-cost} \\
+                            f(n) &amp;\leq g(A)    &amp;\qquad&amp; \text{Admissibility of h} \\
+                            g(A) &amp;= f(A)    &amp;\qquad&amp; \text{h=0 at a goal} \\
+                            \end{alignat*}
+                        </code-block>
+                    </step>
+                    <step>
+                        <p><math>f(A)</math> is less or equal to <math>f(B)</math>.</p>
+                        <code-block lang="TeX">
+                            \begin{alignat*}{2}
+                            g(A) &amp;&lt; g(B)  &amp;\qquad&amp; \text{B is suboptimal} \\
+                            f(A) &amp;&lt; f(B)    &amp;\qquad&amp; \text{h=0 at a goal} \\
+                            \end{alignat*}
+                        </code-block>
+                    </step>
+                    <step>
+                        <p><math>n</math> expands before <math>B</math>.</p>
+                        <code-block lang="TeX">
+                            f(n) \leq f(A) &lt; f(B)
+                        </code-block>
+                    </step>
+                </procedure>
+                <p>All ancestors of <math>A</math> expand before <math>B</math>, <math>A</math> expand before
+                    <math>B</math>B, so A* search is optimal.</p>
+                <tip>
+                    <list type="decimal">
+                        <li>
+                            <p>Uniform cost expands equally in all "directions", while A* expands mainly toward the goal
+                                , but does hedge its bets to ensure optimality.</p>
+                        </li>
+                        <li>
+                            <p>A* is a trade off between quality of estimate and work per node. As heuristics get closer
+                                to the true cost, you will expand fewer nodes but usually do more work per node to
+                                compute the heuristic itself.</p>
+                        </li>
+                    </list>
+                </tip>
+                <p><format color="BlueViolet">Semi-Lattice of Heuristics</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Dominance: <math>h_a \geq h_c</math> if <math>\forall n</math>,</p>
+                        <code-block lang="TeX">
+                            h_a(n) \geq h_c(n)
+                        </code-block>
+                    </li>
+                    <li>
+                        <p>Max of admissible heuristics is admissible. By comparing, we want the best heuristic possible
+                            , one that's as close to the true cost as you can get while still being admissible.</p>
+                    </li>
+                    <li>
+                        <p>Top of lattice is the exact heuristic, which would be the exact cost.</p>
+                    </li>
+                </list>
+                <img src="../images_ai/ai1-2-4.png" alt="Semi-Lattice of Heuristics"/>
+                <note>
+                    <p>In mathematics, a join-semilattice (or upper semilattice) is a partially ordered set that has a
+                        join (a least upper bound) for any nonempty finite subset.</p>
+                    <p>In our case, the set of heuristics have the binary operation max.</p>
+                </note>
+            </chapter>
         </chapter>
     </chapter>
 </topic>
