@@ -5,6 +5,7 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="Java Programming" id="Java-Programming">
 
+    <show-structure for="chapter" depth="3"/>
     <chapter title="1 Class Terminology" id="Class-Terminology">
         <p>In Java, classes can contain not just functions (a.k.a. methods), but also data.</p>
         <p>To run a class, we must define a main method (but not all classes have a main method). Unlike python, there's
@@ -17,7 +18,9 @@
                     ="6-object-oriented-programming" summary="OOP in Python">OOP in Python</a> for basic understanding!
             </p>
         </note>
-        <p><format color="IndianRed">Example with Terminology</format></p>
+        <p>
+            <format color="IndianRed">Example with Terminology</format>
+        </p>
         <code-block lang="Java" collapsible="true">
             /* penguin.java */
             public class penguin {
@@ -70,12 +73,14 @@
             }
         </code-block>
         <tip>
-            <p><format color="BlueViolet">Key differences between static and non-static (a.k.a. instance) members:
-            </format></p>
+            <p>
+                <format color="BlueViolet">Key differences between static and non-static (a.k.a. instance) members:
+                </format>
+            </p>
             <list type="bullet">
                 <li>
                     <p>Static memberss are invoked using the class name, e.g. <code>penguin.makeNoise();</code>,
-                    <code>penguin.binomen</code></p>
+                        <code>penguin.binomen</code></p>
                     <p>It is acceptible to use instance to invoke static methods (e.g. <code>p1.makeNoise();</code>),
                         but some compilers and IDEs will issue a warning.</p>
                     <p>Static methods must access instance variables via a specific instance (
@@ -86,7 +91,9 @@
                 </li>
             </list>
         </tip>
-        <p><format color="BlueViolet">Initialing an array</format></p>
+        <p>
+            <format color="BlueViolet">Initialing an array</format>
+        </p>
         <compare first-title="Java" second-title="Python">
             <code-block lang="Java">
                 int[] arr1 = new int[5]; // Array of 5 elements, all initialized to 0
@@ -98,34 +105,39 @@
             </code-block>
         </compare>
     </chapter>
-    <chapter title="2 Inheritance" id="Inheritance">
-        <p>Inheritance is a way to create a new class that reuses the properties of an existing class. The new class is
-            called a subclass, and the existing class is called a superclass.</p>
-        <p>Java does not support multiple inheritance, but it does support multi-level inheritance.</p>
-        <p>Subclasses can override methods of the superclass, but they can also call the superclass's method using
-            <code>super.methodName()</code>.</p>
-        <p>Subclasses can also call the superclass's constructor using <code>super()</code>.</p>
-        <p><format color="IndianRed">Example with Inheritance</format></p>
-        <code-block lang="Java" collapsible="true">
-            public class Animal {
-                public void makeNoise() {
-                    System.out.println("Some sound");
-                }
-            }
-
-            public class Dog extends Animal {
-                public void makeNoise() {
-                    System.out.println("Bark");
-                    System.out.println("Woof");
-                }
-
-                public void superNoise() {
-                    super.makeNoise();
-                    for (int i = 0; i &lt; 3; i++) {
-                        super.makeNoise();
-                    }
-                }
-            }
+    <chapter title="2 References, Recursion, and Lists" id="2-refernces-recursion-lists">
+        <p>8 primitive types in Java: <code>byte</code>, <code>short</code>, <code>int</code>, <code>long</code>,
+            <code>float</code>, <code>double</code>, <code>boolean</code>, <code>char</code>.</p>
+        <p>Everything else, including arrays, is a reference type.</p>
+        <p>The <code>new</code> keyword allocates memory on the heap, a region of memory dedicated to dynamic object
+            allocation. This memory space holds the instance variables (data members) of your new object.</p>
+        <p>The constructor of the class is then invoked. The constructor's job is to initialize the object's state
+            by setting the initial values of the instance variables.</p>
+        <p>Once the constructor completes, new returns a reference (address) to the newly created object.</p>
+        <p><format color="BlueViolet">The Golden Rule of Equals (and Parameter Passing):</format> Given variables b and
+            a, b = a copies all the bits from a into b, and passing parameters obeys the same rule.</p>
+        <note>
+            <p>There may be a little confusion here: When you pass a primitive type (e.g., <code>int</code>,
+                <code>float</code>, <code>boolean</code>, etc.) to a method, a copy of the value is made and passed to
+                the method. Modifying the parameter within the method does not affect the original variable.</p>
+            <p>When you pass an object to a method, a copy of the reference to the object is passed. The reference
+                itself is passed by value, but the reference points to the original object on the heap. This means when
+                you modify the object within the method, the changes are reflected in the original object.</p>
+        </note>
+        <p><format color="BlueViolet">Arrays in Java</format></p>
+        <code-block lang="Java">
+            int[] a = new int[]{0, 1, 2, 95, 4}; // Declaration &amp; Instantiation
         </code-block>
+        <procedure title="Declaraing &amp; Instantiating Arrays">
+            <step>
+                <p>Creates a 64 bit box (reference) for storing an int array address. (declaration)</p>
+            </step>
+            <step>
+                <p>Creates a new Object, in this case an int array. (instantiation)</p>
+            </step>
+            <step>
+                <p>Puts the address of this new Object into the 64 bit box named a. (assignment)</p>
+            </step>
+        </procedure>
     </chapter>
 </topic>
