@@ -471,4 +471,76 @@
             </chapter>
         </chapter>
     </chapter>
+    <chapter title="2 Constraint Search Problem" id="2-constraint-search-problem">
+        <p><format color="DarkOrange">Constraint Satisfaction Problems (CSPs):</format> A special subset of search
+            problems, for which states is defined by variables <math>X_i</math>, with values from a domain
+            <math>D</math> (sometimes <math>D</math> depends on <math>i</math>), and goal test is a set of constraints
+            specifying allowable combinations of values for subsets of variables.</p>
+        <p><format color="DarkOrange">Binary CSP:</format> Each constraint relates (at most) two variables.</p>
+        <p><format color="DarkOrange">Binary constraint graph:</format> Nodes are variables, arcs show constraints.</p>
+        <img src="../images_ai/ai2-1-1.png" alt="Binary Constraint Graph"/>
+        <p><format color="BlueViolet">Varieties of CSPs</format></p>
+        <list type="bullet">
+            <li>
+                <p><format color="Fuchsia">Discrete Variables</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Finite domains: Size <math>d</math> means <math>O(d^n)</math> complete assignments, e.g.,
+                            Map Coloring, N-Queen, Boolean CSPs, including Boolean satisfiability (NP-complete).</p>
+                    </li>
+                    <li>
+                        <p>Infinite domains (integers, strings, etc.): E.g., job scheduling, variables are start/end
+                            times for each job; linear constraints solvable, nonlinear undecidable.</p>
+                    </li>
+                </list>
+            </li>
+            <li>
+                <p><format color="Fuchsia">Continuous Variables:</format> E.g., start/end times for Hubble Telescope
+                    observations, linear constraints solvable in polynomial time by linear programming methods.</p>
+            </li>
+        </list>
+        <p><format color="BlueViolet">Varieties of Constraints</format></p>
+        <list type="bullet">
+            <li>
+                <p><format color="Fuchsia">Unary constraints:</format> Involve a single variable (equivalent to
+                    reducing domains), e.g.: <math>\text{SA} \neq green</math>.</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">Binary constraints:</format> involve pairs of variables, e.g.: <math>SA \neq
+                    WA</math>.</p>
+            </li>
+            <li>
+                <p><format color="Fuchsia">Higher-order constraints:</format> Involve 3 or more variables, e.g.,
+                    cryptarithmetic column constraints.</p>
+            </li>
+        </list>
+        <chapter title="2.1 Backtracking Search" id="2-1-backtracking-search">
+            <p><format color="DarkOrange">Backtracking Search:</format> DFS, along with variable ordering (i.e., [WA =
+                red then NT = green] same as [NT = green then WA = red]) and constraints checking as you go (i.e.,
+                consider only values which do not conflict with previous assignments).</p>
+            <p><format color="BlueViolet">Filtering</format></p>
+            <list type="decimal">
+                <li>
+                    <p><format color="Fuchsia">Forward checking</format> propagates information from assigned to
+                        unassigned variables, but doesn't provide early detection for all failures.</p>
+                    <p>For example, in the example of mapping colors for Australia above, if WA is red, then NT &amp; SA
+                        cannot be red; if we choose Q to be green next, there is a problem: NT &amp; SA cannot all be
+                        blue, but we didn't detect this!</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Consistency of A Single Arc:</format> An arc X -> Y is consistent iff for
+                        every <math>x</math> in the tail there is some <math>y</math> in the head which could be
+                        assigned without violating a constraint.</p>
+                    <img src="../images_ai/ai2-1-2.png" alt="Consistency of A Single Arc"/>
+                    <p>In this example, Arc SA to NSW is consistent: for every x in the tail there is some y in the head
+                        which could be assigned without violating a constraint.</p>
+                    <note>
+                        <p>Remember: Delete from the tail!</p>
+                        <p>If X loses a value, neighbors of X need to be rechecked!</p>
+                        <p>If one has empty domain, we detect failure and backtrack.</p>
+                    </note>
+                </li>
+            </list>
+        </chapter>
+    </chapter>
 </topic>
