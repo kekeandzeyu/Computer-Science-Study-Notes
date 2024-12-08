@@ -14,7 +14,9 @@ For English version please check [here](README.md)
 
 万幸的是，我及时向自己的一位信科老师求助，老师热情的向我指点迷津，又向我推荐两位特别优秀的学长，让他们向我传授自己如何取得成功的经历。一位学长向我讲述自己在学术研究取得成功的秘诀，另一位学长向我推荐了CS自学指南。老师和学长用他们的倾囊相助，点燃我心中希望之光，我开始了自己的漫漫自学之路。
 
-学习中，我详细地记录了学习笔记。随着笔记内容的不断增多，我突发奇想：“如果能把我所有自学的笔记整合起来，发布在自己的网页上，帮助像自己一样曾经止步不前的同行者，该有多好！”于是，这份笔记就幸运地诞生了，它也许并不向您期许的那样精准完美，但我会竭尽全力使这份笔记内容日渐完美。
+学习中，我详细地记录了学习笔记。随着笔记内容的不断增多，我突发奇想：“如果能把我所有自学的笔记整合起来，发布在自己的网页上，帮助像自己一样曾经止步不前的同行者，该有多好！”
+
+于是，这份笔记就幸运地诞生了，它也许并不向您期许的那样精准完美，但我会竭尽全力使这份笔记内容日渐完美。如果您有好的建议，请访问[贡献部分](#5-想要贡献自己的一份力)。
 
 ## 2 使用建议
 
@@ -28,9 +30,15 @@ For English version please check [here](README.md)
 
 ## 3 参考列表
 
-以下列表是我在完成这份笔记时所参考的内容。如果有作者的原创作品被使用却未被声明，或者被错误使用，请通过邮件与我联系删除，谢谢。
+以下列表是我在完成这份笔记时所参考的内容。如果有作者的原创作品被使用却未被在下方的列表中声明，或者被错误使用，请通过邮件与我联系删除，谢谢。
 
-### Topic 1: 数据结构与算法
+### Topic 1: 人工智能
+
+1. CS188: Artificial Intelligence (UC Berkeley) by Professor Pieter Abbeel, Igor Mordatch and the rest of CS188 staff.
+
+2. Artificial Intelligence: A Modern Approach, 4th Global ed. by Stuart Russell and Peter Norvig.
+
+### Topic 2: 数据结构与算法
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
 
@@ -44,7 +52,7 @@ For English version please check [here](README.md)
 
 6. <https://en.wikipedia.org/wiki/Catalan_number>.
 
-### Topic 2: C++编程
+### Topic 3: C++编程
 
 1. CS106L: Standard C++ Programming (Stanford University) by Professor Avery Wang, Anna Zeng and the rest of CS106L staff.
 
@@ -66,13 +74,13 @@ For English version please check [here](README.md)
 
 > 注意：CS61A和CS61B部分内容被用于面向对象编程部分。
 
-### Topic 3: Python编程
+### Topic 4: Python编程
 
 1. CS61A: Structure and Interpretation of Computer Programs (UC Berkeley) by Professor John DeNero and the rest of CS61A staff.
 
 2. <https://en.wikipedia.org/wiki/Iterator>.
 
-### Topic 4: 计算机体系结构
+### Topic 5: 计算机体系结构
 
 1. CS61C: Great Ideas in Computer Architecture (UC Berkeley) by Professor Dan Garcia, Lecturer Stephan Kaminsky, Sean Farhat, Jenny Song, Peyrin Kao, and the rest of CS61C staff.
 
@@ -94,15 +102,15 @@ For English version please check [here](README.md)
 
 10. <https://en.wikipedia.org/wiki/Floating-point_arithmetic>.
 
-### Topic 5: 操作系统
+### Topic 6: 操作系统
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz and the rest of CS162 staff.
 
-### Topic 6: 数据库系统
+### Topic 7: 数据库系统
 
 1. CS186: Introduction to Database Systems (UC Berkeley) by Professor Alvin Cheung, Joe Hellerstein and the rest of CS186 staff.
 
-### Topic 7: Rust编程
+### Topic 8: Rust编程
 
 1. CS110L: Safety in Systems Programming (Stanford University) by Ryan Eberhardt, Julio Ballista, Thea Rossman and the rest of CS110L staff.
 
