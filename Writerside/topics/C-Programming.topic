@@ -1010,7 +1010,7 @@
                 <chapter title="6.1.1 Vector" id="6-1-1-vector">
                     <p><format color="DarkOrange">Vector:</format> An array with changeable size.</p>
                     <p><format color="IndianRed">Example</format></p>
-                    <code-block lang="c++" collapsible="true">
+                    <code-block lang="C++" collapsible="true">
                         #include &lt;iostream&gt;
                         #include &lt;vector&gt;
                         
@@ -1018,11 +1018,14 @@
                             std::vector&lt;int&gt; vec; // Create an empty vector
                             std::vector&lt;int&gt; vec2(5); // Create a vector with 5 copies of 0
                             std::vector&lt;int&gt; vec3{5, 1}; // Create a vector with 5 copies of value 1
+
                             vec.push_back(1); // Add 1 to the end of the vector
                             vec.clear(); // Clear vector
+
                             if (vec.empty()) { // Check if vector is empty
                                 std::cout &lt;&lt; "Vector is empty" &lt;&lt; std::endl;
                             }
+
                             int k = vec2[0]; // Get the element of index 0
                             int l = vec2.at(0); // Get the element of index 0
                             vec2.at(0) = 2; // Replace the element at index 0
@@ -1032,7 +1035,7 @@
                     </code-block>
                     <table style="both">
                         <tr>
-                            <td/>
+                            <td></td>
                             <td><code>vec[index]</code></td>
                             <td><code>vec.at(index)</code></td>
                         </tr>
@@ -1050,6 +1053,7 @@
                     <warning>
                         <p>If you write your program <format color="GreenYellow">correctly</format>, bounds checking
                             will just <format color="OrangeRed">slow</format> you down.</p>
+                        <p>Use range-based for &amp; <code>const auto&amp;</code> when possible.</p>
                     </warning>
                     <p><format color="BlueViolet">Advantages:</format></p>
                     <list type="bullet">
@@ -1063,36 +1067,26 @@
                     <p><format color="BlueViolet">Disadvantages:</format></p>
                     <list type="bullet">
                         <li>
-                            <p>cannot push_front!</p>
+                            <p>cannot <code>push_front</code>!</p>
                         </li>
                     </list>
                 </chapter>
                 <chapter title="6.1.2 Deque" id="6-1-2-deque">
-                    <p>
-                        <format color="DarkOrange">Deque:</format>
-                        A deque is a doubly
-                        ended queue.
-                    </p>
-                    <p>
-                        <format color="BlueViolet">Implementation</format>
-                    </p>
-                    <p>Instead of storing all elements in a single contiguous block, deque
-                        internally manages a collection of fixed-size arrays called "chunks"
-                        or "buffers." => separate subarrays and allocated independently</p>
-                    <p>Deque maintains a dynamic array (usually a small array or a
-                        tree-like structure) called a "map" or "central index". This map
-                        stores pointers to the beginning of each chunk.</p>
-                    <p>
-                        <format color="BlueViolet">Advantages:</format>
-                    </p>
+                    <p><format color="DarkOrange">Deque:</format> A deque is a doubly ended queue.</p>
+                    <p><format color="BlueViolet">Implementation</format></p>
+                    <p>Instead of storing all elements in a single contiguous block, deque internally manages a
+                        collection of fixed-size arrays called "chunks" or "buffers." =&gt; separate subarrays and
+                        allocated independently.</p>
+                    <p>Deque maintains a dynamic array (usually a small array or a tree-like structure) called a "map"
+                        or "central index". This map stores pointers to the beginning of each chunk.</p>
+                    <img src="../images_c/c6-1.png" alt="Deque Implementation"/>
+                    <p><format color="BlueViolet">Advantages:</format></p>
                     <list type="bullet">
                         <li>
-                            <p>Can push_front!</p>
+                            <p>Can <code>push_front</code>!</p>
                         </li>
                     </list>
-                    <p>
-                        <format color="BlueViolet">Disadvantages:</format>
-                    </p>
+                    <p><format color="BlueViolet">Disadvantages:</format></p>
                     <list type="bullet">
                         <li>
                             <p>For other operations, vector outperform deque.</p>
@@ -1103,47 +1097,39 @@
             <chapter title="6.2 Container Adapters" id="6-2-container-adapters">
                 <list type="alpha-lower">
                     <li>
-                        <p>
-                            <format color="Fuchsia">Stacks:</format>
-                        </p>
+                        <p><format color="Fuchsia">Stacks:</format></p>
                         <list type="bullet">
                             <li>
-                                <p>The standard containers <code>std::vector</code>, <code>
-                                    std::deque</code>, <code>std::list</code> satisfy these
-                                    requirements.</p>
+                                <p>Just limit the functionality of a vector/deque to only allow <code>push_back</code>
+                                    and <code>pop_back</code>.</p>
                             </li>
                             <li>
-                                <p>Just limit the functionality of a vector/deque to only allow
-                                    <code>push_back</code> and <code>pop_back</code>.</p>
+                                <p>The standard containers <code>std::vector</code> (including
+                                    <code>std::vector&lt;bool&gt;</code>), <code>std::deque</code> and
+                                    <code>std::list</code> satisfy these requirements. By default, if no container class
+                                    is specified for a particular stack class instantiation, the standard container
+                                    <code>std::deque</code> is used.</p>
                             </li>
                         </list>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">Queues:</format>
-                        </p>
+                        <p><format color="Fuchsia">Queues:</format></p>
                         <list type="bullet">
                             <li>
-                                <p>The standard containers <code>std::deque</code> and <code>
-                                    std::list</code> satisfy these requirements.</p>
+                                <p>The standard containers <code>std::deque</code> and <code>std::list</code> satisfy
+                                    these requirements.</p>
                             </li>
                             <li>
-                                <p>Just limit the functionality of a deque to only allow <code>
-                                    push_back</code> and <code>pop_front</code>.</p>
+                                <p>Just limit the functionality of a deque to only allow <code>push_back</code> and
+                                    <code>pop_front</code>.</p>
                             </li>
                         </list>
                     </li>
                 </list>
             </chapter>
             <chapter title="6.3 Associative Containers" id="6-3-associative-containers">
-                <p>
-                    <format color="DarkOrange">Associative containers:</format>
-                    Data is
-                    accessed using the
-                    <format color="OrangeRed">key</format>
-                    instead of
-                    index.
-                </p>
+                <p><format color="DarkOrange">Associative containers:</format> Data is accessed using the
+                    <format color="OrangeRed">key</format> instead of index.</p>
                 <code-block lang="plantuml">
                     @startmindmap
                     * Class Templates
@@ -1157,11 +1143,17 @@
                     *** std::unordered_set&lt;T&gt;
                     @endmindmap
                 </code-block>
+                <warning>
+                    <p><code>std::map&lt;K, V&gt;</code> stores <code>std::pair&lt;const K, V&gt;</code></p>
+                </warning>
+                <tip>
+                    <p>For more information on the implementation of these assocative adaptators, please visit
+                        <a href="Data-Structures-and-Algorithms-1.topic" summary="Data Structures and Algorithms">
+                        Data Structures and Algorithms</a> for more!</p>
+                </tip>
             </chapter>
             <chapter title="6.4 Iterators" id="iterators">
-                <p>
-                    <format color="BlueViolet">Four iterator operations:</format>
-                </p>
+                <p><format color="BlueViolet">Four iterator operations:</format></p>
                 <list type="bullet">
                     <li>
                         <p>
