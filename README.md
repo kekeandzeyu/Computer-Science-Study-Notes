@@ -14,7 +14,9 @@ When I began to study in the Physics Department of Peking University, I found my
 
 Thankfully, I turned to one of my CS teacher for help, who helped me with ardor and recommended me with two senior students. One told me the secret to his success in his research area; another introduced me with the cs-self-learning repository. Both the teacher and those two seniors fueled the light of hope with their selflessness. I began to study by myself again.
 
-I took down notes carefully when studying. With the the content of my notes getting more and more, I suddenly thought:"Hey, wouldn't it be nice to integrate all the course notes I've taken and publish them on my website, so that others may refer to this when they are stuck like me?" That is how this note comes with luck. These notes may not be that accurate and perfect as you wish, but I will try my best to make them better.
+I took down notes carefully when studying. With the the content of my notes getting more and more, I suddenly thought:"Hey, wouldn't it be nice to integrate all the course notes I've taken and publish them on my website, so that others may refer to this when they are stuck like me?" That is how this note comes with luck. 
+
+These notes may not be that accurate and perfect as you wish, but I will try my best to make them better. If you have great ideas or would like to add more notes and thoughts, please check out the [contribution part](#5-contribute-to-this-project).
 
 ## 2 Small Reminders
 
@@ -28,9 +30,15 @@ I took down notes carefully when studying. With the the content of my notes gett
 
 ## 3 References
 
-If someone's original work is used but not mentioned, or being misused, either way please contact me via email for deletion, thanks.
+If someone's original work is used but not mentioned in the following list, or being misused, please contact me via email kekeandzeyu@gmail.com for deletion, thanks!
 
-### Topic 1: Data Structures and Algorithms
+### Topic 1: Artificial Intelligence
+
+1. CS188: Artificial Intelligence (UC Berkeley) by Professor Pieter Abbeel, Igor Mordatch and the rest of CS188 staff.
+
+2. Artificial Intelligence: A Modern Approach, 4th Global ed. by Stuart Russell and Peter Norvig.
+
+### Topic 2: Data Structures and Algorithms
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
 
@@ -44,7 +52,7 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 6. <https://en.wikipedia.org/wiki/Catalan_number>.
 
-### Topic 2: C++ Programming
+### Topic 3: C++ Programming
 
 1. CS106L: Standard C++ Programming (Stanford University) by Professor Avery Wang, Anna Zeng and the rest of CS106L staff.
 
@@ -66,13 +74,13 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 > Note: Content of CS61A and CS61B are partly used for the Object-Oriented part.
 
-### Topic 3: Python Programming
+### Topic 4: Python Programming
 
 1. CS61A: Structure and Interpretation of Computer Programs (UC Berkeley) by Professor John DeNero and the rest of CS61A staff.
 
 2. <https://en.wikipedia.org/wiki/Iterator>.
 
-### Topic 4: Computer Architecture
+### Topic 5: Computer Architecture
 
 1. CS61C: Great Ideas in Computer Architecture (UC Berkeley) by Professor Dan Garcia, Lecturer Stephan Kaminsky, Sean Farhat, Jenny Song, Peyrin Kao, and the rest of CS61C staff.
 
@@ -94,15 +102,15 @@ If someone's original work is used but not mentioned, or being misused, either w
 
 10. <https://en.wikipedia.org/wiki/Floating-point_arithmetic>.
 
-### Topic 5: Operating System
+### Topic 6: Operating System
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz and the rest of CS162 staff.
 
-### Topic 6: Database System
+### Topic 7: Database System
 
 1. CS186: Introduction to Database Systems (UC Berkeley) by Professor Alvin Cheung, Joe Hellerstein and the rest of CS186 staff.
 
-### Topic 7: Rust Programming
+### Topic 8: Rust Programming
 
 1. CS110L: Safety in Systems Programming (Stanford University) by Ryan Eberhardt, Julio Ballista, Thea Rossman and the rest of CS110L staff.
 
@@ -135,7 +143,7 @@ This repository is used for storing the original files edited in Writerside; [cs
 
 The notes are under MIT License.
 
-All the references in the notes are under the original licenses.
+All the references in the notes are under their original licenses.
 
 ## 7 Acknowledgements
 
