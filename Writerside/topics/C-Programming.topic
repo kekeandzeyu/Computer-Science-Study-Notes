@@ -1152,40 +1152,39 @@
                         Data Structures and Algorithms</a> for more!</p>
                 </tip>
             </chapter>
-            <chapter title="6.4 Iterators" id="iterators">
-                <p><format color="BlueViolet">Four iterator operations:</format></p>
-                <list type="bullet">
-                    <li>
-                        <p>
-                            <format color="Fuchsia">Create iterator:</format>
-                        </p>
-                        <p><code>std::set&lt;int&gt;::iterator iter = mySet.begin()</code></p>
-                    </li>
-                    <li>
-                        <p>
-                            <format color="Fuchsia">Dereference iterator to read value
-                                currently pointed to:
-                            </format>
-                        </p>
-                        <p><code>int val = *iter</code></p>
-                    </li>
-                    <li>
-                        <p>
-                            <format color="Fuchsia">Advance iterator:</format>
-                        </p>
-                        <p><code>iter++</code>; or <code>++iter</code></p>
-                    </li>
-                    <li>
-                        <p>
-                            <format color="Fuchsia">Compare against another iterator</format>
-                            (especially <code>.end()</code> iterator)
-                        </p>
-                    </li>
-                </list>
-                <p>
-                    <format color="BlueViolet">Map Iterators:</format>
-                </p>
-                <code-block lang="c++" collapsible="true">
+        </chapter>
+        <chapter title="7 Iterators" id="iterators">
+            <p><format color="BlueViolet">Four iterator operations:</format></p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Create iterator:</format></p>
+                    <p><code>std::set&lt;int&gt;::iterator iter = mySet.begin()</code></p>
+                </li>
+                <li>
+                    <p>
+                        <format color="Fuchsia">Dereference iterator to read value
+                            currently pointed to:
+                        </format>
+                    </p>
+                    <p><code>int val = *iter</code></p>
+                </li>
+                <li>
+                    <p>
+                        <format color="Fuchsia">Advance iterator:</format>
+                    </p>
+                    <p><code>iter++</code>; or <code>++iter</code></p>
+                </li>
+                <li>
+                    <p>
+                        <format color="Fuchsia">Compare against another iterator</format>
+                        (especially <code>.end()</code> iterator)
+                    </p>
+                </li>
+            </list>
+            <p>
+                <format color="BlueViolet">Map Iterators:</format>
+            </p>
+            <code-block lang="c++" collapsible="true">
                     std::map&lt;int, int&gt; m;
                     std::map&lt;int, int&gt;::iterator i = m.begin();
                     std::map&lt;int, int&gt;::iterator end = m.end();
@@ -1194,7 +1193,7 @@
                         i++;
                     }
                 </code-block>
-                <code-block lang="mermaid">
+            <code-block lang="mermaid">
                     stateDiagram
                         direction LR
                         Random_Access --> Bidirectional
@@ -1202,42 +1201,42 @@
                         Forward --> Input
                         Forward --> Output
                 </code-block>
-                <chapter title="6.4.1 Input Iterators" id="6-4-1-input-iterators">
-                    <p>For sequential, single-pass input.</p>
-                    <p>Read only, i.e. can only be dereferenced on
-                        <format color="OrangeRed">right</format> side of expression.
-                    </p>
-                    <p>
-                        <format color="BlueViolet">Example:</format>
-                    </p>
-                    <code-block lang="c++" collapsible="true">
+            <chapter title="6.4.1 Input Iterators" id="6-4-1-input-iterators">
+                <p>For sequential, single-pass input.</p>
+                <p>Read only, i.e. can only be dereferenced on
+                    <format color="OrangeRed">right</format> side of expression.
+                </p>
+                <p>
+                    <format color="BlueViolet">Example:</format>
+                </p>
+                <code-block lang="c++" collapsible="true">
                         vector&lt;int&gt;::iterator iter = myVector.begin();
                         int val = *iter;
                     </code-block>
-                </chapter>
-                <chapter title="6.4.2 Output Iterators" id="6-4-2-output-iterators">
-                    <p>For sequential, single-pass output.</p>
-                    <p>Read only, i.e. can only be dereferenced on
-                        <format
-                                color="OrangeRed">left
-                        </format>
-                        side of expression.
-                    </p>
-                    <p>
-                        <format color="BlueViolet">Example:</format>
-                    </p>
-                    <code-block lang="c++">
+            </chapter>
+            <chapter title="6.4.2 Output Iterators" id="6-4-2-output-iterators">
+                <p>For sequential, single-pass output.</p>
+                <p>Read only, i.e. can only be dereferenced on
+                    <format
+                            color="OrangeRed">left
+                    </format>
+                    side of expression.
+                </p>
+                <p>
+                    <format color="BlueViolet">Example:</format>
+                </p>
+                <code-block lang="c++">
                         vector&lt;int&gt;::iterator iter = myVector.begin();
                         *iter = 5;
                     </code-block>
-                </chapter>
-                <chapter title="6.4.3 Forward Iterators" id="6-4-3-forward-iterators">
-                    <p>Combines input and output, plus can make multiple passes.</p>
-                    <p>Can read from and write to (if not const iterator).</p>
-                    <p>
-                        <format color="BlueViolet">Example:</format>
-                    </p>
-                    <code-block lang="c++">
+            </chapter>
+            <chapter title="6.4.3 Forward Iterators" id="6-4-3-forward-iterators">
+                <p>Combines input and output, plus can make multiple passes.</p>
+                <p>Can read from and write to (if not const iterator).</p>
+                <p>
+                    <format color="BlueViolet">Example:</format>
+                </p>
+                <code-block lang="c++">
                         // multiple passes
                         vector&lt;int&gt;::iterator iter1 = myVector.begin();
                         vector&lt;int&gt;::iterator iter2 = myVector.begin();
@@ -1245,26 +1244,25 @@
                         iter2++;
                         if (iter1 == iter2) { cout &lt;&lt; "Equal" &lt;&lt; endl; } // Equal
                     </code-block>
-                </chapter>
-                <chapter title="6.4.4 Bidirectional Iterators" id="6-4-4-bidirectional-iterators">
-                    <p>Same as forward iterators, plus can go backwards with the decrement
-                        operator (--).</p>
-                    <p>
-                        <format color="BlueViolet">Use cases:</format>
-                        <code>std::map
-                        </code>, <code>std::set</code>, <code>std::list</code></p>
-                </chapter>
-                <chapter title="6.4.5 Random Access Iterators" id="6-4-5-random-access-iterators">
-                    <p>Same as bidirectional iterators, plus can be implemented or
-                        decremented by arbitrary amounts using + and -.</p>
-                    <p>
-                        <format color="BlueViolet">Use cases:</format>
-                        <code>std::vector
-                        </code>, <code>std::deque</code>, <code>std::string</code></p>
-                </chapter>
+            </chapter>
+            <chapter title="6.4.4 Bidirectional Iterators" id="6-4-4-bidirectional-iterators">
+                <p>Same as forward iterators, plus can go backwards with the decrement
+                    operator (--).</p>
+                <p>
+                    <format color="BlueViolet">Use cases:</format>
+                    <code>std::map
+                    </code>, <code>std::set</code>, <code>std::list</code></p>
+            </chapter>
+            <chapter title="6.4.5 Random Access Iterators" id="6-4-5-random-access-iterators">
+                <p>Same as bidirectional iterators, plus can be implemented or
+                    decremented by arbitrary amounts using + and -.</p>
+                <p>
+                    <format color="BlueViolet">Use cases:</format>
+                    <code>std::vector
+                    </code>, <code>std::deque</code>, <code>std::string</code></p>
             </chapter>
         </chapter>
-        <chapter title="7 Templates" id="7-templates">
+        <chapter title="8 Templates" id="8-templates">
             <p>We can use templates to keep the logic, but change the type!</p>
             <chapter title="7.1 Template Functions" id="7-1-template-functions">
                 <p><format color="IndianRed">Example</format></p>
@@ -1336,7 +1334,7 @@
                 </procedure>
             </chapter>
         </chapter>
-        <chapter title="8 Functions and Algorithms" id="8-functions-and-algorithms">
+        <chapter title="9 Functions and Algorithms" id="9-functions-and-algorithms">
             <chapter title="8.1 Lambda Functions" id="Lambda">
                 <code-block lang="c++">
                     auto isLessThanLimit = [limit](auto val) -&gt; bool {
@@ -1938,8 +1936,8 @@
         <title>
             Ⅲ Object-Oriented Programming
         </title>
-        <chapter title="9 Classes and Consts" id="9-classes-and-consts">
-            <chapter title="9.1 Classes" id="9-1-classes">
+        <chapter title="10 Classes and Consts" id="10-classes-and-consts">
+            <chapter title="10.1 Classes" id="10-1-classes">
                 <p>
                     <format color="BlueViolet">Definitions:</format>
                 </p>
@@ -2118,7 +2116,7 @@
                     </list>
                 </note>
             </chapter>
-            <chapter title="9.2 Consts" id="9-2-consts">
+            <chapter title="10.2 Consts" id="10-2-consts">
                 <p>
                     <format color="DarkOrange">Consts:</format>
                     A qualifier for objects
@@ -2200,8 +2198,8 @@
                 </chapter>
             </chapter>
         </chapter>
-        <chapter title="10 Operators" id="10-operators">
-            <chapter title="10.1 Basic Operators" id="10-1-basic-operators">
+        <chapter title="11 Operators" id="11-operators">
+            <chapter title="11.1 Basic Operators" id="11-1-basic-operators">
                 <p>There are 40 (+4) operators you can overload!</p>
                 <img src="../images_c/c8-1.png" alt="Operators"/>
                 <p>
@@ -2232,7 +2230,7 @@
                     }
                 </code-block>
             </chapter>
-            <chapter title="10.2 Operator Overloading" id="10-2-operator-overloading">
+            <chapter title="11.2 Operator Overloading" id="11-2-operator-overloading">
                 <p>
                     <format color="BlueViolet">General rule of Thumb:</format>
                     (Member
@@ -2343,7 +2341,7 @@
                         access to private members.</p>
                 </note>
             </chapter>
-            <chapter title="10.3 Principle of Least Astonishment (POLA)" id="10-3-principle-of-least-astonishment-pola">
+            <chapter title="11.3 Principle of Least Astonishment (POLA)" id="11-3-principle-of-least-astonishment-pola">
                 <p>
                     <format color="BlueViolet">From the C++ Core Guidelines (section C
                         ):
@@ -2379,7 +2377,7 @@
                     <li>Always provide all out of a set of related operators.</li>
                 </list>
             </chapter>
-            <chapter title="10.4 Interesting Operators" id="10-4-interesting-operators">
+            <chapter title="11.4 Interesting Operators" id="11-4-interesting-operators">
                 <p>
                     <format color="BlueViolet">Advanced Multithreading Support (C++ 20)
                         :
@@ -2400,7 +2398,7 @@
                 </code-block>
             </chapter>
         </chapter>
-        <chapter title="11 Special Member Functions" id="11-special-member-functions">
+        <chapter title="12 Special Member Functions" id="12-special-member-functions">
             <p>
                 <format color="BlueViolet">Six types of special member functions:
                 </format>
@@ -2488,8 +2486,8 @@
                     </li>
                 </list>
             </note>
-            <chapter title="11.1 Copy Constructor &amp; Copy Assignment Operator"
-                     id="11-1-copy-constructor-copy-assignment-operator">
+            <chapter title="12.1 Copy Constructor &amp; Copy Assignment Operator"
+                     id="12-1-copy-constructor-copy-assignment-operator">
                 <p>By default, the copy constructor will create copies of each member
                     variable.</p>
                 <p>
@@ -2538,7 +2536,7 @@
                     </li>
                 </list>
             </chapter>
-            <chapter title="11.2 Delete Operations" id="11-2-delete-operations">
+            <chapter title="12.2 Delete Operations" id="12-2-delete-operations">
                 <p>Setting a special member function to delete removes its
                     functionality.</p>
                 <p>We can also keep the default copy constructor if we declare other
@@ -2576,7 +2574,7 @@
                     }
                 </code-block>
             </chapter>
-            <chapter title="11.3 Rule of Zero/Three" id="11-3-rule-of-zero-three">
+            <chapter title="12.3 Rule of Zero/Three" id="12-3-rule-of-zero-three">
                 <p>
                     <format color="BlueViolet">Rule of Zero:</format>
                     If the default
@@ -2598,8 +2596,8 @@
                         has ownership issues that need to be resolved.</p>
                 </note>
             </chapter>
-            <chapter title="11.4 Copy Elision and Return Value Optimization (RVO)"
-                     id="11-4-copy-elision-and-return-value-optimization-rvo">
+            <chapter title="12.4 Copy Elision and Return Value Optimization (RVO)"
+                     id="12-4-copy-elision-and-return-value-optimization-rvo">
                 <p>
                     <format color="IndianRed">Examples</format>
                 </p>
@@ -2618,8 +2616,8 @@
                 <img src="../images_c/c11-2.png" alt="RVO"/>
             </chapter>
         </chapter>
-        <chapter title="12 Move Semantics" id="12-move-semantics">
-            <chapter title="12.1 lvalues &amp; rvalues" id="12-1-lvalues-rvalues">
+        <chapter title="13 Move Semantics" id="13-move-semantics">
+            <chapter title="13.1 lvalues &amp; rvalues" id="13-1-lvalues-rvalues">
                 <p>
                     <format color="BlueViolet">Definitions</format>
                 </p>
@@ -2721,11 +2719,11 @@
                 </warning>
                 <img src="../images_c/c12-1.png" alt="Value References"/>
             </chapter>
-            <chapter title="12.2 Move Semantics" id="12-2-move-semantics">
+            <chapter title="13.2 Move Semantics" id="13-2-move-semantics">
             </chapter>
         </chapter>
-        <chapter title="13 Inheritance" id="inheritance">
-            <chapter title="13.1 Namespace" id="13-1-namespace">
+        <chapter title="14 Inheritance" id="inheritance">
+            <chapter title="14.1 Namespace" id="14-1-namespace">
                 <p>
                     <format color="DarkOrange">Namespace:</format>
                     Namespace is an
@@ -2802,7 +2800,7 @@
                     </tab>
                 </tabs>
             </chapter>
-            <chapter title="13.1 Overriding and Overloading" id="13-1-overriding-and-overloading">
+            <chapter title="14.2 Overriding and Overloading" id="14-2-overriding-and-overloading">
                 <p>
                     <format color="BlueViolet">Definition:</format>
                 </p>
@@ -2934,7 +2932,7 @@
                     </list>
                 </tip>
             </chapter>
-            <chapter title="13.2 Types of Inheritance" id="13-2-types-of-inheritance">
+            <chapter title="14.3 Types of Inheritance" id="14-3-types-of-inheritance">
                 <p>
                     <format color="BlueViolet">Interface Inheritance:</format>
                 </p>
@@ -3133,7 +3131,7 @@
         <title>
             Ⅳ Modern C++
         </title>
-        <chapter title="14 RAII" id="14-raii">
+        <chapter title="15 RAII" id="15-raii">
         </chapter>
     </chapter>
 
