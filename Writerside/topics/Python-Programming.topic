@@ -15,33 +15,19 @@
                 <p>In Python, all objects produce two string representations: </p>
                 <list type="bullet">
                     <li>
-                        <p>The
-                            <format color="Fuchsia">str</format>
-                            is legible to humans.
-                        </p>
+                        <p>The <format color="Fuchsia">str</format> is legible to humans.</p>
                     </li>
                     <li>
-                        <p>The
-                            <format color="Fuchsia">repr</format>
-                            is legible to Python
-                            interpreter.
-                        </p>
+                        <p>The <format color="Fuchsia">repr</format> is legible to Python interpreter.</p>
                     </li>
                 </list>
                 <list type="alpha-lower">
                     <li>
-                        <p>
-                            <format color="Fuchsia">repr:</format>
-                            Provides a string
-                            representation that can be used to recreate the object. It's
-                            designed for debugging and introspection. It aims for a more
-                            precise and detailed description, often including the object's
-                            type.
-                        </p>
-                        <p>
-                            <format color="BlueViolet">Examples:</format>
-                        </p>
-                        <code-block lang="python" collapsible="true">
+                        <p><code>repr</code>: Provides a string representation that can be used to
+                            recreate the object. It's designed for debugging and introspection. It aims for a more
+                            precise and detailed description, often including the object's type.</p>
+                        <p><format color="IndianRed">Examples:</format></p>
+                        <code-block lang="Python" collapsible="true">
                             class MyClass:
                                 def __init__(self, value):
                                     self.value = value
@@ -53,16 +39,10 @@
                         </code-block>
                     </li>
                     <li>
-                        <p>
-                            <format color="Fuchsia">repr:</format>
-                            Provides a human-
-                            readable string representation of the object. It's designed to be
-                            easily understood by humans.
-                        </p>
-                        <p>
-                            <format color="BlueViolet">Examples:</format>
-                        </p>
-                        <code-block lang="python" collapsible="true">
+                        <p><code>str</code>: Provides a human-readable string representation of the object. It's
+                            designed to be easily understood by humans.</p>
+                        <p><format color="IndianRed">Examples:</format></p>
+                        <code-block lang="Python" collapsible="true">
                             class MyClass:
                                 def __init__(self, value):
                                     self.value = value
@@ -79,10 +59,8 @@
                 <p>For more information on strings, please visit
                     <a href="Data-Structures-and-Algorithms-3.topic" anchor="strings-in-java"
                        summary="Strings in Java">strings in Java</a>.</p>
-                <p>
-                    <format color="BlueViolet">Examples in Python:</format>
-                </p>
-                <code-block lang="python" collapsible="true">
+                <p><format color="IndianRed">Examples in Python:</format></p>
+                <code-block lang="Python" collapsible="true">
                     name = "Nate"
                     age = 19
 
@@ -92,7 +70,7 @@
 
                     print(f"2 + 2 = {(lambda x: x + x)(2)}") # 2 + 2 = 4
                 </code-block>
-                <code-block lang="python" collapsible="true">
+                <code-block lang="Python" collapsible="true">
                     s = "I have a dream!"
                     print(s[2:6]) # "have"
                     print(s[2:]) # "have a dream!"
@@ -100,7 +78,7 @@
                     print(s[-1:-3]) # "" No result!
                     print(s[::-1]) # "!maerd a evah I", -1 refers to the step
                 </code-block>
-                <code-block lang="python" collapsible="true">
+                <code-block lang="Python" collapsible="true">
                     s = "dream"
                     s1 = s.captialize() # "Dream"
                     s2 = "i have a dream!"
@@ -108,7 +86,7 @@
                     s4 = "I HAVE A DREAM!"
                     s5 = s4.lower() # "i have a dream!"
                 </code-block>
-                <code-block lang="python" collapsible="true">
+                <code-block lang="Python" collapsible="true">
                     s = " I have a dream! "
                     s1 = s.strip() # "I have a dream!" strip() can remove whitespace, \n, \t
                     s2 = "I have a dream!"
@@ -129,16 +107,14 @@
             </chapter>
         </chapter>
         <chapter title="1.2 Lists" id="1-2-lists">
-            <p>
-                <format color="BlueViolet">Examples:</format>
-            </p>
-            <code-block lang="python" collapsible="true">
+            <p><format color="IndianRed">Examples</format></p>
+            <code-block lang="Python" collapsible="true">
                 lst = ["I", "have", "a", "dream!"]
                 s = " ".join(lst) # "I have a dream!"
                 for item in lst:
-                print(item) # I have a dream!
+                    print(item) # I have a dream!
             </code-block>
-            <code-block lang="python" collapsible="true">
+            <code-block lang="Python" collapsible="true">
                 lst = []
                 lst.append("I") # ["I"]
                 lst.insert(0, "have") # ["have", "I"]
@@ -149,7 +125,7 @@
                 lst.remove("I") # ["a"]
                 lst.[0] = "me" # ["me"]
             </code-block>
-            <code-block lang="python" collapsible="true">
+            <code-block lang="Python" collapsible="true">
                 lst = [1, 2, 4, 3, 5]
                 lst.sort() # [1, 2, 3, 4, 5]
                 lst.sort(reverse=True) # [5, 4, 3, 2, 1]
@@ -160,10 +136,8 @@
             </code-block>
         </chapter>
         <chapter title="1.3 Tuple" id="1-3-tuple">
-            <p>
-                <format color="BlueViolet">Examples:</format>
-            </p>
-            <code-block lang="python" collapsible="true">
+            <p><format color="IndianRed">Examples</format></p>
+            <code-block lang="Python" collapsible="true">
                 t = ()
                 t = (1, 2, 3)
                 t[1] = 4 # TypeError -> Tuple is unchangeable!
@@ -180,33 +154,11 @@
             </code-block>
         </chapter>
         <chapter title="1.4 Set" id="sets">
-            <code-block lang="python" collapsible="true">
-                s = {}
-                print(type(s)) # &lt;class 'dict'&gt;
-                s = {1, 2, 3}
-                s = set()
-            </code-block>
-            <p>Set cannot contain unhashable type aka mutable type.</p>
-            <list type="bullet">
-                <li>
-                    <p>
-                        <format color="Fuchsia">Hashable type:</format>
-                        int, float,
-                        string, tuple, bool.
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <format color="Fuchsia">Unhashable type:</format>
-                        list, set,
-                        dict.
-                    </p>
-                </li>
-            </list>
-            <code-block lang="python">
+            <p><format color="IndianRed">Examples</format></p>
+            <code-block lang="Python">
                 s = {1, 2, 3, []} # TypeError: unhashable type: 'list'
             </code-block>
-            <code-block lang="python" collapsible="true">
+            <code-block lang="Python" collapsible="true">
                 s = set()
                 s.add(1)
                 s.add(2)
@@ -215,7 +167,7 @@
                 s.pop()
                 s.remove(2)
             </code-block>
-            <code-block lang="python" collapsible="true">
+            <code-block lang="Python" collapsible="true">
                 s1 = {1, 2, 3}
                 s2 = {3, 4, 5}
                 print(s1 &amp; s2) # {3}
@@ -227,24 +179,39 @@
                 print(s1 - s2) # {1, 2}
                 print(s1.difference(s2)) # {1, 2}
             </code-block>
-        </chapter>
-        <chapter title="1.5 Dictionary" id="dictionaries">
-            <note>
-                <p>Some important notes: </p>
-                <list type="bullet">
+            <tip>
+                <list type="decimal">
                     <li>
-                        <p>A key of a dictionary cannot be a list or a dictionary (or any
-                            mutable type).</p>
+                        <p>Set is unordered and unchangeable.</p>
                     </li>
                     <li>
-                        <p>Two keys cannnot be equal.</p>
+                        <code-block lang="Python" collapsible="true">
+                            s = {}
+                            print(type(s)) # &lt;class 'dict'&gt;
+                            s = {1, 2, 3}
+                            s = set()
+                        </code-block>
+                    </li>
+                    <li>
+                        <p>Set cannot contain unhashable type aka mutable type.</p>
+                        <list type="bullet">
+                            <li>
+                                <p><format color="Fuchsia">Hashable type:</format> int, float, string, tuple, bool.</p>
+                            </li>
+                            <li>
+                                <p><format color="Fuchsia">Unhashable type:</format> list, set, dict.</p>
+                            </li>
+                        </list>
                     </li>
                 </list>
-            </note>
-            <code-block lang="python">
+            </tip>
+        </chapter>
+        <chapter title="1.5 Dictionary" id="dictionaries">
+            <p><format color="IndianRed">Examples</format></p>
+            <code-block lang="Python">
                 dic = {1: "I", 2: "have", 3: "a", 4: "dream!"}
             </code-block>
-            <code-block lang="python" collapsible="true">
+            <code-block lang="Python" collapsible="true">
                 dic = {} # dic = dict()
                 dic[1] = "I"
                 dic[2] = "have" # {1: "I", 2: "have"}
@@ -254,14 +221,14 @@
                 otherwise, add and set the key-value pair to default in dictionary.
                 '''
             </code-block>
-            <code-block lang="python" collapsible="true">
+            <code-block lang="Python" collapsible="true">
                 dict = {1: "I", 2: "have", 3: "a", 4: "dream!"}
                 dict.pop(4) # {1: "I", 2: "have", 3: "a"}
 
                 print(dict[0]) # KeyError
                 print(dict.get(0)) # None
             </code-block>
-            <code-block lang="python" collapsible="true">
+            <code-block lang="Python" collapsible="true">
                 dict = {1: "I", 2: "have", 3: "a", 4: "dream!"}
                 for key in dict:
                     print(key, dict[key])
@@ -275,122 +242,86 @@
                 for key, value in dict.items():
                     print(key, value)
             </code-block>
-            <code-block lang="python" collapsible="true">
+            <code-block lang="Python" collapsible="true">
                 dict = {1: "I", 2: "have", 3: "a", 4: "dream!"}
                 for key in dict:
                     dict.pop(key) # RuntimeError: dictionary changed size during iteration
             </code-block>
-            <code-block lang="python" collapsible="true">
+            <code-block lang="Python" collapsible="true">
                 dict = {1: "I", 2: "have", 3: "a", 4: "dream!"}
                 for key in list(dict.keys()):
                     dict.pop(key) # No error
             </code-block>
+            <tip>
+                <p>Some important notes: </p>
+                <list type="bullet">
+                    <li>
+                        <p>A key of a dictionary cannot be a list or a dictionary (or any mutable type).</p>
+                    </li>
+                    <li>
+                        <p>Two keys cannnot be equal.</p>
+                    </li>
+                </list>
+            </tip>
         </chapter>
         <chapter title="1.6 Bytes" id="1-6-bytes">
             <list type="decimal">
                 <li>
-                    <p>
-                        <format color="Fuchsia">ASCII:</format>
-                        1 bytes, 8 bits.
-                    </p>
+                    <p><format color="Fuchsia">ASCII:</format> 1 bytes, 8 bits.</p>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">ANSI:</format>
-                        A standard. 2 bytes, 16
-                        bits.
-                    </p>
+                    <p><format color="Fuchsia">ANSI:</format> A standard. 2 bytes, 16 bits.</p>
                     <list type="bullet">
                         <li>
-                            <p>
-                                <format color="LawnGreen">Mainland China:</format>
-                                GB2312 => GBK (Windows).
-                            </p>
+                            <p><format color="MediumSeaGreen">Mainland China:</format> GB2312 =&gt; GBK (Windows).</p>
                         </li>
                         <li>
-                            <p>
-                                <format color="LawnGreen">Taiwan, China:</format>
-                                Big5.
-                            </p>
+                            <p><format color="MediumSeaGreen">Taiwan, China:</format> Big5.</p>
                         </li>
                         <li>
-                            <p>
-                                <format color="LawnGreen">Japan:</format>
-                                JIS.
-                            </p>
+                            <p><format color="LawnGreen">Japan:</format> JIS.</p>
                         </li>
                     </list>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">Unicode:</format>
-                    </p>
+                    <p><format color="Fuchsia">Unicode:</format></p>
                     <list type="bullet">
                         <li>
-                            <p>
-                                <format color="LawnGreen">UCS-2:</format>
-                                2 bytes, 16 bits.
-                            </p>
+                            <p><format color="MediumSeaGreen">UCS-2:</format> 2 bytes, 16 bits.</p>
                         </li>
                         <li>
-                            <p>
-                                <format color="LawnGreen">UCS-4:</format>
-                                4 bytes, 32 bits
-                                .
-                            </p>
+                            <p><format color="LawnGreen">UCS-4:</format> 4 bytes, 32 bits.</p>
                         </li>
                     </list>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">UTF:</format>
-                        All the same as Unicode,
-                        except that the length is changeable.
-                    </p>
+                    <p><format color="Fuchsia">UTF:</format> All the same as Unicode, except that the length is
+                        changeable.</p>
                     <list type="bullet">
                         <li>
-                            <p>
-                                <format color="LawnGreen">English:</format>
-                                1 byte, 8 bits
-                                .
-                            </p>
+                            <p><format color="MediumSeaGreen">English:</format> 1 byte, 8 bits .</p>
                         </li>
                         <li>
-                            <p>
-                                <format color="LawnGreen">Some of European languages:
-                                </format>
-                                2 bytes, 16 bits.
-                            </p>
+                            <p><format color="MediumSeaGreen">Some of European languages:</format> 2 bytes, 16 bits.</p>
                         </li>
                         <li>
-                            <p>
-                                <format color="LawnGreen">Chinese:</format>
-                                3 bytes, 24
-                                bits.
-                            </p>
+                            <p><format color="MediumSeaGreen">Chinese:</format> 3 bytes, 24 bits.</p>
                         </li>
                     </list>
                 </li>
                 <li>
-                    <p>
-                        <format color="Fuchsia">UTF-16:</format>
-                        Shortest length is 16
-                        bits.
-                    </p>
+                    <p><format color="Fuchsia">UTF-16:</format> Shortest length is 16 bits.</p>
                 </li>
             </list>
         </chapter>
         <chapter title="1.7 Logical Operators" id="1-7-logical-operators">
             <p>Priority: </p>
-            <p>() => not => and => or</p>
+            <p>() =&gt; not =&gt; and =&gt; or</p>
         </chapter>
     </chapter>
     <chapter title="2 Higher-Order Function" id="2-higher-order-function">
-        <p>
-            <format color="DarkOrange">Higher-order function:</format>
-            A function that takes a function as an argument value or returns
-            a function as a return value.
-        </p>
+        <p><format color="DarkOrange">Higher-order function:</format> A function that takes a function as an argument
+            value or returns a function as a return value.</p>
         <chapter title="2.1 Higher-Order Function (Functions as Arguments)"
                  id="2-1-higher-order-function-functions-as-arguments">
             <p>

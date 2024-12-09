@@ -122,6 +122,7 @@ For the colors in the notes, here are their meanings:
 * OrangeRed: to highlight important parts.
 * DarkOrange: to indicate definitions.
 * Fuchsia: to indicate different points in a list.
+* MediumSeaGreen: to indicate subpoints under one point in a list.
 * LawnGreen: to indicate mathematical proof.
 * IndianRed: to indicate examples.
 

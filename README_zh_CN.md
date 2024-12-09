@@ -122,6 +122,7 @@ For English version please check [here](README.md)
 * OrangeRed: 强调重点内容。
 * DarkOrange: 表示定义。
 * Fuchsia: 表示列表中不同内容。
+* MediumSeaGreen: 代表列表中一点的分支。
 * LawnGreen: 代表数学证明。
 * IndianRed: 代表示例。
 
