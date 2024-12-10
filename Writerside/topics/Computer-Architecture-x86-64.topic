@@ -2403,6 +2403,7 @@
             </chapter>
         </chapter>
     </chapter>
+    <!-- TODO: Chapter 12 is unfinished yet!-->
     <chapter title="12 System I/O" id="12-system-io">
         <chapter title="12.1 Unix I/O" id="12-1-unix-io">
             <p><format color="BlueViolet">Overview</format></p>
@@ -2572,6 +2573,211 @@
                     </list>
                 </li>
             </list>
+        </chapter>
+    </chapter>
+    <chapter title="13 Network Programming" id="13-network-programming">
+        <chapter title="13.1 Network Types &amp; Structures" id="13-1-network-types-structures">
+            <p>Every network application is based on the client-server model.</p>
+            <img src="../images_architecture/ax13-1-1.png" alt="client-server model"/>
+            <p><format color="DarkOrange">Network:</format> A hierarchical system of boxes and wires organized by
+                geographical proximity.</p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">LAN (Local Area Network)</format> spans a building or campus, e.g.,
+                        Ethernet.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">WAN (Wide Area Network)</format> spans country or world, typically
+                        high-speed point-to-point (mostly optical) links.</p>
+                </li>
+                <li>
+                    <p>Also SAN (Storage area network), MAN (Metropolitan), etc.</p>
+                </li>
+                <li>
+                    <p>An internetwork (internet) is an interconnected set of networks, and the Global IP Internet
+                        (uppercase "I") is the most famous example of an internet (lowercase "i")</p>
+                </li>
+            </list>
+            <p><format color="BlueViolet">Bridged Ethernet Segment</format></p>
+            <list type="bullet">
+                <li>
+                    <p>Ethernet segment consists of a collection of hosts connected by wires (twisted pairs) to a hub.
+                    </p>
+                </li>
+                <li>
+                    <p>Bridges learn which MAC addresses are on which segment by observing the source MAC addresses of
+                        frames that they receive. They then use this information to forward frames only to the necessary
+                        segment, rather than broadcasting to all segments.</p>
+                </li>
+            </list>
+            <img src="../images_architecture/ax13-1-2.png" alt="Bridged Ethernet Segment"/>
+            <p><format color="BlueViolet">internet</format></p>
+            <note>
+                <p>Internet (upper case) stands for Global IP Internet, the largest and most prominent implementation
+                    of internet (lower case).</p>
+            </note>
+            <p>Multiple incompatible LANs can be physically connected by specialized computers called
+                <format color="DarkOrange">routers</format>. The connected networks are called an internet (lower case).
+                </p>
+            <img src="../images_architecture/ax13-1-3.png" alt="internet"/>
+            <p><format color="BlueViolet">internet Protocol</format></p>
+            <p>Protocol is a set of rules that governs how hosts and routers should cooperate when they transfer data
+                from network to network, which smooths out the differences between the different networks.</p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">Provides a naming scheme:</format> An internet protocol defines a uniform
+                        format for host addresses, and each host (and router) is assigned at least one of these internet
+                        addresses that uniquely identifies it.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">Provides a delivery mechanism:</format> An internet protocol defines a
+                        standard transfer unit (packet), which consists of header (info such as packet size, source and
+                        destination addresses) and payload (data bits sent from source host).</p>
+                </li>
+            </list>
+        </chapter>
+        <chapter title="13.2 Global IP Internet" id="13-2-global-ip-internet">
+            <p><format color="BlueViolet">Global IP Internet:</format> Based on the TCP/IP protocol family.</p>
+            <list type="bullet">
+                <li>
+                    <p><format color="Fuchsia">IP (Internet Protocol):</format> Provides basic naming scheme and
+                        unreliable delivery capability of packets (datagrams) from host-to-host.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">UDP (User Datagram Protocol):</format> Uses IP to provide unreliable
+                        datagram delivery from process-to-process.</p>
+                </li>
+                <li>
+                    <p><format color="Fuchsia">TCP (Transmission Control Protocol):</format> Uses IP to provide reliable
+                        byte streams from process-to-process over connections.</p>
+                </li>
+            </list>
+            <chapter title="13.2.1 Locating Host" id="13-2-1locating-host">
+                <p><format color="BlueViolet">IP Addresses</format></p>
+                <list type="bullet">
+                    <li>
+                        <p>Hosts are mapped to a set of 32-bit IP addresses, and they are stored in an IP address struct.
+                            They are always stored in memory in network byte order (big-endian byte order).</p>
+                    </li>
+                    <li>
+                        <p>127.0.0.1 is always localhost.</p>
+                    </li>
+                    <li>
+                        <p>IPv4 (Internet Protocol version 4) specifies 32-bit host addresses (192.0.2.43), while IPv6
+                            (Internet Protocol version 6) specifies 128-bit addresses (2001:0db8:0:0:0:0:cafe:la7e).</p>
+                    </li>
+                    <li>
+                        <p>By convention, each byte in a 32-bit IP address is represented by its decimal value and
+                            separated by a period, e.g., 0x <format color="OrangeRed">80</format>
+                            <format color="MediumSeaGreen">02</format> <format color="BlueViolet">C2</format>
+                            <format color="LawnGreen">F2</format> = <format color="OrangeRed">128</format>.
+                            <format color="MediumSeaGreen">2</format>.<format color="BlueViolet">194</format>.
+                            <format color="LawnGreen">242</format> .</p>
+                    </li>
+                </list>
+                <p><format color="BlueViolet">Internet Domain Names</format></p>
+                <img src="../images_architecture/ax13-2-1.png" alt="Internet Domain Names"/>
+                <p>ICANN (Internet Corporation for Assigned Names and Numbers) oversees the system of top-level domain
+                    names (TLDs), such as .com, .org, .net, .gov, and country code TLDs like .uk or .jp.</p>
+                <p><format color="BlueViolet">Domain Naming System (DNS)</format></p>
+                <p>The Internet maintains a mapping between IP addresses and domain names in a worldwide distributed
+                    database called DNS.</p>
+                <p>Properties of DNS mapping: Domain names and IP addresses can be one to one, multiple to one,
+                    one to multiple, or some valid domain names don't map to any IP address.</p>
+            </chapter>
+            <chapter title="13.2.2 Connecting to a Server" id="13-2-2-connecting-to-server">
+                <p>Clients and servers most often communicate by sending streams of bytes over TCP connections. Each
+                    connection is point-to-point, full-duplex (in both directions) &amp; reliable.</p>
+                <p><format color="DarkOrange">Sockets:</format> For kernel, endpoints of connections, their addresses
+                    are IPaddress:pair (127.0.0.1:80). For applications, a socket is a file descriptor that lets the
+                    application read/write from/to the network.</p>
+                <p><format color="DarkOrange">Port:</format> A 16-bit integer that identifies a process.</p>
+                <list type="bullet">
+                    <li>
+                        <p><format color="Fuchsia">Ephemeral Port:</format> Assigned automatically by client kernel when
+                            client makes a connection request.</p>
+                    </li>
+                    <li>
+                        <p><format color="Fuchsia">Well-known Port:</format> Associated with some service provided by a
+                            server (e.g., port 80 is associated with Web servers, port 443 with SSL/TLS encrypted Web
+                            (https)).</p>
+                    </li>
+                </list>
+                <img src="../images_architecture/ax13-2-2.png" alt="Connecting to a Server"/>
+            </chapter>
+            <chapter title="13.2.3 Sockets Interface" id="13-2-3-sockets-interface">
+                <p><format color="DarkOrange">Sockets Interface:</format> Set of system-level functions used in
+                    conjunction with Unix I/O to build network applications.</p>
+                <img src="../images_architecture/ax13-2-3.png" alt="Sockets Interface"/>
+                <list type="decimal">
+                    <li>
+                        <p><code>socket()</code>: Clients and servers use the socket function to create a socket
+                            descriptor:</p>
+                        <code-block lang="C">
+                            int socket(int domain, int type, int protocol)
+                        </code-block>
+                        <p><format color="IndianRed">Example</format></p>
+                        <code-block lang="C">
+                            int clientfd = socket(AF_INET, SOCK_STREAM, 0);
+                            // AF_INET: 32-bit IPv4, SOCK_STREAM: TCP, 0: default protocol
+                        </code-block>
+                    </li>
+                    <li>
+                        <p><code>bind()</code>: A server uses <code>bind</code> to ask the kernel to associate the
+                            server's socket address with a socket descriptor. Process can read bytes that arrive on the
+                            connection whose endpoint is <code>addr</code> by reading from descriptor
+                            <code>sockfd</code>; similarly, writes to <code>sockfd</code> are transferred along
+                            connection whose endpoint is <code>addr</code>.</p>
+                        <code-block lang="C">
+                            int bind(int sockfd, struct sockaddr *my_addr, socklen_t addrlen)
+                        </code-block>
+                        <p>Best practice is to use <code>getaddrinfo</code> to supply the arguments <code>addr</code>
+                            and <code>addrlen</code>.</p>
+                    </li>
+                    <li>
+                        <p><code>listen()</code>: A server calls the listen function to tell the kernel that a
+                            descriptor will be used by a server rather than a client, and converts sockfd from an active
+                            socket to a listening socket that can accept connection requests from clients.</p>
+                        <code-block lang="C">
+                            int listen(int sockfd, int backlog)
+                        </code-block>
+                        <p>`backlog` is a hint about the number of outstanding connection requests that the kernel
+                            should queue up before starting to refuse requests (128-ish by default).</p>
+                    </li>
+                    <li>
+                        <p><code>accept()</code>: Waits for connection request to arrive on the connection bound to
+                            <code>listenfd</code>, then fills in client’s socket address in <code>addr</code> and size
+                            of the socket address in <code>addrlen</code>.</p>
+                        <code-block lang="C">
+                            int accept(int listenfd, SA *addr, int *addrlen);
+                        </code-block>
+                    </li>
+                    <li>
+                        <p><code>connect()</code>: A client establishes a connection with a server by calling
+                            connect. Client attempts to establish a connection with server at socket address
+                            <code>addr</code>, if successful, then <code>clientfd</code> is now ready for reading and
+                            writing.</p>
+                        <code-block lang="C">
+                            int connect(int clientfd, SA *addr, socklen_t addrlen);
+                        </code-block>
+                    </li>
+                </list>
+                <procedure title="connect/accept Illustrated">
+                    <step>
+                        <p>Server blocks in <code>accept</code>, waiting for connection request on listening descriptor
+                            <code>listenfd</code>.</p>
+                    </step>
+                    <step>
+                        <p>Client makes connection request by calling and blocking in <code>connect</code>.</p>
+                    </step>
+                    <step>
+                        <p>Server returns <code>connfd</code> from <code>accept</code>. Client returns from
+                            <code>connect</code>. Connection is now established between <code>clientfd</code> and
+                            <code>connfd</code>.</p>
+                    </step>
+                </procedure>
+                <img src="../images_architecture/ax13-2-4.png" alt="connect/accept Illustrated"/>
+            </chapter>
         </chapter>
     </chapter>
 </topic>
