@@ -1,21 +1,236 @@
-html {
-    background-color: #f1f5f9;
-    font-family: sans-serif;
+@font-face {
+    font-family: 'SF Pro Display';
+    -webkit-font-feature-settings: normal;
+    font-weight: normal;
+    src: url('../../public/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.woff2') format('woff2'),
+    url('../../public/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.woff') format('woff'),
+    url('../../public/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.otf') format('opentype'),
+    url('../../public/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.eot') format('embedded-opentype'),
+    url('../../public/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.svg') format('svg');
+}
+
+@font-face {
+    font-family: 'SF Pro Text';
+    -webkit-font-feature-settings: normal;
+    font-weight: normal;
+    src: url('../../public/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.woff2') format('woff2'),
+    url('../../public/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.woff') format('woff'),
+    url('../../public/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.otf') format('opentype'),
+    url('../../public/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.eot') format('embedded-opentype'),
+    url('../../public/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.svg') format('svg');
 }
 
 body {
+    display: block;
+    align-items: center;
+    background-color: rgba(232, 210, 227, 0.78);
+    color: black;
     margin: 0 auto;
     width: 100%;
-    max-width: 80ch;
     padding: 1rem;
     line-height: 1.5;
 }
 
-* {
-    box-sizing: border-box;
+.header {
+    background-color: rgba(232, 210, 227, 0.78);
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-h1 {
-    margin: 1rem 0;
-    font-size: 2.5rem;
+.header a {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: color 0.5s ease;
 }
+
+
+.header a:hover {
+    color: #ea263c;
+}
+
+.title-introduction {
+    margin: 0;
+    padding-bottom: 80px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    text-align: center;
+    box-sizing: border-box;
+    width: 100%;
+    transform: translateY(100vh);
+    opacity: 0;
+    transition: transform 1.5s ease, opacity 1.5s ease;
+}
+
+.title-introduction.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.title-introduction h1 {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 4rem;
+    letter-spacing: 0.08em;
+    margin: 2rem 0;
+    color: #ac870d;
+}
+
+.title-introduction p {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 1.5rem;
+    margin: 0;
+    color: #ac870d;
+}
+
+
+.button-container {
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+#get-started {
+    color: white;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+#github-explore {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 1rem;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#github-explore:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.details img {
+    width: 30%;
+    height: auto;
+}
+
+.details h2 {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 3rem;
+    letter-spacing: 0.07em;
+    margin: 0;
+    color: #ac870d;
+}
+
+.details p {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 1.5rem;
+    margin: 0;
+    padding-bottom: 40px;
+}
+
+.introduction {
+    padding: 80px 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.introduction img {
+    padding-right: 20px;
+}
+
+.introduction-text {
+    align-items: center;
+    justify-content: center;
+}
+
+.notes-container {
+    padding: 80px 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.notes-container img {
+    padding-left: 20px;
+}
+
+.notes-container-text {
+    align-items: center;
+    justify-content: center;
+}
+
+.author {
+    padding: 80px 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.author img {
+    padding-right: 20px;
+}
+
+.author-text {
+    align-items: center;
+    justify-content: center;
+}
+
+.summary {
+    padding-top: 100px;
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 160px;
+}
+
+.summary h2 {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 3rem;
+    letter-spacing: 0.07em;
+    margin: 0;
+    text-align: center;
+}
+
+.summary p {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 1.5rem;
+    margin: 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+}
+

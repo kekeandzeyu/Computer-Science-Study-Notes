@@ -1,0 +1,8 @@
+---
+import "../styles/button.css";
+
+const { children, link } = Astro.props;
+---
+<a href={link}>
+    <button class="all-buttons">{children}</button>
+</a>
