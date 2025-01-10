@@ -1,0 +1,12 @@
+.layout-container {
+    display: flex;
+}
+
+.layout-container aside {
+    width: 200px;
+    margin-right: 1rem;
+}
+
+.layout-container main {
+    flex: 1;
+}
