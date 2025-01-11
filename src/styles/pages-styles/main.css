@@ -1,0 +1,182 @@
+/**
+ * main.css: This file contains styles that are applied to the front page of the website.
+ *
+ */
+
+ body {
+    display: block;
+    align-items: center;
+    background-color: rgba(232, 210, 227, 0.78);
+    color: black;
+    margin: 0 auto;
+    width: 100%;
+    padding: 1rem;
+    line-height: 1.5;
+}
+
+.title-introduction {
+    margin: 0;
+    padding-top: 20vh;
+    padding-bottom: 20vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: transform 1.5s ease, opacity 1.5s ease;
+}
+
+.title-introduction.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.title-introduction h1 {
+    font-size: 4rem;
+    letter-spacing: 0.08em;
+    margin: 2rem 0;
+    color: #ac870d;
+}
+
+.title-introduction p {
+    font-size: 1.5rem;
+    margin: 0;
+    color: #ac870d;
+}
+
+
+.button-container {
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+#get-started {
+    color: white;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+#github-explore {
+    font-size: 1rem;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#github-explore:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.details img {
+    width: 40%;
+    height: auto;
+}
+
+.details h2 {
+    font-size: 3rem;
+    letter-spacing: 0.07em;
+    margin: 0;
+    color: #ac870d;
+}
+
+.details p {
+    font-size: 1.5rem;
+    margin: 0;
+    padding-bottom: 40px;
+}
+
+.introduction,
+.notes-container,
+.author,
+.summary {
+    padding: 80px 80px;
+    width: 90%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    transform: translateY(100px);
+    opacity: 0; 
+    transition: transform 1.5s ease, opacity 1.5s ease;
+}
+
+.introduction.active,
+.notes-container.active,
+.author.active,
+.summary.active {
+    transform: translateY(0); 
+    opacity: 1; 
+}
+
+
+.introduction {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.introduction img {
+    padding-right: 20px;
+}
+
+.introduction-text {
+    align-items: center;
+    justify-content: center;
+}
+
+.notes-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.notes-container img {
+    padding-left: 20px;
+}
+
+.notes-container-text {
+    align-items: center;
+    justify-content: center;
+}
+
+.author {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.author img {
+    width: 50%;
+    padding-right: 20px;
+}
+
+.author-text {
+    align-items: center;
+    justify-content: center;
+}
+
+.summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 160px;
+    padding-top: 100px;
+}
+
+.summary h2 {
+    font-size: 3rem;
+    letter-spacing: 0.07em;
+    margin: 0;
+    text-align: center;
+}
+
+.summary p {
+    font-size: 1.5rem;
+    margin: 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+}

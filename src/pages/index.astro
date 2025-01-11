@@ -1,25 +1,16 @@
 ---
-import Navigation from '../components/Navigation.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
-import '../styles/global.css';
+
+import "../styles/pages-styles/main.css";
 
 const pageTitle = 'Computer Science Study Notes';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="/assets/photo.png" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} >
-		<title>{pageTitle}</title>
-	</head>
-	<body>
-		<Navigation />
-
-		<div class="title-introduction">
-			<h1>{pageTitle}</h1>
-			<p>A Website for My CS Self-Learning Notes</p>
+<BaseLayout title={pageTitle}>
+	<div class="title-introduction">
+		<h1>{pageTitle}</h1>
+		<p>A Website for My CS Self-Learning Notes</p>
 			<div class="button-container">
 				<Button children="Get Started" link="/posts/post-1/"></Button>
 				<a href="https://github.com/kekeandzeyu/Computer-Science-Study-Notes" id="github-explore">Explore More in GitHub</a>
@@ -42,7 +33,7 @@ const pageTitle = 'Computer Science Study Notes';
 				<div class="notes-container-text">
 					<h2>Notes</h2>
 					<p>The notes will keep updating as I learn. Feel free to come back at any time!</p>
-					<Button link="/posts/post-1/" children="View Notes"></Button>
+					<Button link="/posts/database-system/" children="View Notes"></Button>
 				</div>
 				<img src="/assets/photo.png" alt="Favicon"/>
 			</div>
@@ -52,15 +43,15 @@ const pageTitle = 'Computer Science Study Notes';
 				<div class="author-text">
 					<h2>About Me</h2>
 					<p>Want to know more about me? Click the button below to learn more!</p>
-					<Button link="/about-me/" children="About Me"></Button>
+					<Button link="https://kkzy.pages.dev/" children="About Me"></Button>
 				</div>
 			</div>
 
 			<div class="summary">
-				<h2>If you have knowledge, let others light their candles at it!</h2>
+				<h2>"If you have knowledge, let others light their candles at it!"</h2>
 				<p>— Margaret Fuller</p>
 				<div class="button-collector">
-					<Button link="/posts/post-1/" children="Get Started"></Button>
+					<Button link="/Notes/database" children="Get Started"></Button>
 					<Button link="https://github.com/kekeandzeyu/Computer-Science-Study-Notes" children="Contribute to it"></Button>
 				</div>
 
@@ -70,12 +61,21 @@ const pageTitle = 'Computer Science Study Notes';
 
 
 		<script>
-			document.addEventListener('DOMContentLoaded', () => {
-				const titleIntro = document.querySelector('.title-introduction');
-				if (titleIntro) {
-					titleIntro.classList.add('active');
-				}
+			document.addEventListener('DOMContentLoaded', () => { 
+        		const sections = document.querySelectorAll('.title-introduction, .introduction, .notes-container, .author, .summary');
+        		const observer = new IntersectionObserver(entries => {
+            		entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('active');
+						}
+           			});
+        		}, {
+          			threshold: 0.5, 
+        		});
+
+        		sections.forEach(section => {
+        			observer.observe(section);
+        		})
 			});
 		</script>
-	</body>
-</html>
+</BaseLayout>

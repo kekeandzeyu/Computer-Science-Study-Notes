@@ -15,3 +15,8 @@
 .all-buttons:hover {
     background: linear-gradient(to right, #004080, #0069d9);
 }
+
+.all-buttons-with-links {
+    text-decoration: none;
+    color: white;
+}

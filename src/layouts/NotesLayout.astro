@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+import "../styles/global.css";
+import "../styles/pages-styles/notes.css";
+
+interface Props {
+    title: string;
+}
+
+const {title} = Astro.props;
+---
+<BaseLayout title={title}>
+    <div class="main-content">
+
+        <aside style="padding: 20px; background-color: #f0f0f0;">
+            <h2>Notes</h2>
+            <div class="sidebar-link"><a href="/Notes/database/">Database System</a></div>
+            <div class="sidebar-link"><a href="/Notes/post-2/">Data Structures and Algorithms</a></div>
+            <div class="sidebar-link"><a href="/Notes/post-3/">Artificial Intelligence</a></div>
+        </aside>
+
+        <main style="flex: 1; padding: 20px;">
+            <slot/>
+        </main>
+    </div>
+</BaseLayout>
+
+        
