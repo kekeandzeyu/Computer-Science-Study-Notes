@@ -2,22 +2,22 @@
     font-family: 'SF Pro Display';
     -webkit-font-feature-settings: normal;
     font-weight: normal;
-    src: url('../../public/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.woff2') format('woff2'),
-    url('../../public/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.woff') format('woff'),
-    url('../../public/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.otf') format('opentype'),
-    url('../../public/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.eot') format('embedded-opentype'),
-    url('../../public/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.svg') format('svg');
+    src: url('/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.woff2') format('woff2'),
+    url('/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.woff') format('woff'),
+    url('/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.otf') format('opentype'),
+    url('/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.eot') format('embedded-opentype'),
+    url('/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.svg') format('svg');
 }
 
 @font-face {
     font-family: 'SF Pro Text';
     -webkit-font-feature-settings: normal;
     font-weight: normal;
-    src: url('../../public/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.woff2') format('woff2'),
-    url('../../public/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.woff') format('woff'),
-    url('../../public/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.otf') format('opentype'),
-    url('../../public/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.eot') format('embedded-opentype'),
-    url('../../public/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.svg') format('svg');
+    src: url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.woff2') format('woff2'),
+    url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.woff') format('woff'),
+    url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.otf') format('opentype'),
+    url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.eot') format('embedded-opentype'),
+    url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.svg') format('svg');
 }
 
 body {
