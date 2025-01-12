@@ -4,26 +4,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import "../styles/global.css";
 import "../styles/pages-styles/notes.css";
 
-interface Props {
-    title: string;
-}
-
-const {title} = Astro.props;
+const { frontmatter } = Astro.props;
 ---
-<BaseLayout title={title}>
+<BaseLayout title={frontmatter.title}>
     <div class="main-content">
 
-        <aside style="padding: 20px; background-color: #f0f0f0;">
-            <h2>Notes</h2>
-            <div class="sidebar-link"><a href="/Notes/database/">Database System</a></div>
-            <div class="sidebar-link"><a href="/Notes/post-2/">Data Structures and Algorithms</a></div>
-            <div class="sidebar-link"><a href="/Notes/post-3/">Artificial Intelligence</a></div>
-        </aside>
+        <nav class="sidebar">
+            <div class="sidebar-content">
+                <ul>
+                    <li class="sidebar-link"><a href="/Notes/database/">Database System</a></li>
+                    <li class="sidebar-link"><a href="/Notes/post-2/">Data Structures and Algorithms</a></li>
+                    <li class="sidebar-link"><a href="/Notes/post-3/">Artificial Intelligence</a></li>
+                </ul>
+            </div>
+        </nav>
 
-        <main style="flex: 1; padding: 20px;">
+        <main class="notes-content">
+            <h1>{frontmatter.title}</h1>
+            <p id="last-modified">Last Modified: {new Date().toLocaleDateString()}</p>
             <slot/>
         </main>
     </div>
 </BaseLayout>
-
-        
