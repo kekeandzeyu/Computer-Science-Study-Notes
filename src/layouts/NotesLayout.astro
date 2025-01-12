@@ -4,6 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import "../styles/global.css";
 import "../styles/pages-styles/notes.css";
 
+const allNotes = Object.values(import.meta.glob('../pages/notes/*.md', { eager: true }));
+
 const { frontmatter } = Astro.props;
 ---
 <BaseLayout title={frontmatter.title}>
@@ -12,9 +14,11 @@ const { frontmatter } = Astro.props;
         <nav class="sidebar">
             <div class="sidebar-content">
                 <ul>
-                    <li class="sidebar-link"><a href="/Notes/database/">Database System</a></li>
-                    <li class="sidebar-link"><a href="/Notes/post-2/">Data Structures and Algorithms</a></li>
-                    <li class="sidebar-link"><a href="/Notes/post-3/">Artificial Intelligence</a></li>
+                    {allNotes.map((note: any) => (
+                        <li class={`sidebar-link ${note.frontmatter.title === frontmatter.title ? 'active-link' : ''}`}>
+                            <a href={note.url}>{note.frontmatter.title}</a>
+                        </li>
+                    ))}
                 </ul>
             </div>
         </nav>

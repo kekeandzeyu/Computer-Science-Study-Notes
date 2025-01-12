@@ -1,7 +1,6 @@
 ---
 layout: "../../layouts/NotesLayout.astro"
 title: 'Database System'
-description: 'Database System'
 author: 'Zeyu Li'
 tags: ["Database System", "Computer Science"]
 ---

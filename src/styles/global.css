@@ -36,3 +36,9 @@ body p, a, li {
         sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-weight: normal;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}

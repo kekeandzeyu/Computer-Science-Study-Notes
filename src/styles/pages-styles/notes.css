@@ -1,3 +1,4 @@
+/* Adjust main-content to accommodate the fixed sidebar */
 .main-content {
     display: flex;
     flex: 1;
@@ -6,6 +7,7 @@
 /* Notes Part */
 .notes-content {
     padding: 48px 0 0 32px;
+    margin-left: 350px;
 }
 
 .notes-content h1 {
@@ -42,32 +44,43 @@
 
 /* Sidebar */
 .sidebar {
+    flex-shrink: 0;
     box-sizing: border-box;
     width: 350px;
     padding: 20px;
     background-color: white;
-    border-right: gray solid 1px;
+    height: 100vh;
+    position: fixed;
+    overflow-y: auto;
 }
 
 .sidebar-content {
+    align-items: center;
+    height: auto;
     border-radius: 12px;
     background-color: #f4f5f7;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .sidebar-content ul {
     list-style: none;
+    gap: 0.25em;
     padding: 0;
     margin: 0;
 }
 
 .sidebar-link {
-    padding: 8px;
-    border-radius: 4px;
+    padding: 8px 1px 1px 1px;
+    border-radius: 12px;
+    width: 90%;
+    height: 40px;
     transition: background-color 0.2s ease;
-    margin-bottom: 5px;
+    margin: 4px auto;
 }
 
 .sidebar-link a {
+    text-align: center;
     text-decoration: none;
     color: #555861;
     transition: color 0.2s ease;
@@ -83,10 +96,14 @@
     color: black;
 }
 
-.sidebar-link a.astro-route-active {
-    background-color: #e0e0e0;
+.sidebar-link.active-link {
+    background-color: white;
 }
 
-.sidebar-link a.astro-route-active {
+.sidebar-link.active-link a {
     color: black;
+}
+
+.footer {
+    margin-left: 350px;
 }
