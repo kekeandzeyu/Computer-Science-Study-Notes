@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/global.css';
+import '../styles/pages-styles/introduction.css';
 
 const pageTitle = "Introduction";
 ---
@@ -12,8 +13,10 @@ const pageTitle = "Introduction";
     </head>
     <body>
         <BaseLayout title={pageTitle}>
-            <h1>Introduction</h1>
-            <p>We are all lost stars, trying to light up the dark.</p>
+            <div class="introduction">
+                <h1>Introduction</h1>
+                <p>We are all lost stars, trying to light up the dark.</p>
+            </div>
 
             <div class="intention-background">
                 <h2>Intention & Background</h2>
@@ -46,10 +49,28 @@ const pageTitle = "Introduction";
                 <ol>
                     <li>Open an issue</li>
                     <li>Pull request</li>
-                    <li>Use <a href="kekeandzeyu@gmail.com" type="email">email</a> to contact me and point out the mistakes:
+                    <li>Use <a href="kekeandzeyu@gmail.com" type="email">email</a> to contact me and point out the mistakes</li>
                 </ol>
             </div>
         </BaseLayout>
 
+        <script>
+            document.addEventListener('DOMContentLoaded', () => { 
+        		const sections = document.querySelectorAll('.introduction');
+        		const observer = new IntersectionObserver(entries => {
+            		entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('active');
+						}
+           			});
+        		}, {
+          			threshold: 0.5, 
+        		});
+
+        		sections.forEach(section => {
+        			observer.observe(section);
+        		})
+			});
+        </script>
     </body>
 </html>
