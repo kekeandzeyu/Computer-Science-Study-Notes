@@ -1,3 +1,8 @@
+/* Basic Styles */
+:root {
+    --sidebar-width: 350px;
+}
+
 /* Adjust main-content to accommodate the fixed sidebar */
 .main-content {
     display: flex;
@@ -7,7 +12,7 @@
 /* Notes Part */
 .notes-content {
     padding: 48px 0 0 32px;
-    margin-left: 350px;
+    margin-left: var(--sidebar-width);
 }
 
 .notes-content h1 {
@@ -33,7 +38,7 @@
 }
 
 .notes-content li {
-    margin: 0 0 18px 22px;
+    margin: 9px 0 18px 0;
 }
 
 #last-modified {
@@ -46,7 +51,7 @@
 .sidebar {
     flex-shrink: 0;
     box-sizing: border-box;
-    width: 350px;
+    width: var(--sidebar-width);
     padding: 20px;
     background-color: white;
     height: 100vh;
@@ -96,6 +101,7 @@
     color: black;
 }
 
+/* Click on the active link */
 .sidebar-link.active-link {
     background-color: white;
 }
@@ -104,6 +110,7 @@
     color: black;
 }
 
+/* Footer Design */
 .footer {
-    margin-left: 350px;
+    margin-left: var(--sidebar-width);
 }
