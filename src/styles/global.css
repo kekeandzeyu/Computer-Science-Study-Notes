@@ -25,15 +25,35 @@
     url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.svg') format('svg');
 }
 
-body h1, h2, h3, h4, h5, h6 {
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+@font-face {
+    font-family: 'JetBrains Mono';
+    -webkit-font-feature-settings: normal;
+    font-weight: normal;
+    src: url('/fonts/JetBrains-Mono/JetBrainsMono-Regular.woff2') format('woff2'),
+    url('/fonts/JetBrains-Mono/JetBrainsMono-Regular.woff') format('woff'),
+    url('/fonts/JetBrains-Mono/JetBrainsMono-Regular.ttf') format('truetype'),
+    url('/fonts/JetBrains-Mono/JetBrainsMono-Regular.eot') format('embedded-opentype'),
+    url('/fonts/JetBrains-Mono/JetBrainsMono-Regular.svg') format('svg');
+}
+
+:root {
+    --header-font: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
         sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --body-font: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+        sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --code-font: 'JetBrains Mono', monospace;
+
+    /* Notes Page */
+    --sidebar-width: 350px;
+}
+
+body h1, h2, h3, h4, h5, h6 {
+    font-family: var(--header-font);
     font-weight: normal;
 }
 
-body p, a, li {
-    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
-        sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+body p, a, li, table, th, td {
+    font-family: var(--body-font);
     font-weight: normal;
 }
 

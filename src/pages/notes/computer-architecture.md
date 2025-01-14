@@ -43,8 +43,66 @@ In computer science, There are three commonly-used number bases: binary, decimal
 
    Therefore, $73_{10}=1021_4$.
 
+When converting between different bases, you can refer to the following table below.
+
+| Decimal | Binary     | Hexadecimal |
+|---------|------------|-------------|
+| $0$     | $0000$     | $0$         |
+| $1$     | $0001$     | $1$         |
+| $2$     | $0010$     | $2$         |
+| $3$     | $0011$     | $3$         |
+| $4$     | $0100$     | $4$         |
+| $5$     | $0101$     | $5$         |
+| $6$     | $0110$     | $6$         |
+| $7$     | $0111$     | $7$         |
+| $8$     | $1000$     | $8$         |
+| $9$     | $1001$     | $9$         |
+| $10$    | $1010$     | $A$         |
+| $11$    | $1011$     | $B$         |
+| $12$    | $1100$     | $C$         |
+| $13$    | $1101$     | $D$         |
+| $14$    | $1110$     | $E$         |
+| $15$    | $1111$     | $F$         |
+
 <div class="Aside">
     <h3>Aside</h3>
-    <p>When convert between different bases, you can refer to the following table below.</p>
-    
+    <ol>
+        <li>Beware of padding with zeros! When converting from binary to hexadecimal, 
+        left-padding if needed ($\texttt{0b110010}=\texttt{0b0011 0010}=\texttt{0x32}$); when converting from hexadecimal, drop leading zeros if needed($\texttt{0x1D}=\texttt{0b0001 1101}=\texttt{0b11101}$).</li>
+        <li>1 byte=8 bits, 1 nibble=4 bits.</li>
+    </ol>
 </div>
+
+### 1.2 Integer Representation
+
+#### 1.2.1 Unsigned Integers
+
+<p style="color:BlueViolet">Properties</p>
+
+* Can represent $2^N$ different numbers, simply convert decimal to binary!
+* Smallest number: $\texttt{0b 0000...000}$ represents $0$.
+* Largest number: $\texttt{0b 1111...111}$ represents $2^N-1$.
+
+<p style="color:BlueViolet">Conclusion</p>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">Unsigned Integer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Can represent negative numbers</td>
+            <td>&#10008;</td>
+        </tr>
+        <tr>
+            <td>Doing math is easy</td>
+            <td>&#10004;</td>
+        </tr>
+        <tr>
+            <td>Every bit sequence represents a unique number</td>
+            <td>&#10004;</td>
+        </tr>
+    </tbody>
+</table>
