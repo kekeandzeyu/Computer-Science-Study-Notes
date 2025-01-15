@@ -79,7 +79,7 @@ When converting between different bases, you can refer to the following table be
 
 <p style="color:BlueViolet">Properties</p>
 
-* Can represent $2^N$ different numbers, simply convert decimal to binary!
+* Idea: Simply convert decimal to binary, cCan represent $2^N$ different numbers!
 * Smallest number: $\texttt{0b 0000...000}$ represents $0$.
 * Largest number: $\texttt{0b 1111...111}$ represents $2^N-1$.
 
@@ -106,3 +106,141 @@ When converting between different bases, you can refer to the following table be
         </tr>
     </tbody>
 </table>
+
+#### 1.2.2 Signed Integers
+
+<p style="color:BlueViolet">Properties</p>
+
+* Idea: Use the left-most bit to indicate if the number is positive (0) or negative (1). This is called sign-magnitude representation.
+* Smallest number: $\texttt{0b1111...111}$ represents $-\left(2^{N - 1} - 1\right)$.
+* Largest number: $\texttt{0b0111...111}$ represents $+\left(2^{N - 1} - 1\right)$.
+
+<div class="Note">
+    <h3>Note</h3>
+    <p>If we count upwards in base-2, the resulting numbers increase, then they start decreasing!</p>
+    <p>Plus, there are two ways of representing zero: $\texttt{0b100...00}$ & $\texttt{0b000..00}$.</p>
+    <img src="/assets/computer-architecture/1-1-2.png" alt="Signed Integer" width="600"/>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">Sign-Magnitude</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Can represent negative numbers</td>
+            <td>&#10004;</td>
+        </tr>
+        <tr>
+            <td>Doing math is easy</td>
+            <td>&#10008;</td>
+        </tr>
+        <tr>
+            <td>Every bit sequence represents a unique number</td>
+            <td>&#10008;</td>
+        </tr>
+    </tbody>
+</table>
+
+#### 1.2.3 One's Complement
+
+<p style="color:BlueViolet">Properties</p>
+
+* Idea: If the number is negative, flip the bits. For example, $+7$ is $\texttt{0b00111}$, so $-7$ is $\texttt{0b11000}$. Left-most bit acts like a sign bit. If it's 1, someone flipped the bits, so number must be negative.
+* Smallest number: $\texttt{0b1000...000}$ represents $-\left(2^{N - 1} - 1\right)$.
+* Largest number: $\texttt{0b0111...111}$ represents $+\left(2^{N - 1} - 1\right)$.
+
+<div class="Note">
+    <h3>Note</h3>
+    <p>If we count upwards in base-2, the resulting numbers are always increasing.</p>
+    <p>There are two ways of representing zero: $\texttt{0b111...11}$ & $\texttt{0b000..00}$.</p>
+    <img src="/assets/computer-architecture/1-1-3.png" alt="One's Complement" width="600"/>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">One's Complement</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Can represent negative numbers</td>
+            <td>&#10004;</td>
+        </tr>
+        <tr>
+            <td>Doing math is easy</td>
+            <td>&#10004;</td>
+        </tr>
+        <tr>
+            <td>Every bit sequence represents a unique number</td>
+            <td>&#10008;</td>
+        </tr>
+    </tbody>
+</table>
+
+#### 1.2.4 Two's Complement
+
+<p style="color:BlueViolet">Properties</p>
+
+* Idea: If the number is negative, flip the bits, and add one (because we shift to avoid double-zero). Because of overflow, addition behaves like modular arithmetic (For example, $11$ and $-5$ are the same in $\bmod$ land: $11 \equiv -5 \pmod{16}$).
+* Smallest number: $\texttt{0b1000...000}$ represents $-2^{N - 1}$.
+* Largest number: $\texttt{0b0111...111}$ represents $+\left(2^{N - 1} - 1\right)$.
+
+<div class="Aside">
+    <h3>Aside</h3>
+    <p>Another definition: The left-most power of 2 is now negative, not positive.</p>
+    <ol>
+        <li>Left-most bit 0: Read the rest of the number as an unsigned integer.</li>
+        <li>Left-most bit 1: Subtract a big power of 2. Resulting number is negative!</li>
+        <li>For example, $0000$-$0111$ represent $0$-$7$, while $1000$-$1111$ represent $-8$-$-1$.</li>
+    </ol>
+</div>
+
+<p style="color:BlueViolet">Conversion between two's complement and signed integer</p>
+
+1. Two's Complement -> Signed Integer
+    * If left-most digit is 0: Read it as unsigned
+    * If left-most digit is 1:
+        * Flip the bits, and add 1
+        * Convert to base-10, and stick a negative sign in front
+
+    Example: What is $\texttt{0b1110 1100}$ in decimal?
+    * Flip the bits: $\texttt{0b0001 0011}$
+    * Add one: $\texttt{0b0001 0100}$
+    * In base-10: $-20$
+2. Signed Integer -> Two's Complement
+    * If number is positive: Just convert it to base-2
+    * If number is negative:
+        * Pretend it's unsigned, and convert to base-2
+        * Flip the bits, and add 1
+    
+    Example: What is $-20$ in two's complement binary?
+    * In base-2: $\texttt{0b0001 0100}$
+    * Flip the bits: $\texttt{0b1110 1011}$
+    * Add one: $\texttt{0b1110 1100}$
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">Two's Complement</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Can represent negative numbers</td>
+            <td>&#10004;</td>
+        </tr>
+        <tr>
+            <td>Doing math is easy</td>
+            <td>&#10004;</td>
+        </tr>
+        <tr>
+            <td>Every bit sequence represents a unique number</td>
+            <td>&#10004;</td>
+        </tr>
+    </tbody>
+</table>
+

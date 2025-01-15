@@ -40,8 +40,13 @@
     margin: 24px 0 0;
 }
 
+.notes-content ul {
+    margin: 24px 0 0;
+}
+
 .notes-content li {
-    margin: 9px 0 18px 0;
+    margin: 24px 0 0;
+    padding: 0 0 0 22px;
 }
 
 .notes-content table {
