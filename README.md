@@ -114,6 +114,18 @@ If someone's original work is used but not mentioned in the following list, or b
 
 1. CS186: Introduction to Database Systems (UC Berkeley) by Professor Alvin Cheung, Joe Hellerstein and the rest of CS186 staff.
 
+2. CMU 15-213: Introduction to Computer Systems (Carnegie Mellon University) by Professor Randal E. Briant, David R. O'Hallaron, Brian Railing, Phillip Gibbons, David Varodayan, Mohamed Farag, and the rest of CMU 15-213 staff.
+
+3. Computer Systems: A Programmer's Perspective (3rd Edition) by Randal E. Bryant & David R. O'Hallaron.
+
+4. <https://en.wikipedia.org/wiki/Random-access_memory>.
+
+5. <https://en.wikipedia.org/wiki/Volatile_memory>.
+
+6. By Inductiveload - Own work, Public Domain, https://commons.wikimedia.org/w/index.php?curid=5771850.
+
+7. By Tosaka - (Ref:小林春洋著　『わかりやすい高密度記録技術』　日刊工業新聞社　2008年9月28日発行　ISBN 9784526061295), CC BY 3.0, https://commons.wikimedia.org/w/index.php?curid=5104089.
+
 ### Topic 8: Rust Programming
 
 1. CS110L: Safety in Systems Programming (Stanford University) by Ryan Eberhardt, Julio Ballista, Thea Rossman and the rest of CS110L staff.

@@ -12,7 +12,7 @@ tags: ["Database System", "Computer Science"]
 
 ### 2.1 DBMS Architectures
 
-<img src="/assets/database-system/3-1-1.png" alt="Favicon" width="600"/>
+<img src="/assets/database-system/2-1-1.png" alt="Favicon" width="600"/>
 
 <span style="color:BlueViolet">Features</span>
 
@@ -20,15 +20,17 @@ tags: ["Database System", "Computer Science"]
 * Each layer abstracts the layer below: Manage complexity (easy to use) & Performance assumptions (assume the perfomrance of lower layers)
 * Two cross-cutting issues related to storage and memory management: Concurrency control & Recovery
 
-### 2.2 Disks
+### 2.2 Storage Techniques
 
 <span style="color:BlueViolet">Memory Hierarchy</span>
 
-<img src="/assets/database-system/3-2-1.png" alt="Favicon" width="600"/>
+<img src="/assets/database-system/2-2-1.png" alt="Favicon" width="600"/>
+
+#### 2.2.1 Disks
 
 <span style="color:BlueViolet">Disk Components</span>
 
-<img src="/assets/database-system/3-2-2.png" alt="Favicon" width="600"/>
+<img src="/assets/database-system/2-2-2.png" alt="Favicon" width="600"/>
 
 Platters spin together (around 15000 rpm). Arm assembly can move in or out to position a head on a desired track, but only one head reads/writes at any one time.
 
@@ -71,3 +73,46 @@ $$
 $$
 
 </ul>
+
+#### 2.2.2 Random Access Memory (RAM)
+
+Random-access memory (RAM) is a form of electronic computer memory that can be read and changed in any order, typically used to store working data and machine code. A random-access memory device allows data items to be read or written in almost the same amount of time irrespective of the physical location of data inside the memory.
+
+RAM is a type of volatile memory (a type of memory that requires power to maintain the stored information). There are two widely used forms of RAM: SRAM and DRAM (there are SDRAM and so forth as well).
+
+<table class="both">
+    <thead>
+        <tr>
+            <th></th>
+            <th>SRAM</th>
+            <th>DRAM</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Composition</td>
+            <td>Typically 4 or 6 transistors</td>
+            <td>1 transitor + 1 capacitor</td>
+        </tr>
+        <tr>
+            <td>Basic Structure</td>
+            <td><img src="/assets/database-system/2-2-3.svg" alt="SRAM Structure" width="300"/></td>
+            <td><img src="/assets/database-system/2-2-4.png" alt="DRAM Structure" width="300"/></td>
+        </tr>
+        <tr>
+            <td>Relative Access Time</td>
+            <td>$1 \times$</td>
+            <td>$10 \times$</td>
+        </tr>
+        <tr>
+            <td>Refreshing</td>
+            <td>Does not require refreshing, loses data if power is turned off</td>
+            <td>Requires constant refreshing to maintain data, loses data if not refreshed</td>
+        </tr>
+        <tr>
+            <td>Applications</td>
+            <td>Cache memories</td>
+            <td>Main memories, frame buffer</td>
+        </tr>
+    </tbody>
+</table>

@@ -54,17 +54,19 @@
 .notes-content table, 
 .notes-content th, 
 .notes-content td {
-    border: 1px solid black;
+    border: 1px solid #d1d1d2;
     font-size: 16px;
+    text-align: center !important;
+    vertical-align: middle !important;
 }
 
 .notes-content th {
     background-color: #f4f4f4;
-    height: 48px;
+    padding: 16px;
 }
 
 .notes-content td {
-    height: 40px;
+    padding: 16px;
 }
 
 #last-modified {
