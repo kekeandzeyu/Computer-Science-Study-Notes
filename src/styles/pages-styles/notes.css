@@ -45,7 +45,7 @@
 }
 
 .notes-content table {
-    width: 50%;
+    min-width: 60% !important;
     text-align: center;
     margin: 24px 0 0;
     border-collapse: collapse;

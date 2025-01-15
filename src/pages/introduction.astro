@@ -5,13 +5,6 @@ import '../styles/pages-styles/introduction.css';
 
 const pageTitle = "Introduction";
 ---
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
-        <title>{pageTitle}</title>
-    </head>
-    <body>
         <BaseLayout title={pageTitle}>
             <div class="introduction">
                 <h1>Introduction</h1>
@@ -52,25 +45,25 @@ const pageTitle = "Introduction";
                     <li>Use <a href="kekeandzeyu@gmail.com" type="email">email</a> to contact me and point out the mistakes</li>
                 </ul>
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => { 
+                    const sections = document.querySelectorAll('.introduction, .intention-background, .contribution');
+                    const observer = new IntersectionObserver(entries => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('active');
+                            }
+                           });
+                    }, {
+                          threshold: 0.5, 
+                    });
+    
+                    sections.forEach(section => {
+                        observer.observe(section);
+                    })
+                });
+            </script>
         </BaseLayout>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', () => { 
-        		const sections = document.querySelectorAll('.introduction, .intention-background, .contribution');
-        		const observer = new IntersectionObserver(entries => {
-            		entries.forEach(entry => {
-						if (entry.isIntersecting) {
-							entry.target.classList.add('active');
-						}
-           			});
-        		}, {
-          			threshold: 0.5, 
-        		});
-
-        		sections.forEach(section => {
-        			observer.observe(section);
-        		})
-			});
-        </script>
-    </body>
-</html>
+        
