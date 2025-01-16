@@ -8,9 +8,10 @@ const pageTitle = 'Computer Science Study Notes';
 ---
 
 <BaseLayout title={pageTitle}>
-	<div class="title-introduction">
-		<h1>{pageTitle}</h1>
-		<p>A Website for My CS Self-Learning Notes</p>
+	<div class="en-content" style="display: block;">
+		<div class="title-introduction">
+			<h1>{pageTitle}</h1>
+			<p>A Website for My CS Self-Learning Notes</p>
 			<div class="button-container">
 				<Button children="Get Started" link="/notes/computer-architecture/"></Button>
 				<a href="https://github.com/kekeandzeyu/Computer-Science-Study-Notes" id="github-explore">Explore More in GitHub</a>
@@ -58,24 +59,58 @@ const pageTitle = 'Computer Science Study Notes';
 			</div>
 
 		</div>
+	</div>
+	
+	<div class="zh-content" style="display: none;">
+		<div class="title-introduction">
+			<h1>{pageTitle}</h1>
+			<p>我的计算机科学学习笔记</p>
+			<div class="button-container">
+				<Button children="开始学习" link="/notes/computer-architecture/"></Button>
+				<a href="https://github.com/kekeandzeyu/Computer-Science-Study-Notes" id="github-explore">在GitHub上了解更多</a>
+			</div>
+		</div>
 
+		<div class="details">
 
-		<script>
-			document.addEventListener('DOMContentLoaded', () => { 
-        		const sections = document.querySelectorAll('.title-introduction, .introduction, .notes-container, .author, .summary');
-        		const observer = new IntersectionObserver(entries => {
-            		entries.forEach(entry => {
-						if (entry.isIntersecting) {
-							entry.target.classList.add('active');
-						}
-           			});
-        		}, {
-          			threshold: 0.5, 
-        		});
+			<div class="introduction">
+				<img src="/assets/photo.png" alt="Favicon"/>
+				<div class="introduction-text">
+					<h2>介绍</h2>
+					<p>第一次来到这个网站和笔记？想要了解背后的故事？</p>
+					<Button link="/introduction/" children="了解更多"></Button>
+				</div>
+			</div>
 
-        		sections.forEach(section => {
-        			observer.observe(section);
-        		})
-			});
-		</script>
+			<div class="notes-container">
+				<div class="notes-container-text">
+					<h2>笔记</h2>
+					<p>笔记会随着我的学习不断更新。随时欢迎回来！</p>
+					<Button link="/posts/database-system/" children="查看笔记"></Button>
+				</div>
+				<img src="/assets/photo.png" alt="Favicon"/>
+			</div>
+
+			<div class="author">
+				<img src="/assets/photo1.jpg" alt="My Photo"/>
+				<div class="author-text">
+					<h2>关于我</h2>
+					<p>想要了解更多关于我？点击下面的按钮了解更多！</p>
+					<Button link="https://kkzy.pages.dev/" children="关于我"></Button>
+				</div>
+			</div>
+
+			<div class="summary">
+				<h2>"如果你拥有知识，就让别人从中汲取光芒！"</h2>
+				<p>—— 玛格丽特·富勒</p>
+				<div class="button-collector">
+					<Button link="/notes/database" children="开始学习"></Button>
+					<Button link="https://github.com/kekeandzeyu/Computer-Science-Study-Notes" children="为这份笔记做出贡献"></Button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script src="../scripts/main.js"></script>
 </BaseLayout>

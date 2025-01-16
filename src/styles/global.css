@@ -52,7 +52,7 @@ body h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
 }
 
-body p, a, li, table, th, td {
+body p, a, li, table, th, td, button {
     font-family: var(--body-font);
     font-weight: normal;
 }
