@@ -2,19 +2,6 @@
  * This file is used to design custom components in markdown files.
  */
 
-/* Aside Part */
-div.Aside {
-    padding: 20px;
-    background-color: rgba(25, 25, 28, 0.05);
-    border-radius: 8px;
-    margin: 20px 0;
-}
-
-div.Aside h3 {
-    margin: 24px 0 0;
-    font-size: 24px;
-}
-
 /* Note Part */
 div.Note {
     padding: 20px;

@@ -4,6 +4,8 @@ title: 'Computer Architecture'
 author: 'Zeyu Li'
 tags: ["Computer Architecture", "Computer Science"]
 ---
+import Aside from '../../components/Aside.astro'
+
 <img src="/assets/computer-architecture/1-1-1.png" alt="Computer Architecture" width="600"/>
 
 In this part, we will explore computer architecture, both x86-64 and RISC-V architecture.
@@ -64,14 +66,15 @@ When converting between different bases, you can refer to the following table be
 | $14$    | $1110$     | $E$         |
 | $15$    | $1111$     | $F$         |
 
-<div class="Aside">
-    <h3>Aside</h3>
+<Aside>
     <ol>
         <li>Beware of padding with zeros! When converting from binary to hexadecimal, 
-        left-padding if needed ($\texttt{0b110010}=\texttt{0b0011 0010}=\texttt{0x32}$); when converting from hexadecimal, drop leading zeros if needed($\texttt{0x1D}=\texttt{0b0001 1101}=\texttt{0b11101}$).</li>
-        <li>1 byte=8 bits, 1 nibble=4 bits.</li>
+        left-padding if needed ($\texttt{0b110010} = \texttt{0b0011 0010} = \texttt{0x32}$);
+        when converting from hexadecimal, drop leading zeros if needed ($\texttt{0x1D} = 
+        \texttt{0b0001 1101} = \texttt{0b11101}$).</li>
+        <li>1 bytes = 8 bits, 1 nibble = 4 bits.</li>
     </ol>
-</div>
+</Aside>
 
 ### 1.2 Integer Representation
 
