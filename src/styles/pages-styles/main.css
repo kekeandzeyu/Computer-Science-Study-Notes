@@ -57,15 +57,8 @@ body {
 }
 
 #github-explore {
-    font-size: 20px;
-    color: #007bff;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-#github-explore:hover {
-    color: #0056b3;
-    text-decoration: underline;
+    margin-top: 20px;
+    height: 48px;
 }
 
 .details img {

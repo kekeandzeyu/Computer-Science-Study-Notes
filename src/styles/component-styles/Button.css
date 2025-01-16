@@ -1,6 +1,6 @@
 .all-buttons {
     font-size: 20px;
-    margin-right: 20px;
+    margin: 20px 20px 0 0;
     background: linear-gradient(to right, #0056b3, #007bff);
     padding: 1rem 2rem;
     border: none;
