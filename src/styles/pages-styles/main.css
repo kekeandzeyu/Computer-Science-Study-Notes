@@ -92,6 +92,45 @@ body {
     transition: transform 1.5s ease, opacity 1.5s ease;
 }
 
+.introduction, 
+.notes-container, 
+.author {
+    background-color: rgba(244, 241, 250, 0.8);
+    position: relative;
+    transition: box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.introduction:hover,
+.notes-container:hover,
+.author:hover {
+    transform: scale(1.05);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 2px solid #4a7afd;
+}
+
+.text {
+    padding-bottom: 24px;
+    position: relative;
+}
+
+.text::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: gray;
+    transition: width 1s ease;
+}
+
+.introduction:hover .text::after,
+.notes-container:hover .text::after,
+.author:hover .text::after {
+    width: 100%;
+}
+
 .introduction.active,
 .notes-container.active,
 .author.active,

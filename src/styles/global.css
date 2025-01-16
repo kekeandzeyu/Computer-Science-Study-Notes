@@ -57,6 +57,12 @@ body p, a, li, table, th, td, button {
     font-weight: normal;
 }
 
+body pre {
+    font-family: var(--code-font);
+    font-weight: normal;
+    font-size: 16px;
+}
+
 body {
     display: flex;
     flex-direction: column;
