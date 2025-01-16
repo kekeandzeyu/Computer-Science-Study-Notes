@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+
+import '../styles/global.css';
+import '../styles/pages-styles/notes-front.css';
+
+
+const pageTitle = 'Notes';
+---
+
+<BaseLayout title={pageTitle}>
+	<div class="introduction">
+        <h1>Notes</h1>
+        <p>We are all lost stars, trying to light up the dark.</p>
+        <p>我们都是迷失在璀璨梦境中的繁星，不顾一切只为点亮黑暗。</p>
+        <Button children="Get Started" link="/notes/computer-architecture/"></Button>
+    </div>
+
+    <div class="small-reminders">
+        <h2>Small Reminders</h2>
+        <h2>使用建议</h2>
+        <ul class="reminders-list">
+            <li>
+                <p>
+                    The author of the notes does not major in computer science, and some errors and mistakes cannot be avoided. Sorry for any inconvenience it might cause.
+                </p>
+                <p>
+                    本笔记的作者非计算机科学专业学生，笔记中难免有错误与疏漏，请您多多包涵！
+                </p>
+            </li>
+            <li>
+                <p>
+                    Some of the pictures in the notes come from Wikipedia. Out of consideration of copyright, I didn't modify the pictures. However, some of them do not have background, which cannot be seen clearly in the dark theme. The notes are in the dark theme by default; it is highly recommended that you turned into light mode by clicking the button on the left side of the search bar.
+                </p>
+                <p>
+                    本文中部分的图片来自维基百科，出于版权考虑并未对其进行修改，但是其中部分图片没有背景，在夜间模式下阅读效果可能不佳。笔记默认为夜间模式，建议您点击搜索栏左侧的按钮切换至日间模式。
+                </p>
+            </li>
+             <li>
+                <p>
+                    The notes will be released in the form of pdf article, including Chinese edition. You will see it in the release part.
+                </p>
+                <p>
+                    本笔记在最终结束后会发布pdf文档，包括中文版，您将在release部分看到。
+                </p>
+            </li>
+            <li>
+                <p>
+                    Thank you for reading! Everyone is welcome to discuss with me via email.
+                </p>
+                <p>
+                    感谢您的阅读！欢迎各位朋友通过邮箱与我交流。
+                </p>
+            </li>
+        </ul>
+    </div>
+   
+   <div class="acknowledgements">
+        <h2>Acknowledgements</h2>
+        <h2>致谢</h2>
+         <p>
+            Above all, I'd like to express my sincere gratitude to all those professors and TAs in the list above, who selflessly imparting his profound knowledge to us beginners, and made those learning resources public to everyone. The valuable knowledge has benefited me a lot and will be unforgettable for my whole life.
+         </p>
+          <p>
+            In addition, I'd like to express thanks to all those teachers and seniors who help me during my self-learning process.
+         </p>
+          <p>
+            Lastly, I'd like to reserve this part for my mother. For all these years, she has dedicated her life to nurture me, and . We have experiencd all those ups and downs together; it is incredibly hard to raise me under so much hard circumstances, and she has sacrificed all of herself to bring me up. During all this process of learning computer science myself, she always have my back, no matter what difficullties I encounter. This repository is certainly not even a little success, but I want to accredit everything I achieve to her sacrifice and hard work, without which I cannot accomplish anything.
+         </p>
+         <p>
+            首先，我要向以上列表中所有教授、助教等表示感谢，感谢他们将自己渊博的知识无私地传授给我们这些初学者，也感谢他们将学习资料面向公众开放，这些宝贵的知识让我受益匪浅、终生难忘。
+        </p>
+        <p>
+            其次，我要向在自学过程中给予我帮助的师长和学长们表示感谢。
+        </p>
+         <p>
+             最后，我想把这部分留给我的母亲。感谢她数十年如一日倾尽心血养育我，为我不辞辛劳地默默的付出。在我自学计算机科学过程中，无论我遇到多么大的困难，她都在背后默默的支持我、鼓励我。这个小小的项目显然不能称作为一种“成功”，但是我想把我所有的小成就都归功于她。感谢她一直以来的陪伴与支持！
+         </p>
+     </div>
+
+     <div class="license">
+        <h2>License</h2>
+        <h2>许可证</h2>
+         <p>
+             The notes are under MIT License.
+         </p>
+        <p>
+             本笔记遵循[MIT License](License)。
+         </p>
+        <p>
+            All the references in the notes are under their original licenses.
+        </p>
+        <p>
+            引用的其他作者的原创内容遵循原作者的许可证。
+        </p>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sections = document.querySelectorAll(
+                ".introduction, .small-reminders, .how-to-use, .acknowledgements, .license",
+            );
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("active");
+                        }
+                    });
+                },
+                {
+                    threshold: 0.5,
+                },
+            );
+
+            sections.forEach((section) => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</BaseLayout>
