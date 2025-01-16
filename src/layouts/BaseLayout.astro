@@ -5,9 +5,10 @@ import '../styles/global.css';
 
 interface Props {
 	title: string;
+	hideLangSwitcher?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, hideLangSwitcher = false } = Astro.props;
 ---
 
 <html lang="en">
@@ -41,7 +42,7 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<Navigation />
+		<Navigation hideLangSwitcher={hideLangSwitcher}/>
 		<slot />
 		<Footer />
 		

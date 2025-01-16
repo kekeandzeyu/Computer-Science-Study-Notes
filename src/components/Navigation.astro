@@ -1,4 +1,5 @@
 ---
+const { hideLangSwitcher } = Astro.props;
 import '../styles/component-styles/Navigation.css';
 ---
 
@@ -7,8 +8,10 @@ import '../styles/component-styles/Navigation.css';
     <a href="/introduction/">Introduction</a>
     <a href="/notes/">Notes</a>
 
-    <div class="language-switcher">
-        <button class="tab-button active" data-tab="en">EN</button>
-        <button class="tab-button" data-tab="zh">中</button>
-    </div>
+    { !hideLangSwitcher && (
+      <div class="language-switcher">
+          <button class="tab-button active" data-tab="en">EN</button>
+          <button class="tab-button" data-tab="zh">中</button>
+      </div>
+    ) }
 </nav>

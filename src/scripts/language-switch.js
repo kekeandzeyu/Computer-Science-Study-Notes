@@ -4,19 +4,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const enContent = document.querySelector('.en-content');
     const zhContent = document.querySelector('.zh-content');
 
-    if (enButton && zhButton && enContent && zhContent) {
-        enButton.addEventListener('click', () => {
-            enButton.classList.add('active');
-            zhButton.classList.remove('active');
-            enContent.style.display = 'block';
-            zhContent.style.display = 'none';
-        });
+    const savedLanguage = localStorage.getItem('lang') || 'en';
 
-        zhButton.addEventListener('click', () => {
-            zhButton.classList.add('active');
-            enButton.classList.remove('active');
-            enContent.style.display = 'none';
-            zhContent.style.display = 'block';
-        });
+    if (savedLanguage === 'zh') {
+        enButton.classList.remove('active');
+        zhButton.classList.add('active');
+        enContent.style.display = 'none';
+        zhContent.style.display = 'block';
+    } else {
+        enButton.classList.add('active');
+        zhButton.classList.remove('active');
+        enContent.style.display = 'block';
+        zhContent.style.display = 'none';
     }
+
+    enButton.addEventListener('click', () => {
+        localStorage.setItem('lang', 'en');
+
+        enButton.classList.add('active');
+        zhButton.classList.remove('active');
+        enContent.style.display = 'block';
+        zhContent.style.display = 'none';
+    });
+
+    zhButton.addEventListener('click', () => {
+        localStorage.setItem('lang', 'zh');
+
+        zhButton.classList.add('active');
+        enButton.classList.remove('active');
+        enContent.style.display = 'none';
+        zhContent.style.display = 'block';
+    });
 });

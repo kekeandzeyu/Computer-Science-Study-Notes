@@ -1,15 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
+const { frontmatter } = Astro.props;
 import "../styles/global.css";
 import "../styles/pages-styles/notes-content.css";
 import "../styles/pages-styles/notes-custom.css";
 
 const allNotes = Object.values(import.meta.glob('../pages/notes-content/*.mdx', { eager: true }));
-
-const { frontmatter } = Astro.props;
 ---
-<BaseLayout title={frontmatter.title}>
+<BaseLayout title={frontmatter.title} hideLangSwitcher={true}>
     <div class="main-content">
 
         <nav class="sidebar">
