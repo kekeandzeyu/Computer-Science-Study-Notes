@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const sections = document.querySelectorAll(
-        ".introduction, .intention-background, .contribution",
+        ".introduction, .small-reminders, .acknowledgements, .license",
     );
     const observer = new IntersectionObserver(
         (entries) => {

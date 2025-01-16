@@ -1,0 +1,149 @@
+/* Adjust main-content to accommodate the fixed sidebar */
+.main-content {
+    display: flex;
+    flex: 1;
+}
+
+/* Notes Part */
+.notes-content {
+    padding: 48px 0 0 32px;
+    margin-left: var(--sidebar-width);
+}
+
+.notes-content h1 {
+    font-size: 44px;
+    letter-spacing: 0.05em;
+    margin: 32px 0 0;
+    padding: 40px 0 0;
+}
+
+.notes-content h2 {
+    font-size: 35px;
+    letter-spacing: 0.04em;
+    margin: 64px 0 0;
+}
+
+.notes-content h3 {
+    font-size: 24px;
+    letter-spacing: 0.03em;
+    margin: 48px 0 0;
+}
+
+.notes-content h4 {
+    font-size: 20px;
+    letter-spacing: 0.02em;
+    margin: 32px 0 0;
+}
+
+.notes-content p {
+    font-size: 16px;
+    margin: 24px 0 0;
+}
+
+.notes-content ul {
+    margin: 24px 0 0;
+}
+
+.notes-content li {
+    margin: 24px 0 0;
+    padding: 0 0 0 22px;
+}
+
+.notes-content table {
+    min-width: 60% !important;
+    text-align: center;
+    margin: 24px 0 0;
+    border-collapse: collapse;
+}
+
+.notes-content table, 
+.notes-content th, 
+.notes-content td {
+    border: 1px solid #d1d1d2;
+    font-size: 16px;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.notes-content th {
+    background-color: #f4f4f4;
+    padding: 16px;
+}
+
+.notes-content td {
+    padding: 16px;
+}
+
+#last-modified {
+    font-size: 14px;
+    color: #666;
+    margin: 12px 0 32px;
+}
+
+/* Sidebar */
+.sidebar {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: var(--sidebar-width);
+    padding: 20px;
+    background-color: white;
+    height: 100vh;
+    position: fixed;
+    overflow-y: auto;
+}
+
+.sidebar-content {
+    align-items: center;
+    height: auto;
+    border-radius: 12px;
+    background-color: #f4f5f7;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sidebar-content ul {
+    list-style: none;
+    gap: 0.25em;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-link {
+    padding: 8px 1px 1px 1px;
+    border-radius: 12px;
+    width: 90%;
+    height: 40px;
+    transition: background-color 0.2s ease;
+    margin: 4px auto;
+}
+
+.sidebar-link a {
+    text-align: center;
+    text-decoration: none;
+    color: #555861;
+    transition: color 0.2s ease;
+    display: block;
+    padding: 8px 0 8px 0;
+}
+
+.sidebar-link:hover {
+    background-color: #e0e0e0;
+}
+
+.sidebar-link a:hover {
+    color: black;
+}
+
+/* Click on the active link */
+.sidebar-link.active-link {
+    background-color: white;
+}
+
+.sidebar-link.active-link a {
+    color: black;
+}
+
+/* Footer Design */
+.footer {
+    margin-left: var(--sidebar-width);
+}
