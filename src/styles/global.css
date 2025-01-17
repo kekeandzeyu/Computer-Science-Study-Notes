@@ -3,7 +3,7 @@
  *
  */
 
-@font-face {
+ @font-face {
     font-family: 'SF Pro Display';
     -webkit-font-feature-settings: normal;
     font-weight: normal;
@@ -72,4 +72,20 @@ body {
 body ul, ol {
     padding: 0 0 10px;
     margin: 0 0 0 40px;
+}
+
+@media (max-width: 768px) {
+    body ul, ol {
+        margin-left: 20px;
+    }
+
+    body pre {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    body pre {
+         font-size: 12px; 
+    }
 }

@@ -3,7 +3,7 @@
  *
  */
 
-body {
+ body {
     display: block;
     align-items: center;
     background-color: rgba(245, 243, 253, 0.8);
@@ -210,4 +210,112 @@ body {
     padding-top: 40px;
     padding-bottom: 40px;
     text-align: center;
+}
+
+@media (max-width: 1024px) {
+    .title-introduction h1 {
+      font-size: 3rem;
+    }
+    .title-introduction p {
+        font-size: 1.2rem;
+    }
+
+    .details h2 {
+        font-size: 2.5rem;
+    }
+    .details p {
+        font-size: 1.2rem;
+        padding-bottom: 30px;
+    }
+
+    .introduction,
+    .notes-container,
+    .author,
+    .summary {
+        padding: 60px;
+        width: 95%;
+    }
+
+    .summary h2 {
+        font-size: 2.5rem;
+    }
+
+    .summary p {
+        font-size: 1.2rem;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .title-introduction h1 {
+      font-size: 2.5rem;
+    }
+    .title-introduction p {
+        font-size: 1.1rem;
+    }
+
+    .details h2 {
+        font-size: 2rem;
+    }
+    .details p {
+        font-size: 1rem;
+        padding-bottom: 20px;
+    }
+
+    .introduction,
+    .notes-container,
+    .author,
+    .summary {
+        padding: 40px;
+        width: 95%;
+    }
+    
+    .introduction,
+    .notes-container,
+    .author{
+        flex-direction: column; 
+    }
+   
+    .introduction img,
+    .notes-container img,
+    .author img {
+      padding: 0 0 20px;
+    }
+
+    .summary h2 {
+        font-size: 2rem;
+    }
+
+    .summary p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-introduction h1 {
+        font-size: 2rem;
+    }
+    .title-introduction p {
+        font-size: 1rem;
+    }
+    
+    .details h2 {
+        font-size: 1.7rem;
+    }
+    .details p {
+        font-size: 0.9rem;
+    }
+    
+    .introduction,
+    .notes-container,
+    .author,
+    .summary {
+        padding: 30px 20px;
+    }
+    .summary h2 {
+        font-size: 1.7rem;
+    }
+    .summary p {
+        font-size: 0.9rem;
+    }
 }
