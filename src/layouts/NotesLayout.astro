@@ -30,18 +30,22 @@ const allNotes = Object.values(import.meta.glob('../pages/notes-content/*.mdx', 
     </div>
 
     <script>
-        document.addEventListener('astro:page-load', () => {
-    const codeBlocks = document.querySelectorAll('pre[data-language]');
-
-    codeBlocks.forEach(codeBlock => {
-      const language = codeBlock.getAttribute('data-language');
-      if (language) {
-        const tooltip = document.createElement('span');
-        tooltip.classList.add('code-language-tooltip');
-        tooltip.textContent = language;
-        codeBlock.appendChild(tooltip);
-      }
-    });
-  });
+        if (typeof window !== 'undefined') {
+          window.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('pre').forEach(pre => {
+              const copyBtn = document.createElement('button');
+              copyBtn.className = 'copy-button';
+              copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(pre.innerText);
+                copyBtn.textContent = 'Copied!'
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                  copyBtn.classList.remove('copied');
+                }, 1000); // 1000 milliseconds = 1 second
+              });
+              pre.appendChild(copyBtn);
+            });
+          });
+        }
     </script>
 </BaseLayout>
