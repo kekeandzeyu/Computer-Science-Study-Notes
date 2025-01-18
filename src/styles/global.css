@@ -61,6 +61,29 @@ body pre {
     font-family: var(--code-font);
     font-weight: normal;
     font-size: 16px;
+    background-color: rgba(25, 25, 28, 0.05) !important;
+    padding: 8px 16px 8px 16px;
+    border-radius: 16px;
+    position: relative;
+}
+
+body pre .code-language-tooltip {
+    position: absolute;
+    top: -1.5em; /* Adjust as needed */
+    left: 0.5em; /* Adjust as needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background for visibility */
+    color: white;
+    padding: 0.2em 0.5em;
+    border-radius: 4px;
+    font-size: 0.8em;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    pointer-events: none; /* Make sure it doesn't interfere with hover */
+    z-index: 10; /* Ensure it's above the code block */
+}
+
+body pre:hover .code-language-tooltip {
+    opacity: 1;
 }
 
 body {

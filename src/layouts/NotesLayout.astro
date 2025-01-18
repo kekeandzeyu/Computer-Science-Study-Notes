@@ -28,4 +28,20 @@ const allNotes = Object.values(import.meta.glob('../pages/notes-content/*.mdx', 
             <slot/>
         </main>
     </div>
+
+    <script>
+        document.addEventListener('astro:page-load', () => {
+    const codeBlocks = document.querySelectorAll('pre[data-language]');
+
+    codeBlocks.forEach(codeBlock => {
+      const language = codeBlock.getAttribute('data-language');
+      if (language) {
+        const tooltip = document.createElement('span');
+        tooltip.classList.add('code-language-tooltip');
+        tooltip.textContent = language;
+        codeBlock.appendChild(tooltip);
+      }
+    });
+  });
+    </script>
 </BaseLayout>

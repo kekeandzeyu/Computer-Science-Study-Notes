@@ -4,6 +4,9 @@ title: 'Database System'
 author: 'Zeyu Li'
 tags: ["Database System", "Computer Science"]
 ---
+import Aside from '../../components/Aside.astro'
+import Note from '../../components/Note.astro'
+
 ## 1 SQL Part Ⅰ
 
 ### 1.1 SQL Introduction
@@ -22,13 +25,13 @@ tags: ["Database System", "Computer Science"]
 
 ### 2.2 Storage Techniques
 
-<span style="color:BlueViolet">Memory Hierarchy</span>
+<p style="color:BlueViolet">Memory Hierarchy</p>
 
 <img src="/assets/database-system/2-2-1.png" alt="Favicon" width="600"/>
 
 #### 2.2.1 Disks
 
-<span style="color:BlueViolet">Disk Components</span>
+<p style="color:BlueViolet">Disk Components</p>
 
 <img src="/assets/database-system/2-2-2.png" alt="Favicon" width="600"/>
 
@@ -116,3 +119,46 @@ RAM is a type of volatile memory (a type of memory that requires power to mainta
         </tr>
     </tbody>
 </table>
+
+#### 2.2.3 Solid State Disks (SSDs)
+
+<p style="color: BlueViolet">Key Terminology</p>
+
+* **Cells:** The fundamental units of storage, storing a single bit of information.
+* **Pages:** Groups of cells form pages. These are the smallest units that can be read or
+  written to. Typical page sizes are 4KB or 8KB.
+* **Blocks:** Groups of pages form blocks. Blocks are the smallest units that can be 
+  erased. Typical block sizes are 1-2MB.
+* **Planes/Dies/Channels:** These are ways to parallelize read/write access.
+
+For reading in SSDs, the process is straightforward: 
+
+1. **Address Mapping:** The SSD controller translates logical block addresses (LBAs) to
+    physical block addresses (PBAs).
+2. **Read:** The SSD controller reads the data from the physical block address.
+
+For writing in SSDs, the process is more complex:
+
+1. **Address Mapping:** Same as in the reading procedure.
+2. **Check Page State:** Check if the page to be written already contains data. If the 
+   page is part of a block that has been recently erased (all '1's), SSD can directly
+   write to the page. Otherwise, the SSD must:
+    * Read block contents, identify & copy valid pages (not the target page we want to 
+      modify) to a new, erased block (*write amplification*).
+    * SSD controller uses the new modified data and writes the new content to the 
+      corresponding page in the new block, updates the mapping table, and the original 
+      block is ready for garbage collection.
+
+<Note>
+    <ul>
+        <li>For SSDs, high charge means '1', and low charge means '0' (related to 
+        floating-gate transistor). Writing '1' to '0' requires removing charge, and 
+        resetting requires an electrical impulse!</li>
+        <li>Flash blocks only support 2k-3k erasures before failure, so <em>wear-leveling</em>
+        (by spreading erasures evenly across all blocks) is important!</li>
+        <li>For SSDs, read sequences aren't necessary, but random writing is slower than 
+        sequential writing!</li>
+    </ul>
+</Note>
+
+#### 
