@@ -17,7 +17,7 @@ import Note from '../../components/Note.astro'
 
 <img src="/assets/database-system/2-1-1.png" alt="Favicon" width="600"/>
 
-<span style="color:BlueViolet">Features</span>
+<p style="color:BlueViolet">Features</p>
 
 * Organized in layers
 * Each layer abstracts the layer below: Manage complexity (easy to use) & Performance assumptions (assume the perfomrance of lower layers)
@@ -37,13 +37,13 @@ import Note from '../../components/Note.astro'
 
 Platters spin together (around 15000 rpm). Arm assembly can move in or out to position a head on a desired track, but only one head reads/writes at any one time.
 
-<span style="color:BlueViolet">Disk Operation & Access Time</span>
+<p style="color:BlueViolet">Disk Operation & Access Time</p>
 
 Disks read and write data in sector-size blocks with access time of three components.
 
 <ul>
-<li><span style="color:Fuchsia">Seek Time:</span> Moving arms to position disk head on track that contains that contains the target sector.</li>
-<li><span style="color:Fuchsia">Rotational Delay:</span> Waiting for block to rotate the first bit of the target sector to pass under the head.</li>
+<li><p style="color:Fuchsia">Seek Time:</p> Moving arms to position disk head on track that contains that contains the target sector.</li>
+<li><p style="color:Fuchsia">Rotational Delay:</p> Waiting for block to rotate the first bit of the target sector to pass under the head.</li>
 
 $$
 T_{\text{max rotation}}=\frac{1}{\text{RPM}} \times \frac{60s}{1min}
@@ -53,21 +53,21 @@ $$
 T_{\text{avg rotation}}=\frac{1}{2} \times T_{\text{max rotation}}
 $$
 
-<li><span style="color:Fuchsia">Transfer Time:</span> Moving data to/from disk surface (Read/Write the contents of the sector).</li>
+<li><p style="color:Fuchsia">Transfer Time:</p> Moving data to/from disk surface (Read/Write the contents of the sector).</li>
 </ul>
 
 $$
 T_{\text{avg transfer}}=\frac{1}{\text{RPM}} \times \frac{1}{\text{average \# sectors/tracks}} \times \frac{60s}{1min}
 $$
 
-<span style="color:BlueViolet">Disk Capacity</span>
+<p style="color:BlueViolet">Disk Capacity</p>
 
 Disk capacity is determined by the following technology factors.
 
 <ul>
-<li><span style="color:Fuchsia">Recording Density (bits/in):</span> The number of bits that can be squeezed into a 1-inch segment of a track.</li>
-<li><span style="color:Fuchsia">Track density (tracks/in):</span> The number of tracks that can be squeezed into a 1-inch segment of the radius extending from the center of the platter.</li>
-<li><span style="color:Fuchsia">Areal density (bits/in<sup>2</sup>):</span> The product of the recording density and the track density.</li>
+<li><p style="color:Fuchsia">Recording Density (bits/in):</p> The number of bits that can be squeezed into a 1-inch segment of a track.</li>
+<li><p style="color:Fuchsia">Track density (tracks/in):</p> The number of tracks that can be squeezed into a 1-inch segment of the radius extending from the center of the platter.</li>
+<li><p style="color:Fuchsia">Areal density (bits/in<sup>2</sup>):</p> The product of the recording density and the track density.</li>
 
 $$
 \text{Capacity} = \frac{\text{\# bytes}}{\text{sector}} \times
@@ -162,3 +162,29 @@ For writing in SSDs, the process is more complex:
 </Note>
 
 #### 2.2.4 Locality
+
+<p style="color:BlueViolet">Principle of Locality</p>
+
+* **Temporal Locality:** Memory location that is referenced once is likely to be 
+  referenced again multiple times in the near future.
+* **Spatial Locality:** If a memory location is referenced once, then the program is likely to reference a nearby memory location in the near
+  future.
+
+```cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> data(1000, 1);
+    int sum = 0;
+
+    // Temporal locality: 'sum' is accessed repeatedly in the loop
+    for (int i = 0; i < data.size(); ++i) {
+        sum += data[i]; // Spatial locality: 'data[i]' is accessed sequentially
+    }
+
+    std::cout << "Sum: " << sum << std::endl;
+    return 0;
+}
+```
+

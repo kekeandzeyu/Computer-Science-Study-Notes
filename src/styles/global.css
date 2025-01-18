@@ -3,28 +3,6 @@
  *
  */
 
- @font-face {
-    font-family: 'SF Pro Display';
-    -webkit-font-feature-settings: normal;
-    font-weight: normal;
-    src: url('/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.woff2') format('woff2'),
-    url('/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.woff') format('woff'),
-    url('/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.otf') format('opentype'),
-    url('/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.eot') format('embedded-opentype'),
-    url('/fonts/SF-Pro/SF-Pro-Display-Medium/SF-Pro-Display-Medium.svg') format('svg');
-}
-
-@font-face {
-    font-family: 'SF Pro Text';
-    -webkit-font-feature-settings: normal;
-    font-weight: normal;
-    src: url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.woff2') format('woff2'),
-    url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.woff') format('woff'),
-    url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.otf') format('opentype'),
-    url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.eot') format('embedded-opentype'),
-    url('/fonts/SF-Pro/SF-Pro-Text-Medium/SF-Pro-Text-Medium.svg') format('svg');
-}
-
 @font-face {
     font-family: 'JetBrains Mono';
     -webkit-font-feature-settings: normal;
@@ -37,9 +15,9 @@
 }
 
 :root {
-    --header-font: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    --header-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
         sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    --body-font: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    --body-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
         sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     --code-font: 'JetBrains Mono', monospace;
 
@@ -49,7 +27,7 @@
 
 body h1, h2, h3, h4, h5, h6 {
     font-family: var(--header-font);
-    font-weight: normal;
+    font-weight: 500;
 }
 
 body p, a, li, table, th, td, button {
