@@ -5,7 +5,7 @@ import "../styles/global.css";
 import "../styles/pages-styles/notes-content.css";
 import "../styles/pages-styles/notes-custom.css";
 
-const allNotes = Object.values(import.meta.glob('../pages/notes-content/*.mdx', { eager: true }));
+const allNotes = Object.values(import.meta.glob('../pages/notes/*.mdx', { eager: true }));
 ---
 <BaseLayout title={frontmatter.title} hideLangSwitcher={true}>
     <div class="main-content">
@@ -34,6 +34,8 @@ const allNotes = Object.values(import.meta.glob('../pages/notes-content/*.mdx', 
           window.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('pre').forEach(pre => {
               const copyBtn = document.createElement('button');
+              const collapsibleBtn = document.createElement('button');
+
               copyBtn.className = 'copy-button';
               copyBtn.addEventListener('click', () => {
                 navigator.clipboard.writeText(pre.innerText);
@@ -44,6 +46,13 @@ const allNotes = Object.values(import.meta.glob('../pages/notes-content/*.mdx', 
                 }, 1000); // 1000 milliseconds = 1 second
               });
               pre.appendChild(copyBtn);
+
+              collapsibleBtn.className = 'collapsible-button';
+              collapsibleBtn.textContent = '−';
+              collapsibleBtn.addEventListener('click', () => {
+                pre.classList.toggle('collapsed');
+              });
+              pre.appendChild(collapsibleBtn);
             });
           });
         }

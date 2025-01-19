@@ -4,4 +4,4 @@ import "../styles/component-styles/Button.css";
 const { children, link } = Astro.props;
 ---
 
-<button class="all-buttons"><a class="all-buttons-with-links" href={link}>{children}</a></button>
+<a class="all-buttons-with-links" href={link}><button class="all-buttons">{children}</button></a>

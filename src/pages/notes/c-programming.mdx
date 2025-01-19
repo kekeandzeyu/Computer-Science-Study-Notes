@@ -1,0 +1,157 @@
+---
+layout: "../../layouts/NotesLayout.astro"
+title: 'C++ Programming'
+author: 'Zeyu Li'
+tags: ["C++ Programming", "Computer Science"]
+---
+import Aside from '../../components/Aside.astro'
+import Note from '../../components/Note.astro'
+
+## Ⅰ C++ Fundamentals
+
+### 1 C & C++ Introduction
+
+1. C/C++ is a compiled language.
+
+2. C/C++ compilers map C/C++ programs into architecture-specific machine code (string of
+ 0s and 1s).
+    * Unlike Java, which converts to architecture-independent bytecode (run by JVM => 
+    Java Virtual Machine).
+    * Unlike Python, which directly interprets the code.
+    * Main difference is when your program is mapped to low-level machine instructions, 
+    CPU will directly interprets and runs.
+
+<p style="color: BlueViolet">Compilation Advantages</p>
+
+* Excellent run-time performance:
+
+  Generally much faster than Python or Java for comparable code because it optimizes for 
+  the given architecture.
+
+* Fair compilation time:
+
+  Enhancements in compilation procedure (Makefiles) allow us to recompile only the 
+  modified files.
+
+<p style="color: BlueViolet">Compilation Disadvantages</p>
+
+* Compiled files, including the executable, are arcitecture-specific (CPU type and OS).
+
+  Executable must be rebuilt on each new system, i.e., "porting your code" to a new 
+  architecture.
+
+* Instead of "Edit -> Run [repeat]" cycle, "Edit -> Compile -> Run [repeat]" iteration 
+  cycle can be slow.
+
+<img src="/assets/c-programming/1-1-1.png" alt="Compile & Run" width="700" />
+
+Normal C/C++ Compile & Run:
+
+```bash
+$ g++ -o hello hello.cpp
+```
+
+### 2 Types & Structs
+
+#### 2.1 Primitive Types
+
+| Fundamental Types | Example                     | Memory   |
+|-------------------|-----------------------------|----------|
+| int               | `int val = 5;`              | 4 bytes  |
+| char              | `char ch = 'F';`            | 1 byte   |
+| float             | `float decimalVal1 = 5.0;`  | 4 bytes  |
+| double            | `double decimalVal2 = 5.0;` | 8 bytes  |
+| bool              | `bool bVal = true;`         | 1 byte   |
+| std::string       | `std::string str = "Hello";`| -        |
+
+#### 2.2 Structs
+
+A **struct** is a group of named variables, each with their own type, that allows
+programmers to bundle different types together!
+
+```cpp
+struct Student {
+    string name; // these are called fields
+    string state; // separate these by semicolons
+    int age;
+};
+ 
+Student s;
+s.name = "Haven";
+s.state = "AR";
+s.age = 22; // use . to access fields
+```
+
+```c
+typedef struct {
+    char name[50];
+    char state[3];
+    int age;
+} Student;
+ 
+Student s;
+strcpy(s.name, "Haven");
+strcpy(s.state, "AR");
+s.age = 22; // use . to access fields
+```
+
+### 3 Initialization & References
+
+#### 3.1 Initialization
+
+There are three types of initialization in C++:
+
+1. Direct Initialization
+
+```cpp
+int numOne = 12.0; // numOne is 12, doesn't type check with direct initialzation
+```
+
+2. Uniform Initialization (C++ 11)
+
+```cpp
+int numTwo {12.0};
+// Narrowing conversion of '1.2e+1' from 'double' to 'int'
+// Type checks with uniform initialization
+```
+
+3. Structure Binding (C++ 17, can access multiple values returned by a function)
+
+```cpp
+#include <iostream>
+#include <tuple>
+#include <string>
+
+std::tuple<std::string, std::string, std::string> getclassInfo() {
+    std::string className = "CS106L";
+    std::string buildingName = "Turing Auditorium";
+    std::string language = "C++";
+    return {className, buildingName, language};
+}
+
+int main() {
+    auto [className, buildingName, language] = getclassInfo();
+
+    std::cout << "Come to " << buildingName << " and join us for " <<
+    className << " to learn " << language << "!" << std::endl;
+    // Output: Come to Turing Auditorium and join us for CS106L to learn C++!
+
+    return 0;
+}
+```
+
+<p style="color:BlueViolet">Advantages for Uniform Initialization</p>
+
+* It's safe! It doesn't allow for narrowing conversions — which can lead to unexpected 
+  behaviour (or critical system failures).
+* It's ubiquitous! it works for all types like vectors, maps, and custom classes, among
+  other things.
+
+#### 3.2 References
+
+```cpp
+int x = 5;
+int& ref = x; // ref is a reference to x
+ref = 10; // x is now 10
+```
+
