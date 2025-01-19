@@ -155,3 +155,82 @@ int& ref = x; // ref is a reference to x
 ref = 10; // x is now 10
 ```
 
+#### 3.3 Pointers
+
+```cpp
+int x = 5;
+int* ref = &x; // ref is a pointer to x
+*ref = 10; // x is now 10
+```
+
+A classic reference-copy bug:
+
+```cpp
+// We are modifying the std::pair's inside of nums
+void shift(std::vector<std::pair<int, int>> &nums) { // nums passed by reference
+    for (auto [num1, num2] : nums) { // num1 and num2 are copies
+        num1++;
+        num2++;
+    }
+}
+```
+
+In this code, `nums` is passed by reference to the shift function, which means any
+modifications to `nums` should affect the original vector. However, within the for loop, 
+`num1` and `num2` are declared as copies of the elements in nums. As a result, the 
+increments `num1++` and `num2++` modify only the local copies, and the original elements 
+in nums remain unchanged. Below is the correct way:
+
+```cpp
+// Correct Way
+void shift(std::vector<std::pair<int, int>> &nums) {
+    for (auto& [num1, num2] : nums) {
+        num1++;
+        num2++;
+    }
+}
+```
+
+### 4 Streams
+
+#### 4.1 Strings
+
+<p style="color:BlueViolet">Example in C++</p>
+
+```cpp
+std::string str = "Hello, World!";
+std::cout << str[1] << std::endl; // e
+str[1] = 'a'; // Hallo, World!
+```
+
+<p style="color:BlueViolet">Example in C</p>
+
+```c
+char str[] = "Hello, World!";
+printf("%c\n", str[1]); // e
+str[1] = 'a'; // Hallo, World!
+```
+
+#### 4.2 Stringstreams
+
+<p style="color:BlueViolet">Properties</p>
+
+* Constructors with initial text in the buffer.
+* Can optionally provide "modes" such as `ate` (start at end) or `bin` (read as binary).
+
+##### 4.2.1 Output Stringstreams
+
+<p style="color:BlueViolet">Examples</p>
+
+```cpp
+std::ostringstream oss("Ito-En Green Tea");
+std::cout << oss.str() << std::endl; // Ito-En Green Tea
+oss << "16.9 Ounces";
+std::cout << oss.str() << std::endl; // 16.9 Ouncesn Tea
+
+std::ostringstream oss("Ito-En Green Tea", std::ostringstream::ate);
+oss << "16.9 Ounces";
+std::cout << oss.str() << std::endl; // Ito-En Green Tea16.9 Ounces
+```
+
+Positioning 

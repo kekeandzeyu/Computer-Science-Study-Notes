@@ -31,6 +31,11 @@
     margin: 32px 0 0;
 }
 
+.notes-content h5 {
+    font-size: 18px;
+    margin: 28px 0 0;
+}
+
 .notes-content p {
     font-size: 16px;
     margin: 24px 0 0;
