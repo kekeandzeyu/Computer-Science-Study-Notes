@@ -12,26 +12,22 @@
 
 .notes-content h1 {
     font-size: 44px;
-    letter-spacing: 0.05em;
     margin: 32px 0 0;
     padding: 40px 0 0;
 }
 
 .notes-content h2 {
     font-size: 35px;
-    letter-spacing: 0.04em;
     margin: 64px 0 0;
 }
 
 .notes-content h3 {
     font-size: 24px;
-    letter-spacing: 0.03em;
     margin: 48px 0 0;
 }
 
 .notes-content h4 {
     font-size: 20px;
-    letter-spacing: 0.02em;
     margin: 32px 0 0;
 }
 

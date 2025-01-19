@@ -15,7 +15,7 @@ In this part, we will explore computer architecture, both x86-64 and RISC-V arch
 
 ### 1.1 Number Base
 
-In computer science, There are three commonly-used number bases: binary, decimal & hexadecimal.
+In computer science, there are three commonly-used number bases: binary, decimal & hexadecimal.
 
 1. Binary (base 2)
     * Symbols: 0, 1
@@ -30,7 +30,7 @@ In computer science, There are three commonly-used number bases: binary, decimal
     * Notation: $2A5D_{16}=\texttt{0x22400}$
     * A convenient shorthand for writing long sequences of bits.
 
-<span style="color:BlueViolet">Conversion between bases</span>
+<p style="color:BlueViolet">Conversion between bases</p>
 
 1. Convert from other bases to base-10: write out power of bases.
 
@@ -119,12 +119,11 @@ When converting between different bases, you can refer to the following table be
 * Smallest number: $\texttt{0b1111...111}$ represents $-\left(2^{N - 1} - 1\right)$.
 * Largest number: $\texttt{0b0111...111}$ represents $+\left(2^{N - 1} - 1\right)$.
 
-<div class="Note">
-    <h3>Note</h3>
+<Note>
     <p>If we count upwards in base-2, the resulting numbers increase, then they start decreasing!</p>
     <p>Plus, there are two ways of representing zero: $\texttt{0b100...00}$ & $\texttt{0b000..00}$.</p>
     <img src="/assets/computer-architecture/1-1-2.png" alt="Signed Integer" width="600"/>
-</div>
+</Note>
 
 <table>
     <thead>
@@ -156,12 +155,11 @@ When converting between different bases, you can refer to the following table be
 * Smallest number: $\texttt{0b1000...000}$ represents $-\left(2^{N - 1} - 1\right)$.
 * Largest number: $\texttt{0b0111...111}$ represents $+\left(2^{N - 1} - 1\right)$.
 
-<div class="Note">
-    <h3>Note</h3>
+<Note>
     <p>If we count upwards in base-2, the resulting numbers are always increasing.</p>
     <p>There are two ways of representing zero: $\texttt{0b111...11}$ & $\texttt{0b000..00}$.</p>
     <img src="/assets/computer-architecture/1-1-3.png" alt="One's Complement" width="600"/>
-</div>
+</Note>
 
 <table>
     <thead>
@@ -193,15 +191,14 @@ When converting between different bases, you can refer to the following table be
 * Smallest number: $\texttt{0b1000...000}$ represents $-2^{N - 1}$.
 * Largest number: $\texttt{0b0111...111}$ represents $+\left(2^{N - 1} - 1\right)$.
 
-<div class="Aside">
-    <h3>Aside</h3>
+<Aside>
     <p>Another definition: The left-most power of 2 is now negative, not positive.</p>
     <ol>
         <li>Left-most bit 0: Read the rest of the number as an unsigned integer.</li>
         <li>Left-most bit 1: Subtract a big power of 2. Resulting number is negative!</li>
         <li>For example, $0000$-$0111$ represent $0$-$7$, while $1000$-$1111$ represent $-8$-$-1$.</li>
     </ol>
-</div>
+</Aside>
 
 <p style="color:BlueViolet">Conversion between two's complement and signed integer</p>
 
@@ -248,3 +245,49 @@ When converting between different bases, you can refer to the following table be
     </tbody>
 </table>
 
+#### 1.2.5 Bias Notation
+
+<p style="color:BlueViolet">Properties</p>
+
+* **Idea:** Just like unsigned, but shifted on the number line.
+* **Smallest number:** $\texttt{0b0000...000}$ represents $\text{bias}$.
+* **Largest number:** $\texttt{0b0111...111}$ represents $+\left(2^N - 1 + \text{bias}\right)$.
+
+<img src="/assets/computer-architecture/1-1-4.png" alt="Bias Notation" width="600"/>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">Bias Notation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Can represent negative numbers</td>
+            <td>&#10004;</td>
+        </tr>
+        <tr>
+            <td>Doing math is easy</td>
+            <td>&#10008;</td>
+        </tr>
+        <tr>
+            <td>Every bit sequence represents a unique number</td>
+            <td>&#10004;</td>
+        </tr>
+    </tbody>
+</table>
+
+#### 1.2.6 Sign Extension
+
+For binary representation, leftmost bit is the most significant bit (MSB), and rightmost
+bit is the least significant bit (LSB). 
+
+* **Idea:** Want to represent the same number using more bits than before. It's easy for 
+  positive numbers (add leading 0's), but more complicated for negative numbers.
+* **Sign and magnitude:** Add 0's after the sign bit.
+* **One's/Two's complement:** Copy MSB.
+
+<p style="color:BlueViolet">Example</p>
+
+* **Sign and magnitude:** $\texttt{0b1101}=\texttt{0b1000 0101}$
+* **One's complement:** $\texttt{0b1100}=\texttt{0b1111 1100}$

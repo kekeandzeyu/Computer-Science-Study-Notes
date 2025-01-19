@@ -32,7 +32,7 @@
 
 .title-introduction h1 {
     font-size: 4rem;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.04em;
     margin: 2rem 0;
     color: rgb(112, 75, 253);
 }
@@ -42,7 +42,6 @@
     margin: 0;
     color: rgb(112, 75, 253);
 }
-
 
 .button-container {
     display: flex;
