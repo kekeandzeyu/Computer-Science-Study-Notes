@@ -1,7 +1,4 @@
-/**
- * global.css: This file contains styles that are applied to the entire website.
- *
- */
+@use 'variables' as v;
 
 @font-face {
     font-family: 'MiSans Regular';
@@ -57,71 +54,48 @@
 }
 
 :root {
-    /* English Font */
-    --header-en-font: 'Inter Display', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
-        sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    --body-en-font: 'Inter Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
-        sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-
-    /* Chinese Font */
-    --header-zh-font: 'MiSans Medium', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
-        sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    --body-zh-font: 'MiSans Regular', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
-        sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-
-    /* Code Font */
-    --code-font: 'JetBrains Mono', monospace;
-
-    /* Notes Page */
-    --sidebar-width: 27vw;
+    /* Global Colors */
+    --theme-text-color: v.$theme-text-color;
+    --theme-background-color: v.$theme-background-color;
+    --sidebar-width: v.$sidebar-width;
+    --button-margin: v.$button-margin;
+    --button-padding-top: v.$button-padding-top;
+    --button-padding-left: v.$button-padding-left;
+    --button-font-size: v.$button-font-size;
 }
 
-/* Global Styles */
-body h1, h2, h3, h4, h5, h6 {
-    font-family: var(--header-en-font);
-    font-weight: normal;
+
+/* Global Styles: Default for English */
+body {
+    h1, h2, h3, h4, h5, h6 {
+        font-family: v.$header-en-font;
+        font-weight: normal;
+    }
+    
+    p, a, li, table, th, td, button {
+        font-family: v.$body-en-font;
+        font-weight: normal;
+    }
 }
 
-body p, a, li, table, th, td, button {
-    font-family: var(--body-en-font);
-    font-weight: normal;
-}
 
 /* Chinese Font Styles */
-.zh-content h1, .zh-content h2, .zh-content h3, .zh-content h4, .zh-content h5, .zh-content h6 {
-    font-family: var(--header-zh-font);
-    font-weight: normal;
-}
-
-.zh-content p, .zh-content a, .zh-content li, .zh-content table, .zh-content th, .zh-content td, .zh-content button {
-    font-family: var(--body-zh-font);
-    font-weight: normal;
+.zh-content {
+    h1, h2, h3, h4, h5, h6 {
+        font-family: v.$header-zh-font;
+        font-weight: normal;
+    }
+    
+    p, a, li, table, th, td, button {
+        font-family: v.$body-zh-font;
+        font-weight: normal;
+    }
 }
 
 body {
+    background-color: v.$theme-background-color;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-}
-
-body ul, ol {
-    padding: 0 0 10px;
-    margin: 0 0 0 40px;
-}
-
-@media (max-width: 768px) {
-    body ul, ol {
-        margin-left: 20px;
-    }
-
-    body pre {
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 480px) {
-    body pre {
-         font-size: 12px; 
-    }
 }

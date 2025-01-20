@@ -1,0 +1,74 @@
+@use '../variables' as v;
+
+/* Introduction Part */
+.introduction {
+    margin: 0;
+    padding-top: 20vh;
+    padding-bottom: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    opacity: 0;
+    transition: transform 1.5s ease, opacity 1.5s ease;
+
+    &.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    h1 {
+        font-size: 4rem;
+        letter-spacing: 0.07em;
+        margin: 2rem 0;
+        color: v.$theme-text-color;
+        text-align: center;
+    }
+
+    p {
+        font-size: 1.5rem;
+        margin: 0;
+        padding-top: 0;
+        padding-bottom: 1rem;
+        color: v.$theme-text-color;
+        text-align: center;
+    }
+}
+
+.small-reminders,
+.acknowledgements,
+.license {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 4rem auto 2rem auto;
+    opacity: 0;
+    transition: transform 1.5s ease, opacity 1.5s ease;
+
+    &.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    h2 {
+        color: v.$theme-text-color;
+        font-size: 3rem;
+        letter-spacing: 0.05em;
+        margin: 0;
+        text-align: center;
+    }
+}
+
+p {
+    font-size: 1.5rem; 
+    margin: 0;
+    text-align: justify;
+    padding: 20px 0;
+}
+
+.acknowledgements p {
+    width: 100%;
+    text-align: left !important;
+}

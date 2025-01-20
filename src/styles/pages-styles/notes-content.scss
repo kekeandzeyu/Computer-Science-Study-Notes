@@ -1,0 +1,269 @@
+@use '../variables' as v;
+
+.body {
+    background-color: white !important;
+}
+
+/* Main Content */
+.main-content {
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: v.$sidebar-width;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: white;
+    height: 100vh;
+    position: fixed;
+    overflow-y: auto;
+
+    &-content {
+        align-items: center;
+        height: auto;
+        border-radius: 12px;
+        background-color: #f4f5f7;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        ul {
+            list-style: none;
+            gap: 0.25em;
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    &-link {
+        padding: 8px 1px 1px 1px;
+        border-radius: 12px;
+        width: 90%;
+        height: 40px;
+        transition: background-color 0.2s ease;
+        margin: 4px auto;
+
+        a {
+            text-align: center;
+            text-decoration: none;
+            color: #555861;
+            transition: color 0.2s ease;
+            display: block;
+            padding: 8px 0;
+        }
+
+        /* Hover Effect */
+        &:hover {
+            background-color: #e0e0e0;
+
+            a {
+                color: black;
+            }
+        }
+
+        /* Active Link */
+        &.active-link {
+            background-color: white;
+
+            a {
+                color: black;
+            }
+        }
+    }
+}
+
+/* Notes Part */
+.notes-content {
+    background-color: white;
+    margin-left: v.$sidebar-width;
+    flex: 1;
+    padding: 48px 32px 0;
+    box-sizing: border-box;
+    overflow-x: auto;
+
+    h1 {
+        font-size: 44px;
+        margin: 32px 0 0;
+        padding: 40px 0 0;
+    }
+
+    h2 {
+        font-size: 35px;
+        margin: 64px 0 0;
+    }
+
+    h3 {
+        font-size: 24px;
+        margin: 48px 0 0;
+    }
+
+    h4 {
+        font-size: 20px;
+        margin: 32px 0 0;
+    }
+
+    h5 {
+        font-size: 18px;
+        margin: 28px 0 0;
+    }
+
+    p {
+        font-size: 16px;
+        margin: 24px 0 0;
+    }
+
+    ul,
+    ol {
+        margin: 24px 0 0;
+        padding-left: 18px;
+    }
+
+    li {
+        margin: 24px 0 0;
+        padding-left: 8px;
+    }
+
+    table {
+        min-width: auto !important;
+        width: 100%;
+        text-align: center;
+        margin: 24px 0 0;
+        border-collapse: collapse;
+
+        th,
+        td {
+            border: 1px solid #d1d1d2;
+            font-size: 16px;
+            text-align: center !important;
+            vertical-align: middle !important;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            padding: 16px;
+        }
+
+        td {
+            padding: 16px;
+        }
+    }
+
+    pre {
+        font-family: v.$code-font;
+        font-weight: normal;
+        font-size: 16px;
+        background-color: rgba(25, 25, 28, 0.05) !important;
+        padding: 24px 32px;
+        border-radius: 16px;
+        position: relative;
+        max-width: 100%;
+        overflow-x: auto;
+        white-space: pre;
+        word-break: break-all;
+
+        &[data-language]::before {
+            font-family: v.$code-font;
+            content: attr(data-language);
+            position: absolute;
+            top: 0.5em;
+            right: 1em;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 4px 8px;
+            font-size: 0.8em;
+            border-radius: 4px;
+            z-index: 1;
+            display: block; // Ensure it's displayed initially
+        }
+
+        &:hover &[data-language]::before {
+            display: none;
+        }
+
+        .copy-button {
+            display: none;
+            position: absolute;
+            top: 0.5em;
+            right: 0.5em;
+            background-size: 16px 16px;
+            width: 24px;
+            height: 24px;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+
+            img {
+                width: 16px;
+                height: 16px;
+                display: block;
+                margin: auto;
+            }
+
+            &.copied {
+                background-color: lightgray !important;
+                text-indent: 0;
+                color: black;
+                font-size: 0.8em;
+                line-height: 24px;
+                text-align: center;
+                width: auto;
+                padding-left: 8px;
+                padding-right: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    display: none;
+                }
+            }
+        }
+
+        &:hover .copy-button {
+            display: block;
+        }
+    }
+
+    .collapsible-button {
+        position: absolute;
+        top: 0.5em;
+        left: 0.5em;
+        z-index: 2;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 2px 6px;
+
+        img {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .collapsed-icon {
+            transform: rotate(-90deg);
+        }
+    }
+
+    &.collapsed {
+        code,
+        .copy-button {
+            display: none;
+        }
+    }
+}
+
+#last-modified {
+    font-size: 14px;
+    color: #666;
+    margin: 12px 0 32px;
+}
+
+/* Footer Design */
+.footer {
+    margin-left: v.$sidebar-width;
+}

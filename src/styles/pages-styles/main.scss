@@ -1,20 +1,17 @@
-/**
- * main.css: This file contains styles that are applied to the front page of the website.
- *
- */
-
- body {
-    display: block;
+@use '../variables' as v;
+body {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    background-color: rgba(245, 243, 253, 0.8);
+    background-color: v.$theme-background-color;
     color: black;
     margin: 0 auto;
     width: 100%;
     line-height: 1.5;
 }
 
+/* Title & Introduction Part */
 .title-introduction {
-    margin: 0;
     padding-top: 20vh;
     padding-bottom: 20vh;
     align-items: center;
@@ -23,43 +20,38 @@
     flex-direction: column;
     opacity: 0;
     transition: transform 1.5s ease, opacity 1.5s ease;
-}
 
-.title-introduction.active {
-    transform: translateY(0);
-    opacity: 1;
-}
+    &.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-.title-introduction h1 {
-    font-size: 4rem;
-    letter-spacing: 0.04em;
-    margin: 2rem 0;
-    color: rgb(112, 75, 253);
-}
+    h1 {
+        font-size: 4rem;
+        letter-spacing: 0.04em;
+        margin: 2rem 0;
+        color: v.$theme-text-color;
+    }
 
-.title-introduction p {
-    font-size: 1.5rem;
-    margin: 0;
-    color: rgb(112, 75, 253);
+    p {
+        font-size: 1.5rem;
+        color: v.$theme-text-color;
+    }
 }
 
 .button-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
     margin-top: 2rem;
 }
 
-#get-started {
-    color: white;
-    font-size: 1rem;
-    text-decoration: none;
-}
-
 #github-explore {
-    margin-top: 20px;
-    height: 48px;
+    margin-top: v.$button-margin;
+    height: calc(v.$button-padding-top * 2 + v.$button-font-size);
 }
 
+/* Details Part of Notes */
 .details img {
     width: 40%;
     height: auto;
@@ -67,17 +59,15 @@
 
 .details h2 {
     font-size: 3rem;
-    letter-spacing: 0.07em;
-    margin: 0;
-    color: rgb(112, 75, 253);
+    letter-spacing: 0.04em;
+    color: v.$theme-text-color;
 }
 
 .details p {
     font-size: 1.5rem;
-    margin: 0;
-    padding-bottom: 40px;
 }
 
+/* Introduction, Notes, Author, Summary Active */
 .introduction,
 .notes-container,
 .author,
@@ -86,25 +76,29 @@
     width: 90%;
     margin: 0 auto;
     box-sizing: border-box;
-    transform: translateY(100px);
-    opacity: 0; 
+    opacity: 0;
     transition: transform 1.5s ease, opacity 1.5s ease;
+
+    &.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
+/* Text Decorator Animation */
 .text {
-    padding-bottom: 24px;
+    padding-bottom: 40px;
     position: relative;
-}
-
-.text::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: gray;
-    transition: width 1s ease;
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: gray;
+        transition: width 1s ease;
+    }
 }
 
 .introduction:hover .text::after,
@@ -113,24 +107,15 @@
     width: 100%;
 }
 
-.introduction.active,
-.notes-container.active,
-.author.active,
-.summary.active {
-    transform: translateY(0); 
-    opacity: 1; 
-}
-
-
 .introduction {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-}
 
-.introduction img {
-    padding-right: 32px;
+    img {
+        padding-right: 32px;
+    }
 }
 
 .introduction-text {
@@ -143,10 +128,10 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-}
 
-.notes-container img {
-    padding-left: 32px;
+    img {
+        padding-left: 32px;
+    }
 }
 
 .notes-container-text {
@@ -159,10 +144,10 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-}
 
-.author img {
-    padding-right: 32px;
+    img {
+        padding-right: 32px;
+    }
 }
 
 .author-text {
@@ -177,26 +162,26 @@
     align-items: center;
     padding-bottom: 160px;
     padding-top: 100px;
-}
 
-.summary h2 {
-    font-size: 3rem;
-    letter-spacing: 0.07em;
-    margin: 0;
-    text-align: center;
-}
+    h2 {
+        font-size: 3rem;
+        letter-spacing: 0.07em;
+        margin: 0;
+        text-align: center;
+    }
 
-.summary p {
-    font-size: 1.5rem;
-    margin: 0;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    text-align: center;
+    p {
+        font-size: 1.5rem;
+        margin: 0;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        text-align: center;
+    }
 }
 
 @media (max-width: 1024px) {
     .title-introduction h1 {
-      font-size: 3rem;
+        font-size: 3rem;
     }
     .title-introduction p {
         font-size: 1.2rem;
@@ -225,12 +210,11 @@
     .summary p {
         font-size: 1.2rem;
     }
-
 }
 
 @media (max-width: 768px) {
     .title-introduction h1 {
-      font-size: 2.5rem;
+        font-size: 2.5rem;
     }
     .title-introduction p {
         font-size: 1.1rem;
@@ -251,17 +235,17 @@
         padding: 40px;
         width: 95%;
     }
-    
+
     .introduction,
     .notes-container,
     .author{
-        flex-direction: column; 
+        flex-direction: column;
     }
-   
+
     .introduction img,
     .notes-container img,
     .author img {
-      padding: 0 0 20px;
+        padding: 0 0 20px;
     }
 
     .summary h2 {
@@ -280,14 +264,14 @@
     .title-introduction p {
         font-size: 1rem;
     }
-    
+
     .details h2 {
         font-size: 1.7rem;
     }
     .details p {
         font-size: 0.9rem;
     }
-    
+
     .introduction,
     .notes-container,
     .author,

@@ -1,0 +1,27 @@
+@use '../../styles/variables' as v;
+
+.all-buttons {
+    font-size: v.$button-font-size;
+    margin: v.$button-margin v.$button-margin 0 0;
+    background: linear-gradient(to right, #0056b3, #007bff);
+    padding-top: v.$button-padding-top;
+    padding-bottom: v.$button-padding-top;
+    padding-left: v.$button-padding-left;
+    padding-right: v.$button-padding-left;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 1s ease;
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+
+    &:hover {
+        background: linear-gradient(to right, #004080, #0069d9);
+    }
+}
+
+.all-buttons-with-links {
+    text-decoration: none;
+    color: white;
+}

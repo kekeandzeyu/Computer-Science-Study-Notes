@@ -2,13 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 
-import "../styles/pages-styles/main.css";
+import "../styles/pages-styles/main.scss";
 
 const pageTitle = 'Computer Science Study Notes';
 ---
 
 <BaseLayout title={pageTitle}>
-	<div class="en-content" style="display: block;">
+	<div class="en-content" style="display: flex;">
 		<div class="title-introduction">
 			<h1>{pageTitle}</h1>
 			<p>A Website for My CS Self-Learning Notes</p>
