@@ -111,11 +111,17 @@
 
 .notes-content ul {
     margin: 24px 0 0;
+    padding-left: 18px;
+}
+
+.notes-content ol {
+    margin: 24px 0 0;
+    padding-left: 18px;
 }
 
 .notes-content li {
     margin: 24px 0 0;
-    padding: 0 0 0 22px;
+    padding-left: 8px;
 }
 
 .notes-content table {
