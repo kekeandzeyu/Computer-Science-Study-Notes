@@ -258,4 +258,198 @@ oss << "16.9 Ounces";
 std::cout << oss.str() << std::endl; // Ito-En Green Tea16.9 Ounces
 ```
 
-Positioning 
+Positioning functions in output stringstream include `tellp()` and `seekp()`.
+
+1. `tellp()`: Returns the current position of the put pointer in the output stringstream.
+
+```cpp
+#include <iostream>
+#include <sstream>
+
+int main() {
+    std::ostringstream oss;
+    oss << "Hello";
+
+    std::streampos currentPos = oss.tellp();
+    std::cout << "Current put pointer position: " << currentPos << std::endl; 
+    // Output: 5
+
+    oss << " World!";
+    currentPos = oss.tellp();
+    std::cout << "New put pointer position: " << currentPos << std::endl;
+    // Output: 12
+
+    return 0;
+}
+```
+
+2. `seekp(pos)`: Moves the put pointer to a specific position within the output 
+stringstream.
+
+The position can be an absolute offset from the beginning of the stream, or a relative 
+offset from the current position (using `std::ios::beg`, `std::ios::cur`, or 
+`std::ios::end` as a second argument).
+
+```cpp
+#include <iostream>
+#include <sstream>
+
+int main() {
+    std::ostringstream oss;
+    oss << "Hello World!";
+
+    // 1. Absolute positioning (from the beginning)
+    oss.seekp(0); // Move to the beginning
+    oss << "Hi"; // Overwrite "He"
+
+    std::cout << oss.str() << std::endl; // Output: Hillo World!
+
+    // 2. Relative positioning (from the end)
+    oss.seekp(-2, std::ios::end); // Move 2 positions back from the end
+    oss << "???"; // Overwrite "d!"
+
+    std::cout << oss.str() << std::endl; // Output: Hillo Worl???
+
+    // 3. Using std::ios::beg (from the beginning)
+    oss.seekp(5, std::ios::beg); // Move 5 positions from the beginning
+    oss << "-"; // Insert "-"
+
+    std::cout << oss.str() << std::endl; // Output: Hillo-Worl???
+
+    // 4. Using std::ios::cur (from the current position)
+    oss.seekp(2, std::ios::cur); // Move 2 positions forward from the current position
+    oss << "+"; // Insert "+"
+
+    std::cout << oss.str() << std::endl; // Output: Hillo-Wo+l???
+
+    return 0;
+}
+```
+
+#### 4.2.2 Input Stringstreams
+
+<p style="color:BlueViolet">Example</p>
+
+```cpp
+std::istringstream iss("16.9 Ounces");
+double amount;
+std::string unit;
+iss >> amount >> unit; // amount = 16.9, unit = Ounces
+
+std::istringstream iss("16.9 Ounces");
+int amount;
+std::string unit;
+iss >> amount >> unit; // amount = 16, unit = ".9"
+```
+
+<Note>
+    <p>Types matter! Stream stops reading at any whitespace or any invalid character for
+    the type.</p>
+</Note>
+
+Positioning functions in input stringstream include `tellg()` and `seekg()`, which are
+similar to output stringstream.
+
+1. `tellg()`
+
+```cpp
+#include <iostream>
+#include <sstream>
+
+int main() {
+    std::istringstream iss("Hello World");
+
+    iss >> std::ws; // Skip leading whitespaces
+
+    std::cout << "Current position: " << iss.tellg() << std::endl; // Output: 0
+
+    std::string word;
+    iss >> word; // Read "Hello"
+
+    std::cout << "Current position after reading 'Hello': " << iss.tellg() <<
+    std::endl; // Output: 5
+
+    return 0;
+}
+```
+
+2. `seekg(pos)`
+
+```cpp
+#include <iostream>
+#include <sstream>
+
+int main() {
+    std::istringstream iss("Hello World");
+
+    iss.seekg(7); 
+    char char1;
+    iss.get(char1);
+    std::cout << "Character read after seeking to absolute position 7: " << char1 << std::endl; 
+    // Output: o
+
+    iss.seekg(6, std::ios::beg); 
+    std::string word1;
+    iss >> word1;
+    std::cout << "Word read after seeking from beginning: " << word1 << std::endl; 
+    // Output: World
+
+    iss.seekg(-2, std::ios::cur); 
+    char char2;
+    iss.get(char2);
+    std::cout << "Character read after seeking from current: " << char2 << std::endl; 
+    // Output: d
+
+    iss.seekg(-5, std::ios::end); 
+    std::string word2;
+    iss >> word2;
+    std::cout << "Word read after seeking from end: " << word2 << std::endl; 
+    // Output: World
+
+    return 0;
+}
+```
+
+There are two data types for positions in streams: `std::streampos` and `std::streamoff`.
+
+* `std::streampos`: Represents the position of the get pointer.
+* `std::streamoff`: Represents the difference (offset) between two `streampos` values.
+
+<p styke="color:BlueViolet">Example</p>
+
+```cpp
+#include <iostream>
+#include <sstream>
+
+int main() {
+    std::ostringstream oss;
+    oss << "Hello, world!";
+
+    // Get the current position using streampos
+    std::streampos pos = oss.tellp();
+    std::cout << "Current position in output stream: " << pos << std::endl; 
+    // Outputs: 13
+
+    // Move the position using streamoff
+    oss.seekp(5, std::ios::beg);
+    pos = oss.tellp();
+    std::cout << "New position in output stream after seekp: " << pos <<
+    std::endl; // Outputs: 5
+
+    // Create an input string stream with the data from the output stream
+    std::istringstream iss(oss.str());
+
+    // Get the current position using streampos
+    pos = iss.tellg();
+    std::cout << "Current position in input stream: " << pos << std::endl; //
+    Outputs: 0
+
+    // Move the position using streamoff
+    iss.seekg(7, std::ios::beg);
+    pos = iss.tellg();
+    std::cout << "New position in input stream after seekg: " << pos <<
+    std::endl; // Outputs: 7
+
+    return 0;
+}
+```

@@ -170,18 +170,17 @@
             content: attr(data-language);
             position: absolute;
             top: 0.5em;
-            right: 1em;
+            right: 0.5em;
             background-color: #f0f0f0;
             color: #333;
-            padding: 4px 8px;
             font-size: 0.8em;
             border-radius: 4px;
             z-index: 1;
-            display: block; // Ensure it's displayed initially
+            display: block; 
         }
 
         &:hover &[data-language]::before {
-            display: none;
+            display: none !important;
         }
 
         .copy-button {
@@ -195,6 +194,7 @@
             border: none;
             cursor: pointer;
             padding: 0;
+            z-index: 2;
 
             img {
                 width: 16px;
@@ -232,7 +232,6 @@
         position: absolute;
         top: 0.5em;
         left: 0.5em;
-        z-index: 2;
         background-color: transparent;
         border: none;
         cursor: pointer;
@@ -249,7 +248,7 @@
         }
     }
 
-    &.collapsed {
+    pre.collapsed {
         code,
         .copy-button {
             display: none;
