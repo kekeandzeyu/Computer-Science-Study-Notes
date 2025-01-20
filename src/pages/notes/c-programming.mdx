@@ -9,7 +9,7 @@ import Note from '../../components/Note.astro'
 
 ## Ⅰ C++ Fundamentals
 
-### 1 C & C++ Introduction
+## 1 C & C++ Introduction
 
 1. C/C++ is a compiled language.
 
@@ -51,9 +51,9 @@ Normal C/C++ Compile & Run:
 $ g++ -o hello hello.cpp
 ```
 
-### 2 Types & Structs
+## 2 Types & Structs
 
-#### 2.1 Primitive Types
+### 2.1 Primitive Types
 
 | Fundamental Types | Example                     | Memory   |
 |-------------------|-----------------------------|----------|
@@ -64,25 +64,20 @@ $ g++ -o hello hello.cpp
 | bool              | `bool bVal = true;`         | 1 byte   |
 | std::string       | `std::string str = "Hello";`| -        |
 
-#### 2.2 Structs
+### 2.2 Structs
 
 A **struct** is a group of named variables, each with their own type, that allows
 programmers to bundle different types together!
 
 ```cpp
+/* C++ Style */
 struct Student {
     string name; // these are called fields
     string state; // separate these by semicolons
     int age;
 };
- 
-Student s;
-s.name = "Haven";
-s.state = "AR";
-s.age = 22; // use . to access fields
-```
 
-```c
+/* C Style */
 typedef struct {
     char name[50];
     char state[3];
@@ -90,14 +85,44 @@ typedef struct {
 } Student;
  
 Student s;
-strcpy(s.name, "Haven");
-strcpy(s.state, "AR");
+s.name = "Haven";
+s.state = "AR";
 s.age = 22; // use . to access fields
 ```
 
-### 3 Initialization & References
+### 2.3 Union
 
-#### 3.1 Initialization
+Unions are similar to structs, but all members share the same memory location, and union only provides enough space for the largest element.
+
+```cpp
+#include <iostream>
+
+union Shape {
+    int radius; // For circle
+    struct {
+        int width;
+        int height;
+    } rectangle; // For rectangle
+};
+
+int main() {
+    Shape shape;
+    shape.radius = 5;
+    std::cout << "Radius: " << shape.radius << std::endl; // Radius: 5
+
+    shape.rectangle.width = 10;
+    shape.rectangle.height = 20;
+    std::cout << "Width: " << shape.rectangle.width << ", Height: " << shape.rectangle.height << std::endl; // Width: 10, Height: 20
+
+    std::cout << "Radius: " << shape.radius << std::endl; // No meaning, the radius has been overwritten!
+
+    return 0;
+}
+```
+
+## 3 Initialization & References
+
+### 3.1 Initialization
 
 There are three types of initialization in C++:
 
@@ -147,7 +172,7 @@ int main() {
 * It's ubiquitous! it works for all types like vectors, maps, and custom classes, among
   other things.
 
-#### 3.2 References
+### 3.2 References
 
 ```cpp
 int x = 5;
@@ -155,7 +180,7 @@ int& ref = x; // ref is a reference to x
 ref = 10; // x is now 10
 ```
 
-#### 3.3 Pointers
+### 3.3 Pointers
 
 ```cpp
 int x = 5;
@@ -191,9 +216,9 @@ void shift(std::vector<std::pair<int, int>> &nums) {
 }
 ```
 
-### 4 Streams
+## 4 Streams
 
-#### 4.1 Strings
+### 4.1 Strings
 
 <p style="color:BlueViolet">Example in C++</p>
 
@@ -211,14 +236,14 @@ printf("%c\n", str[1]); // e
 str[1] = 'a'; // Hallo, World!
 ```
 
-#### 4.2 Stringstreams
+### 4.2 Stringstreams
 
 <p style="color:BlueViolet">Properties</p>
 
 * Constructors with initial text in the buffer.
 * Can optionally provide "modes" such as `ate` (start at end) or `bin` (read as binary).
 
-##### 4.2.1 Output Stringstreams
+#### 4.2.1 Output Stringstreams
 
 <p style="color:BlueViolet">Examples</p>
 

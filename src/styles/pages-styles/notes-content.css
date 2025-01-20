@@ -1,13 +1,81 @@
-/* Adjust main-content to accommodate the fixed sidebar */
+/* Main Content */
 .main-content {
     display: flex;
-    flex: 1;
+    flex: 1; 
+    width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: white;
+    height: 100vh;
+    position: fixed;
+    overflow-y: auto;
+}
+
+.sidebar-content {
+    align-items: center;
+    height: auto;
+    border-radius: 12px;
+    background-color: #f4f5f7;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sidebar-content ul {
+    list-style: none;
+    gap: 0.25em;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-link {
+    padding: 8px 1px 1px 1px;
+    border-radius: 12px;
+    width: 90%;
+    height: 40px;
+    transition: background-color 0.2s ease;
+    margin: 4px auto;
+}
+
+.sidebar-link a {
+    text-align: center;
+    text-decoration: none;
+    color: #555861;
+    transition: color 0.2s ease;
+    display: block;
+    padding: 8px 0 8px 0;
+}
+
+/* Hover Effect */
+.sidebar-link:hover {
+    background-color: #e0e0e0;
+}
+
+.sidebar-link a:hover {
+    color: black;
+}
+
+/* Active Link */
+.sidebar-link.active-link {
+    background-color: white;
+}
+
+.sidebar-link.active-link a {
+    color: black;
 }
 
 /* Notes Part */
 .notes-content {
-    padding: 48px 0 0 32px;
     margin-left: var(--sidebar-width);
+    flex: 1; 
+    padding: 48px 32px 0; 
+    box-sizing: border-box; 
+    overflow-x: auto; 
 }
 
 .notes-content h1 {
@@ -51,19 +119,21 @@
 }
 
 .notes-content table {
-    min-width: 60% !important;
+    min-width: auto !important; 
+    width: 100%; 
     text-align: center;
     margin: 24px 0 0;
     border-collapse: collapse;
 }
 
-.notes-content table, 
-.notes-content th, 
+.notes-content table,
+.notes-content th,
 .notes-content td {
     border: 1px solid #d1d1d2;
     font-size: 16px;
     text-align: center !important;
     vertical-align: middle !important;
+    padding: 8px; 
 }
 
 .notes-content th {
@@ -75,73 +145,111 @@
     padding: 16px;
 }
 
+.notes-content pre {
+    font-family: var(--code-font);
+    font-weight: normal;
+    font-size: 16px;
+    background-color: rgba(25, 25, 28, 0.05) !important;
+    padding: 24px 32px;
+    border-radius: 16px;
+    position: relative;
+    max-width: 100%;
+    overflow-x: auto; 
+    white-space: pre;
+    word-break: break-all; 
+}
+
+.notes-content pre[data-language]::before {
+    font-family: var(--code-font);
+    content: attr(data-language);
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.notes-content pre[data-language]:hover::before {
+    display: none; 
+}
+
+.copy-button {
+    display: none; 
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    background-size: 16px 16px; 
+    width: 24px;
+    height: 24px;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.copy-button img {
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin: auto;
+}
+
+.notes-content pre[data-language]:hover .copy-button {
+    display: block; 
+}
+
+.copy-button.copied {
+    background-color: lightgray !important;
+    text-indent: 0;
+    color: black;
+    font-size: 0.8em;
+    line-height: 24px;
+    text-align: center;
+    width: auto;
+    padding-left: 8px;
+    padding-right: 8px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+.copy-button.copied img {
+    display: none; 
+}
+
+.collapsible-button {
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    z-index: 2;
+    background-color: transparent; /* Make the button background transparent */
+    border: none;
+    cursor: pointer;
+    padding: 2px 6px;
+}
+
+.collapsible-button img {
+    width: 16px; /* Adjust size as needed */
+    height: 16px; /* Adjust size as needed */
+    transition: transform 0.2s ease-in-out; /* Smooth rotation */
+}
+
+.collapsible-button .collapsed-icon {
+    transform: rotate(-90deg); /* Rotate counter-clockwise when collapsed */
+}
+
+.collapsed code,
+.collapsed .copy-button {
+    display: none;
+}
+
 #last-modified {
     font-size: 14px;
     color: #666;
     margin: 12px 0 32px;
-}
-
-/* Sidebar */
-.sidebar {
-    flex-shrink: 0;
-    box-sizing: border-box;
-    width: var(--sidebar-width);
-    padding: 20px;
-    background-color: white;
-    height: 100vh;
-    position: fixed;
-    overflow-y: auto;
-}
-
-.sidebar-content {
-    align-items: center;
-    height: auto;
-    border-radius: 12px;
-    background-color: #f4f5f7;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.sidebar-content ul {
-    list-style: none;
-    gap: 0.25em;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar-link {
-    padding: 8px 1px 1px 1px;
-    border-radius: 12px;
-    width: 90%;
-    height: 40px;
-    transition: background-color 0.2s ease;
-    margin: 4px auto;
-}
-
-.sidebar-link a {
-    text-align: center;
-    text-decoration: none;
-    color: #555861;
-    transition: color 0.2s ease;
-    display: block;
-    padding: 8px 0 8px 0;
-}
-
-.sidebar-link:hover {
-    background-color: #e0e0e0;
-}
-
-.sidebar-link a:hover {
-    color: black;
-}
-
-/* Click on the active link */
-.sidebar-link.active-link {
-    background-color: white;
-}
-
-.sidebar-link.active-link a {
-    color: black;
 }
 
 /* Footer Design */

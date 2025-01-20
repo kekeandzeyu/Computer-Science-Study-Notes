@@ -130,6 +130,10 @@ If someone's original work is used but not mentioned in the following list, or b
 
 1. CS110L: Safety in Systems Programming (Stanford University) by Ryan Eberhardt, Julio Ballista, Thea Rossman and the rest of CS110L staff.
 
+### Icon 
+
+Expand Icon from Anas Mannaa on www.flaticon.com
+
 ## 4 How to use it
 
 For the colors in the notes, here are their meanings:

@@ -73,7 +73,7 @@
     --code-font: 'JetBrains Mono', monospace;
 
     /* Notes Page */
-    --sidebar-width: 350px;
+    --sidebar-width: 27vw;
 }
 
 /* Global Styles */
@@ -98,85 +98,11 @@ body p, a, li, table, th, td, button {
     font-weight: normal;
 }
 
-/* Code Block Styles */
-body pre {
-    font-family: var(--code-font);
-    font-weight: normal;
-    font-size: 16px;
-    background-color: rgba(25, 25, 28, 0.05) !important;
-    padding: 24px 32px;
-    border-radius: 16px;
-    position: relative;
-}
-
-body pre[data-language]::before {
-    content: attr(data-language);
-    position: absolute;
-    top: 0.5em;
-    right: 1em;
-    background-color: #f0f0f0;
-    color: #333;
-    padding: 4px 8px;
-    font-size: 0.8em;
-    border-radius: 4px;
-    font-family: var(--code-font);
-    z-index: 1;
-}
-
-body pre[data-language]:hover::before {
-    display: none; 
-}
-
-.copy-button {
-    display: none;
-    position: absolute;
-    top: 0.5em;
-    right: 0.5em;
-    background: url('/assets/copy.svg') no-repeat center center;
-    background-size: 16px 16px;
-    width: 24px;
-    height: 24px;
-    text-indent: -9999px;
-    border: none;
-}
-
-body pre[data-language]:hover .copy-button {
-    display: block;
-}
-
-.copy-button.copied {
-    background-color: lightgray !important;
-    background-image: none !important;
-    text-indent: 0;
-    color: black;
-    font-size: 0.8em;
-    line-height: 24px;
-    text-align: center;
-    width: auto; 
-    padding-left: 8px; 
-    padding-right: 8px;
-}
-
-.collapsible-button {
-    position: absolute;
-    top: 0.5em;
-    left: 0.5em;
-    z-index: 2;
-    background-color: #eee;
-    border: none;
-    cursor: pointer;
-    padding: 2px 6px;
-  }
-  
-.collapsed code,
-.collapsed .copy-button {
-    display: none;
-}
-
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin: 0;
 }
 
 body ul, ol {
