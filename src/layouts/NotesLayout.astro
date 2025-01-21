@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const { frontmatter } = Astro.props;
 import "../styles/global.scss";
 import "../styles/pages-styles/notes-content.scss";
-import "../styles/pages-styles/notes-custom.css";
+import "../styles/pages-styles/notes-custom.scss";
 
 const allNotes = Object.values(import.meta.glob('../pages/notes/*.mdx', { eager: true }));
 ---

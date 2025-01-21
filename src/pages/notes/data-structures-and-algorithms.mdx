@@ -4,6 +4,10 @@ title: 'Data Structures and Algorithms'
 author: 'Zeyu Li'
 tags: ["Data Structures and Algorithms", "Computer Science"]
 ---
+import Aside from '../../components/Aside.astro'
+import Note from '../../components/Note.astro'
+import Tabs from '../../components/Tabs.astro'
+
 ## 1 Data Structures and Algorithms Overview
 
 ### 1.1 Mathematical Models
@@ -28,3 +32,194 @@ Key Notes:
 ### 1.2 Order-of-Growth Classifications
 
 ### 1.2.1 Common Classifications
+
+## 2 Linked List
+
+### 2.1 Singly Linked List
+
+<Tabs tabs={['Java', 'C++', 'Python']}>
+    <div id="Java">
+
+```Java frame="terminal" collapse={1-68}
+// SLList.java
+import java.util.Iterator;
+
+public class SLList implements Iterable<Integer> {
+    public static class IntNode {
+        public int item;
+        public IntNode next;
+
+        public IntNode(int i, IntNode n) {
+            item = i;
+            next = n;
+        }
+    }
+
+    private final IntNode sentinel;
+    private int size;
+
+    public SLList() {
+        sentinel = new IntNode(63, null);
+        size = 0;
+    }
+
+    public SLList(int x) {
+        sentinel = new IntNode(63, null);
+        sentinel.next = new IntNode(x, null);
+        size = 1;
+    }
+
+    public void addFirst(int x) {
+        sentinel.next = new IntNode(x, sentinel.next);
+        size += 1;
+    }
+
+    public void addLast(int x) {
+        size += 1;
+        IntNode p = sentinel;
+        while (p.next != null) {
+            p = p.next;
+        }
+        p.next = new IntNode(x, null);
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public Iterator<Integer> iterator() {
+        return new SLListIterator();
+    }
+
+    private class SLListIterator implements Iterator<Integer> {
+        private IntNode p;
+
+        public SLListIterator() {
+            p = sentinel.next;
+        }
+
+        public boolean hasNext() {
+            return p != null;
+        }
+
+        public Integer next() {
+            int returnItem = p.item;
+            p = p.next;
+            return returnItem;
+        }
+    }
+}
+```
+    </div>
+    <div id="C">
+        
+```cpp frame="terminal" collapse={1-66}
+// SLList.cpp
+#include <iostream>
+
+template <typename T>
+class SLList {
+public:
+    class IntNode {
+    public:
+        T item;
+        IntNode* next;
+
+        IntNode(T i, IntNode* n) {
+            item = i;
+            next = n;
+        }
+    };
+
+private:
+    IntNode* sentinel;
+    int size;
+
+public:
+    SLList() {
+        sentinel = new IntNode(63, nullptr);
+        size = 0;
+    }
+
+    explicit SLList(T x) {
+        sentinel = new IntNode(63, nullptr);
+        sentinel->next = new IntNode(x, nullptr);
+        size = 1;
+    }
+
+    void addFirst(T x) {
+        sentinel->next = new IntNode(x, sentinel->next);
+        size += 1;
+    }
+
+    void addLast(T x) {
+        size += 1;
+        IntNode* p = sentinel;
+        while (p->next != nullptr) {
+            p = p->next;
+        }
+    p->next = new IntNode(x, nullptr);
+    }
+
+    [[nodiscard]] int size_() const {
+        return size;
+    }
+
+    class iterator {
+    private:
+        IntNode* current;
+
+    public:
+        explicit iterator(IntNode* start) : current(start) {}
+
+        T& operator*() { return current->item; }
+        iterator& operator++() { current = current->next; return *this; }
+        bool operator!=(const iterator& other) const { return current != other.current; }
+    };
+
+    iterator begin() { return iterator(sentinel->next); }
+    iterator end() { return iterator(nullptr); }
+};
+```
+
+    </div>
+    <div id="Python">
+        
+```Python frame="terminal" collapse={1-33}
+# SLList.py
+class SLList:
+    class IntNode:
+        def __init__(self, i, n):
+            self.item = i
+            self.next = n
+
+def __init__(self, x=None):
+    self.sentinel = self.IntNode(None, None)
+    self.size = 0
+    if x is not None: # If x is provided, add it as the first element
+        self.sentinel.next = self.IntNode(x, None)
+        self.size = 1
+
+def addFirst(self, x):
+    self.sentinel.next = self.IntNode(x, self.sentinel.next)
+    self.size += 1
+
+def addLast(self, x):
+    p = self.sentinel
+    while p.next is not None:
+        p = p.next
+        p.next = self.IntNode(x, None)
+        self.size += 1
+
+def __len__(self):
+    return self.size
+
+def __iter__(self):
+    p = self.sentinel.next
+    while p is not None:
+        yield p.item
+        p = p.next
+```
+
+    </div>
+</Tabs>

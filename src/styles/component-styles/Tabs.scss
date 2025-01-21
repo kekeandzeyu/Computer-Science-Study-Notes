@@ -1,0 +1,38 @@
+@use '../variables' as v;
+
+.tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.tabs__nav {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ccc;
+
+    ul {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+.tabs__nav-item {
+    list-style: none;
+}
+
+.tabs__nav-link {
+    display: flex;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+}
+
+.tabs__nav-link.active {
+    border-bottom: 2px solid v.$theme-text-color;
+    color: v.$theme-text-color;
+}
+
+.tabs__content {
+    padding: 20px;
+}
