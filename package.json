@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.5",
+    "@expressive-code/plugin-collapsible-sections": "^0.40.1",
     "astro": "^5.1.5",
+    "astro-expressive-code": "^0.40.1",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "sass": "^1.83.4"

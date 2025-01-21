@@ -47,8 +47,8 @@ import Note from '../../components/Note.astro'
 
 Normal C/C++ Compile & Run:
 
-```bash
-$ g++ -o hello hello.cpp
+```bash title="Bash"
+$ g++ -std=c++20 main.cpp -o main
 ```
 
 ## 2 Types & Structs
@@ -69,7 +69,8 @@ $ g++ -o hello hello.cpp
 A **struct** is a group of named variables, each with their own type, that allows
 programmers to bundle different types together!
 
-```cpp
+```cpp frame="terminal"
+// student.cpp
 /* C++ Style */
 struct Student {
     string name; // these are called fields
@@ -94,7 +95,8 @@ s.age = 22; // use . to access fields
 
 Unions are similar to structs, but all members share the same memory location, and union only provides enough space for the largest element.
 
-```cpp
+```cpp frame="terminal"
+// shape.cpp
 #include <iostream>
 
 union Shape {
@@ -112,9 +114,11 @@ int main() {
 
     shape.rectangle.width = 10;
     shape.rectangle.height = 20;
-    std::cout << "Width: " << shape.rectangle.width << ", Height: " << shape.rectangle.height << std::endl; // Width: 10, Height: 20
+    std::cout << "Width: " << shape.rectangle.width << ", Height: " << shape.rectangle.height << std::endl; 
+    // Width: 10, Height: 20
 
-    std::cout << "Radius: " << shape.radius << std::endl; // No meaning, the radius has been overwritten!
+    std::cout << "Radius: " << shape.radius << std::endl; 
+    // No meaning, the radius has been overwritten!
 
     return 0;
 }
@@ -128,13 +132,13 @@ There are three types of initialization in C++:
 
 1. Direct Initialization
 
-```cpp
+```cpp frame="terminal"
 int numOne = 12.0; // numOne is 12, doesn't type check with direct initialzation
 ```
 
 2. Uniform Initialization (C++ 11)
 
-```cpp
+```cpp frame="terminal"
 int numTwo {12.0};
 // Narrowing conversion of '1.2e+1' from 'double' to 'int'
 // Type checks with uniform initialization
@@ -290,7 +294,7 @@ The position can be an absolute offset from the beginning of the stream, or a re
 offset from the current position (using `std::ios::beg`, `std::ios::cur`, or 
 `std::ios::end` as a second argument).
 
-```cpp
+```cpp collapse={1-33}
 #include <iostream>
 #include <sstream>
 
@@ -334,7 +338,7 @@ int main() {
 std::istringstream iss("16.9 Ounces");
 double amount;
 std::string unit;
-iss >> amount >> unit; // amount = 16.9, unit = Ounces
+iss >> amount >> unit; // amount = 16.9, unit = "Ounces"
 
 std::istringstream iss("16.9 Ounces");
 int amount;
@@ -352,7 +356,7 @@ similar to output stringstream.
 
 1. `tellg()`
 
-```cpp
+```cpp collapse={1-19}
 #include <iostream>
 #include <sstream>
 
@@ -361,13 +365,14 @@ int main() {
 
     iss >> std::ws; // Skip leading whitespaces
 
-    std::cout << "Current position: " << iss.tellg() << std::endl; // Output: 0
+    std::cout << "Current position: " << iss.tellg() << std::endl; 
+    // Output: 0
 
     std::string word;
     iss >> word; // Read "Hello"
 
-    std::cout << "Current position after reading 'Hello': " << iss.tellg() <<
-    std::endl; // Output: 5
+    std::cout << "Current position: " << iss.tellg() << std::endl;
+    // Output: 5
 
     return 0;
 }
@@ -375,7 +380,7 @@ int main() {
 
 2. `seekg(pos)`
 
-```cpp
+```cpp collapse={1-32}
 #include <iostream>
 #include <sstream>
 
@@ -385,25 +390,25 @@ int main() {
     iss.seekg(7); 
     char char1;
     iss.get(char1);
-    std::cout << "Character read after seeking to absolute position 7: " << char1 << std::endl; 
+    std::cout << "Character read: " << char1 << std::endl; 
     // Output: o
 
     iss.seekg(6, std::ios::beg); 
     std::string word1;
     iss >> word1;
-    std::cout << "Word read after seeking from beginning: " << word1 << std::endl; 
+    std::cout << "Word read: " << word1 << std::endl; 
     // Output: World
 
     iss.seekg(-2, std::ios::cur); 
     char char2;
     iss.get(char2);
-    std::cout << "Character read after seeking from current: " << char2 << std::endl; 
+    std::cout << "Character read: " << char2 << std::endl; 
     // Output: d
 
     iss.seekg(-5, std::ios::end); 
     std::string word2;
     iss >> word2;
-    std::cout << "Word read after seeking from end: " << word2 << std::endl; 
+    std::cout << "Word read: " << word2 << std::endl; 
     // Output: World
 
     return 0;
@@ -415,9 +420,9 @@ There are two data types for positions in streams: `std::streampos` and `std::st
 * `std::streampos`: Represents the position of the get pointer.
 * `std::streamoff`: Represents the difference (offset) between two `streampos` values.
 
-<p styke="color:BlueViolet">Example</p>
+<p style="color:BlueViolet">Example</p>
 
-```cpp
+```cpp collapse={1-34}
 #include <iostream>
 #include <sstream>
 
@@ -433,8 +438,8 @@ int main() {
     // Move the position using streamoff
     oss.seekp(5, std::ios::beg);
     pos = oss.tellp();
-    std::cout << "New position in output stream after seekp: " << pos <<
-    std::endl; // Outputs: 5
+    std::cout << "New position in output stream after seekp: " << pos << std::endl; 
+    // Outputs: 5
 
     // Create an input string stream with the data from the output stream
     std::istringstream iss(oss.str());
@@ -453,3 +458,21 @@ int main() {
     return 0;
 }
 ```
+
+#### 4.2.3 State Bits
+
+1. **Good Bit:** Ready for read/write (nothing unusual, on when other bits are off).
+2. **Fail Bit:** Previous operation failed, all future operations frozen (type mismatch, 
+file can't be opened, `seekg` failed, etc.).
+3. **EOF Bit:** Previous operation reached the end of buffer content.
+4. **Bad Bit:** External error, like irrecoverable (e.g., the file you are reading from 
+suddenly is deleted).
+
+<Note>
+    <p>Good and bad are not opposites! (e.g. type mismatch)</p>
+    <p>Good and fail are not opposites! (e.g. end of file)</p>
+    <p>Fail and EOF are normally the ones you will be checking.</p>
+</Note>
+
+<p style="color:BlueViolet">Example</p>
+
