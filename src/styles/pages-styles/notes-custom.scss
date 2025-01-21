@@ -3,6 +3,11 @@
  */
 
 /* Table Design */
+table {
+    display: block;
+    overflow-x: auto;
+}
+
 table.both tbody td:first-child {
     background-color: #f4f4f4;
 }

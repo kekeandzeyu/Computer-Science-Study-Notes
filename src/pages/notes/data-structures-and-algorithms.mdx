@@ -33,6 +33,115 @@ Key Notes:
 
 ### 1.2.1 Common Classifications
 
+<table>
+    <thead>
+        <tr>
+            <td>Order of Growth</td>
+            <td>Name</td>
+            <td>Typical Code Framework</td>
+            <td>Description</td>
+            <td>Example</td>
+            <td>$T\left(2N\right)/T\left(N\right)$</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>$1$</td>
+            <td>Constant</td>
+            <td>
+
+            ```cpp
+                a = b + c;
+            ```
+
+            </td>
+            <td>Statement</td>
+            <td>Add two numbers</td>
+            <td>$1$</td>
+        </tr>
+        <tr>
+            <td>$\log N$</td>
+            <td>Logarithmic</td>
+            <td>
+
+```cpp
+while (N > 1) {
+    N /= 2;
+}
+```
+
+            </td>
+            <td>Divide in half</td>
+            <td>Binary search</td>
+            <td>$-1$</td>
+        </tr>
+        <tr>
+            <td>$N$</td>
+            <td>Linear</td>
+            <td>
+
+```cpp
+for (int i = 0; i < N; i++)
+{...}
+```
+
+            </td>
+            <td>Loop</td>
+            <td>Find the maximum</td>
+            <td>$2$</td>
+        </tr>
+        <tr>
+            <td>$N \log N$</td>
+            <td>Linearithmatic</td>
+            <td>See mergesort lecture</td>
+            <td>Divide and conquer</td>
+            <td>Mergesort</td>
+            <td>$-2$</td>
+        </tr>
+        <tr>
+            <td>$N^2$</td>
+            <td>Quadratic</td>
+            <td>
+            
+```cpp
+for (int i = 0; i < N; i++)
+    for (int j = 0; j < N; j++)
+        {...}
+```
+            
+            </td>
+            <td>Double loop</td>
+            <td>Check all pairs</td>
+            <td>$4$</td>
+        </tr>
+        <tr>
+            <td>$N^3$</td>
+            <td>Cubic</td>
+            <td>
+            
+```cpp
+for (int i = 0; i < N; i++)
+    for (int j = 0; j < N; j++)
+        for (int k = 0; k < N; k++)
+            {...}
+```
+            
+            </td>
+            <td>Triple loop</td>
+            <td>Check all triples</td>
+            <td>$8$</td>
+        </tr>
+        <tr>
+            <td>$2^N$</td>
+            <td>Exponential</td>
+            <td>See combinatorial search lecture</td>
+            <td>Exhaustive search</td>
+            <td>Check all subsets</td>
+            <td>$T\left(N\right)$</td>
+        </tr>
+    </tbody>
+</table>
+
 ## 2 Linked List
 
 ### 2.1 Singly Linked List
@@ -40,7 +149,7 @@ Key Notes:
 <Tabs tabs={['Java', 'C++', 'Python']}>
     <div id="Java">
 
-```Java frame="terminal" collapse={1-68}
+```java frame="terminal" collapse={1-68}
 // SLList.java
 import java.util.Iterator;
 
@@ -185,7 +294,7 @@ public:
     </div>
     <div id="Python">
         
-```Python frame="terminal" collapse={1-33}
+```python frame="terminal" collapse={1-33}
 # SLList.py
 class SLList:
     class IntNode:
