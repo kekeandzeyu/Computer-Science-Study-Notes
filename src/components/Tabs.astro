@@ -1,27 +1,7 @@
----
-interface Props {
-    tabs: string[];
-}
+<lion-tabs>
+    <slot />
+</lion-tabs>
 
-const { tabs } = Astro.props;
-
-import '../styles/component-styles/Tabs.scss';
----
-
-<div class="tabs">
-    <div class="tabs__nav">
-        <ul>
-            {tabs.map((tab: string) => (
-                <li class="tabs__nav-item">
-                    <a href={`#${tab}`} class="tabs__nav-link">{tab}</a>
-                </li>
-            ))}
-        </ul>
-    </div>
-
-    <div class="tabs__content">
-        <slot/>
-    </div>
-</div>
-
-<script src="../scripts/Tabs.js"></script>
+<script>
+    import '@lion/ui/define/lion-tabs.js';
+</script>
