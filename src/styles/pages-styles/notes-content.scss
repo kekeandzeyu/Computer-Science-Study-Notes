@@ -126,6 +126,27 @@
         padding-left: 8px;
     }
 
+    a {
+        font-size: 16px;
+        color: v.$theme-text-color;
+        box-sizing: border-box;
+        padding: 20px 20px;
+        margin: 24px 0;
+    }
+
+    a[href^="http://"], a[href^="https://"] {
+        position: relative;
+      
+        &::after {
+            content: '\2197'; 
+            position: absolute;
+            right: 0;
+            top: 50%; 
+            transform: translateY(-50%);
+            color: #888; 
+        }
+    }
+
     button {
         font-size: 16px;
     }

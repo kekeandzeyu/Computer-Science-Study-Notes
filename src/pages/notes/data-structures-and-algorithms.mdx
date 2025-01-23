@@ -143,7 +143,7 @@ for (int i = 0; i < N; i++)
 
 ### 1.2.2 Binary Search
 
-<p style="color:BlueViolet">Procedure:</p> Compare key against middle entry
+<span style="color:BlueViolet">Procedure:</span> Compare key against middle entry
 
 * Too small, go left.
 * Too big, go right.
@@ -208,7 +208,7 @@ int binarySearch(std::vector<int> arr, int x) {
         if (arr[m] < x) {
             l = m + 1;
         } else {
-            r = m - 1;
+            r = m - 1;  
         }
     }
     return -1;
@@ -236,3 +236,152 @@ def binary_search(arr, x):
     </TabItem>
 </Tabs>
 
+### 1.2.3 3-Sum 
+
+<p><a href="https://leetcode.com/problems/3sum/description/">LeetCode 15: 3Sum</a></p>
+
+<span style="color:BlueViolet">Description:</span> Given an integer array nums, return 
+all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`
+, and `nums[i] + nums[j] + nums[k] == 0`.
+
+<p style="color:BlueViolet">Procedure</p>
+
+1. Sort $N$ (distinct) numbers => $O\left(N \log N\right)$
+2. Binary Search for each pair $-\left(a_i + a_j\right)$ => $O(N^2 \log N)$
+
+Better algorithm: Sorting & Two pointers => $O\left(N^2\right)$  
+
+<Tabs>
+  <TabItem title="Java">
+    
+```java frame="terminal" collapse={1-47}
+// 3Sum.java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Solution {
+    public Solution() {
+    }
+
+    public List<List<Integer>> threeSum(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        List<List<Integer>> answers = new ArrayList<>();
+
+        for (int first = 0; first < n; ++first) {
+
+            if (first > 0 && nums[first] == nums[first - 1]) {
+                continue;
+            }
+
+            int third = n - 1;
+            int target = -nums[first];
+
+            for (int second = first + 1; second < n; second++) {
+                if (second > first + 1 && nums[second] == nums[second - 1]) {
+                    continue;
+                }
+
+                while (second < third && nums[second] + nums[third] > target) {
+                    --third;
+                }
+                if (second == third) {
+                    break;
+                }
+
+                if (nums[second] + nums[third] == target) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[first]);
+                    list.add(nums[second]);
+                    list.add(nums[third]);
+                    answers.add(list);
+                }
+            }
+        }
+        return answers;
+    }
+}
+```
+
+    </TabItem>
+    <TabItem title="C++">
+
+```cpp frame="terminal" collapse={1-38}
+// 3Sum.cpp
+#include <vector>
+#include <algorithm>
+
+std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
+    const int n = static_cast<int>(nums.size());
+    std::sort(nums.begin(), nums.end());
+
+    std::vector<std::vector<int>> answer;
+
+    for (int first = 0; first < n; first++) {
+
+        if (first > 0 && nums[first] == nums[first - 1]) {
+            continue;
+        }
+
+        int third = n - 1;
+        const int target = -nums[first];
+
+        for (int second = first + 1; second < n; second++) {
+            if (second > first + 1 && nums[second] == nums[second - 1]) {
+                continue;
+            }
+
+            while (second < third && nums[second] + nums[third] > target) {
+                --third;
+            }
+            if (second == third) {
+                break;
+            }
+
+            if (nums[second] + nums[third] == target) {
+                answer.emplace_back(std::vector<int>{nums[first], nums[second], nums[third]});
+            }
+        }
+    }
+    return answer;
+}
+```
+
+    </TabItem>
+    <TabItem title="Python">
+
+```python frame="terminal" collapse={1-29}
+# 3Sum.py
+from typing import List
+
+
+def threeSum(nums: List[int]) -> List[List[int]]:
+    n = len(nums)
+    nums.sort()
+    ans = list()
+
+    for first in range(n):
+
+        if first > 0 and nums[first] == nums[first - 1]:
+            continue
+        third = n - 1
+        target = -nums[first]
+
+        for second in range(first + 1, n):
+            if second > first + 1 and nums[second] == nums[second - 1]:
+                continue
+
+            while second < third and nums[second] + nums[third] > target:
+                third -= 1
+            if second == third:
+                break
+
+            if nums[second] + nums[third] == target:
+                ans.append([nums[first], nums[second], nums[third]])
+
+    return ans
+```
+
+    </TabItem>
+</Tabs>
