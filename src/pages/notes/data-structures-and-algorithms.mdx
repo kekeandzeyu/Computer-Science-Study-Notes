@@ -143,6 +143,32 @@ for (int i = 0; i < N; i++)
 
 ### 1.2.2 Binary Search
 
+<p style="color:BlueViolet">Procedure:</p> Compare key against middle entry
+
+* Too small, go left.
+* Too big, go right.
+* Equal, found!
+
+<span style="color:BlueViolet">Property:</span> Binary search uses $1 + \log N$ to search 
+in a sorted array of size $N$.
+
+<p style="color:LawnGreen">Proof:</p>
+
+$$
+    T(N) = \text{number of compares to binary search in a sorted array of size} \leq N
+$$
+
+$$
+\begin{align*}
+    T\left(N\right) &\leq T\left(\frac{N}{2}\right) + 1 \\
+    &\leq T\left(\frac{N}{4}\right) + 1 + 1\\
+    &\leq T\left(\frac{N}{8}\right) + 1 + 1 + 1 \\
+    &\vdots \\
+    &\leq T\left(\frac{N}{N}\right) + 1 + 1 + 1 + \cdots + 1 \\
+    &\leq 1 + \log N
+\end{align*}
+$$
+
 <Tabs>
   <TabItem title="Java">
     
@@ -209,8 +235,4 @@ def binary_search(arr, x):
 
     </TabItem>
 </Tabs>
-
-## 2 Linked List
-
-### 2.1 Singly Linked List
 
