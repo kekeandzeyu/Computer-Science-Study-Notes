@@ -185,3 +185,41 @@ int main() {
 }
 ```
 
+### 2.3 Database Files
+
+For database system, tables are stored as logical files on disk. Each file contains a 
+collection of records, and each record contains a collection of records. 
+
+<p style="color:BlueViolet">API for higher levels of DBMS</p>
+
+* Insert/delete/modify record
+* Fetch a particular record by *record id*, a record id is a pointer encoding pair of 
+pageID & location on page
+* Scan all records
+
+Pages are managed by: 
+
+* **Disk space manager (on disk):** Pages read/written t physical disk/files.
+* **Buffer manager (in memory):** Higher levels of DBMS only operate in memory.
+
+<p style="color:BlueViolet">Procedure</p>
+
+1. The DBMS wants to access a specific record. It determines the logical page number 
+containing that record, and asks the buffer manager for the page with that logical page 
+number.
+2. Buffer Hit/Miss:
+* **Hit:** If the page is already in the buffer pool, the buffer manager returns a pointer to 
+  that page in memory. 
+* **Miss:** If the page is not in the buffer pool:
+    * The buffer manager chooses a victim page to replace.
+    * If the victim page was dirty (modified), the buffer manager asks the disk manager 
+    to write it back to disk.
+    * The buffer manager asks the disk manager to read the requested page from disk and 
+    load it into a frame in the buffer pool.
+    * The buffer manager returns a pointer to the newly loaded page in memory to the DBMS.
+
+For DBMS files, there are mainly four file structures:
+
+* **Unordered Heap Files:** Records placed arbitrarily across pages.
+* **Clustered Heap Files:** Records and pages are grouped.
+* **Sorted Files:** Pages and records are in order.
