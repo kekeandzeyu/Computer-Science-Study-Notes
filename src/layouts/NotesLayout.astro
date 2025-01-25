@@ -5,7 +5,55 @@ import "../styles/global.scss";
 import "../styles/pages-styles/notes-content.scss";
 import "../styles/pages-styles/notes-custom.scss";
 
-const allNotes = Object.values(import.meta.glob('../pages/notes/*.mdx', { eager: true }));
+import { JSDOM } from 'jsdom';
+
+const currentPath = Astro.url.pathname;
+
+const generateTOC = async (content: string) => {
+    if (!content) return ''; 
+
+    const dom = new JSDOM(''); 
+    const parser = new dom.window.DOMParser(); 
+    const doc = parser.parseFromString(content, 'text/html');
+    const headings = doc.querySelectorAll('h2, h3, h4, h5, h6'); 
+
+    if (headings.length === 0) return ''; 
+
+    let tocHTML = '<ul>';
+    let currentLevel = 2; 
+
+    headings.forEach((heading) => {
+        const headingLevel = parseInt(heading.tagName.substring(1), 10);
+        let id = heading.id;
+
+        if (!id) {
+            id = heading.textContent.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''); 
+            heading.id = id; 
+        }
+
+        while (headingLevel > currentLevel) {
+            tocHTML += '<ul>';
+            currentLevel++;
+        }
+        while (headingLevel < currentLevel) {
+            tocHTML += '</ul>';
+            currentLevel--;
+        }
+
+        tocHTML += `<li><a href="#${id}">${heading.textContent}</a></li>`;
+    });
+
+    while (currentLevel > 2) {
+        tocHTML += '</ul>';
+        currentLevel--;
+    }
+    tocHTML += '</ul>';
+
+    return tocHTML;
+};
+
+const slotContent = await Astro.slots.render('default');
+const tocHTML = await generateTOC(slotContent.toString());
 ---
 <BaseLayout title={frontmatter.title} hideLangSwitcher={true}>
     <div class="main-content">
@@ -13,11 +61,10 @@ const allNotes = Object.values(import.meta.glob('../pages/notes/*.mdx', { eager:
         <nav class="sidebar">
             <div class="sidebar-content">
                 <ul>
-                    {allNotes.map((note: any) => (
-                        <li class={`sidebar-link ${note.frontmatter.title === frontmatter.title ? 'active-link' : ''}`}>
-                            <a href={note.url}>{note.frontmatter.title}</a>
-                        </li>
-                    ))}
+                    <li class={`sidebar-link ${currentPath.startsWith('/notes/c-programming') ? 'active-link' : ''}`}><a href="/notes/c-programming">C++ Programming</a></li>
+                    <li class={`sidebar-link ${currentPath.startsWith('/notes/computer-architecture') ? 'active-link' : ''}`}><a href="/notes/computer-architecture">Computer Architecture</a></li>
+                    <li class={`sidebar-link ${currentPath.startsWith('/notes/data-structures-and-algorithms') ? 'active-link' : ''}`}><a href="/notes/data-structures-and-algorithms">Data Structures and Algorithms</a></li>
+                    <li class={`sidebar-link ${currentPath.startsWith('/notes/database-system') ? 'active-link' : ''}`}><a href="/notes/database-system">Database System</a></li>
                 </ul>
             </div>
         </nav>
@@ -27,5 +74,13 @@ const allNotes = Object.values(import.meta.glob('../pages/notes/*.mdx', { eager:
             <p id="last-modified">Last Modified: {new Date().toLocaleDateString()}</p>
             <slot/>
         </main>
+
+        <aside class="right-sidebar">
+            <div class="right-sidebar-content">
+                <h3>Contents</h3>
+                {tocHTML && <Fragment set:html={tocHTML} />}
+                {!tocHTML && <p>No content to display.</p>}
+            </div>
+        </aside>
     </div>
 </BaseLayout>

@@ -11,74 +11,11 @@
     width: 100%;
 }
 
-/* Sidebar */
-.sidebar {
-    width: v.$sidebar-width;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    padding: 20px;
-    background-color: white;
-    height: 100vh;
-    position: fixed;
-    overflow-y: auto;
-
-    &-content {
-        align-items: center;
-        height: auto;
-        border-radius: 12px;
-        background-color: #f4f5f7;
-        padding-top: 10px;
-        padding-bottom: 10px;
-
-        ul {
-            list-style: none;
-            gap: 0.25em;
-            padding: 0;
-            margin: 0;
-        }
-    }
-
-    &-link {
-        padding: 8px 1px 1px 1px;
-        border-radius: 12px;
-        width: 90%;
-        height: 40px;
-        transition: background-color 0.2s ease;
-        margin: 4px auto;
-
-        a {
-            text-align: center;
-            text-decoration: none;
-            color: #555861;
-            transition: color 0.2s ease;
-            display: block;
-            padding: 8px 0;
-        }
-
-        /* Hover Effect */
-        &:hover {
-            background-color: #e0e0e0;
-
-            a {
-                color: black;
-            }
-        }
-
-        /* Active Link */
-        &.active-link {
-            background-color: white;
-
-            a {
-                color: black;
-            }
-        }
-    }
-}
-
 /* Notes Part */
 .notes-content {
     background-color: white;
     margin-left: v.$sidebar-width;
+    margin-right: v.$right-sidebar-width;
     flex: 1;
     padding: 48px 32px 0;
     box-sizing: border-box;
@@ -201,7 +138,120 @@
     margin: 12px 0 32px;
 }
 
+/* Sidebar */
+.sidebar {
+    width: v.$sidebar-width;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    height: 100vh;
+    position: fixed;
+    overflow-y: auto;
+    background-color: #f4f5f7;
+
+    &-content {
+        align-items: center;
+        height: auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        ul {
+            list-style: none;
+            gap: 0.25em;
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    &-link {
+        padding: 8px 1px 1px 1px;
+        border-radius: 12px;
+        width: 95%;
+        height: 40px;
+        transition: background-color 0.2s ease;
+        margin: 4px auto;
+
+        a {
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            color: #555861;
+            transition: color 0.2s ease;
+            display: block;
+            padding: 8px 0;
+        }
+
+        &:hover {
+            background-color: #e0e0e0;
+
+            a {
+                color: black;
+            }
+        }
+
+        &.active-link {
+            background-color: white;
+
+            a {
+                color: black;
+            }
+        }
+    }
+}
+
+/* Right Sidebar */
+.right-sidebar {
+    width: v.$right-sidebar-width; 
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 30px;
+    height: 100vh; 
+    background-color: white;
+    position: fixed; 
+    top: 0;
+    z-index: 0;
+    right: 0; 
+    overflow-y: auto;
+    border-left: 1px solid #d1d1d2;
+
+    &-content {
+        padding-top: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 10px;
+        }
+
+        ul ul { 
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #555861;
+            display: block;
+            padding: 4px 0;
+            font-size: 0.9em; 
+
+            &:hover {
+                color: black;
+            }
+        }
+    }
+}
+
 /* Footer Design */
 .footer {
     margin-left: v.$sidebar-width;
+    z-index: 2;
 }
