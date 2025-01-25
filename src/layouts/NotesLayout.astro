@@ -1,59 +1,59 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const { frontmatter } = Astro.props;
+const { frontmatter, headings } = Astro.props;
 import "../styles/global.scss";
 import "../styles/pages-styles/notes-content.scss";
 import "../styles/pages-styles/notes-custom.scss";
 
-import { JSDOM } from 'jsdom';
+// import { JSDOM } from 'jsdom';
 
 const currentPath = Astro.url.pathname;
 
-const generateTOC = async (content: string) => {
-    if (!content) return ''; 
+// const generateTOC = async (content: string) => {
+//     if (!content) return ''; 
 
-    const dom = new JSDOM(''); 
-    const parser = new dom.window.DOMParser(); 
-    const doc = parser.parseFromString(content, 'text/html');
-    const headings = doc.querySelectorAll('h2, h3, h4, h5, h6'); 
+//     const dom = new JSDOM(''); 
+//     const parser = new dom.window.DOMParser(); 
+//     const doc = parser.parseFromString(content, 'text/html');
+//     const headings = doc.querySelectorAll('h2, h3, h4, h5, h6'); 
 
-    if (headings.length === 0) return ''; 
+//     if (headings.length === 0) return ''; 
 
-    let tocHTML = '<ul>';
-    let currentLevel = 2; 
+//     let tocHTML = '<ul>';
+//     let currentLevel = 2; 
 
-    headings.forEach((heading) => {
-        const headingLevel = parseInt(heading.tagName.substring(1), 10);
-        let id = heading.id;
+//     headings.forEach((heading) => {
+//         const headingLevel = parseInt(heading.tagName.substring(1), 10);
+//         let id = heading.id;
 
-        if (!id) {
-            id = heading.textContent.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''); 
-            heading.id = id; 
-        }
+//         if (!id) {
+//             id = heading.textContent.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''); 
+//             heading.id = id; 
+//         }
 
-        while (headingLevel > currentLevel) {
-            tocHTML += '<ul>';
-            currentLevel++;
-        }
-        while (headingLevel < currentLevel) {
-            tocHTML += '</ul>';
-            currentLevel--;
-        }
+//         while (headingLevel > currentLevel) {
+//             tocHTML += '<ul>';
+//             currentLevel++;
+//         }
+//         while (headingLevel < currentLevel) {
+//             tocHTML += '</ul>';
+//             currentLevel--;
+//         }
 
-        tocHTML += `<li><a href="#${id}">${heading.textContent}</a></li>`;
-    });
+//         tocHTML += `<li><a href="#${id}">${heading.textContent}</a></li>`;
+//     });
 
-    while (currentLevel > 2) {
-        tocHTML += '</ul>';
-        currentLevel--;
-    }
-    tocHTML += '</ul>';
+//     while (currentLevel > 2) {
+//         tocHTML += '</ul>';
+//         currentLevel--;
+//     }
+//     tocHTML += '</ul>';
 
-    return tocHTML;
-};
+//     return tocHTML;
+// };
 
-const slotContent = await Astro.slots.render('default');
-const tocHTML = await generateTOC(slotContent.toString());
+// const slotContent = await Astro.slots.render('default');
+// const tocHTML = await generateTOC(slotContent.toString());
 ---
 <BaseLayout title={frontmatter.title} hideLangSwitcher={true}>
     <div class="main-content">
@@ -78,8 +78,13 @@ const tocHTML = await generateTOC(slotContent.toString());
         <aside class="right-sidebar">
             <div class="right-sidebar-content">
                 <h3>Contents</h3>
-                {tocHTML && <Fragment set:html={tocHTML} />}
-                {!tocHTML && <p>No content to display.</p>}
+                <ul>
+                    {headings
+                        .filter(h => h.depth >= 2 && h.depth <= 4)
+                        .map(h => (
+                            <li><a href={`#${h.slug}`}>{h.text}</a></li>
+                        ))}
+                </ul>
             </div>
         </aside>
     </div>
