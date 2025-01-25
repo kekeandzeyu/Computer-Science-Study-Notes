@@ -1,7 +1,37 @@
 ---
 import "../styles/component-styles/Aside.scss";
+
+const { type = "Aside" } = Astro.props;
+
+let icon;
+let asideClassName;
+
+switch (type.toLowerCase()) {
+    case "note":
+        icon = "💡"; 
+        asideClassName = "note-aside";
+        break;
+    case "warning":
+        icon = "⚠️"; 
+        asideClassName = "warning-aside";
+        break;
+    case "aside":
+        icon = "🚀"; 
+        asideClassName = "default-aside";
+        break;
+    default:
+        icon = "🚀";
+        asideClassName = "default-aside";
+        break;
+}
 ---
-<div class="Aside">
-    <p>Aside</p>
-    <slot />
-</div>
+
+<aside class={`aside-container ${asideClassName}`}>
+    <div class="aside-title">
+        <div class="aside-icon">{icon}</div>
+        <p class="aside-title-name">{type}</p>
+    </div>
+    <div class="aside-content">
+        <slot />
+    </div>
+</aside>

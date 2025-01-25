@@ -5,7 +5,6 @@ author: 'Zeyu Li'
 tags: ["Database System", "Computer Science"]
 ---
 import Aside from '../../components/Aside.astro'
-import Note from '../../components/Note.astro'
 
 ## 1 SQL Part Ⅰ
 
@@ -146,7 +145,7 @@ For writing in SSDs, the process is more complex:
       corresponding page in the new block, updates the mapping table, and the original 
       block is ready for garbage collection.
 
-<Note>
+<Aside type="Note">
     <ul>
         <li>For SSDs, high charge means '1', and low charge means '0' (related to 
         floating-gate transistor). Writing '1' to '0' requires removing charge, and 
@@ -156,7 +155,7 @@ For writing in SSDs, the process is more complex:
         <li>For SSDs, read sequences aren't necessary, but random writing is slower than 
         sequential writing!</li>
     </ul>
-</Note>
+</Aside>
 
 #### 2.2.4 Locality
 

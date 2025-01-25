@@ -3,7 +3,6 @@ layout: "../../layouts/NotesLayout.astro"
 title: 'C++ Programming'
 ---
 import Aside from '../../components/Aside.astro'
-import Note from '../../components/Note.astro'
 
 ## Ⅰ C++ Fundamentals
 
@@ -344,10 +343,10 @@ std::string unit;
 iss >> amount >> unit; // amount = 16, unit = ".9"
 ```
 
-<Note>
+<Aside type="Note">
     <p>Types matter! Stream stops reading at any whitespace or any invalid character for
     the type.</p>
-</Note>
+</Aside>
 
 Positioning functions in input stringstream include `tellg()` and `seekg()`, which are
 similar to output stringstream.
@@ -462,10 +461,10 @@ int main() {
 
 #### 4.2.3 Stringstreams
 
-<Note>
+<Aside type="Note">
     <p>`std::stringstream` is not the superset of `std::istringstream` & 
     `std::ostringstream`</p>
-</Note>
+</Aside>
 
 <p style="color:BlueViolet">Example</p>
 
@@ -496,11 +495,11 @@ file can't be opened, `seekg` failed, etc.).
 4. **Bad Bit:** External error, like irrecoverable (e.g., the file you are reading from 
 suddenly is deleted).
 
-<Note>
+<Aside type="Note">
     <p>Good and bad are not opposites! (e.g. type mismatch)</p>
     <p>Good and fail are not opposites! (e.g. end of file)</p>
     <p>Fail and EOF are normally the ones you will be checking.</p>
-</Note>
+</Aside>
 
 <p style="color:BlueViolet">Example</p>
 
@@ -563,6 +562,32 @@ int main() {
 
 <p style="color:BlueViolet">Example:</p>
 
-```cpp frame="terminal"
+```cpp frame="terminal" collapse={1-21}
+// inputFile.cpp
 #include <iostream>
+#include <fstream>
+
+int main() {
+    std::ifstream file("input.txt");
+
+    if (!file.is_open()) {
+        std::cerr << "File not found!" << std::endl;
+        return 1;
+    }
+    else {
+        std::string line;
+        while (std::getline(file, line)) {
+            std::cout << line << std::endl;
+        }
+        file.close();
+    }
+
+    return 0;
+}
 ```
+
+#### 4.3.2 Output Streams
+
+<Aside>
+  This is a helpful note to remember. Notes are great for highlighting important information.
+</Aside>
