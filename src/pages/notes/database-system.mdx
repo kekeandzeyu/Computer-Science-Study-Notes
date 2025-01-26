@@ -184,10 +184,13 @@ int main() {
 }
 ```
 
+
+/* TODO: Add more examples  */ 
 ### 2.3 Database Files
 
 For database system, tables are stored as logical files on disk. Each file contains a 
-collection of records, and each record contains a collection of records. 
+collection of pages, and each page contains a collection of records. Normally, a record
+represents a row (tuple) in a table, and it contains a collection of fields (attributes).
 
 <p style="color:BlueViolet">API for higher levels of DBMS</p>
 
@@ -198,7 +201,7 @@ pageID & location on page
 
 Pages are managed by: 
 
-* **Disk space manager (on disk):** Pages read/written t physical disk/files.
+* **Disk space manager (on disk):** Pages read/written to physical disk/files.
 * **Buffer manager (in memory):** Higher levels of DBMS only operate in memory.
 
 <p style="color:BlueViolet">Procedure</p>
@@ -217,8 +220,23 @@ number.
     load it into a frame in the buffer pool.
     * The buffer manager returns a pointer to the newly loaded page in memory to the DBMS.
 
-For DBMS files, there are mainly four file structures:
+For DBMS, several of the possible ways of organizing records in files are:
 
 * **Unordered Heap Files:** Records placed arbitrarily across pages.
 * **Clustered Heap Files:** Records and pages are grouped.
 * **Sorted Files:** Pages and records are in order.
+* **Index Files:** May contain records or point to records in other files (e.g., B+ trees, 
+linear hashing).
+
+#### 2.3.1 Heap Files
+
+<span style="color:BlueViolet">Unordered heap files:</span> Collection of records in no
+particular order.
+
+<img src="/assets/database-system/2-3-1.png" alt="Heap Files" width="600"/>
+
+* Implement heap files as a list: difficult to find a record.
+* Implement heap files as a page directory: 
+    * Directory ectries include number of free bytes on the referenced page.
+    * Finding a page to fit the record required far fewer page loads than the linked list.
+
