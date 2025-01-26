@@ -4,18 +4,6 @@ const { frontmatter, headings } = Astro.props;
 import "../styles/global.scss";
 import "../styles/pages-styles/notes-content.scss";
 import "../styles/pages-styles/notes-custom.scss";
-
-const filteredHeadings = headings
-  .filter(h => h.depth >= 2 && h.depth <= 4)
-  .map(h => {
-    let headingClass = '';
-    if (h.depth === 2) headingClass = 'second-heading';
-    if (h.depth === 3) headingClass = 'third-heading';
-    if (h.depth === 4) headingClass = 'fourth-heading';
-    return { ...h, headingClass };
-});
-
-const currentPath = Astro.url.pathname;
 ---
 <BaseLayout title={frontmatter.title} hideLangSwitcher={true}>
     <div class="main-content">
@@ -23,13 +11,24 @@ const currentPath = Astro.url.pathname;
         <nav class="sidebar">
             <div class="sidebar-content">
                 <ul>
-                    <li class={`sidebar-link ${currentPath.startsWith('/notes/c-programming') ? 'active-link' : ''}`}><a href="/notes/c-programming">C++ Programming</a></li>
-                    <li class={`sidebar-link ${currentPath.startsWith('/notes/computer-architecture') ? 'active-link' : ''}`}><a href="/notes/computer-architecture">Computer Architecture</a></li>
-                    <li class={`sidebar-link ${currentPath.startsWith('/notes/data-structures-and-algorithms-1') ? 'active-link' : ''}`}><a href="/notes/data-structures-and-algorithms-1">Data Structures and Algorithms</a></li>
+                    <li class={`sidebar-link ${Astro.url.pathname.startsWith('/notes/c-programming') ? 'active-link' : ''}`}>
+                        <a href="/notes/c-programming">C++ Programming</a>
+                    </li>
+                    <li class={`sidebar-link ${Astro.url.pathname.startsWith('/notes/computer-architecture') ? 'active-link' : ''}`}>
+                        <a href="/notes/computer-architecture">Computer Architecture</a>
+                    </li>
+                    <li class={`sidebar-link has-sublink ${Astro.url.pathname.startsWith('/notes/data-structures-and-algorithms-1') ? 'active-link' : ''}`}>
+                        <a href="/notes/data-structures-and-algorithms-1">Data Structures and Algorithms</a>
+                        <button class="collapse-button" id="toggle-sublinks">⌵</button>
+                    </li>
                     <div class="data-structures-and-algorithms-sublink">
-                        <li class={`sidebar-link sub-link ${currentPath.startsWith('/notes/data-structures-and-algorithms-2') ? 'active-link' : ''}`}><a href="/notes/data-structures-and-algorithms-2">Part 1</a></li>
+                        <li class={`sidebar-link sub-link ${Astro.url.pathname.startsWith('/notes/data-structures-and-algorithms-2') ? 'active-link' : ''}`}>
+                            <a href="/notes/data-structures-and-algorithms-2">Part 1</a>
+                        </li>
                     </div>
-                    <li class={`sidebar-link ${currentPath.startsWith('/notes/database-system') ? 'active-link' : ''}`}><a href="/notes/database-system">Database System</a></li>
+                    <li class={`sidebar-link ${Astro.url.pathname.startsWith('/notes/database-system') ? 'active-link' : ''}`}>
+                        <a href="/notes/database-system">Database System</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -44,20 +43,15 @@ const currentPath = Astro.url.pathname;
             <div class="right-sidebar-content">
                 <h3>Contents</h3>
                 <ul>
-                    {filteredHeadings.map(h => (
+                    {headings.filter(h => h.depth >= 2 && h.depth <= 4).map(h => (
                       <li>
-                        <a href={`#${h.slug}`} class={h.headingClass}>{h.text}</a>
+                        <a href={`#${h.slug}`} class={h.depth === 2 ? 'second-heading' : h.depth === 3 ? 'third-heading' : 'fourth-heading'}>{h.text}</a>
                       </li>
                     ))}
                   </ul>
             </div>
         </aside>
     </div>
-
-    <script>
-        function toggleSubLinks() {
-          const sublink = document.querySelector('.data-structures-and-algorithms-sublink');
-          if (sublink) sublink.classList.toggle('collapsed');
-        }
-    </script>
 </BaseLayout>
+
+<script src="../scripts/sublink.js"></script>
