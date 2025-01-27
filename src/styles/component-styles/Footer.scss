@@ -1,13 +1,15 @@
 .footer {
+    width: auto;
     background-color: rgba(245, 243, 253);
+    padding-top: 16px;
+    padding-bottom: 16px;
     color: black;
     text-align: center;
     border-radius: 12px;
-    margin-top: auto;
     z-index: 2;
 }
 
 .footer p {
     font-size: 1rem;
-    padding: 8px 0 8px 0;
+    padding: 0;
 }

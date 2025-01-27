@@ -3,6 +3,8 @@ layout: "../../layouts/NotesLayout.astro"
 title: 'C++ Programming'
 ---
 import Aside from '../../components/Aside.astro'
+import Tabs from '../../components/Tabs.astro'
+import TabItem from '../../components/TabItem.astro'
 
 ## Ⅰ C++ Fundamentals
 
@@ -117,6 +119,80 @@ int main() {
     std::cout << "Radius: " << shape.radius << std::endl; 
     // No meaning, the radius has been overwritten!
 
+    return 0;
+}
+```
+
+### 2.4 Enum
+
+An enumeration is a distinct type whose value is restricted to a range of values, which 
+may include several explicitly named constants ("enumerators").
+
+For C and earlier versions of C++, you can declare `enum`. Since C++ 11, you can declare 
+`enum`, `enum` class and `enum` struct. `enum` class and struct are strongly typed and 
+create a namespace for its enumerators.
+
+<Tabs>
+    <TabItem title="enum">
+    
+```cpp frame="terminal" collapse={1-10}
+// enum.cpp
+enum Color {
+    RED,
+    GREEN,
+    BLUE
+};
+
+Color myColor = GREEN;
+int colorValue = myColor; // Implicit conversion - ok
+// myColor = 5; // Error：a value of type "int" cannot be assigned to an entity of type "Color"
+```
+
+    </TabItem>
+    <TabItem title="enum class/struct">
+
+```cpp frame="terminal" collapse={1-22}
+// enumClass.cpp
+// Using enum class
+enum class Status1 {
+    SUCCESS,
+    PENDING,
+    FAILED,
+    ERROR
+};
+
+// Using enum struct (equivalent to enum class)
+enum struct Status2 {
+    OK,
+    PROCESSING,
+    ERROR
+};
+
+Status1 status1 = Status1::ERROR; // scoped enum
+Status2 status2 = Status2::ERROR;
+
+// int s = status1; // Error: a value of type "Status1" cannot be used to initialize an entity of type "int"
+int s = static_cast<int>(status1); // Explicit conversion - ok
+```
+
+    </TabItem>
+</Tabs>
+
+### 2.5 C++ Preprocessor Macros
+
+Preprocessor macros are a way to define constants or perform text substitution in your
+code before compilation.
+
+<p style="color:BlueViolet">Example</p>
+
+```cpp frame="terminal"
+# define PI 3.14159
+
+int main() {
+    double radius = 5.0;
+    double area = PI * radius * radius;
+    std::cout << "Area of the circle: " << area << std::endl;
+    // Output: Area of the circle: 78.5397
     return 0;
 }
 ```

@@ -293,4 +293,35 @@ bit is the least significant bit (LSB).
 
 ## 2 C Introduction
 
-### 2.1 
+### 2.1 Variable C Types
+
+<Aside>
+    <p>For more information about C/C++ types, please visit <a 
+    href="/notes/c-programming#2-types--structs">types and structs</a></p>
+</Aside>
+
+### 2.2 Addresses & Pointers
+
+A computer memory location has an address and holds a content. A pointer variable (or 
+pointer in short) is basically the same as the other variables, but it stores a memory 
+address.
+
+The size of the address (and of course, the pointer) depends on the architecture of the
+computer. For example, in a 32-bit system, the size of the pointer is 4 bytes, while in a
+64-bit system, the size of the pointer is 8 bytes.
+
+<p style="color:BlueViolet">Example</p>
+
+```cpp
+int *p; // declaration
+int x = 3;
+
+p = &x; // assign the address of x to p
+
+printf("%u %d\n", p, *p); 
+// Output: 0xc7977ff934 3
+
+*p = 5; // changes value of x to 5
+
+void *p1; // can be used to store any address
+```

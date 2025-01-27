@@ -72,6 +72,10 @@ If someone's original work is used but not mentioned in the following list, or b
 
 9. <https://en.cppreference.com/w/>.
 
+10. <https://en.cppreference.com/w/cpp/language/enum>.
+
+11. <https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp4_PointerReference.html>.
+
 > Note: Content of CS61A and CS61B are partly used for the Object-Oriented part.
 
 ### Topic 4: Python Programming
