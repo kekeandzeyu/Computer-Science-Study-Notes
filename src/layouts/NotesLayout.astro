@@ -11,6 +11,9 @@ import "../styles/pages-styles/notes-custom.scss";
         <nav class="sidebar">
             <div class="sidebar-content">
                 <ul>
+                    <li class={`sidebar-link ${Astro.url.pathname.startsWith('/notes/artificial-intelligence') ? 'active-link' : ''}`}>
+                        <a href="/notes/artificial-intelligence">Artificial Intelligence</a>
+                    </li>
                     <li class={`sidebar-link ${Astro.url.pathname.startsWith('/notes/c-programming') ? 'active-link' : ''}`}>
                         <a href="/notes/c-programming">C++ Programming</a>
                     </li>

@@ -1,0 +1,26 @@
+---
+layout: "../../layouts/NotesLayout.astro"
+title: 'Artificial Intelligence'
+---
+import Aside from '../../components/Aside.astro'
+import Tabs from '../../components/Tabs.astro'
+import TabItem from '../../components/TabItem.astro'
+
+## 1 Uninformed Search
+
+### 1.1 Agent Design  
+
+There are mainly two types of agents: **reflex agents** and **planning agents**.
+
+1. **Reflex Agents:**
+    * Choose action based on current percept, and may have memory or a model of the 
+    world's current state.
+    * Do not consider the future consequences of their actions, just consider how the 
+    world <span style="color:OrangeRed">IS</span>.
+2. **Planning Agents:**
+    * Decisions based on (hypothesized) consequences of actions.
+    * Must have a model of how the world evolves in response to actions, and formulate a 
+    goal (test), consider how the world <span style="color:OrangeRed">WOULD BE</span>
+
+### 1.2 Search Problems 
+
