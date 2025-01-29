@@ -114,6 +114,8 @@ If someone's original work is used but not mentioned in the following list, or b
 
 3. Computer Systems: A Programmer's Perspective (3rd Edition) by Randal E. Bryant & David R. O'Hallaron.
 
+4. <https://en.wikipedia.org/wiki/Operating_system>.
+
 ### Topic 7: Database System
 
 1. CS186: Introduction to Database Systems (UC Berkeley) by Professor Alvin Cheung, Joe Hellerstein and the rest of CS186 staff.
