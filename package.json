@@ -9,7 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.0.7",
+    "@astrojs/mdx": "^4.0.8",
     "@expressive-code/plugin-collapsible-sections": "^0.40.1",
     "@expressive-code/plugin-line-numbers": "^0.40.1",
     "@lion/ui": "^0.10.0",
