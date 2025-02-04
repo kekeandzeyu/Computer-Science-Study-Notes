@@ -6,20 +6,23 @@
 
 /* Main Content */
 .main-content {
-    display: flex;
-    flex: 1;
-    width: 100%;
+    display: grid;
+    grid-template-columns:
+        minmax(v.$sidebar-width, auto) minmax(auto, 1200px) minmax(v.$right-sidebar-width, auto);
+    grid-template-rows: 1fr;
+    min-height: 100vh;
 }
 
 /* Notes Part */
 .notes-content {
+    grid-column: 2;
     background-color: white;
-    margin-left: v.$sidebar-width;
-    margin-right: v.$right-sidebar-width;
     flex: 1;
     padding: 48px 32px 0;
     box-sizing: border-box;
     overflow-x: hidden;
+    overflow-y: auto;
+    line-height: 1.6;
 
     h1 {
         font-size: 44px;
@@ -70,7 +73,8 @@
         margin: 24px 0;
     }
 
-    a[href^="http://"], a[href^="https://"] {
+    a[href^="http://"],
+    a[href^="https://"] {
         position: relative;
 
         &::after {
@@ -87,6 +91,10 @@
         padding: 2px 6px;
         border-radius: 3px;
         word-break: break-word;
+        font-family: v.$code-font !important;
+        font-weight: normal !important;
+        font-size: 16px !important;
+        background-color: rgba(25, 25, 28, 0.05) !important;
     }
 
     button {
@@ -124,16 +132,13 @@
         font-size: 16px !important;
     }
 
-    code {
-        font-family: v.$code-font !important;
-        font-weight: normal !important;
-        font-size: 16px !important;
-        background-color: rgba(25, 25, 28, 0.05) !important;
-    }
-
     div.expressive-code {
         padding-top: 24px;
         border-radius: 16px !important;
+    }
+
+    [id] {
+        scroll-margin-top: 80px;
     }
 }
 
@@ -145,12 +150,16 @@
 
 /* Left Sidebar for Navigation across Notes */
 .sidebar {
-    width: v.$sidebar-width;
+    grid-column: 1;
     flex-shrink: 0;
     box-sizing: border-box;
     height: 100%;
-    position: fixed;
+    position: sticky;
     overflow-y: auto;
+    top: 0;
+    height: 100vh; 
+    align-self: start; 
+    overflow-y: auto; 
     background-color: white;
     border-right: 1px solid #d1d1d2;
 
@@ -160,14 +169,14 @@
         text-decoration: none;
         color: #555861;
         transition: color 0.2s ease;
-        display: flex; /* Make a full height and width of li */
-        align-items: center; /* Vertically center the text */
+        display: flex;
+        align-items: center;
         padding-top: 8px;
         padding-bottom: 8px;
         padding-left: 16px;
-        height: 100%; /* Make <a> fill the height of li */
-        width: 100%; /* Make <a> fill the width of li */
-        box-sizing: border-box; /* Include padding and border in element's total width and height */
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     &-content {
@@ -177,16 +186,16 @@
         padding-bottom: 10px;
 
         ul {
+            padding-left: 10px;
             list-style: none;
-            gap: 0.25em;
-            padding: 0;
-            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
     }
 
     &-link {
         padding: 1px 1px 1px 1px;
-        border-radius: 8px;
         width: 95%;
         height: 40px;
         transition: background-color 0.2s ease;
@@ -194,9 +203,9 @@
         justify-content: center;
         display: flex;
         align-items: center;
-        position: relative; /* For positioning the button */
-        overflow: hidden; /* Clip content to rounded borders */
-
+        position: relative;
+        overflow: hidden;
+        transition: all 0.2s ease;
 
         &.sub-link {
             a {
@@ -205,15 +214,15 @@
         }
 
         &.has-sublink {
-            flex-direction: row-reverse; /* Button on the right */
-            padding-right: 0; /* Reset padding for button positioning */
+            flex-direction: row-reverse;
+            padding-right: 0;
+
             a {
-                justify-content: space-between; /* Keep text on left, button area on right */
-                padding-left: 16px; /* Keep text padding */
-                padding-right: 40px; /* Make space for button click area */
+                justify-content: space-between;
+                padding-left: 16px;
+                padding-right: 40px;
             }
         }
-
 
         &:hover {
             background-color: #e0e0e0;
@@ -224,15 +233,15 @@
         }
 
         &.active-link {
-            background-color: v.$theme-navigation-background-color;
+            border-left: 2px v.$theme-text-color solid;
 
             a {
-                color: white;
+                color: v.$theme-text-color;
             }
+        }
 
-            button {
-                color: white;
-            }
+        &:hover:not(.active-link) {
+            background-color: #f5f5f5;
         }
     }
 }
@@ -248,19 +257,18 @@
     font-size: 14px;
     margin-left: 10px;
     z-index: 3;
-    color: #555861; /* Inherit default link color */
-    position: absolute; /* Position button on the right */
+    color: #555861;
+    position: absolute;
     right: 10px;
     top: 50%;
+    height: 100%;
     transform: translateY(-50%);
     transition: color 0.2s ease;
 }
 
-.sidebar-link:hover .collapse-button,
 .sidebar-link.active-link .collapse-button {
-    color: inherit; /* Keep button color consistent with link hover/active */
+    color: v.$theme-text-color;
 }
-
 
 .collapse-button.rotated {
     transform: translateY(-50%) rotate(-90deg);
@@ -269,13 +277,13 @@
 
 /* Right Sidebar for Navigation inside Notes */
 .right-sidebar {
-    width: v.$right-sidebar-width;
+    grid-column: 3;
     flex-shrink: 0;
     box-sizing: border-box;
-    padding: 30px 10px;
+    padding: 2rem 1rem;
     height: 100vh;
     background-color: white;
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 0;
     right: 0;
@@ -292,9 +300,20 @@
             margin-bottom: 10px;
         }
 
-        ul {
+        > ul {
             list-style: none;
             padding-left: 10px;
+            position: relative;
+
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 1px;
+                background-color: #eee;
+            }
         }
 
         ul ul {
@@ -307,13 +326,34 @@
 
         a {
             text-decoration: none;
+            position: relative;
+            transition: all 0.2s ease;
             color: #555861;
             display: block;
             padding: 4px 0;
             font-size: 0.9em;
 
+            &::before {
+                content: '';
+                position: absolute;
+                left: -8px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 4px;
+                height: 4px;
+                background-color: currentColor;
+                border-radius: 50%;
+                opacity: 0;
+                transition: opacity 0.2s ease;
+            }
+              
             &:hover {
-                color: black;
+                color: v.$theme-text-color;
+                padding-left: 12px;
+                
+                &::before {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -335,4 +375,34 @@
 .footer {
     margin-left: v.$sidebar-width;
     z-index: 2;
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+      grid-template-columns: v.$sidebar-width 1fr;
+  
+      .notes-content {
+        padding: 48px 5%;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .main-content {
+      grid-template-columns: 1fr;
+      height: auto;
+      overflow: visible;
+  
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #d1d1d2;
+      }
+  
+      .notes-content {
+        overflow: visible;
+        padding: 32px 16px;
+      }
+    }
 }

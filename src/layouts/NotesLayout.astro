@@ -50,9 +50,9 @@ import "../styles/pages-styles/notes-custom.scss";
                 <h3>Contents</h3>
                 <ul>
                     {headings.filter(h => h.depth >= 2 && h.depth <= 4).map(h => (
-                      <li>
-                        <a href={`#${h.slug}`} class={h.depth === 2 ? 'second-heading' : h.depth === 3 ? 'third-heading' : 'fourth-heading'}>{h.text}</a>
-                      </li>
+                        <li>
+                            <a href={`#${h.slug}`} class={h.depth === 2 ? 'second-heading' : h.depth === 3 ? 'third-heading' : 'fourth-heading'}>{h.text}</a>
+                        </li>
                     ))}
                   </ul>
             </div>
