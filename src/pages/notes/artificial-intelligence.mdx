@@ -13,14 +13,286 @@ import TabItem from '../../components/TabItem.astro'
 There are mainly two types of agents: **reflex agents** and **planning agents**.
 
 1. **Reflex Agents:**
-    * Choose action based on current percept, and may have memory or a model of the 
-    world's current state.
-    * Do not consider the future consequences of their actions, just consider how the 
-    world <span style="color:OrangeRed">IS</span>.
+    * Choose action based on current percept, and may have memory or a model of the world's current state.
+    * Do not consider the future consequences of their actions, just consider how the world <span style="color:OrangeRed">IS</span>.
 2. **Planning Agents:**
     * Decisions based on (hypothesized) consequences of actions.
-    * Must have a model of how the world evolves in response to actions, and formulate a 
-    goal (test), consider how the world <span style="color:OrangeRed">WOULD BE</span>
+    * Must have a model of how the world evolves in response to actions, and formulate a goal (test), consider how the world <span style="color:OrangeRed">WOULD BE</span>
 
 ### 1.2 Search Problems 
 
+A search problem consists of a state space, a successor function (with actions and costs) and a start space & a goal test. A solution is a sequence of actions (a plan) which transforms the start state to a goal state. 
+
+For a search problem, we may need:
+
+* **State Space Graph:** A mathematical representation of a search problem. It consists of nodes (abstarcted world configurations) and arcs (successors/action results). The goal test is a set of goal nodes (maybe only one).
+* **Search Trees:** A "what if" tree of plans and their outcomes. Nodes show states, and children correspond to successors.
+
+Search algorithms can be divided into two categories:
+
+* **Uninformed Search:** No additional information about states beyond the definition of the problem.
+    * Depth-First Search
+    * Breadth-First Search
+    * Uniform-Cost Search
+* **Informed Search:** Use heuristics to guide the search.
+    * A* Search
+
+<Aside type="note">
+    <p>For more information on Depth-First Search & Breadth-First Search, please refer to Data Structures and Algorithms part.</p>
+</Aside>
+
+#### 1.2.1 Uniform-cost Search
+
+Uniform-cost search is a variant of Dijkstra's algorithm. Not inserting all nodes in a graph makes it possible to extend Dijkstra's algorithm to find the shortest path from a single source to the closest of a set of target nodes on infinite graphs or those too large to represent in memory, which is called uniform-cost search (UCS) in artificial intelligence literature.
+
+<Aside>
+    <p>For more information on Dijkstra's Algorithm, please refer to Data Structures and Algorithms part.</p>
+</Aside>
+
+<Tabs>
+    <TabItem title="Java">
+
+```java
+import java.util.*;
+
+public class ucs {
+    private final double[] costTo;
+    private final int[] parent;
+    private final PriorityQueue<Integer> pq;
+    private final boolean[] visited;
+
+    public static class Edge {
+        int neighbor;
+        double cost;
+
+        public Edge(int neighbor, double cost) {
+            this.neighbor = neighbor;
+            this.cost = cost;
+        }
+    }
+
+    public ucs(List<List<Edge>> graph, int startNode) {
+        int numNodes = graph.size();
+        costTo = new double[numNodes];
+        parent = new int[numNodes];
+        visited = new boolean[numNodes];
+
+        for (int i = 0; i < numNodes; i++) {
+            costTo[i] = Double.POSITIVE_INFINITY;
+            parent[i] = -1;
+        }
+        costTo[startNode] = 0.0;
+
+        pq = new PriorityQueue<>(Comparator.comparingDouble(v -> costTo[v]));
+        pq.offer(startNode);
+
+        while (!pq.isEmpty()) {
+            int currentNode = pq.poll();
+            visited[currentNode] = true;
+
+            if (costTo[currentNode] == Double.POSITIVE_INFINITY) continue;
+
+            for (Edge edge : graph.get(currentNode)) {
+                relax(currentNode, edge.neighbor, edge.cost);
+            }
+        }
+    }
+
+    private void relax(int u, int v, double cost) {
+        if (costTo[v] > costTo[u] + cost) {
+            costTo[v] = costTo[u] + cost;
+            parent[v] = u;
+            pq.offer(v);
+        }
+    }
+
+    public double getCostTo(int node) {
+        return costTo[node];
+    }
+
+    public boolean hasPathTo(int node) {
+        return costTo[node] < Double.POSITIVE_INFINITY;
+    }
+
+    public List<Integer> getPathTo(int targetNode) {
+        if (!hasPathTo(targetNode)) {
+            return null;
+        }
+
+        List<Integer> path = new ArrayList<>();
+        for (int v = targetNode; v != -1; v = parent[v]) {
+            path.add(v);
+        }
+
+        Collections.reverse(path);
+        return path;
+    }
+}
+```
+
+    </TabItem>
+    <TabItem title="C++ (ucs.h)">
+
+```cpp
+#ifndef UCS_H
+#define UCS_H
+
+#include <vector>
+#include <queue>
+#include <functional>
+#include <limits>
+#include <cmath>
+#include <algorithm>
+
+namespace ucs {
+
+    struct Node {
+        int neighbor;
+        double cost;
+
+        Node(const int neighbor, const double cost) : neighbor(neighbor), cost(cost) {}
+    };
+
+    class UniformCostSearch {
+    private:
+        std::vector<double> costTo;
+        std::vector<int> parent;
+        std::vector<bool> visited;
+        std::priority_queue<int, std::vector<int>, std::function<bool(int, int)>> pq;
+        const std::vector<std::vector<Node>>& adj;
+
+        void relax(int u, int v, double cost);
+
+    public:
+        UniformCostSearch(const std::vector<std::vector<Node>>& graph, int startNode);
+
+        [[nodiscard]] double getCostTo(int node) const;
+        [[nodiscard]] bool hasPathTo(int node) const;
+        [[nodiscard]] std::vector<int> getPathTo(int targetNode) const;
+    };
+
+} // namespace ucs
+
+#endif //UCS_H
+```
+
+    </TabItem>
+    <TabItem title="C++ (ucs.cpp)">
+
+```cpp
+#include "ucs.h"
+
+namespace ucs {
+
+    UniformCostSearch::UniformCostSearch(const std::vector<std::vector<Node>>& graph, const int startNode) 
+        : costTo(graph.size(), std::numeric_limits<double>::infinity()),
+          parent(graph.size(), -1),
+          visited(graph.size(), false),
+          pq([this](const int u, const int v) { return costTo[u] > costTo[v]; }),
+          adj(graph)
+    {
+        costTo[startNode] = 0.0;
+        pq.push(startNode);
+
+        while (!pq.empty()) {
+            const int currentNode = pq.top();
+            pq.pop();
+            visited[currentNode] = true;
+
+            if (costTo[currentNode] == std::numeric_limits<double>::infinity()) continue;
+
+            for (const auto& edge : adj[currentNode]) {
+                relax(currentNode, edge.neighbor, edge.cost);
+            }
+        }
+    }
+
+    void UniformCostSearch::relax(const int u, const int v, const double cost) {
+        if (costTo[v] > costTo[u] + cost) {
+            costTo[v] = costTo[u] + cost;
+            parent[v] = u;
+            pq.push(v);
+        }
+    }
+
+    double UniformCostSearch::getCostTo(const int node) const {
+        return costTo[node];
+    }
+
+    bool UniformCostSearch::hasPathTo(const int node) const {
+        return costTo[node] < std::numeric_limits<double>::infinity();
+    }
+
+    std::vector<int> UniformCostSearch::getPathTo(const int targetNode) const {
+        if (!hasPathTo(targetNode)) {
+            return {};
+        }
+        std::vector<int> path;
+        for (int v = targetNode; v != -1; v = parent[v]) {
+            path.push_back(v);
+        }
+        std::ranges::reverse(path);
+        return path;
+    }
+
+} // namespace ucs
+```
+
+    </TabItem>
+    <TabItem title="Python">
+
+```Python
+import heapq
+
+class Node:
+    def __init__(self, neighbor, cost):
+        self.neighbor = neighbor
+        self.cost = cost
+
+class UniformCostSearch:
+    def __init__(self, graph, start_node):
+        self.cost_to = [float('inf')] * len(graph)
+        self.parent = [-1] * len(graph)
+        self.visited = [False] * len(graph)
+        self.pq = [(0, start_node)]  
+        self.adj = graph 
+
+        self.cost_to[start_node] = 0.0
+
+        while self.pq:
+            current_cost, current_node = heapq.heappop(self.pq)
+            if self.visited[current_node]: 
+                continue
+            self.visited[current_node] = True
+
+            if self.cost_to[current_node] == float('inf'):
+                continue 
+
+            for edge in self.adj[current_node]:
+                self.relax(current_node, edge.neighbor, edge.cost)
+
+    def relax(self, u, v, cost):
+        if self.cost_to[v] > self.cost_to[u] + cost:
+            self.cost_to[v] = self.cost_to[u] + cost
+            self.parent[v] = u
+            heapq.heappush(self.pq, (self.cost_to[v], v))
+
+    def get_cost_to(self, node):
+        return self.cost_to[node]
+
+    def has_path_to(self, node):
+        return self.cost_to[node] < float('inf')
+
+    def get_path_to(self, target_node):
+        if not self.has_path_to(target_node):
+            return None
+        path = []
+        v = target_node
+        while v != -1:
+            path.append(v)
+            v = self.parent[v]
+        return path[::-1]  
+```
+
+    </TabItem>
+</Tabs>

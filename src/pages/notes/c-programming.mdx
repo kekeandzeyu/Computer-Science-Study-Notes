@@ -180,8 +180,7 @@ int s = static_cast<int>(status1); // Explicit conversion - ok
 
 ### 2.5 C++ Preprocessor Macros
 
-Preprocessor macros are a way to define constants or perform text substitution in your
-code before compilation.
+Preprocessor macros are a way to define constants or perform text substitution in your code before compilation.
 
 <p style="color:BlueViolet">Example</p>
 
@@ -244,10 +243,8 @@ int main() {
 
 <p style="color:BlueViolet">Advantages for Uniform Initialization</p>
 
-* It's safe! It doesn't allow for narrowing conversions — which can lead to unexpected 
-  behaviour (or critical system failures).
-* It's ubiquitous! it works for all types like vectors, maps, and custom classes, among
-  other things.
+* It's safe! It doesn't allow for narrowing conversions — which can lead to unexpected behaviour (or critical system failures).
+* It's ubiquitous! it works for all types like vectors, maps, and custom classes, among other things.
 
 ### 3.2 References
 
@@ -277,11 +274,7 @@ void shift(std::vector<std::pair<int, int>> &nums) { // nums passed by reference
 }
 ```
 
-In this code, `nums` is passed by reference to the shift function, which means any
-modifications to `nums` should affect the original vector. However, within the for loop, 
-`num1` and `num2` are declared as copies of the elements in nums. As a result, the 
-increments `num1++` and `num2++` modify only the local copies, and the original elements 
-in nums remain unchanged. Below is the correct way:
+In this code, `nums` is passed by reference to the shift function, which means any modifications to `nums` should affect the original vector. However, within the for loop,`num1` and `num2` are declared as copies of the elements in nums. As a result, the increments `num1++` and `num2++` modify only the local copies, and the original elements in nums remain unchanged. Below is the correct way:
 
 ```cpp
 // Correct Way
@@ -360,12 +353,9 @@ int main() {
 }
 ```
 
-2. `seekp(pos)`: Moves the put pointer to a specific position within the output 
-stringstream.
+2. `seekp(pos)`: Moves the put pointer to a specific position within the output stringstream.
 
-The position can be an absolute offset from the beginning of the stream, or a relative 
-offset from the current position (using `std::ios::beg`, `std::ios::cur`, or 
-`std::ios::end` as a second argument).
+The position can be an absolute offset from the beginning of the stream, or a relative offset from the current position (using `std::ios::beg`, `std::ios::cur`, or `std::ios::end` as a second argument).
 
 ```cpp collapse={1-33}
 #include <iostream>
@@ -420,12 +410,10 @@ iss >> amount >> unit; // amount = 16, unit = ".9"
 ```
 
 <Aside type="Note">
-    <p>Types matter! Stream stops reading at any whitespace or any invalid character for
-    the type.</p>
+    <p>Types matter! Stream stops reading at any whitespace or any invalid character for the type.</p>
 </Aside>
 
-Positioning functions in input stringstream include `tellg()` and `seekg()`, which are
-similar to output stringstream.
+Positioning functions in input stringstream include `tellg()` and `seekg()`, which are similar to output stringstream.
 
 1. `tellg()`
 
@@ -565,11 +553,9 @@ int main() {
 #### 4.2.4 State Bits
 
 1. **Good Bit:** Ready for read/write (nothing unusual, on when other bits are off).
-2. **Fail Bit:** Previous operation failed, all future operations frozen (type mismatch, 
-file can't be opened, `seekg` failed, etc.).
+2. **Fail Bit:** Previous operation failed, all future operations frozen (type mismatch, file can't be opened, `seekg` failed, etc.).
 3. **EOF Bit:** Previous operation reached the end of buffer content.
-4. **Bad Bit:** External error, like irrecoverable (e.g., the file you are reading from 
-suddenly is deleted).
+4. **Bad Bit:** External error, like irrecoverable (e.g., the file you are reading from suddenly is deleted).
 
 <Aside type="Note">
     <p>Good and bad are not opposites! (e.g. type mismatch)</p>

@@ -38,6 +38,8 @@ If someone's original work is used but not mentioned in the following list, or b
 
 2. Artificial Intelligence: A Modern Approach, 4th Global ed. by Stuart Russell and Peter Norvig.
 
+3. <https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm>.
+
 ### Topic 2: Data Structures and Algorithms
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
