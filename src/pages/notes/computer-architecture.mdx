@@ -347,3 +347,21 @@ for (int i = 0; i < ARRAY_SIZE; i++) {
     arr[i] = i;
 }
 ```
+
+### 2.4 Strings
+
+In C language, strings are stored in an array of characters. The end of the string is
+marked by a special character, the null character `\0`.
+
+```c frame="terminal"
+// string.cpp
+char str[] = "Hello, World!";
+char str1[6] = {'H', 'e', 'l', 'l', 'o', '\0'};
+char str2[6] = "Hello";
+```
+
+Here are some common;y-used string functions defined in the `string.h` library:
+
+1. `size_t strlen(const char * str)`: Returns the length of the string (not including the null terminator).
+2. `char * strcpy ( char * destination, const char * source )`: Copies the C string pointed by source into the array pointed by destination, including the terminating null character (and stopping at that point).
+3. 

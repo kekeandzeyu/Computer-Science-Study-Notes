@@ -5,7 +5,7 @@ import "../styles/global.scss";
 import "../styles/pages-styles/notes-content.scss";
 import "../styles/pages-styles/notes-custom.scss";
 ---
-<BaseLayout title={frontmatter.title} hideLangSwitcher={true}>
+<BaseLayout title={frontmatter.title} hideLangSwitcher={false}>
     <div class="main-content">
 
         <nav class="sidebar">
@@ -58,6 +58,8 @@ import "../styles/pages-styles/notes-custom.scss";
             </div>
         </aside>
     </div>
+
+    <script src="../scripts/sublink.js"></script>
+    <script src="../scripts/activeHeading.js"></script>
 </BaseLayout>
 
-<script src="../scripts/sublink.js"></script>
