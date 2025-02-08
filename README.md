@@ -1,6 +1,6 @@
 # Computer-Science-Study-Notes
 
-![Favicon](public/assets/photo.png)
+![Favicon](public/assets/photo.svg)
 
 > *We are all lost stars, trying to light up the dark.*
 
@@ -107,6 +107,14 @@ If someone's original work is used but not mentioned in the following list, or b
 9. <https://en.wikipedia.org/wiki/Bus_error>.
 
 10. <https://en.wikipedia.org/wiki/Floating-point_arithmetic>.
+
+11. <https://cplusplus.com/reference/cstring/strcpy>.
+
+12. <https://cplusplus.com/reference/cstring/strncpy>.
+
+13. <https://cplusplus.com/reference/cstring/strcmp/>.
+
+
 
 ### Topic 6: Operating System
 
