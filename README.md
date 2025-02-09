@@ -54,6 +54,8 @@ If someone's original work is used but not mentioned in the following list, or b
 
 6. <https://en.wikipedia.org/wiki/Catalan_number>.
 
+7. <https://en.wikipedia.org/wiki/Linked_list>.
+
 ### Topic 3: C++ Programming
 
 1. CS106L: Standard C++ Programming (Stanford University) by Professor Avery Wang, Anna Zeng and the rest of CS106L staff.
@@ -113,8 +115,6 @@ If someone's original work is used but not mentioned in the following list, or b
 12. <https://cplusplus.com/reference/cstring/strncpy>.
 
 13. <https://cplusplus.com/reference/cstring/strcmp/>.
-
-
 
 ### Topic 6: Operating System
 
