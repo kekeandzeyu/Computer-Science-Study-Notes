@@ -52,7 +52,8 @@ Uniform-cost search is a variant of Dijkstra's algorithm. Not inserting all node
 <Tabs>
     <TabItem title="Java">
 
-```java
+```java frame="terminal" collapse={1-107}
+// ucs.java
 import java.util.*;
 
 public class ucs {
@@ -61,6 +62,9 @@ public class ucs {
     private final PriorityQueue<Integer> pq;
     private final boolean[] visited;
 
+    /**
+     * A directed edge constructor with a cost.
+     */
     public static class Edge {
         int neighbor;
         double cost;
@@ -71,6 +75,9 @@ public class ucs {
         }
     }
 
+    /**
+     * Uniform-cost search constructor.
+     */
     public ucs(List<List<Edge>> graph, int startNode) {
         int numNodes = graph.size();
         costTo = new double[numNodes];
@@ -98,6 +105,13 @@ public class ucs {
         }
     }
 
+    /**
+     * Relaxation of an edge.
+     * 
+     * @param u the source node
+     * @param v the target node
+     * @param cost the cost of the edge
+     */
     private void relax(int u, int v, double cost) {
         if (costTo[v] > costTo[u] + cost) {
             costTo[v] = costTo[u] + cost;
@@ -106,14 +120,32 @@ public class ucs {
         }
     }
 
+    /**
+     * Get the cost to a node.
+     * 
+     * @param node the target node
+     * @return the cost to the target node
+     */
     public double getCostTo(int node) {
         return costTo[node];
     }
 
+    /**
+     * Check if a path exists to a node.
+     * 
+     * @param node the target node
+     * @return true if a path exists, false otherwise
+     */
     public boolean hasPathTo(int node) {
         return costTo[node] < Double.POSITIVE_INFINITY;
     }
 
+    /**
+     * Get the path to a node.
+     * 
+     * @param targetNode the target node
+     * @return the path to the target node
+     */
     public List<Integer> getPathTo(int targetNode) {
         if (!hasPathTo(targetNode)) {
             return null;
@@ -133,7 +165,8 @@ public class ucs {
     </TabItem>
     <TabItem title="C++ (ucs.h)">
 
-```cpp
+```cpp frame="terminal" collapse={1-41}
+// ucs.h
 #ifndef UCS_H
 #define UCS_H
 
@@ -179,7 +212,8 @@ namespace ucs {
     </TabItem>
     <TabItem title="C++ (ucs.cpp)">
 
-```cpp
+```cpp frame="terminal" collapse={1-82}
+// ucs.cpp
 #include "ucs.h"
 
 namespace ucs {
@@ -207,6 +241,13 @@ namespace ucs {
         }
     }
 
+    /**
+     * Relaxation of an edge.
+     * 
+     * @param u the source node
+     * @param v the target node
+     * @param cost the cost of the edge
+     */
     void UniformCostSearch::relax(const int u, const int v, const double cost) {
         if (costTo[v] > costTo[u] + cost) {
             costTo[v] = costTo[u] + cost;
@@ -215,14 +256,32 @@ namespace ucs {
         }
     }
 
+    /**
+     * Get the cost to a node.
+     * 
+     * @param node the target node
+     * @return the cost to the target node
+     */
     double UniformCostSearch::getCostTo(const int node) const {
         return costTo[node];
     }
 
+    /**
+     * Check if a path exists to a node.
+     * 
+     * @param node the target node
+     * @return true if a path exists, false otherwise
+     */
     bool UniformCostSearch::hasPathTo(const int node) const {
         return costTo[node] < std::numeric_limits<double>::infinity();
     }
 
+    /**
+     * Get the path to a node.
+     * 
+     * @param targetNode the target node
+     * @return the path to the target node
+     */    
     std::vector<int> UniformCostSearch::getPathTo(const int targetNode) const {
         if (!hasPathTo(targetNode)) {
             return {};
@@ -241,16 +300,19 @@ namespace ucs {
     </TabItem>
     <TabItem title="Python">
 
-```Python
+```python frame="terminal" collapse={1-57}
+# ucs.py
 import heapq
 
 class Node:
     def __init__(self, neighbor, cost):
+        '''A directed edge constructor with a cost.'''
         self.neighbor = neighbor
         self.cost = cost
 
 class UniformCostSearch:
     def __init__(self, graph, start_node):
+        '''Uniform-cost search constructor.'''
         self.cost_to = [float('inf')] * len(graph)
         self.parent = [-1] * len(graph)
         self.visited = [False] * len(graph)
@@ -272,18 +334,22 @@ class UniformCostSearch:
                 self.relax(current_node, edge.neighbor, edge.cost)
 
     def relax(self, u, v, cost):
+        '''Relaxation of an edge.'''
         if self.cost_to[v] > self.cost_to[u] + cost:
             self.cost_to[v] = self.cost_to[u] + cost
             self.parent[v] = u
             heapq.heappush(self.pq, (self.cost_to[v], v))
 
     def get_cost_to(self, node):
+        '''Get the cost to a node.'''
         return self.cost_to[node]
 
     def has_path_to(self, node):
+        '''Check if a path exists to a node.'''
         return self.cost_to[node] < float('inf')
 
     def get_path_to(self, target_node):
+        '''Get the path to a node.'''
         if not self.has_path_to(target_node):
             return None
         path = []
@@ -296,3 +362,53 @@ class UniformCostSearch:
 
     </TabItem>
 </Tabs>
+
+#### 1.2.2 A* Search
+
+A* search is a kind of heuristic search algorithms. It combines uniform-cost search and greedy algorithm.
+
+* $g\left(n\right)$: The cost from the start to reach the node $n$, which uniform-cost search relies on.
+* $h\left(n\right)$: An estimate of the cost from node $n$ to the goal, which greedy algorithm relies on.
+
+The A* search algorithm uses the following formula to calculate the cost of a node:
+
+$$
+f\left(n\right) = g\left(n\right) + h\left(n\right)
+$$
+
+<span style="color:BlueViolet">Admissible heuristics:</span> A heuristic $h$ is admissible (optimistic) if:
+
+$$
+h\left(n\right) \leq h^*\left(n\right)
+$$
+
+where $h^*\left(n\right)$ is the true cost to reach the goal from node $n$. The admissible heuristic guarantees that A* will never stop exploring a path that could lead to a better solution. With inadmissible heuristics, A* may think a node is "too expensive" and stop exploring it, even if that node is actually on the optimal path.
+
+For admissible heuristics, there are some methods for calculating $h\left(n\right)$:
+
+1. Manhattan Distance: The sum of the absolute differences of the $x$ and $y$ coordinates. 
+
+$$
+h\left(n\right) = \left|x_{\text{goal}} - x_{\text{current}}\right| + \left|y_{\text{goal}} - y_{\text{current}}\right|
+$$
+
+2. Euclidean Distance: The straight-line distance between two points.
+
+$$
+h\left(n\right) = \sqrt{\left(x_{\text{goal}} - x_{\text{current}}\right)^2 + \left(y_{\text{goal}} - y_{\text{current}}\right)^2}
+$$
+
+3. Chebyshev Distance: The maximum of the absolute differences of the $x$ and $y$ coordinates.
+
+$$
+h\left(n\right) = \max\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right)
+$$
+
+4. Octile Distance: The diagonal distance between two points.
+
+$$
+h\left(n\right) = \left(\sqrt{2} - 1\right) \cdot \min\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right) + \max\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right)
+$$
+
+5. Zero Heuristic: The heuristic that always returns zero (which is the same as uniform-cost search).
+

@@ -11,3 +11,8 @@ table {
 table.both tbody td:first-child {
     background-color: #f4f4f4;
 }
+
+span.katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+}

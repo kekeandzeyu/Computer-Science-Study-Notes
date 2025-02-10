@@ -84,29 +84,7 @@ public class SLList<T> implements Iterable<T> {
             p = p.next;
         }
         p.next = new Node<>(x, null);
-    }
-    
-    /**
-     * Get the first element of the list
-     *
-     * @return first element of the list
-     */
-    public T getFirst() {
-        return sentinel.next.item;
-    }
-    
-    /**
-     * Get the last element of the list
-     *
-     * @return last element of the list
-     */
-    public T getLast() {
-        Node<T> p = sentinel;
-        while (p.next != null) {
-            p = p.next;
-        }
-        return p.item;
-    }    
+    } 
 
     /**
      * Return the size of the list
@@ -147,7 +125,7 @@ public class SLList<T> implements Iterable<T> {
     </TabItem>
     <TabItem title="C++">
     
-```cpp frame="terminal" collapse={1-121}
+```cpp frame="terminal" collapse={1-133}
 // SLList.h
 #ifndef SLLIST_H
 #define SLLIST_H
@@ -209,12 +187,18 @@ SLList<T>::SLList(T x) : sentinel(new Node<T>(T(), nullptr)), size(1) {
     sentinel->next = new Node<T>(x, nullptr);
 }
 
+/**
+ * Add element to the front of the list
+ */
 template <typename T>
 void SLList<T>::addFirst(T x) {
     sentinel->next = new Node<T>(x, sentinel->next);
     size++;
 }
 
+/**
+ * Add element to the end of the list
+ */
 template <typename T>
 void SLList<T>::addLast(T x) {
     size++;
@@ -225,11 +209,17 @@ void SLList<T>::addLast(T x) {
     p->next = new Node<T>(x, nullptr);
 }
 
+/**
+ * Return the size of the list
+ */
 template <typename T>
 int SLList<T>::getSize() const {
     return size;
 }
 
+/**
+ * Iterator implementation for SLList
+ */
 template <typename T>
 typename SLList<T>::iterator SLList<T>::begin() {
     return iterator(sentinel->next);
@@ -274,7 +264,8 @@ bool SLList<T>::iterator::operator!=(const iterator& other) const {
     </TabItem>
     <TabItem title="Python">
 
-```python frame="terminal"
+```python frame="terminal" collapse={1-46}
+# SLList.py
 class Node:
     """Represents a node in the singly linked list."""
     def __init__(self, item, next_node):
@@ -324,3 +315,4 @@ class SLList:
 
     </TabItem>
 </Tabs>
+
