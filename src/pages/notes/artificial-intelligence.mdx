@@ -412,3 +412,235 @@ $$
 
 5. Zero Heuristic: The heuristic that always returns zero (which is the same as uniform-cost search).
 
+<Tabs>
+    <TabItem title="Java">
+
+```java
+import java.util.*;
+
+public class AStarSearch {
+
+    public static class AStar {
+        private final int[][] grid;
+        private final Node[][] nodes;
+        private final int rows;
+        private final int cols;
+
+        /**
+         * Constructs an AStar instance for a given grid.
+         * The grid is a 2D array where 0 indicates a walkable cell and 1 indicates an obstacle.
+         *
+         * @param grid The grid for the A* search.
+         */
+        public AStar(int[][] grid) {
+            this.grid = grid;
+            this.rows = grid.length;
+            this.cols = grid[0].length;
+            this.nodes = new Node[rows][cols];
+
+            for (int y = 0; y < rows; y++) {
+                for (int x = 0; x < cols; x++) {
+                    nodes[y][x] = new Node(x, y);
+                }
+            }
+        }
+
+        /**
+         * Resets all nodes to their initial state.
+         * This is useful when performing multiple searches on the same grid.
+         */
+        private void resetNodes() {
+            for (int y = 0; y < rows; y++) {
+                for (int x = 0; x < cols; x++) {
+                    Node n = nodes[y][x];
+                    n.g = Double.POSITIVE_INFINITY;
+                    n.h = 0;
+                    n.f = Double.POSITIVE_INFINITY;
+                    n.parent = null;
+                }
+            }
+        }
+
+        /**
+         * Finds a path from the start cell to the goal cell using the A* search
+         * algorithm.
+         *
+         * @param startX The x-coordinate of the start cell.
+         * @param startY The y-coordinate of the start cell.
+         * @param goalX  The x-coordinate of the goal cell.
+         * @param goalY  The y-coordinate of the goal cell.
+         * @return A list of nodes representing the path (including start and goal),
+         *         or null if no path is found.
+         */
+        public List<Node> findPath(int startX, int startY, int goalX, int goalY) {
+            resetNodes();
+
+            Node start = nodes[startY][startX];
+            Node goal = nodes[goalY][goalX];
+
+            /* Open list to hold nodes to be evaluated. */
+            PriorityQueue<Node> openList = new PriorityQueue<>();
+            /* Closed list to mark visited cells. */
+            boolean[][] closed = new boolean[rows][cols];
+
+            start.g = 0;
+            start.h = heuristic(start, goal);
+            start.f = start.g + start.h;
+            openList.add(start);
+
+            while (!openList.isEmpty()) {
+                Node current = openList.poll();
+
+                // If the goal is reached, reconstruct and return the path.
+                if (current.equals(goal)) {
+                    return reconstructPath(current);
+                }
+
+                closed[current.y][current.x] = true;
+
+                for (Node neighbor : getNeighbors(current)) {
+                    if (closed[neighbor.y][neighbor.x]) {
+                        continue;
+                    }
+
+                    double tentativeG = current.g + 1; // Cost to move to the neighbor.
+
+                    // If a shorter path to neighbor is found, update its cost and parent.
+                    if (tentativeG < neighbor.g) {
+                        neighbor.parent = current;
+                        neighbor.g = tentativeG;
+                        neighbor.h = heuristic(neighbor, goal);
+                        neighbor.f = neighbor.g + neighbor.h;
+
+                        // Add neighbor to open list if it's not already there.
+                        if (!openList.contains(neighbor)) {
+                            openList.add(neighbor);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /**
+         * Reconstructs the path from the goal node back to the start node.
+         *
+         * @param node The goal node.
+         * @return A list of nodes representing the path from start to goal.
+         */
+        private List<Node> reconstructPath(Node node) {
+            List<Node> path = new ArrayList<>();
+            while (node != null) {
+                path.add(node);
+                node = node.parent;
+            }
+            Collections.reverse(path);
+            return path;
+        }
+
+        /**
+         * The Manhattan distance heuristic function.
+         *
+         * @param a The current node.
+         * @param b The goal node.
+         * @return The Manhattan distance between node a and node b.
+         */
+        private double heuristic(Node a, Node b) {
+            return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+        }
+
+        /**
+         * Retrieves valid neighboring nodes (up, down, left, right) that 
+         * are walkable.
+         *
+         * @param node The current node.
+         * @return A list of valid neighbor nodes.
+         */
+        private List<Node> getNeighbors(Node node) {
+            List<Node> neighbors = new ArrayList<>();
+            int x = node.x;
+            int y = node.y;
+            int[][] directions = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
+
+            for (int[] d : directions) {
+                int newX = x + d[0];
+                int newY = y + d[1];
+
+                // Ensure new coordinates are within the grid boundaries.
+                if (newX >= 0 && newX < cols && newY >= 0 && newY < rows) {
+                    // Check if the cell is walkable.
+                    if (grid[newY][newX] == 0) {
+                        neighbors.add(nodes[newY][newX]);
+                    }
+                }
+            }
+            return neighbors;
+        }
+
+        /**
+         * Represents a node (cell) in the grid.
+         */
+        public static class Node implements Comparable<Node> {
+            public final int x, y;  // Grid coordinates.
+            public double g;        // Cost from the start node.
+            public double h;        // Heuristic cost to the goal.
+            public double f;        // Total cost (g + h).
+            public Node parent;     // Reference to the parent node for path reconstruction.
+
+            public Node(int x, int y) {
+                this.x = x;
+                this.y = y;
+                this.g = Double.POSITIVE_INFINITY;
+                this.h = 0;
+                this.f = Double.POSITIVE_INFINITY;
+                this.parent = null;
+            }
+
+            @Override
+            public int compareTo(Node other) {
+                return Double.compare(this.f, other.f);
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) return true;
+                if (obj == null || getClass() != obj.getClass()) return false;
+                Node other = (Node) obj;
+                return x == other.x && y == other.y;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(x, y);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int[][] grid = {
+                { 0, 0, 0, 0, 0 },
+                { 0, 1, 1, 1, 0 },
+                { 0, 0, 0, 1, 0 },
+                { 0, 1, 0, 0, 0 },
+                { 0, 0, 0, 1, 0 }
+        };
+
+        AStar aStar = new AStar(grid);
+        List<AStar.Node> path = aStar.findPath(0, 0, 4, 4);
+
+        if (path != null) {
+            System.out.println("Path found:");
+            for (AStar.Node node : path) {
+                System.out.println("(" + node.x + ", " + node.y + ")");
+            }
+        } else {
+            System.out.println("No path found.");
+        }
+    }
+}
+
+```
+
+    </TabItem>
+</Tabs>
