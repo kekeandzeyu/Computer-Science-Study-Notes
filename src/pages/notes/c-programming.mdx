@@ -575,12 +575,6 @@ std::cout << (iss.eof() ? "EOF" : "Not EOF") << std::endl;
 
 ### 4.3 iostreams
 
-There are four standard iostreams in C++:
-
-2. `std::cout`: Standard output stream (buffered).
-3. `std::cerr`: Standard error stream, used to output errors (unbuffered).
-4. `std::clog`: Standard log stream, used for non-critical event logging (buffered).
-
 #### 4.3.1 Input Streams
 
 1. `std::cin`: Standard input stream.
@@ -650,6 +644,32 @@ int main() {
 
 #### 4.3.2 Output Streams
 
-<Aside>
-  This is a helpful note to remember. Notes are great for highlighting important information.
-</Aside>
+1. `std::cout`: Standard output stream.
+2. `std::cerr`: Standard error stream (unbuffered), used for displaying error messages and diagnostic information.
+3. `std::clog`: Standard error stream (buffered), used for displaying logging information.
+4. `std::ofstream`: Output file stream.
+
+```cpp frame="terminal"
+// outputStream.cpp
+#include <iostream>
+
+int main() {
+    bool error = true;
+    std::clog << "Starting program execution...\n";
+    std::clog << "Processing data...\n";
+    if (error) {
+        std::cerr << "Error: Data processing failed!\n";
+    }
+    std::clog << "Program finished.\n";
+    return 0;
+}
+```
+
+Now if we execute the program with:
+
+```bash
+./outputStream 2> error.log
+```
+
+You can see the messages of `std::cerr` in the `error.log` file. 
+
