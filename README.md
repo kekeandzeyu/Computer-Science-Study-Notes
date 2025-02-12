@@ -181,11 +181,3 @@ This repository is used for storing the original files edited in Writerside; [cs
 The notes are under MIT License.
 
 All the references in the notes are under their original licenses.
-
-## 7 Acknowledgements
-
-Above all, I'd like to express my sincere gratitude to all those professors and TAs in the list above, who selflessly imparting his profound knowledge to us beginners, and made those learning resources public to everyone. The valuable knowledge has benefited me a lot and will be unforgettable for my whole life.
-
-In addition, I'd like to express thanks to all those teachers and seniors who help me during my self-learning process.
-
-Lastly, I'd like to reserve this part for my mother. For all these years, she has dedicated her life to nurture me, and . We have experiencd all those ups and downs together; it is incredibly hard to raise me under so much hard circumstances, and she has sacrificed all of herself to bring me up. During all this process of learning computer science myself, she always have my back, no matter what difficullties I encounter. This repository is certainly not even a little success, but I want to accredit everything I achieve to her sacrifice and hard work, without which I cannot accomplish anything.
