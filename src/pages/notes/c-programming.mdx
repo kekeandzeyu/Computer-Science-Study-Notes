@@ -649,6 +649,30 @@ int main() {
 3. `std::clog`: Standard error stream (buffered), used for displaying logging information.
 4. `std::ofstream`: Output file stream.
 
+<Aside type="note">
+    <p>For output streams, characters are stored in an intermediary buffer before being flushed to the destination.</p>
+
+```cpp
+std::cout << "Avengers assemble!" << std::endl;
+// std::cout << "Avengers assemble!" << '\n';
+```
+
+    <p>Both ways above are equivalent: they will add a newline character to the output stream and flush.</p>
+
+```cpp
+std::cout << "Avengers assemble!" << std::flush;
+```
+
+    <p>This will flush the buffer without adding a newline character.</p>
+
+```cpp
+std::ios::sync_with_stdio(false);
+std::cout << "Avengers assemble!\n";
+```
+
+    <p>In many implementations, standard output is line-buffered, and writing '\n' causes a flush anyway, unless `std::ios::sync_with_stdio(false)` was executed.</p>
+</Aside>
+
 ```cpp frame="terminal"
 // outputStream.cpp
 #include <iostream>
