@@ -1,6 +1,8 @@
+@use '../variables' as v;
+
 .footer {
-    width: auto;
-    background-color: rgba(245, 243, 253);
+    width: 100%;
+    background-color: v.$theme-background-color;
     padding-top: 16px;
     padding-bottom: 16px;
     color: black;
