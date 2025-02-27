@@ -1,9 +1,5 @@
 @use '../variables' as v;
 
-.body {
-    background-color: white !important;
-}
-
 /* Main Content */
 .main-content {
     display: grid;
@@ -16,9 +12,9 @@
 /* Notes Part */
 .notes-content {
     grid-column: 2;
-    background-color: white;
+    background-color: #ffffff;
     flex: 1;
-    padding: 48px 32px 0;
+    padding: 48px 32px 32px 48px;
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
@@ -91,7 +87,6 @@
         padding: 2px 6px;
         border-radius: 3px;
         word-break: break-word;
-        font-family: v.$code-font !important;
         font-weight: normal !important;
         font-size: 16px !important;
         background-color: rgba(25, 25, 28, 0.05) !important;
@@ -288,6 +283,12 @@
     right: 0;
     overflow-y: auto;
     border-left: 1px solid #d1d1d2;
+
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
 
     &-content {
         padding-top: (v.$navigation-padding-size + v.$navigation-text-padding-size) * 2 + v.$navigation-text-size;;

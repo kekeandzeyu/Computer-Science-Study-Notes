@@ -1,6 +1,5 @@
 @use 'variables' as v;
 
-
 @font-face {
     font-family: 'MiSans Regular';
     -webkit-font-feature-settings: normal;
@@ -42,30 +41,6 @@
     url('/fonts/Inter/Inter-Text/Inter-Medium.ttf') format('truetype');
 }
 
-@font-face {
-    font-family: 'JetBrains Mono';
-    -webkit-font-feature-settings: normal;
-    font-weight: normal;
-    font-display: swap;
-    src: url('/fonts/JetBrains-Mono/JetBrainsMono-Regular.woff2') format('woff2'),
-    url('/fonts/JetBrains-Mono/JetBrainsMono-Regular.woff') format('woff'),
-    url('/fonts/JetBrains-Mono/JetBrainsMono-Regular.ttf') format('truetype'),
-    url('/fonts/JetBrains-Mono/JetBrainsMono-Regular.eot') format('embedded-opentype'),
-    url('/fonts/JetBrains-Mono/JetBrainsMono-Regular.svg') format('svg');
-}
-
-:root {
-    /* Global Colors */
-    --theme-text-color: v.$theme-text-color;
-    --theme-background-color: v.$theme-background-color;
-    --sidebar-width: v.$sidebar-width;
-    --button-margin: v.$button-margin;
-    --button-padding-top: v.$button-padding-top;
-    --button-padding-left: v.$button-padding-left;
-    --button-font-size: v.$button-font-size;
-}
-
-
 /* Global Styles: Default for English */
 body {
     h1, h2, h3, h4, h5, h6 {
@@ -94,7 +69,7 @@ body {
 }
 
 body {
-    background-color: v.$theme-background-color;
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
