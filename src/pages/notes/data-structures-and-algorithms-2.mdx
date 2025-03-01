@@ -315,3 +315,362 @@ class SLList:
 
     </TabItem>
 </Tabs>
+
+### 2.2 Doubly Linked List
+
+While a deque defines the behavior (an interface) of a double-ended queue, a doubly linked list provides one way to realize that behavior through its design.
+
+<Tabs>
+    <TabItem title="Java">
+
+```java frame="terminal" collapse={1-112}
+// DLList.java
+import java.util.Iterator;
+
+public class DLList<T> implements Iterable<T> {
+
+    /**
+     * Node class for DLList.
+     * Each node holds a reference to its item and pointers to the previous and next 
+     * nodes.
+     */
+    private static class Node<T> {
+        public T item;
+        public Node<T> prev;
+        public Node<T> next;
+
+        public Node(T item, Node<T> prev, Node<T> next) {
+            this.item = item;
+            this.prev = prev;
+            this.next = next;
+        }
+    }
+
+    private final Node<T> sentinel;
+    private int size;
+
+    /**
+     * Default constructor for an empty DLList.
+     * A circular sentinel node is created where sentinel.next and sentinel.prev point to sentinel itself.
+     */
+    public DLList() {
+        sentinel = new Node<>(null, null, null);
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
+        size = 0;
+    }
+
+    /**
+     * Constructor for DLList with one element.
+     *
+     * @param x the element to be added
+     */
+    public DLList(T x) {
+        sentinel = new Node<>(null, null, null);
+        Node<T> newNode = new Node<>(x, sentinel, sentinel);
+        sentinel.next = newNode;
+        sentinel.prev = newNode;
+        size = 1;
+    }
+
+    /**
+     * Adds an element to the front of the list.
+     *
+     * @param x the element to be added
+     */
+    public void addFirst(T x) {
+        Node<T> newNode = new Node<>(x, sentinel, sentinel.next);
+        sentinel.next.prev = newNode;
+        sentinel.next = newNode;
+        size++;
+    }
+
+    /**
+     * Adds an element to the end of the list.
+     *
+     * @param x the element to be added
+     */
+    public void addLast(T x) {
+        Node<T> newNode = new Node<>(x, sentinel.prev, sentinel);
+        sentinel.prev.next = newNode;
+        sentinel.prev = newNode;
+        size++;
+    }
+
+    /**
+     * Returns the size of the list.
+     *
+     * @return the number of elements in the list
+     */
+    public int size() {
+        return size;
+    }
+
+    /**
+     * Provides an iterator over the list's elements.
+     *
+     * @return an iterator that traverses the list from front to back
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new DLListIterator();
+    }
+
+    private class DLListIterator implements Iterator<T> {
+        private Node<T> current;
+
+        public DLListIterator() {
+            current = sentinel.next;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != sentinel;
+        }
+
+        @Override
+        public T next() {
+            T returnItem = current.item;
+            current = current.next;
+            return returnItem;
+        }
+    }
+}
+```
+
+    </TabItem>
+    <TabItem title="C++">
+
+```cpp frame="terminal" collapse={1-157}
+// DLList.h
+#ifndef DLLIST_H
+#define DLLIST_H
+
+#include <iterator>
+#include <cstddef> 
+
+template <typename T>
+class DLList {
+public:
+    template <typename U>
+    struct Node {
+        U item;
+        Node* next;
+        Node* prev;
+
+        Node(U i, Node<U>* p, Node<U>* n) : item(i), next(n), prev(p) {}
+    };
+
+private:
+    Node<T>* sentinel;
+    int size;
+
+public:
+    DLList();
+    explicit DLList(T x);
+    void addFirst(T x);
+    void addLast(T x);
+    [[nodiscard]] int getSize() const;
+    class iterator;
+    iterator begin();
+    iterator end();
+};
+
+template <typename T>
+class DLList<T>::iterator {
+public:
+    using iterator_category = std::bidirectional_iterator_tag;
+    using value_type = T;
+    using difference_type = std::ptrdiff_t;
+    using pointer = T*;
+    using reference = T&;
+
+private:
+    Node<T>* current;
+
+public:
+    explicit iterator(Node<T>* node) : current(node) {}
+
+    T& operator*() const;
+    T* operator->() const;
+    iterator& operator++();
+    iterator& operator--();
+    bool operator==(const iterator& other) const;
+    bool operator!=(const iterator& other) const;
+};
+
+/**************************************
+ * Implementation of the DLList class.*
+ **************************************/
+
+/* Default constructor: creates an empty list with a circular sentinel node. */
+template <typename T>
+DLList<T>::DLList() : size(0) {
+    sentinel = new Node<T>(T(), nullptr, nullptr);
+    sentinel->next = sentinel;
+    sentinel->prev = sentinel;
+}
+
+/* Constructor with one element. */
+template <typename T>
+DLList<T>::DLList(T x) : size(1) {
+    sentinel = new Node<T>(T(), nullptr, nullptr);
+    sentinel->next = sentinel;
+    sentinel->prev = sentinel;
+    auto* newNode = new Node<T>(x, sentinel, sentinel);
+    sentinel->next = newNode;
+    sentinel->prev = newNode;
+    newNode->next = sentinel;
+    newNode->prev = sentinel;
+}
+
+/* Add element to the front of the list. */
+template <typename T>
+void DLList<T>::addFirst(T x) {
+    auto* newNode = new Node<T>(x, sentinel, sentinel->next);
+    sentinel->next->prev = newNode;
+    sentinel->next = newNode;
+    size++;
+}
+
+/* Add element to the end of the list. */
+template <typename T>
+void DLList<T>::addLast(T x) {
+    auto* newNode = new Node<T>(x, sentinel->prev, sentinel);
+    sentinel->prev->next = newNode;
+    sentinel->prev = newNode;
+    size++;
+}
+
+/* Return the size of the list. */
+template <typename T>
+int DLList<T>::getSize() const {
+    return size;
+}
+
+/* Returns iterator to the first element. */
+template <typename T>
+typename DLList<T>::iterator DLList<T>::begin() {
+    return iterator(sentinel->next);
+}
+
+/* Returns iterator to the end (sentinel node). */
+template <typename T>
+typename DLList<T>::iterator DLList<T>::end() {
+    return iterator(sentinel);
+}
+
+/***************************
+ * Iterator Implementation *
+ ***************************/
+
+template <typename T>
+T& DLList<T>::iterator::operator*() const {
+    return current->item;
+}
+
+template <typename T>
+T* DLList<T>::iterator::operator->() const {
+    return &(current->item);
+}
+
+/* Pre-increment: move to the next node. */
+template <typename T>
+typename DLList<T>::iterator& DLList<T>::iterator::operator++() {
+    current = current->next;
+    return *this;
+}
+
+/* Pre-decrement: move to the previous node. */
+template <typename T>
+typename DLList<T>::iterator& DLList<T>::iterator::operator--() {
+    current = current->prev;
+    return *this;
+}
+
+template <typename T>
+bool DLList<T>::iterator::operator==(const iterator& other) const {
+    return current == other.current;
+}
+
+template <typename T>
+bool DLList<T>::iterator::operator!=(const iterator& other) const {
+    return !(*this == other);
+}
+
+#endif  // DLLIST_H
+```
+
+    </TabItem>
+    <TabItem title="Python">
+
+```python frame="terminal" collapse={1-46}
+# DLList.py
+class DLList:
+    class Node:
+        def __init__(self, item, prev=None, next=None):
+            self.item = item
+            self.prev = prev
+            self.next = next
+
+    def __init__(self):
+        # Create a circular sentinel node.
+        self.sentinel = self.Node(None)
+        self.sentinel.next = self.sentinel
+        self.sentinel.prev = self.sentinel
+        self.size = 0
+
+    def addFirst(self, x):
+        """Add an element to the front of the list."""
+        new_node = self.Node(x, self.sentinel, self.sentinel.next)
+        self.sentinel.next.prev = new_node
+        self.sentinel.next = new_node
+        self.size += 1
+
+    def addLast(self, x):
+        """Add an element to the end of the list."""
+        new_node = self.Node(x, self.sentinel.prev, self.sentinel)
+        self.sentinel.prev.next = new_node
+        self.sentinel.prev = new_node
+        self.size += 1
+
+    def getSize(self):
+        """Return the size of the list."""
+        return self.size
+
+    def __iter__(self):
+        """Forward iterator: iterate from the first element to the end."""
+        current = self.sentinel.next
+        while current != self.sentinel:
+            yield current.item
+            current = current.next
+
+    def iter_backward(self):
+        """Backward iterator: iterate from the last element to the beginning."""
+        current = self.sentinel.prev
+        while current != self.sentinel:
+            yield current.item
+            current = current.prev
+```
+
+    </TabItem>
+</Tabs>
+
+## 3 Union-Find
+
+### 3.1 Quick Find (Eager Approach)
+
+* `parent[i]` is the root of $i$, $p$ and $q$ are connected if and only if they have the same `parent[i]`. 
+* <span color="Fuchsia">Find:</span> Check if $p$ and $q$ have the same `parent[i]`.
+* <span color="Fuchsia">Union:</span> To merge components containing $p$ and $q$, change all entries whose id equals `parent[p]` to `parent[q]`.
+
+<Aside>
+    <p>Defects:</p>
+    <ul>
+        <li>Union too expensive ($N$ array accesses).</li>
+        <li>Trees are flat, but too expensive to keep them flat.</li>
+    </ul>
+</Aside>
+
+### 3.2 Quick Union (Lazy Approach)
+
