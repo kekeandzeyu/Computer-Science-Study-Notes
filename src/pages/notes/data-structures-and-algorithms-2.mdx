@@ -674,3 +674,241 @@ class DLList:
 
 ### 3.2 Quick Union (Lazy Approach)
 
+* `parent[i]` is the parent of $i$, root of $i$ is `parent[parent...[i]]` (keep going until it doesn't change)
+* <span color="Fuchsia">Find:</span> Check if $p$ and $q$ have the same root.
+* <span color="Fuchsia">Union:</span> To merge components containing $p$ and $q$, set the id of $p$'s root to the id of $q$'s root.
+
+<Aside>
+    <p>Defects:</p>
+    <ul>
+        <li>Trees can get tall.</li>
+        <li>FInd can be very expensive (could be $N$ array accesses).</li>
+    </ul>
+</Aside>
+
+### 3.3 Quick Union Improvements
+
+For quick union, we can improve the algorithm by using weighted quick union and path compression (WQUPC). 
+
+* **Weighted quick-union:** Keep track of size of each tree (number of objects), and balance it by linking root of smaller tree to root of larger tree, so that trees won't be too tall. 
+* **Path compression:** Just after computing the root of $p$, set the parent of each examined node to point to that root.
+
+<p color="BlueViolet">Propositions</p>
+
+1. Depth of any node $x$ is at most $\log_2 N$
+
+   Proof:
+
+   The depth of $x$ increase by $1$ when tree $T_1$ containing $x$ is merged into another tree $T_2$. The size of the tree containing $x$ at least doubles since $|T_2| \geq |T_1|$.
+
+   Therefore, the size of tree containing $x$ can double at most $\log_2 N$ times.
+
+2. Starting from an empty data structure, any sequence of $M$ union-find ops on $N$ objects makes $\leq c ( N + M \lg* N )$ array accesses.
+3. In theory, WQUPC is not quite linear, but in practice, it is linear.
+In "cell-probe" model of computation, no linear-algorithm exists.
+
+<Tabs>
+    <TabItem title="Java">
+
+```java frame="terminal" collapse={1-94}
+// UF.java
+import java.util.Scanner;
+
+/**
+ * The {@code UF} class represents a union–find data type
+ * (also known as the disjoint-sets data type). It supports the
+ * classic union and find operations, along with a count operation
+ * that returns the total number of sets.
+ * <p>
+ * This implementation uses weighted quick union by rank with
+ * path compression by halving.
+ */
+public class UF {
+
+    private final int[] parent;  // parent[i] = parent of i
+    private final byte[] rank;   // rank[i] = rank of subtree rooted at i (never more than 31)
+    private int count;     // number of components
+
+    /**
+     * Initializes an empty union-find data structure with
+     * {@code n} elements 0 through n-1.
+     * Initially, each element is in its own set.
+     *
+     * @param n the number of elements
+     * @throws IllegalArgumentException if {@code n < 0}
+     */
+    public UF(int n) {
+        if (n < 0) throw new IllegalArgumentException("n must be non-negative");
+        count = n;
+        parent = new int[n];
+        rank = new byte[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+            rank[i] = 0;
+        }
+    }
+
+    /**
+     * Returns the canonical element (root) of the set containing element p.
+     *
+     * @param p an element
+     * @return the canonical element of the set containing p
+     * @throws IllegalArgumentException unless 0 <= p < n
+     */
+    public int find(int p) {
+        validate(p);
+        while (p != parent[p]) {
+            parent[p] = parent[parent[p]]; // path compression
+            p = parent[p];
+        }
+        return p;
+    }
+
+    /**
+     * Returns the number of sets.
+     *
+     * @return the number of sets (between 1 and n)
+     */
+    public int count() {
+        return count;
+    }
+
+    /**
+     * Merges the set containing element p with the set containing element q.
+     *
+     * @param p one element
+     * @param q the other element
+     * @throws IllegalArgumentException unless 0 <= p < n and 0 <= q < n
+     */
+    public void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (rootP == rootQ) return;
+
+        /* Weighted Quick Union: Make root of smaller rank point to root of larger rank. */ 
+        if (rank[rootP] < rank[rootQ]) {
+            parent[rootP] = rootQ;
+        } else if (rank[rootP] > rank[rootQ]) {
+            parent[rootQ] = rootP;
+        } else {
+            parent[rootQ] = rootP;
+            rank[rootP]++;
+        }
+        count--;
+    }
+
+    // Validates that p is a valid index.
+    private void validate(int p) {
+        int n = parent.length;
+        if (p < 0 || p >= n) {
+            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n - 1));
+        }
+    }
+}
+```
+
+    </TabItem>
+    <TabItem title="C++">
+
+```cpp frame="terminal" collapse={1-97}
+// UF.h
+#ifndef UF_H
+#define UF_H
+
+#include <vector>
+#include <stdexcept>
+#include <string>
+
+/**
+ * @brief The UnionFind class represents a union–find data type (disjoint sets).
+ *
+ * This implementation uses weighted quick union by rank with
+ * path compression by halving.
+ *
+ * @tparam T The type used for indices (default is int).
+ */
+template <typename T = int>
+class UnionFind {
+private:
+    std::vector<T> parent;  // parent[i] = parent of i
+    std::vector<int> rank;  // rank[i] = rank of subtree rooted at i
+    int count;              // number of components
+
+    // Validate that p is a valid index.
+    void validate(T p) const {
+        if (p < 0 || p >= static_cast<T>(parent.size()))
+            throw std::out_of_range("Index " + std::to_string(p) +
+                                    " is not between 0 and " +
+                                    std::to_string(parent.size() - 1));
+    }
+
+public:
+    /**
+     * @brief Constructs a union-find structure with n elements 0 ... n-1.
+     *
+     * @param n the number of elements
+     * @throws std::invalid_argument if n is negative
+     */
+    explicit UnionFind(int n) : parent(n), rank(n, 0), count(n) {
+        if (n < 0)
+            throw std::invalid_argument("n must be non-negative");
+        for (int i = 0; i < n; ++i)
+            parent[i] = static_cast<T>(i);
+    }
+
+    /**
+     * @brief Finds the canonical element (root) of the set containing p.
+     *
+     * Uses path compression by halving.
+     *
+     * @param p an element
+     * @return the root of the set containing p
+     * @throws std::out_of_range if p is not a valid index
+     */
+    T find(T p) {
+        validate(p);
+        while (p != parent[p]) {
+            parent[p] = parent[parent[p]];  // path compression
+            p = parent[p];
+        }
+        return p;
+    }
+
+    /**
+     * @brief Merges the set containing element p with the set containing element q.
+     *
+     * @param p one element
+     * @param q another element
+     */
+    void unionSets(T p, T q) {
+        T rootP = find(p);
+        T rootQ = find(q);
+        if (rootP == rootQ) return;
+
+        /* Weighted Quick Union: Make the tree with smaller rank point to the one with larger rank. */
+        if (rank[rootP] < rank[rootQ])
+            parent[rootP] = rootQ;
+        else if (rank[rootP] > rank[rootQ])
+            parent[rootQ] = rootP;
+        else {
+            parent[rootQ] = rootP;
+            ++rank[rootP];
+        }
+        --count;
+    }
+
+    /**
+     * @brief Returns the number of disjoint sets.
+     *
+     * @return the number of connected components
+     */
+    [[nodiscard]] int countSets() const {
+        return count;
+    }
+};
+
+#endif // UF_H
+```
+
+    </TabItem>
+</Tabs>
