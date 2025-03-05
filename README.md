@@ -56,6 +56,10 @@ If someone's original work is used but not mentioned in the following list, or b
 
 7. <https://en.wikipedia.org/wiki/Linked_list>.
 
+#### 3 Union-Find (Disjoint Sets)
+
+8. <https://en.wikipedia.org/wiki/Disjoint-set_data_structure>.
+
 ### Topic 3: C++ Programming
 
 1. CS106L: Standard C++ Programming (Stanford University) by Professor Avery Wang, Anna Zeng and the rest of CS106L staff.

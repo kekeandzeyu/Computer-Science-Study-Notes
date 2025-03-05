@@ -1,6 +1,6 @@
 ---
 layout: "../../layouts/NotesLayout.astro"
-title: 'Data Structures and Algorithms'
+title: "Data Structures and Algorithms Part I"
 author: 'Zeyu Li'
 tags: ["Data Structures and Algorithms", "Computer Science"]
 ---
@@ -656,13 +656,17 @@ class DLList:
     </TabItem>
 </Tabs>
 
-## 3 Union-Find
+## 3 Union-Find (Disjoint Sets)
+
+Union-Find data structure (also known as Disjoint-Set data structure), is a data structure that stores a collection of disjoint (non-overlapping) sets. It provides operations for adding new sets, merging sets (replacing them with their union), and finding a representative member of a set.
+
+<img src="/assets/data-structures/3-1-1.png" width="700" alt="Union-Find"/>
 
 ### 3.1 Quick Find (Eager Approach)
 
 * `parent[i]` is the root of $i$, $p$ and $q$ are connected if and only if they have the same `parent[i]`. 
-* <span color="Fuchsia">Find:</span> Check if $p$ and $q$ have the same `parent[i]`.
-* <span color="Fuchsia">Union:</span> To merge components containing $p$ and $q$, change all entries whose id equals `parent[p]` to `parent[q]`.
+* <span style="color:Fuchsia">Find:</span> Check if $p$ and $q$ have the same `parent[i]`.
+* <span style="color:Fuchsia">Union:</span> To merge components containing $p$ and $q$, change all entries whose id equals `parent[p]` to `parent[q]`.
 
 <Aside>
     <p>Defects:</p>
@@ -675,14 +679,14 @@ class DLList:
 ### 3.2 Quick Union (Lazy Approach)
 
 * `parent[i]` is the parent of $i$, root of $i$ is `parent[parent...[i]]` (keep going until it doesn't change)
-* <span color="Fuchsia">Find:</span> Check if $p$ and $q$ have the same root.
-* <span color="Fuchsia">Union:</span> To merge components containing $p$ and $q$, set the id of $p$'s root to the id of $q$'s root.
+* <span style="color:Fuchsia">Find:</span> Check if $p$ and $q$ have the same root.
+* <span style="color:Fuchsia">Union:</span> To merge components containing $p$ and $q$, set the id of $p$'s root to the id of $q$'s root.
 
 <Aside>
     <p>Defects:</p>
     <ul>
         <li>Trees can get tall.</li>
-        <li>FInd can be very expensive (could be $N$ array accesses).</li>
+        <li>Find can be very expensive (could be $N$ array accesses).</li>
     </ul>
 </Aside>
 
@@ -690,22 +694,28 @@ class DLList:
 
 For quick union, we can improve the algorithm by using weighted quick union and path compression (WQUPC). 
 
-* **Weighted quick-union:** Keep track of size of each tree (number of objects), and balance it by linking root of smaller tree to root of larger tree, so that trees won't be too tall. 
-* **Path compression:** Just after computing the root of $p$, set the parent of each examined node to point to that root.
+* <span color="Fuchsia">Weighted quick-union:</span> Keep track of size of each tree (number of objects), and balance it by linking root of smaller tree to root of larger tree, so that trees won't be too tall. 
+* <span color="Fuchsia">Path compression:</span> Change the pointer of this node to skip a level, closer to the root or directly point at the root. In this way, the tree will get flatter.
 
-<p color="BlueViolet">Propositions</p>
+<img src="/assets/data-structures/3-3-1.png" width="700" alt="Path Compression"/>
+
+<p style="color:BlueViolet">Propositions</p>
 
 1. Depth of any node $x$ is at most $\log_2 N$
 
-   Proof:
+   <p style="color:#91f01d">Proof:</p>
 
    The depth of $x$ increase by $1$ when tree $T_1$ containing $x$ is merged into another tree $T_2$. The size of the tree containing $x$ at least doubles since $|T_2| \geq |T_1|$.
 
    Therefore, the size of tree containing $x$ can double at most $\log_2 N$ times.
 
-2. Starting from an empty data structure, any sequence of $M$ union-find ops on $N$ objects makes $\leq c ( N + M \lg* N )$ array accesses.
+2. Starting from an empty data structure, any sequence of $M$ union-find ops on $N$ objects makes $\Theta \left(M \alpha \left(N\right) \right) $ array accesses.
+
+    The amortized time for any $m$ `find` or `union` operations on a disjoint-set forest containing $n$ objects is $O(m \log* n)$, where $\log*$ denotes the iterated logarithm.
+
 3. In theory, WQUPC is not quite linear, but in practice, it is linear.
-In "cell-probe" model of computation, no linear-algorithm exists.
+
+   In "cell-probe" model of computation, no linear-algorithm exists.
 
 <Tabs>
     <TabItem title="Java">
@@ -714,15 +724,6 @@ In "cell-probe" model of computation, no linear-algorithm exists.
 // UF.java
 import java.util.Scanner;
 
-/**
- * The {@code UF} class represents a union–find data type
- * (also known as the disjoint-sets data type). It supports the
- * classic union and find operations, along with a count operation
- * that returns the total number of sets.
- * <p>
- * This implementation uses weighted quick union by rank with
- * path compression by halving.
- */
 public class UF {
 
     private final int[] parent;  // parent[i] = parent of i
@@ -911,4 +912,79 @@ public:
 ```
 
     </TabItem>
+    <TabItem title="Python">
+
+```python frame="terminal" collapse={1-67}
+# UF.py
+class UnionFind:
+
+    def __init__(self, n):
+        """
+        Initializes an empty union-find data structure with n elements 0 through n-1.
+        Each element is initially in its own set.
+        :param n: the number of elements (must be non-negative)
+        :raises ValueError: if n is negative
+        """
+        if n < 0:
+            raise ValueError("n must be non-negative")
+        self.count = n
+        self.parent = list(range(n))
+        self.rank = [0] * n
+
+    def _validate(self, p):
+        """
+        Validates that p is a valid index.
+        :param p: an element index
+        :raises ValueError: if p is not between 0 and n-1
+        """
+        n = len(self.parent)
+        if p < 0 or p >= n:
+            raise ValueError(f"Index {p} is not between 0 and {n - 1}")
+
+    def find(self, p):
+        """
+        Returns the canonical element (root) of the set containing p.
+        Implements path compression by halving.
+        :param p: an element
+        :return: the root of the set containing p
+        """
+        self._validate(p)
+        while p != self.parent[p]:
+            self.parent[p] = self.parent[self.parent[p]]  # path compression
+            p = self.parent[p]
+        return p
+
+    def union(self, p, q):
+        """
+        Merges the set containing element p with the set containing element q.
+        :param p: one element
+        :param q: another element
+        """
+        rootp = self.find(p)
+        rootq = self.find(q)
+        if rootp == rootq:
+            return
+
+        # Make the tree with smaller rank point to the tree with larger rank.
+        if self.rank[rootp] < self.rank[rootq]:
+            self.parent[rootp] = rootq
+        elif self.rank[rootp] > self.rank[rootq]:
+            self.parent[rootq] = rootp
+        else:
+            self.parent[rootq] = rootp
+            self.rank[rootp] += 1
+
+        self.count -= 1
+
+    def count_sets(self):
+        """
+        Returns the number of disjoint sets.
+        :return: number of connected components
+        """
+        return self.count
+```
+
+    </TabItem>
 </Tabs>
+
+<span style="color:BlueViolet">Applications:</span> Percoloation, games, dynamic connectivity, least common ancestor, Kruskal's minimum spanning tree algorithm, etc.
