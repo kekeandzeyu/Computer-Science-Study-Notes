@@ -1,5 +1,9 @@
 @use '../variables' as v;
 
+body {
+    background-color: v.$theme-background-color;
+}
+
 /* Introduction Part */
 .introduction {
     margin: 0;

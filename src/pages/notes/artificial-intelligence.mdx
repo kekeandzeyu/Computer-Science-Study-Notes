@@ -10,14 +10,14 @@ import TabItem from '../../components/TabItem.astro'
 
 ### 1.1 Agent Design  
 
-There are mainly two types of agents: **reflex agents** and **planning agents**.
+There are mainly two types of agents: <span style="color:Fuchsia">reflex agents</span> and <span style="color:Fuchsia">planning agents</span>.
 
-1. **Reflex Agents:**
+1. <span style="color:Fuchsia">Reflex Agents:</span>
     * Choose action based on current percept, and may have memory or a model of the world's current state.
     * Do not consider the future consequences of their actions, just consider how the world <span style="color:OrangeRed">IS</span>.
-2. **Planning Agents:**
+2. <span style="color:Fuchsia">Planning Agents:</span>
     * Decisions based on (hypothesized) consequences of actions.
-    * Must have a model of how the world evolves in response to actions, and formulate a goal (test), consider how the world <span style="color:OrangeRed">WOULD BE</span>
+    * Must have a model of how the world evolves in response to actions, and formulate a goal (test), consider how the world <span style="color:OrangeRed">WOULD BE</span>.
 
 ### 1.2 Search Problems 
 
@@ -25,16 +25,16 @@ A search problem consists of a state space, a successor function (with actions a
 
 For a search problem, we may need:
 
-* **State Space Graph:** A mathematical representation of a search problem. It consists of nodes (abstarcted world configurations) and arcs (successors/action results). The goal test is a set of goal nodes (maybe only one).
-* **Search Trees:** A "what if" tree of plans and their outcomes. Nodes show states, and children correspond to successors.
+* <span style="color:Fuchsia">State Space Graph:</span> A mathematical representation of a search problem. It consists of nodes (abstarcted world configurations) and arcs (successors/action results). The goal test is a set of goal nodes (maybe only one).
+* *<span style="color:Fuchsia">Search Trees:</span> A "what if" tree of plans and their outcomes. Nodes show states, and children correspond to successors.
 
 Search algorithms can be divided into two categories:
 
-* **Uninformed Search:** No additional information about states beyond the definition of the problem.
+* <span style="color:Fuchsia">Uninformed Search:</span> No additional information about states beyond the definition of the problem.
     * Depth-First Search
     * Breadth-First Search
     * Uniform-Cost Search
-* **Informed Search:** Use heuristics to guide the search.
+* <span style="color:Fuchsia">Informed Search:</span> Use heuristics to guide the search.
     * A* Search
 
 <Aside type="note">
@@ -56,20 +56,20 @@ Uniform-cost search is a variant of Dijkstra's algorithm. Not inserting all node
 // ucs.java
 import java.util.*;
 
-public class ucs {
-    private final double[] costTo;
-    private final int[] parent;
-    private final PriorityQueue<Integer> pq;
-    private final boolean[] visited;
+public class UCS<T> {
+    private final Map<T, Double> costTo;
+    private final Map<T, T> parent;
+    private final PriorityQueue<T> pq;
+    private final Set<T> visited;
 
     /**
      * A directed edge constructor with a cost.
      */
-    public static class Edge {
-        int neighbor;
+    public static class Edge<T> {
+        T neighbor;
         double cost;
 
-        public Edge(int neighbor, double cost) {
+        public Edge(T neighbor, double cost) {
             this.neighbor = neighbor;
             this.cost = cost;
         }
@@ -78,28 +78,27 @@ public class ucs {
     /**
      * Uniform-cost search constructor.
      */
-    public ucs(List<List<Edge>> graph, int startNode) {
-        int numNodes = graph.size();
-        costTo = new double[numNodes];
-        parent = new int[numNodes];
-        visited = new boolean[numNodes];
+    public UCS(Map<T, List<Edge<T>>> graph, T startNode) {
+        costTo = new HashMap<>();
+        parent = new HashMap<>();
+        visited = new HashSet<>();
 
-        for (int i = 0; i < numNodes; i++) {
-            costTo[i] = Double.POSITIVE_INFINITY;
-            parent[i] = -1;
+        for (T node : graph.keySet()) {
+            costTo.put(node, Double.POSITIVE_INFINITY);
+            parent.put(node, null);
         }
-        costTo[startNode] = 0.0;
+        costTo.put(startNode, 0.0);
 
-        pq = new PriorityQueue<>(Comparator.comparingDouble(v -> costTo[v]));
+        pq = new PriorityQueue<>(Comparator.comparingDouble(costTo::get));
         pq.offer(startNode);
 
         while (!pq.isEmpty()) {
-            int currentNode = pq.poll();
-            visited[currentNode] = true;
+            T currentNode = pq.poll();
+            visited.add(currentNode);
 
-            if (costTo[currentNode] == Double.POSITIVE_INFINITY) continue;
+            if (costTo.get(currentNode) == Double.POSITIVE_INFINITY) continue;
 
-            for (Edge edge : graph.get(currentNode)) {
+            for (Edge<T> edge : graph.get(currentNode)) {
                 relax(currentNode, edge.neighbor, edge.cost);
             }
         }
@@ -112,10 +111,10 @@ public class ucs {
      * @param v the target node
      * @param cost the cost of the edge
      */
-    private void relax(int u, int v, double cost) {
-        if (costTo[v] > costTo[u] + cost) {
-            costTo[v] = costTo[u] + cost;
-            parent[v] = u;
+    private void relax(T u, T v, double cost) {
+        if (costTo.get(v) > costTo.get(u) + cost) {
+            costTo.put(v, costTo.get(u) + cost);
+            parent.put(v, u);
             pq.offer(v);
         }
     }
@@ -126,8 +125,8 @@ public class ucs {
      * @param node the target node
      * @return the cost to the target node
      */
-    public double getCostTo(int node) {
-        return costTo[node];
+    public double getCostTo(T node) {
+        return costTo.getOrDefault(node, Double.POSITIVE_INFINITY);
     }
 
     /**
@@ -136,8 +135,8 @@ public class ucs {
      * @param node the target node
      * @return true if a path exists, false otherwise
      */
-    public boolean hasPathTo(int node) {
-        return costTo[node] < Double.POSITIVE_INFINITY;
+    public boolean hasPathTo(T node) {
+        return costTo.get(node) < Double.POSITIVE_INFINITY;
     }
 
     /**
@@ -146,13 +145,13 @@ public class ucs {
      * @param targetNode the target node
      * @return the path to the target node
      */
-    public List<Integer> getPathTo(int targetNode) {
+    public List<T> getPathTo(T targetNode) {
         if (!hasPathTo(targetNode)) {
             return null;
         }
 
-        List<Integer> path = new ArrayList<>();
-        for (int v = targetNode; v != -1; v = parent[v]) {
+        List<T> path = new ArrayList<>();
+        for (T v = targetNode; v != null; v = parent.get(v)) {
             path.add(v);
         }
 
@@ -163,92 +162,63 @@ public class ucs {
 ```
 
     </TabItem>
-    <TabItem title="C++ (ucs.h)">
+    <TabItem title="C++">
 
 ```cpp frame="terminal" collapse={1-41}
 // ucs.h
 #ifndef UCS_H
 #define UCS_H
 
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <queue>
-#include <functional>
 #include <limits>
-#include <cmath>
 #include <algorithm>
+#include <functional>
 
-namespace ucs {
-
-    struct Node {
-        int neighbor;
+template <typename T>
+class UCS {
+public:
+    struct Edge {
+        T neighbor;
         double cost;
 
-        Node(const int neighbor, const double cost) : neighbor(neighbor), cost(cost) {}
+        Edge(T neighbor, const double cost) : neighbor(neighbor), cost(cost) {}
     };
 
-    class UniformCostSearch {
-    private:
-        std::vector<double> costTo;
-        std::vector<int> parent;
-        std::vector<bool> visited;
-        std::priority_queue<int, std::vector<int>, std::function<bool(int, int)>> pq;
-        const std::vector<std::vector<Node>>& adj;
+private:
+    std::unordered_map<T, double> costTo;
+    std::unordered_map<T, T> parent;
+    std::priority_queue<T, std::vector<T>, std::function<bool(T, T)>> pq;
+    std::unordered_set<T> visited;
 
-        void relax(int u, int v, double cost);
+public:
+    UCS(const std::unordered_map<T, std::vector<Edge>>& graph, const T& startNode)
+        : pq([this](T a, T b) { return costTo[a] > costTo[b]; }) {
 
-    public:
-        UniformCostSearch(const std::vector<std::vector<Node>>& graph, int startNode);
-
-        [[nodiscard]] double getCostTo(int node) const;
-        [[nodiscard]] bool hasPathTo(int node) const;
-        [[nodiscard]] std::vector<int> getPathTo(int targetNode) const;
-    };
-
-} // namespace ucs
-
-#endif //UCS_H
-```
-
-    </TabItem>
-    <TabItem title="C++ (ucs.cpp)">
-
-```cpp frame="terminal" collapse={1-82}
-// ucs.cpp
-#include "ucs.h"
-
-namespace ucs {
-
-    UniformCostSearch::UniformCostSearch(const std::vector<std::vector<Node>>& graph, const int startNode) 
-        : costTo(graph.size(), std::numeric_limits<double>::infinity()),
-          parent(graph.size(), -1),
-          visited(graph.size(), false),
-          pq([this](const int u, const int v) { return costTo[u] > costTo[v]; }),
-          adj(graph)
-    {
+        for (const auto& node : graph) {
+            costTo[node.first] = std::numeric_limits<double>::infinity();
+            parent[node.first] = T();
+        }
         costTo[startNode] = 0.0;
+
         pq.push(startNode);
 
         while (!pq.empty()) {
-            const int currentNode = pq.top();
+            T currentNode = pq.top();
             pq.pop();
-            visited[currentNode] = true;
+            visited.insert(currentNode);
 
             if (costTo[currentNode] == std::numeric_limits<double>::infinity()) continue;
 
-            for (const auto& edge : adj[currentNode]) {
+            for (const auto& edge : graph.at(currentNode)) {
                 relax(currentNode, edge.neighbor, edge.cost);
             }
         }
     }
 
-    /**
-     * Relaxation of an edge.
-     * 
-     * @param u the source node
-     * @param v the target node
-     * @param cost the cost of the edge
-     */
-    void UniformCostSearch::relax(const int u, const int v, const double cost) {
+    void relax(const T& u, const T& v, double cost) {
         if (costTo[v] > costTo[u] + cost) {
             costTo[v] = costTo[u] + cost;
             parent[v] = u;
@@ -256,45 +226,34 @@ namespace ucs {
         }
     }
 
-    /**
-     * Get the cost to a node.
-     * 
-     * @param node the target node
-     * @return the cost to the target node
-     */
-    double UniformCostSearch::getCostTo(const int node) const {
-        return costTo[node];
+    double getCostTo(const T& node) const {
+        auto it = costTo.find(node);
+        if (it != costTo.end()) {
+            return it->second;
+        }
+        return std::numeric_limits<double>::infinity();
     }
 
-    /**
-     * Check if a path exists to a node.
-     * 
-     * @param node the target node
-     * @return true if a path exists, false otherwise
-     */
-    bool UniformCostSearch::hasPathTo(const int node) const {
-        return costTo[node] < std::numeric_limits<double>::infinity();
+    bool hasPathTo(const T& node) const {
+        return getCostTo(node) < std::numeric_limits<double>::infinity();
     }
 
-    /**
-     * Get the path to a node.
-     * 
-     * @param targetNode the target node
-     * @return the path to the target node
-     */    
-    std::vector<int> UniformCostSearch::getPathTo(const int targetNode) const {
+    std::vector<T> getPathTo(const T& targetNode) const {
         if (!hasPathTo(targetNode)) {
             return {};
         }
-        std::vector<int> path;
-        for (int v = targetNode; v != -1; v = parent[v]) {
+
+        std::vector<T> path;
+        for (T v = targetNode; v != T(); v = parent.at(v)) {
             path.push_back(v);
         }
-        std::ranges::reverse(path);
+
+        std::reverse(path.begin(), path.end());
         return path;
     }
+};
 
-} // namespace ucs
+#endif // UCS_H
 ```
 
     </TabItem>
@@ -302,62 +261,91 @@ namespace ucs {
 
 ```python frame="terminal" collapse={1-57}
 # ucs.py
-import heapq
-
-class Node:
+class Edge:
     def __init__(self, neighbor, cost):
-        '''A directed edge constructor with a cost.'''
+        """
+        An edge with a neighbor and a cost.
+        """
         self.neighbor = neighbor
         self.cost = cost
 
-class UniformCostSearch:
+class UCS:
     def __init__(self, graph, start_node):
-        '''Uniform-cost search constructor.'''
-        self.cost_to = [float('inf')] * len(graph)
-        self.parent = [-1] * len(graph)
-        self.visited = [False] * len(graph)
-        self.pq = [(0, start_node)]  
-        self.adj = graph 
+        """
+        Initialize uniform-cost search with a graph and a start node.
+        'graph' is a dict mapping each node to a list of Edge objects.
+        """
+        self.cost_to = {}
+        self.parent = {}
+        self.visited = set()
+        self.adj = graph
 
+        # Initialize all costs to infinity and parents to None
+        for node in graph:
+            self.cost_to[node] = float('inf')
+            self.parent[node] = None
+
+        # Start node cost is 0
         self.cost_to[start_node] = 0.0
 
+        # Use a list for priority queue (heapq) instead of PriorityQueue
+        import heapq
+        self.pq = []
+        heapq.heappush(self.pq, (0.0, start_node))
+
+        # Main loop
         while self.pq:
             current_cost, current_node = heapq.heappop(self.pq)
-            if self.visited[current_node]: 
+            if current_node in self.visited:
                 continue
-            self.visited[current_node] = True
 
+            self.visited.add(current_node)
+
+            # Skip if unreachable
             if self.cost_to[current_node] == float('inf'):
-                continue 
+                continue
 
-            for edge in self.adj[current_node]:
+            # Relax edges of current node
+            for edge in self.adj.get(current_node, []):
                 self.relax(current_node, edge.neighbor, edge.cost)
 
     def relax(self, u, v, cost):
-        '''Relaxation of an edge.'''
-        if self.cost_to[v] > self.cost_to[u] + cost:
-            self.cost_to[v] = self.cost_to[u] + cost
+        """
+        Update cost_to[v] (relaxation) if a cheaper path is found.
+        """
+        new_cost = self.cost_to[u] + cost
+        if new_cost < self.cost_to[v]:
+            self.cost_to[v] = new_cost
             self.parent[v] = u
-            heapq.heappush(self.pq, (self.cost_to[v], v))
+            import heapq
+            heapq.heappush(self.pq, (new_cost, v))
 
     def get_cost_to(self, node):
-        '''Get the cost to a node.'''
-        return self.cost_to[node]
+        """
+        Get the cost of the path to 'node'.
+        """
+        return self.cost_to.get(node, float('inf'))
 
     def has_path_to(self, node):
-        '''Check if a path exists to a node.'''
-        return self.cost_to[node] < float('inf')
+        """
+        Check if a path to 'node' exists.
+        """
+        return self.get_cost_to(node) < float('inf')
 
     def get_path_to(self, target_node):
-        '''Get the path to a node.'''
+        """
+        Reconstruct the path to 'target_node'.
+        Returns None if no path exists.
+        """
         if not self.has_path_to(target_node):
             return None
+
         path = []
-        v = target_node
-        while v != -1:
-            path.append(v)
-            v = self.parent[v]
-        return path[::-1]  
+        current = target_node
+        while current is not None:
+            path.append(current)
+            current = self.parent[current]
+        return path[::-1]
 ```
 
     </TabItem>
@@ -367,8 +355,8 @@ class UniformCostSearch:
 
 A* search is a kind of heuristic search algorithms. It combines uniform-cost search and greedy algorithm.
 
-* $g\left(n\right)$: The cost from the start to reach the node $n$, which uniform-cost search relies on.
-* $h\left(n\right)$: An estimate of the cost from node $n$ to the goal, which greedy algorithm relies on.
+* $g\left(n\right)$: The cost of the path from the start node to $n$, which uniform-cost search relies on (path cost).
+* $h\left(n\right)$: a heuristic function that estimates the cost of the cheapest path from $n$ to the goal, which greedy algorithm relies on (goal proximity).
 
 The A* search algorithm uses the following formula to calculate the cost of a node:
 
@@ -376,270 +364,375 @@ $$
 f\left(n\right) = g\left(n\right) + h\left(n\right)
 $$
 
-<span style="color:BlueViolet">Admissible heuristics:</span> A heuristic $h$ is admissible (optimistic) if:
-
-$$
-h\left(n\right) \leq h^*\left(n\right)
-$$
-
-where $h^*\left(n\right)$ is the true cost to reach the goal from node $n$. The admissible heuristic guarantees that A* will never stop exploring a path that could lead to a better solution. With inadmissible heuristics, A* may think a node is "too expensive" and stop exploring it, even if that node is actually on the optimal path.
-
 For admissible heuristics, there are some methods for calculating $h\left(n\right)$:
 
-1. Manhattan Distance: The sum of the absolute differences of the $x$ and $y$ coordinates. 
+1. <span style="color:Fuchsia">Manhattan Distance:</span> The sum of the absolute differences of the $x$ and $y$ coordinates. 
 
 $$
 h\left(n\right) = \left|x_{\text{goal}} - x_{\text{current}}\right| + \left|y_{\text{goal}} - y_{\text{current}}\right|
 $$
 
-2. Euclidean Distance: The straight-line distance between two points.
+2. <span style="color:Fuchsia">Euclidean Distance:</span> The straight-line distance between two points.
 
 $$
 h\left(n\right) = \sqrt{\left(x_{\text{goal}} - x_{\text{current}}\right)^2 + \left(y_{\text{goal}} - y_{\text{current}}\right)^2}
 $$
 
-3. Chebyshev Distance: The maximum of the absolute differences of the $x$ and $y$ coordinates.
+3. <span style="color:Fuchsia">Chebyshev Distance:</span> The maximum of the absolute differences of the $x$ and $y$ coordinates.
 
 $$
 h\left(n\right) = \max\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right)
 $$
 
-4. Octile Distance: The diagonal distance between two points.
+4. <span style="color:Fuchsia">Octile Distance:</span> The diagonal distance between two points.
 
 $$
 h\left(n\right) = \left(\sqrt{2} - 1\right) \cdot \min\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right) + \max\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right)
 $$
 
-5. Zero Heuristic: The heuristic that always returns zero (which is the same as uniform-cost search).
+5. <span style="color:Fuchsia">Zero Heuristic:</span> The heuristic that always returns zero, which makes it the same as uniform-cost search.
+
+<p style="color:BlueViolet">Properties</p>
+
+1. <span style="color:Fuchsia">Admissible heuristics:</span> A heuristic $h$ is admissible (optimistic) if:
+
+$$
+h\left(n\right) \leq h^*\left(n\right)
+$$
+
+   where $h^*\left(n\right)$ is the true cost to reach the goal from node $n$. 
+
+   The admissible heuristic guarantees that A* will never stop exploring a path that could lead to a better solution. With inadmissible heuristics, A* may think a node is "too expensive" and stop exploring it, even if that node is actually on the optimal path.
+
+2. <span style="color:Fuchsia">Consistency:</span> The estimate of heuristic function is always less than or equal to the estimated distance from any neighbouring vertex to the goal, plus the cost of reaching that neighbour.
+
+$$
+h(N) \leq c(N, P) + h(P)
+$$
+
+   where $c(N, P)$ is the cost from $N$ to $P$. In other words, heuristic "arc" cost less than the actual cost for each arc.
+
+   <span style="color:Fuchsia">Optimality:</span>  A* search, with a consistent heuristic, is optimally efficient. This result does not hold if A*'s heuristic is admissible but not consistent.
+
+   For tree search, A* is optimal if heuristic is admissible; for graph search, A* is  optimal if heuristic is consistent.
+
+3. <span style="color:Fuchsia">Completeness:</span> On finite graphs with non-negative edge weights A* is guaranteed to terminate and is complete, i.e. it will always find a solution (a path from start to goal) if one exists.
 
 <Tabs>
     <TabItem title="Java">
 
-```java
+```java frame="terminal" collapse={1-100}
+// AStarSearch.java
 import java.util.*;
 
 public class AStarSearch {
+    public static class Node implements Comparable<Node> {
+        int x, y;
+        double f, g, h;
+        Node parent;
 
-    public static class AStar {
-        private final int[][] grid;
-        private final Node[][] nodes;
-        private final int rows;
-        private final int cols;
-
-        /**
-         * Constructs an AStar instance for a given grid.
-         * The grid is a 2D array where 0 indicates a walkable cell and 1 indicates an obstacle.
-         *
-         * @param grid The grid for the A* search.
-         */
-        public AStar(int[][] grid) {
-            this.grid = grid;
-            this.rows = grid.length;
-            this.cols = grid[0].length;
-            this.nodes = new Node[rows][cols];
-
-            for (int y = 0; y < rows; y++) {
-                for (int x = 0; x < cols; x++) {
-                    nodes[y][x] = new Node(x, y);
-                }
-            }
+        public Node(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
 
-        /**
-         * Resets all nodes to their initial state.
-         * This is useful when performing multiple searches on the same grid.
-         */
-        private void resetNodes() {
-            for (int y = 0; y < rows; y++) {
-                for (int x = 0; x < cols; x++) {
-                    Node n = nodes[y][x];
-                    n.g = Double.POSITIVE_INFINITY;
-                    n.h = 0;
-                    n.f = Double.POSITIVE_INFINITY;
-                    n.parent = null;
-                }
-            }
+        @Override
+        public int compareTo(Node other) {
+            return Double.compare(this.f, other.f);
         }
 
-        /**
-         * Finds a path from the start cell to the goal cell using the A* search
-         * algorithm.
-         *
-         * @param startX The x-coordinate of the start cell.
-         * @param startY The y-coordinate of the start cell.
-         * @param goalX  The x-coordinate of the goal cell.
-         * @param goalY  The y-coordinate of the goal cell.
-         * @return A list of nodes representing the path (including start and goal),
-         *         or null if no path is found.
-         */
-        public List<Node> findPath(int startX, int startY, int goalX, int goalY) {
-            resetNodes();
-
-            Node start = nodes[startY][startX];
-            Node goal = nodes[goalY][goalX];
-
-            /* Open list to hold nodes to be evaluated. */
-            PriorityQueue<Node> openList = new PriorityQueue<>();
-            /* Closed list to mark visited cells. */
-            boolean[][] closed = new boolean[rows][cols];
-
-            start.g = 0;
-            start.h = heuristic(start, goal);
-            start.f = start.g + start.h;
-            openList.add(start);
-
-            while (!openList.isEmpty()) {
-                Node current = openList.poll();
-
-                // If the goal is reached, reconstruct and return the path.
-                if (current.equals(goal)) {
-                    return reconstructPath(current);
-                }
-
-                closed[current.y][current.x] = true;
-
-                for (Node neighbor : getNeighbors(current)) {
-                    if (closed[neighbor.y][neighbor.x]) {
-                        continue;
-                    }
-
-                    double tentativeG = current.g + 1; // Cost to move to the neighbor.
-
-                    // If a shorter path to neighbor is found, update its cost and parent.
-                    if (tentativeG < neighbor.g) {
-                        neighbor.parent = current;
-                        neighbor.g = tentativeG;
-                        neighbor.h = heuristic(neighbor, goal);
-                        neighbor.f = neighbor.g + neighbor.h;
-
-                        // Add neighbor to open list if it's not already there.
-                        if (!openList.contains(neighbor)) {
-                            openList.add(neighbor);
-                        }
-                    }
-                }
-            }
-
-            return null;
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (!(obj instanceof Node other)) return false;
+            return this.x == other.x && this.y == other.y;
         }
 
-        /**
-         * Reconstructs the path from the goal node back to the start node.
-         *
-         * @param node The goal node.
-         * @return A list of nodes representing the path from start to goal.
-         */
-        private List<Node> reconstructPath(Node node) {
-            List<Node> path = new ArrayList<>();
-            while (node != null) {
-                path.add(node);
-                node = node.parent;
-            }
-            Collections.reverse(path);
-            return path;
-        }
-
-        /**
-         * The Manhattan distance heuristic function.
-         *
-         * @param a The current node.
-         * @param b The goal node.
-         * @return The Manhattan distance between node a and node b.
-         */
-        private double heuristic(Node a, Node b) {
-            return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
-        }
-
-        /**
-         * Retrieves valid neighboring nodes (up, down, left, right) that 
-         * are walkable.
-         *
-         * @param node The current node.
-         * @return A list of valid neighbor nodes.
-         */
-        private List<Node> getNeighbors(Node node) {
-            List<Node> neighbors = new ArrayList<>();
-            int x = node.x;
-            int y = node.y;
-            int[][] directions = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
-
-            for (int[] d : directions) {
-                int newX = x + d[0];
-                int newY = y + d[1];
-
-                // Ensure new coordinates are within the grid boundaries.
-                if (newX >= 0 && newX < cols && newY >= 0 && newY < rows) {
-                    // Check if the cell is walkable.
-                    if (grid[newY][newX] == 0) {
-                        neighbors.add(nodes[newY][newX]);
-                    }
-                }
-            }
-            return neighbors;
-        }
-
-        /**
-         * Represents a node (cell) in the grid.
-         */
-        public static class Node implements Comparable<Node> {
-            public final int x, y;  // Grid coordinates.
-            public double g;        // Cost from the start node.
-            public double h;        // Heuristic cost to the goal.
-            public double f;        // Total cost (g + h).
-            public Node parent;     // Reference to the parent node for path reconstruction.
-
-            public Node(int x, int y) {
-                this.x = x;
-                this.y = y;
-                this.g = Double.POSITIVE_INFINITY;
-                this.h = 0;
-                this.f = Double.POSITIVE_INFINITY;
-                this.parent = null;
-            }
-
-            @Override
-            public int compareTo(Node other) {
-                return Double.compare(this.f, other.f);
-            }
-
-            @Override
-            public boolean equals(Object obj) {
-                if (this == obj) return true;
-                if (obj == null || getClass() != obj.getClass()) return false;
-                Node other = (Node) obj;
-                return x == other.x && y == other.y;
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(x, y);
-            }
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
         }
     }
+    
+    private static boolean isValid(int[][] grid, int x, int y) {
+        return (x >= 0 && x < grid.length &&
+                y >= 0 && y < grid[0].length &&
+                grid[x][y] == 0);
+    }
 
-    public static void main(String[] args) {
-        int[][] grid = {
-                { 0, 0, 0, 0, 0 },
-                { 0, 1, 1, 1, 0 },
-                { 0, 0, 0, 1, 0 },
-                { 0, 1, 0, 0, 0 },
-                { 0, 0, 0, 1, 0 }
-        };
+    // Manhattan distance
+    private static double heuristic(Node a, Node b) {
+        return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+    }
 
-        AStar aStar = new AStar(grid);
-        List<AStar.Node> path = aStar.findPath(0, 0, 4, 4);
+    public static List<Node> aStar(int[][] grid, Node start, Node goal) {
+        PriorityQueue<Node> openSet = new PriorityQueue<>();
+        Set<Node> closedSet = new HashSet<>();
 
-        if (path != null) {
-            System.out.println("Path found:");
-            for (AStar.Node node : path) {
-                System.out.println("(" + node.x + ", " + node.y + ")");
+        start.g = 0;
+        start.h = heuristic(start, goal);
+        start.f = start.g + start.h;
+        openSet.add(start);
+
+        while (!openSet.isEmpty()) {
+            Node current = openSet.poll();
+
+            if (current.equals(goal)) {
+                return reconstructPath(current);
             }
-        } else {
-            System.out.println("No path found.");
+
+            closedSet.add(current);
+
+            int[][] directions = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+            for (int[] dir : directions) {
+                int newX = current.x + dir[0];
+                int newY = current.y + dir[1];
+                if (!isValid(grid, newX, newY))
+                    continue;
+
+                Node neighbor = new Node(newX, newY);
+                if (closedSet.contains(neighbor))
+                    continue;
+
+                double tentativeG = current.g + 1;
+
+                boolean inOpenSet = openSet.contains(neighbor);
+                if (!inOpenSet || tentativeG < neighbor.g) {
+                    neighbor.parent = current;
+                    neighbor.g = tentativeG;
+                    neighbor.h = heuristic(neighbor, goal);
+                    neighbor.f = neighbor.g + neighbor.h;
+
+                    if (!inOpenSet) {
+                        openSet.add(neighbor);
+                    }
+                }
+            }
         }
+        return null;
+    }
+
+    private static List<Node> reconstructPath(Node current) {
+        List<Node> path = new ArrayList<>();
+        while (current != null) {
+            path.add(current);
+            current = current.parent;
+        }
+        Collections.reverse(path);
+        return path;
+    }
+}
+```
+
+    </TabItem>
+    <TabItem title="C++">
+
+```cpp frame="terminal" collapse={1-114}
+// AStarSearch.h
+#ifndef ASTARSEARCH_H
+#define ASTARSEARCH_H
+
+#include <vector>
+#include <queue>
+#include <cmath>
+#include <algorithm>
+#include <utility>
+
+struct Node {
+    int x, y;
+    double f, g, h;
+    Node* parent;
+
+    Node(const int x, const int y) : x(x), y(y), f(0), g(0), h(0), parent(nullptr) {}
+
+    bool operator==(const Node& other) const {
+        return x == other.x && y == other.y;
+    }
+};
+
+struct CompareNode {
+    bool operator()(const Node* a, const Node* b) const {
+        return a->f > b->f;
+    }
+};
+
+namespace AStar {
+    // Manhattan distance heuristic
+    inline double heuristic(const Node* a, const Node* b) {
+        return std::abs(a->x - b->x) + std::abs(a->y - b->y);
+    }
+
+    // Check if cell (x, y) is valid and walkable in the grid
+    inline bool isValid(const std::vector<std::vector<int>>& grid, int x, int y) {
+        return (x >= 0 && x < grid.size() &&
+                y >= 0 && y < grid[0].size() &&
+                grid[x][y] == 0);
+    }
+
+    // Reconstruct the path from goal to start by following parent pointers.
+    inline std::vector<std::pair<int, int>> reconstructPath(Node* current) {
+        std::vector<std::pair<int, int>> path;
+        while (current != nullptr) {
+            path.emplace_back(current->x, current->y);
+            current = current->parent;
+        }
+        std::ranges::reverse(path);
+        return path;
+    }
+
+    // A* search algorithm.
+    // Note: For simplicity, this example does not free allocated memory.
+    inline std::vector<std::pair<int, int>> aStar(const std::vector<std::vector<int>>& grid, Node* start, const Node* goal) {
+        std::priority_queue<Node*, std::vector<Node*>, CompareNode> openSet;
+        std::vector<Node*> closedSet;
+
+        start->g = 0;
+        start->h = heuristic(start, goal);
+        start->f = start->g + start->h;
+        openSet.push(start);
+
+        constexpr int directions[4][2] = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+
+        while (!openSet.empty()) {
+            Node* current = openSet.top();
+            openSet.pop();
+
+            // Goal check
+            if (*current == *goal) {
+                return reconstructPath(current);
+            }
+
+            closedSet.push_back(current);
+
+            // Explore neighbors
+            for (const auto direction : directions) {
+                const int newX = current->x + direction[0];
+                const int newY = current->y + direction[1];
+
+                if (!isValid(grid, newX, newY))
+                    continue;
+
+                auto neighbor = new Node(newX, newY);
+
+                // Skip if neighbor is in closedSet
+                bool skip = false;
+                for (const Node* closedNode : closedSet) {
+                    if (*closedNode == *neighbor) {
+                        skip = true;
+                        break;
+                    }
+                }
+                if (skip) {
+                    delete neighbor;
+                    continue;
+                }
+
+                const double tentativeG = current->g + 1;
+
+                neighbor->parent = current;
+                neighbor->g = tentativeG;
+                neighbor->h = heuristic(neighbor, goal);
+                neighbor->f = neighbor->g + neighbor->h;
+                openSet.push(neighbor);
+            }
+        }
+
+        return {};
     }
 }
 
+#endif // ASTARSEARCH_H
+```
+
+    </TabItem>
+    <TabItem title="Python">
+
+```python frame="terminal" collapse={1-85}
+# AStarSearch.py
+import heapq
+
+class Node:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.f = 0.0
+        self.g = 0.0
+        self.h = 0.0
+        self.parent = None
+
+    def __lt__(self, other):
+        return self.f < other.f
+
+    def __eq__(self, other):
+        if other is None:
+            return False
+        return self.x == other.x and self.y == other.y
+
+    def __hash__(self):
+        return hash((self.x, self.y))
+
+def is_valid(grid, x, y):
+    return (0 <= x < len(grid) and
+            0 <= y < len(grid[0]) and
+            grid[x][y] == 0)
+
+def heuristic(a, b):
+    return abs(a.x - b.x) + abs(a.y - b.y)
+
+def a_star(grid, start, goal):
+    open_set = []
+    closed_set = set()
+
+    start.g = 0
+    start.h = heuristic(start, goal)
+    start.f = start.g + start.h
+    heapq.heappush(open_set, (start.f, start))
+
+    while open_set:
+        current_f, current_node = heapq.heappop(open_set) 
+        if current_node == goal:
+            return reconstruct_path(current_node)
+
+        closed_set.add(current_node)
+
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        for dir_x, dir_y in directions:
+            new_x = current_node.x + dir_x
+            new_y = current_node.y + dir_y
+            if not is_valid(grid, new_x, new_y):
+                continue
+
+            neighbor = Node(new_x, new_y)
+            if neighbor in closed_set:
+                continue
+
+            tentative_g = current_node.g + 1
+
+            in_open_set = False
+            for _, node_in_open_set in open_set:
+                if node_in_open_set == neighbor:
+                    in_open_set = True
+                    break
+
+            if not in_open_set or tentative_g < neighbor.g:
+                neighbor.parent = current_node
+                neighbor.g = tentative_g
+                neighbor.h = heuristic(neighbor, goal)
+                neighbor.f = neighbor.g + neighbor.h
+
+                if not in_open_set:
+                    heapq.heappush(open_set, (neighbor.f, neighbor))
+                else:
+                    pass 
+
+    return None
+
+def reconstruct_path(current_node):
+    path = []
+    while current_node:
+        path.append(current_node)
+        current_node = current_node.parent
+    return path[::-1] 
 ```
 
     </TabItem>

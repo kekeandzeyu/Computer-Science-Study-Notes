@@ -38,7 +38,13 @@ If someone's original work is used but not mentioned in the following list, or b
 
 2. Artificial Intelligence: A Modern Approach, 4th Global ed. by Stuart Russell and Peter Norvig.
 
+#### 1.2 Search Problems
+
 3. <https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm>.
+
+4. <https://en.wikipedia.org/wiki/A*_search_algorithm>.
+
+5. <https://en.wikipedia.org/wiki/Consistent_heuristic>.
 
 ### Topic 2: Data Structures and Algorithms
 
@@ -46,7 +52,7 @@ If someone's original work is used but not mentioned in the following list, or b
 
 2. CS61B: Data Structures and Algorithms (UC Berkeley) by Professor Josh Hug and the rest of CS61B staff.
 
-3. MIT 6.006: Introduction to Algorithms (MIT) by Professor Erik Demaine,  Justin Solomonm, Dr. Jason Ku (Spring 2020).
+3. MIT 6.006: Introduction to Algorithms (MIT) by Professor Erik Demaine, Justin Solomonm, Dr. Jason Ku (Spring 2020).
 
 4. <https://en.wikipedia.org/wiki/Tree_traversal>.
 
@@ -185,3 +191,11 @@ This repository is used for storing the original files edited in Writerside; [cs
 The notes are under MIT License.
 
 All the references in the notes are under their original licenses.
+
+## 7 Acknowledgements
+
+Above all, I'd like to express my sincere gratitude to all those professors and TAs in the list above, who selflessly imparting his profound knowledge to us beginners, and made those learning resources public to everyone. The valuable knowledge has benefited me a lot and will be unforgettable for my whole life.
+
+In addition, I'd like to express thanks to all those teachers and seniors who help me during my self-learning process.
+
+Lastly, I'd like to reserve this part for my mother. For all these years, she has dedicated her life to nurture me, and . We have experiencd all those ups and downs together; it is incredibly hard to raise me under so much hard circumstances, and she has sacrificed all of herself to bring me up. During all this process of learning computer science myself, she always have my back, no matter what difficullties I encounter. This repository is certainly not even a little success, but I want to accredit everything I achieve to her sacrifice and hard work, without which I cannot accomplish anything.
