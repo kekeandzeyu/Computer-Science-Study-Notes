@@ -46,9 +46,26 @@ import TabItem from '../../components/TabItem.astro'
 
 Normal C/C++ Compile & Run:
 
-```bash title="Bash"
+<Tabs>
+    <TabItem title="bash">
+
+```bash title="Bash" showLineNumbers=false
 $ g++ -std=c++20 main.cpp -o main
+$ ./main
 ```
+
+    </TabItem>
+    <TabItem title="terminal">
+
+```powershell title="Powershell" showLineNumbers=false
+$ g++ -static-libstdc++ -std=c++20 main.cpp -o main
+$ ./main.exe
+```
+
+    </TabItem>
+</Tabs>
+
+
 
 ## 2 Types & Structs
 
@@ -184,7 +201,7 @@ Preprocessor macros are a way to define constants or perform text substitution i
 
 <p style="color:BlueViolet">Example</p>
 
-```cpp frame="terminal"
+```cpp
 # define PI 3.14159
 
 int main() {
@@ -204,13 +221,13 @@ There are three types of initialization in C++:
 
 1. Direct Initialization
 
-```cpp frame="terminal"
+```cpp
 int numOne = 12.0; // numOne is 12, doesn't type check with direct initialzation
 ```
 
 2. Uniform Initialization (C++ 11)
 
-```cpp frame="terminal"
+```cpp
 int numTwo {12.0};
 // Narrowing conversion of '1.2e+1' from 'double' to 'int'
 // Type checks with uniform initialization
@@ -332,7 +349,7 @@ Positioning functions in output stringstream include `tellp()` and `seekp()`.
 
 1. `tellp()`: Returns the current position of the put pointer in the output stringstream.
 
-```cpp
+```cpp collapse={1-18}
 #include <iostream>
 #include <sstream>
 
@@ -417,7 +434,7 @@ Positioning functions in input stringstream include `tellg()` and `seekg()`, whi
 
 1. `tellg()`
 
-```cpp frame="terminal" collapse={1-19}
+```cpp frame="terminal" collapse={1-20}
 // istringstream.cpp
 #include <iostream>
 #include <sstream>
@@ -442,7 +459,7 @@ int main() {
 
 2. `seekg(pos)`
 
-```cpp frame="terminal" collapse={1-32}
+```cpp frame="terminal" collapse={1-33}
 // istringstream.cpp
 #include <iostream>
 #include <sstream>
@@ -485,7 +502,7 @@ There are two data types for positions in streams: `std::streampos` and `std::st
 
 <p style="color:BlueViolet">Example</p>
 
-```cpp frame="terminal" collapse={1-34}
+```cpp frame="terminal" collapse={1-35}
 // istringstream.cpp
 #include <iostream>
 #include <sstream>
