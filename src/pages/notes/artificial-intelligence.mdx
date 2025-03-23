@@ -6,42 +6,42 @@ import Aside from '../../components/Aside.astro'
 import Tabs from '../../components/Tabs.astro'
 import TabItem from '../../components/TabItem.astro'
 
-## 1 Uninformed Search
+## 1 Searching
 
 ### 1.1 Agent Design  
 
-There are mainly two types of agents: <span style="color:Fuchsia">reflex agents</span> and <span style="color:Fuchsia">planning agents</span>.
+There are mainly two types of agents: <span style="color:rgb(31, 142, 240)">reflex agents</span> and <span style="color:rgb(31, 142, 240)">planning agents</span>.
 
-1. <span style="color:Fuchsia">Reflex Agents:</span>
+1. <span style="color:rgb(31, 142, 240)">Reflex Agents</span>
     * Choose action based on current percept, and may have memory or a model of the world's current state.
     * Do not consider the future consequences of their actions, just consider how the world <span style="color:OrangeRed">IS</span>.
-2. <span style="color:Fuchsia">Planning Agents:</span>
+2. <span style="color:rgb(31, 142, 240)">Planning Agents</span>
     * Decisions based on (hypothesized) consequences of actions.
-    * Must have a model of how the world evolves in response to actions, and formulate a goal (test), consider how the world <span style="color:OrangeRed">WOULD BE</span>.
+    * Must have a model of how the world evolves in response to actions, and formulate a goal (test), consider how the world <span style="color:rgb(203, 131, 36)">WOULD BE</span>.
 
-### 1.2 Search Problems 
+### 1.2 Search Problems & Algorithms
 
-A search problem consists of a state space, a successor function (with actions and costs) and a start space & a goal test. A solution is a sequence of actions (a plan) which transforms the start state to a goal state. 
+A search problem consists of a state space, a successor function (with actions and costs), a start space and a goal test. A solution is a sequence of actions (a plan) which transforms the start state to a goal state. 
 
 For a search problem, we may need:
 
-* <span style="color:Fuchsia">State Space Graph:</span> A mathematical representation of a search problem. It consists of nodes (abstarcted world configurations) and arcs (successors/action results). The goal test is a set of goal nodes (maybe only one).
-* *<span style="color:Fuchsia">Search Trees:</span> A "what if" tree of plans and their outcomes. Nodes show states, and children correspond to successors.
+* <span style="color:rgb(31, 142, 240)">State Space Graph:</span> A mathematical representation of a search problem. It consists of nodes (abstarcted world configurations) and arcs (successors/action results). The goal test is a set of goal nodes (maybe only one).
+* *<span style="color:rgb(31, 142, 240)">Search Trees:</span> A "what if" tree of plans and their outcomes. Nodes show states, and children correspond to successors.
 
 Search algorithms can be divided into two categories:
 
-* <span style="color:Fuchsia">Uninformed Search:</span> No additional information about states beyond the definition of the problem.
+* <span style="color:rgb(31, 142, 240)">Uninformed Search:</span> No additional information about states beyond the definition of the problem.
     * Depth-First Search
     * Breadth-First Search
     * Uniform-Cost Search
-* <span style="color:Fuchsia">Informed Search:</span> Use heuristics to guide the search.
+* <span style="color:rgb(31, 142, 240)">Informed Search:</span> Use heuristics to guide the search.
     * A* Search
 
 <Aside type="note">
     <p>For more information on Depth-First Search & Breadth-First Search, please refer to Data Structures and Algorithms part.</p>
 </Aside>
 
-#### 1.2.1 Uniform-cost Search
+#### 1.2.1 Uniform-Cost Search
 
 Uniform-cost search is a variant of Dijkstra's algorithm. Not inserting all nodes in a graph makes it possible to extend Dijkstra's algorithm to find the shortest path from a single source to the closest of a set of target nodes on infinite graphs or those too large to represent in memory, which is called uniform-cost search (UCS) in artificial intelligence literature.
 
@@ -356,7 +356,7 @@ class UCS:
 A* search is a kind of heuristic search algorithms. It combines uniform-cost search and greedy algorithm.
 
 * $g\left(n\right)$: The cost of the path from the start node to $n$, which uniform-cost search relies on (path cost).
-* $h\left(n\right)$: a heuristic function that estimates the cost of the cheapest path from $n$ to the goal, which greedy algorithm relies on (goal proximity).
+* $h\left(n\right)$: A heuristic function that estimates the cost of the cheapest path from $n$ to the goal, which greedy algorithm relies on (goal proximity).
 
 The A* search algorithm uses the following formula to calculate the cost of a node:
 
@@ -364,59 +364,61 @@ $$
 f\left(n\right) = g\left(n\right) + h\left(n\right)
 $$
 
-For admissible heuristics, there are some methods for calculating $h\left(n\right)$:
-
-1. <span style="color:Fuchsia">Manhattan Distance:</span> The sum of the absolute differences of the $x$ and $y$ coordinates. 
-
-$$
-h\left(n\right) = \left|x_{\text{goal}} - x_{\text{current}}\right| + \left|y_{\text{goal}} - y_{\text{current}}\right|
-$$
-
-2. <span style="color:Fuchsia">Euclidean Distance:</span> The straight-line distance between two points.
-
-$$
-h\left(n\right) = \sqrt{\left(x_{\text{goal}} - x_{\text{current}}\right)^2 + \left(y_{\text{goal}} - y_{\text{current}}\right)^2}
-$$
-
-3. <span style="color:Fuchsia">Chebyshev Distance:</span> The maximum of the absolute differences of the $x$ and $y$ coordinates.
-
-$$
-h\left(n\right) = \max\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right)
-$$
-
-4. <span style="color:Fuchsia">Octile Distance:</span> The diagonal distance between two points.
-
-$$
-h\left(n\right) = \left(\sqrt{2} - 1\right) \cdot \min\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right) + \max\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right)
-$$
-
-5. <span style="color:Fuchsia">Zero Heuristic:</span> The heuristic that always returns zero, which makes it the same as uniform-cost search.
-
-<p style="color:BlueViolet">Properties</p>
-
-1. <span style="color:Fuchsia">Admissible heuristics:</span> A heuristic $h$ is admissible (optimistic) if:
+A heuristic $h$ is admissible (optimistic) if:
 
 $$
 h\left(n\right) \leq h^*\left(n\right)
 $$
 
-   where $h^*\left(n\right)$ is the true cost to reach the goal from node $n$. 
+where $h^*\left(n\right)$ is the true cost to reach the goal from node $n$. 
 
-   The admissible heuristic guarantees that A* will never stop exploring a path that could lead to a better solution. With inadmissible heuristics, A* may think a node is "too expensive" and stop exploring it, even if that node is actually on the optimal path.
+The admissible heuristic guarantees that A* will never stop exploring a path that could lead to a better solution. With inadmissible heuristics, A* may think a node is "too expensive" and stop exploring it, even if that node is actually on the optimal path.
 
-2. <span style="color:Fuchsia">Consistency:</span> The estimate of heuristic function is always less than or equal to the estimated distance from any neighbouring vertex to the goal, plus the cost of reaching that neighbour.
+For admissible heuristics, there are some methods for calculating $h\left(n\right)$:
+
+1. <span style="color:rgb(31, 142, 240)">Manhattan Distance:</span> The sum of the absolute differences of the $x$ and $y$ coordinates. 
+
+$$
+h\left(n\right) = \left|x_{\text{goal}} - x_{\text{current}}\right| + \left|y_{\text{goal}} - y_{\text{current}}\right|
+$$
+
+2. <span style="color:rgb(31, 142, 240)">Euclidean Distance:</span> The straight-line distance between two points.
+
+$$
+h\left(n\right) = \sqrt{\left(x_{\text{goal}} - x_{\text{current}}\right)^2 + \left(y_{\text{goal}} - y_{\text{current}}\right)^2}
+$$
+
+3. <span style="color:rgb(31, 142, 240)">Chebyshev Distance:</span> The maximum of the absolute differences of the $x$ and $y$ coordinates.
+
+$$
+h\left(n\right) = \max\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right)
+$$
+
+4. <span style="color:rgb(31, 142, 240)">Octile Distance:</span> The diagonal distance between two points.
+
+$$
+h\left(n\right) = \left(\sqrt{2} - 1\right) \cdot \min\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right) + \max\left(\left|x_{\text{goal}} - x_{\text{current}}\right|, \left|y_{\text{goal}} - y_{\text{current}}\right|\right)
+$$
+
+5. <span style="color:rgb(31, 142, 240)">Zero Heuristic:</span> The heuristic that always returns zero, which makes it the same as uniform-cost search.
+
+<p style="color:rgb(112, 75, 253)">Properties</p>
+
+1. <span style="color:rgb(31, 142, 240)">Admissibility:</span> A search algorithm is said to be admissible if it is guaranteed to return an optimal solution. If the heuristic function used by A* is admissible, then A* is admissible.
+
+2. <span style="color:rgb(31, 142, 240)">Consistency:</span> The estimate of heuristic function is always less than or equal to the estimated distance from any neighbouring vertex to the goal, plus the cost of reaching that neighbour.
 
 $$
 h(N) \leq c(N, P) + h(P)
 $$
 
-   where $c(N, P)$ is the cost from $N$ to $P$. In other words, heuristic "arc" cost less than the actual cost for each arc.
+    where $c(N, P)$ is the cost from $N$ to $P$. In other words, heuristic "arc" cost less than the actual cost for each arc.
 
-   <span style="color:Fuchsia">Optimality:</span>  A* search, with a consistent heuristic, is optimally efficient. This result does not hold if A*'s heuristic is admissible but not consistent.
+    Consistency ensures that the estimated total cost $f(n) = g(n) + h(n)$ is non-decreasing along any path. This means once A* expands a node, the cost found for that node is the lowest possible, and the node will not need to be re-expanded later. It leads to more efficient searches.
 
-   For tree search, A* is optimal if heuristic is admissible; for graph search, A* is  optimal if heuristic is consistent.
+    For tree search, A* is optimal if heuristic is admissible; for graph search, A* is  optimal if heuristic is consistent. In general, most natural admissible heuristics tend to be consistent, especially if from relaxed problems.
 
-3. <span style="color:Fuchsia">Completeness:</span> On finite graphs with non-negative edge weights A* is guaranteed to terminate and is complete, i.e. it will always find a solution (a path from start to goal) if one exists.
+3. <span style="color:rgb(31, 142, 240)">Completeness:</span> On finite graphs with non-negative edge weights A* is guaranteed to terminate and is complete, i.e. it will always find a solution (a path from start to goal) if one exists.
 
 <Tabs>
     <TabItem title="Java">

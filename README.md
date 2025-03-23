@@ -38,7 +38,7 @@ If someone's original work is used but not mentioned in the following list, or b
 
 2. Artificial Intelligence: A Modern Approach, 4th Global ed. by Stuart Russell and Peter Norvig.
 
-#### 1.2 Search Problems
+#### 1 Searching
 
 3. <https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm>.
 
@@ -156,10 +156,6 @@ If someone's original work is used but not mentioned in the following list, or b
 
 1. CS110L: Safety in Systems Programming (Stanford University) by Ryan Eberhardt, Julio Ballista, Thea Rossman and the rest of CS110L staff.
 
-### Icon 
-
-Expand Icon from Anas Mannaa on www.flaticon.com
-
 ## 4 How to use it
 
 For the colors in the notes, here are their meanings:
@@ -181,10 +177,6 @@ You can help refine this documentation by:
 1. Open an issue
 2. Pull request
 3. Use email to contact me and point out the mistakes: kekeandzeyu@gmail.com
-
-These notes are taken and published using [Writerside](https://www.jetbrains.com/writerside/). If you are not familiar with this tool, you can also open an issue or contact me via email.
-
-This repository is used for storing the original files edited in Writerside; [csstudy repository](https://github.com/kekeandzeyu/csstudy) is used for storing published web archive. 
 
 ## 6 License
 

@@ -2,11 +2,14 @@ $theme-text-color: rgb(112, 75, 253);
 $theme-background-color: rgba(247, 245, 255, 0.8);
 $theme-navigation-background-color: rgb(109, 74, 255);
 
+/* Custom Colors */
+$custom-orange: rgb(203, 131, 36);
+$custom-fuchsia: rgb(31, 142, 240);
+
 $header-en-font: 'Inter Display', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 $body-en-font: 'Inter Text', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 $header-zh-font: 'MiSans Medium', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 $body-zh-font: 'MiSans Regular', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-$code-font: 'JetBrains Mono', monospace;
 
 /* Button Settings */
 $button-margin: 20px;
