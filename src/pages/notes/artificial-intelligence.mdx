@@ -164,7 +164,7 @@ public class UCS<T> {
     </TabItem>
     <TabItem title="C++">
 
-```cpp frame="terminal" collapse={1-41}
+```cpp frame="terminal" collapse={1-89}
 // ucs.h
 #ifndef UCS_H
 #define UCS_H
@@ -259,7 +259,7 @@ public:
     </TabItem>
     <TabItem title="Python">
 
-```python frame="terminal" collapse={1-57}
+```python frame="terminal" collapse={1-86}
 # ucs.py
 class Edge:
     def __init__(self, neighbor, cost):
@@ -739,3 +739,42 @@ def reconstruct_path(current_node):
 
     </TabItem>
 </Tabs>
+
+### 1.3 Constraint Satisfaction Problems (CSPs)
+
+<span style="color: rgb(112, 75, 253)">Constraint satisfaction problems (CSPs)</span> are mathematical questions defined as a set of objects whose state must satisfy a number of constraints or limitations. In CSPs, state is defined by variables $X_i$ with values froma domain $D_i$, and the goal test is a set of constraints specifying allowable combinations of values for subsets of variables.
+
+For example, for the map coloring problem below, 
+
+$$
+\text{variables} = \{WA, NT, Q, NT, NSW, V, SA, T\}
+$$
+
+$$
+\text{domains} = \{ \text{red}, \text{green}, \text{blue} \}
+$$
+
+<img src="/assets/artificial-intelligence/1-3-1.jpeg" width="400" alt="Map Coloring Problem" />
+
+#### 1.3.1 Varieties of CSPs and Constraints
+
+<p  style="color: rgb(112, 75, 253)">Varieties of CSPs</p> 
+
+* <span style="color:rgb(31, 142, 240)">Discrete Variables:</span> 
+    * Finite domains: e.g., map coloring.
+    * Infinite domains: e.g., job scheduling, variables are start/end times for each job.
+* <span style="color:rgb(31, 142, 240)">Continuous Variables:</span> e.g., start/end times for Hubble Telescope observations.
+
+<p style="color: rgb(112, 75, 253)">Varieties of Constraints</p> 
+
+* <span style="color:rgb(31, 142, 240)">Unary constraints</span> involve a single variable (e.g., $X_1 \neq 1$).
+* <span style="color:rgb(31, 142, 240)">Binary constraints</span> involve pairs of variables (e.g., $X_1 \neq X_2$).
+* <span style="color:rgb(31, 142, 240)">Higher-order constraints</span> involve three or more variables (e.g., cryptarithmetic column constraints).
+
+#### 1.3.2 Backtracking Search
+
+Backtracking is a class of algorithms that incrementally builds candidates to the solutions, and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot possibly be completed to a valid solution. This is based on the idea of depth-first search, with two more improvements:
+
+* <span style="color:rgb(31, 142, 240)">Pruning (Check constraints as you go):</span> If a partial assignment violates a constraint, we can prune the search space by not considering any extensions of that assignment. E.g., if $X_1 = 1$ and $X_1 \neq X_2$, we can prune any assignment of $X_2$ that is equal to 1.
+* <span style="color:rgb(31, 142, 240)">Filtering (Forward checking):</span> If a variable is assigned, we can remove any inconsistent values from the domains of the remaining unassigned variables. E.g., if $X_1 = 1$ and $X_1 \neq X_2$, we can directly remove 1 from the domain of $X_2$ when we assign $X_1$ instead of waiting until we assign $X_2$.
+

@@ -38,6 +38,16 @@ For English version please check [here](README.md)
 
 2. Artificial Intelligence: A Modern Approach, 4th Global ed. by Stuart Russell and Peter Norvig.
 
+#### 1 Searching
+
+3. <https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm>.
+
+4. <https://en.wikipedia.org/wiki/A*_search_algorithm>.
+
+5. <https://en.wikipedia.org/wiki/Consistent_heuristic>.
+
+6. <https://en.wikipedia.org/wiki/Constraint_satisfaction_problem>.
+
 ### Topic 2: 数据结构与算法
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
@@ -139,10 +149,6 @@ For English version please check [here](README.md)
 1. 提出issue
 2. PR
 3. 通过邮箱与我联系并指出错误：kekeandzeyu@gmail.com
-
-这份笔记使用[Writerside](https://www.jetbrains.com/writerside/)完成并发布。如果您不熟悉此软件，你也可以直接提出issue或者通过邮箱与我联系。
-
-这个仓库用来存储Writerside编辑时使用的文件；[csstudy 仓库](https://github.com/kekeandzeyu/csstudy) 用来存储发布的html文档。
 
 ## 6 许可证
 

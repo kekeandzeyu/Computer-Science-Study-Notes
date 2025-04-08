@@ -46,6 +46,8 @@ If someone's original work is used but not mentioned in the following list, or b
 
 5. <https://en.wikipedia.org/wiki/Consistent_heuristic>.
 
+6. <https://en.wikipedia.org/wiki/Constraint_satisfaction_problem>.
+
 ### Topic 2: Data Structures and Algorithms
 
 1. Algorithms &#8544; & &#8545; (Coursera) by Professor Robert Sedgewick & Kevin Wayne.
