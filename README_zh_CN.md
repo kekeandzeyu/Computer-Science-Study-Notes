@@ -112,6 +112,16 @@ For English version please check [here](README.md)
 
 10. <https://en.wikipedia.org/wiki/Floating-point_arithmetic>.
 
+11. <https://cplusplus.com/reference/cstring/strcpy>.
+
+12. <https://cplusplus.com/reference/cstring/strncpy>.
+
+13. <https://cplusplus.com/reference/cstring/strcmp/>.
+
+#### 3 Floating Point
+
+14. <https://en.wikipedia.org/wiki/Floating-point_arithmetic>.
+
 ### Topic 6: 操作系统
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz, Ion Stoica and the rest of CS162 staff.

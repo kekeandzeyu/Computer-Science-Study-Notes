@@ -128,6 +128,10 @@ If someone's original work is used but not mentioned in the following list, or b
 
 13. <https://cplusplus.com/reference/cstring/strcmp/>.
 
+#### 3 Floating Point
+
+14. <https://en.wikipedia.org/wiki/Floating-point_arithmetic>.
+
 ### Topic 6: Operating System
 
 1. CS162: Operating System (UC Berkeley) by Professor John Kubiatowicz, Ion Stoica and the rest of CS162 staff.

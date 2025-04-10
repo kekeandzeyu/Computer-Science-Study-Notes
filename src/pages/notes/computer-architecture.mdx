@@ -369,3 +369,13 @@ Here are some commonly-used string functions defined in the `string.h` library:
 5. `int strncmp ( const char * str1, const char * str2, size_t num )`: Compares up to num characters of the C string `str1` to those of the C string `str2`.
 6. `char * strcat ( char * destination, const char * source )`: Appends a copy of the source string to the destination string. The terminating null character in destination is overwritten by the first character of source, and a null-character is included at the end of the new string formed by the concatenation of both in destination.
 7. `char * strncat ( char * destination, const char * source, size_t num )`: Appends the first num characters of source to destination, plus a terminating null-character.
+
+## 3 Floating Point
+
+Floating-point arithmetic (FP) is arithmetic on subsets of real numbers formed by a significand (a signed sequence of a fixed number of digits in some base) multiplied by an integer power of that base.
+
+### 3.1 IEEE 754 Floating-Point Representation
+
+The IEEE floating-point standard represents a number in a form $V = \left(-1\right)^s \times M \times 2^E$.
+
+* Sign $s$ determines whether the number is negative ($s = 1$) or positive ($s = 0$).
